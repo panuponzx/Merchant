@@ -1,0 +1,9 @@
+
+:host {
+  height: 100%; // ลองเพิ่มสไตล์นี้
+  width: 100%; // ลองเพิ่มสไตล์นี้
+  background-color:#ffffff;
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+}
