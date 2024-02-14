@@ -10,7 +10,6 @@ export class WorkspaceComponent {
   public isSidebar: boolean = false;
 
   constructor(
-
   ) {
   }
 

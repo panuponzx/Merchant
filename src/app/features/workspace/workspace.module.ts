@@ -3,20 +3,23 @@ import { CommonModule } from '@angular/common';
 
 import { WorkspaceRoutingModule } from './workspace-routing.module';
 import {
-  SearchUserComponent
+  SearchUserComponent,
+  MenuOptionComponent,
+  UserInfoComponent
 } from './pages';
 
 import {
   NavbarComponent,
-  SidebarComponent
+  SidebarComponent,
 } from './layouts';
-
 
 @NgModule({
   declarations: [
     SearchUserComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    MenuOptionComponent,
+    UserInfoComponent
   ],
   imports: [
     CommonModule,
