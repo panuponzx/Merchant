@@ -2,17 +2,14 @@ import { ActivatedRoute, ActivatedRouteSnapshot, Route } from '@angular/router';
 
 export interface CustomRouteModel extends Route {
   children?: CustomRouteModel[],
-  data?: {
-    is_sidebar?: boolean
-  }
 }
 
 export declare type CustomRoutesModel = CustomRouteModel[];
 
-export interface CustomActivatedRouteSnapshot extends ActivatedRouteSnapshot {
+export interface CustomActivatedRouteSnapshotModel extends ActivatedRouteSnapshot {
   routeConfig: CustomRouteModel
 }
 
-export interface CustomeActivatedRoute extends ActivatedRoute {
+export interface CustomeActivatedRouteModel extends ActivatedRoute {
   routeConfig: CustomRouteModel
 }

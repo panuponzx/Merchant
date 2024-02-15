@@ -3,9 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { WorkspaceComponent } from './workspace.component';
 import { CustomRoutesModel } from '../../core/interfaces';
 import {
+  WorkspaceWithNavbarComponent,
   SearchUserComponent,
   MenuOptionComponent,
-  UserInfoComponent
+  WorkspaceWithNavbarAndSidebarComponent,
+  UserInfoComponent,
 } from './pages';
 
 
@@ -20,25 +22,28 @@ const routes: CustomRoutesModel = [
           pathMatch: 'full',
         },
         {
-          path: 'menu-option',
-          component: MenuOptionComponent,
-          data: {
-            is_sidebar: false
-          }
+          path: '',
+          component: WorkspaceWithNavbarComponent,
+          children: [
+            {
+              path: 'menu-option',
+              component: MenuOptionComponent,
+            },
+            {
+              path: 'search-user',
+              component: SearchUserComponent
+            }
+          ]
         },
         {
-          path: 'search-user',
-          component: SearchUserComponent,
-          data: {
-            is_sidebar: false
-          }
-        },
-        {
-          path: 'user-info/:id',
-          component: UserInfoComponent,
-          data: {
-            is_sidebar: true
-          }
+          path: '',
+          component: WorkspaceWithNavbarAndSidebarComponent,
+          children: [
+            {
+              path: 'user-info/:id',
+              component: UserInfoComponent
+            }
+          ]
         }
     ]
   }
