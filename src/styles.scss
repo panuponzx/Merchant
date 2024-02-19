@@ -4,7 +4,9 @@
 @import 'assets/scss/variables';
 @import 'assets/scss/reset';
 @import 'assets/scss/typography';
-
+@import 'assets/scss/button';
+@import 'assets/scss/input';
+@import 'assets/scss/container';
 
 html, body {
   height: 100%;
@@ -14,7 +16,8 @@ html body {
   margin: 0;
   font-family: var(--default-font-family), sans-serif;
   font-size: var(--default-font-size);
+  
 }
 
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

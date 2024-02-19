@@ -15,5 +15,5 @@ export class MenuOptionComponent {
       this.router.navigate(['work-space/user-info/1']);
     })
   }
-
+ 
 }

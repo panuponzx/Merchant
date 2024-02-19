@@ -1,0 +1,55 @@
+
+  
+  //ปุ่ม เข้าสู่ระบบ
+  
+  //กล่องข้องความ
+  /* CSS เพื่อกำหนดสีพื้นหลังและสีข้อความ */
+  
+  .input{
+    padding-left: 40px;
+  }
+  
+  .input-group{
+    margin-top: 10px;
+    position: relative;
+    align-items: center;
+    border-radius:10px ;
+    
+    
+    }
+  
+  .input-group-text {
+    background-color: white; /* ตั้งค่าพื้นหลังเป็นสีขาว */
+    
+    border: none;
+  }
+  
+  /* CSS เพื่อปรับขนาดของโลโก้ (ถ้าต้องการ) */
+  .input-group-text img {
+    width: 24px; /* ปรับขนาดของรูปภาพตามที่ต้องการ */
+    height: 24px; /* ปรับขนาดของรูปภาพตามที่ต้องการ */
+   
+  }
+  
+  .form-control{
+    border: none;
+    padding: 10px 16px 10px 16px;
+    padding-left: 40px;
+    
+  
+  }
+  
+  .form-control::placeholder {
+    color: #CCCCCC; /* ตั้งค่าสีของตัวอักษร placeholder */
+    
+  }
+
+  .input-with-icon-container {
+    margin-top: 10px;
+    position: relative;
+    align-items: center;
+    border-radius:10px;
+  }
+  
+  
+
