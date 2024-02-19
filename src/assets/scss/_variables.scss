@@ -1,8 +1,10 @@
 :root {
-  --color-main: #2242a3;
+  --color-blue-exat: #2255CE;
+  --color-blue-1: #241D50;
+  --color-blue-2: #2255CE;
   --color-white: #fff;
-
-  --color-gradient: linear-gradient(0deg, rgba(36, 29, 80, 1), rgba(34, 85, 206, 1));
+  
+  --color-blue-gradient: linear-gradient(0deg, var(--color-blue-1), var(--color-blue-exat));
 
   --default-font-size: 1rem;
   --default-font-family: 'Kanit', sans-serif;
