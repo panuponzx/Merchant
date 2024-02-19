@@ -1,1 +1,2 @@
-export * from './custom-interface';
+export * from './route.interface';
+export * from './user.interface';
