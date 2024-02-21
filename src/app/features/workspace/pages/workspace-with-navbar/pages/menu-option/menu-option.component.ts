@@ -14,13 +14,21 @@ export class MenuOptionComponent {
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService 
+    private authenticationService: AuthenticationService
   ) {
     this.authenticationService.user?.subscribe(x => this.user = x);
-    console.log(this.user)
-    addEventListener('dblclick', () => {
-      this.router.navigate(['work-space/user-info/1']);
-    })
   }
- 
+
+  searchUser() {
+    this.router.navigate(['work-space/search-user']);
+  }
+
+  addUser() {
+    this.router.navigate(['work-space/add-user']);
+  }
+
+  management() {
+    this.router.navigate(['work-space/management']);
+  }
+
 }
