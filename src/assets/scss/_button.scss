@@ -1,8 +1,27 @@
+.btn-type-2 {
+  cursor: pointer;
+  padding: var(--button-padding);
+  background-color: #2255CE !important;
+  color: #fff !important;
+  border: none;
+  border-radius: var(--button-radius);
+  max-width: 403px;
+  width: 100%;
+  height: 44px;
+  &:hover, &:active {
+    -webkit-filter: brightness(.95);
+    filter: brightness(.95);
+  }
+  &:disabled {
+    opacity: var(--btn-disabled-opacity);
+    pointer-events: none;
+  }
+}
+
 .btn-type-1 {
-    padding: 10px 20px;
-    background-color: #2255CE !important;
-    color: #fff !important;
-    border: none;
-    border-radius: 7px;
-    
+  padding: var(--button-padding);
+  background-color: #2255CE !important;
+  color: #fff !important;
+  border: none;
+  border-radius: var(--button-radius);
 }

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserModel } from '../../../../../../core/interfaces';
+import { AuthenticationService } from '../../../../../../core/services';
 
 @Component({
   selector: 'app-menu-option',
@@ -8,12 +10,25 @@ import { Router } from '@angular/router';
 })
 export class MenuOptionComponent {
 
+  public user: UserModel | undefined;
+
   constructor(
-    private router: Router
+    private router: Router,
+    private authenticationService: AuthenticationService
   ) {
-    addEventListener('dblclick', () => {
-      this.router.navigate(['work-space/user-info/1']);
-    })
+    this.authenticationService.user?.subscribe(x => this.user = x);
+  }
+
+  searchUser() {
+    this.router.navigate(['work-space/search-user']);
+  }
+
+  addUser() {
+    this.router.navigate(['work-space/add-user']);
+  }
+
+  management() {
+    this.router.navigate(['work-space/management']);
   }
 
 }

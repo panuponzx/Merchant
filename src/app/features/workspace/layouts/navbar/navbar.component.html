@@ -1,1 +1,35 @@
-<p>navbar works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid align-items-center ">
+    <div class=" d-flex align-items-center">
+      <img
+        class="circle-navbar"
+        src="assets/images/logo/circle_navbar.png"
+      />
+      <a class="navbar-brand" >
+        ระบบบริหารจัดการข้อมูลผู้ใช้ทาง
+      </a>
+    </div>
+    <div
+      class="collapse navbar-collapse"
+    >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <img
+            alt="Logo"
+            class="nav-logo-img"
+            src="assets/images/logo/nav-exat.png"
+          />
+        </li>
+      </ul>
+      <div class="navbar-text">
+        สวัสดี, คุณ ทดสอบ อีแสตมป์ดิวตี้
+        <icon-svg
+          class="user-search"
+          [color]="'blue'"
+          [path]="'assets/images/icons/user-search.svg'"
+          [size]="'l'"
+        />
+      </div>
+    </div>
+  </div>
+</nav>

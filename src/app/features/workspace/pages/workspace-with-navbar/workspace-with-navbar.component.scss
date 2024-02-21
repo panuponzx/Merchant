@@ -1,0 +1,25 @@
+// .content-wrapper {
+//   background: var(--color-blue-gradient);
+//   height: 100%;
+//   width: 100%;
+// }
+
+
+.workspace-container {
+  height: 100%;
+  background: var(--color-blue-gradient);
+}
+
+.workspace-container .page-body-wrapper {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  height: calc(100% - var(--navbar-height));
+}
+
+.workspace-container .page-body-wrapper .content-wrapper {
+  width: 100%;
+  padding: var(--content-padding);
+}

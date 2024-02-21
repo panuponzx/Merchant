@@ -14,6 +14,7 @@ import {
   NavbarComponent,
   SidebarComponent,
 } from './layouts';
+import { ShareModule } from '../../core/share.module';
 
 @NgModule({
   declarations: [
@@ -27,11 +28,12 @@ import {
   ],
   imports: [
     CommonModule,
-    WorkspaceRoutingModule
+    WorkspaceRoutingModule,
+    ShareModule
   ],
   exports: [
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,ShareModule
   ]
 })
 export class WorkspaceModule { }

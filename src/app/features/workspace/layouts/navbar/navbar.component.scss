@@ -1,0 +1,42 @@
+.navbar {
+    height: var(--navbar-height);
+}
+
+.navbar-nav {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.nav-logo-img {
+    width: 50px;
+    height: 48.67px;
+
+}
+.navbar-text {
+    color: #2255CE;
+    position: relative;
+    right: 30px;
+
+}
+
+.navbar-brand {
+    position: relative; /* กำหนดให้เป็นองค์ประกอบแบบ absolute */
+    left: 70px; /* ชิดซ้ายของรูป */
+    transform: translateY(-50%); /* ย้ายขึ้นหรือลงเพื่อให้อยู่ตรงกลางแนวดิ่ง */
+    font-size: 16px;
+    font-weight: 202px;
+    color: white;
+    height: 19px;
+}
+
+
+.circle-navbar {
+    width: 45%;
+    height: 70px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    user-select: none;
+}
+
+
