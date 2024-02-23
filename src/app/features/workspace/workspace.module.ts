@@ -1,20 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgxCurrencyDirective } from "ngx-currency";
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { ShareModule } from '../../core/share.module';
 
 import { WorkspaceRoutingModule } from './workspace-routing.module';
+
 import {
   WorkspaceWithNavbarComponent,
   SearchUserComponent,
   MenuOptionComponent,
   WorkspaceWithNavbarAndSidebarComponent,
-  UserInfoComponent
+  UserInfoComponent,
+  GeneralInfoComponent,
+  WalletInfoComponent,
+  LoyaltyPointInfoComponent,
+  DeviceListComponent
+
 } from './pages';
 
-import {
-  NavbarComponent,
-  SidebarComponent,
-} from './layouts';
-import { ShareModule } from '../../core/share.module';
+import { NavbarComponent, SidebarComponent } from './layouts';
+
 
 @NgModule({
   declarations: [
@@ -24,16 +30,27 @@ import { ShareModule } from '../../core/share.module';
     WorkspaceWithNavbarComponent,
     WorkspaceWithNavbarAndSidebarComponent,
     MenuOptionComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    GeneralInfoComponent,
+    WalletInfoComponent,
+    LoyaltyPointInfoComponent,
+    DeviceListComponent
   ],
   imports: [
     CommonModule,
     WorkspaceRoutingModule,
-    ShareModule
+    ShareModule,
+    NgxCurrencyDirective,
+    NgbNavModule
   ],
   exports: [
     NavbarComponent,
-    SidebarComponent,ShareModule
+    SidebarComponent,
+    ShareModule,
+    GeneralInfoComponent,
+    WalletInfoComponent,
+    LoyaltyPointInfoComponent,
+    DeviceListComponent
   ]
 })
 export class WorkspaceModule { }

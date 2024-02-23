@@ -16,7 +16,8 @@
   width: 100%;
   margin: 0 auto;
   display: flex;
-  height: calc(100% - var(--navbar-height));
+  height: 100%;
+  padding-top: var(--navbar-height);
 }
 
 .workspace-container .page-body-wrapper .content-wrapper {

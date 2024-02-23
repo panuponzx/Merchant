@@ -9,29 +9,13 @@ export class SvgComponent implements OnInit {
   @HostBinding('style.-webkit-mask-image') private _path!: string;
 
   @Input() public path: string | undefined;
-  @Input() public size: 's' | 'm' | 'l' | 'xl' = 'm';
-  @Input() public color: 'white' | 'blue' = 'white'; // Fixed typo here
+  @Input() public size: 's' | 'm' | 'l' | 'xl' | string = 'm';
+  @Input() public color: string | null = null;
 
   ngOnInit(): void {
     if (this.path) {
       this._path = `url("${this.path}")`;
     }
-  }
-
-  getColor(): string {
-    let colorcode: string;
-    switch (this.color) {
-      case 'white':
-        colorcode = '#FFFFFF';
-        break;
-      case 'blue':
-        colorcode = '#2255CE';
-        break; // Added missing break statement
-      default:
-        colorcode = '#FFFFFF'; // Default to white if no match
-        break;
-    }
-    return colorcode;
   }
 
   getSize(): string {
@@ -50,7 +34,7 @@ export class SvgComponent implements OnInit {
         dimension = '30px';
         break;
       default:
-        dimension = '20px';
+        dimension = this.size;
         break;
     }
     return dimension;

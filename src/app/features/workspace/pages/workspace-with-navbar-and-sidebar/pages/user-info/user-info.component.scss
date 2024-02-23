@@ -1,0 +1,33 @@
+.user-type-container {
+  display: flex;
+}
+
+.user-type-info-wrapper {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: start;
+}
+
+.user-type-info-wrapper h3 {
+  color: var(--color-blue-exat);
+}
+
+.custom-badge {
+  line-height: 24px;
+  min-width: 90px;
+}
+
+.total-container {
+  margin-right: 7.5rem;
+  margin-top: 1.5rem;
+}
+
+.navs-container {
+  margin-top: 3rem;
+}
+
+.navs-content-container {
+  margin-top: 3rem;
+}

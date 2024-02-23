@@ -3,7 +3,7 @@
     <h2>กรุณาเลือกหัวข้อการใช้งาน</h2>
     <div class="menu-wrapper">
       <button
-        class="btn btn-type-2"
+        class="custom-btn btn-type-2"
         data-testid="searchUserButton"
         id="searchUserButton"
         title="ค้นหาข้อมูลผู้ใช้งาน"
@@ -11,14 +11,14 @@
       >
         <h4>
           <icon-svg
-            [color]="'white'"
+            [color]="'#FFFFFF'"
             [path]="'assets/images/icons/user-search.svg'"
             [size]="'l'"
           />ค้นหาข้อมูลผู้ใช้งาน
         </h4>
       </button>
       <button
-        class="btn btn-type-2"
+        class="custom-btn btn-type-2"
         data-testid="addUserButton"
         id="addUserButton"
         title="เพิ่มผู้ใช้งานใหม่"
@@ -26,7 +26,7 @@
       >
           <h4>
             <icon-svg
-              [color]="'white'"
+              [color]="'#FFFFFF'"
               [path]="'assets/images/icons/add.svg'"
               [size]="'l'"
             />เพิ่มผู้ใช้งานใหม่
@@ -34,7 +34,7 @@
       </button>
       <button
         *ngIf="user?.role ==='superadmin'"
-        class="btn btn-type-2"
+        class="custom-btn btn-type-2"
         data-testid="managementButton"
         id="managementButton"
         title="จัดการข้อมูลหลังบ้าน"
@@ -42,7 +42,7 @@
       >
         <h4>
           <icon-svg
-            [color]="'white'"
+            [color]="'#FFFFFF'"
             [path]="'assets/images/icons/setting.svg'"
             [size]="'l'"
           />จัดการข้อมูลหลังบ้าน
