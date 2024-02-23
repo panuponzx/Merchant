@@ -1,3 +1,8 @@
+:host {
+  position: fixed;
+  width: 100%;
+}
+
 .navbar {
     height: var(--navbar-height);
 }
@@ -10,13 +15,12 @@
 .nav-logo-img {
     width: 50px;
     height: 48.67px;
-
 }
+
 .navbar-text {
     color: #2255CE;
     position: relative;
     right: 30px;
-
 }
 
 .navbar-brand {

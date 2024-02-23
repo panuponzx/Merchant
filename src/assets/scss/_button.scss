@@ -1,13 +1,4 @@
-.btn-type-2 {
-  cursor: pointer;
-  padding: var(--button-padding);
-  background-color: #2255CE !important;
-  color: #fff !important;
-  border: none;
-  border-radius: var(--button-radius);
-  max-width: 403px;
-  width: 100%;
-  height: 44px;
+.custom-btn {
   &:hover, &:active {
     -webkit-filter: brightness(.95);
     filter: brightness(.95);
@@ -20,8 +11,28 @@
 
 .btn-type-1 {
   padding: var(--button-padding);
+  background-color: var(--color-blue-exat);
+  color: var(--color-white);
+  border: 1px solid var(--color-blue-exat);
+  border-radius: var(--button-radius);
+}
+
+.btn-type-2 {
+  cursor: pointer;
+  padding: var(--button-padding);
   background-color: #2255CE !important;
   color: #fff !important;
   border: none;
   border-radius: var(--button-radius);
+  max-width: 403px;
+  width: 100%;
+  height: 44px;
+}
+
+.btn-type-3 {
+  padding: var(--button-padding);
+  background-color: var(--color-white);
+  color: var(--color-blue-exat);
+  border-radius: var(--button-radius);
+  border: 1px solid var(--color-blue-exat);
 }
