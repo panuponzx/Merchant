@@ -3,22 +3,30 @@ import { CommonModule } from '@angular/common';
 
 import { GetRoutePathPipe } from './get-route-path.pipe';
 import { GetActiveRoutePipe } from './get-active-route.pipe';
+import { CustomerTypePipe } from './customer-type.pipe';
+import { IconPipe } from './icon.pipe';
 
 @NgModule({
   declarations: [
     GetRoutePathPipe,
-    GetActiveRoutePipe
+    GetActiveRoutePipe,
+    CustomerTypePipe,
+    IconPipe
   ],
   imports: [
     CommonModule
   ],
   exports: [
     GetRoutePathPipe,
-    GetActiveRoutePipe
+    GetActiveRoutePipe,
+    CustomerTypePipe,
+    IconPipe
   ],
   providers: [
     GetRoutePathPipe,
-    GetActiveRoutePipe
+    GetActiveRoutePipe,
+    CustomerTypePipe,
+    IconPipe
   ]
 })
 export class PipesModule {
