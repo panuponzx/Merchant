@@ -8,7 +8,7 @@ import { AfterViewInit, Component, HostBinding, Input, OnInit } from '@angular/c
 export class SvgComponent implements OnInit {
   @HostBinding('style.-webkit-mask-image') private _path!: string;
 
-  @Input() public path: string | undefined;
+  @Input() public path: string | undefined | null;
   @Input() public size: 's' | 'm' | 'l' | 'xl' | string = 'm';
   @Input() public color: string | null = null;
 

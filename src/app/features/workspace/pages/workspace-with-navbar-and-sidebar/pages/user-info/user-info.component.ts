@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, first } from 'rxjs';
+import { filter, Observable, zip, map } from 'rxjs';
 import { RestApiService } from '../../../../../../core/services';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, WalletSummaryModel } from '../../../../../../core/interfaces';
 
 @Component({
   selector: 'app-user-info',
@@ -14,6 +15,11 @@ export class UserInfoComponent implements OnInit {
   private customerId: string | null = null;
 
   public activeTab: string | null;
+
+  public customer: CustomerModel | undefined;
+  public walletTotal: number = 0;
+  public totalLoyaltyPoint: number = 0;
+  public totalBalance: number = 0;
 
   constructor(
     private restApiService: RestApiService,
@@ -27,29 +33,54 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.customerId)  {
-      this.getCustomerSummary();
+      this.getCustomerInfo();
     }
   }
 
-  getCustomerSummary() {
+  getCustomerInfo() {
+    const subscribe = zip(
+      this.getCustomer(),
+      this.getWalletInfo()
+    )
+    .pipe()
+    .subscribe({
+      next: (info) => {
+        console.log(info)
+        this.customer = info[0].customer;
+        this.walletTotal = info[1].lstSummary.length;
+        this.totalLoyaltyPoint = info[1].lstSummary.reduce((a, b) => a + b.totalPointBalance, 0);
+        this.totalBalance = info[1].lstSummary.reduce((a, b) => a + b.totalBalance, 0);
+        console.log(this.customer)
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
+  }
+
+  getCustomer() {
+    const mockupData = {
+      queryType: 2,
+      customer: {
+          id: this.customerId,
+          requestParam: {
+              reqId: "23498-sss-k339c-322s2",
+              channelId: 1
+          }
+      }
+    };
+    return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;
+  }
+
+  getWalletInfo() {
     const mockupData = {
       id: this.customerId,
       requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
+          reqId: "23498-sss-k339c-322s2",
+          channelId: "1"
       }
     };
-    this.restApiService
-      .post('get-summary', mockupData)
-      .pipe(first())
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-        },
-        error: (err) => {
-          console.error(err);
-        }
-      });
+    return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
   }
 
   onChangeNav(event: NgbNavChangeEvent) {

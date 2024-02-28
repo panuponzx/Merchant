@@ -17,18 +17,22 @@
   </div>
   <hr class="hr-custom"/>
   <div class="content-container-body">
-    <div class="user-type-container">
-      <icon-svg
-        [color]="'#2255CE'"
-        [size]="'57.14px'"
-        [path]="'assets/images/icons/user_type_user.svg'"
-      />
-      <div class="user-type-info-wrapper">
-        <h3>นาย ทดสอบจำนวนตัวอักษร ตัวหนังสือที่ยาวมาก</h3>
-        <span class="custom-badge badge-1">ผู้ใช้งาน</span>
+    <ng-container *ngIf="customer">
+      <div class="user-type-container">
+        <icon-svg
+          [size]="'57.14px'"
+          [color]="customer | customerType: 'color-code'"
+          [path]="(customer | customerType: 'icon') | icon"
+        />
+        <div class="user-type-info-wrapper">
+          <h3>{{ customer.title + ' ' + customer.firstName + ' ' + customer.lastName }}</h3>
+          <span
+            class="custom-badge customer-badge"
+            [style.color]="customer | customerType: 'color-code'"
+          >{{ customer | customerType: 'name' }}</span>
+        </div>
       </div>
-    </div>
-
+    </ng-container>
     <div class="total-container">
       <div class="row">
         <div class="col-12 col-sm-4">
@@ -43,7 +47,7 @@
             data-testid="walletTotalInput"
             id="walletTotalInput"
             type="text"
-            [value]="1"
+            [value]="walletTotal"
             readonly
           >
         </div>
@@ -60,7 +64,7 @@
             data-testid="totalLoyaltyPointInput"
             id="totalLoyaltyPointInput"
             [options]="{ prefix: '', thousands: ',', decimal: '.', suffix: '' }"
-            type="tel"
+            [type]="totalLoyaltyPoint"
             readonly
           />
         </div>
@@ -77,7 +81,7 @@
             data-testid="totalBalanceInput"
             id="totalBalanceInput"
             [options]="{ prefix: '', thousands: ',', decimal: '.', suffix: '' }"
-            type="tel"
+            [type]="totalBalance"
             readonly
           />
         </div>
@@ -124,9 +128,6 @@
 
       <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
 
-
-
     </div>
-
   </div>
 </div>

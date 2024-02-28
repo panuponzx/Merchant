@@ -1,3 +1,4 @@
 export * from './route.interface';
 export * from './user.interface';
-export * from './utilities.interface'
+export * from './data.interface'
+export * from './response.interface';
