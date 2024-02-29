@@ -15,6 +15,12 @@ import {
   SidebarComponent,
 } from './layouts';
 import { ShareModule } from '../../core/share.module';
+import { DetaTableComponent } from './components/deta-table/deta-table.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+
 
 @NgModule({
   declarations: [
@@ -24,12 +30,16 @@ import { ShareModule } from '../../core/share.module';
     WorkspaceWithNavbarComponent,
     WorkspaceWithNavbarAndSidebarComponent,
     MenuOptionComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    DetaTableComponent
   ],
   imports: [
     CommonModule,
     WorkspaceRoutingModule,
-    ShareModule
+    ShareModule,
+    NgxDatatableModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     NavbarComponent,

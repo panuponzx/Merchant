@@ -30,7 +30,8 @@ import {
     AccountModule,
     WorkspaceModule,
     ShareModule,
-    NgbModule
+    NgbModule,
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
