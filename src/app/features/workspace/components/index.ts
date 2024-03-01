@@ -1,0 +1,1 @@
+export * from './deta-table/deta-table.component';

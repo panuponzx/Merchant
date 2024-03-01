@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SvgComponent } from './svg/svg.component';
+import { DatePickerComponentModule } from './date-picker/datepicker.module';
 
 @NgModule({
   declarations: [
@@ -11,10 +12,12 @@ import { SvgComponent } from './svg/svg.component';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DatePickerComponentModule
   ],
   exports: [
-    SvgComponent
+    SvgComponent,
+    DatePickerComponentModule
   ]
 })
 export class ShareComponentModule { }

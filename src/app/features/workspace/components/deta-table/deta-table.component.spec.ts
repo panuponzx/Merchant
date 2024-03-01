@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DetaTableComponent } from './deta-table.component';
 
-describe('DetaTableComponent', () => {
+describe('DataTableComponent', () => {
   let component: DetaTableComponent;
   let fixture: ComponentFixture<DetaTableComponent>;
 

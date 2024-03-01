@@ -1,7 +1,13 @@
 .ngx-datatable{
     width: 1000px;
     border-radius: 15px;
+    
 }
+
+.ngx-datatable-header-inner{
+  color: #2255CE;
+}
+
 :host {
     display: block;
     padding: 20px;
@@ -34,6 +40,8 @@
     ngx-datatable-header {
       background-color: #f5f5f5;
       border-bottom: 1px solid #ddd;
+     
+      
     }
   
     ngx-datatable-footer {

@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { WorkspaceComponent } from './workspace.component';
 import { CustomRoutesModel } from '../../core/interfaces';
+import { TabGuard } from '../../core/guards';
+
 import {
   WorkspaceWithNavbarComponent,
   SearchUserComponent,
   MenuOptionComponent,
   WorkspaceWithNavbarAndSidebarComponent,
-  UserInfoComponent,
+  UserInfoComponent
 } from './pages';
 
-
-const routes: CustomRoutesModel = [
+export const routesConfig: CustomRoutesModel = [
   {
     path: '',
     component: WorkspaceComponent,
@@ -26,10 +27,12 @@ const routes: CustomRoutesModel = [
           component: WorkspaceWithNavbarComponent,
           children: [
             {
+              id: 'menuOptionRoute',
               path: 'menu-option',
               component: MenuOptionComponent,
             },
             {
+              id: 'searchUserRoute',
               path: 'search-user',
               component: SearchUserComponent
             }
@@ -40,17 +43,28 @@ const routes: CustomRoutesModel = [
           component: WorkspaceWithNavbarAndSidebarComponent,
           children: [
             {
-              path: 'user-info/:id',
-              component: UserInfoComponent
+              id: 'userInfoRoute',
+              path: 'user-info/:tab/:id',
+              component: UserInfoComponent,
+              data: {
+                is_sidebar: true,
+                label: 'ข้อมูลผู้ใช้',
+                default_path: 'user-info',
+                allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
+              },
+              canActivate: [ TabGuard ]
             }
-          ]
+          ],
+          data: {
+            is_sidebar: true
+          }
         }
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routesConfig)],
   exports: [RouterModule]
 })
 export class WorkspaceRoutingModule { }

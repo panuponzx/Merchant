@@ -60,6 +60,7 @@
             class="form-control"
             data-testid="userName" 
             [(ngModel)]="searchValue"
+            (ngModelChange)="searchClicked && onSearch()"
             id="userName"
             type="text"  
             placeholder="กรุณาระบุข้อมูล">

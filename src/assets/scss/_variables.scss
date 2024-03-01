@@ -1,22 +1,27 @@
 :root {
   --color-blue-exat: #2255CE;
   --color-blue-1: #241D50;
-  --color-blue-2: #2255CE;
-  --color-white: #fff;
+  --color-blue-2: #F6F6F6;
+  --color-silver: #A1A1A1;
+  --color-white: #FFFFFF;
 
   --color-blue-gradient: linear-gradient(0deg, var(--color-blue-1), var(--color-blue-exat));
 
   --default-font-size: 1rem;
   --default-font-family: 'Kanit', sans-serif;
 
-
   // Navbar
   --navbar-height: 70px;
 
+  // Sidebar
+  --sidebar-width: 305px;
+  --sidebar-background-color: var(--color-blue-gradient);
+  --sidebar-radius: 20px;
+
   // Button
-  --button-radius: 7px;
+  --button-radius: 8px;
   --button-padding: 10px 20px;
 
   // Content
-  --content-padding: 1rem;
+  --content-padding: 1rem 4.5rem 1rem 2.5rem;
 }

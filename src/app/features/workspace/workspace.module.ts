@@ -1,25 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgxCurrencyDirective } from "ngx-currency";
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { ShareModule } from '../../core/share.module';
 
 import { WorkspaceRoutingModule } from './workspace-routing.module';
+
 import {
   WorkspaceWithNavbarComponent,
   SearchUserComponent,
   MenuOptionComponent,
   WorkspaceWithNavbarAndSidebarComponent,
-  UserInfoComponent
+  UserInfoComponent,
+  GeneralInfoComponent,
+  WalletInfoComponent,
+  LoyaltyPointInfoComponent,
+  DeviceListComponent
+
 } from './pages';
 
-import {
-  NavbarComponent,
-  SidebarComponent,
-} from './layouts';
-import { ShareModule } from '../../core/share.module';
-import { DetaTableComponent } from './components/deta-table/deta-table.component';
+import { NavbarComponent, SidebarComponent } from './layouts';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { DetaTableComponent } from './components';
 
 
 @NgModule({
@@ -31,7 +34,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     WorkspaceWithNavbarAndSidebarComponent,
     MenuOptionComponent,
     UserInfoComponent,
-    DetaTableComponent
+    GeneralInfoComponent,
+    WalletInfoComponent,
+    LoyaltyPointInfoComponent,
+    DeviceListComponent,
+   DetaTableComponent
   ],
   imports: [
     CommonModule,
@@ -39,11 +46,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ShareModule,
     NgxDatatableModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxCurrencyDirective,
+    NgbNavModule
   ],
   exports: [
     NavbarComponent,
-    SidebarComponent,ShareModule
+    SidebarComponent,
+    ShareModule,
+    GeneralInfoComponent,
+    WalletInfoComponent,
+    LoyaltyPointInfoComponent,
+    DeviceListComponent
   ]
 })
 export class WorkspaceModule { }

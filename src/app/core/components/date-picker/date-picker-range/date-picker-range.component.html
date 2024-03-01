@@ -1,0 +1,29 @@
+<div class="datepicker-container">
+  <input
+    bsDaterangepicker
+    datePickerReadonly
+    #dateRangePicker="bsDaterangepicker"
+    [id]="id ? id : 'dateRangePicker'"
+    [attr.data-testid]="id ? id : 'datePicker'"
+    type="text"
+    [placeholder]="placeholder"
+    [disabled]="isDisabled"
+    [outsideClick]="outsideClick"
+    [placement]="placement"
+    [bsConfig]="{
+      containerClass: 'theme-blue',
+      showWeekNumbers: false,
+      adaptivePosition: true,
+      rangeInputFormat: 'DD/MM/YYYY',
+      minDate: minDate,
+      maxDate: maxDate,
+      maxDateRange: maxDateRange,
+      isDisabled: isDisabled
+    }"
+    class="form-control datepicker-custom"
+    autocomplete="off"
+    [ngClass]="{ 'is-invalid': invalid }"
+    [(ngModel)]="date"
+    (ngModelChange)="changeDate($event)"
+  >
+</div>

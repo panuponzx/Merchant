@@ -2,15 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ShareComponentModule } from './components/share-component.module';
+import { PipesModule } from './pipes'
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
-    ShareComponentModule
+    ShareComponentModule,
+    PipesModule
   ],
   exports: [
-    ShareComponentModule
+    ShareComponentModule,
+    PipesModule
   ],
   providers: []
 })
