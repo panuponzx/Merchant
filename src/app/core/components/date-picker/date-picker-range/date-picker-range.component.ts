@@ -27,7 +27,8 @@ export class DatePickerRangeComponent implements ControlValueAccessor, OnChanges
   @Input() public placeholder: string = 'From - To';
   @Input() public clearable: boolean = true;
   @Input() public date: Date[] | undefined = [];
-  @Input() public invalid: boolean = false
+  @Input() public invalid: boolean = false;
+  @Input() public format: string | undefined;
 
   @Output() onChangeDate: EventEmitter<Date[] | undefined> =  new EventEmitter<Date[] | undefined>();
   private onTouched!: Function;

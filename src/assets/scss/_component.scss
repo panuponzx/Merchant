@@ -12,26 +12,21 @@
 
 ul.nav-tabs {
   border-bottom: unset;
+  background-color: var(--color-blue-2);
+  border-radius: 12px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 ul.nav-tabs li {
-  background-color: var(--color-blue-2);
   min-height: 45px;
   padding: 4px;
   width: 144px;
   position: relative;
   display: flex;
   align-items: center;
-}
-
-ul.nav-tabs li:first-child {
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-}
-
-ul.nav-tabs li:last-child {
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
 }
 
 ul.nav-tabs li button.nav-link {
@@ -49,5 +44,66 @@ ul.nav-tabs li button.nav-link:hover {
 ul.nav-tabs li button.nav-link.active {
   color: var(--color-white);
   background-color: var(--color-blue-exat);
+}
+
+// Ng-Select
+
+ng-select.ng-select.form-control {
+  padding: 0rem;
+}
+
+ng-select.ng-select.form-control {
+  padding: var(--padding-input);
+  border-radius: var(--border-radius);
+}
+
+
+ng-select.ng-select.ng-select-disabled.form-control {
+  background-color: var(--color-blue-2);
+}
+
+ng-select.ng-select.form-control:not(.ng-select-disabled):read-only {
+  background-color: var(--color-white);
+}
+
+ng-select.ng-select.form-control.ng-select-focused:not(.ng-select-opened) .ng-select-container {
+  box-shadow: unset;
+}
+
+ng-select.ng-select.form-control:focus {
+  box-shadow: unset;
+}
+
+ng-select.ng-select.form-control .ng-select-container {
+  border: none;
+  height: unset;
+  min-height: unset;
+  top: unset;
+}
+
+ng-select.ng-select.form-control .ng-select-container:hover {
+  box-shadow: unset;
+}
+
+ng-select.ng-select.form-control .ng-select-container .ng-value-container {
+  padding: 0rem;
+}
+
+ng-select.ng-select.form-control:not(.ng-select-disabled) .ng-select-container .ng-arrow-wrapper .ng-arrow {
+  border-color: var(--color-blue-exat) transparent transparent;
+}
+
+ng-select.ng-select.form-control.ng-select-opened .ng-select-container .ng-arrow-wrapper .ng-arrow {
+  border-color: transparent transparent var(--color-blue-exat);
+}
+
+
+ng-select.ng-select.form-control .ng-select-container .ng-value-container .ng-input {
+  top: unset;
+  padding: 0rem;
+}
+
+ng-select.ng-select.form-control .ng-select-container .ng-value-container .ng-input input {
+  cursor: auto;
 }
 

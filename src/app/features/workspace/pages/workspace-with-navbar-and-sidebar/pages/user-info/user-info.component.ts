@@ -4,6 +4,7 @@ import { filter, Observable, zip, map } from 'rxjs';
 import { RestApiService } from '../../../../../../core/services';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, WalletSummaryModel } from '../../../../../../core/interfaces';
+import { CustomerTypePipe } from '../../../../../../core/pipes';
 
 @Component({
   selector: 'app-user-info',
@@ -12,7 +13,8 @@ import { CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, WalletS
 })
 export class UserInfoComponent implements OnInit {
 
-  private customerId: string | null = null;
+  public customerId: string | null = null;
+  public customerTypeId: string | null = null;
 
   public activeTab: string | null;
 
@@ -24,7 +26,8 @@ export class UserInfoComponent implements OnInit {
   constructor(
     private restApiService: RestApiService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private customerTypePipe: CustomerTypePipe
   ) {
     this.customerId = this.activatedRoute.snapshot.paramMap.get('id');
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
@@ -45,12 +48,15 @@ export class UserInfoComponent implements OnInit {
     .pipe()
     .subscribe({
       next: (info) => {
-        console.log(info)
-        this.customer = info[0].customer;
-        this.walletTotal = info[1].lstSummary.length;
-        this.totalLoyaltyPoint = info[1].lstSummary.reduce((a, b) => a + b.totalPointBalance, 0);
-        this.totalBalance = info[1].lstSummary.reduce((a, b) => a + b.totalBalance, 0);
-        console.log(this.customer)
+        if (info[0].customer) {
+          this.customer = info[0].customer;
+          this.customerTypeId = this.customerTypePipe.transform(this.customer, 'id');
+        }
+        if (info[1].lstSummary) {
+          this.walletTotal = info[1].lstSummary.length;
+          this.totalLoyaltyPoint = info[1].lstSummary.reduce((a, b) => a + b.totalPointBalance, 0);
+          this.totalBalance = info[1].lstSummary.reduce((a, b) => a + b.totalBalance, 0);
+        }
       },
       error: (err) => {
         console.error(err);
