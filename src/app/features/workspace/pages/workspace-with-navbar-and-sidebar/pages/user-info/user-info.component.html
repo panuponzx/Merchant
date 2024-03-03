@@ -99,7 +99,7 @@
         <li [ngbNavItem]="'general-info'">
           <button ngbNavLink>ข้อมูลทั่วไป</button>
           <ng-template ngbNavContent>
-            <general-info/>
+            <general-info [customerId]="customerId"/>
           </ng-template>
         </li>
         <li [ngbNavItem]="'wallet-info'">
@@ -127,7 +127,6 @@
       </ul>
 
       <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
-
     </div>
   </div>
 </div>

@@ -9,6 +9,10 @@
   }
 }
 
+.btn-fixed-size-1 {
+  width: 121px;
+}
+
 .btn-type-1 {
   padding: var(--button-padding);
   background-color: var(--color-blue-exat);
@@ -20,8 +24,8 @@
 .btn-type-2 {
   cursor: pointer;
   padding: var(--button-padding);
-  background-color: #2255CE !important;
-  color: #fff !important;
+  background-color: var(--color-blue-exat) !important;
+  color: var(--color-white) !important;
   border: none;
   border-radius: var(--button-radius);
   max-width: 403px;
@@ -35,4 +39,11 @@
   color: var(--color-blue-exat);
   border-radius: var(--button-radius);
   border: 1px solid var(--color-blue-exat);
+}
+
+.btn-type-4 {
+  color: var(--color-blue-exat);
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
 }

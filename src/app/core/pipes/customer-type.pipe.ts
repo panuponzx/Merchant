@@ -3,7 +3,7 @@ import { CustomerModel } from '../interfaces';
 import { IconModel } from '../types';
 
 interface CustomerValueModel {
-  customer_type: number,
+  customer_type_id: string,
   name: string,
   icon: IconModel,
   colorCode: string
@@ -15,12 +15,12 @@ interface CustomerValueModel {
 export class CustomerTypePipe implements PipeTransform {
 
   private customerValue: CustomerValueModel[] = [
-    { customer_type: 1, name: 'ผู้ใช้งาน', icon: 'customer-type-1', colorCode: '#2255CE' },
-    { customer_type: 2, name: 'ชาวต่างชาติ', icon: 'customer-type-2', colorCode: '#FFB800' },
-    { customer_type: 3, name: 'นิติบุคคล', icon: 'customer-type-3', colorCode: '#208BC3' }
+    { customer_type_id: '1', name: 'ผู้ใช้งาน', icon: 'customer-type-1', colorCode: '#2255CE' },
+    { customer_type_id: '2', name: 'ชาวต่างชาติ', icon: 'customer-type-2', colorCode: '#FFB800' },
+    { customer_type_id: '3', name: 'นิติบุคคล', icon: 'customer-type-3', colorCode: '#208BC3' }
   ];
 
-  transform(customer: CustomerModel | undefined, type: 'color-code' | 'name' | 'icon'): string | IconModel | null {
+  transform(customer: CustomerModel | undefined, type: 'color-code' | 'name' | 'icon' | 'id'): string | IconModel | null {
     if (customer) {
       const customerType = this.getCustomerType(customer);
       if (customerType) {
@@ -36,6 +36,9 @@ export class CustomerTypePipe implements PipeTransform {
             case 'name': {
               return customerValue.name;
             }
+            case 'id': {
+              return customerValue.customer_type_id;
+            }
           }
         } else {
           return null;
@@ -44,37 +47,21 @@ export class CustomerTypePipe implements PipeTransform {
         return null;
       }
     }
-    // if (customer && customer.customerTypeId === 1) {
-    //   if (customer.citizenDocId === 1 || customer.citizenDocId === 2) {
-    //     return type === 'color-code' ? '#2255CE' : 'ผู้ใช้งาน';
-    //   } else if (customer.citizenDocId === 3) {
-    //     return type === 'color-code' ? '#FFB800' : 'ชาวต่างชาติ';
-    //   }
-    //   else {
-    //     return null;
-    //   }
-    // } else if (customer && customer.customerTypeId === 2) {
-    //   if (customer.citizenDocId === 4) {
-    //     return type === 'color-code' ? '#208BC3' : 'นิติบุคคล';
-    //   } else {
-    //     return null;
-    //   }
-    // }
     return null;
   }
 
-  getCustomerType(customer: CustomerModel): number | null {
+  getCustomerType(customer: CustomerModel): string | null {
     if (customer.customerTypeId === 1) {
         if (customer.citizenDocId === 1 || customer.citizenDocId === 2) {
-          return 1;
+          return '1';
         } else if (customer.citizenDocId === 3) {
-          return 2;
+          return '2';
         } else {
           return null
         }
     } else if (customer && customer.customerTypeId === 2) {
         if (customer.citizenDocId === 4) {
-          return 3;
+          return '3';
         } else {
           return null;
         }
@@ -83,8 +70,8 @@ export class CustomerTypePipe implements PipeTransform {
     }
   }
 
-  getCustomerValue(customerType: number): CustomerValueModel | null {
-    const customerValue = this.customerValue.find(x => x.customer_type === customerType);
+  getCustomerValue(customerType: string): CustomerValueModel | null {
+    const customerValue = this.customerValue.find(x => x.customer_type_id === customerType);
     if (customerValue) {
       return customerValue;
     } else {

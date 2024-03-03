@@ -27,6 +27,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   @Input() public clearable: boolean = true;
   @Input() public date: Date | undefined;
   @Input() public invalid: boolean = false
+  @Input() public format: string | undefined;
 
   @Output() onChangeDate: EventEmitter<Date | undefined> =  new EventEmitter<Date | undefined>();
   private onTouched!: Function;

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxCurrencyDirective } from "ngx-currency";
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { ShareModule } from '../../core/share.module';
@@ -13,14 +14,14 @@ import {
   WorkspaceWithNavbarAndSidebarComponent,
   UserInfoComponent,
   GeneralInfoComponent,
+  AddressComponent,
   WalletInfoComponent,
   LoyaltyPointInfoComponent,
   DeviceListComponent
-
 } from './pages';
 
 import { NavbarComponent, SidebarComponent } from './layouts';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -34,14 +35,18 @@ import { NavbarComponent, SidebarComponent } from './layouts';
     GeneralInfoComponent,
     WalletInfoComponent,
     LoyaltyPointInfoComponent,
-    DeviceListComponent
+    DeviceListComponent,
+    AddressComponent
   ],
   imports: [
     CommonModule,
     WorkspaceRoutingModule,
     ShareModule,
     NgxCurrencyDirective,
-    NgbNavModule
+    NgbNavModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgSelectModule
   ],
   exports: [
     NavbarComponent,
@@ -50,7 +55,8 @@ import { NavbarComponent, SidebarComponent } from './layouts';
     GeneralInfoComponent,
     WalletInfoComponent,
     LoyaltyPointInfoComponent,
-    DeviceListComponent
+    DeviceListComponent,
+    AddressComponent
   ]
 })
 export class WorkspaceModule { }

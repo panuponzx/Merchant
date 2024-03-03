@@ -65,12 +65,17 @@ export interface CustomerModel {
   customerTypeName: string,
   email: string,
   firstName: string,
+  firstNameEng: string,
   gender: string,
   id: string,
-  lastName: string,
+  lastName?: string,
+  lastNameEng?: string,
   mobilePhone: string,
   occupation: string,
   status: number,
   taxId: string,
-  title: string
+  title?: string
+  titleEng?: string,
+  corporateName?: string,
+  corporatePhone?: string
 }
