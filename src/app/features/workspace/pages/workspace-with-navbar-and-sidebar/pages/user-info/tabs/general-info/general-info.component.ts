@@ -92,6 +92,9 @@ export class GeneralInfoComponent {
           const customerTypeId = this.customerTypePipe.transform(customer, 'id');
           this.customerTypeId = customerTypeId;
           this.setFormValue(customer, addresses);
+        },
+        error: (err) => {
+          console.error(err);
         }
       });
   }
@@ -151,7 +154,7 @@ export class GeneralInfoComponent {
                     subdistrictCode: new FormControl(x.subdistrictCode, [ Validators.required ]),
                     typeId: new FormControl(x.typeId),
                     typeName: new FormControl(x.typeName),
-                    valley: new FormControl(x.valley),
+                    alley: new FormControl(x.alley),
                     village: new FormControl(x.village),
                     villageNo: new FormControl(x.villageNo),
                     zipcode: new FormControl(x.zipcode, [ Validators.required ])

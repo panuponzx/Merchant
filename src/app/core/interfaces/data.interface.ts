@@ -20,7 +20,10 @@ export interface CarInfoModel {
   index: number,
   model: string,
   remark: string,
-  yearRegistration: string
+  yearRegistration: string,
+  walletId: number,
+  smartcardNo: string,
+  obuPan: string
 }
 
 export interface ObuInfoModel {
@@ -30,7 +33,8 @@ export interface ObuInfoModel {
   obuStatus: number,
   smartcardExpiryDate: Date,
   smartcardNo: string,
-  smartcardStatus: number
+  smartcardStatus: number,
+  walletId: number
 }
 
 export interface AddressModel {
@@ -47,7 +51,7 @@ export interface AddressModel {
   subdistrictCode: string,
   typeId: number,
   typeName: string,
-  valley: string,
+  alley: string,
   village: string,
   villageNo: string,
   zipcode: string

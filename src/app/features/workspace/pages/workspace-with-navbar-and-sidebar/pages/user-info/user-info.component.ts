@@ -23,6 +23,8 @@ export class UserInfoComponent implements OnInit {
   public totalLoyaltyPoint: number = 0;
   public totalBalance: number = 0;
 
+  public isLoading: boolean = false;
+
   constructor(
     private restApiService: RestApiService,
     private activatedRoute: ActivatedRoute,
@@ -41,7 +43,8 @@ export class UserInfoComponent implements OnInit {
   }
 
   getCustomerInfo() {
-    const subscribe = zip(
+    this.isLoading = true;
+    zip(
       this.getCustomer(),
       this.getWalletInfo()
     )
@@ -57,6 +60,7 @@ export class UserInfoComponent implements OnInit {
           this.totalLoyaltyPoint = info[1].lstSummary.reduce((a, b) => a + b.totalPointBalance, 0);
           this.totalBalance = info[1].lstSummary.reduce((a, b) => a + b.totalBalance, 0);
         }
+        this.isLoading = false;
       },
       error: (err) => {
         console.error(err);

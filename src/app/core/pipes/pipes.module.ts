@@ -7,6 +7,7 @@ import { CustomerTypePipe } from './customer-type.pipe';
 import { IconPipe } from './icon.pipe';
 import { FormarrayToFormgroupPipe } from './formarray-to-formgroup.pipe';
 import { FormcontrolToFormgroupPipe } from './formcontrol-to-formgroup.pipe';
+import { GetTotalPagePipe } from './get-total-page.pipe';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { FormcontrolToFormgroupPipe } from './formcontrol-to-formgroup.pipe';
     CustomerTypePipe,
     IconPipe,
     FormarrayToFormgroupPipe,
-    FormcontrolToFormgroupPipe
+    FormcontrolToFormgroupPipe,
+    GetTotalPagePipe
   ],
   imports: [
     CommonModule
@@ -26,7 +28,8 @@ import { FormcontrolToFormgroupPipe } from './formcontrol-to-formgroup.pipe';
     CustomerTypePipe,
     IconPipe,
     FormarrayToFormgroupPipe,
-    FormcontrolToFormgroupPipe
+    FormcontrolToFormgroupPipe,
+    GetTotalPagePipe
   ],
   providers: [
     GetRoutePathPipe,
@@ -34,7 +37,8 @@ import { FormcontrolToFormgroupPipe } from './formcontrol-to-formgroup.pipe';
     CustomerTypePipe,
     IconPipe,
     FormarrayToFormgroupPipe,
-    FormcontrolToFormgroupPipe
+    FormcontrolToFormgroupPipe,
+    GetTotalPagePipe
   ]
 })
 export class PipesModule {
