@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DetaTableComponent } from './deta-table.component';
+import { AddressComponent } from './address.component';
 
-describe('DataTableComponent', () => {
-  let component: DetaTableComponent;
-  let fixture: ComponentFixture<DetaTableComponent>;
+describe('AddressComponent', () => {
+  let component: AddressComponent;
+  let fixture: ComponentFixture<AddressComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DetaTableComponent]
+      declarations: [AddressComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DetaTableComponent);
+    fixture = TestBed.createComponent(AddressComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

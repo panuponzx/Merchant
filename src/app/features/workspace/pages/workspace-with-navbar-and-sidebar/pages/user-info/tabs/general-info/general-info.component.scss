@@ -1,0 +1,62 @@
+.general-info-container h2, h3 {
+  color: var(--color-blue-exat);
+}
+
+.general-info-button-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+// Gender
+.gender-selector {
+  display: flex;
+  min-height: 45px;
+  background-color: var(--color-blue-2);
+  padding: 4px;
+  border-radius: 12px;
+}
+
+.gender-wrapper {
+  flex: 0 0 auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gender-selector label {
+  border-radius: 8px;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gender-selector input[type="radio"] {
+  display: none;
+}
+
+.gender-selector input[type="radio"]:checked + label {
+  background-color: var(--color-blue-exat);
+  color: white;
+}
+
+// User Image
+
+.user-image-wrapper {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.user-image-wrapper img {
+  max-width: 171px;
+  width: 100%;
+}
+
+.upload-image-wrapper {
+  display: grid;
+  margin-bottom: 2rem;
+}

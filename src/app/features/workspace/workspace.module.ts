@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxCurrencyDirective } from "ngx-currency";
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
 import { ShareModule } from '../../core/share.module';
 
 import { WorkspaceRoutingModule } from './workspace-routing.module';
@@ -13,17 +17,15 @@ import {
   WorkspaceWithNavbarAndSidebarComponent,
   UserInfoComponent,
   GeneralInfoComponent,
+  AddressComponent,
   WalletInfoComponent,
   LoyaltyPointInfoComponent,
   DeviceListComponent
-
 } from './pages';
 
 import { NavbarComponent, SidebarComponent } from './layouts';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DetaTableComponent } from './components';
 
+import { DatatableComponent } from './components';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { DetaTableComponent } from './components';
     WalletInfoComponent,
     LoyaltyPointInfoComponent,
     DeviceListComponent,
-   DetaTableComponent
+    AddressComponent,
+    DatatableComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,12 @@ import { DetaTableComponent } from './components';
     ReactiveFormsModule,
     FormsModule,
     NgxCurrencyDirective,
-    NgbNavModule
+    NgbNavModule,
+    NgbModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgSelectModule,
+    NgxDatatableModule
   ],
   exports: [
     NavbarComponent,
@@ -57,7 +65,9 @@ import { DetaTableComponent } from './components';
     GeneralInfoComponent,
     WalletInfoComponent,
     LoyaltyPointInfoComponent,
-    DeviceListComponent
+    DeviceListComponent,
+    AddressComponent,
+    DatatableComponent
   ]
 })
 export class WorkspaceModule { }

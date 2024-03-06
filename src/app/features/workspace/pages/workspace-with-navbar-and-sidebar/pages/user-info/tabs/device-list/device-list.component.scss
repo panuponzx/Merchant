@@ -1,0 +1,17 @@
+.device-container {
+  padding-bottom: 1rem;
+}
+
+.device-container h2, h3 {
+  color: var(--color-blue-exat);
+}
+
+.device-header-wrapper {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navs-container ul.nav-tabs li {
+  width: unset;
+}

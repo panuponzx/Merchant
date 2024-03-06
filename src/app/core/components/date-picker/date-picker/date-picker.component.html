@@ -10,7 +10,7 @@
     [disabled]="isDisabled"
     [bsConfig]="{
       adaptivePosition: true,
-      dateInputFormat: 'DD/MM/YYYY',
+      dateInputFormat: format ? format : 'DD/MM/YYYY',
       containerClass: 'theme-blue',
       showWeekNumbers: false,
       minDate: minDate,

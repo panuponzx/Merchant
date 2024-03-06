@@ -5,6 +5,13 @@
   --color-silver: #A1A1A1;
   --color-white: #FFFFFF;
 
+  // Default
+  --border-radius: 8px;
+  --border-color: #CCCCCC;
+  --placeholder-color: #CCCCCC;
+  --padding-input: 10px 16px 10px 16px;
+  --disabled-opacity: 0.65;
+
   --color-blue-gradient: linear-gradient(0deg, var(--color-blue-1), var(--color-blue-exat));
 
   --default-font-size: 1rem;

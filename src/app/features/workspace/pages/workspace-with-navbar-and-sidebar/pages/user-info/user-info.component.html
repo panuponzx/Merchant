@@ -17,7 +17,7 @@
   </div>
   <hr class="hr-custom"/>
   <div class="content-container-body">
-    <ng-container *ngIf="customer">
+    <ng-container *ngIf="!isLoading && customer">
       <div class="user-type-container">
         <icon-svg
           [size]="'57.14px'"
@@ -99,15 +99,13 @@
         <li [ngbNavItem]="'general-info'">
           <button ngbNavLink>ข้อมูลทั่วไป</button>
           <ng-template ngbNavContent>
-            <general-info/>
+            <general-info [customerId]="customerId"/>
           </ng-template>
         </li>
         <li [ngbNavItem]="'wallet-info'">
           <button ngbNavLink>ข้อมูลกระเป๋าเงิน</button>
           <ng-template ngbNavContent>
-            <p>
-              <wallet-info/>
-            </p>
+            <wallet-info/>
           </ng-template>
         </li>
         <li [ngbNavItem]="'loyalty-point-info'">
@@ -119,15 +117,12 @@
         <li [ngbNavItem]="'device-list'">
           <button ngbNavLink>ข้อมูลอุปกรณ์</button>
           <ng-template ngbNavContent>
-            <p>
-              <device-list/>
-            </p>
+            <device-list [customerId]="customerId"/>
           </ng-template>
         </li>
       </ul>
 
       <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
-
     </div>
   </div>
 </div>

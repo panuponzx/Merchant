@@ -1,96 +1,94 @@
 <div class="body">
     <div class="header">
-      <div 
-        class="search-user" 
+      <div
+        class="search-user"
         [class.search-user-clicked]="searchClicked">
-        
-        
-        <button 
+
+
+        <button
             class="btn btn-type-3"
             (click)="togglenotsearch()"
             *ngIf="searchClicked"
             type="button">กลับ</button>
 
         <h2 >ค้นหาข้อมูลผู้ใช้งาน</h2>
-        
+
         <div >
 
           <div class="form-check">
-            <input 
+            <input
               class="form-check-input"
               id="flexRadioDefault1"
-              name="flexRadioDefault" 
+              name="flexRadioDefault"
               type="radio"
               >
-            <h3 
-              class="form-check-label" 
+            <h3
+              class="form-check-label"
               for="flexRadioDefault1">
               หมายเลขประจำตัวผู้เสียภาษี (บุคคลธรรมดา, นิติบุคคล)
             </h3>
           </div>
-          
+
 
           <div class="form-check">
-           
-            <input 
+
+            <input
               class="form-check-input"
               id="flexRadioDefault2"
-              name="flexRadioDefault" 
+              name="flexRadioDefault"
               type="radio"
               checked>
-            <h3 
-                class="form-check-label" 
+            <h3
+                class="form-check-label"
                 for="flexRadioDefault2">
                 หมายเลขพาสปอร์ต (ชาวต่างชาติ)
             </h3>
           </div>
         </div>
-  
+
         <h3 *ngIf="!searchClicked">ข้อมูลผู้ใช้งาน</h3>
-    
+
         <div class="input-box d-flex align-items-center position-relative">
-          <icon-svg 
+          <icon-svg
             class="svg-icon"
             [color]="'blue'"
-            [size]="'l'" 
+            [size]="'l'"
             [path]="'assets/images/icon/seach.svg'" />
-          <input  
-            aria-describedby="addon-wrapping" 
+          <input
+            aria-describedby="addon-wrapping"
             aria-label="Username"
             class="form-control"
-            data-testid="userName" 
+            data-testid="userName"
             [(ngModel)]="searchValue"
             (ngModelChange)="searchClicked && onSearch()"
             id="userName"
-            type="text"  
+            type="text"
             placeholder="กรุณาระบุข้อมูล">
         </div>
 
-        <div 
-          class="button" 
+        <div
+          class="button"
           *ngIf="!searchClicked"
           (click)="onSearch()">
-          
+
           <button
             class="btn btn-type-2"
             data-testid="seachuserButton"
-            
+
             id="seachuser"
             title="ค้นหา">
             <h4>ค้นหา</h4>
           </button>
         </div>
-        
-        <div 
-              
+
+        <div
+
             *ngIf="searchClicked" >
             <hr class="rectangle">
-            
+
             <div class="data-table">
-              <app-deta-table [rows]="rows"></app-deta-table>
             </div>
          </div>
       </div>
     </div>
   </div>
-  
