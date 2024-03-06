@@ -1,0 +1,34 @@
+.ngx-datatable {
+  border-radius: 14px;
+  box-shadow: none !important;
+}
+
+.ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
+  color: var(--color-blue-exat);
+  font-weight: 600;
+  line-height: 20.93px;
+  text-align: center;
+}
+
+.ngx-datatable .datatable-body .empty-row {
+  text-align: center;
+}
+
+.ngx-datatable .datatable-header {
+  border-bottom: 2px solid #060F39 !important;
+}
+
+.datatable-pagination .pagination {
+  margin: 0rem;
+  gap: 1.75rem;
+}
+.datatable-pagination .pagination .page-item .page-link {
+  border: none;
+  background-color: transparent;
+  color: #A1A1A1;
+  box-shadow: none !important;
+}
+
+.datatable-pagination .pagination .page-item.disabled .page-link {
+  opacity: var(--disabled-opacity);
+}

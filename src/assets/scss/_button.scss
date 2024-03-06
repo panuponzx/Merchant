@@ -4,9 +4,14 @@
     filter: brightness(.95);
   }
   &:disabled {
-    opacity: var(--btn-disabled-opacity);
+    opacity: var(--disabled-opacity);
     pointer-events: none;
   }
+}
+
+.btn-icon {
+  background-color: transparent;
+  border: none;
 }
 
 .btn-fixed-size-1 {

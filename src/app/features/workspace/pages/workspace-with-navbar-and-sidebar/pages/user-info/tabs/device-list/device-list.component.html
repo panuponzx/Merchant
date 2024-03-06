@@ -1,1 +1,52 @@
-<p>device-list works!</p>
+<div class="device-container">
+  <div class="device-header-wrapper mb-3">
+    <h2>ข้อมูล OBU และ รถยนต์</h2>
+
+    <div class="navs-container">
+      <ul
+        ngbNav
+        #nav="ngbNav"
+        [(activeId)]="activeTab"
+        (navChange)="onChangeNav()"
+        class="nav-tabs mb-3"
+      >
+        <li [ngbNavItem]="'active'">
+          <button ngbNavLink>กำลังเปิดใช้งาน ({{ activeRows.length }})</button>
+          <ng-template ngbNavContent>
+            <datatable
+              [columns]="activeUsedColumns"
+              [collectionSize]="activeRows.length"
+              [id]="'deviceActiveDatatable'"
+              [isLoading]="isLoading"
+              [limitRow]="limitRow"
+              [pages]="pages"
+              [rows]="activeRows"
+              emptyMessage="No Data"
+              (onChangePageEvent)="onChangePage($event)"
+              (onRowActionEvent)="onAction($event)"
+            />
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'unactive'">
+          <button ngbNavLink>ยังไม่ได้เปิดใช้งาน ({{ unactiveRows.length }})</button>
+          <ng-template ngbNavContent>
+            <datatable
+              [columns]="unactiveUsedColumns"
+              [collectionSize]="unactiveRows.length"
+              [id]="'deviceUnactiveDatatable'"
+              [isLoading]="isLoading"
+              [limitRow]="limitRow"
+              [pages]="pages"
+              [rows]="unactiveRows"
+              emptyMessage="No Data"
+              (onChangePageEvent)="onChangePage($event)"
+              (onRowActionEvent)="onAction($event)"
+            />
+          </ng-template>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+  <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+</div>
