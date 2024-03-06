@@ -19,7 +19,7 @@ export class DeviceListComponent implements OnInit {
   public collectionSize: number = 0;
   public activeUsedColumns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: '#', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
-    { id: 'carRegistration', name: 'Car Registration', label: 'ทะเบียนรถ', prop: 'carRegistration', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'licensePlate', name: 'licensePlate', label: 'ทะเบียนรถ', prop: 'licensePlate', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'brand', name: 'Brand', label: 'ยี่ห้อ', prop: 'brand', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'model', name: 'Model', label: 'รุ่น', prop: 'model', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'yearRegistration', name: 'yearRegistration', label: 'ปีจดทะเบียน', prop: 'yearRegistration', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
@@ -31,7 +31,7 @@ export class DeviceListComponent implements OnInit {
 
   public unactiveUsedColumns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: '#', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
-    { id: 'carRegistration', name: 'Car Registration', label: 'ทะเบียนรถ', prop: 'carRegistration', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'licensePlate', name: 'licensePlate', label: 'ทะเบียนรถ', prop: 'licensePlate', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'brand', name: 'Brand', label: 'ยี่ห้อ', prop: 'brand', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'model', name: 'Model', label: 'รุ่น', prop: 'model', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'yearRegistration', name: 'yearRegistration', label: 'ปีจดทะเบียน', prop: 'yearRegistration', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
