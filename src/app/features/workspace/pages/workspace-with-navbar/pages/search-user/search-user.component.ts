@@ -20,7 +20,7 @@ throw new Error('Method not implemented.');
 
   public activeTab: 'active' | 'unactive' | undefined;
 
-  public limitRow: number = 5;
+  public limitRow: number = 10;
   public pages: number = 1;
   public collectionSize: number = 0;
   public activeUsedColumns: CustomColumnModel[] = [

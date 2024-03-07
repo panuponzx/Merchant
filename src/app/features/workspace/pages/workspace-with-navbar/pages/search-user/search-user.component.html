@@ -81,25 +81,29 @@
             <h4>ค้นหา</h4>
           </button>
         </div>
-        <div 
-        class="body-data-table"
-        *ngIf="searchClicked" >
-  
-        <hr class="rectangle">
-          <datatable
-            [columns]="activeUsedColumns"
-            [collectionSize]="rows.length"
-            [id]="'deviceActiveDatatable'"
-            [isLoading]="isLoading"
-            [limitRow]="limitRow"
-            [pages]="pages"
-            [rows]="rows"
-            emptyMessage="No Data"
-            (onChangePageEvent)="onChangePage($event)"
-            (onRowActionEvent)="onAction($event)"
-          />
+       
       </div>
-      </div>
+      <div 
+      class="body-data-table"
+      *ngIf="searchClicked" >
+
+      <hr class="rectangle">
+        <datatable
+
+          [columns]="activeUsedColumns"
+          [collectionSize]="rows.length"
+          [customDatatableFooterClass]="'datatable-info-white'"
+          [id]="'deviceActiveDatatable'"
+          [isLoading]="isLoading"
+          [limitRow]="limitRow"
+          [pages]="pages"
+          [rows]="rows"
+          emptyMessage="No Data"
+          (onChangePageEvent)="onChangePage($event)"
+          (onRowActionEvent)="onAction($event)"
+
+        />
+    </div>
   </div>
 
   
