@@ -18,17 +18,44 @@
   border-bottom: 2px solid #060F39 !important;
 }
 
-.datatable-pagination .pagination {
+// Footer
+
+.datatable-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 3.5rem;
+  padding: 1.75rem 0rem;
+  flex-wrap: wrap;
+}
+
+.datatable-footer .datatable-pagination .pagination {
   margin: 0rem;
   gap: 1.75rem;
 }
-.datatable-pagination .pagination .page-item .page-link {
+
+.datatable-footer .datatable-pagination .pagination .page-item .page-link {
   border: none;
   background-color: transparent;
   color: #A1A1A1;
   box-shadow: none !important;
 }
 
-.datatable-pagination .pagination .page-item.disabled .page-link {
+.datatable-footer .datatable-pagination .pagination .page-item.disabled .page-link {
   opacity: var(--disabled-opacity);
 }
+
+.datatable-footer .datatable-info {
+  font-size: 14px;
+}
+
+.datatable-footer.datatable-info-white .datatable-info {
+  color: var(--color-white);
+}
+
+.datatable-footer.datatable-info-white .datatable-pagination .pagination .page-item .page-link {
+  color: var(--color-white);
+}
+
+
+
