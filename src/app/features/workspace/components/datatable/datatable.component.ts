@@ -29,8 +29,6 @@ export class DatatableComponent {
     info: true
   };
 
-  public wow: number | undefined = 0;
-
   public columnMode = ColumnMode;
 
   @Output() onChangePageEvent = new EventEmitter<number>();
@@ -39,13 +37,13 @@ export class DatatableComponent {
   @Output() onRowActionEvent = new EventEmitter<RowActionEventModel>();
 
   constructor(
-
   ) {
+
   }
 
   onChangePage(value: number) {
     this.onChangePageEvent.emit(value);
-    this.dataTableEl?.recalculate()
+    this.dataTableEl?.recalculate();
   }
 
   onChangeLimit(value: number) {
