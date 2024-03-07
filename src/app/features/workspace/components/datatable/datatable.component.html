@@ -6,7 +6,8 @@
         ngx-datatable-resize-watcher
         [id]="id"
         [attr.data-testid]="id"
-        [class]="customClass ? customClass : 'material default-datatable'"
+        [class]="customDatatableClass ? customDatatableClass : 'default-datatable'"
+        class="material"
         [limit]="limitRow ? limitRow : undefined"
         [rows]="rows"
         [rowHeight]="rowHeight"
@@ -82,7 +83,10 @@
     </div>
 
     <ng-container *ngIf="footer">
-      <div class="datatable-footer">
+      <div
+        class="datatable-footer"
+        [class]="customDatatableClass ? customDatatableClass : null"
+      >
         <div
           *ngIf="footerOptions && footerOptions.info && limitRow"
           id="datatableInfo"
