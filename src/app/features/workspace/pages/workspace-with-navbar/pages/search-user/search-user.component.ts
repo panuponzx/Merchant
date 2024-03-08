@@ -33,7 +33,7 @@ throw new Error('Method not implemented.');
     { id: 'edit', name: 'Edit', label: 'แก้ไข', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
   public allRows = [
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
+   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1111 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
    { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
    { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
    { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
@@ -72,11 +72,20 @@ isLoading = false;
 
   onSearch() {
     if (!this.searchClicked) {
-      this.searchClicked = true
+      this.searchClicked = true;
     }
-    const keyword = `${this.searchValue}`.toUpperCase()
-    this.rows = this.allRows.filter(x => `${x.firstName} `.toUpperCase().includes(keyword))
+    const keyword = this.searchValue.trim(); // ตัดช่องว่างที่อยู่หน้าและท้ายคำออก
+    if (keyword.length >= 6 && /^\d+$/.test(keyword)) { // ตรวจสอบว่าคำที่กรอกเข้ามาเป็นตัวเลขและมีความยาวอย่างน้อย 6 ตัว
+      this.rows = this.allRows.filter(x => x.citizenId.replace(/\s/g, '').includes(keyword));
+    } else if (keyword === '') { // ถ้าไม่มีการกรอกคำค้นหา
+      this.rows = this.allRows; // โชว์ข้อมูลทั้งหมด
+    } else {
+      // กรณีที่ไม่ตรงตามเงื่อนไข ให้ทำอย่างไรก็ตามตามความเหมาะสม เช่นแสดงข้อความแจ้งเตือน
+      console.log("Please enter at least 6 digits without spaces.");
+    }
   }
+  
+  
 
   togglenotsearch() {
     this.searchClicked = false;
