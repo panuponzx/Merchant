@@ -16,13 +16,15 @@ export interface CustomColumnModel {
   minWidth: number,
   headerClass?: string,
   cellClass?: string,
-  type: 'no' | 'number' | 'text' | 'date' | 'action' ,
-  format?: string,
-  input?: boolean,
-  readonly?: boolean
+  type: 'no' | 'number' | 'text' | 'date' | 'action' | 'check-uncheck' ,
   actionIcon?: {
     iconName: string,
     color: string,
     size: string
+  }
+  numberFormat?: string,
+  date?: {
+    format?: string,
+    locale?: 'en' | 'th'
   }
 }

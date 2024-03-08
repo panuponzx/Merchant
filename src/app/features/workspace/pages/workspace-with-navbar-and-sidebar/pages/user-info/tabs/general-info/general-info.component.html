@@ -1,7 +1,7 @@
-<div class="general-info-container">
+<div class="general-info-container" *ngIf="customerId && customerTypeId">
   <h2 class="mb-3">ข้อมูลทั่วไป</h2>
   <form [formGroup]="form" (ngSubmit)="onUpdate()">
-    <div class="row g-5">
+    <div class="row g-4">
       <div class="col-12 col-sm-4">
         <h3 class="mb-3">รายละเอียดผู้ใช้งาน</h3>
         <div class="general-info-wrapper">
@@ -73,7 +73,17 @@
         </div>
       </div>
       <div class="col-12 col-sm-4">
-        <h3 class="mb-3">ข้อมูลตามบัตรประชาชน</h3>
+        <ng-container [ngSwitch]="customerTypeId">
+          <ng-container *ngSwitchCase="'1'">
+            <h3 class="mb-3">ข้อมูลตามบัตรประชาชน</h3>
+          </ng-container>
+          <ng-container *ngSwitchCase="'2'">
+            <h3 class="mb-3">ข้อมูลตามหนังสือเดินทาง</h3>
+          </ng-container>
+          <ng-container *ngSwitchCase="'3'">
+            <h3 class="mb-3">ข้อมูลรายละเอียด</h3>
+          </ng-container>
+        </ng-container>
         <div class="general-info-wrapper">
           <ng-container [ngSwitch]="customerTypeId">
             <ng-container *ngSwitchCase="'1'">
@@ -113,6 +123,101 @@
                 ></date-picker>
               </div>
 
+              <div class="form-group">
+                <label class="label-input">เพศ</label>
+                <div class="gender-selector">
+                  <div class="gender-wrapper">
+                    <input
+                      type="radio"
+                      formControlName="gender"
+                      id="male"
+                      value="M"
+                    >
+                    <label for="male">ชาย</label>
+                  </div>
+                  <div class="gender-wrapper">
+                    <input
+                      type="radio"
+                      formControlName="gender"
+                      id="female"
+                      value="F"
+                    >
+                    <label for="female">หญิง</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label
+                  class="label-input"
+                  for="firstNameInput"
+                >
+                  ชื่อ
+                </label>
+                <input
+                  class="form-control"
+                  data-testid="firstNameInput"
+                  formControlName="firstName"
+                  id="firstNameInput"
+                  placeholder="ชื่อ"
+                  type="text"
+                >
+              </div>
+
+              <div class="form-group">
+                <label
+                  class="label-input"
+                  for="lastNameInput"
+                >
+                  นามสกุล
+                </label>
+                <input
+                  class="form-control"
+                  data-testid="lastNameInput"
+                  formControlName="lastName"
+                  id="lastNameInput"
+                  placeholder="ชื่อ"
+                  type="text"
+                >
+              </div>
+
+              <div class="form-group">
+                <label
+                  class="label-input"
+                  for="birthDateDatePicker"
+                >
+                  วันเกิด (วัน/เดือน/ปี)
+                </label>
+                <date-picker
+                  class="datepicker-input"
+                  [clearable]="false"
+                  format="D MMMM YYYY"
+                  formControlName="birthdate"
+                  [id]="'birthDateDatePicke'"
+                  [invalid]="submitted && form.controls['birthdate'].errors ? true : false"
+                  locale="th"
+                  [placeholder]="'วันที่ เดือน ปี'"
+                  [placement]="'bottom'"
+                ></date-picker>
+              </div>
+
+              <div class="form-group">
+                <label
+                  class="label-input"
+                  for="phoneInput"
+                >
+                  เบอร์ติดต่อ
+                </label>
+                <input
+                  class="form-control"
+                  data-testid="phoneInput"
+                  formControlName="mobilePhone"
+                  id="phoneInput"
+                  placeholder="XXX XXX XXXX"
+                  type="text"
+                >
+              </div>
+
             </ng-container>
             <ng-container *ngSwitchCase="'2'">
 
@@ -150,137 +255,361 @@
                 ></date-picker>
               </div>
 
+              <div class="form-group">
+                <label class="label-input">เพศ</label>
+                <div class="gender-selector">
+                  <div class="gender-wrapper">
+                    <input
+                      type="radio"
+                      formControlName="gender"
+                      id="male"
+                      value="M"
+                    >
+                    <label for="male">ชาย</label>
+                  </div>
+                  <div class="gender-wrapper">
+                    <input
+                      type="radio"
+                      formControlName="gender"
+                      id="female"
+                      value="F"
+                    >
+                    <label for="female">หญิง</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label
+                  class="label-input"
+                  for="firstNameInput"
+                >
+                  ชื่อ
+                </label>
+                <input
+                  class="form-control"
+                  data-testid="firstNameInput"
+                  formControlName="firstName"
+                  id="firstNameInput"
+                  placeholder="ชื่อ"
+                  type="text"
+                >
+              </div>
+
+              <div class="form-group">
+                <label
+                  class="label-input"
+                  for="lastNameInput"
+                >
+                  นามสกุล
+                </label>
+                <input
+                  class="form-control"
+                  data-testid="lastNameInput"
+                  formControlName="lastName"
+                  id="lastNameInput"
+                  placeholder="ชื่อ"
+                  type="text"
+                >
+              </div>
+
+              <div class="form-group">
+                <label
+                  class="label-input"
+                  for="birthDateDatePicker"
+                >
+                  วันเกิด (วัน/เดือน/ปี)
+                </label>
+                <date-picker
+                  class="datepicker-input"
+                  [clearable]="false"
+                  format="D MMMM YYYY"
+                  formControlName="birthdate"
+                  [id]="'birthDateDatePicke'"
+                  [invalid]="submitted && form.controls['birthdate'].errors ? true : false"
+                  locale="th"
+                  [placeholder]="'วันที่ เดือน ปี'"
+                  [placement]="'bottom'"
+                ></date-picker>
+              </div>
+
+              <div class="form-group">
+                <label
+                  class="label-input"
+                  for="phoneInput"
+                >
+                  เบอร์ติดต่อ
+                </label>
+                <input
+                  class="form-control"
+                  data-testid="phoneInput"
+                  formControlName="mobilePhone"
+                  id="phoneInput"
+                  placeholder="XXX XXX XXXX"
+                  type="text"
+                >
+              </div>
+
+            </ng-container>
+            <ng-container *ngSwitchCase="'3'">
+              <div class="navs-container">
+                <ul
+                  ngbNav
+                  #nav="ngbNav"
+                  [(activeId)]="activeDetailTab"
+                  class="nav-tabs nav-tabs-content mb-3"
+                >
+                <li [ngbNavItem]="'company-detail'">
+                  <button ngbNavLink>รายละเอียดบริษัท</button>
+                  <ng-template ngbNavContent>
+                    <div class="form-group">
+                      <label class="label-input" for="taxIdInput">
+                        หมายเลขผู้เสียภาษี
+                      </label>
+                      <input
+                        idCard
+                        class="form-control"
+                        data-testid="taxInput"
+                        formControlName="citizenId"
+                        id="taxIdInput"
+                        type="text"
+                      >
+                    </div>
+
+                    <div class="form-group">
+                      <label class="label-input" for="corporateNameInput">
+                        ชื่อบริษัท
+                      </label>
+                      <input
+                        idCard
+                        class="form-control"
+                        data-testid="corporateNameInput"
+                        formControlName="corporateName"
+                        id="corporateNameInput"
+                        type="text"
+                      >
+                    </div>
+
+                    <div class="form-group">
+                      <label
+                        class="label-input"
+                        for="corporatePhone"
+                      >
+                        เบอร์ติดต่อ
+                      </label>
+                      <input
+                        class="form-control"
+                        data-testid="corporatePhoneInput"
+                        formControlName="corporatePhone"
+                        id="corporatePhoneInput"
+                        placeholder="XXX XXX XXXX"
+                        type="text"
+                      >
+                    </div>
+
+
+                  </ng-template>
+                </li>
+                  <li [ngbNavItem]="'contact-detail'">
+                    <button ngbNavLink>รายละเอียดผู้มาติดต่อ</button>
+                    <ng-template ngbNavContent>
+                      <div class="form-group">
+                        <label class="label-input" for="identificationInput">
+                          หมายเลขบัตรประชาชน
+                        </label>
+                        <input
+                          idCard
+                          class="form-control"
+                          data-testid="identificationInput"
+                          formControlName="citizenId"
+                          id="identificationInput"
+                          type="text"
+                        >
+                      </div>
+
+                      <div class="form-group">
+                        <label
+                          class="label-input"
+                          for="expiredDateDatePicker"
+                        >
+                          วันหมดอายุบัตร (วัน/เดือน/ปี)
+                        </label>
+                        <date-picker
+                          class="datepicker-input"
+                          [clearable]="false"
+                          format="D MMMM YYYY"
+                          formControlName="cardExpDate"
+                          [id]="'expiredDateDatePicker'"
+                          [invalid]="submitted && form.controls['cardExpDate'].errors ? true : false"
+                          locale="th"
+                          [placeholder]="'วันที่ เดือน ปี'"
+                          [placement]="'bottom'"
+                          [minDate]="minDate"
+                        ></date-picker>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="label-input">เพศ</label>
+                        <div class="gender-selector">
+                          <div class="gender-wrapper">
+                            <input
+                              type="radio"
+                              formControlName="gender"
+                              id="male"
+                              value="M"
+                            >
+                            <label for="male">ชาย</label>
+                          </div>
+                          <div class="gender-wrapper">
+                            <input
+                              type="radio"
+                              formControlName="gender"
+                              id="female"
+                              value="F"
+                            >
+                            <label for="female">หญิง</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label
+                          class="label-input"
+                          for="firstNameInput"
+                        >
+                          ชื่อ
+                        </label>
+                        <input
+                          class="form-control"
+                          data-testid="firstNameInput"
+                          formControlName="firstName"
+                          id="firstNameInput"
+                          placeholder="ชื่อ"
+                          type="text"
+                        >
+                      </div>
+
+                      <div class="form-group">
+                        <label
+                          class="label-input"
+                          for="lastNameInput"
+                        >
+                          นามสกุล
+                        </label>
+                        <input
+                          class="form-control"
+                          data-testid="lastNameInput"
+                          formControlName="lastName"
+                          id="lastNameInput"
+                          placeholder="ชื่อ"
+                          type="text"
+                        >
+                      </div>
+
+                      <div class="form-group">
+                        <label
+                          class="label-input"
+                          for="birthDateDatePicker"
+                        >
+                          วันเกิด (วัน/เดือน/ปี)
+                        </label>
+                        <date-picker
+                          class="datepicker-input"
+                          [clearable]="false"
+                          format="D MMMM YYYY"
+                          formControlName="birthdate"
+                          [id]="'birthDateDatePicke'"
+                          [invalid]="submitted && form.controls['birthdate'].errors ? true : false"
+                          locale="th"
+                          [placeholder]="'วันที่ เดือน ปี'"
+                          [placement]="'bottom'"
+                        ></date-picker>
+                      </div>
+
+                      <div class="form-group">
+                        <label
+                          class="label-input"
+                          for="phoneInput"
+                        >
+                          เบอร์ติดต่อ
+                        </label>
+                        <input
+                          class="form-control"
+                          data-testid="phoneInput"
+                          formControlName="mobilePhone"
+                          id="phoneInput"
+                          placeholder="XXX XXX XXXX"
+                          type="text"
+                        >
+                      </div>
+                    </ng-template>
+                  </li>
+
+                </ul>
+                <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+              </div>
             </ng-container>
           </ng-container>
-
-          <div class="form-group">
-            <div class="gender-selector">
-              <div class="gender-wrapper">
-                <input
-                  type="radio"
-                  formControlName="gender"
-                  id="male"
-                  value="M"
-                >
-                <label for="male">ชาย</label>
-              </div>
-              <div class="gender-wrapper">
-                <input
-                  type="radio"
-                  formControlName="gender"
-                  id="female"
-                  value="F"
-                >
-                <label for="female">หญิง</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label
-              class="label-input"
-              for="firstNameInput"
-            >
-              ชื่อ
-            </label>
-            <input
-              class="form-control"
-              data-testid="firstNameInput"
-              formControlName="firstName"
-              id="firstNameInput"
-              placeholder="ชื่อ"
-              type="text"
-            >
-          </div>
-
-          <div class="form-group">
-            <label
-              class="label-input"
-              for="lastNameInput"
-            >
-              นามสกุล
-            </label>
-            <input
-              class="form-control"
-              data-testid="lastNameInput"
-              formControlName="lastName"
-              id="lastNameInput"
-              placeholder="ชื่อ"
-              type="text"
-            >
-          </div>
-
-          <div class="form-group">
-            <label
-              class="label-input"
-              for="birthDateDatePicker"
-            >
-              วันเกิด (วัน/เดือน/ปี)
-            </label>
-            <date-picker
-              class="datepicker-input"
-              [clearable]="false"
-              format="D MMMM YYYY"
-              formControlName="birthdate"
-              [id]="'birthDateDatePicke'"
-              [invalid]="submitted && form.controls['birthdate'].errors ? true : false"
-              locale="th"
-              [placeholder]="'วันที่ เดือน ปี'"
-              [placement]="'bottom'"
-            ></date-picker>
-          </div>
-
-          <div class="form-group">
-            <label
-              class="label-input"
-              for="phoneInput"
-            >
-              เบอร์ติดต่อ
-            </label>
-            <input
-              class="form-control"
-              data-testid="phoneInput"
-              formControlName="mobilePhone"
-              id="phoneInput"
-              placeholder="XXX XXX XXXX"
-              type="text"
-            >
-          </div>
 
         </div>
       </div>
       <div class="col-12 col-sm-4">
-        <h3 class="mb-3">ข้อมูลที่อยู่</h3>
-        <div class="general-info-wrapper">
-          <div class="navs-container">
-            <ul
-              ngbNav
-              #nav="ngbNav"
-              [(activeId)]="activeTab"
-              class="nav-tabs mb-3"
-            >
-              <li [ngbNavItem]="'address-on-the-card'">
-                <button ngbNavLink>ที่อยู่ตามบัตร</button>
-                <ng-template ngbNavContent>
-                  <address
-                    [form]="form.controls['registration_address'] | formControlToFormGroup"
-                    [submitted]="submitted"
-                  ></address>
-                </ng-template>
-              </li>
-              <li [ngbNavItem]="'current-address'">
-                <button ngbNavLink>ที่อยู่ปัจจุบัน</button>
-                <ng-template ngbNavContent>
-                  <address
-                    [form]="form.controls['current_address'] | formControlToFormGroup"
-                    [submitted]="submitted"
-                  ></address>
-                </ng-template>
-              </li>
-            </ul>
-            <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+        <ng-container [ngSwitch]="customerTypeId">
+          <ng-container *ngSwitchCase="'3'">
+            <h3 class="mb-3">ข้อมูลที่อยู่บริษัท</h3>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <h3 class="mb-3">ข้อมูลที่อยู่</h3>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="activeAddressTab">
+          <div class="general-info-wrapper">
+            <div class="navs-container">
+              <ul
+                ngbNav
+                #nav="ngbNav"
+                [(activeId)]="activeAddressTab"
+                class="nav-tabs nav-tabs-content mb-3"
+                [ngClass]="customerTypeId === '3' ? 'd-none' : null"
+              >
+                <ng-container *ngIf="customerTypeId === '1'">
+                  <li [ngbNavItem]="'address-on-the-card'">
+                    <button ngbNavLink>ที่อยู่ตามบัตร</button>
+                    <ng-template ngbNavContent>
+                      <address
+                        [form]="form.controls['registration_address'] | formControlToFormGroup"
+                        [submitted]="submitted"
+                      ></address>
+                    </ng-template>
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="customerTypeId === '1' || customerTypeId === '2'">
+                  <li [ngbNavItem]="'current-address'">
+                    <button ngbNavLink>ที่อยู่ปัจจุบัน</button>
+                    <ng-template ngbNavContent>
+                      <address
+                        [form]="form.controls['current_address'] | formControlToFormGroup"
+                        [submitted]="submitted"
+                      ></address>
+                    </ng-template>
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="customerTypeId === '1' || customerTypeId === '2' || customerTypeId === '3'">
+                  <li [ngbNavItem]="'work-address'">
+                    <button ngbNavLink>ที่อยู่ที่ทำงาน</button>
+                    <ng-template ngbNavContent>
+                      <address
+                        [form]="form.controls['work_address'] | formControlToFormGroup"
+                        [submitted]="submitted"
+                      ></address>
+                    </ng-template>
+                  </li>
+                </ng-container>
+              </ul>
+              <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+            </div>
           </div>
-        </div>
+        </ng-container>
       </div>
     </div>
     <div class="form-button general-info-button-wrapper">

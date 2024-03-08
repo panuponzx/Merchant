@@ -5,6 +5,7 @@ import { NgxCurrencyDirective } from "ngx-currency";
 import { NgbNavModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxCopyPasteDirective } from "ngx-copypaste";
 
 import { ShareModule } from '../../core/share.module';
 
@@ -20,7 +21,8 @@ import {
   AddressComponent,
   WalletInfoComponent,
   LoyaltyPointInfoComponent,
-  DeviceListComponent
+  DeviceListComponent,
+  PassageInfoComponent
 } from './pages';
 
 import { NavbarComponent, SidebarComponent } from './layouts';
@@ -41,7 +43,8 @@ import { DatatableComponent } from './components';
     LoyaltyPointInfoComponent,
     DeviceListComponent,
     AddressComponent,
-    DatatableComponent
+    DatatableComponent,
+    PassageInfoComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +54,7 @@ import { DatatableComponent } from './components';
     ReactiveFormsModule,
     FormsModule,
     NgxCurrencyDirective,
+    NgxCopyPasteDirective,
     NgbNavModule,
     NgbModule,
     ReactiveFormsModule,

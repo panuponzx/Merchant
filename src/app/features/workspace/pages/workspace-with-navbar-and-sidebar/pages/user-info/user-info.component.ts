@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Observable, zip, map } from 'rxjs';
 import { RestApiService } from '../../../../../../core/services';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, WalletSummaryModel } from '../../../../../../core/interfaces';
+import { CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, WalletSummaryModel } from '../../../../../../core/interfaces';
 import { CustomerTypePipe } from '../../../../../../core/pipes';
 
 @Component({
@@ -12,6 +12,8 @@ import { CustomerTypePipe } from '../../../../../../core/pipes';
   styleUrl: './user-info.component.scss'
 })
 export class UserInfoComponent implements OnInit {
+
+  public title: string | undefined;
 
   public customerId: string | null = null;
   public customerTypeId: string | null = null;
@@ -33,6 +35,7 @@ export class UserInfoComponent implements OnInit {
   ) {
     this.customerId = this.activatedRoute.snapshot.paramMap.get('id');
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
+    this.title = (this.activatedRoute as CustomeActivatedRouteModel).routeConfig.data?.label;
     this.router.events.pipe(filter(x => x instanceof NavigationEnd)).subscribe(() => this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab'));
   }
 
@@ -53,6 +56,8 @@ export class UserInfoComponent implements OnInit {
       next: (info) => {
         if (info[0].customer) {
           this.customer = info[0].customer;
+          // this.customer.customerTypeId = 2; //Demo
+          // this.customer.citizenDocId = 4; // Demo
           this.customerTypeId = this.customerTypePipe.transform(this.customer, 'id');
         }
         if (info[1].lstSummary) {

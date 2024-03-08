@@ -16,13 +16,12 @@
             <datatable
               [columns]="activeUsedColumns"
               [collectionSize]="activeRows.length"
-              [customDatatableFooterClass]="'datatable-info-white'"
               [id]="'deviceActiveDatatable'"
               [isLoading]="isLoading"
               [limitRow]="limitRow"
               [pages]="pages"
               [rows]="activeRows"
-              emptyMessage="No Data"
+              emptyMessage="ไม่มีข้อมูล"
               (onChangePageEvent)="onChangePage($event)"
               (onRowActionEvent)="onAction($event)"
             />
@@ -39,7 +38,7 @@
               [limitRow]="limitRow"
               [pages]="pages"
               [rows]="unactiveRows"
-              emptyMessage="No Data"
+              emptyMessage="ไม่มีข้อมูล"
               (onChangePageEvent)="onChangePage($event)"
               (onRowActionEvent)="onAction($event)"
             />

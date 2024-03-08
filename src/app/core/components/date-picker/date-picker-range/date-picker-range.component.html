@@ -26,4 +26,29 @@
     [(ngModel)]="date"
     (ngModelChange)="changeDate($event)"
   >
+  <div class="datepicker-button-wrapper">
+    <button
+      *ngIf="date && clearable && !isDisabled"
+      [attr.data-testid]="id ? 'clear'+(id | titlecase)+'Button' : 'clearDateRangePickerButton'"
+      class="custom-btn btn-clear-calendar"
+      [id]="id ? 'clear'+(id | titlecase)+'Button' : 'clearDateRangePickerButton'"
+      title="ลบ"
+      type="button"
+      (click)="clearDate()"
+    >
+      <span aria-hidden="true" class="clear">×</span>
+    </button>
+    <button
+      [attr.aria-expanded]="dateRangePicker.isOpen"
+      [attr.data-testid]="id ? id+'Button' : 'dateRangePickerButton'"
+      class="custom-btn btn-calendar"
+      [disabled]="isDisabled"
+      [id]="id ? id+'Button' : 'dateRangePickerButton'"
+      title="เปิด"
+      type="button"
+      (click)="dateRangePicker.toggle()"
+    >
+      <img src="assets/images/icons/calendar.svg">
+    </button>
+  </div>
 </div>
