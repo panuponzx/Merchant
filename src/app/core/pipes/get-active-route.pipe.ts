@@ -14,7 +14,7 @@ export class GetActiveRoutePipe implements PipeTransform {
 
   transform(routeConfig: CustomRouteModel): boolean {
     const url = this.router.url;
-    if (routeConfig.data?.allowed_tabs && routeConfig.data?.default_path) {
+    if (routeConfig.data?.default_path) {
       const path = routeConfig.data.default_path;
       return url.includes(path);
     } else {
