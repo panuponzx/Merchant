@@ -12,7 +12,9 @@ export class IconPipe implements PipeTransform {
     { iconName: 'customer-type-3', path: 'assets/images/icons/user_type_juristic.svg' },
     { iconName: 'list', path: 'assets/images/icons/list.svg' },
     { iconName: 'arrow-left', path: 'assets/images/icons/arrow-left.svg' },
-    { iconName: 'arrow-right', path: 'assets/images/icons/arrow-right.svg' }
+    { iconName: 'arrow-right', path: 'assets/images/icons/arrow-right.svg' },
+    { iconName: 'copy', path: 'assets/images/icons/copy.svg' },
+    { iconName: 'search', path: 'assets/images/icons/search.svg' },
   ];
 
   transform(iconName: IconModel | null | undefined | string): string | null {
