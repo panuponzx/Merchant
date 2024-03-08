@@ -5,6 +5,7 @@ import { NgxCurrencyDirective } from "ngx-currency";
 import { NgbNavModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxCopyPasteDirective } from "ngx-copypaste";
 
 import { ShareModule } from '../../core/share.module';
 
@@ -50,6 +51,7 @@ import { DatatableComponent } from './components';
     WorkspaceRoutingModule,
     ShareModule,
     NgxCurrencyDirective,
+    NgxCopyPasteDirective,
     NgbNavModule,
     NgbModule,
     ReactiveFormsModule,

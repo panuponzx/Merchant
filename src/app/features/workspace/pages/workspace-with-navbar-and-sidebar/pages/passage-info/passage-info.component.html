@@ -33,7 +33,7 @@
         </div>
       </div>
     </ng-container>
-    <form [formGroup]="form" class="d-block d-sm-flex gap-2 align-items-end">
+    <form [formGroup]="form" class="d-block d-sm-flex gap-3 align-items-end">
       <div class="row g-2 g-sm-3 form-wrapper">
         <div class="col-12 col-sm-4">
           <label
@@ -44,7 +44,7 @@
           </label>
           <date-picker
             class="datepicker-input"
-            [clearable]="false"
+            [clearable]="true"
             format="D MMMM YYYY"
             formControlName="startDate"
             [id]="'startDateDatePicker'"
@@ -63,7 +63,7 @@
           </label>
           <date-picker
             class="datepicker-input"
-            [clearable]="false"
+            [clearable]="true"
             format="D MMMM YYYY"
             formControlName="endDate"
             [id]="'endDateDatePicker'"
@@ -84,8 +84,9 @@
             class="form-control"
             [clearable]="false"
             bindLabel="walletName"
+            bindValue="walletId"
             data-testid="walletSelect"
-            formControlName="wallet"
+            formControlName="walletId"
             [placeholder]="'กรุณาระบุ'"
             id="walletSelect"
             [items]="wallets"
@@ -93,11 +94,37 @@
         </div>
       </div>
       <div class="button-wrapper">
-        <button>
-          button
+        <button
+          class="custom-btn search-btn"
+          data-testid="searchButton"
+          id="searchButton"
+          title="ค้นหา"
+          type="submit"
+          (click)="onSearch()"
+        >
+        <icon-svg
+          class="svg-icon"
+          [color]="'#FFFFFF'"
+          [size]="'20px'"
+          [path]="'search' | icon"
+        />
         </button>
       </div>
     </form>
+    <div class="datatable-container" *ngIf="tempSearch && !isLoadingSearch">
+      <datatable
+        [columns]="columns"
+        [collectionSize]="collectionSize"
+        [id]="'transactionDatatable'"
+        [isLoading]="isLoading"
+        [limitRow]="limitRow"
+        [pages]="pages"
+        [rows]="rows"
+        emptyMessage="ไม่มีข้อมูล"
+        (onChangePageEvent)="onChangePage($event)"
+        (onRowActionEvent)="onAction($event)"
+      />
+    </div>
 
   </div>
 </div>
