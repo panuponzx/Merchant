@@ -9,7 +9,8 @@ import {
   SearchUserComponent,
   MenuOptionComponent,
   WorkspaceWithNavbarAndSidebarComponent,
-  UserInfoComponent
+  UserInfoComponent,
+  PassageInfoComponent
 } from './pages';
 
 export const routesConfig: CustomRoutesModel = [
@@ -49,10 +50,22 @@ export const routesConfig: CustomRoutesModel = [
               data: {
                 is_sidebar: true,
                 label: 'ข้อมูลผู้ใช้',
+                request_id: true,
                 default_path: 'user-info',
                 allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
               },
               canActivate: [ TabGuard ]
+            },
+            {
+              id: 'passageInfoRoute',
+              path: 'passage-info/:id',
+              component: PassageInfoComponent,
+              data: {
+                is_sidebar: true,
+                label: 'ข้อมูลการผ่านทาง',
+                request_id: true,
+                default_path: 'passage-info'
+              }
             }
           ],
           data: {

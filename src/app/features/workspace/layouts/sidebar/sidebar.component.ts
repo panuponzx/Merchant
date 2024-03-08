@@ -32,4 +32,18 @@ export class SidebarComponent {
     return mapUrl[mapUrl.length - 1];
   }
 
+  getActiveRoute(routeConfig: CustomRouteModel) {
+    const url = this.router.url
+    const defaultPath = routeConfig.data?.default_path;
+    if (defaultPath) {
+      return url.includes(defaultPath);
+    } else {
+      if (url === routeConfig.path) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
 }

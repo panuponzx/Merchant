@@ -112,7 +112,6 @@ export class WalletInfoComponent implements OnInit {
   }
 
   setActive(lstSummary: WalletSummaryModel[]) {
-    console.log("[setActive] lstSummary => ", lstSummary);
     let walletArr: any = [];
     lstSummary.forEach((wallet) => {
       wallet.lstObus.forEach((obu: any) => {
@@ -141,13 +140,11 @@ export class WalletInfoComponent implements OnInit {
                 walletTypeName: wallet.walletTypeName,
               });
             }
-            console.log("[setActive] hasDuplicateId => ", hasDuplicateId);
           }
         });
       })
     })
     this.walletList = [...walletArr];
-    console.log("[setActive] walletList => ", this.walletList);
   }
 
 }

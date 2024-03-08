@@ -83,3 +83,13 @@ export interface CustomerModel {
   corporateName?: string,
   corporatePhone?: string
 }
+
+export interface TransactionModel {
+  amount: number,
+  createDate: string,
+  transactionId: string,
+  typeId: string,
+  walletId: number,
+  walletStatus: number,
+  walletTypeId: number
+}

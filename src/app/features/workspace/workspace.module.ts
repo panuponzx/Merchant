@@ -21,7 +21,8 @@ import {
   AddressComponent,
   WalletInfoComponent,
   LoyaltyPointInfoComponent,
-  DeviceListComponent
+  DeviceListComponent,
+  PassageInfoComponent
 } from './pages';
 
 import { NavbarComponent, SidebarComponent } from './layouts';
@@ -42,7 +43,8 @@ import { DatatableComponent } from './components';
     LoyaltyPointInfoComponent,
     DeviceListComponent,
     AddressComponent,
-    DatatableComponent
+    DatatableComponent,
+    PassageInfoComponent
   ],
   imports: [
     CommonModule,

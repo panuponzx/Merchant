@@ -17,7 +17,7 @@
   </div>
   <hr class="hr-custom"/>
   <div class="content-container-body">
-    <ng-container *ngIf="!isLoading && customer">
+    <ng-container *ngIf="!isLoading && customer && customerTypeId && customerId">
       <div class="user-type-container">
         <icon-svg
           [size]="'57.14px'"
@@ -32,97 +32,98 @@
           >{{ customer | customerType: 'name' }}</span>
         </div>
       </div>
-    </ng-container>
-    <div class="total-container">
-      <div class="row">
-        <div class="col-12 col-sm-4">
-          <label
-            class="label-input text-nowrap"
-            for="walletTotalInput"
-          >
-            จำนวนกระเป๋าทั้งหมด
-          </label>
-          <input
-            class="form-control"
-            data-testid="walletTotalInput"
-            id="walletTotalInput"
-            type="text"
-            [value]="walletTotal"
-            readonly
-          >
-        </div>
-        <div class="col-12 col-sm-4">
-          <label
-            class="label-input text-nowrap"
-            for="totalLoyaltyPointInput"
-          >
-            คะแนนสะสมทั้งหมด
-          </label>
-          <input
-            currencyMask
-            class="form-control"
-            data-testid="totalLoyaltyPointInput"
-            id="totalLoyaltyPointInput"
-            [options]="{ prefix: '', thousands: ',', decimal: '.', suffix: '' }"
-            [type]="totalLoyaltyPoint"
-            readonly
-          />
-        </div>
-        <div class="col-12 col-sm-4">
-          <label
-            class="label-input text-nowrap"
-            for="totalBalanceInput"
-          >
-            ยอดเงินคงเหลือทั้งหมด
-          </label>
-          <input
-            currencyMask
-            class="form-control"
-            data-testid="totalBalanceInput"
-            id="totalBalanceInput"
-            [options]="{ prefix: '', thousands: ',', decimal: '.', suffix: '' }"
-            [type]="totalBalance"
-            readonly
-          />
+      <div class="total-container">
+        <div class="row">
+          <div class="col-12 col-sm-4">
+            <label
+              class="label-input text-nowrap"
+              for="walletTotalInput"
+            >
+              จำนวนกระเป๋าทั้งหมด
+            </label>
+            <input
+              class="form-control"
+              data-testid="walletTotalInput"
+              id="walletTotalInput"
+              type="text"
+              [(ngModel)]="walletTotal"
+              readonly
+            >
+          </div>
+          <div class="col-12 col-sm-4">
+            <label
+              class="label-input text-nowrap"
+              for="totalLoyaltyPointInput"
+            >
+              คะแนนสะสมทั้งหมด
+            </label>
+            <input
+              currencyMask
+              class="form-control"
+              data-testid="totalLoyaltyPointInput"
+              id="totalLoyaltyPointInput"
+              [options]="{ prefix: '', thousands: ',', decimal: '.', suffix: '' }"
+              type="tel"
+              [(ngModel)]="totalLoyaltyPoint"
+              readonly
+            />
+          </div>
+          <div class="col-12 col-sm-4">
+            <label
+              class="label-input text-nowrap"
+              for="totalBalanceInput"
+            >
+              ยอดเงินคงเหลือทั้งหมด
+            </label>
+            <input
+              currencyMask
+              class="form-control"
+              data-testid="totalBalanceInput"
+              id="totalBalanceInput"
+              [options]="{ prefix: '', thousands: ',', decimal: '.', suffix: '' }"
+              type="tel"
+              [(ngModel)]="totalBalance"
+              readonly
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="navs-container">
-      <ul
-        ngbNav
-        #nav="ngbNav"
-        [(activeId)]="activeTab"
-        (navChange)="onChangeNav($event)"
-        class="nav-tabs"
-      >
-        <li [ngbNavItem]="'general-info'">
-          <button ngbNavLink>ข้อมูลทั่วไป</button>
-          <ng-template ngbNavContent>
-            <general-info [customerId]="customerId"/>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="'wallet-info'">
-          <button ngbNavLink>ข้อมูลกระเป๋าเงิน</button>
-          <ng-template ngbNavContent>
-            <wallet-info [customerId]="customerId" [customerTypeId]="customerTypeId"/>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="'loyalty-point-info'">
-          <button ngbNavLink>ข้อมูลคะแนน</button>
-          <ng-template ngbNavContent>
-            <loyalty-point-info/>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="'device-list'">
-          <button ngbNavLink>ข้อมูลอุปกรณ์</button>
-          <ng-template ngbNavContent>
-            <device-list [customerId]="customerId"/>
-          </ng-template>
-        </li>
-      </ul>
-
-      <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
-    </div>
+      <div class="navs-container">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="activeTab"
+          (navChange)="onChangeNav($event)"
+          class="nav-tabs nav-tabs-header"
+        >
+          <li [ngbNavItem]="'general-info'">
+            <button ngbNavLink>ข้อมูลทั่วไป</button>
+            <ng-template ngbNavContent>
+              <general-info [customerId]="customerId" [customerTypeId]="customerTypeId"/>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'wallet-info'">
+            <button ngbNavLink>ข้อมูลกระเป๋าเงิน</button>
+            <ng-template ngbNavContent>
+              <wallet-info [customerId]="customerId" [customerTypeId]="customerTypeId"/>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'loyalty-point-info'">
+            <button ngbNavLink>ข้อมูลคะแนน</button>
+            <ng-template ngbNavContent>
+              <loyalty-point-info/>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'device-list'">
+            <button ngbNavLink>ข้อมูลอุปกรณ์</button>
+            <ng-template ngbNavContent>
+              <device-list [customerId]="customerId"/>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+      </div>
+    </ng-container>
   </div>
 </div>

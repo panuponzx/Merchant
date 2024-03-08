@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { first, map } from 'rxjs';
 import { AddressModel, CustomerModel, ReponseCustomerModel } from '../../../../../../../../core/interfaces';
-import { CustomerTypePipe } from '../../../../../../../../core/pipes';
 import { RestApiService, UtilitiesService } from '../../../../../../../../core/services';
+
+type AddressTabsType = 'address-on-the-card' | 'current-address' | 'work-address';
+type DetailTabsType = 'company-detail' | 'contact-detail';
 
 @Component({
   selector: 'general-info',
@@ -13,7 +15,7 @@ import { RestApiService, UtilitiesService } from '../../../../../../../../core/s
 export class GeneralInfoComponent {
 
   @Input() public customerId: string | null = null;
-  public customerTypeId: string | null = null;
+  @Input() public customerTypeId: string | null = null;
 
   public settingEmailList = [
     'เปิดการใช้งาน',
@@ -48,16 +50,17 @@ export class GeneralInfoComponent {
     corporateName: new FormControl(undefined),
     corporatePhone: new FormControl(undefined),
     current_address: new FormGroup({}),
-    registration_address: new FormGroup({})
+    registration_address: new FormGroup({}),
+    work_address: new FormGroup({})
   });
 
   public isUpdated: boolean = false;
 
-  public activeTab: 'address-on-the-card' | 'current-address' = 'address-on-the-card';
+  public activeAddressTab: AddressTabsType | undefined;
+  public activeDetailTab: DetailTabsType = 'company-detail';
 
   constructor(
     private restApiService: RestApiService,
-    private customerTypePipe: CustomerTypePipe,
     private utilitiesService: UtilitiesService
   ) {
   }
@@ -89,14 +92,30 @@ export class GeneralInfoComponent {
           const addresses = response.addresses;
           this.customer = customer;
           this.addressed = addresses;
-          const customerTypeId = this.customerTypePipe.transform(customer, 'id');
-          this.customerTypeId = customerTypeId;
           this.setFormValue(customer, addresses);
+          this.activeAddressTab = this.getActiveAddressTab();
         },
         error: (err) => {
           console.error(err);
         }
       });
+  }
+
+  getActiveAddressTab(): AddressTabsType | undefined {
+    switch(this.customerTypeId) {
+      case '1' : {
+        return 'address-on-the-card'
+      }
+      case '2' : {
+        return 'current-address'
+      }
+      case '3' : {
+        return 'work-address'
+      }
+      default : {
+        return undefined;
+      }
+    }
   }
 
   onUpdate() {
@@ -139,6 +158,14 @@ export class GeneralInfoComponent {
                 formControl['status'].setValue(customer.status);
                 formControl['taxId'].setValue(customer.taxId);
                 formControl['title'].setValue(customer.title);
+                if (this.customerId === '3') {
+                  formControl['corporateName'].setValue(customer.corporateName);
+                  formControl['corporateName'].addValidators([ Validators.required ]);
+                  formControl['corporateName'].updateValueAndValidity();
+                  formControl['corporatePhone'].setValue(customer.corporatePhone);
+                  formControl['corporatePhone'].addValidators([ Validators.required ]);
+                  formControl['corporatePhone'].updateValueAndValidity();
+                }
                 addresses.forEach(x => {
                   const newFormGroup = new FormGroup({
                     addressNo: new FormControl(x.addressNo, [ Validators.required ]),
@@ -164,6 +191,9 @@ export class GeneralInfoComponent {
                   }
                   if (x.typeId === 2) {
                     formControl['current_address'] = newFormGroup;
+                  }
+                  if (x.typeId === 2) {
+                    formControl['work_address'] = newFormGroup;
                   }
                 });
       this.form.valueChanges.subscribe(x => {

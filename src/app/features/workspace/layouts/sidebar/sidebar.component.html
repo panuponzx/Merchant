@@ -23,7 +23,7 @@
             [id]="parent.id"
             [attr.data-testid]="parent.id"
             class="nav-link nav-menu h3"
-            [class.active]="parent | getActiveRoute"
+            [class.active]="getActiveRoute(parent)"
             [routerLink]="parent | getRoutePath: customerId"
           >
             {{ parent.data?.label ? parent.data?.label : 'unknow' }}
