@@ -24,7 +24,7 @@ export class GeneralInfoComponent {
   public minDate: Date = new Date();
 
   public customer: CustomerModel | undefined;
-  public addressed: AddressModel[] = [];
+  public addresses: AddressModel[] = [];
 
   public submitted: boolean = false;
   public form: FormGroup = new FormGroup({
@@ -87,11 +87,11 @@ export class GeneralInfoComponent {
         map(res => res as ReponseCustomerModel)
       )
       .subscribe({
-        next: (response) => {
-          const customer = response.customer;
-          const addresses = response.addresses;
+        next: (res) => {
+          const customer = res.customer;
+          const addresses = res.addresses;
           this.customer = customer;
-          this.addressed = addresses;
+          this.addresses = addresses;
           this.setFormValue(customer, addresses);
           this.activeAddressTab = this.getActiveAddressTab();
         },
@@ -131,8 +131,8 @@ export class GeneralInfoComponent {
   }
 
   onCancel() {
-    if (this.customer && this.addressed) {
-      this.setFormValue(this.customer, this.addressed);
+    if (this.customer && this.addresses) {
+      this.setFormValue(this.customer, this.addresses);
     }
   }
 
