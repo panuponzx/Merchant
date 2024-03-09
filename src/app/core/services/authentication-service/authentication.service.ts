@@ -22,9 +22,11 @@ export class AuthenticationService {
 
   initAuthentication() {
     const encryptUser = localStorage.getItem('user');
-    const decryptUser = this.utilitiesService.decryptData(encryptUser, environment.aesSecretKey);
-    this.userSubject = new BehaviorSubject<UserModel | undefined>(decryptUser);
-    this.user = this.userSubject.asObservable();
+    if (encryptUser) {
+      const decryptUser = this.utilitiesService.decryptData(encryptUser, environment.aesSecretKey);
+      this.userSubject = new BehaviorSubject<UserModel | undefined>(JSON.parse(decryptUser));
+      this.user = this.userSubject.asObservable();
+    }
   }
 
   onLogin(user: UserModel) {
