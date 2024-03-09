@@ -1,0 +1,29 @@
+.search-user-container {
+  padding: 1rem 4rem;
+}
+
+.search-user-content-wrapper {
+  max-width: 403px;
+  width: 100%;
+  color: var(--color-white);
+}
+
+.input-with-icon-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.svg-search-icon {
+  position: absolute;
+  padding: 0rem 0.75rem;
+}
+
+.label-input {
+  color: var(--color-white);
+}
+
+.button-wrapper {
+  display: grid;
+}

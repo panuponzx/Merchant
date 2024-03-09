@@ -19,6 +19,7 @@
 }
 
 .btn-type-1 {
+  cursor: pointer;
   padding: var(--button-padding);
   background-color: var(--color-blue-exat);
   color: var(--color-white);
@@ -50,6 +51,7 @@
 }
 
 .btn-type-3 {
+  cursor: pointer;
   padding: var(--button-padding);
   background-color: var(--color-white);
   color: var(--color-blue-exat);

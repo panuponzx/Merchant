@@ -2,6 +2,7 @@ export interface RowActionEventModel {
   type: string,
   format?: string,
   row: any,
+  action?: string,
   index: number
 }
 
@@ -18,6 +19,7 @@ export interface CustomColumnModel {
   cellClass?: string,
   type: 'no' | 'number' | 'text' | 'date' | 'action' | 'check-uncheck' ,
   actionIcon?: {
+    actionName: string,
     iconName: string,
     color: string,
     size: string

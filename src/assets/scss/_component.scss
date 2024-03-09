@@ -6,6 +6,9 @@
   opacity: 1;
   border-color: var(--color-blue-2);
   margin: 0rem;
+  &.light {
+    border-color: var(--color-white) !important;
+  }
 }
 
 // Navs

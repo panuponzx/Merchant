@@ -5,16 +5,13 @@
   --color-blue-2: #F6F6F6;
   --color-silver: #A1A1A1;
   --color-white: #FFFFFF;
+  --color-blue-gradient: linear-gradient(0deg, var(--color-blue-1), var(--color-blue-exat));
 
   // Default
   --border-radius: 8px;
-  --border-color: #CCCCCC;
   --placeholder-color: #CCCCCC;
   --padding-input: 10px 16px 10px 16px;
   --disabled-opacity: 0.65;
-
-  --color-blue-gradient: linear-gradient(0deg, var(--color-blue-1), var(--color-blue-exat));
-
   --default-font-size: 1rem;
   --default-font-family: 'Kanit', sans-serif;
 
@@ -30,6 +27,4 @@
   --button-radius: 8px;
   --button-padding: 10px 20px;
 
-  // Content
-  --content-padding: 1rem 4.5rem 1rem 2.5rem;
 }

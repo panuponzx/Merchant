@@ -11,6 +11,9 @@
         [limit]="limitRow ? limitRow : undefined"
         [rows]="rows"
         [rowHeight]="rowHeight"
+        [offset]="pages - 1"
+        [externalPaging]="externalPaging"
+        [count]="collectionSize"
         [columnMode]="columnMode.force"
         [headerHeight]="headerHeight ? headerHeight : $any('auto')"
         [scrollbarH]="true"
@@ -73,7 +76,7 @@
                   [id]="column.id + rowIndex + 'Button'"
                   type="button"
                   [title]="column.label"
-                  (click)="onAction({ index: rowIndex, type: column.type, row: row })"
+                  (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })"
                 >
                   <icon-svg
                     size="l"
@@ -123,7 +126,6 @@
             [collectionSize]="collectionSize"
             [(page)]="pages"
             [pageSize]="limitRow"
-            [maxSize]="5"
             (pageChange)="onChangePage($event)"
           >
             <ng-template ngbPaginationPages let-page let-pages="pages"></ng-template>

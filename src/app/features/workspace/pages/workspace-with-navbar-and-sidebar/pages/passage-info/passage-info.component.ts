@@ -38,7 +38,7 @@ export class PassageInfoComponent implements OnInit {
   public pages: number = 1;
   public collectionSize: number = 0;
   public columns: CustomColumnModel[] = [
-    { id: 'createDate', name: 'CreateD ate', label: 'วันที่ และ เวลา', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm:ss', locale: 'th' } },
+    { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm:ss', locale: 'th' } },
     { id: 'route', name: 'Route', label: 'สายทาง', prop: 'route', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'building', name: 'Building', label: 'อาคารด่าน', prop: 'building', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'walletName', name: 'Wallet Name', label: 'กระเป่าเงิน', prop: 'walletName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
@@ -47,7 +47,7 @@ export class PassageInfoComponent implements OnInit {
     { id: 'amount', name: 'amount', label: 'จำนวนเงิน', prop: 'amount', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'number', numberFormat: '1.2-2' },
     { id: 'taxInvoice', name: 'Tax Invoice', label: 'ใบกำกับภาษี', prop: 'taxInvoice', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'check-uncheck' },
     { id: 'taxInvoice', name: 'Tax Invoice', label: 'ใบกำกับภาษี', prop: 'taxInvoice', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break text-red-exat', type: 'text' },
-    { id: 'detail', name: 'detail', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { iconName: 'list', size: 'l', color: '#2255CE' } }
+    { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description',iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
   public submitted: boolean = false;
@@ -128,7 +128,6 @@ export class PassageInfoComponent implements OnInit {
 
   onSearch() {
     if (this.form.invalid || this.isLoadingSearch) return;
-    this.isLoadingSearch = true;
     const searchValue = this.getSearchValue(1);
     this.tempSearch = searchValue;
     this.pages = searchValue.offset;
@@ -181,9 +180,11 @@ export class PassageInfoComponent implements OnInit {
     this.router.navigate(['/work-space/search-user']);
   }
 
-
   onChangePage(event: number) {
     this.pages = event;
+    const searchValue = this.getSearchValue(this.pages);
+    this.tempSearch = this.tempSearch;
+    this.loadHistory(searchValue);
   }
 
   onAction(event: RowActionEventModel) {
