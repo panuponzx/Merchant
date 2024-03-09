@@ -89,6 +89,8 @@ export class SearchUserComponent {
   }
 
   onBack() {
+    this.submitted = false;
+    this.pages = 1;
     this.tempSearch = undefined;
     this.form.reset();
     this.form.controls['customerTypeId'].setValue('domestic');
