@@ -7,7 +7,7 @@
 <form [formGroup]="form">
   <div class="form-group">
     <h3>เลขบัตรประชาชน / เลขนิติบุคคล /<br> เลขหนังสือราชการ</h3>
-      <div class="d-flex align-items-center position-relative">
+      <div class="input-with-icon-wrapper">
         <icon-svg
           class="svg-icon"
           [color]="'#2255CE'"
@@ -17,7 +17,7 @@
         <input
           aria-describedby="addon-wrapping"
           aria-label="Username"
-          class="form-control input-with-icon"
+          class="form-control input-with-icon-left"
           data-testid="userName"
           formControlName="username"
           id="userName"
@@ -27,7 +27,7 @@
   </div>
   <div class="form-group">
     <h3 for="password-mobile">เบอร์โทรศัพท์</h3>
-      <div class="d-flex align-items-center position-relative"  >
+      <div class="input-with-icon-wrapper" >
         <icon-svg
           class="svg-icon"
           [color]="'#2255CE'"
@@ -37,7 +37,7 @@
         <input
           aria-describedby="addon-wrapping"
           aria-label="Password"
-          class="form-control input-with-icon"
+          class="form-control input-with-icon-left"
           data-testid="password"
           formControlName="password"
           id="password"

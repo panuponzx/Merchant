@@ -24,6 +24,7 @@ export class DatatableComponent {
   @Input() public customDatatableFooterClass: string | undefined;
   @Input() public isLoading: boolean = false;
   @Input() public footer: boolean = true;
+  @Input() public externalPaging: boolean = false;
 
   @Input() public footerOptions: { info: boolean } = {
     info: true

@@ -8,13 +8,24 @@
 }
 
 .form-control:read-only {
-  border-color: var(--border-color);
   background-color: #F6F6F6;
 }
 
-.input-with-icon {
+.input-with-icon-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.input-with-icon-left {
   border: none;
   padding-left: 40px
+}
+
+.input-with-icon-right {
+  border: none;
+  padding-right: 40px
 }
 
 

@@ -26,3 +26,7 @@ export interface ResponseHistoryModel extends ReponseCustomerModel {
   totalTransactions: number,
   transactions: TransactionModel[]
 }
+
+export interface ReponseSearchCustomerModel extends ResponseMessageModel {
+  customers: CustomerModel[]
+}

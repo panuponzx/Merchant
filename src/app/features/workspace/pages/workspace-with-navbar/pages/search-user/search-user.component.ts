@@ -1,6 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomColumnModel, RowActionEventModel } from '../../../../../../core/interfaces';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { first, map } from 'rxjs';
+import { CustomColumnModel, CustomerModel, ReponseSearchCustomerModel, RowActionEventModel } from '../../../../../../core/interfaces';
+import { RestApiService } from '../../../../../../core/services';
 
 @Component({
   selector: 'app-search-user',
@@ -8,88 +11,87 @@ import { CustomColumnModel, RowActionEventModel } from '../../../../../../core/i
   styleUrls: ['./search-user.component.scss']
 })
 export class SearchUserComponent {
-onChangePage($event: number) {
-throw new Error('Method not implemented.');
-}
-onAction($event: RowActionEventModel) {
-throw new Error('Method not implemented.');
-}
 
-  searchClicked: boolean = false;
-  searchValue: string = '';
-
-  public activeTab: 'active' | 'unactive' | undefined;
+  public rows: CustomerModel[] = []
 
   public limitRow: number = 10;
   public pages: number = 1;
   public collectionSize: number = 0;
-  public activeUsedColumns: CustomColumnModel[] = [
-    { id: 'firstName', name: 'FirstName', label: 'ชื่อ', prop: 'firstName', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'fullName', name: 'FullName', label: 'นามสกุล', prop: 'fullName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'citizenId', name: 'CitizenId', label: 'หมายเลขบัตรประชาชน', prop: 'citizenId', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+  public columns: CustomColumnModel[] = [
+    { id: 'firstName', name: 'First Name', label: 'ชื่อ', prop: 'firstName', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'lastName', name: 'Last Name', label: 'นามสกุล', prop: 'lastName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'citizenId', name: 'Citizen ID', label: 'หมายเลขบัตรประชาชน', prop: 'citizenId', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'customerTypeName', name: 'CustomerTypeName', label: 'ประเภท', prop: 'customerTypeName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'birthdate', name: 'Birthdate', label: 'วันเกิด', prop: 'birthdate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'birthdate', name: 'Birthdate', label: 'วันเกิด', prop: 'birthdate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'mobilePhone', name: 'mobilePhone', label: 'เบอร์ติดต่อ', prop: 'mobilePhone', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'edit', name: 'Edit', label: 'แก้ไข', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { iconName: 'list', size: 'l', color: '#2255CE' } }
+    { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
-  public allRows = [
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1111 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
-   { firstName: "กัญญาพร", fullName: "ทดสอบ", citizenId: "1 1234 12345 12 1", customerTypeName: "บุคคลทั่วไป", birthdate: "1 มกราคม 2522", mobilePhone: "088 xxx 8732" },
 
-  ];
-  public rows: any[] = []
+  public submitted: boolean = false;
+  public form: FormGroup = new FormGroup({
+    customerTypeId: new FormControl('domestic', [ Validators.required ]),
+    citizenId: new FormControl(undefined, [ Validators.required ])
+  });
 
-isLoading = false;
+  public tempSearch: string | undefined;
 
+  public isLoading = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private restApiService: RestApiService,
+    public router: Router
+  ) {
+
+  }
 
   onSearch() {
-    if (!this.searchClicked) {
-      this.searchClicked = true;
+    if (this.form.invalid || this.isLoading) return;
+    this.isLoading = true;
+    const mockupData = {
+      customer: {
+        citizenId: this.form.controls['citizenId'].value
+      },
+      requestParam: {
+          reqId: "23498-sss-k339c-322s2",
+          channelId: "1"
+      }
     }
-    const keyword = this.searchValue.trim(); // ตัดช่องว่างที่อยู่หน้าและท้ายคำออก
-    if (keyword.length >= 6 && /^\d+$/.test(keyword)) { // ตรวจสอบว่าคำที่กรอกเข้ามาเป็นตัวเลขและมีความยาวอย่างน้อย 6 ตัว
-      this.rows = this.allRows.filter(x => x.citizenId.replace(/\s/g, '').includes(keyword));
-    } else if (keyword === '') { // ถ้าไม่มีการกรอกคำค้นหา
-      this.rows = this.allRows; // โชว์ข้อมูลทั้งหมด
-    } else {
-      // กรณีที่ไม่ตรงตามเงื่อนไข ให้ทำอย่างไรก็ตามตามความเหมาะสม เช่นแสดงข้อความแจ้งเตือน
-      console.log("Please enter at least 6 digits without spaces.");
+    this.restApiService
+      .post('get-customers', mockupData)
+      .pipe(
+        first(),
+        map(res => res as ReponseSearchCustomerModel)
+      )
+      .subscribe({
+        next: (res) => {
+          console.log(res)
+          this.rows = res.customers;
+          this.collectionSize = this.rows.length;
+          this.isLoading = false;
+          this.tempSearch = mockupData.customer.citizenId;
+        },
+        error: (err) => {
+          console.error(err);
+          this.isLoading = false;
+        }
+      });
+  }
+
+  onChangePage(event: number) {
+    this.pages = event;
+  }
+
+  onAction(event: RowActionEventModel) {
+    if (event.action === 'description' && event.row) {
+      const row = event.row as CustomerModel;
+      this.router.navigate(['work-space/user-info/general-info/' + row.id]);
     }
   }
-  
-  
 
-  togglenotsearch() {
-    this.searchClicked = false;
-    this.rows = [];
+  onBack() {
+    this.tempSearch = undefined;
+    this.form.reset();
+    this.form.controls['customerTypeId'].setValue('domestic');
   }
 
 }

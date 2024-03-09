@@ -1,108 +1,116 @@
-<div class="body">
-      <div 
-        class="search-user" 
-        [class.search-user-clicked]="searchClicked">
-        
-        
-        <button 
-            class="btn btn-type-3"
-            (click)="togglenotsearch()"
-            *ngIf="searchClicked"
-            type="button">กลับ</button>
+<div
+  class="search-user-container h-100 container-xl"
+  [ngClass]="tempSearch ? null : 'd-flex align-items-center justify-content-center'"
+>
+  <div
+    class="search-user-content-wrapper"
+    [ngClass]="tempSearch ? 'mb-5' : null"
+  >
+    <ng-container *ngIf="tempSearch">
+      <div class="mb-4">
+        <button
+          class="custom-btn btn-type-3"
+          data-testid="backButton"
+          id="backButton"
+          title="กลับ"
+          type="button"
+          (click)="onBack()"
+        >
+          กลับ
+        </button>
+      </div>
+    </ng-container>
 
-        <h2 >ค้นหาข้อมูลผู้ใช้งาน</h2>
-        
-        <div >
+    <h2 class="mb-4">ค้นหาข้อมูลผู้ใช้งาน</h2>
+    <form  [formGroup]="form" class="form-wrapper" (ngSubmit)="onSearch()">
+      <div class="form-check mb-4">
+        <input
+          class="form-check-input"
+          data-testid="domesticRadio"
+          id="domesticRadio"
+          formControlName="customerTypeId"
+          type="radio"
+          value="domestic"
+        >
+        <h3
+          class="form-check-label"
+          for="domesticRadio"
+        >
+          หมายเลขประจำตัวผู้เสียภาษี (บุคคลธรรมดา, นิติบุคคล)
+        </h3>
+      </div>
 
-          <div class="form-check">
-            <input 
-              class="form-check-input"
-              id="flexRadioDefault1"
-              name="flexRadioDefault" 
-              type="radio"
-              >
-            <h3 
-              class="form-check-label" 
-              for="flexRadioDefault1">
-              หมายเลขประจำตัวผู้เสียภาษี (บุคคลธรรมดา, นิติบุคคล)
-            </h3>
-          </div>
-          
-
-          <div class="form-check">
-           
-            <input 
-              class="form-check-input"
-              id="flexRadioDefault2"
-              name="flexRadioDefault" 
-              type="radio"
-              checked>
-            <h3 
-                class="form-check-label" 
-                for="flexRadioDefault2">
-                หมายเลขพาสปอร์ต (ชาวต่างชาติ)
-            </h3>
-          </div>
-        </div>
-  
-        <h3 *ngIf="!searchClicked">ข้อมูลผู้ใช้งาน</h3>
-    
-        <div class="input-box d-flex align-items-center position-relative">
-          <icon-svg 
-            class="svg-icon"
+      <div class="form-check mb-4">
+        <input
+          class="form-check-input"
+          data-testid="internationalRadio"
+          id="internationalRadio"
+          formControlName="customerTypeId"
+          type="radio"
+          value="international"
+        >
+        <h3
+          class="form-check-label"
+          for="internationalRadio"
+        >
+          หมายเลขพาสปอร์ต (ชาวต่างชาติ)
+        </h3>
+      </div>
+      <div class="mb-5">
+        <label class="label-input">ข้อมูลผู้ใช้งาน</label>
+        <div class="input-with-icon-wrapper">
+          <icon-svg
+            class="svg-search-icon"
             [color]="'#2255CE'"
-            [size]="'l'" 
-            [path]="'assets/images/icons/seach.svg'" />
-          <input  
-            aria-describedby="addon-wrapping" 
+            [size]="'l'"
+            [path]="'search' | icon"
+          />
+          <input
             aria-label="Username"
-            class="form-control"
-            data-testid="userName" 
-            [(ngModel)]="searchValue"
-            (ngModelChange)="searchClicked && onSearch()"
-            id="userName"
-            type="text"  
-            placeholder="กรุณาระบุข้อมูล"
-            (keydown.enter)="onSearch()"
-            >
+            class="form-control input-with-icon-right"
+            data-testid="citizenIdInput"
+            formControlName="citizenId"
+            id="citizenIdInput"
+            type="text"
+            placeholder="เลขประจำตัวผู้เสียภาษี / หมายเลขพาสพอร์ต"
+          >
         </div>
-          
-        <div 
-          class="button" 
-          *ngIf="!searchClicked"
-          (click)="onSearch()">
-          
+      </div>
+      <ng-container *ngIf="!tempSearch">
+        <div class="button-wrapper">
           <button
-            class="btn btn-type-2"
-            data-testid="seachuserButton"
-            
-            id="seachuser"
-            title="ค้นหา">
-            <h4>ค้นหา</h4>
+            class="custom-btn btn-type-2"
+            data-testid="searchButton"
+            [disabled]="!form.controls['citizenId'].value || isLoading"
+            id="searchButton"
+            title="ค้นหา"
+            type="submit"
+            (click)="onSearch()"
+          >
+            ค้นหา
           </button>
         </div>
-       
-      </div>
-      <div 
-      class="body-data-table"
-      *ngIf="searchClicked" >
-      <hr class="rectangle">
-        <datatable
-          
-          [columns]="activeUsedColumns"
-          [collectionSize]="rows.length"
-          [customDatatableFooterClass]="'datatable-info-white'"
-          [id]="'deviceActiveDatatable'"
-          [isLoading]="isLoading"
-          [limitRow]="limitRow"
-          [pages]="pages"
-          [rows]="rows"
-          emptyMessage="No Data"
-          (onChangePageEvent)="onChangePage($event)"
-          (onRowActionEvent)="onAction($event)"
+      </ng-container>
 
-        />
+    </form>
+  </div>
+  <ng-container *ngIf="tempSearch && !isLoading">
+    <hr class="hr-custom light mb-5" />
+    <div class="search-user-datatable-wrapper">
+      <datatable
+        [columns]="columns"
+        [collectionSize]="collectionSize"
+        [customDatatableFooterClass]="'datatable-info-white'"
+        [id]="'userDatatable'"
+        [isLoading]="isLoading"
+        [limitRow]="limitRow"
+        [pages]="pages"
+        [rows]="rows"
+        emptyMessage="ไม่มีข้อมูล"
+        (onChangePageEvent)="onChangePage($event)"
+        (onRowActionEvent)="onAction($event)"
+      />
     </div>
-</div>
+  </ng-container>
 
-  
+</div>
