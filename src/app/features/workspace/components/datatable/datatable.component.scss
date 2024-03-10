@@ -6,6 +6,11 @@
   background-color: var(--color-white);
 }
 
+.empty-row {
+  width: 100%;
+  text-align: center;
+}
+
 .datatable-content.datatable-no-box-shadow {
   box-shadow: unset !important;
 }
@@ -14,7 +19,4 @@
   border: 1px solid #CCCCCC;
 }
 
-.empty-row {
-  width: 100%;
-  text-align: center;
-}
+
