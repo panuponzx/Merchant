@@ -10,3 +10,13 @@
   width: 100%;
   text-align: center;
 }
+
+.datatable-content.datatable-no-box-shadow {
+  box-shadow: unset !important;
+}
+
+.datatable-content.datatable-border-solid {
+  border: 1px solid #CCCCCC;
+}
+
+

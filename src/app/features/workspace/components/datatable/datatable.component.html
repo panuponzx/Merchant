@@ -1,6 +1,12 @@
-<div class="datatable-container">
+<div
+  class="datatable-container"
+  [ngClass]="customDatatableContainerClass ? customDatatableContainerClass : null"
+>
   <ng-container *ngIf="rows.length > 0; else emptyEl; ">
-    <div class="datatable-content">
+    <div
+      class="datatable-content"
+      [ngClass]="customDatatableContentClass ? customDatatableContentClass : null"
+    >
       <ngx-datatable
         #datatable
         ngx-datatable-resize-watcher
@@ -110,36 +116,39 @@
         class="datatable-footer"
         [ngClass]="customDatatableFooterClass ? customDatatableFooterClass : null"
       >
-      {{ customDatatableClass }}
-        <div
-          *ngIf="footerOptions && footerOptions.info && limitRow"
-          id="datatableInfo"
-          data-testid="datatableInfo"
-          class="datatable-info"
-        >Page {{ pages }} of  {{ collectionSize | getTotalPage: limitRow  }}
+        <div class="datatable-total">
+          total {{ collectionSize }}
         </div>
-        <div >
-          <ngb-pagination
-            class="datatable-pagination"
-            id="datatablePagination"
-            data-testid="datatablePagination"
-            [collectionSize]="collectionSize"
-            [(page)]="pages"
-            [pageSize]="limitRow"
-            (pageChange)="onChangePage($event)"
-          >
-            <ng-template ngbPaginationPages let-page let-pages="pages"></ng-template>
-          </ngb-pagination>
+        <div class="datatable-pagination-wrapper">
+          <div
+            *ngIf="footerOptions && footerOptions.info && limitRow"
+            id="datatableInfo"
+            data-testid="datatableInfo"
+            class="datatable-info"
+          >Page {{ pages }} of  {{ collectionSize | getTotalPage: limitRow  }}
+          </div>
+          <div>
+            <ngb-pagination
+              class="datatable-pagination"
+              id="datatablePagination"
+              data-testid="datatablePagination"
+              [collectionSize]="collectionSize"
+              [(page)]="pages"
+              [pageSize]="limitRow"
+              (pageChange)="onChangePage($event)"
+            >
+              <ng-template ngbPaginationPages let-page let-pages="pages"></ng-template>
+            </ngb-pagination>
+          </div>
         </div>
+
       </div>
     </ng-container>
-
 
   </ng-container>
 
   <ng-template #emptyEl>
     <div class="empty-row">{{ emptyMessage }}</div>
   </ng-template>
-
 
 </div>

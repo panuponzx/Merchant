@@ -52,14 +52,14 @@ export class DeviceListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getData();
+    this.loadDevice();
   }
 
-  getData() {
+  loadDevice() {
     this.isLoading = true;
     zip(
-      this.getActive(),
-      this.getUnactive()
+      this.loadWalletInfo(),
+      this.loadCustomerObu()
     )
     .subscribe({
       next: (res) => {
@@ -73,7 +73,7 @@ export class DeviceListComponent implements OnInit {
     })
   }
 
-  getActive() {
+  loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
       requestParam: {
@@ -120,7 +120,7 @@ export class DeviceListComponent implements OnInit {
           this.activeRows = [...cars];
   }
 
-  getUnactive() {
+  loadCustomerObu() {
     const mockupData = {
       customer: {
         id: this.customerId,

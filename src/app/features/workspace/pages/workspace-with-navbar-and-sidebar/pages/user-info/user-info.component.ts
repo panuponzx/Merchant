@@ -18,7 +18,7 @@ export class UserInfoComponent implements OnInit {
   public customerId: string | null = null;
   public customerTypeId: string | null = null;
 
-  public activeTab: string | null;
+  public activeTab: 'general-info' | 'wallet-info' | 'loyalty-point-info' | 'device-list' | string | null ;
 
   public customer: CustomerModel | undefined;
   public walletTotal: number = 0;
@@ -41,15 +41,15 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.customerId)  {
-      this.getCustomerInfo();
+      this.loadCustomerInfo();
     }
   }
 
-  getCustomerInfo() {
+  loadCustomerInfo() {
     this.isLoading = true;
     zip(
-      this.getCustomer(),
-      this.getWalletInfo()
+      this.loadCustomer(),
+      this.loadWalletInfo()
     )
     .pipe()
     .subscribe({
@@ -73,7 +73,7 @@ export class UserInfoComponent implements OnInit {
     })
   }
 
-  getCustomer() {
+  loadCustomer() {
     const mockupData = {
       queryType: 2,
       customer: {
@@ -87,7 +87,7 @@ export class UserInfoComponent implements OnInit {
     return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;
   }
 
-  getWalletInfo() {
+  loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
       requestParam: {
