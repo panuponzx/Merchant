@@ -66,10 +66,10 @@ export class GeneralInfoComponent {
   }
 
   ngOnInit(): void {
-    this.getCustomer();
+    this.loadCustomer();
   }
 
-  getCustomer() {
+  loadCustomer() {
     const mockupData = {
       queryType: 2,
       customer: {

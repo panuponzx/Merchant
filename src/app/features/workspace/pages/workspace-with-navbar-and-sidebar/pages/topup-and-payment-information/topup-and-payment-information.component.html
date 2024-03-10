@@ -111,23 +111,54 @@
         </button>
       </div>
     </form>
-    <ng-container *ngIf="tempSearch && !isLoadingSearch">
-      <div class="datatable-container">
-        <datatable
-          [columns]="columns"
-          [collectionSize]="collectionSize"
-          [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
-          [externalPaging]="true"
-          [id]="'transactionDatatable'"
-          [isLoading]="isLoading"
-          [limitRow]="limitRow"
-          [pages]="pages"
-          [rows]="rows"
-          emptyMessage="ไม่มีข้อมูล"
-          (onChangePageEvent)="onChangePage($event)"
-          (onRowActionEvent)="onAction($event)"
-        />
+    <ng-container *ngIf="tempSearch">
+      <div class="navs-container">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="activeTab"
+          class="nav-tabs nav-tabs-header"
+        >
+          <li [ngbNavItem]="'billing-pending'">
+            <button ngbNavLink>ข้อมูลทั่วไป</button>
+            <ng-template ngbNavContent>
+              <billing-pending></billing-pending>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'pay-information'">
+            <button ngbNavLink>ข้อมูลกระเป๋าเงิน</button>
+            <ng-template ngbNavContent>
+              <pay-information></pay-information>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'topup-information'">
+            <button ngbNavLink>ข้อมูลคะแนน</button>
+            <ng-template ngbNavContent>
+              <topup-information
+                [tempSearch]="tempSearch"
+                (onLoading)="onLoading($event)"
+              ></topup-information>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
       </div>
     </ng-container>
+
+    <!-- <div class="datatable-container" *ngIf="tempSearch && !isLoadingSearch">
+      <datatable
+        [columns]="columns"
+        [collectionSize]="collectionSize"
+        [externalPaging]="true"
+        [id]="'transactionDatatable'"
+        [isLoading]="isLoading"
+        [limitRow]="limitRow"
+        [pages]="pages"
+        [rows]="rows"
+        emptyMessage="ไม่มีข้อมูล"
+        (onChangePageEvent)="onChangePage($event)"
+        (onRowActionEvent)="onAction($event)"
+      />
+    </div> -->
   </div>
 </div>

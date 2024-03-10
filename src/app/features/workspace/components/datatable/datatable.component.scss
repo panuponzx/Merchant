@@ -6,6 +6,14 @@
   background-color: var(--color-white);
 }
 
+.datatable-content.datatable-no-box-shadow {
+  box-shadow: unset !important;
+}
+
+.datatable-content.datatable-border-solid {
+  border: 1px solid #CCCCCC;
+}
+
 .empty-row {
   width: 100%;
   text-align: center;

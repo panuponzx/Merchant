@@ -43,50 +43,10 @@ export class WalletInfoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.activeRows = [
-    //   {
-    //     brand: 'brand',
-    //     model: 'model',
-    //     color: 'color',
-    //     licensePlate: 'licensePlate',
-    //     yearRegistration: 'yearRegistration',
-    //     type: '1',
-    //     obuSerialNo: 'obuSerialNo',
-    //     smartCardSerialNo: 'smartCardSerialNo',
-    //   },
-    //   {
-    //     brand: 'brand',
-    //     model: 'model',
-    //     color: 'color',
-    //     licensePlate: 'licensePlate',
-    //     yearRegistration: 'yearRegistration',
-    //     type: '1',
-    //     obuSerialNo: 'obuSerialNo',
-    //     smartCardSerialNo: 'smartCardSerialNo',
-    //   },
-    //   {
-    //     brand: 'brand',
-    //     model: 'model',
-    //     color: 'color',
-    //     licensePlate: 'licensePlate',
-    //     yearRegistration: 'yearRegistration',
-    //     type: '1',
-    //     obuSerialNo: 'obuSerialNo',
-    //     smartCardSerialNo: 'smartCardSerialNo',
-    //   }
-    // ];
-    this.getActive();
+    this.loadWalletInfo();
   }
 
-  onChangePage(event: number) {
-    this.pages = event;
-  }
-
-  onAction(event: RowActionEventModel) {
-    console.info(event)
-  }
-
-  getActive() {
+  loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
       requestParam: {
@@ -101,17 +61,16 @@ export class WalletInfoComponent implements OnInit {
         map(res => res as ReponseWalletSummaryModel)
       ).subscribe({
         next: (res) => {
-          this.setActive(res.lstSummary);
+          this.setWallet(res.lstSummary);
           this.isLoading = false;
         },
         error: (err) => {
           console.error(err);
         }
-      })
-
+      });
   }
 
-  setActive(lstSummary: WalletSummaryModel[]) {
+  setWallet(lstSummary: WalletSummaryModel[]) {
     let walletArr: any = [];
     lstSummary.forEach((wallet) => {
       wallet.lstObus.forEach((obu: any) => {
@@ -145,6 +104,14 @@ export class WalletInfoComponent implements OnInit {
       })
     })
     this.walletList = [...walletArr];
+  }
+
+  onChangePage(event: number) {
+    this.pages = event;
+  }
+
+  onAction(event: RowActionEventModel) {
+    console.info(event)
   }
 
 }

@@ -1,6 +1,12 @@
-<div class="datatable-container">
+<div
+  class="datatable-container"
+  [ngClass]="customDatatableContainerClass ? customDatatableContainerClass : null"
+>
   <ng-container *ngIf="rows.length > 0; else emptyEl; ">
-    <div class="datatable-content">
+    <div
+      class="datatable-content"
+      [ngClass]="customDatatableContentClass ? customDatatableContentClass : null"
+    >
       <ngx-datatable
         #datatable
         ngx-datatable-resize-watcher

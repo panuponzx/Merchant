@@ -22,7 +22,11 @@ import {
   WalletInfoComponent,
   LoyaltyPointInfoComponent,
   DeviceListComponent,
-  PassageInfoComponent
+  PassageInfoComponent,
+  TopupAndPaymentInformationComponent,
+  BillingPendingComponent,
+  PayInformationComponent,
+  TopupInformationComponent
 } from './pages';
 
 import { NavbarComponent, SidebarComponent } from './layouts';
@@ -44,7 +48,11 @@ import { DatatableComponent } from './components';
     DeviceListComponent,
     AddressComponent,
     DatatableComponent,
-    PassageInfoComponent
+    PassageInfoComponent,
+    TopupAndPaymentInformationComponent,
+    BillingPendingComponent,
+    PayInformationComponent,
+    TopupInformationComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +79,10 @@ import { DatatableComponent } from './components';
     LoyaltyPointInfoComponent,
     DeviceListComponent,
     AddressComponent,
-    DatatableComponent
+    DatatableComponent,
+    BillingPendingComponent,
+    PayInformationComponent,
+    TopupInformationComponent
   ]
 })
 export class WorkspaceModule { }

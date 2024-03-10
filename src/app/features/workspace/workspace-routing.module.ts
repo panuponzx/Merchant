@@ -10,7 +10,8 @@ import {
   MenuOptionComponent,
   WorkspaceWithNavbarAndSidebarComponent,
   UserInfoComponent,
-  PassageInfoComponent
+  PassageInfoComponent,
+  TopupAndPaymentInformationComponent
 } from './pages';
 
 export const routesConfig: CustomRoutesModel = [
@@ -66,7 +67,18 @@ export const routesConfig: CustomRoutesModel = [
                 request_id: true,
                 default_path: 'passage-info'
               }
-            }
+            },
+            {
+              id: 'topupAndPaymentInformationRoute',
+              path: 'topup-and-payment-information/:id',
+              component: TopupAndPaymentInformationComponent,
+              data: {
+                is_sidebar: true,
+                label: 'ข้อมูลการเติมเงิน / ชำระเงิน',
+                request_id: true,
+                default_path: 'topup-and-payment-information'
+              }
+            },
           ],
           data: {
             is_sidebar: true

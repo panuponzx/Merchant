@@ -93,3 +93,25 @@ export interface TransactionModel {
   walletStatus: number,
   walletTypeId: number
 }
+
+export interface TopupModel {
+  transactionId: string,
+  walletId: number,
+  amount: number,
+  createDate: Date,
+  properties: {
+      amount: number,
+      bankAccountNo: string,
+      bankName: string,
+      entry_hq: number,
+      entry_plaza: number,
+      exit_hq: number,
+      exit_plaza: number,
+      transactionDate: Date
+  },
+  isCancelled: boolean,
+  wallet: {
+      id: number,
+      walletName: string
+  }
+}

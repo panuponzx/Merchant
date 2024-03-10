@@ -74,15 +74,15 @@ export class PassageInfoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.customerId)  {
-      this.getCustomerInfo();
+      this.loadCustomerInfo();
     }
   }
 
-  getCustomerInfo() {
+  loadCustomerInfo() {
     this.isLoading = true;
     zip(
-      this.getCustomer(),
-      this.getWalletInfo()
+      this.loadCustomer(),
+      this.loadWalletInfo()
     )
     .pipe()
     .subscribe({
@@ -101,7 +101,7 @@ export class PassageInfoComponent implements OnInit {
     })
   }
 
-  getCustomer() {
+  loadCustomer() {
     const mockupData = {
       queryType: 2,
       customer: {
@@ -115,7 +115,7 @@ export class PassageInfoComponent implements OnInit {
     return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;
   }
 
-  getWalletInfo() {
+  loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
       requestParam: {
@@ -136,10 +136,11 @@ export class PassageInfoComponent implements OnInit {
 
   getSearchValue(page: number): HistoryPayloadModel {
     const formValue = this.form.value;
-    const { walletId, startDate } = formValue;
-    const newStartDate = this.transformDatePipe.transform(startDate, 'YYYY-MM-DD', 'th');
-    // const value: HistoryPayloadModel = { walletId: walletId, startDate: newStartDate ,offset: 1, limit: this.limitRow };
-    const value: HistoryPayloadModel = { walletId: '5111000000180', startDate: '2024-03-01', offset: page, limit: this.limitRow  }
+    const { walletId, startDate, endDate } = formValue;
+    const newStartDate = this.transformDatePipe.transform(startDate, 'YYYY-MM-DD');
+    const newEndDate = this.transformDatePipe.transform(startDate, 'YYYY-MM-DD');
+    // const value: HistoryPayloadModel = { walletId: walletId, startDate: newStartDate, endDate: newEndDate, offset: 1, limit: this.limitRow };
+    const value: HistoryPayloadModel = { walletId: '5111000000180', startDate: '2024-03-01', endDate: newEndDate, offset: page, limit: this.limitRow  }
     return value;
   }
 
