@@ -7,6 +7,9 @@
   cursor: pointer;
   background-color: #fff;
   opacity: 1;
+  &.invalid {
+    border-color: #dc3545 !important;
+  }
 }
 
 .datepicker-container:has(.btn-clear-calendar) .datepicker-custom {

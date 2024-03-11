@@ -21,7 +21,7 @@
     [placement]="placement"
     class="form-control datepicker-custom"
     autocomplete="off"
-    [ngClass]="{ 'is-invalid': invalid }"
+    [ngClass]="{ 'is-invalid invalid': invalid }"
     [(ngModel)]="date"
     (ngModelChange)="changeDate($event)"
   >

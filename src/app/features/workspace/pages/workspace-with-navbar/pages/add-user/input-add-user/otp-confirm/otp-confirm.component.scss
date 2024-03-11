@@ -1,0 +1,55 @@
+.content-container {
+    background-color: #FFF;
+    padding: var(--content-padding);
+}
+
+.content-container h2, h3 {
+    color: var(--color-blue-exat);
+  }
+
+  .otp-input {
+    margin-top: 2rem;
+    // max-width: 50px;
+    // width: 100%;
+    // height: 60px;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    text-align: center;
+    padding: 5px;
+    // box-shadow: 5px 5px 8px #00000026;
+    border-radius: 8px;
+    border: 1px solid #CCCCCC;
+  }
+  
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+  
+  .otp-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .otp-form-wrapper {
+    // width: 33.33%;
+  }
+
+
+  .footer {
+    background-color: #FFF;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}

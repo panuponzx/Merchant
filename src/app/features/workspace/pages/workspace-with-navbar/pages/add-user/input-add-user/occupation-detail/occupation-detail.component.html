@@ -1,0 +1,141 @@
+<div class="content-container h-100">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 *ngIf="customerType === 1" class="content-title">เพิ่มผู้ใช้งาน - บุคคลทั่วไป</h1>
+            <h1 *ngIf="customerType === 2" class="content-title">เพิ่มผู้ใช้งาน - นิติบุคคล / องค์กร</h1>
+        </div>
+    </div>
+    <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
+        <hr class="hr-custom" />
+        <div class="p-3">
+            <form [formGroup]="form">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 mb-3">
+                        <h3 class="mb-3">ข้อมูลอาชีพ</h3>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="occupationInput">
+                                อาชีพ
+                            </label>
+                            <input class="form-control" data-testid="occupationInput" formControlName="occupation"
+                                id="occupationInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="companyNameInput">
+                                ชื่อที่ทำงาน
+                            </label>
+                            <input class="form-control" data-testid="companyNameInput" formControlName="companyName"
+                                id="companyNameInput" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-8 mb-3">
+                        <h3 class="mb-3">ที่อยู่ที่ทำงาน</h3>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 mb-3">
+                                <div class="col-12 mb-3">
+                                    <label class="label-input required-field" for="addressNoInput">
+                                        เลขที่
+                                    </label>
+                                    <input class="form-control" data-testid="addressNoInput" formControlName="addressNo"
+                                        id="addressNoInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="buildingInput">
+                                        อาคาร/คอนโด
+                                    </label>
+                                    <input class="form-control" data-testid="buildingInput" formControlName="building"
+                                        id="buildingInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="floorInput">
+                                        ชั้น
+                                    </label>
+                                    <input class="form-control" data-testid="floorInput" formControlName="floor"
+                                        id="floorInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="soiInput">
+                                        ซอย
+                                    </label>
+                                    <input class="form-control" data-testid="soiInput" formControlName="soi"
+                                        id="soiInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="streetInput">
+                                        ถนน
+                                    </label>
+                                    <input class="form-control" data-testid="streetInput" formControlName="street"
+                                        id="streetInput" type="text">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mb-3">
+                                <div class="col-12 mb-3">
+                                    <label class="label-input required-field" for="postalCodeInput">
+                                        รหัสไปรษณีย์
+                                    </label>
+                                    <input class="form-control" data-testid="postalCodeInput"
+                                        (keyup)="onKeyUpPostalCode($event)" mask="00000" formControlName="postalCode"
+                                        id="postalCodeInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input required-field" for="subDistrictInput">
+                                        แขวง/ตำบล
+                                    </label>
+                                    <ng-select 
+                                        class="form-control"
+                                        [clearable]="false" 
+                                        bindLabel="subdistrict.name"
+                                        id="subDistrictInput"
+                                        data-testid="subDistrictInput" 
+                                        formControlName="subDistrict" 
+                                        (change)="onChangeSubDistrict($event)"
+                                        [items]="postalCodeList">
+                                    </ng-select>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input required-field" for="districtInput">
+                                        เขต/อำเภอ
+                                    </label>
+                                    <ng-select 
+                                        class="form-control" 
+                                        [clearable]="false" 
+                                        bindLabel="name"
+                                        data-testid="districtInput" 
+                                        formControlName="district" 
+                                        (change)="onChangeDistrict($event)" 
+                                        id="districtInput"
+                                        [items]="districtList">
+                                    </ng-select>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input required-field" for="provinceInput">
+                                        จังหวัด
+                                    </label>
+                                    <ng-select 
+                                        class="form-control" 
+                                        [clearable]="false" 
+                                        bindLabel="name"
+                                        data-testid="provinceInput" 
+                                        formControlName="province" 
+                                        id="provinceInput"
+                                        [items]="provinceList">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr class="hr-custom mb-3" />
+    </div>
+    <div #footer class="footer d-flex justify-content-center gap-3">
+        <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
+            (click)="onBack()">
+            ย้อนกลับ
+        </button>
+        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
+            (click)="onNext()">
+            ถัดไป
+        </button>
+    </div>
+</div>
