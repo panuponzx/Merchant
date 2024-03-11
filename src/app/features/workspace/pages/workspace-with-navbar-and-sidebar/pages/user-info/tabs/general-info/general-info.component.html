@@ -67,7 +67,7 @@
               [items]="settingEmailList"
               [searchable]="false"
               [readonly]="!form.controls['email'].value"
-          ></ng-select>
+            ></ng-select>
           </div>
 
         </div>
@@ -389,6 +389,53 @@
                         formControlName="corporateName"
                         id="corporateNameInput"
                         type="text"
+                      >
+                    </div>
+
+                    <div class="form-group">
+                      <label class="label-input" for="branchTypeSelect">
+                        ประเภทสาขา
+                      </label>
+                      <ng-select
+                        bindLabel="name"
+                        bindValue="id"
+                        class="form-control"
+                        [clearable]="false"
+                        data-testid="branchTypeSelect"
+                        formControlName="branchType"
+                        id="branchTypeSelect"
+                        [items]="branchTypeList"
+                        [searchable]="false"
+                      ></ng-select>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="label-input" for="branchNameInput">
+                        ชื่อสาขา
+                      </label>
+                      <input
+                        idCard
+                        class="form-control"
+                        data-testid="branchNameInput"
+                        formControlName="branchName"
+                        id="branchNameInput"
+                        type="text"
+                        [readonly]="!form.controls['branchType'].value || form.controls['branchType'].value === 1"
+                      >
+                    </div>
+
+                    <div class="form-group">
+                      <label class="label-input" for="branchCodeInput">
+                        หมายเลขสาขาย่อย
+                      </label>
+                      <input
+                        idCard
+                        class="form-control"
+                        data-testid="branchCodeInput"
+                        formControlName="branchCode"
+                        id="branchCodeInput"
+                        type="text"
+                        [readonly]="!form.controls['branchType'].value || form.controls['branchType'].value === 1"
                       >
                     </div>
 

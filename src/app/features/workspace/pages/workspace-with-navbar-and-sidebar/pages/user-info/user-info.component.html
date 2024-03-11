@@ -118,7 +118,7 @@
           <li [ngbNavItem]="'device-list'">
             <button ngbNavLink>ข้อมูลอุปกรณ์</button>
             <ng-template ngbNavContent>
-              <device-list [customerId]="customerId"/>
+              <device-list [customerId]="customerId" [customerTypeId]="customerTypeId"/>
             </ng-template>
           </li>
         </ul>

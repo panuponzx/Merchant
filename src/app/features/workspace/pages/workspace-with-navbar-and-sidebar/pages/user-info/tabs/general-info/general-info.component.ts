@@ -17,14 +17,22 @@ export class GeneralInfoComponent {
   @Input() public customerId: string | null = null;
   @Input() public customerTypeId: string | null = null;
 
+  public customer: CustomerModel | undefined;
+  public addresses: AddressModel[] = [];
+
   public settingEmailList = [
     'เปิดการใช้งาน',
     'ยังไม่เปิดการใช้งาน'
   ];
+
   public minDate: Date = new Date();
 
-  public customer: CustomerModel | undefined;
-  public addresses: AddressModel[] = [];
+  public branchTypeList: { id: number, name: string }[] = [
+    { id: 1, name: 'สาขาหลัก' },
+    { id: 2, name: 'สาขาย่อย' },
+  ];
+
+
 
   public submitted: boolean = false;
   public form: FormGroup = new FormGroup({
@@ -49,6 +57,9 @@ export class GeneralInfoComponent {
     title: new FormControl(undefined, Validators.required),
     corporateName: new FormControl(undefined),
     corporatePhone: new FormControl(undefined),
+    branchType: new FormControl(undefined),
+    branchName: new FormControl(undefined),
+    branchCode: new FormControl(undefined),
     current_address: new FormGroup({}),
     registration_address: new FormGroup({}),
     work_address: new FormGroup({})
@@ -165,6 +176,12 @@ export class GeneralInfoComponent {
                   formControl['corporatePhone'].setValue(customer.corporatePhone);
                   formControl['corporatePhone'].addValidators([ Validators.required ]);
                   formControl['corporatePhone'].updateValueAndValidity();
+                  formControl['branchType'].addValidators([ Validators.required ]);
+                  formControl['branchType'].updateValueAndValidity();
+                  // formControl['branchName'].addValidators([ Validators.required ]);
+                  // formControl['branchName'].updateValueAndValidity();
+                  // formControl['branchCode'].addValidators([ Validators.required ]);
+                  // formControl['branchCode'].updateValueAndValidity();
                 }
                 addresses.forEach(x => {
                   const newFormGroup = new FormGroup({

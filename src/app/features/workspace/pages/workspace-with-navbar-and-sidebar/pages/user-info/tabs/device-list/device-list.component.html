@@ -1,7 +1,21 @@
 <div class="device-container">
+  <ng-container *ngIf="customerTypeId === '3'">
+    <div class="mb-4">
+      <button
+        class="custom-btn btn-type-1"
+        data-testid="addDeviceButton"
+        id="addDeviceButton"
+        title="เพิ่มอุปกรณ์ (ประเภท 9)"
+        [disabled]="isLoading"
+        (click)="onAddDevice()"
+      >
+        เพิ่มอุปกรณ์ (ประเภท 9)
+      </button>
+    </div>
+  </ng-container>
+
   <div class="device-header-wrapper mb-3">
     <h2>ข้อมูล OBU และ รถยนต์</h2>
-
     <div class="navs-container">
       <ul
         ngbNav

@@ -11,6 +11,7 @@ import { RestApiService } from '../../../../../../../../core/services';
 export class DeviceListComponent implements OnInit {
 
   @Input() public customerId: string | null = null;
+  @Input() public customerTypeId: string | null = null;
 
   public activeTab: 'active' | 'unactive' | undefined;
 
@@ -148,6 +149,10 @@ export class DeviceListComponent implements OnInit {
         return newCar;
       });
     this.unactiveRows = [...newCars];
+  }
+
+  onAddDevice() {
+
   }
 
   onChangePage(event: number) {
