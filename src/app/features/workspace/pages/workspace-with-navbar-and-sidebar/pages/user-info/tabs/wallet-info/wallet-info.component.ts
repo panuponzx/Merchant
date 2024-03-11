@@ -32,7 +32,9 @@ export class WalletInfoComponent implements OnInit {
   ];
 
   public walletList: any[] = [];
+  public defaultWalletList: any[] = [];
   public isLoading: boolean = false;
+  public search: string | undefined;
 
   public limitRow: number = 5;
   public pages: number = 1;
@@ -70,6 +72,22 @@ export class WalletInfoComponent implements OnInit {
       });
   }
 
+  onChangeSearch() {
+    if (this.search) {
+      this.walletList = [...this.defaultWalletList]
+        .filter(y => {
+          if (y && y.row) {
+            const isMatch = y.row.findIndex((x: any) => x.obuPan.match(this.search) || x.smartcardNo.match(this.search)) !== -1;
+            if (isMatch) {
+              return y;
+            }
+          }
+        });
+    } else {
+      this.walletList = [...this.defaultWalletList];
+    }
+  }
+
   setWallet(lstSummary: WalletSummaryModel[]) {
     let walletArr: any = [];
     lstSummary.forEach((wallet) => {
@@ -102,7 +120,8 @@ export class WalletInfoComponent implements OnInit {
           }
         });
       })
-    })
+    });
+    this.defaultWalletList = [...walletArr];
     this.walletList = [...walletArr];
   }
 

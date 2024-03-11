@@ -120,19 +120,19 @@
           class="nav-tabs nav-tabs-header"
         >
           <li [ngbNavItem]="'billing-pending'">
-            <button ngbNavLink>ข้อมูลทั่วไป</button>
+            <button ngbNavLink>รอการชำระเงิน</button>
             <ng-template ngbNavContent>
               <billing-pending></billing-pending>
             </ng-template>
           </li>
           <li [ngbNavItem]="'pay-information'">
-            <button ngbNavLink>ข้อมูลกระเป๋าเงิน</button>
+            <button ngbNavLink>ชำระแล้ว</button>
             <ng-template ngbNavContent>
               <pay-information></pay-information>
             </ng-template>
           </li>
           <li [ngbNavItem]="'topup-information'">
-            <button ngbNavLink>ข้อมูลคะแนน</button>
+            <button ngbNavLink>เติมเงิน</button>
             <ng-template ngbNavContent>
               <topup-information
                 [tempSearch]="tempSearch"
