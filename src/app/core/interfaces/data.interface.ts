@@ -96,24 +96,21 @@ export interface TransactionModel {
 
 export interface TopupModel {
   transactionId: string,
-  walletId: number,
-  amount: number,
-  createDate: Date,
-  properties: {
-      amount: number,
-      bankAccountNo: string,
-      bankName: string,
-      entry_hq: number,
-      entry_plaza: number,
-      exit_hq: number,
-      exit_plaza: number,
-      transactionDate: Date
-  },
+  amount: 50,
+  bankAccountNo: string,
+  bankName: string,
   isCancelled: boolean,
-  wallet: {
-      id: number,
-      walletName: string
-  }
+  paymentMethod: string,
+  settlementCode: string,
+  status: string,
+  transactionDate: Date,
+  typeId: string,
+  walletId: number,
+  walletName: string,
+  walletStatus: number,
+  walletTypeId: number,
+  createBy: string,
+  createDate: Date
 }
 
 export interface ZipcodeModel {
@@ -152,4 +149,39 @@ export interface ProvinceModel {
   id: number,
   name: string,
   nameEn: string
+}
+
+export interface PassageInformationModel {
+  transactionId: string,
+  walletId: number,
+  amount: number,
+  createDate: Date,
+  properties: {
+    recordId: string,
+    amount: number,
+    entry_hq: number,
+    entry_plaza: number,
+    exit_hq: number,
+    exit_plaza: number,
+    obuPan: string,
+    requestDate: Date,
+    transactionDate: Date,
+    typeId: string,
+    category: string,
+    smartcardNo: string,
+    raw: {
+      exit_hq: number,
+      entry_hq: number,
+      trn_uuid: string,
+      exit_lane: number,
+      entry_lane: number,
+      exit_plaza: number,
+      entry_plaza: number
+    }
+  },
+  isCancelled: boolean,
+  wallet: {
+    id: number,
+    walletName: string
+  }
 }

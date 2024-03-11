@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, map, Observable, zip } from 'rxjs';
-import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, ResponseHistoryModel, RowActionEventModel, TransactionModel, WalletSummaryModel } from '../../../../../../core/interfaces';
-import { HistoryPayloadModel } from '../../../../../../core/interfaces/payload.interface';
+import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel, PassageInformationModel, PassageInformationPayloadModel, ResponsePassageInformationModel } from '../../../../../../core/interfaces';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
 
@@ -33,7 +32,7 @@ export class PassageInfoComponent implements OnInit {
     lstObus: []
   }
 
-  public rows: TransactionModel[] = [];
+  public rows: PassageInformationModel[] = [];
   public limitRow: number = 10;
   public pages: number = 1;
   public collectionSize: number = 0;
@@ -41,12 +40,12 @@ export class PassageInfoComponent implements OnInit {
     { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm:ss', locale: 'th' } },
     { id: 'route', name: 'Route', label: 'สายทาง', prop: 'route', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'building', name: 'Building', label: 'อาคารด่าน', prop: 'building', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'walletName', name: 'Wallet Name', label: 'กระเป่าเงิน', prop: 'walletName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'obuSerialNo', name: 'OBU serial no.', label: 'OBU serial no.', prop: 'obuPan', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'Smart card serial no.', prop: 'smartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
-    { id: 'amount', name: 'amount', label: 'จำนวนเงิน', prop: 'amount', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'number', numberFormat: '1.2-2' },
+    { id: 'walletName', name: 'Wallet Name', label: 'กระเป่าเงิน', prop: 'wallet.walletName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'obuSerialNo', name: 'OBU serial no.', label: 'OBU serial no.', prop: 'properties.obuPan', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'Smart card serial no.', prop: 'properties.smartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'amount', name: 'amount', label: 'จำนวนเงิน', prop: 'properties.amount', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'number', numberFormat: '1.2-2' },
     { id: 'taxInvoice', name: 'Tax Invoice', label: 'ใบกำกับภาษี', prop: 'taxInvoice', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'check-uncheck' },
-    { id: 'cancel', name: 'Cancel', label: 'การยกเลิก', prop: 'cancelStatus', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red-exat', textCondition1: 'ยกเลิกแล้ว', textCondition2: '-' } },
+    { id: 'cancel', name: 'Cancel', label: 'การยกเลิก', prop: 'isCancelled', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red-exat', textCondition1: 'ยกเลิกแล้ว', textCondition2: '-' } },
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description',iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
@@ -57,7 +56,7 @@ export class PassageInfoComponent implements OnInit {
     walletId: new FormControl(this.allWallet.walletId, [ Validators.required ])
   });
 
-  public tempSearch: HistoryPayloadModel | undefined;
+  public tempSearch: PassageInformationPayloadModel | undefined;
 
   public isLoading: boolean = false;
   public isLoadingSearch: boolean = false;
@@ -130,37 +129,36 @@ export class PassageInfoComponent implements OnInit {
     if (this.form.invalid || this.isLoadingSearch) return;
     const searchValue = this.getSearchValue(1);
     this.tempSearch = searchValue;
-    this.pages = searchValue.offset;
-    this.loadHistory(searchValue);
+    this.pages = searchValue.page;
+    this.loadPassageInformation(searchValue);
   }
 
-  getSearchValue(page: number): HistoryPayloadModel {
+  getSearchValue(page: number): PassageInformationPayloadModel {
     const formValue = this.form.value;
     const { walletId, startDate, endDate } = formValue;
-    const newStartDate = this.transformDatePipe.transform(startDate, 'YYYY-MM-DD');
-    const newEndDate = this.transformDatePipe.transform(startDate, 'YYYY-MM-DD');
-    // const value: HistoryPayloadModel = { walletId: walletId, startDate: newStartDate, endDate: newEndDate, offset: 1, limit: this.limitRow };
-    const value: HistoryPayloadModel = { walletId: '5111000000180', startDate: '2024-03-01', endDate: newEndDate, offset: page, limit: this.limitRow  }
+    const from = this.transformDatePipe.transform(startDate, 'YYYY-MM-DD');
+    const to = this.transformDatePipe.transform(endDate, 'YYYY-MM-DD');
+    const value: PassageInformationPayloadModel = { walletId: walletId, from: from, to: to, page: page }
     return value;
   }
 
-  loadHistory(data: HistoryPayloadModel) {
+  loadPassageInformation(data: PassageInformationPayloadModel) {
     this.isLoadingSearch = true;
     const mockupData = {
       requestParam: {
           reqId: "23498-sss-k339c-322s2",
           channelId: "1"
       },
-      date: data.startDate,
+      from: data.from,
+      to: data.to,
       walletId: data.walletId,
-      limit: data.limit,
-      offset: data.offset
+      page: data.page
     };
     this.restApiService
-      .post('get-transactions-history', mockupData)
+      .post('transaction-history/get-passage', mockupData)
       .pipe(
         first(),
-        map(res => res as ResponseHistoryModel)
+        map(res => res as ResponsePassageInformationModel)
       )
       .subscribe({
         next: (res) => {
@@ -172,6 +170,7 @@ export class PassageInfoComponent implements OnInit {
         },
         error: (err) => {
           console.error(err);
+          this.tempSearch = undefined;
           this.isLoadingSearch = false;
         }
       })
@@ -185,7 +184,7 @@ export class PassageInfoComponent implements OnInit {
     this.pages = event;
     const searchValue = this.getSearchValue(this.pages);
     this.tempSearch = this.tempSearch;
-    this.loadHistory(searchValue);
+    this.loadPassageInformation(searchValue);
   }
 
   onAction(event: RowActionEventModel) {

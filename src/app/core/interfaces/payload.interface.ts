@@ -1,9 +1,20 @@
-import { DateType } from "../types";
-
 export interface HistoryPayloadModel {
   walletId: string,
-  startDate?: Date | string | undefined | null,
-  endDate?: Date | string | undefined | null,
-  offset: number,
-  limit: number
+  from?: Date | string | undefined | null,
+  to?: Date | string | undefined | null,
+  page: number
+}
+
+export interface PassageInformationPayloadModel {
+  walletId: string,
+  from?: Date | string | undefined | null,
+  to?: Date | string | undefined | null,
+  page: number,
+}
+
+export interface TopupPayloadModel {
+  walletId: string,
+  from?: Date | string | undefined | null,
+  to?: Date | string | undefined | null,
+  page: number
 }

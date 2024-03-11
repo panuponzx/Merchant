@@ -121,10 +121,9 @@ export class TopupAndPaymentInformationComponent implements OnInit {
   getSearchValue(page: number): HistoryPayloadModel {
     const formValue = this.form.value;
     const { walletId, startDate, endDate } = formValue;
-    const newStartDate = this.transformDatePipe.transform(startDate, 'YYYY-MM-DD', 'th');
-    const newEndDate = this.transformDatePipe.transform(endDate, 'YYYY-MM-DD', 'th');
-    // const value: HistoryPayloadModel = { walletId: walletId, startDate: newStartDate, endDate: newEndDate, offset: 1, limit: this.limitRow };
-    const value: HistoryPayloadModel = { walletId: '5111000000180', startDate: '2024-03-01', endDate: endDate, offset: 1, limit: this.limitRow };
+    const from = this.transformDatePipe.transform(startDate, 'YYYY-MM-DD', 'th');
+    const to = this.transformDatePipe.transform(endDate, 'YYYY-MM-DD', 'th');
+    const value: HistoryPayloadModel = { walletId: walletId, from: from, to: to, page: page };
     return value;
   }
 
