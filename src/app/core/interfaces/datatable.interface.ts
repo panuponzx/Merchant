@@ -17,12 +17,18 @@ export interface CustomColumnModel {
   minWidth: number,
   headerClass?: string,
   cellClass?: string,
-  type: 'no' | 'number' | 'text' | 'date' | 'action' | 'check-uncheck' ,
+  type: 'no' | 'number' | 'text' | 'date' | 'action' | 'check-uncheck' | 'text-with-boolean' ,
   actionIcon?: {
     actionName: string,
     iconName: string,
     color: string,
     size: string
+  },
+  textWithBoolean?: {
+    classCondition1?: string,
+    classCondition2?: string,
+    textCondition1: string,
+    textCondition2: string
   }
   numberFormat?: string,
   date?: {

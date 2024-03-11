@@ -56,7 +56,17 @@
               {{ (pages - 1) * limitRow + rowIndex + 1 }}
             </ng-container>
             <ng-container *ngIf="column.type === 'text'">
-              {{ value ? value : "-" }}
+              {{ value ? value : '-' }}
+            </ng-container>
+            <ng-container *ngIf="column.type === 'text-with-boolean'">
+              <ng-container *ngIf="!value; else textFalseEl;">
+                <span [ngClass]="column.textWithBoolean?.classCondition1 ? column.textWithBoolean?.classCondition1 : null">
+                  {{ column.textWithBoolean?.textCondition1 }}
+                </span>
+              </ng-container>
+              <ng-template #textFalseEl>
+                <span [ngClass]="column.textWithBoolean?.classCondition2 ? column.textWithBoolean?.classCondition2 : null">{{ column.textWithBoolean?.textCondition2 }}</span>
+              </ng-template>
             </ng-container>
             <ng-container *ngIf="column.type === 'date'">
               {{ value ? (value | transformDate : column.date?.format : column.date?.locale) : "-" }}
@@ -152,3 +162,4 @@
   </ng-template>
 
 </div>
+

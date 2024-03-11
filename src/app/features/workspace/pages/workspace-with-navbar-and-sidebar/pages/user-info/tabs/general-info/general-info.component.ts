@@ -190,18 +190,22 @@ export class GeneralInfoComponent {
                     createDate: new FormControl(x.createDate),
                     customerId: new FormControl(x.customerId),
                     districtCode: new FormControl(x.districtCode, [ Validators.required ]),
+                    // districtCode: new FormControl('1036', [ Validators.required ]), // Demo
                     floor: new FormControl(x.floor),
                     provinceCode: new FormControl(x.provinceCode, [ Validators.required ]),
+                    // provinceCode: new FormControl('19', [ Validators.required ]), // Demo
                     remark: new FormControl(x.remark),
                     soi: new FormControl(x.soi),
                     street: new FormControl(x.street),
                     subdistrictCode: new FormControl(x.subdistrictCode, [ Validators.required ]),
+                    // subdistrictCode: new FormControl('103602'), // Demo
                     typeId: new FormControl(x.typeId),
                     typeName: new FormControl(x.typeName),
                     alley: new FormControl(x.alley),
                     village: new FormControl(x.village),
                     villageNo: new FormControl(x.villageNo),
                     zipcode: new FormControl(x.zipcode, [ Validators.required ])
+                    // zipcode: new FormControl('10210') // Demo
                   });
                   if (x.typeId === 1) {
                     formControl['registration_address'] = newFormGroup;

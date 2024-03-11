@@ -115,3 +115,41 @@ export interface TopupModel {
       walletName: string
   }
 }
+
+export interface ZipcodeModel {
+  code: string
+  districtId: number,
+  id: number,
+  provinceId: number,
+  subdistrict: SubdistrictModel
+  subdistrictCode: string
+}
+
+export interface SubdistrictModel {
+  code: string,
+  district: DistrictModel,
+  districtId: number
+  geoId: number,
+  id: number,
+  name: string,
+  nameEn: string,
+  provinceId: number
+}
+
+export interface DistrictModel {
+  code: string,
+  geoId: number,
+  id: number,
+  name: string,
+  nameEn: string,
+  province: ProvinceModel,
+  provinceId: number
+}
+
+export interface ProvinceModel {
+  code: string,
+  geoId: number,
+  id: number,
+  name: string,
+  nameEn: string
+}
