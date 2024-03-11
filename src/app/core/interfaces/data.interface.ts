@@ -83,3 +83,105 @@ export interface CustomerModel {
   corporateName?: string,
   corporatePhone?: string
 }
+
+export interface TransactionModel {
+  amount: number,
+  createDate: string,
+  transactionId: string,
+  typeId: string,
+  walletId: number,
+  walletStatus: number,
+  walletTypeId: number
+}
+
+export interface TopupModel {
+  transactionId: string,
+  amount: 50,
+  bankAccountNo: string,
+  bankName: string,
+  isCancelled: boolean,
+  paymentMethod: string,
+  settlementCode: string,
+  status: string,
+  transactionDate: Date,
+  typeId: string,
+  walletId: number,
+  walletName: string,
+  walletStatus: number,
+  walletTypeId: number,
+  createBy: string,
+  createDate: Date
+}
+
+export interface ZipcodeModel {
+  code: string
+  districtId: number,
+  id: number,
+  provinceId: number,
+  subdistrict: SubdistrictModel
+  subdistrictCode: string
+}
+
+export interface SubdistrictModel {
+  code: string,
+  district: DistrictModel,
+  districtId: number
+  geoId: number,
+  id: number,
+  name: string,
+  nameEn: string,
+  provinceId: number
+}
+
+export interface DistrictModel {
+  code: string,
+  geoId: number,
+  id: number,
+  name: string,
+  nameEn: string,
+  province: ProvinceModel,
+  provinceId: number
+}
+
+export interface ProvinceModel {
+  code: string,
+  geoId: number,
+  id: number,
+  name: string,
+  nameEn: string
+}
+
+export interface PassageInformationModel {
+  transactionId: string,
+  walletId: number,
+  amount: number,
+  createDate: Date,
+  properties: {
+    recordId: string,
+    amount: number,
+    entry_hq: number,
+    entry_plaza: number,
+    exit_hq: number,
+    exit_plaza: number,
+    obuPan: string,
+    requestDate: Date,
+    transactionDate: Date,
+    typeId: string,
+    category: string,
+    smartcardNo: string,
+    raw: {
+      exit_hq: number,
+      entry_hq: number,
+      trn_uuid: string,
+      exit_lane: number,
+      entry_lane: number,
+      exit_plaza: number,
+      entry_plaza: number
+    }
+  },
+  isCancelled: boolean,
+  wallet: {
+    id: number,
+    walletName: string
+  }
+}

@@ -101,21 +101,8 @@
         id="zipcodeInput"
         data-testid="zipcodeInput"
         type="text"
+        (ngModelChange)="onChangeZipcode($event)"
       />
-    </div>
-
-    <div class="form-group">
-      <label class="label-input required-field" for="districtSelect">
-        เขต/อำเภอ
-      </label>
-      <ng-select
-        class="form-control"
-        [clearable]="false"
-        data-testid="districtSelect"
-        formControlName="districtCode"
-        id="districtSelect"
-        [items]="[]"
-      ></ng-select>
     </div>
 
     <div class="form-group">
@@ -123,12 +110,35 @@
         แขวง/ตำบล
       </label>
       <ng-select
+        bindLabel="name"
+        bindValue="code"
         class="form-control"
         [clearable]="false"
         data-testid="subdistrictSelect"
         formControlName="subdistrictCode"
         id="subdistrictSelect"
-        [items]="[]"
+        [items]="subdistricts"
+        [loading]="isLoading"
+        [readonly]="!form.controls['zipcode'].value || subdistricts.length === 0 || isLoading"
+        (ngModelChange)="onChangeSubdistrict($event)"
+      ></ng-select>
+    </div>
+
+    <div class="form-group">
+      <label class="label-input required-field" for="districtSelect">
+        เขต/อำเภอ
+      </label>
+      <ng-select
+        bindLabel="name"
+        bindValue="code"
+        class="form-control"
+        [clearable]="false"
+        data-testid="districtSelect"
+        formControlName="districtCode"
+        id="districtSelect"
+        [items]="districts"
+        [loading]="isLoading"
+        [readonly]="true"
       ></ng-select>
     </div>
 
@@ -137,12 +147,16 @@
         จังหวัด
       </label>
       <ng-select
+        bindLabel="name"
+        bindValue="code"
         class="form-control"
         [clearable]="false"
         data-testid="provinceSelect"
         formControlName="provinceCode"
         id="provinceSelect"
-        [items]="[]"
+        [items]="provinces"
+        [loading]="isLoading"
+        [readonly]="true"
       ></ng-select>
     </div>
   </form>

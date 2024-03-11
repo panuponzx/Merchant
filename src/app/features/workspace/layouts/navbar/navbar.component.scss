@@ -18,12 +18,6 @@
     height: 48.67px;
 }
 
-.navbar-text {
-    color: #2255CE;
-    position: relative;
-    right: 30px;
-}
-
 .navbar-brand {
     position: relative; /* กำหนดให้เป็นองค์ประกอบแบบ absolute */
     left: 70px; /* ชิดซ้ายของรูป */
@@ -36,12 +30,43 @@
 
 
 .circle-navbar {
-    width: 45%;
-    height: 70px;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    user-select: none;
+  width: 45%;
+  height: 70px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  user-select: none;
+}
+
+// Dropdown Profile
+
+.navbar-profile-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  color: var(--color-blue-exat);
+  position: relative;
+}
+
+.navbar-profile-wrapper .nav-profile {
+  position: unset;
+}
+
+.navbar-profile-wrapper .nav-profile .dropdown-menu {
+  width: 100%;
+  background: var(--color-blue-gradient);
+  padding: 0.5rem;
+}
+
+.navbar-profile-wrapper .nav-profile .dropdown-menu .dropdown-item {
+  cursor: pointer;
+  color: var(--color-white);
+  margin-bottom: 0rem;
+}
+
+.navbar-profile-wrapper .nav-profile .dropdown-menu .dropdown-item:hover {
+  font-weight: bold;
+  background-color: var(--color-blue-exat);
+  border-radius: var(--border-radius);
 }
 
 

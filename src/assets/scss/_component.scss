@@ -6,6 +6,9 @@
   opacity: 1;
   border-color: var(--color-blue-2);
   margin: 0rem;
+  &.light {
+    border-color: var(--color-white) !important;
+  }
 }
 
 // Navs
@@ -14,19 +17,33 @@ ul.nav-tabs {
   border-bottom: unset;
   background-color: var(--color-blue-2);
   border-radius: 12px;
-  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+ul.nav-tabs.nav-tabs-header {
+  width: fit-content;
+}
+
+ul.nav-tabs.nav-tabs-content {
+  width: 100%;
+}
+
 ul.nav-tabs li {
   min-height: 45px;
   padding: 4px;
-  width: 144px;
   position: relative;
   display: flex;
   align-items: center;
+}
+
+ul.nav-tabs.nav-tabs-header li {
+  width: 144px;
+}
+
+ul.nav-tabs.nav-tabs-content li {
+  flex: 1;
 }
 
 ul.nav-tabs li button.nav-link {
@@ -35,6 +52,7 @@ ul.nav-tabs li button.nav-link {
   border-radius: 8px;
   color: var(--color-silver);
   width: 100%;
+  font-size: 14px;
 }
 
 ul.nav-tabs li button.nav-link:hover {
@@ -81,6 +99,10 @@ ng-select.ng-select.form-control .ng-select-container {
   top: unset;
 }
 
+.ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  color: var(--placeholder-color);
+}
+
 ng-select.ng-select.form-control .ng-select-container:hover {
   box-shadow: unset;
 }
@@ -107,3 +129,26 @@ ng-select.ng-select.form-control .ng-select-container .ng-value-container .ng-in
   cursor: auto;
 }
 
+// User Type Info
+
+.user-type-container {
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+.user-type-container .user-type-info-wrapper {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: start;
+}
+
+.user-type-container .user-type-info-wrapper h3 {
+  color: var(--color-blue-exat);
+}
+
+.user-type-container .user-type-info-wrapper .custom-badge {
+  line-height: 24px;
+  min-width: 90px;
+}

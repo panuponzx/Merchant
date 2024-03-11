@@ -28,11 +28,13 @@ export class WalletInfoComponent implements OnInit {
     { id: 'type', name: 'Type', label: 'ประเภท', prop: 'type', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'obuSerialNo', name: 'OBU serial no.', label: 'OBU serial no.', prop: 'obuPan', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'Smart card serial no.', prop: 'smartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
-    { id: 'edit', name: 'Edit', label: 'แก้ไข', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { iconName: 'list', size: 'l', color: '#2255CE' } }
+    { id: 'edit', name: 'Edit', label: 'แก้ไข', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'edit', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
   public walletList: any[] = [];
+  public defaultWalletList: any[] = [];
   public isLoading: boolean = false;
+  public search: string | undefined;
 
   public limitRow: number = 5;
   public pages: number = 1;
@@ -43,50 +45,10 @@ export class WalletInfoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.activeRows = [
-    //   {
-    //     brand: 'brand',
-    //     model: 'model',
-    //     color: 'color',
-    //     licensePlate: 'licensePlate',
-    //     yearRegistration: 'yearRegistration',
-    //     type: '1',
-    //     obuSerialNo: 'obuSerialNo',
-    //     smartCardSerialNo: 'smartCardSerialNo',
-    //   },
-    //   {
-    //     brand: 'brand',
-    //     model: 'model',
-    //     color: 'color',
-    //     licensePlate: 'licensePlate',
-    //     yearRegistration: 'yearRegistration',
-    //     type: '1',
-    //     obuSerialNo: 'obuSerialNo',
-    //     smartCardSerialNo: 'smartCardSerialNo',
-    //   },
-    //   {
-    //     brand: 'brand',
-    //     model: 'model',
-    //     color: 'color',
-    //     licensePlate: 'licensePlate',
-    //     yearRegistration: 'yearRegistration',
-    //     type: '1',
-    //     obuSerialNo: 'obuSerialNo',
-    //     smartCardSerialNo: 'smartCardSerialNo',
-    //   }
-    // ];
-    this.getActive();
+    this.loadWalletInfo();
   }
 
-  onChangePage(event: number) {
-    this.pages = event;
-  }
-
-  onAction(event: RowActionEventModel) {
-    console.info(event)
-  }
-
-  getActive() {
+  loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
       requestParam: {
@@ -101,18 +63,32 @@ export class WalletInfoComponent implements OnInit {
         map(res => res as ReponseWalletSummaryModel)
       ).subscribe({
         next: (res) => {
-          this.setActive(res.lstSummary);
+          this.setWallet(res.lstSummary);
           this.isLoading = false;
         },
         error: (err) => {
           console.error(err);
         }
-      })
-
+      });
   }
 
-  setActive(lstSummary: WalletSummaryModel[]) {
-    console.log("[setActive] lstSummary => ", lstSummary);
+  onChangeSearch() {
+    if (this.search) {
+      this.walletList = [...this.defaultWalletList]
+        .filter(y => {
+          if (y && y.row) {
+            const isMatch = y.row.findIndex((x: any) => x.obuPan.match(this.search) || x.smartcardNo.match(this.search)) !== -1;
+            if (isMatch) {
+              return y;
+            }
+          }
+        });
+    } else {
+      this.walletList = [...this.defaultWalletList];
+    }
+  }
+
+  setWallet(lstSummary: WalletSummaryModel[]) {
     let walletArr: any = [];
     lstSummary.forEach((wallet) => {
       wallet.lstObus.forEach((obu: any) => {
@@ -141,13 +117,20 @@ export class WalletInfoComponent implements OnInit {
                 walletTypeName: wallet.walletTypeName,
               });
             }
-            console.log("[setActive] hasDuplicateId => ", hasDuplicateId);
           }
         });
       })
-    })
+    });
+    this.defaultWalletList = [...walletArr];
     this.walletList = [...walletArr];
-    console.log("[setActive] walletList => ", this.walletList);
+  }
+
+  onChangePage(event: number) {
+    this.pages = event;
+  }
+
+  onAction(event: RowActionEventModel) {
+    console.info(event)
   }
 
 }

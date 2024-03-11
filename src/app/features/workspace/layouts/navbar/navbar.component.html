@@ -21,14 +21,43 @@
           />
         </li>
       </ul>
-      <div class="navbar-text">
-        สวัสดี, คุณ ทดสอบ อีแสตมป์ดิวตี้
-        <icon-svg
-          class="user-search"
-          [color]="'#2255CE'"
-          [path]="'assets/images/icons/user-search.svg'"
-          [size]="'m'"
-        />
+      <div class="navbar-profile-wrapper">
+        สวัสดี, {{ user?.username }}
+
+        <div
+          ngbDropdown
+          [autoClose]="true"
+          class="nav-profile dropdown"
+        >
+          <button
+            ngbDropdownToggle
+            data-testid="profileDropdownLink"
+            id="profileDropdownLink"
+            class="nav-link dropdown-toggle"
+            title="profile"
+          >
+            <icon-svg
+              class="user-search"
+              [color]="'#2255CE'"
+              [path]="'assets/images/icons/user-setting.svg'"
+              [size]="'28px'"
+            />
+          </button>
+          <div
+            ngbDropdownMenu
+            class="dropdown-menu"
+            aria-labelledby="profileDropdownLink"
+          >
+            <a
+              ngbDropdownItem
+              class="dropdown-item h3"
+              data-testid="logoutLink"
+              id="logoutLink"
+              title="ออกจากระบบ"
+              (click)="onLogout()"
+            >ออกจากระบบ</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

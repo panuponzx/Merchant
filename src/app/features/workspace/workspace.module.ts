@@ -22,7 +22,12 @@ import {
   AddressComponent,
   WalletInfoComponent,
   LoyaltyPointInfoComponent,
-  DeviceListComponent
+  DeviceListComponent,
+  PassageInfoComponent,
+  TopupAndPaymentInformationComponent,
+  BillingPendingComponent,
+  PayInformationComponent,
+  TopupInformationComponent
 } from './pages';
 
 import { NavbarComponent, SidebarComponent } from './layouts';
@@ -63,12 +68,20 @@ import { InputJuristicAttachDocumentComponent } from './pages/workspace-with-nav
     OtpRequestComponent,
     OtpConfirmComponent,
     InputJuristicInfoComponent,
-    InputJuristicAttachDocumentComponent
+    InputJuristicAttachDocumentComponent,
+    PassageInfoComponent,
+    TopupAndPaymentInformationComponent,
+    BillingPendingComponent,
+    PayInformationComponent,
+    TopupInformationComponent
   ],
   imports: [
     CommonModule,
     WorkspaceRoutingModule,
     ShareModule,
+    NgxDatatableModule,
+    ReactiveFormsModule,
+    FormsModule,
     NgxCurrencyDirective,
     NgxCopyPasteDirective,
     NgbNavModule,
@@ -89,7 +102,10 @@ import { InputJuristicAttachDocumentComponent } from './pages/workspace-with-nav
     LoyaltyPointInfoComponent,
     DeviceListComponent,
     AddressComponent,
-    DatatableComponent
+    DatatableComponent,
+    BillingPendingComponent,
+    PayInformationComponent,
+    TopupInformationComponent
   ],
   providers: [provideNgxMask()]
 })

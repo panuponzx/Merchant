@@ -9,7 +9,9 @@ import {
   SearchUserComponent,
   MenuOptionComponent,
   WorkspaceWithNavbarAndSidebarComponent,
-  UserInfoComponent
+  UserInfoComponent,
+  PassageInfoComponent,
+  TopupAndPaymentInformationComponent
 } from './pages';
 import { AddUserComponent } from './pages/workspace-with-navbar/pages/add-user/add-user.component';
 import { InputAddUserComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-add-user.component';
@@ -42,24 +44,7 @@ export const routesConfig: CustomRoutesModel = [
             id: 'addUserRoute',
             path: 'add-user',
             component: AddUserComponent,
-            // children: [
-            //   {
-            //     id: 'personalInfo',
-            //     path: 'add-user/personal-info',
-            //     component: PersonalInfoComponent,
-            //   }
-            // ]
           },
-          // {
-          //   id: 'personalInfo',
-          //   path: 'add-user/personal-info',
-          //   component: PersonalInfoComponent,
-          // },
-          // {
-          //   id: 'personalInfo',
-          //   path: 'add-user/:customerType',
-          //   component: AddUserInfoComponent,
-          // }
           {
             id: 'personalInfo',
             path: 'add-user/:customerType',

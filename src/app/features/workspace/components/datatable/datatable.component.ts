@@ -20,10 +20,13 @@ export class DatatableComponent {
   @Input() public columns: CustomColumnModel[] = [];
   @Input() public headerHeight: number = 0;
   @Input() public rowHeight: any = 'auto';
+  @Input() public customDatatableContainerClass: string | undefined;
+  @Input() public customDatatableContentClass: string | undefined;
   @Input() public customDatatableClass: string | undefined;
   @Input() public customDatatableFooterClass: string | undefined;
   @Input() public isLoading: boolean = false;
   @Input() public footer: boolean = true;
+  @Input() public externalPaging: boolean = false;
 
   @Input() public footerOptions: { info: boolean } = {
     info: true

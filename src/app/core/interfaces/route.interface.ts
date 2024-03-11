@@ -21,5 +21,6 @@ export interface CustomRouteDataModel {
   label?: string,
   is_sidebar?: boolean,
   default_path?: string,
-  allowed_tabs?: string[]
+  allowed_tabs?: string[],
+  request_id?: boolean
 }
