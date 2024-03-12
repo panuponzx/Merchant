@@ -130,7 +130,7 @@ export class GeneralInfoComponent {
   }
 
   onUpdate() {
-
+    console.log("[onUpdate] form => ", this.form.value);
   }
 
   onUpload() {

@@ -58,7 +58,7 @@ export class InputIdcardAddressComponent implements AfterContentInit, OnInit {
   }
 
   ngOnInit(): void {
-    if(this.form?.value.postalCode.length === 5) {
+    if(this.form?.value.postalCode &&this.form?.value.postalCode.length === 5) {
       this.postalCodeChanged.next(this.form?.value.postalCode);
     }
   }

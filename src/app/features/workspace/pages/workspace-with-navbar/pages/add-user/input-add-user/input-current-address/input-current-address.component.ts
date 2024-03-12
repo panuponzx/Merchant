@@ -58,6 +58,9 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
   }
 
   ngOnInit(): void {
+    if(this.form?.value.postalCode &&this.form?.value.postalCode.length === 5) {
+      this.postalCodeChanged.next(this.form?.value.postalCode);
+    }
     if(this.form.get('isCurrentAddressSameIdcard').value) {
       this.patchValueAddressSameIdcard();
     }

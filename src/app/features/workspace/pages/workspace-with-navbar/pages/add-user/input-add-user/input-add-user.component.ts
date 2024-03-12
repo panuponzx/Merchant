@@ -58,28 +58,28 @@ export class InputAddUserComponent {
     //   cardExpDate: new FormControl(new Date('2028-10-19'), Validators.required),
     //   gender: new FormControl('M', Validators.required),
     // });
-    // this.addressInfoForm = this.formBuilder.group({
-    //   addressNo: new FormControl(undefined, Validators.required),
-    //   building: new FormControl(undefined),
-    //   floor: new FormControl(undefined),
-    //   soi: new FormControl(undefined),
-    //   street: new FormControl(undefined),
-    //   postalCode: new FormControl(undefined, Validators.required),
-    //   subDistrict: new FormControl(undefined, Validators.required),
-    //   district: new FormControl(undefined, Validators.required),
-    //   province: new FormControl(undefined, Validators.required),
-    // });
     this.addressInfoForm = this.formBuilder.group({
-      addressNo: new FormControl('216', Validators.required),
+      addressNo: new FormControl(undefined, Validators.required),
       building: new FormControl(undefined),
       floor: new FormControl(undefined),
-      soi: new FormControl('อนามัยงามเจริญ31'),
-      street: new FormControl('พระรามที่2'),
-      postalCode: new FormControl('10150', Validators.required),
+      soi: new FormControl(undefined),
+      street: new FormControl(undefined),
+      postalCode: new FormControl(undefined, Validators.required),
       subDistrict: new FormControl(undefined, Validators.required),
-      district: new FormControl({ value: undefined, disabled: false }, Validators.required),
+      district: new FormControl(undefined, Validators.required),
       province: new FormControl(undefined, Validators.required),
     });
+    // this.addressInfoForm = this.formBuilder.group({
+    //   addressNo: new FormControl('216', Validators.required),
+    //   building: new FormControl(undefined),
+    //   floor: new FormControl(undefined),
+    //   soi: new FormControl('อนามัยงามเจริญ31'),
+    //   street: new FormControl('พระรามที่2'),
+    //   postalCode: new FormControl('10150', Validators.required),
+    //   subDistrict: new FormControl(undefined, Validators.required),
+    //   district: new FormControl({ value: undefined, disabled: false }, Validators.required),
+    //   province: new FormControl(undefined, Validators.required),
+    // });
     this.addressCurrentInfoForm = this.formBuilder.group({
       isCurrentAddressSameIdcard: new FormControl(false, Validators.required),
       addressNo: new FormControl(undefined, Validators.required),
@@ -93,33 +93,33 @@ export class InputAddUserComponent {
       province: new FormControl(undefined, Validators.required),
     });
 
-    // this.occupationDetailForm = this.formBuilder.group({
-    //   occupation: new FormControl(undefined, Validators.required),
-    //   companyName: new FormControl(undefined, Validators.required),
-    //   addressNo: new FormControl(undefined, Validators.required),
-    //   building: new FormControl(undefined),
-    //   floor: new FormControl(undefined),
-    //   soi: new FormControl(undefined),
-    //   street: new FormControl(undefined),
-    //   postalCode: new FormControl(undefined, Validators.required),
-    //   subDistrict: new FormControl(undefined, Validators.required),
-    //   district: new FormControl(undefined, Validators.required),
-    //   province: new FormControl(undefined, Validators.required),
-    // });
-
     this.occupationDetailForm = this.formBuilder.group({
-      occupation: new FormControl('Dev', Validators.required),
-      companyName: new FormControl('Seen', Validators.required),
-      addressNo: new FormControl('499', Validators.required),
-      building: new FormControl('Benchachinda'),
-      floor: new FormControl('LL'),
+      occupation: new FormControl(undefined, Validators.required),
+      companyName: new FormControl(undefined, Validators.required),
+      addressNo: new FormControl(undefined, Validators.required),
+      building: new FormControl(undefined),
+      floor: new FormControl(undefined),
       soi: new FormControl(undefined),
-      street: new FormControl('กำแพงเพชร6'),
-      postalCode: new FormControl('10900', Validators.required),
+      street: new FormControl(undefined),
+      postalCode: new FormControl(undefined, Validators.required),
       subDistrict: new FormControl(undefined, Validators.required),
       district: new FormControl(undefined, Validators.required),
       province: new FormControl(undefined, Validators.required),
     });
+
+    // this.occupationDetailForm = this.formBuilder.group({
+    //   occupation: new FormControl('Dev', Validators.required),
+    //   companyName: new FormControl('Seen', Validators.required),
+    //   addressNo: new FormControl('499', Validators.required),
+    //   building: new FormControl('Benchachinda'),
+    //   floor: new FormControl('LL'),
+    //   soi: new FormControl(undefined),
+    //   street: new FormControl('กำแพงเพชร6'),
+    //   postalCode: new FormControl('10900', Validators.required),
+    //   subDistrict: new FormControl(undefined, Validators.required),
+    //   district: new FormControl(undefined, Validators.required),
+    //   province: new FormControl(undefined, Validators.required),
+    // });
 
     this.juristicInfoForm = this.formBuilder.group({
       citizenId: new FormControl(undefined, Validators.required),
@@ -184,7 +184,7 @@ export class InputAddUserComponent {
         firstName: this.userInfoForm.get('firstName')?.value,
         lastName: this.userInfoForm.get('lastName')?.value,
         mobilePhone: this.userInfoForm.get('phone')?.value,
-        email: 'atiiwwat1@gmail.com',
+        email: 'atiiwwat2@gmail.com',
         citizenDocId: this.userInfoForm.get('identityType')?.value,
         citizenId: this.userInfoForm.get('citizenId')?.value,
         cardExpDate: cardExpDateFormat,
@@ -262,6 +262,7 @@ export class InputAddUserComponent {
           map(res => res as any)
         ).subscribe({
           next: (res) => {
+            alert(res.errorMessage);
             console.log("[onSubmit] res => ", res);
 
           },
