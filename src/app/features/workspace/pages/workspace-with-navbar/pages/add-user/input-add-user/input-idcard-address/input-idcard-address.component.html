@@ -7,7 +7,7 @@
     </div>
     <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
         <hr class="hr-custom" />
-        <div class="p-3">
+        <div class="body-wrapper">
             <h3 *ngIf="customerType === 1" class="mb-3">ข้อมูลที่อยู่ตามบัตรประชาชน</h3>
             <h3 *ngIf="customerType === 2" class="mb-3">ข้อมูลที่อยู่บริษัท</h3>
             <form [formGroup]="form">

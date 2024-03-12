@@ -1,6 +1,10 @@
 .content-container {
     background-color: #FFF;
-    padding: var(--content-padding);
+    padding: 1rem 4.5rem 1rem 4.5rem;
+}
+
+.body-wrapper {
+  padding: 1rem 5rem 1rem 5rem;
 }
 
 .content-container h2, h3 {

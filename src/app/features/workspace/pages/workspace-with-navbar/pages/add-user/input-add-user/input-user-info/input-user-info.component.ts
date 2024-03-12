@@ -45,7 +45,7 @@ export class InputUserInfoComponent implements AfterContentInit {
 
   onNext() {
     this.submitted = true;
-    if (this.form.invalid) return;
+    // if (this.form.invalid) return;
     this.nextStep.emit('user-info');
   }
 

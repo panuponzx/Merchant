@@ -1,11 +1,15 @@
 .content-container {
-    background-color: #FFF;
-    padding: var(--content-padding);
+  background-color: #FFF;
+  padding: 1rem 4.5rem 1rem 4.5rem;
 }
 
 .content-container h2, h3 {
-    color: var(--color-blue-exat);
-  }
+  color: var(--color-blue-exat);
+}
+
+.body-wrapper {
+padding: 1rem 5rem 1rem 5rem;
+}
 
   .otp-input {
     margin-top: 2rem;
