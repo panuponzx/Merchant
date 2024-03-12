@@ -1,0 +1,112 @@
+<div class="content-container h-100">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 *ngIf="customerType === 1" class="content-title">เพิ่มผู้ใช้งาน - บุคคลทั่วไป</h1>
+            <h1 *ngIf="customerType === 2" class="content-title">เพิ่มผู้ใช้งาน - นิติบุคคล / องค์กร</h1>
+        </div>
+    </div>
+    <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
+        <hr class="hr-custom" />
+        <div class="p-3">
+            <h3 class="mb-3">ข้อมูลรายละเอียด</h3>
+            <form [formGroup]="form">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div *ngIf="customerType === 1" class="col-12 mb-3">
+                            <label class="label-input" for="identityType">
+                                ประเภทการยืนยันตัวตน
+                            </label>
+                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                                data-testid="identityType" formControlName="identityType" id="identityType"
+                                [items]="identityTypeList"></ng-select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="identificationInput">
+                                หมายเลขบัตรประชาชน
+                            </label>
+                            <input class="form-control" [ngClass]="{
+                                'is-invalid': submitted && form.get('citizenId')!.errors
+                              }" data-testid="identificationInput" formControlName="citizenId"
+                                id="identificationInput" type="text" mask="0 0000 00000 00 0">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="expiredDateDatePicker">
+                                <span *ngIf="this.form.get('identityType')?.value === 1">วันหมดอายุบัตร
+                                    (วัน/เดือน/ปี)</span>
+                                <span *ngIf="this.form.get('identityType')?.value === 2">วันหมดอายุหนังสือเดินทาง
+                                    (วัน/เดือน/ปี)</span>
+                            </label>
+                            <date-picker class="datepicker-input" [invalid]="submitted && form.get('cardExpDate')!.errors" [clearable]="false" format="DD/MM/YYYY"
+                                formControlName="cardExpDate" [id]="'expiredDateDatePicker'" locale="th"
+                                [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [minDate]="minDate"></date-picker>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="gender">
+                                เพศ
+                            </label>
+                            <div class="gender-selector">
+                                <div class="gender-wrapper">
+                                    <input type="radio" formControlName="gender" id="male" value="M">
+                                    <label for="male">ชาย</label>
+                                </div>
+                                <div class="gender-wrapper">
+                                    <input type="radio" formControlName="gender" id="female" value="F">
+                                    <label for="female">หญิง</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="firstName">
+                                ชื่อ
+                            </label>
+                            <input class="form-control" [ngClass]="{
+                                'is-invalid': submitted && form.get('firstName')!.errors
+                              }" data-testid="firstName" formControlName="firstName" id="firstName"
+                                type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="lastName">
+                                นามสกุล
+                            </label>
+                            <input class="form-control" [ngClass]="{
+                                'is-invalid': submitted && form.get('lastName')!.errors
+                              }" data-testid="lastName" formControlName="lastName" id="lastName"
+                                type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="birthDateDatePicker">
+                                วันเกิด (วัน/เดือน/ปี)
+                            </label>
+                            <date-picker class="datepicker-input" [invalid]="submitted && form.get('birthDate')!.errors" [clearable]="false" format="DD/MM/YYYY"
+                                formControlName="birthDate" [id]="'birthDateDatePicker'" locale="th"
+                                [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="phone">
+                                เบอร์ติดต่อ
+                            </label>
+                            <input class="form-control" [ngClass]="{
+                                'is-invalid': submitted && form.get('phone')!.errors
+                              }" data-testid="phone" formControlName="phone" id="phone" type="text"
+                                mask="000 000 0000">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr class="hr-custom mb-3" />
+    </div>
+
+    <div #footer class="footer d-flex justify-content-center gap-3">
+        <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
+            (click)="onBack()">
+            ย้อนกลับ
+        </button>
+        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
+             (click)="onNext()">
+            ถัดไป
+        </button>
+    </div>
+</div>

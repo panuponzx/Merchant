@@ -15,6 +15,7 @@ export class IconPipe implements PipeTransform {
     { iconName: 'arrow-right', path: 'assets/images/icons/arrow-right.svg' },
     { iconName: 'copy', path: 'assets/images/icons/copy.svg' },
     { iconName: 'search', path: 'assets/images/icons/search.svg' },
+    { iconName: 'buildings', path: 'assets/images/icons/buildings.svg' },
     { iconName: 'calendar', path: 'assets/images/icons/calendar.svg' },
     { iconName: 'check', path: 'assets/images/icons/check.svg' }
   ];
