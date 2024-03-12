@@ -80,29 +80,8 @@ export class TopupInformationComponent implements OnInit {
           console.error(err);
           this.isLoading = false;
           this.onLoading.emit(false);
-          this.collectionSize = 1;
-          this.rows = [
-            {
-              transactionId: "TP240307300000008",
-              amount: 50,
-              bankAccountNo: "22",
-              bankName: "name",
-              isCancelled: false,
-              paymentMethod: "Bank account",
-              settlementCode: null,
-              status: "เติมเงิน",
-              transactionDate: "2024-02-04 19:55:24",
-              typeId: null,
-              walletId: 2,
-              walletName: "Two",
-              walletStatus: null,
-              walletTypeId: null,
-              createBy: null,
-              createDate: new Date("2024-03-07 11:18:06")
-            } as any
-          ]
         }
-      })
+      });
   }
 
   onChangePage(event: number) {

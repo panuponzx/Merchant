@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
 import { RestApiService } from '../../../../../../../core/services';
 import { first, map } from 'rxjs';
-import moment from 'moment';
+import { TransformDatePipe } from '../../../../../../../core/pipes';
 
 @Component({
   selector: 'app-input-add-user',
@@ -28,7 +28,8 @@ export class InputAddUserComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private restApiService: RestApiService
+    private restApiService: RestApiService,
+    private transformDatePipe: TransformDatePipe
   ) {
     const customerTypeStr = this.activatedRoute.snapshot.paramMap.get('customerType');
     if (customerTypeStr === 'personal-info') {
@@ -174,8 +175,8 @@ export class InputAddUserComponent {
     const companyAddressProvince = this.occupationDetailForm.get('province')?.value;
     const companyAddressDistrict = this.occupationDetailForm.get('district')?.value;
     const companyAddressSubDistrict = this.occupationDetailForm.get('subDistrict')?.value;
-    const cardExpDateFormat = moment(this.userInfoForm.get('cardExpDate')?.value).format('YYYY-MM-DD');
-    const birthDateFormat = moment(this.userInfoForm.get('birthDate')?.value).format('YYYY-MM-DD');
+    const cardExpDateFormat = this.transformDatePipe.transform(this.userInfoForm.get('cardExpDate')?.value, 'YYYY-MM-DD');
+    const birthDateFormat = this.transformDatePipe.transform(this.userInfoForm.get('birthDate')?.value, 'YYYY-MM-DD');
     const data = {
       customer: {
         customerTypeId: this.customerType,
