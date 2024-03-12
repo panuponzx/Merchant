@@ -63,11 +63,34 @@ export const routesConfig: CustomRoutesModel = [
             data: {
               is_sidebar: true,
               label: 'ข้อมูลผู้ใช้',
+              request_id: true,
               default_path: 'user-info',
               allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
             },
-            canActivate: [TabGuard]
-          }
+            canActivate: [ TabGuard ]
+          },
+          {
+            id: 'passageInfoRoute',
+            path: 'passage-info/:id',
+            component: PassageInfoComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ข้อมูลการผ่านทาง',
+              request_id: true,
+              default_path: 'passage-info'
+            }
+          },
+          {
+            id: 'topupAndPaymentInformationRoute',
+            path: 'topup-and-payment-information/:id',
+            component: TopupAndPaymentInformationComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ข้อมูลการเติมเงิน / ชำระเงิน',
+              request_id: true,
+              default_path: 'topup-and-payment-information'
+            }
+          },
         ],
         data: {
           is_sidebar: true

@@ -84,11 +84,11 @@ export class GeneralInfoComponent {
     const mockupData = {
       queryType: 2,
       customer: {
-          id: this.customerId,
-          requestParam: {
-              reqId: "23498-sss-k339c-322s2",
-              channelId: 1
-          }
+        id: this.customerId,
+        requestParam: {
+          reqId: "23498-sss-k339c-322s2",
+          channelId: 1
+        }
       }
     };
     this.restApiService
@@ -113,17 +113,17 @@ export class GeneralInfoComponent {
   }
 
   getActiveAddressTab(): AddressTabsType | undefined {
-    switch(this.customerTypeId) {
-      case '1' : {
+    switch (this.customerTypeId) {
+      case '1': {
         return 'address-on-the-card'
       }
-      case '2' : {
+      case '2': {
         return 'current-address'
       }
-      case '3' : {
+      case '3': {
         return 'work-address'
       }
-      default : {
+      default: {
         return undefined;
       }
     }
@@ -150,76 +150,90 @@ export class GeneralInfoComponent {
   setFormValue(customer: CustomerModel, addresses: AddressModel[]) {
     this.isUpdated = false;
     const formControl = this.form.controls;
-                formControl['birthdate'].setValue(customer.birthdate);
-                formControl['branchTypeId'].setValue(customer.branchTypeId);
-                formControl['cardExpDate'].setValue(customer.cardExpDate);
-                formControl['channelId'].setValue(customer.channelId);
-                formControl['citizenDocId'].setValue(customer.citizenDocId);
-                formControl['citizenId'].setValue(this.utilitiesService.formatIdCard(customer.citizenId));
-                formControl['createDate'].setValue(customer.createDate);
-                formControl['customerTypeId'].setValue(customer.customerTypeId);
-                formControl['customerTypeName'].setValue(customer.customerTypeName);
-                formControl['email'].setValue(customer.email);
-                formControl['firstName'].setValue(customer.firstName);
-                formControl['gender'].setValue(customer.gender);
-                formControl['id'].setValue(customer.id);
-                formControl['lastName'].setValue(customer.lastName);
-                formControl['mobilePhone'].setValue(customer.mobilePhone);
-                formControl['occupation'].setValue(customer.occupation);
-                formControl['status'].setValue(customer.status);
-                formControl['taxId'].setValue(customer.taxId);
-                formControl['title'].setValue(customer.title);
-                if (this.customerId === '3') {
-                  formControl['corporateName'].setValue(customer.corporateName);
-                  formControl['corporateName'].addValidators([ Validators.required ]);
-                  formControl['corporateName'].updateValueAndValidity();
-                  formControl['corporatePhone'].setValue(customer.corporatePhone);
-                  formControl['corporatePhone'].addValidators([ Validators.required ]);
-                  formControl['corporatePhone'].updateValueAndValidity();
-                  formControl['branchType'].addValidators([ Validators.required ]);
-                  formControl['branchType'].updateValueAndValidity();
-                  // formControl['branchName'].addValidators([ Validators.required ]);
-                  // formControl['branchName'].updateValueAndValidity();
-                  // formControl['branchCode'].addValidators([ Validators.required ]);
-                  // formControl['branchCode'].updateValueAndValidity();
-                }
-                addresses.forEach(x => {
-                  const newFormGroup = new FormGroup({
-                    addressNo: new FormControl(x.addressNo, [ Validators.required ]),
-                    building: new FormControl(x.building),
-                    createDate: new FormControl(x.createDate),
-                    customerId: new FormControl(x.customerId),
-                    districtCode: new FormControl(x.districtCode, [ Validators.required ]),
-                    // districtCode: new FormControl('1036', [ Validators.required ]), // Demo
-                    floor: new FormControl(x.floor),
-                    provinceCode: new FormControl(x.provinceCode, [ Validators.required ]),
-                    // provinceCode: new FormControl('19', [ Validators.required ]), // Demo
-                    remark: new FormControl(x.remark),
-                    soi: new FormControl(x.soi),
-                    street: new FormControl(x.street),
-                    subdistrictCode: new FormControl(x.subdistrictCode, [ Validators.required ]),
-                    // subdistrictCode: new FormControl('103602'), // Demo
-                    typeId: new FormControl(x.typeId),
-                    typeName: new FormControl(x.typeName),
-                    alley: new FormControl(x.alley),
-                    village: new FormControl(x.village),
-                    villageNo: new FormControl(x.villageNo),
-                    zipcode: new FormControl(x.zipcode, [ Validators.required ])
-                    // zipcode: new FormControl('10210') // Demo
-                  });
-                  if (x.typeId === 1) {
-                    formControl['registration_address'] = newFormGroup;
-                  }
-                  if (x.typeId === 2) {
-                    formControl['current_address'] = newFormGroup;
-                  }
-                  if (x.typeId === 2) {
-                    formControl['work_address'] = newFormGroup;
-                  }
-                });
-      this.form.valueChanges.subscribe(x => {
-        this.isUpdated = true;
+    formControl['birthdate'].setValue(customer.birthdate);
+    formControl['branchTypeId'].setValue(customer.branchTypeId);
+    formControl['cardExpDate'].setValue(customer.cardExpDate);
+    formControl['channelId'].setValue(customer.channelId);
+    formControl['citizenDocId'].setValue(customer.citizenDocId);
+    formControl['citizenId'].setValue(this.utilitiesService.formatIdCard(customer.citizenId));
+    formControl['createDate'].setValue(customer.createDate);
+    formControl['customerTypeId'].setValue(customer.customerTypeId);
+    formControl['customerTypeName'].setValue(customer.customerTypeName);
+    formControl['email'].setValue(customer.email);
+    formControl['firstName'].setValue(customer.firstName);
+    formControl['gender'].setValue(customer.gender);
+    formControl['id'].setValue(customer.id);
+    formControl['lastName'].setValue(customer.lastName);
+    formControl['mobilePhone'].setValue(customer.mobilePhone);
+    formControl['occupation'].setValue(customer.occupation);
+    formControl['status'].setValue(customer.status);
+    formControl['taxId'].setValue(customer.taxId);
+    formControl['title'].setValue(customer.title);
+    if (this.customerId === '3') {
+      formControl['corporateName'].setValue(customer.corporateName);
+      formControl['corporateName'].addValidators([Validators.required]);
+      formControl['corporateName'].updateValueAndValidity();
+      formControl['corporatePhone'].setValue(customer.corporatePhone);
+      formControl['corporatePhone'].addValidators([Validators.required]);
+      formControl['corporatePhone'].updateValueAndValidity();
+      formControl['branchType'].addValidators([Validators.required]);
+      formControl['branchType'].updateValueAndValidity();
+      // formControl['branchName'].addValidators([ Validators.required ]);
+      // formControl['branchName'].updateValueAndValidity();
+      // formControl['branchCode'].addValidators([ Validators.required ]);
+      // formControl['branchCode'].updateValueAndValidity();
+    }
+    addresses.forEach(x => {
+      const newFormGroup = new FormGroup({
+        addressNo: new FormControl(x.addressNo, [Validators.required]),
+        building: new FormControl(x.building),
+        createDate: new FormControl(x.createDate),
+        customerId: new FormControl(x.customerId),
+        districtCode: new FormControl(x.districtCode, [Validators.required]),
+        // districtCode: new FormControl('1036', [ Validators.required ]), // Demo
+        floor: new FormControl(x.floor),
+        provinceCode: new FormControl(x.provinceCode, [Validators.required]),
+        // provinceCode: new FormControl('19', [ Validators.required ]), // Demo
+        remark: new FormControl(x.remark),
+        soi: new FormControl(x.soi),
+        street: new FormControl(x.street),
+        subdistrictCode: new FormControl(x.subdistrictCode, [Validators.required]),
+        // subdistrictCode: new FormControl('103602'), // Demo
+        typeId: new FormControl(x.typeId),
+        typeName: new FormControl(x.typeName),
+        alley: new FormControl(x.alley),
+        village: new FormControl(x.village),
+        villageNo: new FormControl(x.villageNo),
+        zipcode: new FormControl(x.zipcode, [Validators.required])
+        // zipcode: new FormControl('10210') // Demo
       });
+      if (x.typeId === 1) {
+        formControl['registration_address'] = newFormGroup;
+      }
+      if (x.typeId === 2) {
+        formControl['current_address'] = newFormGroup;
+      }
+      if (x.typeId === 2) {
+        formControl['work_address'] = newFormGroup;
+      }
+    });
+    this.form.valueChanges.subscribe(x => {
+      console.log("[valueChanges] x => ", x);
+      this.isUpdated = true;
+    });
+    const currentAddressFormGroup = this.form.get('current_address') as FormGroup;
+    const registrationAddressFormGroup = this.form.get('registration_address') as FormGroup;
+    const workAddressFormGroup = this.form.get('work_address') as FormGroup;
+    currentAddressFormGroup.valueChanges.subscribe(changes => {
+      console.log('Current Address changes:', changes);
+    });
+    registrationAddressFormGroup.valueChanges.subscribe(changes => {
+      console.log('Registration Address changes:', changes);
+    });
+    workAddressFormGroup.valueChanges.subscribe(changes => {
+      console.log('Work Address changes:', changes);
+    });
+
   }
 
 }
