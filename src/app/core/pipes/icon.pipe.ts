@@ -17,7 +17,9 @@ export class IconPipe implements PipeTransform {
     { iconName: 'search', path: 'assets/images/icons/search.svg' },
     { iconName: 'buildings', path: 'assets/images/icons/buildings.svg' },
     { iconName: 'calendar', path: 'assets/images/icons/calendar.svg' },
-    { iconName: 'check', path: 'assets/images/icons/check.svg' }
+    { iconName: 'check', path: 'assets/images/icons/check.svg' },
+    { iconName: 'unlink', path: 'assets/images/icons/unlink.svg' },
+    { iconName: 'delete', path: 'assets/images/icons/delete.svg' }
   ];
 
   transform(iconName: IconModel | null | undefined | string): string | null {

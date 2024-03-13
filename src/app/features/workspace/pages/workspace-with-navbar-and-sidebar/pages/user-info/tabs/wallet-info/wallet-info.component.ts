@@ -3,7 +3,8 @@ import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEv
 import { first, map } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddWalletComponent } from '../../../../../../../../core/modals/add-wallet/add-wallet.component';
+import { AddWalletModalComponent } from '../../../../modals/add-wallet-modal/add-wallet-modal.component';
+import { EditCarModalComponent } from '../../../../modals/edit-car-modal/edit-car-modal.component';
 
 @Component({
   selector: 'wallet-info',
@@ -131,7 +132,7 @@ export class WalletInfoComponent implements OnInit {
   }
 
   onAddWallet() {
-    const modalRef = this.ngbModal.open(AddWalletComponent, {
+    const modalRef = this.ngbModal.open(AddWalletModalComponent, {
       centered: true,
       backdrop: 'static',
       // size: 'xl',
@@ -155,7 +156,23 @@ export class WalletInfoComponent implements OnInit {
   }
 
   onAction(event: RowActionEventModel) {
-    console.info(event)
+    console.info(event);
+    const modalRef = this.ngbModal.open(EditCarModalComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+      keyboard: false,
+    });
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          console.log('[showTableModal] result => ', result);
+        }
+      },
+      (reason) => {
+        console.log('[showTableModal] reason => ', reason);
+      }
+    );
   }
 
 }

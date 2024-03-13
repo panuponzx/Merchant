@@ -1,0 +1,144 @@
+<div class="modal-body">
+    <div class="header-label">
+        <h2>แก้ไขข้อมูล OBU และรถยนต์</h2>
+        <h3 class="mb-3">กรุณาแก้ไขข้อมูล</h3>
+    </div>
+    <form *ngIf="form" [formGroup]="form">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 mb-3">
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="licensePlateInput">
+                        ทะเบียนรถ
+                    </label>
+                    <input class="form-control" data-testid="licensePlateInput" formControlName="licensePlate"
+                        id="licensePlateInput" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="fullnameCarOwnerInput">
+                        ชื่อเจ้าของรถ
+                    </label>
+                    <input class="form-control" data-testid="fullnameCarOwnerInput" formControlName="fullnameCarOwner"
+                        id="fullnameCarOwnerInput" type="text">
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label class="label-input" for="brandSelect">
+                            ยี่ห้อ
+                        </label>
+                        <ng-select 
+                            class="form-control" 
+                            [clearable]="false" 
+                            bindLabel="lable"
+                            bindValue="id"
+                            data-testid="brandSelect"
+                            placeholder="กรุณาระบุ"
+                            id="brandSelect"
+                            formControlName="brand"
+                            [items]="[]">
+                        </ng-select>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="label-input" for="modelSelect">
+                            รุ่น
+                        </label>
+                        <ng-select 
+                            class="form-control" 
+                            [clearable]="false" 
+                            bindLabel="lable"
+                            bindValue="id"
+                            data-testid="modelSelect"
+                            placeholder="กรุณาระบุ"
+                            id="modelSelect"
+                            formControlName="model"
+                            [items]="[]">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label class="label-input" for="yearRegistrationSelect">
+                            ปีจดทะเบียน
+                        </label>
+                        <ng-select 
+                            class="form-control" 
+                            [clearable]="false" 
+                            bindLabel="lable"
+                            bindValue="id"
+                            data-testid="yearRegistrationSelect"
+                            placeholder="กรุณาระบุ"
+                            id="yearRegistrationSelect"
+                            formControlName="yearRegistration"
+                            [items]="[]">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="remarkInput">
+                        หมายเหตุ
+                    </label>
+                    <input class="form-control" data-testid="remarkInput" formControlName="remark"
+                        id="remarkInput" type="text">
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 mb-3">
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="obuPanInput">
+                        หมายเลข OBU
+                    </label>
+                    <input class="form-control" data-testid="obuPanInput" formControlName="obuPan"
+                        id="obuPanInput" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="smartcardNoInput">
+                        หมายเลข Smart Card
+                    </label>
+                    <input class="form-control" data-testid="smartcardNoInput" formControlName="smartcardNo"
+                        id="smartcardNoInput" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <h3 class="mb-3">ประเภทรถผู้ใช้งาน</h3>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" formControlName="isType9" [value]="false" name="isType9" id="carNormalRadio">
+                        <label class="label-input" for="carNormalRadio">
+                            รถบุคคลทั่วไป
+                        </label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" formControlName="isType9" [value]="true" name="isType9" id="carType9Radio">
+                        <label class="label-input" for="carType9Radio">
+                            รถพนักงานการทางพิเศษ (ประเภท 9)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="walletIdSelect">
+                        ผูกกระเป๋า
+                    </label>
+                    <ng-select 
+                        class="form-control" 
+                        [clearable]="false" 
+                        bindLabel="lable"
+                        bindValue="id"
+                        data-testid="walletIdSelect"
+                        placeholder="กรุณาระบุ"
+                        id="walletIdSelect"
+                        formControlName="walletId"
+                        [items]="[]">
+                    </ng-select>
+                </div>
+                <div class="col-12 mb-3">
+                    <button style="width: 100%" class="custom-btn btn-type-1 red"><icon-svg [color]="'#FFF'" [path]="'assets/images/icons/unlink.svg'" [size]="'m'" /> ยกเลิกการผูก eWallet</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="d-flex justify-content-between">
+        <div class="left">
+            <button class="custom-btn btn-type-1 red-outline"><icon-svg [color]="'#ED1B24'" [path]="'assets/images/icons/delete.svg'" [size]="'m'" /> ยกเลิกอุปกรณ์</button>
+        </div>
+        <div class="right d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-type-1 outline" (click)="onClose()">ยกเลิก</button>
+            <button class="custom-btn btn-type-1">แก้ไข</button>
+        </div>
+    </div>
+</div>

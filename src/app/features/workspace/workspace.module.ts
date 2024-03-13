@@ -43,6 +43,8 @@ import { OtpRequestComponent } from './pages/workspace-with-navbar/pages/add-use
 import { OtpConfirmComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/otp-confirm/otp-confirm.component';
 import { InputJuristicInfoComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-juristic-info/input-juristic-info.component';
 import { InputJuristicAttachDocumentComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-juristic-attach-document/input-juristic-attach-document.component';
+import { AddWalletModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/add-wallet-modal/add-wallet-modal.component';
+import { EditCarModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/edit-car-modal/edit-car-modal.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,8 @@ import { InputJuristicAttachDocumentComponent } from './pages/workspace-with-nav
     BillingPendingComponent,
     PayInformationComponent,
     TopupInformationComponent,
+    AddWalletModalComponent,
+    EditCarModalComponent,
   ],
   imports: [
     CommonModule,
