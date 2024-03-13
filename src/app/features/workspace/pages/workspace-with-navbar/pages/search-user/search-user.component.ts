@@ -4,13 +4,61 @@ import { Router } from '@angular/router';
 import { first, map } from 'rxjs';
 import { CustomColumnModel, CustomerModel, ReponseSearchCustomerModel, RowActionEventModel } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
+import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
+
 
 @Component({
   selector: 'app-search-user',
   templateUrl: './search-user.component.html',
-  styleUrls: ['./search-user.component.scss']
+  styleUrls: ['./search-user.component.scss'],
+  animations: [
+    trigger('fadeInOutTable', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 }))
+      ]),
+    ]),
+    trigger('fadeInOutseach', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('400ms', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('400ms', style({ opacity: 0 }))
+      ])
+    ]), trigger('slideInOutSearch', [
+      transition(':enter', [
+        style({ transform: 'translateX(-100%)' }),
+        animate('300ms ease-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-out', style({ transform: 'translateX(-100%)' }))
+      ])
+    ]),
+
+    trigger('zoomInOutTable', [
+      transition(':enter', [
+        style({ transform: 'scale(0)' }),
+        animate('300ms ease-out', style({ transform: 'scale(1)' }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ transform: 'scale(0)' }))
+      ])
+    ]),
+
+    trigger('staggeredEntrance', [
+      transition(':enter', [
+        query('.search-user-content-wrapper > *', stagger(100, [
+          style({ opacity: 0, transform: 'translateY(20px)' }),
+          animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+        ]))
+      ])
+    ])
+  ]
 })
 export class SearchUserComponent {
+
+  
 
   public rows: CustomerModel[] = []
 
@@ -65,7 +113,18 @@ export class SearchUserComponent {
       .subscribe({
         next: (res) => {
           console.log(res)
-          this.rows = res.customers;
+          // this.rows = res.customers;
+          this.rows = res.customers.map(element => {
+            if(element['firstName'] == undefined){
+              element['firstName'] = element['firstNameEng']
+            }
+            if(element['lastName'] == undefined){
+              element['lastName'] = element['lastNameEng']
+            }
+            return element
+          });
+         
+
           this.collectionSize = this.rows.length;
           this.isLoading = false;
           this.tempSearch = mockupData.customer.citizenId;

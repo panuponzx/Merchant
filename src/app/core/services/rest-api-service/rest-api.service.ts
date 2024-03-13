@@ -18,6 +18,11 @@ export class RestApiService {
     return this.httpClient.post<ResponseMessageModel>(baseURL, data);
   }
 
+  postBackOffice(endpoint: string, body: any) {
+    const url = `https://ewallet-backoffice.bifrost.asia/${endpoint}`
+    return this.httpClient.post<ResponseMessageModel>(url, body)
+  }
+
   get(url: string): Observable<ResponseMessageModel> {
     const baseURL = environment.api + '/' + url;
     return this.httpClient.get<ResponseMessageModel>(baseURL);

@@ -5,6 +5,7 @@
   <div
     class="search-user-content-wrapper"
     [ngClass]="tempSearch ? 'mb-5' : null"
+    [@fadeInOutseach]
   >
     <ng-container *ngIf="tempSearch">
       <div class="mb-4">
@@ -96,7 +97,7 @@
   </div>
   <ng-container *ngIf="tempSearch && !isLoading">
     <hr class="hr-custom light mb-5" />
-    <div class="search-user-datatable-wrapper">
+    <div class="search-user-datatable-wrapper" [@fadeInOutTable]>
       <datatable
         [columns]="columns"
         [collectionSize]="collectionSize"

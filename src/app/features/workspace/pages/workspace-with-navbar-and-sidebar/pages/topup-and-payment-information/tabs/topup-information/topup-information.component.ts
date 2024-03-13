@@ -63,7 +63,7 @@ export class TopupInformationComponent implements OnInit {
       page: data.page
     };
     this.restApiService
-      .post('transaction-history/get-topup', mockupData)
+      .postBackOffice('transaction-history/get-topup', mockupData)
       .pipe(
         first(),
         map(res => res as ReponseTopupModel)
