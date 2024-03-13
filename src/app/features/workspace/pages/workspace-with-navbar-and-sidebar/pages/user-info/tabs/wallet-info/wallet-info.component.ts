@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel } from '../../../../../../../../core/interfaces';
 import { first, map } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddWalletComponent } from '../../../../../../../../core/modals/add-wallet/add-wallet.component';
 
 @Component({
   selector: 'wallet-info',
@@ -39,7 +41,10 @@ export class WalletInfoComponent implements OnInit {
   public limitRow: number = 5;
   public pages: number = 1;
 
-  constructor(private restApiService: RestApiService) {
+  constructor(
+    private restApiService: RestApiService,
+    private ngbModal: NgbModal
+    ) {
 
   }
 
@@ -123,6 +128,26 @@ export class WalletInfoComponent implements OnInit {
     });
     this.defaultWalletList = [...walletArr];
     this.walletList = [...walletArr];
+  }
+
+  onAddWallet() {
+    const modalRef = this.ngbModal.open(AddWalletComponent, {
+      centered: true,
+      backdrop: 'static',
+      // size: 'xl',
+      keyboard: false,
+    });
+    // modalRef.componentInstance.data = res.result;
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          console.log('[showTableModal] result => ', result);
+        }
+      },
+      (reason) => {
+        console.log('[showTableModal] reason => ', reason);
+      }
+    );
   }
 
   onChangePage(event: number) {

@@ -34,6 +34,7 @@ export class AddressComponent implements OnInit {
 
   loadZipcode(isInit: boolean) {
     if (this.form) {
+      console.log("[loadZipcode] form => ", this.form.value);
       const formControl = this.form.controls;
       const zipcode = formControl['zipcode'].value
       if (zipcode) {
@@ -48,6 +49,8 @@ export class AddressComponent implements OnInit {
             next: (res) => {
               this.zipcode = [...res.zipCodes];
               this.subdistricts = this.getSubdistrict(formControl['zipcode'].value);
+              console.log("[loadZipcode] subdistricts => ", this.subdistricts);
+              console.log("[loadZipcode] form => ", this.form?.value);
               if (isInit) {
                 this.districts = this.getDistrict(formControl['subdistrictCode'].value);
                 this.provinces = this.getProvince(formControl['districtCode'].value);
@@ -71,18 +74,18 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  getDistrict(subdistrictCode: string | undefined | null): DistrictModel[] {
+  getDistrict(subdistrictCode: number | undefined | null): DistrictModel[] {
     if (subdistrictCode) {
-      const districts = this.subdistricts.filter(x => x.code === subdistrictCode).map(x => x.district);
+      const districts = this.subdistricts.filter(x => x.id === subdistrictCode).map(x => x.district);
     return districts;
     } else {
       return [];
     }
   }
 
-  getProvince(districtCode: string | undefined | null): ProvinceModel[] {
+  getProvince(districtCode: number | undefined | null): ProvinceModel[] {
     if (districtCode) {
-      const provinces = this.districts.filter(x => x.code === districtCode).map(x => x.province);
+      const provinces = this.districts.filter(x => x.id === districtCode).map(x => x.province);
       return provinces;
     } else {
       return [];
@@ -105,14 +108,16 @@ export class AddressComponent implements OnInit {
     }
   }
 
-  onChangeSubdistrict(event: string) {
+  onChangeSubdistrict(event: number) {
+    console.log("[onChangeSubdistrict] event => ", event)
     if (event) {
       this.districts = this.getDistrict(event);
       if (this.districts) {
-        this.form?.controls['districtCode'].setValue(this.districts[0].code);
-        this.provinces = this.getProvince(this.districts[0].code);
+        console.log("[onChangeSubdistrict] districts => ", this.districts);
+        this.form?.controls['districtCode'].setValue(this.districts[0].id);
+        this.provinces = this.getProvince(this.districts[0].id);
         if (this.provinces) {
-          this.form?.controls['provinceCode'].setValue(this.provinces[0].code);
+          this.form?.controls['provinceCode'].setValue(this.provinces[0].id);
         }
       }
     }

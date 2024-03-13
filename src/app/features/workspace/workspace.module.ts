@@ -73,7 +73,7 @@ import { InputJuristicAttachDocumentComponent } from './pages/workspace-with-nav
     TopupAndPaymentInformationComponent,
     BillingPendingComponent,
     PayInformationComponent,
-    TopupInformationComponent
+    TopupInformationComponent,
   ],
   imports: [
     CommonModule,

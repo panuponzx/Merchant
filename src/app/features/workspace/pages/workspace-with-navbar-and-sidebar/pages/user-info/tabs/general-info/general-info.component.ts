@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { first, map } from 'rxjs';
 import { AddressModel, CustomerModel, ReponseCustomerModel } from '../../../../../../../../core/interfaces';
 import { RestApiService, UtilitiesService } from '../../../../../../../../core/services';
+import { TransformDatePipe } from '../../../../../../../../core/pipes';
+import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 type AddressTabsType = 'address-on-the-card' | 'current-address' | 'work-address';
 type DetailTabsType = 'company-detail' | 'contact-detail';
@@ -19,6 +21,7 @@ export class GeneralInfoComponent {
 
   public customer: CustomerModel | undefined;
   public addresses: AddressModel[] = [];
+  public requestParam: any = {};
 
   public settingEmailList = [
     'เปิดการใช้งาน',
@@ -72,11 +75,14 @@ export class GeneralInfoComponent {
 
   constructor(
     private restApiService: RestApiService,
-    private utilitiesService: UtilitiesService
+    private utilitiesService: UtilitiesService,
+    private transformDatePipe: TransformDatePipe,
+    private modalDialogService: ModalDialogService
   ) {
   }
 
   ngOnInit(): void {
+    // this.modalDialogService.loading();
     this.loadCustomer();
   }
 
@@ -99,10 +105,13 @@ export class GeneralInfoComponent {
       )
       .subscribe({
         next: (res) => {
+          console.log("[loadCustomer] res => ", res);
           const customer = res.customer;
           const addresses = res.addresses;
+          const requestParam = res.requestParam;
           this.customer = customer;
           this.addresses = addresses;
+          this.requestParam = requestParam;
           this.setFormValue(customer, addresses);
           this.activeAddressTab = this.getActiveAddressTab();
         },
@@ -130,7 +139,107 @@ export class GeneralInfoComponent {
   }
 
   onUpdate() {
-    console.log("[onUpdate] form => ", this.form.value);
+    console.log("[onUpdate] form => ", this.form.getRawValue());
+    const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
+    const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
+    const data = {
+      customer: {
+        id: this.customerId,
+        // customerTypeId: this.form.getRawValue().customerType,
+        title: this.form.getRawValue().title,
+        firstName: this.form.getRawValue().firstName,
+        lastName: this.form.getRawValue().lastName,
+        mobilePhone: this.form.getRawValue().mobilePhone,
+        email: this.form.getRawValue().email,
+        // citizenDocId: this.form.getRawValue().citizenDocId,
+        // citizenId: this.form.getRawValue().citizenId,
+        cardExpDate: cardExpDateFormat,
+        birthDate: birthDateFormat,
+        occupation: this.form.getRawValue().occupation,
+        gender: this.form.getRawValue().gender,
+        // taxId: this.form.getRawValue().taxId,
+        requestParam: {
+          reqId: this.requestParam.reqId,
+          channelId: this.requestParam.channelId,
+        }
+      }, addresses: [
+        {
+          addressNo: this.form.getRawValue().registration_address.addressNo,
+          alley: this.form.getRawValue().registration_address.alley,
+          building: this.form.getRawValue().registration_address.building,
+          // createDate: this.transformDatePipe.transform(this.form.getRawValue().registration_address.createDate, 'YYYY-MM-DD'),
+          // customerId: this.form.getRawValue().registration_address.customerId,
+          districtCode: this.form.getRawValue().registration_address.districtCode,
+          floor: this.form.getRawValue().registration_address.floor,
+          provinceCode: this.form.getRawValue().registration_address.provinceCode,
+          soi: this.form.getRawValue().registration_address.soi,
+          street: this.form.getRawValue().registration_address.street,
+          subdistrictCode: this.form.getRawValue().registration_address.subdistrictCode,
+          typeId: this.form.getRawValue().registration_address.typeId,
+          // typeName: this.form.getRawValue().registration_address.typeName,
+          village: this.form.getRawValue().registration_address.village,
+          villageNo: this.form.getRawValue().registration_address.villageNo,
+          zipcode: this.form.getRawValue().registration_address.zipcode,
+        },
+        {
+          addressNo: this.form.getRawValue().current_address.addressNo,
+          alley: this.form.getRawValue().current_address.alley,
+          building: this.form.getRawValue().current_address.building,
+          // createDate: this.transformDatePipe.transform(this.form.getRawValue().current_address.createDate, 'YYYY-MM-DD'),
+          // customerId: this.form.getRawValue().current_address.customerId,
+          districtCode: this.form.getRawValue().current_address.districtCode,
+          floor: this.form.getRawValue().current_address.floor,
+          provinceCode: this.form.getRawValue().current_address.provinceCode,
+          soi: this.form.getRawValue().current_address.soi,
+          street: this.form.getRawValue().current_address.street,
+          subdistrictCode: this.form.getRawValue().current_address.subdistrictCode,
+          typeId: this.form.getRawValue().current_address.typeId,
+          // typeName: this.form.getRawValue().current_address.typeName,
+          village: this.form.getRawValue().current_address.village,
+          villageNo: this.form.getRawValue().current_address.villageNo,
+          zipcode: this.form.getRawValue().current_address.zipcode,
+        },
+        {
+          addressNo: this.form.getRawValue().work_address.addressNo,
+          alley: this.form.getRawValue().work_address.alley,
+          building: this.form.getRawValue().work_address.building,
+          // createDate: this.transformDatePipe.transform(this.form.getRawValue().work_address.createDate, 'YYYY-MM-DD'),
+          // customerId: this.form.getRawValue().work_address.customerId,
+          districtCode: this.form.getRawValue().work_address.districtCode,
+          floor: this.form.getRawValue().work_address.floor,
+          provinceCode: this.form.getRawValue().work_address.provinceCode,
+          soi: this.form.getRawValue().work_address.soi,
+          street: this.form.getRawValue().work_address.street,
+          subdistrictCode: this.form.getRawValue().work_address.subdistrictCode,
+          typeId: this.form.getRawValue().work_address.typeId,
+          // typeName: this.form.getRawValue().work_address.typeName,
+          village: this.form.getRawValue().work_address.village,
+          villageNo: this.form.getRawValue().work_address.villageNo,
+          zipcode: this.form.getRawValue().work_address.zipcode,
+        },
+      ]
+    };
+    this.modalDialogService.loading();
+    this.restApiService
+        .post('edit-customer', data)
+        .pipe(
+          first(),
+          map(res => res as any)
+        ).subscribe({
+          next: (res) => {
+            // alert(res.errorMessage);
+            this.modalDialogService.hideLoading();
+            console.log("[onSubmit] res => ", res);
+            if(res.errorMessage === 'Success'){
+              this.modalDialogService.info('สำเร็จ');
+              this.loadCustomer();
+            }
+          },
+          error: (err) => {
+            this.modalDialogService.hideLoading();
+            console.error(err);
+          }
+        })
   }
 
   onUpload() {
@@ -150,6 +259,8 @@ export class GeneralInfoComponent {
   setFormValue(customer: CustomerModel, addresses: AddressModel[]) {
     this.isUpdated = false;
     const formControl = this.form.controls;
+    console.log("[setFormValue] dd", this.transformDatePipe.transform(customer.birthdate, null));
+    
     formControl['birthdate'].setValue(customer.birthdate);
     formControl['branchTypeId'].setValue(customer.branchTypeId);
     formControl['cardExpDate'].setValue(customer.cardExpDate);
@@ -189,15 +300,15 @@ export class GeneralInfoComponent {
         building: new FormControl(x.building),
         createDate: new FormControl(x.createDate),
         customerId: new FormControl(x.customerId),
-        districtCode: new FormControl(x.districtCode, [Validators.required]),
+        districtCode: new FormControl(Number(x.districtCode), [Validators.required]),
         // districtCode: new FormControl('1036', [ Validators.required ]), // Demo
         floor: new FormControl(x.floor),
-        provinceCode: new FormControl(x.provinceCode, [Validators.required]),
+        provinceCode: new FormControl(Number(x.provinceCode), [Validators.required]),
         // provinceCode: new FormControl('19', [ Validators.required ]), // Demo
         remark: new FormControl(x.remark),
         soi: new FormControl(x.soi),
         street: new FormControl(x.street),
-        subdistrictCode: new FormControl(x.subdistrictCode, [Validators.required]),
+        subdistrictCode: new FormControl(Number(x.subdistrictCode), [Validators.required]),
         // subdistrictCode: new FormControl('103602'), // Demo
         typeId: new FormControl(x.typeId),
         typeName: new FormControl(x.typeName),
@@ -207,13 +318,14 @@ export class GeneralInfoComponent {
         zipcode: new FormControl(x.zipcode, [Validators.required])
         // zipcode: new FormControl('10210') // Demo
       });
+      console.log('setFormValue typeId => ', x.typeId);
       if (x.typeId === 1) {
         formControl['registration_address'] = newFormGroup;
       }
       if (x.typeId === 2) {
         formControl['current_address'] = newFormGroup;
       }
-      if (x.typeId === 2) {
+      if (x.typeId === 3) {
         formControl['work_address'] = newFormGroup;
       }
     });
@@ -226,12 +338,15 @@ export class GeneralInfoComponent {
     const workAddressFormGroup = this.form.get('work_address') as FormGroup;
     currentAddressFormGroup.valueChanges.subscribe(changes => {
       console.log('Current Address changes:', changes);
+      this.isUpdated = true;
     });
     registrationAddressFormGroup.valueChanges.subscribe(changes => {
       console.log('Registration Address changes:', changes);
+      this.isUpdated = true;
     });
     workAddressFormGroup.valueChanges.subscribe(changes => {
       console.log('Work Address changes:', changes);
+      this.isUpdated = true;
     });
 
   }

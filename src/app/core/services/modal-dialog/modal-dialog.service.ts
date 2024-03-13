@@ -1,0 +1,50 @@
+import { Injectable } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingModalComponent } from '../../modals/loading-modal/loading-modal.component';
+import { InfoModalComponent } from '../../modals/info-modal/info-modal.component';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ModalDialogService {
+
+  public modalInfoRef: NgbModalRef | undefined;
+  public modalLoadingRef: NgbModalRef | undefined;
+
+  constructor(private ngbModal: NgbModal) {
+  }
+  public loading(): Promise<boolean> {
+    this.modalLoadingRef = this.ngbModal.open(LoadingModalComponent, {
+      windowClass: 'loading-modal',
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    return this.modalLoadingRef.result;
+  }
+
+  public hideLoading() {
+    if(this.modalLoadingRef) this.modalLoadingRef.close(true);
+  }
+
+  public info(
+    title: string
+  ){
+    this.modalInfoRef = this.ngbModal.open(InfoModalComponent, {
+      windowClass: 'info-modal',
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    this.modalInfoRef.componentInstance.title = title;
+    setTimeout(() => {
+      this.hideInfo();
+    }, 2000);
+    return this.modalInfoRef.result;
+  }
+
+  public hideInfo() {
+    if(this.modalInfoRef) this.modalInfoRef.close(true);
+  }
+
+}

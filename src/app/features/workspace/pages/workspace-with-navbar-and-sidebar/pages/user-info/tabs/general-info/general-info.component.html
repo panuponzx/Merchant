@@ -1,6 +1,6 @@
 <div class="general-info-container" *ngIf="customerId && customerTypeId">
   <h2 class="mb-3">ข้อมูลทั่วไป</h2>
-  <form [formGroup]="form" (ngSubmit)="onUpdate()">
+  <form [formGroup]="form">
     <div class="row g-4">
       <div class="col-12 col-sm-4">
         <h3 class="mb-3">รายละเอียดผู้ใช้งาน</h3>
@@ -215,7 +215,8 @@
                   data-testid="phoneInput"
                   formControlName="mobilePhone"
                   id="phoneInput"
-                  placeholder="XXX XXX XXXX"
+                  mask="000 000 0000"
+                  placeholder="081 000 0000"
                   type="text"
                 >
               </div>
@@ -667,7 +668,6 @@
         data-testid="cancelButton"
         id="cancelButton"
         title="แก้ไข"
-        [disabled]="!isUpdated"
         (click)="onCancel()"
       >
         ยกเลิก
@@ -677,7 +677,6 @@
         data-testid="editButton"
         id="editButton"
         title="แก้ไข"
-        [disabled]="!isUpdated"
         (click)="onUpdate()"
       >
         แก้ไข
