@@ -28,7 +28,8 @@ export class ModalDialogService {
   }
 
   public info(
-    title: string
+    title: string,
+    message?: string
   ){
     this.modalInfoRef = this.ngbModal.open(InfoModalComponent, {
       windowClass: 'info-modal',
@@ -37,6 +38,7 @@ export class ModalDialogService {
       keyboard: false,
     });
     this.modalInfoRef.componentInstance.title = title;
+    this.modalInfoRef.componentInstance.message = message;
     setTimeout(() => {
       this.hideInfo();
     }, 2000);

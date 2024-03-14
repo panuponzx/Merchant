@@ -67,6 +67,7 @@
             format="D MMMM YYYY"
             formControlName="endDate"
             [id]="'endDateDatePicker'"
+            [minDate]="form.get('startDate')?.value"
             [invalid]="submitted && form.controls['endDate'].errors ? true : false"
             locale="th"
             [placeholder]="'กรุณาระบุ'"
@@ -100,6 +101,7 @@
           id="searchButton"
           title="ค้นหา"
           type="submit"
+          [disabled]="form.invalid"
           (click)="onSearch()"
         >
         <icon-svg

@@ -8,5 +8,6 @@ import { Component, Input } from '@angular/core';
 export class InfoModalComponent {
 
   @Input() title: string = '';
+  @Input() message: string = '';
   
 }

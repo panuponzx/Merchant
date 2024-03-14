@@ -28,27 +28,23 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
 
   constructor(private restApiService: RestApiService) {
     this.postalCodeChanged.pipe(distinctUntilChanged(), switchMap((searchText: any) => {
-      if(searchText.length === 5) {
+      if (searchText.length === 5) {
         return this.restApiService.get(`zip-code/code/${searchText}`);
-      }else {
+      } else {
         return of([]);
       }
     })).subscribe(async (res: any) => {
       console.log("[subscribe] res => ", res);
-      this.form.get('subDistrict')?.setValue(undefined);
-      this.form.get('district')?.setValue(undefined);
-      this.form.get('province')?.setValue(undefined);
       this.postalCodeList = await res.zipCodes;
       console.log("[subscribe] res => ", this.postalCodeList);
-      if(this.postalCodeList && this.postalCodeList.length === 0) return;
-      if(res && Object.keys(res).length === 0) return;
-      if(!this.form.get('subDistrict').value && !this.form.get('district').value && !this.form.get('province').value) {
-        this.districtList = [this.postalCodeList[0].subdistrict.district];
-        this.provinceList = [this.postalCodeList[0].subdistrict.district.province];
-        this.form.get('subDistrict').setValue(this.postalCodeList[0]);
-        this.form.get('district').setValue(this.postalCodeList[0].subdistrict.district);
-        this.form.get('province').setValue(this.postalCodeList[0].subdistrict.district.province);
-      }
+      if (this.postalCodeList && this.postalCodeList.length === 0 || res && Object.keys(res).length === 0) {
+        this.form.get('subDistrict')?.disable();
+        this.form.get('subDistrict')?.setValue(undefined);
+        this.form.get('district')?.setValue(undefined);
+        this.form.get('province')?.setValue(undefined);
+      }else {
+        this.form.get('subDistrict')?.enable();
+      };
     });
   }
   
@@ -88,9 +84,9 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
       this.form.get('soi').enable();
       this.form.get('street').enable();
       this.form.get('postalCode').enable();
-      this.form.get('subDistrict').enable();
-      this.form.get('district').enable();
-      this.form.get('province').enable();
+      // this.form.get('subDistrict').enable();
+      // this.form.get('district').enable();
+      // this.form.get('province').enable();
     }
   }
 
@@ -101,16 +97,9 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
   onChangeSubDistrict(even: any) {
     console.log("[onChangeSubDistrict] even => ", even);
     this.districtList = [even.subdistrict.district];
-    this.form.get('district')?.patchValue(undefined);
-    this.form.get('province')?.patchValue(undefined);
-    this.provinceList = [];
-    console.log("[onChangeSubDistrict] districtList => ", this.districtList);
-  }
-
-  onChangeDistrict(even: any) {
-    console.log("[onChangeDistrict] even => ", even);
-    this.provinceList = [even.province];
-    this.form.get('province')?.setValue(undefined);
+    this.provinceList = [even.subdistrict.district.province];
+    this.form.get('district')?.setValue(this.districtList[0]);
+    this.form.get('province')?.setValue(this.provinceList[0]);
   }
 
   patchValueAddressSameIdcard(): void {
@@ -132,8 +121,8 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
     this.form.get('street').disable();
     this.form.get('postalCode').disable();
     this.form.get('subDistrict').disable();
-    this.form.get('district').disable();
-    this.form.get('province').disable();
+    // this.form.get('district').disable();
+    // this.form.get('province').disable();
   }
 
   onBack() {

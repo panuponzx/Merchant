@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Assets file. */
+@font-face {
+  font-family: "Kanit";
+  src: url("assets/font/Kanit/Kanit-Regular.ttf") format("truetype");
+}
+
 @import 'assets/scss/variables';
 @import 'assets/scss/reset';
 @import 'assets/scss/typography';
@@ -12,6 +17,7 @@
 @import 'assets/scss/badge';
 @import 'assets/scss/datatable';
 
+
 html, body {
   height: 100%;
 }
@@ -22,8 +28,8 @@ html body {
   font-size: var(--default-font-size);
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .loading-modal {
   .modal-content {

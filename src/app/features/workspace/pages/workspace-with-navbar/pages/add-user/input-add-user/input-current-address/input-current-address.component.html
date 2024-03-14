@@ -78,7 +78,7 @@
                                 data-testid="subDistrictInput" 
                                 formControlName="subDistrict" 
                                 (change)="onChangeSubDistrict($event)"
-                                [items]="subDistrictList">
+                                [items]="postalCodeList">
                             </ng-select>
                         </div>
                         <div class="col-12 mb-3">
@@ -90,8 +90,7 @@
                                 [clearable]="false" 
                                 bindLabel="name"
                                 data-testid="districtInput" 
-                                formControlName="district" 
-                                (change)="onChangeDistrict($event)" 
+                                formControlName="district"
                                 id="districtInput"
                                 [items]="districtList">
                             </ng-select>
