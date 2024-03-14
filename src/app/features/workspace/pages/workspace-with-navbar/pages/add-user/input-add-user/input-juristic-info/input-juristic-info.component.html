@@ -1,0 +1,76 @@
+<div class="content-container h-100">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 *ngIf="customerType === 1" class="content-title">เพิ่มผู้ใช้งาน - บุคคลทั่วไป</h1>
+            <h1 *ngIf="customerType === 2" class="content-title">เพิ่มผู้ใช้งาน - นิติบุคคล / องค์กร</h1>
+        </div>
+    </div>
+    <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
+        <hr class="hr-custom" />
+        <div class="body-wrapper">
+            <h3 class="mb-3">ข้อมูลบริษัท</h3>
+            <form [formGroup]="form">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="citizenIdInput">
+                                หมายเลขผู้เสียภาษี
+                            </label>
+                            <input class="form-control" data-testid="citizenIdInput" formControlName="citizenId"
+                                id="citizenIdInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="companyNameInput">
+                                ชื่อบริษัท
+                            </label>
+                            <input class="form-control" data-testid="companyNameInput" formControlName="companyName"
+                                id="companyNameInput" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="branchSelect">
+                                สาขา
+                            </label>
+                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                                data-testid="branchSelect" formControlName="branch" id="branchSelect"
+                                [items]="branchList"></ng-select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="branchNameInput">
+                                ชื่อสาขา
+                            </label>
+                            <input class="form-control" data-testid="branchNameInput" formControlName="branchName"
+                                id="branchNameInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="branchNoInput">
+                                หมายเลขสาขาย่อย
+                            </label>
+                            <input idCard class="form-control" data-testid="branchNoInput" formControlName="branchNo" id="branchNoInput"
+                                type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="companyNumberInput">
+                                เบอร์ติดต่อบริษัท
+                            </label>
+                            <input idCard class="form-control" data-testid="companyNumberInput" formControlName="companyNumber" id="companyNumberInput"
+                                type="text">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr class="hr-custom mb-3" />
+    </div>
+    <div #footer class="footer d-flex justify-content-center gap-3">
+        <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
+            (click)="onBack()">
+            ย้อนกลับ
+        </button>
+        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
+            (click)="onNext()">
+            ถัดไป
+        </button>
+    </div>
+</div>

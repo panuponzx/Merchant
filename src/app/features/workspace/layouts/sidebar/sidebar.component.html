@@ -1,1 +1,38 @@
-<p>sidebar works!</p>
+<nav class="sidebar d-flex">
+  <div class="d-flex flex-column justify-content-between">
+    <div class="nav-logo">
+      <a
+        id="sidebarLogoLink"
+        data-testid="sidebarLogoLink"
+        class="nav-link"
+        routerLink="/work-space/menu-option"
+      >
+        <img src="../../../../../assets/images/logo/EXAT.png" alt="logo">
+      </a>
+    </div>
+    <div
+      *ngIf="user"
+      class="nav-menu-wrapper"
+    >
+      <ul class="nav flex-column">
+        <li
+          *ngFor="let parent of routes"
+          class="nav-item"
+        >
+          <a
+            [id]="parent.id"
+            [attr.data-testid]="parent.id"
+            class="nav-link nav-menu h3"
+            [class.active]="getActiveRoute(parent)"
+            [routerLink]="parent | getRoutePath: customerId"
+          >
+            {{ parent.data?.label ? parent.data?.label : 'unknow' }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="nav-bottom-menu-wrapper">
+    <h6>EXAT</h6>
+  </div>
+</nav>

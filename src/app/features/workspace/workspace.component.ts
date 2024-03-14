@@ -7,10 +7,7 @@ import { Component } from '@angular/core';
 })
 export class WorkspaceComponent {
 
-  public isSidebar: boolean = false;
-
   constructor(
-
   ) {
   }
 

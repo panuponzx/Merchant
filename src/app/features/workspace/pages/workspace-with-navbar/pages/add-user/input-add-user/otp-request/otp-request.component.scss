@@ -1,0 +1,22 @@
+.content-container {
+  background-color: #FFF;
+  padding: 1rem 4.5rem 1rem 4.5rem;
+}
+
+.content-container h2, h3 {
+  color: var(--color-blue-exat);
+}
+
+.body-wrapper {
+padding: 1rem 5rem 1rem 5rem;
+}
+
+  .footer {
+    background-color: #FFF;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}

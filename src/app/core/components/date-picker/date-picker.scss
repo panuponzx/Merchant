@@ -1,0 +1,59 @@
+
+.datepicker-container .datepicker-custom:read-only {
+  cursor: pointer;
+  background-color: #fff;
+  opacity: 1;
+  &.invalid {
+    border-color: #dc3545 !important;
+  }
+}
+
+.datepicker-container .datepicker-custom:disabled {
+  cursor: default;
+  opacity: var(--disabled-opacity);
+  background-color: #F6F6F6;
+}
+
+.datepicker-container .btn-calendar  {
+  background-color: transparent;
+  padding: 0rem;
+  border: none;
+}
+
+.datepicker-container .btn-clear-calendar {
+  color: var(--color-red-exat);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  padding: 0rem;
+  background-color: transparent;
+  border: none;
+  font-size: 1.75rem;
+}
+
+.datepicker-container {
+  position: relative;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.datepicker-button-wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0rem 1.25rem 0rem 0.5rem;
+}
+
+.datepicker-container .datepicker-custom {
+  border-style: solid;
+  border-color: #ced4da !important;
+  padding-right: 2.75rem;
+}
+
+.datepicker-container:has(.btn-clear-calendar) .datepicker-custom {
+  padding-right: 3.75rem;
+}
+

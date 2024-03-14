@@ -1,24 +1,74 @@
-h1 {
+h1,
+h2,
+h3,
+h4,
+h5,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5 {
+  font-weight: 400;
+}
+
+h1,
+.h1 {
   font-size: 24px;
   line-height: 35.88px;
 }
 
-h2 {
+h2,
+.h2 {
   font-size: 20px;
   line-height: 29.9px;
 }
 
-h3 {
+h3,
+.h3 {
   font-size: 16px;
   line-height: 23.92px;
 }
 
-h4 {
+h4,
+.h4 {
   font-size: 14px;
   line-height: 20.93px;
 }
 
+.h5,
 h5 {
   font-size: 24px;
   line-height: 14.95px;
 }
+
+.h1.semi-bold,
+.h2.semi-bold,
+.h3.semi-bold,
+.h4.semi-bold,
+.h5.semi-bold {
+  font-weight: 600;
+}
+
+// Customer
+.customer-type-1 {
+  color: var(--color-customer-type-1);
+}
+
+.customer-type-2 {
+  color: var(--color-customer-type-2);
+}
+
+.customer-type-3 {
+  color:var(--color-customer-type-3);
+}
+
+// Text Color
+
+.text-blue-exat {
+  color: var(--color-blue-exat);
+}
+
+.text-red-exat {
+  color: var(--color-red-exat);
+}
+

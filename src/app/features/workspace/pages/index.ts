@@ -1,1 +1,2 @@
-export * from './search-user/search-user.component';
+export * from './workspace-with-navbar';
+export * from './workspace-with-navbar-and-sidebar'

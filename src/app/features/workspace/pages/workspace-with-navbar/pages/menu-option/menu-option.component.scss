@@ -1,0 +1,24 @@
+.menu-container {
+  background: var(--color-blue-gradient);
+  padding: var(--content-padding);
+}
+
+h2 {
+  color: var(--color-white);
+  text-align: center;
+}
+
+.menu-option-content-wrapper {
+  max-width: 403px;
+  width: 100%;
+  text-align: center;
+}
+
+.menu-wrapper {
+  margin-top: 40px;
+  display: grid;
+  gap: 40px;
+}
+
+
+

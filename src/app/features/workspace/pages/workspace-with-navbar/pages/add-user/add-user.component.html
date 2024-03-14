@@ -1,0 +1,21 @@
+<div class="add-user-container d-flex align-items-center justify-content-center h-100">
+    <div class="menu-option-content-wrapper">
+        <h2>เลือกประเภทผู้ใช้งานใหม่</h2>
+        <div class="menu-wrapper">
+            <button class="custom-btn btn-type-2" data-testid="personalUserButton" id="personalUserButton"
+                title="ผู้ใช้งานทั่วไป" (click)="onAddPersonalUser()">
+                <h4>
+                    <icon-svg [color]="'#FFFFFF'" [path]="'assets/images/icons/user-search.svg'"
+                        [size]="'m'" />ผู้ใช้งานทั่วไป
+                </h4>
+            </button>
+            <button class="custom-btn btn-type-2" data-testid="addUserButton" id="addUserButton"
+                title="เพิ่มผู้ใช้งานใหม่" (click)="onAddJuristicUser()">
+                <h4>
+                    <icon-svg [color]="'#FFFFFF'" [path]="'assets/images/icons/buildings.svg'"
+                        [size]="'m'" />นิติบุคคล
+                </h4>
+            </button>
+        </div>
+    </div>
+</div>

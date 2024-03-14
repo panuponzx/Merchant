@@ -1,0 +1,117 @@
+<div
+  class="search-container search-user-container h-100"
+  [ngClass]="tempSearch ? null : 'd-flex align-items-center justify-content-center'"
+>
+  <div
+    class="search-user-content-wrapper"
+    [ngClass]="tempSearch ? 'mb-5' : null"
+    [@fadeInOutseach]
+  >
+    <ng-container *ngIf="tempSearch">
+      <div class="mb-4">
+        <button
+          class="custom-btn btn-type-3"
+          data-testid="backButton"
+          id="backButton"
+          title="กลับ"
+          type="button"
+          (click)="onBack()"
+        >
+          กลับ
+        </button>
+      </div>
+    </ng-container>
+
+    <h2 class="mb-4">ค้นหาข้อมูลผู้ใช้งาน</h2>
+    <form  [formGroup]="form" class="form-wrapper" (ngSubmit)="onSearch()">
+      <div class="form-check mb-4">
+        <input
+          class="form-check-input"
+          data-testid="domesticRadio"
+          id="domesticRadio"
+          formControlName="customerTypeId"
+          type="radio"
+          value="domestic"
+        >
+        <h3
+          class="form-check-label"
+          for="domesticRadio"
+        >
+          หมายเลขประจำตัวผู้เสียภาษี (บุคคลธรรมดา, นิติบุคคล)
+        </h3>
+      </div>
+
+      <div class="form-check mb-4">
+        <input
+          class="form-check-input"
+          data-testid="internationalRadio"
+          id="internationalRadio"
+          formControlName="customerTypeId"
+          type="radio"
+          value="international"
+        >
+        <h3
+          class="form-check-label"
+          for="internationalRadio"
+        >
+          หมายเลขพาสปอร์ต (ชาวต่างชาติ)
+        </h3>
+      </div>
+      <div class="mb-5">
+        <label class="label-input">ข้อมูลผู้ใช้งาน</label>
+        <div class="input-with-icon-wrapper">
+          <icon-svg
+            class="svg-search-icon"
+            [color]="'#2255CE'"
+            [size]="'l'"
+            [path]="'search' | icon"
+          />
+          <input
+            aria-label="Username"
+            class="form-control input-with-icon-right"
+            data-testid="citizenIdInput"
+            formControlName="citizenId"
+            id="citizenIdInput"
+            type="text"
+            placeholder="เลขประจำตัวผู้เสียภาษี / หมายเลขพาสพอร์ต"
+          >
+        </div>
+      </div>
+      <ng-container *ngIf="!tempSearch">
+        <div class="button-wrapper">
+          <button
+            class="custom-btn btn-type-2"
+            data-testid="searchButton"
+            [disabled]="!form.controls['citizenId'].value || isLoading"
+            id="searchButton"
+            title="ค้นหา"
+            type="submit"
+            (click)="onSearch()"
+          >
+            ค้นหา
+          </button>
+        </div>
+      </ng-container>
+
+    </form>
+  </div>
+  <ng-container *ngIf="tempSearch && !isLoading">
+    <hr class="hr-custom light mb-5" />
+    <div class="search-user-datatable-wrapper" [@fadeInOutTable]>
+      <datatable
+        [columns]="columns"
+        [collectionSize]="collectionSize"
+        [customDatatableFooterClass]="'datatable-info-white'"
+        [id]="'userDatatable'"
+        [isLoading]="isLoading"
+        [limitRow]="limitRow"
+        [pages]="pages"
+        [rows]="rows"
+        emptyMessage="ไม่มีข้อมูล"
+        (onChangePageEvent)="onChangePage($event)"
+        (onRowActionEvent)="onAction($event)"
+      />
+    </div>
+  </ng-container>
+
+</div>

@@ -1,0 +1,39 @@
+<div class="content-container h-100">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 *ngIf="customerType === 1" class="content-title">เพิ่มผู้ใช้งาน - บุคคลทั่วไป</h1>
+            <h1 *ngIf="customerType === 2" class="content-title">เพิ่มผู้ใช้งาน - นิติบุคคล / องค์กร</h1>
+        </div>
+    </div>
+    <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
+        <hr class="hr-custom" />
+        <div class="body-wrapper">
+            <form class="d-flex justify-content-center" [formGroup]="form">
+                <div class="col-4">
+                    <h3 class="mb-3 ">หนังสือรับรองบริษัท</h3>
+                    <label class="label-input required-field" for="attachDocumentInput">
+                        หนังสือรับรอบบริษัท
+                    </label>
+                    <div>
+                        <button style="width: 100%" class="custom-btn btn-type-3" data-testid="uploadImageButton"
+                            id="uploadImageButton" title="อัพโหลด" (click)="onUpload()">
+                            <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
+                            แนบเอกสาร
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr class="hr-custom mb-3" />
+    </div>
+    <div #footer class="footer d-flex justify-content-center gap-3">
+        <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
+            (click)="onBack()">
+            ย้อนกลับ
+        </button>
+        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
+            (click)="onNext()">
+            ถัดไป
+        </button>
+    </div>
+</div>

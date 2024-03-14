@@ -1,1 +1,64 @@
-<p>navbar works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid align-items-center ">
+    <div class=" d-flex align-items-center">
+      <img
+        class="circle-navbar"
+        src="assets/images/decorations/circle_navbar.png"
+      />
+      <a class="navbar-brand" >
+        ระบบบริหารจัดการข้อมูลผู้ใช้ทาง
+      </a>
+    </div>
+    <div
+      class="collapse navbar-collapse"
+    >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <img
+            alt="Logo"
+            class="nav-logo-img"
+            src="assets/images/logo/nav-exat.png"
+          />
+        </li>
+      </ul>
+      <div class="navbar-profile-wrapper">
+        สวัสดี, {{ user?.username }}
+
+        <div
+          ngbDropdown
+          [autoClose]="true"
+          class="nav-profile dropdown"
+        >
+          <button
+            ngbDropdownToggle
+            data-testid="profileDropdownLink"
+            id="profileDropdownLink"
+            class="nav-link dropdown-toggle"
+            title="profile"
+          >
+            <icon-svg
+              class="user-search"
+              [color]="'#2255CE'"
+              [path]="'assets/images/icons/user-setting.svg'"
+              [size]="'28px'"
+            />
+          </button>
+          <div
+            ngbDropdownMenu
+            class="dropdown-menu"
+            aria-labelledby="profileDropdownLink"
+          >
+            <a
+              ngbDropdownItem
+              class="dropdown-item h3"
+              data-testid="logoutLink"
+              id="logoutLink"
+              title="ออกจากระบบ"
+              (click)="onLogout()"
+            >ออกจากระบบ</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,9 +1,30 @@
 :root {
-  --color-main: #2242a3;
-  --color-white: #fff;
+  --color-blue-exat: #2255CE;
+  --color-red-exat: #D63226;
+  --color-blue-1: #241D50;
+  --color-blue-2: #F6F6F6;
+  --color-silver: #A1A1A1;
+  --color-white: #FFFFFF;
+  --color-blue-gradient: linear-gradient(0deg, var(--color-blue-1), var(--color-blue-exat));
 
-  --color-gradient: linear-gradient(0deg, rgba(36, 29, 80, 1), rgba(34, 85, 206, 1));
-
+  // Default
+  --border-radius: 8px;
+  --placeholder-color: #CCCCCC;
+  --padding-input: 10px 16px 10px 16px;
+  --disabled-opacity: 0.65;
   --default-font-size: 1rem;
   --default-font-family: 'Kanit', sans-serif;
+
+  // Navbar
+  --navbar-height: 70px;
+
+  // Sidebar
+  --sidebar-width: 305px;
+  --sidebar-background-color: var(--color-blue-gradient);
+  --sidebar-radius: 20px;
+
+  // Button
+  --button-radius: 8px;
+  --button-padding: 10px 20px;
+
 }

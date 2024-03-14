@@ -4,7 +4,13 @@
 @import 'assets/scss/variables';
 @import 'assets/scss/reset';
 @import 'assets/scss/typography';
-
+@import 'assets/scss/form';
+@import 'assets/scss/component';
+@import 'assets/scss/button';
+@import 'assets/scss/input';
+@import 'assets/scss/container';
+@import 'assets/scss/badge';
+@import 'assets/scss/datatable';
 
 html, body {
   height: 100%;
@@ -14,4 +20,45 @@ html body {
   margin: 0;
   font-family: var(--default-font-family), sans-serif;
   font-size: var(--default-font-size);
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.loading-modal {
+  .modal-content {
+    width: 150px;
+    margin: auto;
+    background-color: transparent;
+    border: none;
+  }
+}
+
+.info-modal {
+  .modal-content {
+    animation-name: show-modal;
+    animation-duration: 0.5s;
+  }
+}
+
+@keyframes show-modal {
+  0% {
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+  }
+
+  45% {
+    transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+  }
+
+  80% {
+    transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
 }

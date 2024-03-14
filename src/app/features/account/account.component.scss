@@ -1,16 +1,16 @@
 .account-container {
-  background: var(--color-gradient);
+  background: var(--color-blue-gradient);
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .account-container .logo-wrapper {
   width: 150px;
   height: 150px;
-  margin-top: 7rem;
   margin-bottom: 3rem;
 }
 
