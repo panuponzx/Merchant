@@ -259,11 +259,12 @@ export class GeneralInfoComponent {
   setFormValue(customer: CustomerModel, addresses: AddressModel[]) {
     this.isUpdated = false;
     const formControl = this.form.controls;
-    console.log("[setFormValue] dd", this.transformDatePipe.transform(customer.birthdate, null));
-    
-    formControl['birthdate'].setValue(customer.birthdate);
+    // console.log("[setFormValue] dd", this.transformDatePipe.transform(customer.birthdate, null));
+    console.log("[setFormValue] birthdate => ", customer.birthdate);
+    console.log("[setFormValue] cardExpDate => ", customer.cardExpDate);
+    formControl['birthdate'].setValue(new Date(customer.birthdate));
     formControl['branchTypeId'].setValue(customer.branchTypeId);
-    formControl['cardExpDate'].setValue(customer.cardExpDate);
+    formControl['cardExpDate'].setValue(new Date(customer.cardExpDate));
     formControl['channelId'].setValue(customer.channelId);
     formControl['citizenDocId'].setValue(customer.citizenDocId);
     formControl['citizenId'].setValue(this.utilitiesService.formatIdCard(customer.citizenId));
