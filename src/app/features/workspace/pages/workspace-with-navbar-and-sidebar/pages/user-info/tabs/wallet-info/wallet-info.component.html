@@ -28,7 +28,7 @@
     </div>
 
     <ng-container *ngFor="let row of walletList">
-        <div *ngIf="customerTypeId === '1' && row.walletTypeId === 1 || customerTypeId === '2' && row.walletTypeId === 4"
+        <div *ngIf="row.walletTypeId === 1"
             class="wallet-box">
             <h3 class="mb-3">กระเป๋าเติมเงิน (Prepaid)</h3>
             <div class="row mb-3">

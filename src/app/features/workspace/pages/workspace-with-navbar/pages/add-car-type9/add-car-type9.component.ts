@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-car-type9',
@@ -8,17 +8,30 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class AddCarType9Component {
 
-  public step: number = 1;
+  public step: number = 2;
 
   public userInfoType9Form: FormGroup;
   public carInfoType9Form: FormGroup;
 
   constructor(private formBuilder: FormBuilder){
     this.userInfoType9Form = this.formBuilder.group({
-
+      company: new FormControl(undefined, Validators.required),
+      citizenId: new FormControl(undefined, Validators.required),
+      cardExpDate: new FormControl(undefined, Validators.required),
+      gender: new FormControl('M', Validators.required),
+      department: new FormControl(undefined, Validators.required),
+      firstName: new FormControl(undefined, Validators.required),
+      lastName: new FormControl(undefined, Validators.required),
+      birthDate: new FormControl(undefined, Validators.required),
+      phone: new FormControl(undefined, Validators.required),
     });
     this.carInfoType9Form = this.formBuilder.group({
-
+      obuPan: new FormControl(undefined, Validators.required),
+      smartcardNo: new FormControl(undefined, Validators.required),
+      licensePlate: new FormControl(undefined, Validators.required),
+      brand: new FormControl(undefined, Validators.required),
+      model: new FormControl(undefined, Validators.required),
+      yearRegistration: new FormControl(undefined, Validators.required),
     });
   }
 
