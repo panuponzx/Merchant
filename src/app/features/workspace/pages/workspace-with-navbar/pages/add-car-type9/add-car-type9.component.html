@@ -1,0 +1,14 @@
+<div [ngSwitch]="step">
+    <input-user-info-type9
+        *ngSwitchCase="1"
+        [form]="userInfoType9Form"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-user-info-type9>
+    <input-car-info-type9
+        *ngSwitchCase="2"
+        [form]="carInfoType9Form"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-car-info-type9>
+</div>
