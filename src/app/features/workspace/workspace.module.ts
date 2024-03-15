@@ -45,6 +45,12 @@ import { InputJuristicInfoComponent } from './pages/workspace-with-navbar/pages/
 import { InputJuristicAttachDocumentComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-juristic-attach-document/input-juristic-attach-document.component';
 import { AddWalletModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/edit-car-modal/edit-car-modal.component';
+import { MenuOptionSuperAdminComponent } from './pages/workspace-with-navbar/pages/menu-option-super-admin/menu-option-super-admin.component';
+import { AddCarType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/add-car-type9.component';
+import { WorkspaceBackofficeManagementComponent } from './pages/workspace-backoffice-management/workspace-backoffice-management.component';
+import { ApprovalManagementComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-management.component';
+import { InputUserInfoType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/input-user-info-type9/input-user-info-type9.component';
+import { InputCarInfoType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/input-car-info-type9/input-car-info-type9.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +84,12 @@ import { EditCarModalComponent } from './pages/workspace-with-navbar-and-sidebar
     TopupInformationComponent,
     AddWalletModalComponent,
     EditCarModalComponent,
+    MenuOptionSuperAdminComponent,
+    AddCarType9Component,
+    WorkspaceBackofficeManagementComponent,
+    ApprovalManagementComponent,
+    InputUserInfoType9Component,
+    InputCarInfoType9Component,
   ],
   imports: [
     CommonModule,

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RestApiService } from '../../../../../../../core/services';
 import { first, map } from 'rxjs';
 import { TransformDatePipe } from '../../../../../../../core/pipes';
+import { ModalDialogService } from '../../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'app-input-add-user',
@@ -29,7 +30,8 @@ export class InputAddUserComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private restApiService: RestApiService,
-    private transformDatePipe: TransformDatePipe
+    private transformDatePipe: TransformDatePipe,
+    private modalDialogService: ModalDialogService
   ) {
     const customerTypeStr = this.activatedRoute.snapshot.paramMap.get('customerType');
     if (customerTypeStr === 'personal-info') {
@@ -65,9 +67,9 @@ export class InputAddUserComponent {
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       postalCode: new FormControl(undefined, Validators.required),
-      subDistrict: new FormControl(undefined, Validators.required),
-      district: new FormControl(undefined, Validators.required),
-      province: new FormControl(undefined, Validators.required),
+      subDistrict: new FormControl({value: undefined, disabled: true}, Validators.required),
+      district: new FormControl({value: undefined, disabled: true}, Validators.required),
+      province: new FormControl({value: undefined, disabled: true}, Validators.required),
     });
     // this.addressInfoForm = this.formBuilder.group({
     //   addressNo: new FormControl('216', Validators.required),
@@ -88,9 +90,9 @@ export class InputAddUserComponent {
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       postalCode: new FormControl(undefined, Validators.required),
-      subDistrict: new FormControl(undefined, Validators.required),
-      district: new FormControl(undefined, Validators.required),
-      province: new FormControl(undefined, Validators.required),
+      subDistrict: new FormControl({value: undefined, disabled: true}, Validators.required),
+      district: new FormControl({value: undefined, disabled: true}, Validators.required),
+      province: new FormControl({value: undefined, disabled: true}, Validators.required),
     });
 
     this.occupationDetailForm = this.formBuilder.group({
@@ -102,9 +104,9 @@ export class InputAddUserComponent {
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       postalCode: new FormControl(undefined, Validators.required),
-      subDistrict: new FormControl(undefined, Validators.required),
-      district: new FormControl(undefined, Validators.required),
-      province: new FormControl(undefined, Validators.required),
+      subDistrict: new FormControl({value: undefined, disabled: true}, Validators.required),
+      district: new FormControl({value: undefined, disabled: true}, Validators.required),
+      province: new FormControl({value: undefined, disabled: true}, Validators.required),
     });
 
     // this.occupationDetailForm = this.formBuilder.group({
@@ -117,8 +119,8 @@ export class InputAddUserComponent {
     //   street: new FormControl('กำแพงเพชร6'),
     //   postalCode: new FormControl('10900', Validators.required),
     //   subDistrict: new FormControl(undefined, Validators.required),
-    //   district: new FormControl(undefined, Validators.required),
-    //   province: new FormControl(undefined, Validators.required),
+    //   district: new FormControl({value: undefined, disabled: true}, Validators.required),
+    //   province: new FormControl({value: undefined, disabled: true}, Validators.required),
     // });
 
     this.juristicInfoForm = this.formBuilder.group({
@@ -255,6 +257,7 @@ export class InputAddUserComponent {
 
     }
     if (event) {
+      this.modalDialogService.loading();
       this.restApiService
         .post('add-customer', data)
         .pipe(
@@ -262,11 +265,18 @@ export class InputAddUserComponent {
           map(res => res as any)
         ).subscribe({
           next: (res) => {
-            alert(res.errorMessage);
-            console.log("[onSubmit] res => ", res);
+            this.modalDialogService.hideLoading();
+            if(res.errorMessage === "Success") {
+              console.log("[onSubmit] res => ", res);
+              this.modalDialogService.info('สำเร็จ');
+              this.router.navigate(['work-space/menu-option']);
+            }else {
+              this.modalDialogService.info('เกิดข้อผิดพลาด', res.errorMessage);
+            }
 
           },
           error: (err) => {
+            this.modalDialogService.hideLoading();
             console.error(err);
           }
         })

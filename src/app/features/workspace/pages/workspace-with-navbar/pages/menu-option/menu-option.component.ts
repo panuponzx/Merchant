@@ -28,7 +28,11 @@ export class MenuOptionComponent {
   }
 
   management() {
-    this.router.navigate(['work-space/management']);
+    this.router.navigate(['work-space/approval-management']);
+  }
+
+  superAdmin() {
+    this.router.navigate(['work-space/menu-option-super-admin']);
   }
 
 }

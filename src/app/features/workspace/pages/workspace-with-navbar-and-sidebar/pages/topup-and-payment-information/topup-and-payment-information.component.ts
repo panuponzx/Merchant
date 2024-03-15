@@ -37,8 +37,8 @@ export class TopupAndPaymentInformationComponent implements OnInit {
 
   public submitted: boolean = false;
   public form: FormGroup = new FormGroup({
-    startDate: new FormControl(undefined),
-    endDate: new FormControl(undefined),
+    startDate: new FormControl(undefined, [ Validators.required ]),
+    endDate: new FormControl(undefined, [ Validators.required ]),
     walletId: new FormControl(this.allWallet.walletId, [ Validators.required ])
   });
 
