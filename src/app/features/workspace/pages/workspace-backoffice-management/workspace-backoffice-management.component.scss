@@ -1,0 +1,28 @@
+.workspace-container {
+    height: 100%;
+  }
+  
+  .workspace-container .page-body-wrapper {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    min-height: calc(100vh - var(--navbar-height));
+  }
+  
+  .workspace-container .page-body-wrapper .content-wrapper {
+    padding: 1rem 4.5rem 1rem 2.5rem;
+    width: calc(100% - var(--sidebar-width));
+    margin-left: auto;
+    margin-top: var(--navbar-height);
+    height: 100%;
+    transition: 0.25s;
+  }
+  
+  @media (min-width: 992px) {
+    .workspace-container .page-body-wrapper .content-wrapper {
+      width: calc(100% - var(--sidebar-width));
+    }
+  }
+  

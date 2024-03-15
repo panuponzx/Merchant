@@ -33,7 +33,24 @@
           </h4>
       </button>
       <button
-        *ngIf="user?.role ==='superadmin'"
+        *ngIf="user?.role ==='superadmin' || true"
+        class="custom-btn btn-type-2"
+        data-testid="managementButton"
+        id="managementButton"
+        title="จัดการข้อมูลหลังบ้าน"
+        (click)="superAdmin()"
+      >
+        <h4>
+          <icon-svg
+          class="svg-icon"
+          [color]="'#FFFFFF'"
+          [size]="'20px'"
+          [path]="'exat-logo' | icon"
+        />การทางพิเศษ (EXAT)
+        </h4>
+      </button>
+      <button
+        *ngIf="user?.role ==='superadmin' || true"
         class="custom-btn btn-type-2"
         data-testid="managementButton"
         id="managementButton"

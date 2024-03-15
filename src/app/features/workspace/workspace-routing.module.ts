@@ -15,6 +15,10 @@ import {
 } from './pages';
 import { AddUserComponent } from './pages/workspace-with-navbar/pages/add-user/add-user.component';
 import { InputAddUserComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-add-user.component';
+import { MenuOptionSuperAdminComponent } from './pages/workspace-with-navbar/pages/menu-option-super-admin/menu-option-super-admin.component';
+import { AddCarType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/add-car-type9.component';
+import { WorkspaceBackofficeManagementComponent } from './pages/workspace-backoffice-management/workspace-backoffice-management.component';
+import { ApprovalManagementComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-management.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -36,6 +40,11 @@ export const routesConfig: CustomRoutesModel = [
             component: MenuOptionComponent,
           },
           {
+            id: 'menuOptionSuperAdminRoute',
+            path: 'menu-option-super-admin',
+            component: MenuOptionSuperAdminComponent,
+          },
+          {
             id: 'searchUserRoute',
             path: 'search-user',
             component: SearchUserComponent
@@ -49,7 +58,12 @@ export const routesConfig: CustomRoutesModel = [
             id: 'personalInfo',
             path: 'add-user/:customerType',
             component: InputAddUserComponent,
-          }
+          },
+          {
+            id: 'addCarType9Route',
+            path: 'add-car-type9',
+            component: AddCarType9Component,
+          },
         ]
       },
       {
@@ -91,6 +105,28 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'topup-and-payment-information'
             }
           },
+        ],
+        data: {
+          is_sidebar: true
+        }
+      },
+      {
+        path: '',
+        component: WorkspaceBackofficeManagementComponent,
+        children: [
+          {
+            id: 'approvalManagementRoute',
+            path: 'approval-management',
+            component: ApprovalManagementComponent,
+            data: {
+              is_sidebar: true,
+              label: 'การอนุมัติ',
+              // request_id: true,
+              default_path: 'approval-management',
+              // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
+            },
+            canActivate: [ TabGuard ]
+          }
         ],
         data: {
           is_sidebar: true
