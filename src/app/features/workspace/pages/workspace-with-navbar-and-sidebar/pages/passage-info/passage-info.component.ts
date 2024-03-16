@@ -155,7 +155,7 @@ export class PassageInfoComponent implements OnInit {
       page: data.page
     };
     this.restApiService
-      .post('transaction-history/get-passage', mockupData)
+      .postBackOffice('transaction-history/get-passage', mockupData)
       .pipe(
         first(),
         map(res => res as ResponsePassageInformationModel)
