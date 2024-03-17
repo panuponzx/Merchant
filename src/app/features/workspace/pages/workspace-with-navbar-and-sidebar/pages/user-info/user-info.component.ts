@@ -66,6 +66,10 @@ export class UserInfoComponent implements OnInit {
           this.totalBalance = info[1].lstSummary.reduce((a, b) => a + b.totalBalance, 0);
         }
         this.isLoading = false;
+        console.log("[loadCustomerInfo] customerTypeId => ", this.customerTypeId);
+        console.log("[loadCustomerInfo] customer => ", this.customer);
+        console.log("[loadCustomerInfo] customerId => ", this.customerId);
+        
       },
       error: (err) => {
         console.error(err);

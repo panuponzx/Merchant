@@ -22,6 +22,7 @@ export class CustomerTypePipe implements PipeTransform {
 
   transform(customer: CustomerModel | undefined, type: 'color-code' | 'name' | 'icon' | 'id'): string | IconModel | null {
     if (customer) {
+      // debugger;
       const customerType = this.getCustomerType(customer);
       if (customerType) {
         const customerValue = this.getCustomerValue(customerType);
@@ -57,7 +58,7 @@ export class CustomerTypePipe implements PipeTransform {
         } else if (customer.citizenDocId === 3) {
           return '2';
         } else {
-          return null
+          return '1'
         }
     } else if (customer && customer.customerTypeId === 2) {
         if (customer.citizenDocId === 4) {

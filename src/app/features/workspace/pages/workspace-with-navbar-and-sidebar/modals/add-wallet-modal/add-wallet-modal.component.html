@@ -3,24 +3,33 @@
         <h2>เพิ่มประเป๋าเงิน</h2>
         <h3 class="mb-3">กรุณาตรวจสอบ และ ระบุรายละเอียด</h3>
     </div>
-    <div class="mb-3">
-        <label class="label-input required-field" for="walletTypeSelect">
-            ประเภทกระเป๋า
-        </label>
-        <ng-select 
-            class="form-control" 
-            [clearable]="false" 
-            bindLabel="lable"
-            bindValue="id"
-            data-testid="walletTypeSelect"
-            placeholder="กรุณาระบุ"
-            [(ngModel)]="walletType"
-            id="walletTypeSelect"
-            [items]="walletTypeList">
-        </ng-select>
-    </div>
-    <div class="d-flex justify-content-end gap-3">
-        <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
-        <button class="custom-btn btn-type-1">เพิ่มกระเป๋าเงิน</button>
-    </div>
+    <form [formGroup]="form">
+        <div class="mb-3">
+            <label class="label-input required-field" for="walletTypeSelect">
+                ประเภทกระเป๋า
+            </label>
+            <ng-select 
+                class="form-control" 
+                [clearable]="false" 
+                bindLabel="lable"
+                bindValue="id"
+                data-testid="walletTypeSelect"
+                placeholder="กรุณาระบุ"
+                formControlName="walletType"
+                id="walletTypeSelect"
+                [items]="walletTypeList">
+            </ng-select>
+        </div>
+        <!-- <div class="mb-3">
+            <label class="label-input" for="buildingInput">
+                กำหนดจำนวนวงเงิน
+            </label>
+            <input class="form-control" data-testid="buildingInput" formControlName="building"
+                id="buildingInput" type="text">
+        </div> -->
+        <div class="d-flex justify-content-end gap-3">
+            <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
+            <button class="custom-btn btn-type-1" (click)="onAddWallet()" [disabled]="form.invalid">เพิ่มกระเป๋าเงิน</button>
+        </div>
+    </form>
 </div>
