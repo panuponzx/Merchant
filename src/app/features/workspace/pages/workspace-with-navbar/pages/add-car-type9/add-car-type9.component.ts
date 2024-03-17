@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class AddCarType9Component {
 
-  public step: number = 2;
+  public step: number = 1;
 
   public userInfoType9Form: FormGroup;
   public carInfoType9Form: FormGroup;

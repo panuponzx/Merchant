@@ -28,7 +28,7 @@
     </div>
 
     <ng-container *ngFor="let row of walletList">
-        <div *ngIf="row.walletTypeId === 1"
+        <div *ngIf="row.walletTypeId === 1 || row.walletTypeId === 4"
             class="wallet-box">
             <h3 class="mb-3">กระเป๋าเติมเงิน (Prepaid)</h3>
             <div class="row mb-3">
@@ -77,7 +77,7 @@
                         <input currencyMask class="form-control" data-testid="totalLoyaltyPointInput"
                             id="totalLoyaltyPointInput"
                             [options]="{ prefix: '', thousands: ',', decimal: '.', suffix: '' }" [type]="0"
-                            [value]="1500" readonly />
+                            [value]="row.totalPoint" readonly />
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <label class="label-input text-nowrap" for="totalBalanceInput">
@@ -109,7 +109,7 @@
             </div>
         </div>
 
-        <div *ngIf="customerTypeId === '2' && row.walletTypeId === 6" class="wallet-box">
+        <div *ngIf="row.walletTypeId === 3 || row.walletTypeId === 6" class="wallet-box">
             <h3 class="mb-3">กระเป๋ารายเดือน (Postpaid - Billing)</h3>
             <div class="row mb-3">
                 <div class="col-sm-12 col-md-6 col-lg-4">
@@ -157,7 +157,7 @@
                         <input currencyMask class="form-control" data-testid="totalLoyaltyPointInput"
                             id="totalLoyaltyPointInput"
                             [options]="{ prefix: '', thousands: ',', decimal: '.', suffix: '' }" [type]="0"
-                            [value]="1500" readonly />
+                            [value]="row.totalPoint" readonly />
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <label class="label-input text-nowrap" for="totalBalanceInput">
@@ -189,7 +189,7 @@
             </div>
         </div>
 
-        <div *ngIf="customerTypeId === '1' && row.walletTypeId === 2 || customerTypeId === '2' && row.walletTypeId === 5"
+        <div *ngIf="row.walletTypeId === 2 || row.walletTypeId === 5"
             class="wallet-box">
             <h3 class="mb-3">กระเป๋าบัตรเครดิต (Direct credit)</h3>
             <div class="row mb-3">
@@ -238,7 +238,7 @@
                         <input currencyMask class="form-control" data-testid="totalLoyaltyPointInput"
                             id="totalLoyaltyPointInput"
                             [options]="{ prefix: '', thousands: ',', decimal: '.', suffix: '' }" [type]="0"
-                            [value]="1500" readonly />
+                            [value]="row.totalPoint" readonly />
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <label class="label-input text-nowrap" for="totalBalanceInput">
