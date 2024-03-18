@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,9 +8,20 @@ import { FormGroup } from '@angular/forms';
 })
 export class InputCarInfoType9Component {
 
+  @ViewChild('footer', { static: true }) footerRef: ElementRef | undefined;
+
   @Input() public form: FormGroup | any;
 
   @Output() nextStep: EventEmitter<string> = new EventEmitter<string>();
   @Output() previousStep: EventEmitter<string> = new EventEmitter<string>();
-  
+
+  footerHeight: number = 0;
+
+  onBack() {
+    this.previousStep.emit('user-info');
+  }
+
+  onNext() {
+    this.nextStep.emit('user-info');
+  }
 }

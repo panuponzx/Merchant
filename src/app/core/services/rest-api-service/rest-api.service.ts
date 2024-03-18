@@ -19,7 +19,7 @@ export class RestApiService {
   }
 
   postBackOffice(endpoint: string, body: any) {
-    const url = `https://ewallet-backoffice.bifrost.asia/${endpoint}`
+    const url = environment.apiBackOffice + '/' + endpoint;
     return this.httpClient.post<ResponseMessageModel>(url, body)
   }
 

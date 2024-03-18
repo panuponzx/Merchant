@@ -5,4 +5,51 @@
         </div>
     </div>
     <hr class="hr-custom" />
+    <div class="col-4 mb-3">
+        <label class="label-input" for="approvalSelect">
+            การอนุมัติ
+        </label>
+        <ng-select 
+            class="form-control"
+            [clearable]="false" 
+            bindLabel="label"
+            bindValue="id"
+            id="approvalSelect"
+            data-testid="approvalSelect" 
+            [(ngModel)]="approval"
+            [items]="approvalList">
+        </ng-select>
+    </div>
+    <div class="navs-container">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="activeTab"
+          (navChange)="onChangeNav($event)"
+          class="nav-tabs nav-tabs-header"
+        >
+          <li [ngbNavItem]="'waiting-for-approval'">
+            <button ngbNavLink>รอการชำระเงิน</button>
+            <ng-template ngbNavContent>
+              <!-- <billing-pending></billing-pending> -->
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'approval'">
+            <button ngbNavLink>ชำระแล้ว</button>
+            <ng-template ngbNavContent>
+              <!-- <pay-information></pay-information> -->
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'reject'">
+            <button ngbNavLink>เติมเงิน</button>
+            <ng-template ngbNavContent>
+              <!-- <topup-information
+                [tempSearch]="tempSearch"
+                (onLoading)="onLoading($event)"
+              ></topup-information> -->
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+      </div>
 </div>

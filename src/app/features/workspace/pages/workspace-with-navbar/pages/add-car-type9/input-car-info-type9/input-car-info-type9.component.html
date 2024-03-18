@@ -1,1 +1,96 @@
-<p>input-car-info-type9 works!</p>
+<div class="content-container h-100">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">ลงทะเบียน รถประเภท 9</h1>
+        </div>
+    </div>
+    <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
+        <hr class="hr-custom" />
+        <div class="body-wrapper">
+            <h2 class="mb-3">ข้อมูลรายละเอียดการลงทะเบียน</h2>
+            <h3 class="mb-3">รายละเอียดอุปกรณ์​ และรถยนต์</h3>
+            <form [formGroup]="form">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="obuPanInput">
+                                หมายเลข OBU
+                            </label>
+                            <input class="form-control"
+                                id="obuPanInput" type="text" formControlName="obuPan">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="smartcardNoInput">
+                                หมายเลข Smart Card
+                            </label>
+                            <input class="form-control"
+                                id="smartcardNoInput" type="text" formControlName="smartcardNo">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="licensePlateInput">
+                                ทะเบียนรถ
+                            </label>
+                            <input class="form-control" data-testid="licensePlateInput" formControlName="licensePlate" id="licensePlateInput"
+                                type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="brandInput">
+                                ยี่ห้อ
+                            </label>
+                            <ng-select 
+                                class="form-control"
+                                [clearable]="false" 
+                                bindLabel="name"
+                                id="brandInput"
+                                data-testid="brandInput" 
+                                formControlName="brand"
+                                [items]="[]">
+                            </ng-select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="modelInput">
+                                รุ่น
+                            </label>
+                            <ng-select 
+                                class="form-control"
+                                [clearable]="false" 
+                                bindLabel="name"
+                                id="modelInput"
+                                data-testid="modelInput" 
+                                formControlName="model"
+                                [items]="[]">
+                            </ng-select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="yearRegistrationInput">
+                                ปีจดทะเบียน
+                            </label>
+                            <ng-select 
+                                class="form-control"
+                                [clearable]="false" 
+                                bindLabel="name"
+                                id="yearRegistrationInput"
+                                data-testid="yearRegistrationInput" 
+                                formControlName="yearRegistration"
+                                [items]="[]">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr class="hr-custom mb-3" />
+    </div>
+    <div #footer class="footer d-flex justify-content-center gap-3">
+        <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
+            (click)="onBack()">
+            ย้อนกลับ
+        </button>
+        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
+            (click)="onNext()">
+            ถัดไป
+        </button>
+    </div>
+</div>

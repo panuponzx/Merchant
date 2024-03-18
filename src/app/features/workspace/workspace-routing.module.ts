@@ -116,7 +116,7 @@ export const routesConfig: CustomRoutesModel = [
         children: [
           {
             id: 'approvalManagementRoute',
-            path: 'approval-management',
+            path: 'approval-management/:tab',
             component: ApprovalManagementComponent,
             data: {
               is_sidebar: true,

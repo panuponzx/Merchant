@@ -69,6 +69,7 @@ export class WalletInfoComponent implements OnInit {
         map(res => res as ReponseWalletSummaryModel)
       ).subscribe({
         next: (res) => {
+          console.log("[loadWalletInfo] res => ", res);
           this.setWallet(res.lstSummary);
           this.isLoading = false;
         },
@@ -99,7 +100,7 @@ export class WalletInfoComponent implements OnInit {
     lstSummary.forEach((wallet) => {
       wallet.lstObus.forEach((obu: any) => {
         wallet.lstCars.filter((car) => {
-          if (Object.keys(car).length !== 0 && car.index === obu.index) {
+          if (car.index === obu.index) {
             const hasDuplicateId = walletArr.some((value: any) => value.walletId === wallet.walletId);
             if (!hasDuplicateId) {
               const mergedArray = wallet.lstCars.reduce((acc: any, obj1) => {
@@ -112,7 +113,7 @@ export class WalletInfoComponent implements OnInit {
               walletArr.push({
                 lstCars: wallet.lstCars,
                 lstObus: wallet.lstObus,
-                row: mergedArray,
+                row: Object.keys(car).length === 0 || Object.keys(obu).length === 0 ? [] : mergedArray,
                 totalBalance: wallet.totalBalance,
                 totalPoint: wallet.totalPoint,
                 totalPointBalance: wallet.totalPointBalance,
@@ -129,6 +130,7 @@ export class WalletInfoComponent implements OnInit {
     });
     this.defaultWalletList = [...walletArr];
     this.walletList = [...walletArr];
+    console.log("[setWallet] walletList => ", this.walletList);
   }
 
   onAddWallet() {
@@ -138,15 +140,17 @@ export class WalletInfoComponent implements OnInit {
       // size: 'xl',
       keyboard: false,
     });
-    // modalRef.componentInstance.data = res.result;
+    modalRef.componentInstance.customerId = this.customerId;
+    modalRef.componentInstance.customerTypeId = this.customerTypeId;
     modalRef.result.then(
       (result) => {
         if (result) {
-          console.log('[showTableModal] result => ', result);
+          console.log('[onAddWallet] result => ', result);
+          this.loadWalletInfo();
         }
       },
       (reason) => {
-        console.log('[showTableModal] reason => ', reason);
+        console.log('[onAddWallet] reason => ', reason);
       }
     );
   }

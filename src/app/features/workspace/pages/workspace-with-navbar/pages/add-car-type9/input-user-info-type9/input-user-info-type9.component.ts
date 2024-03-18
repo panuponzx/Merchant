@@ -17,5 +17,12 @@ export class InputUserInfoType9Component {
 
   footerHeight: number = 0;
 
+  onBack() {
+    this.previousStep.emit('user-info');
+  }
+
+  onNext() {
+    this.nextStep.emit('user-info');
+  }
 
 }
