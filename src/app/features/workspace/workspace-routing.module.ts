@@ -19,6 +19,8 @@ import { MenuOptionSuperAdminComponent } from './pages/workspace-with-navbar/pag
 import { AddCarType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/add-car-type9.component';
 import { WorkspaceBackofficeManagementComponent } from './pages/workspace-backoffice-management/workspace-backoffice-management.component';
 import { ApprovalManagementComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-management.component';
+import { ApprovalCancelDeviceComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/approval-cancel-device.component';
+import { AccountMaintenanceFeeComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/account-maintenance-fee.component';
 import { SettingEarnCampaignComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/setting-earn-campaign.component';
 
 export const routesConfig: CustomRoutesModel = [
@@ -116,6 +118,32 @@ export const routesConfig: CustomRoutesModel = [
         component: WorkspaceBackofficeManagementComponent,
         children: [
           {
+            id: 'approvalCancelDeviceRoute',
+            path: 'approval-cancel-device/:tab',
+            component: ApprovalCancelDeviceComponent,
+            data: {
+              is_sidebar: true,
+              label: 'การอนุมัติยกเลิกอุปกรณ์',
+              // request_id: true,
+              default_path: 'approval-cancel-device',
+              allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
+            },
+            canActivate: [ TabGuard ]
+          },
+          {
+            id: 'accountMaintenanceFeeRoute',
+            path: 'account-maintenance-fee/:tab',
+            component: AccountMaintenanceFeeComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ระบบแจ้งค่ารักษาอุปกรณ์',
+              // request_id: true,
+              default_path: 'account-maintenance-fee',
+              allowed_tabs: ['maintenance-costs', 'maintenance-device-close']
+            },
+            canActivate: [ TabGuard ]
+          },
+          {
             id: 'approvalManagementRoute',
             path: 'approval-management/:tab',
             component: ApprovalManagementComponent,
@@ -124,7 +152,7 @@ export const routesConfig: CustomRoutesModel = [
               label: 'การอนุมัติ',
               // request_id: true,
               default_path: 'approval-management',
-              // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
+              allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
             canActivate: [ TabGuard ]
           },

@@ -24,6 +24,7 @@ export class SidebarComponent {
   ) {
     this.authenticationService.user?.subscribe(x => this.user = x);
     this.routes = this.activatedRoute.routeConfig?.children ? [...this.activatedRoute.routeConfig.children].filter((x: CustomRouteModel) => x.data?.is_sidebar) : [];
+    console.log("[constructor] routes => ", this.routes);
     this.customerId = this.getCustomerId();
   }
 
