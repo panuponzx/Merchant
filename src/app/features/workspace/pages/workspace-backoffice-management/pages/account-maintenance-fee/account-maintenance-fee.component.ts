@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-approval-cancel-device',
-  templateUrl: './approval-cancel-device.component.html',
-  styleUrl: './approval-cancel-device.component.scss'
+  selector: 'app-account-maintenance-fee',
+  templateUrl: './account-maintenance-fee.component.html',
+  styleUrl: './account-maintenance-fee.component.scss'
 })
-export class ApprovalCancelDeviceComponent {
+export class AccountMaintenanceFeeComponent {
 
   public approval: number = 1;
 
-  public activeTab: 'waiting-for-approval' | 'approval' | 'reject' | string | null = 'waiting-for-approval';
+  public activeTab: 'maintenance-costs' | 'maintenance-device-close' | string | null = 'maintenance-costs';
 
   public submitted: boolean = false;
   public form: FormGroup;
@@ -23,14 +23,13 @@ export class ApprovalCancelDeviceComponent {
     ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
-      startDate: new FormControl(undefined, [ Validators.required ]),
-      endDate: new FormControl(undefined, [ Validators.required ]),
+      date: new FormControl(undefined, [ Validators.required ]),
       checkpoint: new FormControl(undefined, [ Validators.required ])
     });
   }
 
   onChangeNav(event: NgbNavChangeEvent) {
-    const url = 'work-space/approval-cancel-device/' + event.nextId;
+    const url = 'work-space/account-maintenance-fee/' + event.nextId;
     this.router.navigate([url], { replaceUrl: true });
   }
 

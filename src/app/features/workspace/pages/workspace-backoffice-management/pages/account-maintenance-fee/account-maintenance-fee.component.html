@@ -1,7 +1,7 @@
 <div class="content-container container-xl p-0">
     <div class="content-container-header">
         <div class="content-container-header-item">
-            <h1 class="content-title">การอนุมัติยกเลิกการใช้งานอุปกรณ์ Easy pass (OBU)</h1>
+            <h1 class="content-title">ระแบบแจ้งค่ารักษาอุปกรณ์ - รายการ</h1>
         </div>
     </div>
     <hr class="hr-custom" />
@@ -9,30 +9,34 @@
         <form [formGroup]="form" class="d-block d-sm-flex gap-3 align-items-end">
             <div class="row g-2 g-sm-3 form-wrapper">
                 <div class="col-12 col-md-4">
-                    <label class="label-input text-nowrap" for="startDateDatepicker">
-                        วันที่ (จาก)
+                    <label class="label-input text-nowrap" for="dateDatePicker">
+                        วันที่ที่ต้องการออกใบแจ้งหนี้
                     </label>
                     <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
-                        formControlName="startDate" [id]="'startDateDatePicker'"
-                        [invalid]="submitted && form.controls['startDate'].errors ? true : false" locale="th"
-                        [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
-                </div>
-                <div class="col-12 col-md-4">
-                    <label class="label-input text-nowrap" for="endDateDatepicker">
-                        วันที่ (ถึง)
-                    </label>
-                    <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
-                        formControlName="endDate" [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value"
-                        [invalid]="submitted && form.controls['endDate'].errors ? true : false" locale="th"
+                        formControlName="date" [id]="'dateDatePicker'"
+                        [invalid]="submitted && form.controls['date'].errors ? true : false" locale="th"
                         [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
                 </div>
                 <div class="col-12 col-md-4">
                     <label class="label-input text-nowrap" for="walletSelect">
-                        อาคารด่าน
+                        ข้อมูลผู้ใช้งาน (เลขบัตรประชาชน, เลขหนังสือเดินทาง)
                     </label>
-                    <ng-select class="form-control" [clearable]="false" bindLabel="walletName" bindValue="walletId"
+                    <div class="input-box">
+                        <input
+                          class="form-control"
+                          id="searchInput"
+                          data-testid="searchInput"
+                          formControlName="search"
+                          placeholder="กรุณาระบุข้อมูล"
+                          type="text"
+                        />
+                        <div class="icon-search">
+                            <icon-svg [color]="'#2255CE'" [path]="'assets/images/icons/search.svg'" [size]="'m'" />
+                        </div>
+                    </div>
+                    <!-- <ng-select class="form-control" [clearable]="false" bindLabel="walletName" bindValue="walletId"
                         data-testid="walletSelect" formControlName="checkpoint" [placeholder]="'กรุณาระบุ'"
-                        id="walletSelect" [items]="[]"></ng-select>
+                        id="walletSelect" [items]="[]"></ng-select> -->
                 </div>
             </div>
             <div class="button-wrapper">
@@ -46,22 +50,16 @@
             <div class="d-flex justify-content-between">
                 <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
                 class="nav-tabs nav-tabs-header">
-                <li [ngbNavItem]="'waiting-for-approval'">
-                    <button ngbNavLink>กำลังรอ</button>
+                <li [ngbNavItem]="'maintenance-costs'">
+                    <button ngbNavLink>แจ้งค่ารักษาอุปกรณ์</button>
                     <ng-template ngbNavContent>
                         <cancel-device-waiting-for-approval></cancel-device-waiting-for-approval>
                     </ng-template>
                 </li>
-                <li [ngbNavItem]="'approval'">
-                    <button ngbNavLink>อนุมัติ</button>
+                <li [ngbNavItem]="'maintenance-device-close'">
+                    <button ngbNavLink>แจ้งปิดอุปกรณ์</button>
                     <ng-template ngbNavContent>
                         <cancel-device-approval></cancel-device-approval>
-                    </ng-template>
-                </li>
-                <li [ngbNavItem]="'reject'">
-                    <button ngbNavLink>ปฏิเสธ</button>
-                    <ng-template ngbNavContent>
-                        <cancel-device-reject></cancel-device-reject>
                     </ng-template>
                 </li>
             </ul>

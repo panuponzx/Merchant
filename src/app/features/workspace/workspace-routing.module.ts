@@ -20,6 +20,7 @@ import { AddCarType9Component } from './pages/workspace-with-navbar/pages/add-ca
 import { WorkspaceBackofficeManagementComponent } from './pages/workspace-backoffice-management/workspace-backoffice-management.component';
 import { ApprovalManagementComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-management.component';
 import { ApprovalCancelDeviceComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/approval-cancel-device.component';
+import { AccountMaintenanceFeeComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/account-maintenance-fee.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -125,6 +126,19 @@ export const routesConfig: CustomRoutesModel = [
               // request_id: true,
               default_path: 'approval-cancel-device',
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
+            },
+            canActivate: [ TabGuard ]
+          },
+          {
+            id: 'accountMaintenanceFeeRoute',
+            path: 'account-maintenance-fee/:tab',
+            component: AccountMaintenanceFeeComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ระบบแจ้งค่ารักษาอุปกรณ์',
+              // request_id: true,
+              default_path: 'account-maintenance-fee',
+              allowed_tabs: ['maintenance-costs', 'maintenance-device-close']
             },
             canActivate: [ TabGuard ]
           },

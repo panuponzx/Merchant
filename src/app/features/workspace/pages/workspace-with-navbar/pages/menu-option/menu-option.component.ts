@@ -28,7 +28,7 @@ export class MenuOptionComponent {
   }
 
   management() {
-    this.router.navigate(['work-space/approval-management/waiting-for-approval']);
+    this.router.navigate(['work-space/approval-cancel-device/waiting-for-approval']);
   }
 
   superAdmin() {

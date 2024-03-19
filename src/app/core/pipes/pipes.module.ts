@@ -9,6 +9,7 @@ import { FormarrayToFormgroupPipe } from './formarray-to-formgroup.pipe';
 import { FormcontrolToFormgroupPipe } from './formcontrol-to-formgroup.pipe';
 import { GetTotalPagePipe } from './get-total-page.pipe';
 import { TransformDatePipe } from './transform-date.pipe';
+import { WalletStatusPipe } from './wallet-status.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TransformDatePipe } from './transform-date.pipe';
     FormarrayToFormgroupPipe,
     FormcontrolToFormgroupPipe,
     GetTotalPagePipe,
-    TransformDatePipe
+    TransformDatePipe,
+    WalletStatusPipe
   ],
   imports: [
     CommonModule
@@ -32,7 +34,8 @@ import { TransformDatePipe } from './transform-date.pipe';
     FormarrayToFormgroupPipe,
     FormcontrolToFormgroupPipe,
     GetTotalPagePipe,
-    TransformDatePipe
+    TransformDatePipe,
+    WalletStatusPipe
   ],
   providers: [
     GetRoutePathPipe,
@@ -42,7 +45,8 @@ import { TransformDatePipe } from './transform-date.pipe';
     FormarrayToFormgroupPipe,
     FormcontrolToFormgroupPipe,
     GetTotalPagePipe,
-    TransformDatePipe
+    TransformDatePipe,
+    WalletStatusPipe
   ]
 })
 export class PipesModule {

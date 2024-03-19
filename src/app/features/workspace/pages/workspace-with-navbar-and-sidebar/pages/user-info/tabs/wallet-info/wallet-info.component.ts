@@ -16,10 +16,10 @@ export class WalletInfoComponent implements OnInit {
   @Input() public customerId: string | null = null;
   @Input() public customerTypeId: string | null = null;
 
-  public isCollapsedPrepaid: boolean = true;
-  public isCollapsedPostpaid: boolean = true;
-  public isCollapsedDirectCredit: boolean = true;
-  public isCollapsedType9: boolean = true;
+  // public isCollapsedPrepaid: boolean = true;
+  // public isCollapsedPostpaid: boolean = true;
+  // public isCollapsedDirectCredit: boolean = true;
+  // public isCollapsedType9: boolean = true;
 
   public activeUsedColumns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'ลำดับ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
@@ -99,7 +99,7 @@ export class WalletInfoComponent implements OnInit {
     let walletArr: any = [];
     lstSummary.forEach((wallet) => {
       wallet.lstObus.forEach((obu: any) => {
-        wallet.lstCars.filter((car) => {
+        wallet.lstCars.filter((car: any) => {
           if (car.index === obu.index) {
             const hasDuplicateId = walletArr.some((value: any) => value.walletId === wallet.walletId);
             if (!hasDuplicateId) {
@@ -122,6 +122,7 @@ export class WalletInfoComponent implements OnInit {
                 walletStatus: wallet.walletStatus,
                 walletTypeId: wallet.walletTypeId,
                 walletTypeName: wallet.walletTypeName,
+                isCollapsed: true,
               });
             }
           }
