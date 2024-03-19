@@ -19,6 +19,7 @@ import { MenuOptionSuperAdminComponent } from './pages/workspace-with-navbar/pag
 import { AddCarType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/add-car-type9.component';
 import { WorkspaceBackofficeManagementComponent } from './pages/workspace-backoffice-management/workspace-backoffice-management.component';
 import { ApprovalManagementComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-management.component';
+import { SettingEarnCampaignComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/setting-earn-campaign.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -126,8 +127,22 @@ export const routesConfig: CustomRoutesModel = [
               // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
             },
             canActivate: [ TabGuard ]
+          },
+          {
+            id: 'settingEarnCampaignComponent',
+            path: 'setting-earn-campaign/:tab',
+            component: SettingEarnCampaignComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ระบบการให้คะแนน',
+              // request_id: true,
+              default_path: 'setting-earn-campaign',
+              // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
+            },
+            canActivate: [ TabGuard ]
           }
         ],
+        
         data: {
           is_sidebar: true
         }
