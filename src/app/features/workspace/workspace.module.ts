@@ -51,6 +51,7 @@ import { WorkspaceBackofficeManagementComponent } from './pages/workspace-backof
 import { ApprovalManagementComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-management.component';
 import { InputUserInfoType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/input-user-info-type9/input-user-info-type9.component';
 import { InputCarInfoType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/input-car-info-type9/input-car-info-type9.component';
+import { ApprovalCancelDeviceComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/approval-cancel-device.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { InputCarInfoType9Component } from './pages/workspace-with-navbar/pages/
     ApprovalManagementComponent,
     InputUserInfoType9Component,
     InputCarInfoType9Component,
+    ApprovalCancelDeviceComponent,
   ],
   imports: [
     CommonModule,
