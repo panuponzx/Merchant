@@ -16,14 +16,22 @@
     </div>
 
     <div class="navs-container">
-        <datatable>
-            
-        </datatable>
+        <datatable
+        [columns]="columns"
+        [collectionSize]="collectionSize"
+        [id]="'userDatatable'"
+        [isLoading]="isLoading"
+        [limitRow]="limitRow"
+        [pages]="pages"
+        [rows]="rows"
+        emptyMessage="ไม่มีข้อมูล"
+        (onRowActionEvent)="onAction($event)">
+    </datatable>
     </div>
 
     <hr class="hr-custom" />
 
-    <div class="col-12 col-md-4 mb-3">
+    <div class="navs-container">
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
             <h2 class="content-title mb-3 mb-md-0">
                 การให้คะแนนพิเศษ
@@ -43,16 +51,14 @@
         <datatable
         [columns]="columns"
         [collectionSize]="collectionSize"
-        [customDatatableFooterClass]="'datatable-info-white'"
         [id]="'userDatatable'"
         [isLoading]="isLoading"
         [limitRow]="limitRow"
         [pages]="pages"
-        [rows]="rows"
+        [rows]="rows1"
         emptyMessage="ไม่มีข้อมูล"
-        (onChangePageEvent)="onChangePage($event)"
         (onRowActionEvent)="onAction($event)">
-            
-        </datatable>
+    </datatable>
+    
     </div>
 </div>
