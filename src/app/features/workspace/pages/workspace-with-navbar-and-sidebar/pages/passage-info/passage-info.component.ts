@@ -5,6 +5,7 @@ import { first, map, Observable, zip } from 'rxjs';
 import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel, PassageInformationModel, PassageInformationPayloadModel, ResponsePassageInformationModel } from '../../../../../../core/interfaces';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
+import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'app-passage-info',
@@ -38,13 +39,13 @@ export class PassageInfoComponent implements OnInit {
   public collectionSize: number = 0;
   public columns: CustomColumnModel[] = [
     { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm:ss', locale: 'th' } },
-    { id: 'route', name: 'Route', label: 'สายทาง', prop: 'route', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'building', name: 'Building', label: 'อาคารด่าน', prop: 'building', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'walletName', name: 'Wallet Name', label: 'กระเป่าเงิน', prop: 'wallet.walletName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'route', name: 'Route', label: 'สายทาง', prop: 'exitHq', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'building', name: 'Building', label: 'อาคารด่าน', prop: 'exitPlaza', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'walletName', name: 'Wallet Name', label: 'กระเป่าเงิน', prop: 'walletId', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'obuSerialNo', name: 'OBU serial no.', label: 'OBU serial no.', prop: 'properties.obuPan', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'Smart card serial no.', prop: 'properties.smartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'amount', name: 'amount', label: 'จำนวนเงิน', prop: 'amount', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'number', numberFormat: '1.2-2' },
-    { id: 'taxInvoice', name: 'Tax Invoice', label: 'ใบกำกับภาษี', prop: 'taxInvoice', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'check-uncheck' },
+    // { id: 'taxInvoice', name: 'Tax Invoice', label: 'ใบกำกับภาษี', prop: 'taxInvoice', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'check-uncheck' },
     { id: 'cancel', name: 'Cancel', label: 'การยกเลิก', prop: 'isCancelled', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red-exat', textCondition1: 'ยกเลิกแล้ว', textCondition2: '-' } },
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description',iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
@@ -65,7 +66,8 @@ export class PassageInfoComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private restApiService: RestApiService,
-    private transformDatePipe: TransformDatePipe
+    private transformDatePipe: TransformDatePipe,
+    private modalDialogService: ModalDialogService
   ) {
     this.title = (this.activatedRoute as CustomeActivatedRouteModel).routeConfig.data?.label;
     this.customerId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -77,24 +79,29 @@ export class PassageInfoComponent implements OnInit {
     }
   }
 
-  loadCustomerInfo() {
+  async loadCustomerInfo() {
+    console.log("[loadCustomerInfo]");
     this.isLoading = true;
+    this.modalDialogService.loading();
     zip(
-      this.loadCustomer(),
-      this.loadWalletInfo()
+      await this.loadCustomer(),
+      await this.loadWalletInfo()
     )
     .pipe()
     .subscribe({
       next: (info) => {
+        console.log("[loadCustomerInfo] hideLoading");
         if (info[0].customer) {
           this.customer = info[0].customer;
         }
         if (info[1].lstSummary) {
           this.wallets = [...[this.allWallet], ...info[1].lstSummary];
         }
+        this.modalDialogService.hideLoading();
         this.isLoading = false;
       },
       error: (err) => {
+        this.modalDialogService.hideLoading();
         console.error(err);
       }
     })
@@ -144,6 +151,7 @@ export class PassageInfoComponent implements OnInit {
 
   loadPassageInformation(data: PassageInformationPayloadModel) {
     this.isLoadingSearch = true;
+    this.modalDialogService.loading();
     const mockupData = {
       requestParam: {
           reqId: "23498-sss-k339c-322s2",
@@ -167,11 +175,13 @@ export class PassageInfoComponent implements OnInit {
           this.rows = res.transactions;
           this.collectionSize = res.totalTransactions;
           this.isLoadingSearch = false;
+          this.modalDialogService.hideLoading();
         },
         error: (err) => {
           console.error(err);
           this.tempSearch = undefined;
           this.isLoadingSearch = false;
+          this.modalDialogService.hideLoading();
         }
       })
   }

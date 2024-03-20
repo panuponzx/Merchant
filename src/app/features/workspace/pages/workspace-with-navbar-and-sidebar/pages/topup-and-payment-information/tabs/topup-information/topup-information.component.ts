@@ -3,6 +3,7 @@ import { first, map } from 'rxjs';
 import { CustomColumnModel, ReponseTopupModel, RowActionEventModel, TopupModel } from '../../../../../../../../core/interfaces';
 import { TopupPayloadModel } from '../../../../../../../../core/interfaces/payload.interface';
 import { RestApiService } from '../../../../../../../../core/services';
+import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'topup-information',
@@ -32,7 +33,8 @@ export class TopupInformationComponent implements OnInit {
   @Output() public onLoading: EventEmitter<boolean> = new EventEmitter<boolean>(false)
 
   constructor(
-    private restApiService: RestApiService
+    private restApiService: RestApiService,
+    private modalDialogService: ModalDialogService
   ) {
   }
 
@@ -52,6 +54,7 @@ export class TopupInformationComponent implements OnInit {
   loadTopupInformation(data: TopupPayloadModel) {
     this.isLoading = true;
     this.onLoading.emit(true);
+    this.modalDialogService.loading();
     const mockupData = {
       requestParam: {
           reqId: "23498-sss-k339c-322s2",
@@ -75,11 +78,13 @@ export class TopupInformationComponent implements OnInit {
           this.collectionSize = res.totalTransactions;
           this.isLoading = false;
           this.onLoading.emit(false);
+          this.modalDialogService.hideLoading();
         },
         error: (err) => {
           console.error(err);
           this.isLoading = false;
           this.onLoading.emit(false);
+          this.modalDialogService.hideLoading();
         }
       });
   }
