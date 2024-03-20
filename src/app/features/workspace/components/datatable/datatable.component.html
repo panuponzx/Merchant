@@ -59,7 +59,7 @@
               {{ value ? value : '-' }}
             </ng-container>
             <ng-container *ngIf="column.type === 'text-with-boolean'">
-              <ng-container *ngIf="!value; else textFalseEl;">
+              <ng-container *ngIf="value; else textFalseEl;">
                 <span [ngClass]="column.textWithBoolean?.classCondition1 ? column.textWithBoolean?.classCondition1 : null">
                   {{ column.textWithBoolean?.textCondition1 }}
                 </span>
