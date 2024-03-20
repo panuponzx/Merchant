@@ -1,0 +1,75 @@
+<div class="content-container container-xl p-0">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">การอนุมัติยกเลิกการใช้งานอุปกรณ์ Easy pass (OBU)</h1>
+        </div>
+    </div>
+    <hr class="hr-custom" />
+    <div class="content-container-body">
+        <form [formGroup]="form" class="d-block d-sm-flex gap-3 align-items-end">
+            <div class="row g-2 g-sm-3 form-wrapper">
+                <div class="col-12 col-md-4">
+                    <label class="label-input text-nowrap" for="startDateDatepicker">
+                        วันที่ (จาก)
+                    </label>
+                    <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
+                        formControlName="startDate" [id]="'startDateDatePicker'"
+                        [invalid]="submitted && form.controls['startDate'].errors ? true : false" locale="th"
+                        [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label class="label-input text-nowrap" for="endDateDatepicker">
+                        วันที่ (ถึง)
+                    </label>
+                    <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
+                        formControlName="endDate" [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value"
+                        [invalid]="submitted && form.controls['endDate'].errors ? true : false" locale="th"
+                        [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label class="label-input text-nowrap" for="walletSelect">
+                        อาคารด่าน
+                    </label>
+                    <ng-select class="form-control" [clearable]="false" bindLabel="walletName" bindValue="walletId"
+                        data-testid="walletSelect" formControlName="checkpoint" [placeholder]="'กรุณาระบุ'"
+                        id="walletSelect" [items]="[]"></ng-select>
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา"
+                    type="submit" [disabled]="form.invalid" (click)="onSearch()">
+                    <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
+                </button>
+            </div>
+        </form>
+        <div class="navs-container">
+            <div class="d-flex justify-content-between">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
+                class="nav-tabs nav-tabs-header">
+                <li [ngbNavItem]="'waiting-for-approval'">
+                    <button ngbNavLink>กำลังรอ</button>
+                    <ng-template ngbNavContent>
+                        <cancel-device-waiting-for-approval></cancel-device-waiting-for-approval>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="'approval'">
+                    <button ngbNavLink>อนุมัติ</button>
+                    <ng-template ngbNavContent>
+                        <cancel-device-approval></cancel-device-approval>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="'reject'">
+                    <button ngbNavLink>ปฏิเสธ</button>
+                    <ng-template ngbNavContent>
+                        <cancel-device-reject></cancel-device-reject>
+                    </ng-template>
+                </li>
+            </ul>
+            <button class="custom-btn btn-type-1" type="submit" title="Login">
+                Export to excel
+            </button>
+            </div>
+            <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+        </div>
+    </div>
+</div>

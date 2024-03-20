@@ -51,6 +51,14 @@ import { WorkspaceBackofficeManagementComponent } from './pages/workspace-backof
 import { ApprovalManagementComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-management.component';
 import { InputUserInfoType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/input-user-info-type9/input-user-info-type9.component';
 import { InputCarInfoType9Component } from './pages/workspace-with-navbar/pages/add-car-type9/input-car-info-type9/input-car-info-type9.component';
+import { ApprovalCancelDeviceComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/approval-cancel-device.component';
+import { CancelDeviceWaitingForApprovalComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/tabs/cancel-device-waiting-for-approval/cancel-device-waiting-for-approval.component';
+import { CancelDeviceApprovalComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/tabs/cancel-device-approval/cancel-device-approval.component';
+import { CancelDeviceRejectComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/tabs/cancel-device-reject/cancel-device-reject.component';
+import { AccountMaintenanceFeeComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/account-maintenance-fee.component';
+import { MaintenanceCostsComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/tabs/maintenance-costs/maintenance-costs.component';
+import { MaintenanceDeviceCloseComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/tabs/maintenance-device-close/maintenance-device-close.component';
+import { SettingEarnCampaignComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/setting-earn-campaign.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +98,14 @@ import { InputCarInfoType9Component } from './pages/workspace-with-navbar/pages/
     ApprovalManagementComponent,
     InputUserInfoType9Component,
     InputCarInfoType9Component,
+    ApprovalCancelDeviceComponent,
+    CancelDeviceWaitingForApprovalComponent,
+    CancelDeviceApprovalComponent,
+    CancelDeviceRejectComponent,
+    AccountMaintenanceFeeComponent,
+    MaintenanceCostsComponent,
+    MaintenanceDeviceCloseComponent,
+    SettingEarnCampaignComponent,
   ],
   imports: [
     CommonModule,

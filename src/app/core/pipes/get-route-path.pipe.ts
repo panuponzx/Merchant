@@ -14,7 +14,11 @@ export class GetRoutePathPipe implements PipeTransform {
         return [routeConfig.data.default_path, custmerId];
       }
     } else {
-      return routeConfig.path;
+      if (routeConfig.data?.allowed_tabs && routeConfig.data.default_path) {
+        return [routeConfig.data.default_path, routeConfig.data?.allowed_tabs[0]];
+      }else {
+        return routeConfig.path;
+      }
     }
   }
 

@@ -29,19 +29,19 @@
           class="nav-tabs nav-tabs-header"
         >
           <li [ngbNavItem]="'waiting-for-approval'">
-            <button ngbNavLink>รอการชำระเงิน</button>
+            <button ngbNavLink>รอการอนุมัติ</button>
             <ng-template ngbNavContent>
               <!-- <billing-pending></billing-pending> -->
             </ng-template>
           </li>
           <li [ngbNavItem]="'approval'">
-            <button ngbNavLink>ชำระแล้ว</button>
+            <button ngbNavLink>อนุมัติ</button>
             <ng-template ngbNavContent>
               <!-- <pay-information></pay-information> -->
             </ng-template>
           </li>
           <li [ngbNavItem]="'reject'">
-            <button ngbNavLink>เติมเงิน</button>
+            <button ngbNavLink>ปฏิเสธ</button>
             <ng-template ngbNavContent>
               <!-- <topup-information
                 [tempSearch]="tempSearch"
