@@ -5,8 +5,8 @@
         </div>
     </div>
     <hr class="hr-custom" />
-    <div class="content-container-body">
-        <form [formGroup]="form" class="d-block d-sm-flex gap-3 align-items-end">
+    <div class="content-container-body" [style.padding-top]="!isHiddenFillter ? '1.5rem' : '0'">
+        <form *ngIf="!isHiddenFillter" [formGroup]="form" class="d-block d-sm-flex gap-3 align-items-end">
             <div class="row g-2 g-sm-3 form-wrapper">
                 <div class="col-12 col-md-4">
                     <label class="label-input text-nowrap" for="startDateDatepicker">
@@ -43,7 +43,7 @@
             </div>
         </form>
         <div class="navs-container">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between" [style.display]="!isHiddenFillter ? 'flex' : 'none !important'">
                 <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
                 class="nav-tabs nav-tabs-header">
                 <li [ngbNavItem]="'waiting-for-approval'">
@@ -55,7 +55,7 @@
                 <li [ngbNavItem]="'approval'">
                     <button ngbNavLink>อนุมัติ</button>
                     <ng-template ngbNavContent>
-                        <cancel-device-approval></cancel-device-approval>
+                        <cancel-device-approval (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></cancel-device-approval>
                     </ng-template>
                 </li>
                 <li [ngbNavItem]="'reject'">
@@ -69,7 +69,7 @@
                 Export to excel
             </button>
             </div>
-            <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+            <div [ngbNavOutlet]="nav" class="navs-content-container" [style.padding-top]="!isHiddenFillter ? '2rem' : '0'"></div>
         </div>
     </div>
 </div>

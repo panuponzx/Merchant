@@ -63,6 +63,10 @@
   color: var(--color-blue-exat);
   border-radius: var(--button-radius);
   border: 1px solid var(--color-blue-exat);
+  &.red {
+    color: var(--color-red-exat);
+    border: 1px solid var(--color-red-exat);
+  }
 }
 
 .btn-type-4 {

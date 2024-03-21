@@ -2,7 +2,7 @@
   class="datatable-container"
   [ngClass]="customDatatableContainerClass ? customDatatableContainerClass : null"
 >
-  <ng-container *ngIf="rows.length > 0; else emptyEl; ">
+  <ng-container *ngIf="rows && rows.length > 0; else emptyEl; ">
     <div
       class="datatable-content"
       [ngClass]="customDatatableContentClass ? customDatatableContentClass : null"
