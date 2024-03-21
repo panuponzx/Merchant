@@ -24,7 +24,8 @@ export class AccountMaintenanceFeeComponent {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
       date: new FormControl(undefined, [ Validators.required ]),
-      checkpoint: new FormControl(undefined, [ Validators.required ])
+      // checkpoint: new FormControl(undefined, [ Validators.required ]),
+      search: new FormControl(undefined, [ Validators.required ]),
     });
   }
 
