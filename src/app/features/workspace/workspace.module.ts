@@ -58,7 +58,8 @@ import { CancelDeviceRejectComponent } from './pages/workspace-backoffice-manage
 import { AccountMaintenanceFeeComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/account-maintenance-fee.component';
 import { MaintenanceCostsComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/tabs/maintenance-costs/maintenance-costs.component';
 import { MaintenanceDeviceCloseComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/tabs/maintenance-device-close/maintenance-device-close.component';
-import { SettingEarnCampaignComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/setting-earn-campaign.component';
+import { ManageRedeemComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/manage-redeem.component';
+import { ManageEarningComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/manage-earning.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { SettingEarnCampaignComponent } from './pages/workspace-backoffice-manag
     AccountMaintenanceFeeComponent,
     MaintenanceCostsComponent,
     MaintenanceDeviceCloseComponent,
-    SettingEarnCampaignComponent,
+    ManageRedeemComponent,
+    ManageEarningComponent,
   ],
   imports: [
     CommonModule,
