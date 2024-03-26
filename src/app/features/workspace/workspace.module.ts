@@ -60,6 +60,9 @@ import { MaintenanceCostsComponent } from './pages/workspace-backoffice-manageme
 import { MaintenanceDeviceCloseComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/tabs/maintenance-device-close/maintenance-device-close.component';
 import { ManageRedeemComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/manage-redeem.component';
 import { ManageEarningComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/manage-earning.component';
+import { ApprovalManagementWaitingComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-waiting/approval-management-waiting.component';
+import { ApprovalManagementApprovalComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-approval/approval-management-approval.component';
+import { ApprovalManagementRejectComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-reject/approval-management-reject.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +111,9 @@ import { ManageEarningComponent } from './pages/workspace-backoffice-management/
     MaintenanceDeviceCloseComponent,
     ManageRedeemComponent,
     ManageEarningComponent,
+    ApprovalManagementWaitingComponent,
+    ApprovalManagementApprovalComponent,
+    ApprovalManagementRejectComponent,
   ],
   imports: [
     CommonModule,

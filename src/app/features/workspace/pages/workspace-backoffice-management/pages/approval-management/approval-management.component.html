@@ -5,7 +5,8 @@
         </div>
     </div>
     <hr class="hr-custom" />
-    <div class="col-4 mb-3">
+    <div class="content-container-body" [style.padding-top]="!isHiddenFillter ? '1.5rem' : '0'">
+      <div *ngIf="!isHiddenFillter" class="col-4 mb-3">
         <label class="label-input" for="approvalSelect">
             การอนุมัติ
         </label>
@@ -21,6 +22,7 @@
         </ng-select>
     </div>
     <div class="navs-container">
+      <div class="d-flex" [style.display]="!isHiddenFillter ? 'flex' : 'none !important'">
         <ul
           ngbNav
           #nav="ngbNav"
@@ -31,7 +33,7 @@
           <li [ngbNavItem]="'waiting-for-approval'">
             <button ngbNavLink>รอการอนุมัติ</button>
             <ng-template ngbNavContent>
-              <!-- <billing-pending></billing-pending> -->
+              <approval-management-approval (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
             </ng-template>
           </li>
           <li [ngbNavItem]="'approval'">
@@ -50,6 +52,8 @@
             </ng-template>
           </li>
         </ul>
-        <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
       </div>
+        <div [ngbNavOutlet]="nav" class="navs-content-container" [style.padding-top]="!isHiddenFillter ? '2rem' : '0'"></div>
+      </div>
+    </div>
 </div>
