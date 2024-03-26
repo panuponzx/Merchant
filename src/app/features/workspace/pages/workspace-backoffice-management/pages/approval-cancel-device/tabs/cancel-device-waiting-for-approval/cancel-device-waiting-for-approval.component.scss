@@ -1,0 +1,52 @@
+h2,
+h3 {
+    color: var(--color-blue-exat);
+}
+
+.card-table-select-container {
+    padding: 1rem 2.5rem;
+    border: 1px solid #CCCCCC;
+    border-radius: 15px;
+}
+
+.card-table-select-container .hr-table-select {
+    border-width: 2px;
+    opacity: 1;
+    border-color: var(--color-blue-exat);
+    margin: 0rem;
+}
+
+
+.card-table-select-container .table-select-item {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    text-align: center;
+}
+
+.card-table-select-container .table-select-item label {
+    &.header {
+        color: var(--color-blue-exat);
+    }
+}
+
+.payment-detail-container {
+    display: flex;
+    justify-content: space-between;
+
+    .payment-detail-item {
+        span {
+            color: #777777;
+
+            &.red {
+                color: var(--color-red-exat);
+            }
+        }
+
+        hr {
+            border-width: 2px;
+            opacity: 1;
+            border-color: #EEEEEE;
+            margin: 0rem;
+        }
+    }
+}
