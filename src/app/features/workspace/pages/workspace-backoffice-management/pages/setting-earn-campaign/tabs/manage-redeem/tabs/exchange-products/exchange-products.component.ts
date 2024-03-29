@@ -2,23 +2,17 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { first, map } from 'rxjs';
-import { CustomColumnModel,CustomerModel,ReponseSearchCustomerModel,RowActionEventModel } from '../../../../../../../../core/interfaces';
-import { RestApiService } from '../../../../../../../../core/services';
-import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
-import { id } from '@swimlane/ngx-datatable';
-import { TabGuard } from '../../../../../../../../core/guards';
+import { first, from, map } from 'rxjs';
+import {  CustomColumnModel,CustomerModel,ReponseSearchCustomerModel,RowActionEventModel } from '../../../../../../../../../../core/interfaces';
+
 
 @Component({
-  selector: 'app-manage-redeem',
-  templateUrl: './manage-redeem.component.html',
-  styleUrl: './manage-redeem.component.scss'
+  selector: 'app-exchange-products',
+  templateUrl: './exchange-products.component.html',
+  styleUrl: './exchange-products.component.scss'
 })
-export class ManageRedeemComponent {
-
-  public approval: number = 1;
-
-  public activeTab: 'Exchange-products' | 'coupon' | 'toll' | string | null = 'Exchange-products';
+export class ExchangeProductsComponent {
+  public activeTab: 'Exchange-products' | 'coupon' | 'toll' | string | null;
 
   public rows1: any[] = [
     { id: "1", activityName: '1', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
@@ -51,7 +45,6 @@ export class ManageRedeemComponent {
 isHiddenFillter: any;
 
   constructor(
-    
     private router: Router,
     private activatedRoute: ActivatedRoute
     ) {
@@ -59,24 +52,13 @@ isHiddenFillter: any;
   }
 
   onChangeNav(event: NgbNavChangeEvent) {
-    const url = 'work-space/manage-redeem/' + event.nextId;
+    const url = 'work-space/approval-management/' + event.nextId;
     this.router.navigate([url], { replaceUrl: true });
   }
 
   public limitRow: number = 10;
   public pages: number = 1;
   public collectionSize: number = this.rows1.length;
-
-  
-  
-
-  public submitted: boolean = false;
-  public form: FormGroup = new FormGroup({
-    customerTypeId: new FormControl('domestic', [ Validators.required ]),
-    citizenId: new FormControl(undefined, [ Validators.required ])
-  });
-
-  public tempSearch: string | undefined;
 
   public isLoading = false;
   
@@ -89,16 +71,4 @@ isHiddenFillter: any;
       this.router.navigate(['work-space/user-info/general-info/' + row.id]);
     }
   }
-
-  onBack() {
-    this.submitted = false;
-    this.pages = 1;
-    this.tempSearch = undefined;
-    this.form.reset();
-    this.form.controls['customerTypeId'].setValue('domestic');
-  }
-
-  
-
-
 }

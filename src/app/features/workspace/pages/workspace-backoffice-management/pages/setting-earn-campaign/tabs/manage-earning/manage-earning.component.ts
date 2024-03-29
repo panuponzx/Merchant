@@ -15,7 +15,7 @@ export class ManageEarningComponent {
 
   public rows: any[] = [
     { id: "1", activityName: 'ทุกด่านอาคาร', addOrMultiply: '10', pointAmount: '1', vehicleType: 'ทุกประเภท', createDate: new Date('1 มีนาคม 2567'), createdBy: 'นายทดสอบ ทดสอบ',  },
-    { id: "2", activityName: 'ทุกด่านอาคาร', addOrMultiply: '10', pointAmount: '1', vehicleType: 'ทุกประเภท', createDate: new Date('2 มีนาคม 2567'), createdBy: 'นายทดสอบ ทดสอบ',  },
+    { id: "2", activityName: 'ทุกด่านอาคาร', addOrMultiply: '10', pointAmount: '2', vehicleType: 'ทุกประเภท', createDate: new Date('2 มีนาคม 2567'), createdBy: 'นายทดสอบ ทดสอบ',  },
     // เพิ่มข้อมูลกิจกรรมเพิ่มเติมตามต้องการ
   ];
 
@@ -54,9 +54,14 @@ export class ManageEarningComponent {
     { id: 'setting', name: 'ตั้งค่า', label: 'ตั้งค่า', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
-  public limitRow: number = 5;
+  public limitRow: number = 1;
+  public limitRow1: number = 5;
+
   public pages: number = 1;
-  public collectionSize: number = 0;
+  public pages1: number = 1;
+ 
+  public collectionSize: number = this.rows.length;
+  public collectionSize1: number = this.rows1.length;
   
   
 

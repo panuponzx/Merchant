@@ -1,1 +1,43 @@
-<p>manage-redeem works!</p>
+<div class="content-container container-xl p-0">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">ตั้งค่าการแลกคะแนน</h1>
+        </div>
+    </div>
+    <hr class="hr-custom" />
+    <div class="navs-container">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+            <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="activeTab"
+          (navChange)="onChangeNav($event)"
+          class="nav-tabs nav-tabs-header"
+        >
+          <li [ngbNavItem]="'Exchange-products'">
+            <button ngbNavLink>สินค้าแลก</button>
+            <ng-template ngbNavContent>
+                <app-exchange-products></app-exchange-products>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'coupon'">
+            <button ngbNavLink>คูปอง</button>
+            <ng-template ngbNavContent>
+                <app-coupon></app-coupon>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'toll'">
+            <button ngbNavLink>ค่าผ่านทาง</button>
+            <ng-template ngbNavContent>
+                 <app-toll></app-toll>
+            </ng-template>
+          </li>
+        </ul>
+        <button class="custom-btn btn-type-1" type="submit" title="Login">
+            เพิ่มรายการใหม่ 
+        </button>
+        </div>
+        <!-- <div [ngbNavOutlet]="nav" class="navs-content-container"></div> -->
+        
+      </div>
+</div>

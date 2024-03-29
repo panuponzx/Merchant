@@ -1,0 +1,15 @@
+<div class="navs-container">
+    <datatable
+    [columns]="columns1"
+    [collectionSize]="collectionSize"
+    [id]="'userDatatable'"
+    [isLoading]="isLoading"
+    [limitRow]="limitRow"
+    [pages]="pages"
+    [rows]="rows1"
+    emptyMessage="ไม่มีข้อมูล"
+    (onRowActionEvent)="onAction($event)">
+</datatable>
+</div>
+
+<h1>hello world</h1>

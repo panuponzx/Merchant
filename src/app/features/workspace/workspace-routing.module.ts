@@ -158,7 +158,7 @@ export const routesConfig: CustomRoutesModel = [
           },
           {
             id: 'ManageEarningComponent',
-            path: 'setting-earn-campaign/tabs/:manage-earning',
+            path: 'manage-earning',
             component:ManageEarningComponent ,
             data: {
               is_sidebar: true,
@@ -171,16 +171,16 @@ export const routesConfig: CustomRoutesModel = [
           },
           {
             id: 'ManageRedeemComponent',
-            path: 'setting-earn-campaign/tabs/:manage-redeem',
+            path: 'manage-redeem/:tabs',
             component:ManageRedeemComponent ,
             data: {
               is_sidebar: true,
               label: 'ระบบการแลกคะแนน',
               // request_id: true,
               default_path: 'manage-redeem',
-              // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
+              allowed_tabs: ['Exchange-products', 'coupon', 'toll']
             },
-            canActivate: [ TabGuard ]
+            // canActivate: [ TabGuard ]
           }
         ],
         
