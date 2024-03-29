@@ -17,6 +17,8 @@ export class AccountMaintenanceFeeComponent {
   public submitted: boolean = false;
   public form: FormGroup;
 
+  public isHiddenFillter: boolean = false;
+  
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -36,6 +38,10 @@ export class AccountMaintenanceFeeComponent {
 
   onSearch() {
     console.log("[onSearch]");
+  }
+
+  handleHiddenFillterMenu(value: boolean) {
+    this.isHiddenFillter = value;
   }
   
 }

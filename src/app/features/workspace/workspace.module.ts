@@ -63,6 +63,9 @@ import { ManageEarningComponent } from './pages/workspace-backoffice-management/
 import { ExchangeProductsComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/tabs/exchange-products/exchange-products.component';
 import { CouponComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/tabs/coupon/coupon.component';
 import { TollComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/tabs/toll/toll.component';
+import { ApprovalManagementWaitingComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-waiting/approval-management-waiting.component';
+import { ApprovalManagementApprovalComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-approval/approval-management-approval.component';
+import { ApprovalManagementRejectComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-reject/approval-management-reject.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +117,9 @@ import { TollComponent } from './pages/workspace-backoffice-management/pages/set
     ExchangeProductsComponent,
     CouponComponent,
     TollComponent,
+    ApprovalManagementWaitingComponent,
+    ApprovalManagementApprovalComponent,
+    ApprovalManagementRejectComponent,
   ],
   imports: [
     CommonModule,

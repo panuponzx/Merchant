@@ -33,6 +33,8 @@ export class ApprovalManagementComponent {
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
+  public isHiddenFillter: boolean = false;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -43,6 +45,10 @@ export class ApprovalManagementComponent {
   onChangeNav(event: NgbNavChangeEvent) {
     const url = 'work-space/approval-management/' + event.nextId;
     this.router.navigate([url], { replaceUrl: true });
+  }
+
+  handleHiddenFillterMenu(value: boolean) {
+    this.isHiddenFillter = value;
   }
 
 }

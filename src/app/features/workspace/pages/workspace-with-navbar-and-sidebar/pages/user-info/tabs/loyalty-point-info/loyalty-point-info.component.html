@@ -1,1 +1,66 @@
-<p>loyalty-point-info works!</p>
+<div class="device-container">
+    <div class="col-4 mb-3">
+        <label class="label-input" for="walletSelect">
+            กระเป๋าเงิน
+        </label>
+        <ng-select 
+            class="form-control"
+            [clearable]="false" 
+            bindLabel="label"
+            bindValue="id"
+            id="walletSelect"
+            data-testid="walletSelect" 
+            [items]="[]">
+        </ng-select>
+    </div>
+    <div class="device-header-wrapper mb-3">
+      <h2>ข้อมูลคะแนน</h2>
+      <div class="navs-container">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="activeTab"
+          (navChange)="onChangeNav()"
+          class="nav-tabs mb-3"
+        >
+          <li [ngbNavItem]="'get-point'">
+            <button ngbNavLink>ได้รับคะแนน</button>
+            <ng-template ngbNavContent>
+              <datatable
+                [columns]="getPointColumns"
+                [collectionSize]="getPointRows.length"
+                [id]="'deviceActiveDatatable'"
+                [isLoading]="isLoading"
+                [limitRow]="limitRow"
+                [pages]="pages"
+                [rows]="getPointRows"
+                emptyMessage="ไม่มีข้อมูล"
+                (onChangePageEvent)="onChangePage($event)"
+                (onRowActionEvent)="onAction($event)"
+              />
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'use-point'">
+            <button ngbNavLink>ใช้คะแนน</button>
+            <ng-template ngbNavContent>
+              <datatable
+                [columns]="usePointColumns"
+                [collectionSize]="usePointRows.length"
+                [id]="'deviceUnactiveDatatable'"
+                [isLoading]="isLoading"
+                [limitRow]="limitRow"
+                [pages]="pages"
+                [rows]="usePointRows"
+                emptyMessage="ไม่มีข้อมูล"
+                (onChangePageEvent)="onChangePage($event)"
+                (onRowActionEvent)="onAction($event)"
+              />
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+  
+    </div>
+    <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+  </div>
+  

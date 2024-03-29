@@ -1,0 +1,266 @@
+<ng-container *ngIf="isShowDescription">
+    <div class="mb-4">
+        <button class="custom-btn btn-type-1" data-testid="backButton" id="backButton" title="กลับ" type="button"
+            (click)="onBack()">
+            กลับ
+        </button>
+    </div>
+
+    <h2 class="mb-3">รายละเอียดผู้ใช้</h2>
+    <h3 class="mb-5">รายละเอียด</h3>
+
+    <div class="table-description mb-5">
+        <table class="table-description">
+            <tr class="header">
+                <th>วันที่ และ เวลา ที่สร้าง</th>
+                <th>ชื่อผู้ใช้งาน</th>
+                <th>สถานะ</th>
+                <th>ชื่อพนักงานทำรายการ</th>
+            </tr>
+            <tr>
+                <td>21/04/2556 19:10:32</td>
+                <td>ชื่อบริษัท</td>
+                <td>รอการอนุมัติ</td>
+                <td>นายทดสอบ ทดสอบ</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2 class="mb-5">ข้อมูลทั่วไป</h2>
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <h3 class="mb-3">ข้อมูลรายละเอียด</h3>
+                <div class="general-info-wrapper">
+                    <div class="navs-container">
+                        <ul ngbNav #nav="ngbNav" [(activeId)]="detailInformationTab" class="nav-tabs nav-tabs-content mb-3">
+                            <li [ngbNavItem]="'information-company'">
+                                <button ngbNavLink>รายละเอียดบริษัท</button>
+                                <ng-template ngbNavContent>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="taxId">
+                                            หมายเลขผู้เสียภาษี
+                                        </label>
+                                        <input class="form-control" data-testid="taxId" formControlName="taxId"
+                                            id="taxId" type="text">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input" for="companyNameInput">
+                                            ชื่อบริษัท
+                                        </label>
+                                        <input class="form-control" data-testid="companyNameInput" formControlName="companyName"
+                                            id="companyNameInput" type="text">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input" for="branchSelect">
+                                            สาขา
+                                        </label>
+                                        <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                                            data-testid="branchSelect" formControlName="branch" id="branchSelect"
+                                            [items]="[]"></ng-select>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="branchNameInput">
+                                            ชื่อสาขา
+                                        </label>
+                                        <input class="form-control" data-testid="branchNameInput" formControlName="branchName"
+                                            id="branchNameInput" type="text">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="branchNoInput">
+                                            หมายเลขสาขาย่อย
+                                        </label>
+                                        <input idCard class="form-control" data-testid="branchNoInput" formControlName="branchNo" id="branchNoInput"
+                                            type="text">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="companyNumberInput">
+                                            เบอร์ติดต่อบริษัท
+                                        </label>
+                                        <input idCard class="form-control" data-testid="companyNumberInput" formControlName="companyNumber" id="companyNumberInput"
+                                            type="text">
+                                    </div>
+                                </ng-template>
+                            </li>
+                            <li [ngbNavItem]="'information-visitor'">
+                                <button ngbNavLink>รายละเอียดผู้มาติดต่อ</button>
+                                <ng-template ngbNavContent>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="identificationInput">
+                                            หมายเลขบัตรประชาชน
+                                        </label>
+                                        <input class="form-control" data-testid="identificationInput" formControlName="citizenId"
+                                            id="identificationInput" type="text" mask="0 0000 00000 00 0">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="expiredDateDatePicker">
+                                            วันหมดอายุบัตร
+                                        </label>
+                                        <date-picker class="datepicker-input" [clearable]="false" format="DD/MM/YYYY"
+                                            formControlName="cardExpDate" [id]="'expiredDateDatePicker'" locale="th"
+                                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [minDate]="minDate"></date-picker>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input" for="gender">
+                                            เพศ
+                                        </label>
+                                        <div class="gender-selector">
+                                            <div class="gender-wrapper">
+                                                <input type="radio" formControlName="gender" id="male" value="M">
+                                                <label for="male">ชาย</label>
+                                            </div>
+                                            <div class="gender-wrapper">
+                                                <input type="radio" formControlName="gender" id="female" value="F">
+                                                <label for="female">หญิง</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="firstName">
+                                            ชื่อ
+                                        </label>
+                                        <input class="form-control" data-testid="firstName" formControlName="firstName" id="firstName"
+                                            type="text">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="lastName">
+                                            นามสกุล
+                                        </label>
+                                        <input class="form-control" data-testid="lastName" formControlName="lastName" id="lastName"
+                                            type="text">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="birthDateDatePicker">
+                                            วันเกิด (วัน/เดือน/ปี)
+                                        </label>
+                                        <date-picker class="datepicker-input" [clearable]="false" format="DD/MM/YYYY"
+                                            formControlName="birthDate" [id]="'birthDateDatePicker'" locale="th"
+                                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                                    </div>
+                                    <div class="col-12 mb-5">
+                                        <label class="label-input required-field" for="phone">
+                                            เบอร์ติดต่อ
+                                        </label>
+                                        <input class="form-control" data-testid="phone" formControlName="phone" id="phone" type="text"
+                                            mask="000 000 0000">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <h3>ข้อมูลทั่วไป</h3>
+                                        <label class="label-input" for="birthDateDatePicker">
+                                            หนังสือรับรอบบริษัท
+                                        </label>
+                                    </div>
+                                </ng-template>
+                            </li>
+                        </ul>
+                        <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+                <h3 class="mb-3">ข้อมูลที่อยู่บริษัท</h3>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="addressNoInput">
+                        เลขที่
+                    </label>
+                    <input class="form-control" data-testid="addressNoInput" formControlName="addressNo"
+                        id="addressNoInput" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="buildingInput">
+                        อาคาร/คอนโด
+                    </label>
+                    <input class="form-control" data-testid="buildingInput" formControlName="building"
+                        id="buildingInput" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="floorInput">
+                        ชั้น
+                    </label>
+                    <input class="form-control" data-testid="floorInput" formControlName="floor"
+                        id="floorInput" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="soiInput">
+                        ซอย
+                    </label>
+                    <input class="form-control" data-testid="soiInput" formControlName="soi"
+                        id="soiInput" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="streetInput">
+                        ถนน
+                    </label>
+                    <input class="form-control" data-testid="streetInput" formControlName="street"
+                        id="streetInput" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="postalCodeInput">
+                        รหัสไปรษณีย์
+                    </label>
+                    <input class="form-control" data-testid="postalCodeInput" (keyup)="onKeyUpPostalCode($event)" mask="00000" formControlName="postalCode"
+                        id="postalCodeInput" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="subDistrictInput">
+                        แขวง/ตำบล
+                    </label>
+                    <ng-select 
+                        class="form-control"
+                        [clearable]="false" 
+                        bindLabel="subdistrict.name"
+                        id="subDistrictInput"
+                        data-testid="subDistrictInput" 
+                        formControlName="subDistrict" 
+                        (change)="onChangeSubDistrict($event)"
+                        [items]="postalCodeList">
+                    </ng-select>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="districtInput">
+                        เขต/อำเภอ
+                    </label>
+                    <ng-select 
+                        class="form-control" 
+                        [clearable]="false" 
+                        bindLabel="name"
+                        data-testid="districtInput" 
+                        formControlName="district"
+                        id="districtInput"
+                        [items]="districtList">
+                    </ng-select>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="provinceInput">
+                        จังหวัด
+                    </label>
+                    <ng-select 
+                        class="form-control" 
+                        [clearable]="false" 
+                        bindLabel="name"
+                        data-testid="provinceInput" 
+                        formControlName="province" 
+                        id="provinceInput"
+                        [items]="provinceList">
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+        <hr class="hr-custom mb-3" />
+        <div class="footer d-flex justify-content-center gap-3">
+        <button class="custom-btn btn-fixed-size-1 btn-type-3 red" data-testid="backButton" id="backButton" title="ย้อนกลับ">
+            ปฏิเสธ
+        </button>
+        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป">
+            อนุมัติ
+        </button>
+    </div>
+    </form>
+</ng-container>
+<ng-container *ngIf="tempRows && !isShowDescription">
+    <div class="datatable-container">
+        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
+            [limitRow]="limitRow" [pages]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
+    </div>
+</ng-container>
