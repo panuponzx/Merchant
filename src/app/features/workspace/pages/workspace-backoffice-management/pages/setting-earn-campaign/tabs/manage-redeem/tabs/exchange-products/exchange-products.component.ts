@@ -33,7 +33,7 @@ export class ExchangeProductsComponent {
   ];
 
   public columns1: CustomColumnModel [] = [
-    { id: 'activityName', name: 'อันดับ', label: 'อันดับ', prop: 'activityName', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'activityName', name: 'อันดับ', label: 'อันดับ', prop: 'activityName', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'addOrMultiply', name: 'ชื่อสินค้า', label: 'ชื่อสินค้า', prop: 'addOrMultiply', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'pointAmount', name: 'ประเภท', label: 'ประเภท', prop: 'pointAmount', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'vehicleType', name: 'คะแนนที่ใช้แลก', label: 'คะแนนที่ใช้แลก', prop: 'vehicleType', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
