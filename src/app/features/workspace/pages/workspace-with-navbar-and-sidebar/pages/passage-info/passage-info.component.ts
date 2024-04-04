@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, map, Observable, zip } from 'rxjs';
@@ -6,6 +6,7 @@ import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, ReponseCu
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
+import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-passage-info',
@@ -13,6 +14,8 @@ import { ModalDialogService } from '../../../../../../core/services/modal-dialog
   styleUrl: './passage-info.component.scss'
 })
 export class PassageInfoComponent implements OnInit {
+
+  @ViewChild('myTable') table: any;
 
   public title: string | undefined;
 
@@ -33,7 +36,7 @@ export class PassageInfoComponent implements OnInit {
     lstObus: []
   }
 
-  public rows: PassageInformationModel[] = [];
+  public rows: any[] = [];
   public limitRow: number = 10;
   public pages: number = 1;
   public collectionSize: number = 0;
@@ -47,20 +50,22 @@ export class PassageInfoComponent implements OnInit {
     { id: 'amount', name: 'amount', label: 'จำนวนเงิน', prop: 'amount', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'number', numberFormat: '1.2-2' },
     // { id: 'taxInvoice', name: 'Tax Invoice', label: 'ใบกำกับภาษี', prop: 'taxInvoice', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'check-uncheck' },
     { id: 'cancel', name: 'Cancel', label: 'การยกเลิก', prop: 'isCancelled', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red-exat', textCondition1: 'ยกเลิกแล้ว', textCondition2: '-' } },
-    { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description',iconName: 'list', size: 'l', color: '#2255CE' } }
+    { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
   public submitted: boolean = false;
   public form: FormGroup = new FormGroup({
-    startDate: new FormControl(undefined, [ Validators.required ]),
-    endDate: new FormControl(undefined, [ Validators.required ]),
-    walletId: new FormControl(this.allWallet.walletId, [ Validators.required ])
+    startDate: new FormControl(undefined, [Validators.required]),
+    endDate: new FormControl(undefined, [Validators.required]),
+    walletId: new FormControl(this.allWallet.walletId, [Validators.required])
   });
 
   public tempSearch: PassageInformationPayloadModel | undefined;
 
   public isLoading: boolean = false;
   public isLoadingSearch: boolean = false;
+
+  public columnMode = ColumnMode;
 
   constructor(
     private router: Router,
@@ -74,7 +79,7 @@ export class PassageInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.customerId)  {
+    if (this.customerId) {
       this.loadCustomerInfo();
     }
   }
@@ -87,35 +92,35 @@ export class PassageInfoComponent implements OnInit {
       await this.loadCustomer(),
       await this.loadWalletInfo()
     )
-    .pipe()
-    .subscribe({
-      next: (info) => {
-        console.log("[loadCustomerInfo] hideLoading");
-        if (info[0].customer) {
-          this.customer = info[0].customer;
+      .pipe()
+      .subscribe({
+        next: (info) => {
+          console.log("[loadCustomerInfo] hideLoading");
+          if (info[0].customer) {
+            this.customer = info[0].customer;
+          }
+          if (info[1].lstSummary) {
+            this.wallets = [...[this.allWallet], ...info[1].lstSummary];
+          }
+          this.modalDialogService.hideLoading();
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.modalDialogService.hideLoading();
+          console.error(err);
         }
-        if (info[1].lstSummary) {
-          this.wallets = [...[this.allWallet], ...info[1].lstSummary];
-        }
-        this.modalDialogService.hideLoading();
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.modalDialogService.hideLoading();
-        console.error(err);
-      }
-    })
+      })
   }
 
   loadCustomer() {
     const mockupData = {
       queryType: 2,
       customer: {
-          id: this.customerId,
-          requestParam: {
-              reqId: "23498-sss-k339c-322s2",
-              channelId: 1
-          }
+        id: this.customerId,
+        requestParam: {
+          reqId: "23498-sss-k339c-322s2",
+          channelId: 1
+        }
       }
     };
     return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;
@@ -125,15 +130,15 @@ export class PassageInfoComponent implements OnInit {
     const mockupData = {
       id: this.customerId,
       requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: "1"
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "1"
       }
     };
     return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
   }
 
   onSearch() {
-    if (this.form.invalid || this.isLoadingSearch) return;
+    // if (this.form.invalid || this.isLoadingSearch) return;
     const searchValue = this.getSearchValue(1);
     this.tempSearch = searchValue;
     this.pages = searchValue.page;
@@ -154,13 +159,13 @@ export class PassageInfoComponent implements OnInit {
     this.modalDialogService.loading();
     const mockupData = {
       requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: "1"
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "2"
       },
       from: data.from,
       to: data.to,
       walletId: data.walletId,
-      page: data.page
+      page: data.page,
     };
     this.restApiService
       .postBackOffice('transaction-history/get-passage', mockupData)
@@ -172,8 +177,1336 @@ export class PassageInfoComponent implements OnInit {
         next: (res) => {
           console.log(res)
           // this.rows = res.transactions.filter(x => x.typeId === '3');
-          this.rows = res.transactions;
-          this.collectionSize = res.totalTransactions;
+          this.rows = [
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-02-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": true,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.05,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": true,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.22,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": true,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                }
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-02-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.05,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.22,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                }
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-02-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.05,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.22,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                }
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-02-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.05,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.22,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                }
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-02-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.05,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.22,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                }
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.05,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+                {
+                  "amount": -1.22,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-02-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                }
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            },
+            {
+              "amount": -3.27,
+              "entryPlazaName": "",
+              "exitHqName": "",
+              "exitPlazaName": "",
+              "isCancelled": false,
+              "obu": "3085860601635742010",
+              "smartCard": "",
+              "transactionDate": "2024-03-04 19:55:24",
+              "trnUuid": "xxxxx",
+              "walletName": "",
+              "passages": [
+                {
+                  "amount": -1,
+                  "entryHqName": "",
+                  "entryPlazaName": "",
+                  "exitHqName": "",
+                  "exitPlazaName": "",
+                  "isCancelled": false,
+                  "obu": "3085860601635742010",
+                  "smartCard": "smart-card-1",
+                  "transactionDate": "2024-03-04 19:55:24",
+                  "trnUuid": "",
+                  "walletName": "test-edit-type-1.1",
+                  "passages": [],
+                  "cancelled": false
+                },
+              ],
+              "cancelled": false
+            }
+          ];
+          this.rows = res.data;
+          let arr = [];
+          for (let i = 0; i < this.rows.length; i++) {
+            if(this.rows[i].passages.length > 0) {
+              for (let j = 0; j < this.rows[i].passages.length; j++) {
+                arr.push({
+                  gTransactionDate: this.rows[i].transactionDate,
+                  gObu: this.rows[i].obu,
+                  gAmount: this.rows[i].amount,
+                  gisCancelled: this.rows[i].cancelled,
+                  transactionDate: this.rows[i].passages[j].transactionDate,
+                  obu: this.rows[i].passages[j].obu,
+                  amount: this.rows[i].passages[j].amount,
+                  isCancelled: this.rows[i].passages[j].isCancelled,
+                  smartCard: this.rows[i].passages[j].smartCard,
+                  group: i
+                });
+              }
+            }else {
+              arr.push({
+                gTransactionDate: this.rows[i].transactionDate,
+                gObu: this.rows[i].obu,
+                gAmount: this.rows[i].amount,
+                gisCancelled: this.rows[i].cancelled,
+                transactionDate: this.rows[i].transactionDate,
+                obu: this.rows[i].obu,
+                amount: this.rows[i].amount,
+                isCancelled: this.rows[i].isCancelled,
+                smartCard: this.rows[i].smartCard,
+                group: i
+              });
+            }
+          }
+
+          console.log(arr);
+
+          this.rows = arr;
+          this.collectionSize = res.totalData;
           this.isLoadingSearch = false;
           this.modalDialogService.hideLoading();
         },
@@ -188,6 +1521,23 @@ export class PassageInfoComponent implements OnInit {
 
   onClear() {
     this.router.navigate(['/work-space/search-user']);
+  }
+
+  toggleExpandGroup(group: any) {
+    console.log('Toggled Expand Group!', group);
+    // setTimeout(() => {
+    //   this.table.bodyComponent.scroller.scrollWidth = this.table.bodyComponent.innerWidth;
+    // }, 500)
+
+    // this.table.groupHeader.toggleExpandGroup(group);
+    // this.table.groupHeader.toggleExpandAll();
+    this.table.groupHeader.toggleExpandGroup(group);
+
+
+  }
+
+  onDetailToggle(event: any) {
+    console.log('Detail Toggled', event);
   }
 
   onChangePage(event: number) {

@@ -41,6 +41,8 @@ export interface ReponseZipcodeModel extends ResponseMessageModel {
 }
 
 export interface ResponsePassageInformationModel extends ReponseCustomerModel {
-  totalTransactions: number,
-  transactions: PassageInformationModel[]
+  // totalTransactions: number,
+  // transactions: PassageInformationModel[]
+  totalData: number,
+  data: any[]
 }

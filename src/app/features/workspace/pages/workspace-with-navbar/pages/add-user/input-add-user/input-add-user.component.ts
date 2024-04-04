@@ -190,7 +190,7 @@ export class InputAddUserComponent {
         citizenDocId: this.userInfoForm.get('identityType')?.value,
         citizenId: this.userInfoForm.get('citizenId')?.value,
         cardExpDate: cardExpDateFormat,
-        birthDate: birthDateFormat,
+        birthdate: birthDateFormat,
         occupation: this.occupationDetailForm.get('occupation')?.value,
         gender: this.userInfoForm.get('gender')?.value,
         taxId: '',

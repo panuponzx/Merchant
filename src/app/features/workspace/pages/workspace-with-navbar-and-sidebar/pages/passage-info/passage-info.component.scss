@@ -9,3 +9,33 @@
 .datatable-container {
   padding-top: 2rem;
 }
+
+
+.datatable-content,
+.empty-row {
+  box-shadow: 0px 4px 4px 0px #00000040 !important;
+  padding: 1rem 2.5rem;
+  border-radius: 15px;
+  background-color: var(--color-white);
+}
+
+.empty-row {
+  width: 100%;
+  text-align: center;
+}
+
+.datatable-content.datatable-no-box-shadow {
+  box-shadow: unset !important;
+}
+
+.datatable-content.datatable-border-solid {
+  border: 1px solid #CCCCCC;
+}
+
+.toggle-group-header {
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  gap: 1rem;
+}
+

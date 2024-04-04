@@ -154,7 +154,7 @@ export class GeneralInfoComponent {
         // citizenDocId: this.form.getRawValue().citizenDocId,
         // citizenId: this.form.getRawValue().citizenId,
         cardExpDate: cardExpDateFormat,
-        birthDate: birthDateFormat,
+        birthdate: birthDateFormat,
         occupation: this.form.getRawValue().occupation,
         gender: this.form.getRawValue().gender,
         // taxId: this.form.getRawValue().taxId,
