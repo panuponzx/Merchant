@@ -28,4 +28,8 @@ export class MenuOptionSuperAdminComponent {
     this.router.navigate(['work-space/add-car-type9']);
   }
 
+  onBackToHome() {
+    this.router.navigate(['work-space/menu-option']);
+  }
+  
 }

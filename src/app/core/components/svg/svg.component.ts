@@ -25,7 +25,7 @@ export class SvgComponent implements OnInit {
         dimension = '15px';
         break;
       case 'm':
-        dimension = '24px';
+        dimension = '20px';
         break;
       case 'l':
         dimension = '25px';

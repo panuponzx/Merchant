@@ -21,7 +21,7 @@ import { WorkspaceBackofficeManagementComponent } from './pages/workspace-backof
 import { ApprovalManagementComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-management.component';
 import { ApprovalCancelDeviceComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/approval-cancel-device.component';
 import { AccountMaintenanceFeeComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/account-maintenance-fee.component';
-import { SettingEarnCampaignComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/setting-earn-campaign.component';
+import { ManageEarningComponent, ManageRedeemComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -157,17 +157,30 @@ export const routesConfig: CustomRoutesModel = [
             canActivate: [ TabGuard ]
           },
           {
-            id: 'settingEarnCampaignComponent',
-            path: 'setting-earn-campaign/:tab',
-            component: SettingEarnCampaignComponent,
+            id: 'ManageEarningComponent',
+            path: 'manage-earning',
+            component:ManageEarningComponent ,
             data: {
               is_sidebar: true,
               label: 'ระบบการให้คะแนน',
               // request_id: true,
-              default_path: 'setting-earn-campaign',
+              default_path: 'manage-earning',
               // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
             },
             canActivate: [ TabGuard ]
+          },
+          {
+            id: 'ManageRedeemComponent',
+            path: 'manage-redeem/:tabs',
+            component:ManageRedeemComponent ,
+            data: {
+              is_sidebar: true,
+              label: 'ระบบการแลกคะแนน',
+              // request_id: true,
+              default_path: 'manage-redeem',
+              allowed_tabs: ['Exchange-products', 'coupon', 'toll']
+            },
+            // canActivate: [ TabGuard ]
           }
         ],
         

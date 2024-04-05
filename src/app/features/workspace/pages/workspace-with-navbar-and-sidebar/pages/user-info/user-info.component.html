@@ -34,7 +34,7 @@
       </div>
       <div class="total-container">
         <div class="row">
-          <div class="col-12 col-sm-4">
+          <div class="col-12 col-lg-4">
             <label
               class="label-input text-nowrap"
               for="walletTotalInput"
@@ -50,7 +50,7 @@
               readonly
             >
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-12 col-lg-4">
             <label
               class="label-input text-nowrap"
               for="totalLoyaltyPointInput"
@@ -68,7 +68,7 @@
               readonly
             />
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-12 col-lg-4">
             <label
               class="label-input text-nowrap"
               for="totalBalanceInput"
@@ -112,7 +112,7 @@
           <li [ngbNavItem]="'loyalty-point-info'">
             <button ngbNavLink>ข้อมูลคะแนน</button>
             <ng-template ngbNavContent>
-              <loyalty-point-info/>
+              <loyalty-point-info [customerId]="customerId" [customerTypeId]="customerTypeId"/>
             </ng-template>
           </li>
           <li [ngbNavItem]="'device-list'">

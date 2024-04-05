@@ -63,9 +63,63 @@ export class GeneralInfoComponent {
     branchType: new FormControl(undefined),
     branchName: new FormControl(undefined),
     branchCode: new FormControl(undefined),
-    current_address: new FormGroup({}),
-    registration_address: new FormGroup({}),
-    work_address: new FormGroup({})
+    current_address: new FormGroup({
+      addressNo: new FormControl(undefined, [Validators.required]),
+      building: new FormControl(undefined),
+      createDate: new FormControl(undefined),
+      customerId: new FormControl(undefined),
+      districtCode: new FormControl(undefined, [Validators.required]),
+      floor: new FormControl(undefined),
+      provinceCode: new FormControl(undefined, [Validators.required]),
+      remark: new FormControl(undefined),
+      soi: new FormControl(undefined),
+      street: new FormControl(undefined),
+      subdistrictCode: new FormControl(undefined, [Validators.required]),
+      typeId: new FormControl(undefined),
+      typeName: new FormControl(undefined),
+      alley: new FormControl(undefined),
+      village: new FormControl(undefined),
+      villageNo: new FormControl(undefined),
+      zipcode: new FormControl(undefined, [Validators.required]),
+    }),
+    registration_address: new FormGroup({
+      addressNo: new FormControl(undefined, [Validators.required]),
+      building: new FormControl(undefined),
+      createDate: new FormControl(undefined),
+      customerId: new FormControl(undefined),
+      districtCode: new FormControl(undefined, [Validators.required]),
+      floor: new FormControl(undefined),
+      provinceCode: new FormControl(undefined, [Validators.required]),
+      remark: new FormControl(undefined),
+      soi: new FormControl(undefined),
+      street: new FormControl(undefined),
+      subdistrictCode: new FormControl(undefined, [Validators.required]),
+      typeId: new FormControl(undefined),
+      typeName: new FormControl(undefined),
+      alley: new FormControl(undefined),
+      village: new FormControl(undefined),
+      villageNo: new FormControl(undefined),
+      zipcode: new FormControl(undefined, [Validators.required]),
+    }),
+    work_address: new FormGroup({
+      addressNo: new FormControl(undefined, [Validators.required]),
+      building: new FormControl(undefined),
+      createDate: new FormControl(undefined),
+      customerId: new FormControl(undefined),
+      districtCode: new FormControl(undefined, [Validators.required]),
+      floor: new FormControl(undefined),
+      provinceCode: new FormControl(undefined, [Validators.required]),
+      remark: new FormControl(undefined),
+      soi: new FormControl(undefined),
+      street: new FormControl(undefined),
+      subdistrictCode: new FormControl(undefined, [Validators.required]),
+      typeId: new FormControl(undefined),
+      typeName: new FormControl(undefined),
+      alley: new FormControl(undefined),
+      village: new FormControl(undefined),
+      villageNo: new FormControl(undefined),
+      zipcode: new FormControl(undefined, [Validators.required]),
+    })
   });
 
   public isUpdated: boolean = false;
@@ -83,6 +137,7 @@ export class GeneralInfoComponent {
 
   ngOnInit(): void {
     // this.modalDialogService.loading();
+    // this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ');
     this.loadCustomer();
   }
 
@@ -154,7 +209,7 @@ export class GeneralInfoComponent {
         // citizenDocId: this.form.getRawValue().citizenDocId,
         // citizenId: this.form.getRawValue().citizenId,
         cardExpDate: cardExpDateFormat,
-        birthDate: birthDateFormat,
+        birthdate: birthDateFormat,
         occupation: this.form.getRawValue().occupation,
         gender: this.form.getRawValue().gender,
         // taxId: this.form.getRawValue().taxId,
@@ -221,25 +276,28 @@ export class GeneralInfoComponent {
     };
     this.modalDialogService.loading();
     this.restApiService
-        .post('edit-customer', data)
-        .pipe(
-          first(),
-          map(res => res as any)
-        ).subscribe({
-          next: (res) => {
-            // alert(res.errorMessage);
-            this.modalDialogService.hideLoading();
-            console.log("[onSubmit] res => ", res);
-            if(res.errorMessage === 'Success'){
-              this.modalDialogService.info('สำเร็จ');
-              this.loadCustomer();
-            }
-          },
-          error: (err) => {
-            this.modalDialogService.hideLoading();
-            console.error(err);
+      .post('edit-customer', data)
+      .pipe(
+        first(),
+        map(res => res as any)
+      ).subscribe({
+        next: (res) => {
+          // alert(res.errorMessage);
+          this.modalDialogService.hideLoading();
+          console.log("[onSubmit] res => ", res);
+          if (res.errorMessage === 'Success') {
+            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ').then((res: boolean) => {
+              if (res) this.loadCustomer();
+            });
+          } else {
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
           }
-        })
+        },
+        error: (err) => {
+          this.modalDialogService.hideLoading();
+          console.error(err);
+        }
+      })
   }
 
   onUpload() {
@@ -330,6 +388,7 @@ export class GeneralInfoComponent {
         formControl['work_address'] = newFormGroup;
       }
     });
+    console.log("[setFormValue] birthdate => ", this.form.value);
     this.form.valueChanges.subscribe(x => {
       console.log("[valueChanges] x => ", x);
       this.isUpdated = true;

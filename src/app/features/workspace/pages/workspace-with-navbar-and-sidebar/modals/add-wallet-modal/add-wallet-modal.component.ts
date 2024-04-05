@@ -68,11 +68,11 @@ export class AddWalletModalComponent {
           this.modalDialogService.hideLoading();
           if (res.errorMessage === "Success") {
             console.log("[onSubmit] res => ", res);
-            this.modalDialogService.info('สำเร็จ');
+            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การเพิ่มกระเป๋าสำเร็จ');
             // this.router.navigate(['work-space/menu-option']);
             this.ngbActiveModal.close(true);
           } else {
-            this.modalDialogService.info('เกิดข้อผิดพลาด', res.errorMessage);
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
           }
 
         },

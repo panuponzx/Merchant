@@ -17,6 +17,8 @@ export class AccountMaintenanceFeeComponent {
   public submitted: boolean = false;
   public form: FormGroup;
 
+  public isHiddenFillter: boolean = false;
+  
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -24,7 +26,8 @@ export class AccountMaintenanceFeeComponent {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
       date: new FormControl(undefined, [ Validators.required ]),
-      checkpoint: new FormControl(undefined, [ Validators.required ])
+      // checkpoint: new FormControl(undefined, [ Validators.required ]),
+      search: new FormControl(undefined, [ Validators.required ]),
     });
   }
 
@@ -35,6 +38,10 @@ export class AccountMaintenanceFeeComponent {
 
   onSearch() {
     console.log("[onSearch]");
+  }
+
+  handleHiddenFillterMenu(value: boolean) {
+    this.isHiddenFillter = value;
   }
   
 }

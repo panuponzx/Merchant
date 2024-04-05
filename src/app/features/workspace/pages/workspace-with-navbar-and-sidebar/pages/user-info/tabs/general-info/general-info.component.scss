@@ -60,3 +60,10 @@
   display: grid;
   margin-bottom: 2rem;
 }
+
+.etax-item {
+  a {
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    text-decoration: underline;
+  }
+}

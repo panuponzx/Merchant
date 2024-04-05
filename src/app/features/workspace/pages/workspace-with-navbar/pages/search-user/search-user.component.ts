@@ -155,4 +155,8 @@ export class SearchUserComponent {
     this.form.controls['customerTypeId'].setValue('domestic');
   }
 
+  onBackToHome() {
+    this.router.navigate(['work-space/menu-option']);
+  }
+
 }

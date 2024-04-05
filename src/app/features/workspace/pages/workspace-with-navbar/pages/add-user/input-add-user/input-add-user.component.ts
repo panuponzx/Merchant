@@ -190,7 +190,7 @@ export class InputAddUserComponent {
         citizenDocId: this.userInfoForm.get('identityType')?.value,
         citizenId: this.userInfoForm.get('citizenId')?.value,
         cardExpDate: cardExpDateFormat,
-        birthDate: birthDateFormat,
+        birthdate: birthDateFormat,
         occupation: this.occupationDetailForm.get('occupation')?.value,
         gender: this.userInfoForm.get('gender')?.value,
         taxId: '',
@@ -268,10 +268,10 @@ export class InputAddUserComponent {
             this.modalDialogService.hideLoading();
             if(res.errorMessage === "Success") {
               console.log("[onSubmit] res => ", res);
-              this.modalDialogService.info('สำเร็จ');
+              this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ');
               this.router.navigate(['work-space/menu-option']);
             }else {
-              this.modalDialogService.info('เกิดข้อผิดพลาด', res.errorMessage);
+              this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
             }
 
           },

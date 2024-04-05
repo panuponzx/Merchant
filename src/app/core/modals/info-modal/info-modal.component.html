@@ -1,8 +1,14 @@
 <div class="modal-body">
     <div class="d-flex flex-column">
         <div class="text-center">
-            <h3 class="text-break">{{title}}</h3>
-            <p>{{ message }}</p>
-          </div>
+            <div class="icon mb-4">
+                <icon-svg size="xl" [color]="color" [path]="icon | icon" />
+            </div>
+            <h3 [style.color]="color" class="fw-bold text-break">{{title}}</h3>
+            <h3 class="mb-4" [style.color]="'#777777'">{{ message }}</h3>
+            <button style="width: 80%" class="custom-btn btn-type-1 outline" title="Close" (click)="onClose()">
+                ปิด
+            </button>
+        </div>
     </div>
 </div>

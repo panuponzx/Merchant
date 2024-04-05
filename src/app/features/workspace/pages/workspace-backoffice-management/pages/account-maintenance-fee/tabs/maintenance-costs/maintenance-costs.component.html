@@ -1,1 +1,55 @@
-<p>maintenance-costs works!</p>
+<ng-container *ngIf="isShowDescription">
+    <div class="mb-4">
+        <button class="custom-btn btn-type-1" data-testid="backButton" id="backButton" title="กลับ" type="button"
+            (click)="onBack()">
+            กลับ
+        </button>
+    </div>
+
+    <div class="user-type-container">
+        <icon-svg [size]="'57.14px'" [color]="customer | customerType: 'color-code'"
+            [path]="(customer | customerType: 'icon') | icon" />
+        <div class="user-type-info-wrapper">
+            <h3>{{ customer?.title + ' ' + customer?.firstName + ' ' + customer?.lastName }}</h3>
+            <span class="custom-badge customer-badge" [style.color]="customer | customerType: 'color-code'">{{ customer
+                |
+                customerType: 'name' }}</span>
+        </div>
+    </div>
+
+    <div class="table-description mb-5">
+        <table class="table-description">
+            <tr class="header">
+                <th>อันดับ</th>
+                <th>ชื่อผู้ใช้</th>
+                <th>ระยะเวลาที่ไม่มีการเคลือนไหว</th>
+                <th>หมายเลขอุปกรณ์</th>
+                <th>จำนวนเงินเรียกเก็บ</th>
+                <th>เคลื่อนไหวล่าสุด</th>
+                <th>ยกเลิกการเรียกเก็บ</th>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>นาย ทดสอบ ทดสอบ</td>
+                <td>335 วัน</td>
+                <td>1234567890</td>
+                <td>25 บาท</td>
+                <td>24 ธันวาคม 2566</td>
+                <td>ยกเลิกการเรียกเก็บ</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="datatable-container">
+        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
+            [limitRow]="limitRow" [pages]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
+    </div>
+</ng-container>
+<ng-container *ngIf="tempRows && !isShowDescription">
+    <div class="datatable-container">
+        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
+            [limitRow]="limitRow" [pages]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
+    </div>
+</ng-container>

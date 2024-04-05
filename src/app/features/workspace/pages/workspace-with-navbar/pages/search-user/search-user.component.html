@@ -80,7 +80,7 @@
       <ng-container *ngIf="!tempSearch">
         <div class="button-wrapper">
           <button
-            class="custom-btn btn-type-2"
+            class="custom-btn btn-type-2 mb-3"
             data-testid="searchButton"
             [disabled]="!form.controls['citizenId'].value || isLoading"
             id="searchButton"
@@ -89,6 +89,15 @@
             (click)="onSearch()"
           >
             ค้นหา
+          </button>
+          <button
+            class="custom-btn btn-back"
+            data-testid="backButton"
+            id="backButton"
+            title="ย้อนกลับ"
+            (click)="onBackToHome()"
+          >
+            กลับ
           </button>
         </div>
       </ng-container>

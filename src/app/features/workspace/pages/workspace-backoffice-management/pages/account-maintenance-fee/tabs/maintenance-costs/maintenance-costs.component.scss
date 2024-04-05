@@ -1,0 +1,58 @@
+h2,
+h3 {
+    color: var(--color-blue-exat);
+}
+
+.table-description {
+    overflow-x: auto;
+
+    table {
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: separate;
+        padding: 1rem 2.5rem;
+        border: 1px solid #CCCCCC;
+        border-radius: 15px;
+        // overflow-x: auto;
+        // white-space: nowrap;
+        // display: block;
+        text-align: center;
+
+        th {
+            color: var(--color-blue-exat);
+            font-weight: normal;
+        }
+
+        td,
+        th {
+            border-bottom: 2px solid var(--color-blue-exat);
+            padding: 10px;
+        }
+
+        tr:last-child>td {
+            border-bottom: none;
+        }
+    }
+}
+
+.payment-detail-container {
+    display: flex;
+    justify-content: space-between;
+
+    .payment-detail-item {
+        span {
+            color: #777777;
+
+            &.red {
+                color: var(--color-red-exat);
+            }
+        }
+
+        hr {
+            border-width: 2px;
+            opacity: 1;
+            border-color: #EEEEEE;
+            margin: 0rem;
+        }
+    }
+}
