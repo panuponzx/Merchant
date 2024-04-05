@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-car-type9',
@@ -13,7 +14,10 @@ export class AddCarType9Component {
   public userInfoType9Form: FormGroup;
   public carInfoType9Form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder){
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    ){
     this.userInfoType9Form = this.formBuilder.group({
       company: new FormControl(undefined, Validators.required),
       citizenId: new FormControl(undefined, Validators.required),
@@ -40,7 +44,7 @@ export class AddCarType9Component {
     this.step--;
     console.log("[onPreviousStep] step => ", this.step);
     if (this.step === 0) {
-      // this.router.navigate(['work-space/add-user']);
+      this.router.navigate(['work-space/menu-option-super-admin']);
     }
   }
 

@@ -29,6 +29,8 @@ export class ModalDialogService {
   }
 
   public info(
+    icon: string,
+    color: string,
     title: string,
     message?: string
   ){
@@ -38,11 +40,13 @@ export class ModalDialogService {
       backdrop: 'static',
       keyboard: false,
     });
+    this.modalInfoRef.componentInstance.icon = icon;
+    this.modalInfoRef.componentInstance.color = color;
     this.modalInfoRef.componentInstance.title = title;
     this.modalInfoRef.componentInstance.message = message;
-    setTimeout(() => {
-      this.hideInfo();
-    }, 2000);
+    // setTimeout(() => {
+    //   this.hideInfo();
+    // }, 2000);
     return this.modalInfoRef.result;
   }
 

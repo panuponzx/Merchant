@@ -21,5 +21,9 @@ export class AddUserComponent {
     this.router.navigate(['work-space/add-user/juristic-info']);
   }
 
+  onBackToHome() {
+    this.router.navigate(['work-space/menu-option']);
+  }
+
 
 }

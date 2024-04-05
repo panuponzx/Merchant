@@ -93,3 +93,15 @@
   text-align: center;
   padding: 0rem;
 }
+
+.btn-back {
+  cursor: pointer;
+  padding: var(--button-padding);
+  background-color: transparent !important;
+  color: var(--color-white) !important;
+  border: 1px solid #FFF;
+  border-radius: var(--button-radius);
+  max-width: 403px;
+  width: 100%;
+  height: 44px;
+}

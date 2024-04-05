@@ -18,7 +18,8 @@
 @import 'assets/scss/datatable';
 
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -42,8 +43,21 @@ html body {
 
 .info-modal {
   .modal-content {
+    width: 300px;
+    margin: auto;
     animation-name: show-modal;
     animation-duration: 0.5s;
+    border-radius: 25px !important;
+    border: none;
+  }
+
+  .modal-content .modal-body {
+    padding: 2rem;
+    border-radius: 25px !important;
+    border: double 5px transparent;
+    background-image: linear-gradient(white, white), linear-gradient(118.54deg, #2255CE 9.91%, rgba(255, 255, 255, 0) 43.42%, rgba(255, 255, 255, 0) 58.26%, #231D4F 98.43%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
   }
 }
 
@@ -72,15 +86,17 @@ html body {
 .ngx-datatable.material {
   .datatable-body .datatable-row-wrapper {
     margin-top: 1rem;
-}
-.datatable-group-header {
-  background-color: #E8EEFA !important;
-  border: none !important;
-  padding: 0.75rem;
-}
-  .datatable-scroll{
-      display: inherit !important;
-    }
+  }
+
+  .datatable-group-header {
+    background-color: #E8EEFA !important;
+    border: none !important;
+    padding: 0.75rem;
+  }
+
+  .datatable-scroll {
+    display: inherit !important;
+  }
 }
 
 .datatable-icon-right-custom::before {
