@@ -67,9 +67,9 @@ export class InputAddUserComponent {
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       postalCode: new FormControl(undefined, Validators.required),
-      subDistrict: new FormControl({value: undefined, disabled: true}, Validators.required),
-      district: new FormControl({value: undefined, disabled: true}, Validators.required),
-      province: new FormControl({value: undefined, disabled: true}, Validators.required),
+      subDistrict: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      district: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      province: new FormControl({ value: undefined, disabled: true }, Validators.required),
     });
     // this.addressInfoForm = this.formBuilder.group({
     //   addressNo: new FormControl('216', Validators.required),
@@ -90,9 +90,9 @@ export class InputAddUserComponent {
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       postalCode: new FormControl(undefined, Validators.required),
-      subDistrict: new FormControl({value: undefined, disabled: true}, Validators.required),
-      district: new FormControl({value: undefined, disabled: true}, Validators.required),
-      province: new FormControl({value: undefined, disabled: true}, Validators.required),
+      subDistrict: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      district: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      province: new FormControl({ value: undefined, disabled: true }, Validators.required),
     });
 
     this.occupationDetailForm = this.formBuilder.group({
@@ -104,9 +104,9 @@ export class InputAddUserComponent {
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       postalCode: new FormControl(undefined, Validators.required),
-      subDistrict: new FormControl({value: undefined, disabled: true}, Validators.required),
-      district: new FormControl({value: undefined, disabled: true}, Validators.required),
-      province: new FormControl({value: undefined, disabled: true}, Validators.required),
+      subDistrict: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      district: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      province: new FormControl({ value: undefined, disabled: true }, Validators.required),
     });
 
     // this.occupationDetailForm = this.formBuilder.group({
@@ -153,24 +153,31 @@ export class InputAddUserComponent {
 
   onPreviousStep(step: string) {
     // console.log("[onPreviousStep] step => ", step);
-    this.step--;
     console.log("[onPreviousStep] step => ", this.step);
+    this.step--;
     if (this.step === 0) {
       this.router.navigate(['work-space/add-user']);
+    }
+    if (this.step === 2 && this.userInfoForm.get('identityType')?.value === 3) {
+      this.step = 1;
     }
   }
 
   onNextStep(step: string) {
     console.log("[onNextStep] step => ", step);
     console.log("[onNext] form => ", this.addressInfoForm.value);
-    this.step++;
+    if (this.step === 1 && this.userInfoForm.get('identityType')?.value === 3) {
+      this.step = 3;
+    } else {
+      this.step++;
+    }
   }
 
   onSubmit(event: boolean) {
     console.log("[onSubmit] event => ", event);
-    const currentAddressProvince =  this.addressCurrentInfoForm.get('province')?.value;
-    const currentAddressDistrict =  this.addressCurrentInfoForm.get('district')?.value;
-    const currentAddressSubDistrict =  this.addressCurrentInfoForm.get('subDistrict')?.value;
+    const currentAddressProvince = this.addressCurrentInfoForm.get('province')?.value;
+    const currentAddressDistrict = this.addressCurrentInfoForm.get('district')?.value;
+    const currentAddressSubDistrict = this.addressCurrentInfoForm.get('subDistrict')?.value;
     const registrationAddressProvince = this.addressInfoForm.get('province')?.value;
     const registrationAddressDistrict = this.addressInfoForm.get('district')?.value;
     const registrationAddressSubDistrict = this.addressInfoForm.get('subDistrict')?.value;
@@ -199,8 +206,28 @@ export class InputAddUserComponent {
           channelId: 1,
         }
       }, addresses: [
+        ...(
+          this.userInfoForm.get('identityType')?.value !== 3 ? [{
+            typeId: "1",
+            addressNo: this.addressInfoForm.get('addressNo')?.value,
+            building: this.addressInfoForm.get('building')?.value,
+            floor: this.addressInfoForm.get('floor')?.value,
+            // village: "v1",
+            // villageNo: "vno23",
+            // alley: "ตรอก",
+            soi: this.addressInfoForm.get('soi')?.value,
+            street: this.addressInfoForm.get('street')?.value,
+            provinceCode: registrationAddressProvince?.id,
+            districtCode: registrationAddressDistrict?.id,
+            subdistrictCode: registrationAddressSubDistrict?.subdistrict.id,
+            // provinceCode: "03",
+            // districtCode: "04",
+            // subdistrictCode: "99",
+            zipcode: this.addressInfoForm.get('postalCode')?.value,
+          }] : []
+        ),
         {
-          typeId: "1",
+          typeId: "2",
           addressNo: this.addressCurrentInfoForm.get('addressNo')?.value,
           building: this.addressCurrentInfoForm.get('building')?.value,
           floor: this.addressCurrentInfoForm.get('floor')?.value,
@@ -216,24 +243,6 @@ export class InputAddUserComponent {
           // districtCode: "04",
           // subdistrictCode: "99",
           zipcode: this.addressCurrentInfoForm.get('postalCode')?.value,
-        },
-        {
-          typeId: "2",
-          addressNo: this.addressInfoForm.get('addressNo')?.value,
-          building: this.addressInfoForm.get('building')?.value,
-          floor: this.addressInfoForm.get('floor')?.value,
-          // village: "v1",
-          // villageNo: "vno23",
-          // alley: "ตรอก",
-          soi: this.addressInfoForm.get('soi')?.value,
-          street: this.addressInfoForm.get('street')?.value,
-          provinceCode: registrationAddressProvince.id,
-          districtCode: registrationAddressDistrict.id,
-          subdistrictCode: registrationAddressSubDistrict.subdistrict.id,
-          // provinceCode: "03",
-          // districtCode: "04",
-          // subdistrictCode: "99",
-          zipcode: this.addressInfoForm.get('postalCode')?.value,
         },
         {
           typeId: "3",
@@ -266,11 +275,11 @@ export class InputAddUserComponent {
         ).subscribe({
           next: (res) => {
             this.modalDialogService.hideLoading();
-            if(res.errorMessage === "Success") {
+            if (res.errorMessage === "Success") {
               console.log("[onSubmit] res => ", res);
               this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ');
               this.router.navigate(['work-space/menu-option']);
-            }else {
+            } else {
               this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
             }
 

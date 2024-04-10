@@ -21,24 +21,35 @@
                                 [items]="identityTypeList"></ng-select>
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="identificationInput">
+                            <label *ngIf="form.get('identityType').value === 1" class="label-input required-field"
+                                for="identificationInput">
                                 หมายเลขบัตรประชาชน
                             </label>
-                            <input class="form-control" [ngClass]="{
+                            <label *ngIf="form.get('identityType').value === 3" class="label-input required-field"
+                                for="identificationInput">
+                                หมายเลขหนังสือเดินทาง
+                            </label>
+                            <input *ngIf="form.get('identityType').value === 1" class="form-control" [ngClass]="{
                                 'is-invalid': submitted && form.get('citizenId')!.errors
-                              }" data-testid="identificationInput" formControlName="citizenId"
-                                id="identificationInput" type="text" mask="0 0000 00000 00 0">
+                              }" data-testid="identificationInput" formControlName="citizenId" id="identificationInput"
+                                type="text" mask="0 0000 00000 00 0">
+                            <input *ngIf="form.get('identityType').value === 3" class="form-control" [ngClass]="{
+                                    'is-invalid': submitted && form.get('citizenId')!.errors
+                                }" data-testid="identificationInput" formControlName="citizenId"
+                                id="identificationInput" type="text">
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="expiredDateDatePicker">
                                 <span *ngIf="this.form.get('identityType')?.value === 1">วันหมดอายุบัตร
                                     (วัน/เดือน/ปี)</span>
-                                <span *ngIf="this.form.get('identityType')?.value === 2">วันหมดอายุหนังสือเดินทาง
+                                <span *ngIf="this.form.get('identityType')?.value === 3">วันหมดอายุหนังสือเดินทาง
                                     (วัน/เดือน/ปี)</span>
                             </label>
-                            <date-picker class="datepicker-input" [invalid]="submitted && form.get('cardExpDate')!.errors" [clearable]="false" format="DD/MM/YYYY"
-                                formControlName="cardExpDate" [id]="'expiredDateDatePicker'" locale="th"
-                                [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [minDate]="minDate"></date-picker>
+                            <date-picker class="datepicker-input"
+                                [invalid]="submitted && form.get('cardExpDate')!.errors" [clearable]="false"
+                                format="DD/MM/YYYY" formControlName="cardExpDate" [id]="'expiredDateDatePicker'"
+                                locale="th" [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"
+                                [minDate]="minDate"></date-picker>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="gender">
@@ -63,8 +74,7 @@
                             </label>
                             <input class="form-control" [ngClass]="{
                                 'is-invalid': submitted && form.get('firstName')!.errors
-                              }" data-testid="firstName" formControlName="firstName" id="firstName"
-                                type="text">
+                              }" data-testid="firstName" formControlName="firstName" id="firstName" type="text">
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="lastName">
@@ -72,16 +82,16 @@
                             </label>
                             <input class="form-control" [ngClass]="{
                                 'is-invalid': submitted && form.get('lastName')!.errors
-                              }" data-testid="lastName" formControlName="lastName" id="lastName"
-                                type="text">
+                              }" data-testid="lastName" formControlName="lastName" id="lastName" type="text">
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="birthDateDatePicker">
                                 วันเกิด (วัน/เดือน/ปี)
                             </label>
-                            <date-picker class="datepicker-input" [invalid]="submitted && form.get('birthDate')!.errors" [clearable]="false" format="DD/MM/YYYY"
-                                formControlName="birthDate" [id]="'birthDateDatePicker'" locale="th"
-                                [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                            <date-picker class="datepicker-input" [invalid]="submitted && form.get('birthDate')!.errors"
+                                [clearable]="false" format="DD/MM/YYYY" formControlName="birthDate"
+                                [id]="'birthDateDatePicker'" locale="th" [placeholder]="'วันที่ เดือน ปี'"
+                                [placement]="'bottom'"></date-picker>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="phone">
@@ -105,7 +115,7 @@
             ย้อนกลับ
         </button>
         <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-             [disabled]="form.invalid" (click)="onNext()">
+            [disabled]="form.invalid" (click)="onNext()">
             ถัดไป
         </button>
     </div>

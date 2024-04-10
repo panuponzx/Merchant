@@ -24,6 +24,7 @@
         *ngIf="customerType === 1 && step === 3"
         [form]="addressCurrentInfoForm"
         [addressIdCardInfoForm]="addressInfoForm"
+        [identityType]="this.userInfoForm.get('identityType')?.value"
         [customerType]="customerType"
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"

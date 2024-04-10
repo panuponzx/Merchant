@@ -14,6 +14,7 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
 
   @Input() public form: FormGroup | any;
   @Input() public addressIdCardInfoForm: FormGroup | any;
+  @Input() public identityType: number = 0;
   @Input() public customerType: number = 0;
 
   @Output() nextStep: EventEmitter<string> = new EventEmitter<string>();
