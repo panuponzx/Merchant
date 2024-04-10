@@ -25,7 +25,7 @@
           [path]="(customer | customerType: 'icon') | icon"
         />
         <div class="user-type-info-wrapper">
-          <h3>{{ customer.title + ' ' + customer.firstName + ' ' + customer.lastName }}</h3>
+          <h3 [style.color]="customer | customerType: 'color-code'">{{ customer.title + ' ' + customer.firstName + ' ' + customer.lastName }}</h3>
           <span
             class="custom-badge customer-badge"
             [style.color]="customer | customerType: 'color-code'"

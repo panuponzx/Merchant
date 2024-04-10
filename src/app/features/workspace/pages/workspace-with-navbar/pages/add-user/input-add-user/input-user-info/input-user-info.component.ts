@@ -25,7 +25,7 @@ export class InputUserInfoComponent implements AfterContentInit {
     },
     {
       label: 'หนังสือเดินทาง',
-      id: 2
+      id: 3
     }
   ];
   public minDate: Date = new Date();
