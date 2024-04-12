@@ -15,11 +15,14 @@
                         หนังสือรับรอบบริษัท
                     </label>
                     <div>
+                        <input #inputFile id="inputImportSignature" class="d-none" type="file"
+                            (change)="fileTypeValidation($event)"/>
                         <button style="width: 100%" class="custom-btn btn-type-3" data-testid="uploadImageButton"
-                            id="uploadImageButton" title="อัพโหลด" (click)="onUpload()">
+                            id="uploadImageButton" title="อัพโหลด" (click)="inputFile.click()">
                             <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
                             แนบเอกสาร
                         </button>
+                        <span>{{ form.get('attachDocument')?.value?.name }}</span>
                     </div>
                 </div>
             </form>
@@ -32,7 +35,7 @@
             ย้อนกลับ
         </button>
         <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-            (click)="onNext()">
+        [disabled]="form.invalid" (click)="onNext()">
             ถัดไป
         </button>
     </div>
