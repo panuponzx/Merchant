@@ -116,10 +116,13 @@ export class ApprovalManagementApprovalComponent {
       companyNumber: new FormControl({ value: undefined, disabled: false }, Validators.required),
       // firstName: new FormControl({value: undefined, disabled: false}, Validators.required),
       addressNo: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      building: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      floor: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      soi: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      street: new FormControl({ value: undefined, disabled: false }, Validators.required),
+      building: new FormControl(undefined),
+      floor: new FormControl(undefined),
+      villageNo: new FormControl(undefined),
+      village: new FormControl(undefined),
+      alley: new FormControl(undefined),
+      soi: new FormControl(undefined),
+      street: new FormControl(undefined),
       postalCode: new FormControl({ value: undefined, disabled: false }, Validators.required),
       subDistrict: new FormControl({ value: undefined, disabled: false }, Validators.required),
       district: new FormControl({ value: undefined, disabled: false }, Validators.required),
@@ -444,6 +447,13 @@ export class ApprovalManagementApprovalComponent {
     event.row.eventValue.addresses.forEach((x: any) => {
       if (x.typeId === 3) {
         this.form.get('addressNo')?.setValue(x.addressNo);
+        this.form.get('building')?.setValue(x.building);
+        this.form.get('floor')?.setValue(x.floor);
+        this.form.get('villageNo')?.setValue(x.villageNo);
+        this.form.get('village')?.setValue(x.village);
+        this.form.get('alley')?.setValue(x.alley);
+        this.form.get('soi')?.setValue(x.soi);
+        this.form.get('street')?.setValue(x.street);
         this.form.get('postalCode')?.setValue(x.zipcode);
         this.form.get('subDistrict')?.setValue(x.subdistrictCode);
         this.form.get('district')?.setValue(x.districtCode);
