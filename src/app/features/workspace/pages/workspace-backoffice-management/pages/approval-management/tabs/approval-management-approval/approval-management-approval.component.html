@@ -18,10 +18,10 @@
                 <th>ชื่อพนักงานทำรายการ</th>
             </tr>
             <tr>
-                <td>21/04/2556 19:10:32</td>
+                <td>{{ rowDescription.createDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</td>
                 <td>ชื่อบริษัท</td>
-                <td>รอการอนุมัติ</td>
-                <td>นายทดสอบ ทดสอบ</td>
+                <td>{{ rowDescription.status }}</td>
+                <td>{{ rowDescription.eventValue.customer.fullName }}</td>
             </tr>
         </table>
     </div>
@@ -130,11 +130,11 @@
                                             type="text">
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <label class="label-input required-field" for="birthDateDatePicker">
+                                        <label class="label-input required-field" for="birthdateDatePicker">
                                             วันเกิด (วัน/เดือน/ปี)
                                         </label>
                                         <date-picker class="datepicker-input" [clearable]="false" format="DD/MM/YYYY"
-                                            formControlName="birthDate" [id]="'birthDateDatePicker'" locale="th"
+                                            formControlName="birthdate" [id]="'birthdateDatePicker'" locale="th"
                                             [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
                                     </div>
                                     <div class="col-12 mb-5">
@@ -145,8 +145,8 @@
                                             mask="000 000 0000">
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <h3>ข้อมูลทั่วไป</h3>
-                                        <label class="label-input" for="birthDateDatePicker">
+                                        <h3>เอกสารแนบ</h3>
+                                        <label class="label-input" for="birthdateDatePicker">
                                             หนังสือรับรอบบริษัท
                                         </label>
                                     </div>
@@ -248,7 +248,7 @@
         </div>
         <hr class="hr-custom mb-3" />
         <div class="footer d-flex justify-content-center gap-3">
-        <button class="custom-btn btn-fixed-size-1 btn-type-3 red" data-testid="backButton" id="backButton" title="ย้อนกลับ">
+        <button class="custom-btn btn-fixed-size-1 btn-type-3 red" (click)="onReject()" data-testid="backButton" id="backButton" title="ปฏิเสธ">
             ปฏิเสธ
         </button>
         <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป">

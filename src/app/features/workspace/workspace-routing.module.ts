@@ -92,7 +92,7 @@ export const routesConfig: CustomRoutesModel = [
             component: PassageInfoComponent,
             data: {
               is_sidebar: true,
-              label: 'ข้อมูลการผ่านทาง',
+              label: 'ข้อมูลการใช้ทาง',
               request_id: true,
               default_path: 'passage-info'
             }
@@ -144,19 +144,6 @@ export const routesConfig: CustomRoutesModel = [
             canActivate: [ TabGuard ]
           },
           {
-            id: 'approvalManagementRoute',
-            path: 'approval-management/:tab',
-            component: ApprovalManagementComponent,
-            data: {
-              is_sidebar: true,
-              label: 'การอนุมัติ',
-              // request_id: true,
-              default_path: 'approval-management',
-              allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
-            },
-            canActivate: [ TabGuard ]
-          },
-          {
             id: 'ManageEarningComponent',
             path: 'manage-earning',
             component:ManageEarningComponent ,
@@ -181,7 +168,20 @@ export const routesConfig: CustomRoutesModel = [
               allowed_tabs: ['Exchange-products', 'coupon', 'toll']
             },
             // canActivate: [ TabGuard ]
-          }
+          },
+          {
+            id: 'approvalManagementRoute',
+            path: 'approval-management/:tab',
+            component: ApprovalManagementComponent,
+            data: {
+              is_sidebar: true,
+              label: 'การอนุมัติ',
+              // request_id: true,
+              default_path: 'approval-management',
+              allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
+            },
+            canActivate: [ TabGuard ]
+          },
         ],
         
         data: {

@@ -24,6 +24,7 @@ export class ApprovalManagementComponent {
   public approval: number = 1;
 
   public activeTab: 'waiting-for-approval' | 'approval' | 'reject' | string | null;
+  public pendingStatus: number = 0;
 
   public columns: CustomColumnModel[] = [
     { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา ที่สร้าง', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm:ss', locale: 'th' } },
@@ -38,16 +39,36 @@ export class ApprovalManagementComponent {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
-    ) {
+  ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
+    this.setPendingStatus(this.activeTab);
+  }
+
+  setPendingStatus(tab: string | null) {
+    switch (tab) {
+      case 'waiting-for-approval': {
+        this.pendingStatus = 0; 
+        break;
+      }
+      case 'approval': {
+        this.pendingStatus = 1;
+        break;
+      }
+      case 'reject': {
+        this.pendingStatus = 2;
+        break;
+      }
+    };
   }
 
   onChangeNav(event: NgbNavChangeEvent) {
+    this.setPendingStatus(event.nextId);
     const url = 'work-space/approval-management/' + event.nextId;
     this.router.navigate([url], { replaceUrl: true });
   }
 
   handleHiddenFillterMenu(value: boolean) {
+    console.log("[handleHiddenFillterMenu] value => ", value);
     this.isHiddenFillter = value;
   }
 
