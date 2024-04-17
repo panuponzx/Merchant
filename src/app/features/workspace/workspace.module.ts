@@ -66,6 +66,8 @@ import { TollComponent } from './pages/workspace-backoffice-management/pages/set
 import { ApprovalManagementWaitingComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-waiting/approval-management-waiting.component';
 import { ApprovalManagementApprovalComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-approval/approval-management-approval.component';
 import { ApprovalManagementRejectComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-reject/approval-management-reject.component';
+import { AddEditComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/add-edit/add-edit.component';
+import { AddComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/add/add.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +122,8 @@ import { ApprovalManagementRejectComponent } from './pages/workspace-backoffice-
     ApprovalManagementWaitingComponent,
     ApprovalManagementApprovalComponent,
     ApprovalManagementRejectComponent,
+    AddEditComponent,
+    AddComponent,
   ],
   imports: [
     CommonModule,

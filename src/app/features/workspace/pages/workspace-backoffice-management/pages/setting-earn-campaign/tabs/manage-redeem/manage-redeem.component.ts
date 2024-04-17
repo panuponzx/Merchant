@@ -9,6 +9,7 @@ import { style, animate, transition, trigger, stagger, query } from '@angular/an
 import { id } from '@swimlane/ngx-datatable';
 import { TabGuard } from '../../../../../../../../core/guards';
 
+
 @Component({
   selector: 'app-manage-redeem',
   templateUrl: './manage-redeem.component.html',
@@ -37,10 +38,6 @@ isHiddenFillter: any;
   }
 
 
-
-  
-  
-
   public submitted: boolean = false;
   public form: FormGroup = new FormGroup({
     customerTypeId: new FormControl('domestic', [ Validators.required ]),
@@ -52,7 +49,9 @@ isHiddenFillter: any;
   public isLoading = false;
   
 
-
+  redirectToPath(): void {
+    this.router.navigate(['/work-space/add']);
+}
 
   onAction(event: RowActionEventModel) {
     if (event.action === 'description' && event.row) {

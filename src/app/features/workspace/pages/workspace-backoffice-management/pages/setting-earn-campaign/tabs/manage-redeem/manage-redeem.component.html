@@ -6,7 +6,7 @@
     </div>
     <hr class="hr-custom" />
     <div class="navs-container">
-        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between pt-5">
             <ul
           ngbNav
           #nav="ngbNav"
@@ -33,7 +33,11 @@
             </ng-template>
           </li>
         </ul>
-        <button class="custom-btn btn-type-1" type="submit" title="Login">
+        <button 
+          class="custom-btn btn-type-1"
+          title="Login"
+          type="submit"
+          (click)="redirectToPath()">
             เพิ่มรายการใหม่ 
         </button>
         </div>

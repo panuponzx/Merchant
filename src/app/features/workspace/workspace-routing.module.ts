@@ -22,6 +22,8 @@ import { ApprovalManagementComponent } from './pages/workspace-backoffice-manage
 import { ApprovalCancelDeviceComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/approval-cancel-device.component';
 import { AccountMaintenanceFeeComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/account-maintenance-fee.component';
 import { ManageEarningComponent, ManageRedeemComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign';
+import { AddEditComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/add-edit/add-edit.component';
+import { AddComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/add/add.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -179,6 +181,32 @@ export const routesConfig: CustomRoutesModel = [
               // request_id: true,
               default_path: 'manage-redeem',
               allowed_tabs: ['Exchange-products', 'coupon', 'toll']
+            },
+            // canActivate: [ TabGuard ]
+          },
+          {
+            id: 'add-edit',
+            path: 'add-edit',
+            component:AddEditComponent,
+            data: {
+              is_sidebar: false,
+              label: 'เพิ่มเงือนไขการให้คะแนนพิเศษ',
+              // request_id: true,
+              default_path: 'add-edit',
+              // allowed_tabs: ['Exchange-products', 'coupon', 'toll']
+            },
+            // canActivate: [ TabGuard ]
+          },
+          {
+            id: 'add',
+            path: 'add',
+            component:AddComponent,
+            data: {
+              is_sidebar: false,
+              label: 'เพิ่มเงือนไขการให้คะแนนพิเศษ',
+              // request_id: true,
+              default_path: 'add',
+              // allowed_tabs: ['Exchange-products', 'coupon', 'toll']
             },
             // canActivate: [ TabGuard ]
           }
