@@ -72,6 +72,9 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
         addressNo: undefined,
         building: undefined,
         floor: undefined,
+        villageNo: undefined,
+        village: undefined,
+        alley: undefined,
         soi: undefined,
         street: undefined,
         postalCode: undefined,
@@ -82,6 +85,9 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
       this.form.get('addressNo').enable();
       this.form.get('building').enable();
       this.form.get('floor').enable();
+      this.form.get('villageNo').enable();
+      this.form.get('village').enable();
+      this.form.get('alley').enable();
       this.form.get('soi').enable();
       this.form.get('street').enable();
       this.form.get('postalCode').enable();
@@ -108,6 +114,9 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
       addressNo: this.addressIdCardInfoForm.get('addressNo').value,
       building: this.addressIdCardInfoForm.get('building').value,
       floor: this.addressIdCardInfoForm.get('floor').value,
+      villageNo: this.addressIdCardInfoForm.get('villageNo').value,
+      village: this.addressIdCardInfoForm.get('village').value,
+      alley: this.addressIdCardInfoForm.get('alley').value,
       soi: this.addressIdCardInfoForm.get('soi').value,
       street: this.addressIdCardInfoForm.get('street').value,
       postalCode: this.addressIdCardInfoForm.get('postalCode').value,
@@ -118,6 +127,9 @@ export class InputCurrentAddressComponent implements AfterContentInit, OnInit {
     this.form.get('addressNo').disable();
     this.form.get('building').disable();
     this.form.get('floor').disable();
+    this.form.get('villageNo').disable();
+    this.form.get('village').disable();
+    this.form.get('alley').disable();
     this.form.get('soi').disable();
     this.form.get('street').disable();
     this.form.get('postalCode').disable();

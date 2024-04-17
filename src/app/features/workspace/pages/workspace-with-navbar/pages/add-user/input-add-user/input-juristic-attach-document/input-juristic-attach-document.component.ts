@@ -9,7 +9,7 @@ import { FormGroup } from '@angular/forms';
 export class InputJuristicAttachDocumentComponent implements AfterContentInit {
 
   @ViewChild('footer', { static: true }) footerRef: ElementRef | undefined;
-
+  @ViewChild('inputFile', { static: false }) private inputFileEl: | ElementRef | any;
   @Input() public form: FormGroup | any;
   @Input() public customerType: number = 0;
 
@@ -21,6 +21,14 @@ export class InputJuristicAttachDocumentComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     const footerElement = this.footerRef?.nativeElement as HTMLElement;
     this.footerHeight = footerElement.offsetHeight;
+  }
+
+  fileTypeValidation(event: any) {
+    let files = event.target.files[0];
+    this.form.get('attachDocument').setValue(files);
+    console.log("[fileTypeValidation] files => ", files);
+    console.log("[fileTypeValidation] attachDocument => ", this.form.get('attachDocument').value);
+    this.inputFileEl.nativeElement.value = null;
   }
 
   onUpload() {

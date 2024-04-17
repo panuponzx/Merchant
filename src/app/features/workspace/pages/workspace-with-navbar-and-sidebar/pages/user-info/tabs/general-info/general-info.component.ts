@@ -339,15 +339,18 @@ export class GeneralInfoComponent {
     formControl['status'].setValue(customer.status);
     formControl['taxId'].setValue(customer.taxId);
     formControl['title'].setValue(customer.title);
-    if (this.customerId === '3') {
+    if (this.customerTypeId === '3') {
       formControl['corporateName'].setValue(customer.corporateName);
-      formControl['corporateName'].addValidators([Validators.required]);
-      formControl['corporateName'].updateValueAndValidity();
-      formControl['corporatePhone'].setValue(customer.corporatePhone);
-      formControl['corporatePhone'].addValidators([Validators.required]);
-      formControl['corporatePhone'].updateValueAndValidity();
-      formControl['branchType'].addValidators([Validators.required]);
-      formControl['branchType'].updateValueAndValidity();
+      formControl['branchType'].setValue(customer.branchTypeId);
+      formControl['branchName'].setValue(customer.corporateBranch);
+      formControl['branchCode'].setValue(customer.branchId);
+      // formControl['corporateName'].addValidators([Validators.required]);
+      // formControl['corporateName'].updateValueAndValidity();
+      // formControl['corporatePhone'].setValue(customer.corporatePhone);
+      // formControl['corporatePhone'].addValidators([Validators.required]);
+      // formControl['corporatePhone'].updateValueAndValidity();
+      // formControl['branchType'].addValidators([Validators.required]);
+      // formControl['branchType'].updateValueAndValidity();
       // formControl['branchName'].addValidators([ Validators.required ]);
       // formControl['branchName'].updateValueAndValidity();
       // formControl['branchCode'].addValidators([ Validators.required ]);

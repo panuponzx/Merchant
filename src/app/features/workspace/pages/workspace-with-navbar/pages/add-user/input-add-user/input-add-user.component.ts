@@ -64,6 +64,9 @@ export class InputAddUserComponent {
       addressNo: new FormControl(undefined, Validators.required),
       building: new FormControl(undefined),
       floor: new FormControl(undefined),
+      villageNo: new FormControl(undefined),
+      village: new FormControl(undefined),
+      alley: new FormControl(undefined),
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       postalCode: new FormControl(undefined, Validators.required),
@@ -87,6 +90,9 @@ export class InputAddUserComponent {
       addressNo: new FormControl(undefined, Validators.required),
       building: new FormControl(undefined),
       floor: new FormControl(undefined),
+      villageNo: new FormControl(undefined),
+      village: new FormControl(undefined),
+      alley: new FormControl(undefined),
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       postalCode: new FormControl(undefined, Validators.required),
@@ -101,6 +107,9 @@ export class InputAddUserComponent {
       addressNo: new FormControl(undefined, Validators.required),
       building: new FormControl(undefined),
       floor: new FormControl(undefined),
+      villageNo: new FormControl(undefined),
+      village: new FormControl(undefined),
+      alley: new FormControl(undefined),
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       postalCode: new FormControl(undefined, Validators.required),
@@ -124,12 +133,12 @@ export class InputAddUserComponent {
     // });
 
     this.juristicInfoForm = this.formBuilder.group({
-      citizenId: new FormControl(undefined, Validators.required),
+      taxId: new FormControl(undefined, Validators.required),
       companyName: new FormControl(undefined, Validators.required),
       branch: new FormControl(undefined, Validators.required),
-      branchName: new FormControl(undefined, Validators.required),
-      branchNo: new FormControl(undefined, Validators.required),
-      companyNumber: new FormControl(undefined, Validators.required),
+      branchName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      branchNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      // companyNumber: new FormControl(undefined, Validators.required),
     });
 
     this.juristicAttachDocument = this.formBuilder.group({
@@ -175,6 +184,7 @@ export class InputAddUserComponent {
 
   onSubmit(event: boolean) {
     console.log("[onSubmit] event => ", event);
+    console.log("[onSubmit] addressCurrentInfoForm => ", this.addressCurrentInfoForm.value);
     const currentAddressProvince = this.addressCurrentInfoForm.get('province')?.value;
     const currentAddressDistrict = this.addressCurrentInfoForm.get('district')?.value;
     const currentAddressSubDistrict = this.addressCurrentInfoForm.get('subDistrict')?.value;
@@ -186,89 +196,164 @@ export class InputAddUserComponent {
     const companyAddressSubDistrict = this.occupationDetailForm.get('subDistrict')?.value;
     const cardExpDateFormat = this.transformDatePipe.transform(this.userInfoForm.get('cardExpDate')?.value, 'YYYY-MM-DD');
     const birthDateFormat = this.transformDatePipe.transform(this.userInfoForm.get('birthDate')?.value, 'YYYY-MM-DD');
-    const data = {
-      customer: {
-        customerTypeId: this.customerType,
-        title: 'นาย',
-        firstName: this.userInfoForm.get('firstName')?.value,
-        lastName: this.userInfoForm.get('lastName')?.value,
-        mobilePhone: this.userInfoForm.get('phone')?.value,
-        // email: 'atiiwwat2@gmail.com',
-        citizenDocId: this.userInfoForm.get('identityType')?.value,
-        citizenId: this.userInfoForm.get('citizenId')?.value,
-        cardExpDate: cardExpDateFormat,
-        birthdate: birthDateFormat,
-        occupation: this.occupationDetailForm.get('occupation')?.value,
-        gender: this.userInfoForm.get('gender')?.value,
-        taxId: '',
-        requestParam: {
-          reqId: "12345",
-          channelId: 1,
-        }
-      }, addresses: [
-        ...(
-          this.userInfoForm.get('identityType')?.value !== 3 ? [{
-            typeId: "1",
+    if (this.customerType === 1) {
+      const data = {
+        customer: {
+          customerTypeId: this.customerType,
+          title: 'นาย',
+          firstName: this.userInfoForm.get('firstName')?.value,
+          lastName: this.userInfoForm.get('lastName')?.value,
+          mobilePhone: this.userInfoForm.get('phone')?.value,
+          // email: 'atiiwwat2@gmail.com',
+          citizenDocId: this.userInfoForm.get('identityType')?.value,
+          citizenId: this.userInfoForm.get('citizenId')?.value,
+          cardExpDate: cardExpDateFormat,
+          birthdate: birthDateFormat,
+          occupation: this.occupationDetailForm.get('occupation')?.value,
+          gender: this.userInfoForm.get('gender')?.value,
+          taxId: '',
+          requestParam: {
+            reqId: "12345",
+            channelId: 1,
+          }
+        }, addresses: [
+          ...(
+            this.userInfoForm.get('identityType')?.value !== 3 ? [{
+              typeId: "1",
+              addressNo: this.addressInfoForm.get('addressNo')?.value,
+              building: this.addressInfoForm.get('building')?.value,
+              floor: this.addressInfoForm.get('floor')?.value,
+              villageNo: this.addressInfoForm.get('villageNo')?.value,
+              village: this.addressInfoForm.get('village')?.value,
+              alley: this.addressInfoForm.get('alley')?.value,
+              soi: this.addressInfoForm.get('soi')?.value,
+              street: this.addressInfoForm.get('street')?.value,
+              provinceCode: registrationAddressProvince?.id,
+              districtCode: registrationAddressDistrict?.id,
+              subdistrictCode: registrationAddressSubDistrict?.subdistrict.id,
+              // provinceCode: "03",
+              // districtCode: "04",
+              // subdistrictCode: "99",
+              zipcode: this.addressInfoForm.get('postalCode')?.value,
+            }] : []
+          ),
+          {
+            typeId: "2",
+            addressNo: this.addressCurrentInfoForm.get('addressNo')?.value,
+            building: this.addressCurrentInfoForm.get('building')?.value,
+            floor: this.addressCurrentInfoForm.get('floor')?.value,
+            villageNo: this.addressCurrentInfoForm.get('villageNo')?.value,
+            village: this.addressCurrentInfoForm.get('village')?.value,
+            alley: this.addressCurrentInfoForm.get('alley')?.value,
+            soi: this.addressCurrentInfoForm.get('soi')?.value,
+            street: this.addressCurrentInfoForm.get('street')?.value,
+            provinceCode: currentAddressProvince.id,
+            districtCode: currentAddressDistrict.id,
+            subdistrictCode: currentAddressSubDistrict.subdistrict.id,
+            // provinceCode: "03",
+            // districtCode: "04",
+            // subdistrictCode: "99",
+            zipcode: this.addressCurrentInfoForm.get('postalCode')?.value,
+          },
+          {
+            typeId: "3",
+            addressNo: this.occupationDetailForm.get('addressNo')?.value,
+            building: this.occupationDetailForm.get('building')?.value,
+            floor: this.occupationDetailForm.get('floor')?.value,
+            villageNo: this.occupationDetailForm.get('villageNo')?.value,
+            village: this.occupationDetailForm.get('village')?.value,
+            alley: this.occupationDetailForm.get('alley')?.value,
+            soi: this.occupationDetailForm.get('soi')?.value,
+            street: this.occupationDetailForm.get('street')?.value,
+            provinceCode: companyAddressProvince.id,
+            districtCode: companyAddressDistrict.id,
+            subdistrictCode: companyAddressSubDistrict.subdistrict.id,
+            // provinceCode: "03",
+            // districtCode: "04",
+            // subdistrictCode: "99",
+            zipcode: this.occupationDetailForm.get('postalCode')?.value,
+          },
+        ]
+
+      }
+      this.modalDialogService.loading();
+      this.restApiService
+        .post('add-customer', data)
+        .pipe(
+          first(),
+          map(res => res as any)
+        ).subscribe({
+          next: (res) => {
+            this.modalDialogService.hideLoading();
+            if (res.errorMessage === "Success") {
+              console.log("[onSubmit] res => ", res);
+              this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ');
+              this.router.navigate(['work-space/menu-option']);
+            } else {
+              this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+            }
+
+          },
+          error: (err) => {
+            this.modalDialogService.hideLoading();
+            console.error(err);
+          }
+        })
+    } else if (this.customerType === 2) {
+      const file: File = this.juristicAttachDocument.get('attachDocument')?.value;
+      const data = {
+        customer: {
+          customerTypeId: this.customerType,
+          title: 'นาย',
+          firstName: this.userInfoForm.get('firstName')?.value,
+          lastName: this.userInfoForm.get('lastName')?.value,
+          mobilePhone: this.userInfoForm.get('phone')?.value,
+          // email: 'atiiwwat2@gmail.com',
+          // citizenDocId: this.userInfoForm.get('identityType')?.value,
+          citizenDocId: 4,
+          citizenId: this.userInfoForm.get('citizenId')?.value,
+          cardExpDate: cardExpDateFormat,
+          birthdate: birthDateFormat,
+          // occupation: this.occupationDetailForm.get('occupation')?.value,
+          gender: this.userInfoForm.get('gender')?.value,
+          taxId: this.juristicInfoForm.get('taxId')?.value,
+          corporateName: this.juristicInfoForm.get('companyName')?.value,
+          branchTypeId: this.juristicInfoForm.get('branch')?.value,
+          corporateBranch: this.juristicInfoForm.get('branchName')?.value,
+          branchId: this.juristicInfoForm.get('branchNo')?.value,
+          requestParam: {
+            reqId: "12345",
+            channelId: 1,
+          }
+        }, addresses: [
+          {
+            typeId: "3",
             addressNo: this.addressInfoForm.get('addressNo')?.value,
             building: this.addressInfoForm.get('building')?.value,
             floor: this.addressInfoForm.get('floor')?.value,
-            // village: "v1",
-            // villageNo: "vno23",
-            // alley: "ตรอก",
+            villageNo: this.addressInfoForm.get('villageNo')?.value,
+            village: this.addressInfoForm.get('village')?.value,
+            alley: this.addressInfoForm.get('alley')?.value,
             soi: this.addressInfoForm.get('soi')?.value,
             street: this.addressInfoForm.get('street')?.value,
             provinceCode: registrationAddressProvince?.id,
+            provinceName: registrationAddressProvince?.name,
             districtCode: registrationAddressDistrict?.id,
+            districtName: registrationAddressDistrict?.name,
             subdistrictCode: registrationAddressSubDistrict?.subdistrict.id,
+            subdistrictName: registrationAddressSubDistrict?.subdistrict.name,
             // provinceCode: "03",
             // districtCode: "04",
             // subdistrictCode: "99",
             zipcode: this.addressInfoForm.get('postalCode')?.value,
-          }] : []
-        ),
-        {
-          typeId: "2",
-          addressNo: this.addressCurrentInfoForm.get('addressNo')?.value,
-          building: this.addressCurrentInfoForm.get('building')?.value,
-          floor: this.addressCurrentInfoForm.get('floor')?.value,
-          // village: "v1",
-          // villageNo: "vno23",
-          // alley: "ตรอก",
-          soi: this.addressCurrentInfoForm.get('soi')?.value,
-          street: this.addressCurrentInfoForm.get('street')?.value,
-          provinceCode: currentAddressProvince.id,
-          districtCode: currentAddressDistrict.id,
-          subdistrictCode: currentAddressSubDistrict.subdistrict.id,
-          // provinceCode: "03",
-          // districtCode: "04",
-          // subdistrictCode: "99",
-          zipcode: this.addressCurrentInfoForm.get('postalCode')?.value,
-        },
-        {
-          typeId: "3",
-          addressNo: this.occupationDetailForm.get('addressNo')?.value,
-          building: this.occupationDetailForm.get('building')?.value,
-          floor: this.occupationDetailForm.get('floor')?.value,
-          // village: "v1",
-          // villageNo: "vno23",
-          // alley: "ตรอก",
-          soi: this.occupationDetailForm.get('soi')?.value,
-          street: this.occupationDetailForm.get('street')?.value,
-          provinceCode: companyAddressProvince.id,
-          districtCode: companyAddressDistrict.id,
-          subdistrictCode: companyAddressSubDistrict.subdistrict.id,
-          // provinceCode: "03",
-          // districtCode: "04",
-          // subdistrictCode: "99",
-          zipcode: this.occupationDetailForm.get('postalCode')?.value,
-        },
-      ]
+          },
+        ]
 
-    }
-    if (event) {
+      }
+      console.log("[onSubmit] data2 => ", data);
       this.modalDialogService.loading();
       this.restApiService
-        .post('add-customer', data)
+        .postAddForJuristic('customer/add/juristic', data, file)
         .pipe(
           first(),
           map(res => res as any)

@@ -115,7 +115,11 @@
     </form>
     <ng-container *ngIf="tempSearch">
       <div class="navs-container">
-        <ul
+        <topup-information
+        [tempSearch]="tempSearch"
+        (onLoading)="onLoading($event)"
+        ></topup-information>
+        <!-- <ul
           ngbNav
           #nav="ngbNav"
           [(activeId)]="activeTab"
@@ -143,7 +147,7 @@
             </ng-template>
           </li>
         </ul>
-        <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+        <div [ngbNavOutlet]="nav" class="navs-content-container"></div> -->
       </div>
     </ng-container>
 

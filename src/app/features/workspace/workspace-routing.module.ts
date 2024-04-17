@@ -22,6 +22,9 @@ import { ApprovalManagementComponent } from './pages/workspace-backoffice-manage
 import { ApprovalCancelDeviceComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/approval-cancel-device.component';
 import { AccountMaintenanceFeeComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/account-maintenance-fee.component';
 import { ManageEarningComponent, ManageRedeemComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign';
+import { AddEditComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/add-edit/add-edit.component';
+import { AddComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/add/add.component';
+import { PaymentInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/payment-information.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -84,7 +87,7 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'user-info',
               allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'passageInfoRoute',
@@ -92,21 +95,34 @@ export const routesConfig: CustomRoutesModel = [
             component: PassageInfoComponent,
             data: {
               is_sidebar: true,
-              label: 'ข้อมูลการผ่านทาง',
+              label: 'ข้อมูลการใช้ทาง',
               request_id: true,
               default_path: 'passage-info'
             }
           },
           {
-            id: 'topupAndPaymentInformationRoute',
-            path: 'topup-and-payment-information/:id',
+            id: 'topupInformationRoute',
+            path: 'topup-information/:id',
             component: TopupAndPaymentInformationComponent,
             data: {
               is_sidebar: true,
-              label: 'ข้อมูลการเติมเงิน / ชำระเงิน',
+              label: 'ข้อมูลการเติมเงิน',
               request_id: true,
-              default_path: 'topup-and-payment-information'
+              default_path: 'topup-information'
             }
+          },
+          {
+            id: 'paymentInformationRoute',
+            path: 'payment-information/:tab/:id',
+            component: PaymentInformationComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ข้อมูลชำระเงิน',
+              request_id: true,
+              default_path: 'payment-information',
+              allowed_tabs: ['waiting-payment', 'paid-payment']
+            },
+            canActivate: [TabGuard]
           },
         ],
         data: {
@@ -128,7 +144,7 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'approval-cancel-device',
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'accountMaintenanceFeeRoute',
@@ -141,7 +157,59 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'account-maintenance-fee',
               allowed_tabs: ['maintenance-costs', 'maintenance-device-close']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'ManageEarningComponent',
+            path: 'manage-earning',
+            component: ManageEarningComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ระบบการให้คะแนน',
+              // request_id: true,
+              default_path: 'manage-earning',
+              // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'ManageRedeemComponent',
+            path: 'manage-redeem/:tabs',
+            component: ManageRedeemComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ระบบการแลกคะแนน',
+              // request_id: true,
+              default_path: 'manage-redeem',
+              allowed_tabs: ['Exchange-products', 'coupon', 'toll']
+            },
+            // canActivate: [ TabGuard ]
+          },
+          {
+            id: 'add-edit',
+            path: 'add-edit',
+            component: AddEditComponent,
+            data: {
+              is_sidebar: false,
+              label: 'เพิ่มเงือนไขการให้คะแนนพิเศษ',
+              // request_id: true,
+              default_path: 'add-edit',
+              // allowed_tabs: ['Exchange-products', 'coupon', 'toll']
+            },
+            // canActivate: [ TabGuard ]
+          },
+          {
+            id: 'add',
+            path: 'add',
+            component: AddComponent,
+            data: {
+              is_sidebar: false,
+              label: 'เพิ่มเงือนไขการให้คะแนนพิเศษ',
+              // request_id: true,
+              default_path: 'add',
+              // allowed_tabs: ['Exchange-products', 'coupon', 'toll']
+            },
+            // canActivate: [ TabGuard ]
           },
           {
             id: 'approvalManagementRoute',
@@ -154,36 +222,10 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'approval-management',
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
-            canActivate: [ TabGuard ]
-          },
-          {
-            id: 'ManageEarningComponent',
-            path: 'manage-earning',
-            component:ManageEarningComponent ,
-            data: {
-              is_sidebar: true,
-              label: 'ระบบการให้คะแนน',
-              // request_id: true,
-              default_path: 'manage-earning',
-              // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
-            },
-            canActivate: [ TabGuard ]
-          },
-          {
-            id: 'ManageRedeemComponent',
-            path: 'manage-redeem/:tabs',
-            component:ManageRedeemComponent ,
-            data: {
-              is_sidebar: true,
-              label: 'ระบบการแลกคะแนน',
-              // request_id: true,
-              default_path: 'manage-redeem',
-              allowed_tabs: ['Exchange-products', 'coupon', 'toll']
-            },
-            // canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           }
         ],
-        
+
         data: {
           is_sidebar: true
         }

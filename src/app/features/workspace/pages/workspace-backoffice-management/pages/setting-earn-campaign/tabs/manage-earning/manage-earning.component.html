@@ -9,7 +9,7 @@
 
     <hr class="hr-custom" />
 
-    <div class="col-4 mb-3">
+    <div class="col-4 mb-3 pt-3">
         <h2 class="content-title">
             การให้คะแนนพื้นฐาน
         </h2>
@@ -31,7 +31,7 @@
 
     <hr class="hr-custom" />
 
-    <div class="navs-container">
+    <div class="navs-container pt-4">
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
             <h2 class="content-title mb-3 mb-md-0">
                 การให้คะแนนพิเศษ
@@ -40,14 +40,15 @@
                 class="custom-btn btn-fixed-size-1 btn-type-1 ml-auto" 
                 data-testid="nextButton" 
                 id="nextButton" 
-                title="เพิ่มเงื่อนไข">
+                title="เพิ่มเงื่อนไข"
+                (click)="redirectToPath()">
                 เพิ่มเงื่อนไข
             </button>
         </div>
     </div>
     
     
-    <div class="navs-container">
+    <div class="navs-container pt-3">
         <datatable
         [columns]="columns1"
         [collectionSize]="collectionSize1"

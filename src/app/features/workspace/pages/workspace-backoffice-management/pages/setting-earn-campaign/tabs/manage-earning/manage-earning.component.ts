@@ -81,12 +81,19 @@ export class ManageEarningComponent {
     public router: Router
   ) {}
 
+
+  redirectToPath(): void {
+    this.router.navigate(['/work-space/add-edit']);
+}
+
+
   onAction(event: RowActionEventModel) {
     if (event.action === 'description' && event.row) {
       const row = event.row as CustomerModel;
-      this.router.navigate(['work-space/user-info/general-info/' + row.id]);
+      this.router.navigate(['/work-space/add-edit' + row.id]);
     }
   }
+
 
   onBack() {
     this.submitted = false;

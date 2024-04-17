@@ -18,6 +18,14 @@ export class RestApiService {
     return this.httpClient.post<ResponseMessageModel>(baseURL, data);
   }
 
+  postAddForJuristic(url: string, data: any, file: File): Observable<ResponseMessageModel> {
+    const baseURL = environment.apiBackOffice + '/' + url;
+    const formData: FormData = new FormData();
+    formData.append("file", file)
+    formData.append("json", JSON.stringify(data))
+    return this.httpClient.post<ResponseMessageModel>(baseURL, formData);
+  }
+
   postBackOffice(endpoint: string, body: any) {
     const url = environment.apiBackOffice + '/' + endpoint;
     return this.httpClient.post<ResponseMessageModel>(url, body)

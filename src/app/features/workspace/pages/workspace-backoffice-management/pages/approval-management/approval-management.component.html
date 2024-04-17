@@ -1,7 +1,8 @@
 <div class="content-container container-xl p-0">
     <div class="content-container-header">
         <div class="content-container-header-item">
-            <h1 class="content-title">ข้อมูลผู้ใช้งาน</h1>
+            <h1 *ngIf="!isHiddenFillter" class="content-title">การอนุมัติ</h1>
+            <h1 *ngIf="isHiddenFillter" class="content-title">รายละเอียดการอนุมัติการสร้างผู้ใช้</h1>
         </div>
     </div>
     <hr class="hr-custom" />
@@ -33,22 +34,19 @@
           <li [ngbNavItem]="'waiting-for-approval'">
             <button ngbNavLink>รอการอนุมัติ</button>
             <ng-template ngbNavContent>
-              <approval-management-approval (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
+              <approval-management-approval [setPendingStatus]="{type: approval, status: pendingStatus}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
             </ng-template>
           </li>
           <li [ngbNavItem]="'approval'">
             <button ngbNavLink>อนุมัติ</button>
             <ng-template ngbNavContent>
-              <!-- <pay-information></pay-information> -->
+              <approval-management-approval [setPendingStatus]="{type: approval, status: pendingStatus}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
             </ng-template>
           </li>
           <li [ngbNavItem]="'reject'">
             <button ngbNavLink>ปฏิเสธ</button>
             <ng-template ngbNavContent>
-              <!-- <topup-information
-                [tempSearch]="tempSearch"
-                (onLoading)="onLoading($event)"
-              ></topup-information> -->
+              <approval-management-approval [setPendingStatus]="{type: approval, status: pendingStatus}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
             </ng-template>
           </li>
         </ul>
