@@ -15,6 +15,7 @@ export class ModalDialogService {
   }
   public loading(): Promise<boolean> {
     console.log("[loading]");
+    this.hideLoading();
     this.modalLoadingRef = this.ngbModal.open(LoadingModalComponent, {
       windowClass: 'loading-modal',
       centered: true,

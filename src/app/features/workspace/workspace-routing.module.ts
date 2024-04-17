@@ -22,12 +22,9 @@ import { ApprovalManagementComponent } from './pages/workspace-backoffice-manage
 import { ApprovalCancelDeviceComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/approval-cancel-device.component';
 import { AccountMaintenanceFeeComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/account-maintenance-fee.component';
 import { ManageEarningComponent, ManageRedeemComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign';
-<<<<<<< HEAD
 import { AddEditComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/add-edit/add-edit.component';
 import { AddComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/add/add.component';
-=======
 import { PaymentInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/payment-information.component';
->>>>>>> f4d5a416aea67173908592974dbbdc8a82c2d20e
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -90,7 +87,7 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'user-info',
               allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'passageInfoRoute',
@@ -125,7 +122,7 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'payment-information',
               allowed_tabs: ['waiting-payment', 'paid-payment']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
         ],
         data: {
@@ -147,7 +144,7 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'approval-cancel-device',
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'accountMaintenanceFeeRoute',
@@ -160,12 +157,12 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'account-maintenance-fee',
               allowed_tabs: ['maintenance-costs', 'maintenance-device-close']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'ManageEarningComponent',
             path: 'manage-earning',
-            component:ManageEarningComponent ,
+            component: ManageEarningComponent,
             data: {
               is_sidebar: true,
               label: 'ระบบการให้คะแนน',
@@ -173,12 +170,12 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'manage-earning',
               // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'ManageRedeemComponent',
             path: 'manage-redeem/:tabs',
-            component:ManageRedeemComponent ,
+            component: ManageRedeemComponent,
             data: {
               is_sidebar: true,
               label: 'ระบบการแลกคะแนน',
@@ -189,10 +186,9 @@ export const routesConfig: CustomRoutesModel = [
             // canActivate: [ TabGuard ]
           },
           {
-<<<<<<< HEAD
             id: 'add-edit',
             path: 'add-edit',
-            component:AddEditComponent,
+            component: AddEditComponent,
             data: {
               is_sidebar: false,
               label: 'เพิ่มเงือนไขการให้คะแนนพิเศษ',
@@ -205,7 +201,7 @@ export const routesConfig: CustomRoutesModel = [
           {
             id: 'add',
             path: 'add',
-            component:AddComponent,
+            component: AddComponent,
             data: {
               is_sidebar: false,
               label: 'เพิ่มเงือนไขการให้คะแนนพิเศษ',
@@ -214,8 +210,8 @@ export const routesConfig: CustomRoutesModel = [
               // allowed_tabs: ['Exchange-products', 'coupon', 'toll']
             },
             // canActivate: [ TabGuard ]
-          }
-=======
+          },
+          {
             id: 'approvalManagementRoute',
             path: 'approval-management/:tab',
             component: ApprovalManagementComponent,
@@ -226,11 +222,10 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'approval-management',
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
-            canActivate: [ TabGuard ]
-          },
->>>>>>> f4d5a416aea67173908592974dbbdc8a82c2d20e
+            canActivate: [TabGuard]
+          }
         ],
-        
+
         data: {
           is_sidebar: true
         }

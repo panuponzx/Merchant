@@ -62,9 +62,9 @@ export class ApprovalManagementComponent {
   }
 
   onChangeNav(event: NgbNavChangeEvent) {
-    this.setPendingStatus(event.nextId);
     const url = 'work-space/approval-management/' + event.nextId;
     this.router.navigate([url], { replaceUrl: true });
+    this.setPendingStatus(event.nextId);
   }
 
   handleHiddenFillterMenu(value: boolean) {

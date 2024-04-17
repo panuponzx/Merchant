@@ -3,6 +3,10 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { CustomColumnModel, CustomerModel, RowActionEventModel } from '../../../../../../../../core/interfaces';
 import { Subject, distinctUntilChanged, of, switchMap } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
+import { TransformDatePipe } from '../../../../../../../../core/pipes';
+import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RejectPendingRequestModalComponent } from '../../modals/reject-pending-request-modal/reject-pending-request-modal.component';
 
 export const PendingRequestEventType = {
   addJuristic: 1,
@@ -15,7 +19,7 @@ export const PendingRequestStatus = {
 }
 
 export interface IPendingRequest {
-  type: number, 
+  type: number,
   status: number,
 }
 @Component({
@@ -32,7 +36,7 @@ export class ApprovalManagementApprovalComponent {
     { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา ที่สร้าง', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/YYYY HH:mm:ss', locale: 'th' } },
     { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'userName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'status', name: 'Status', label: 'สถานะ', prop: 'status', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'nameEmpTransaction', name: 'Name Emp Transaction', label: 'ชื่อพนักงานทำรายการ', prop: 'eventValue.customer.fullName', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'nameEmpTransaction', name: 'Name Emp Transaction', label: 'ชื่อพนักงานทำรายการ', prop: 'eventValue.customer.fullName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
@@ -55,8 +59,28 @@ export class ApprovalManagementApprovalComponent {
   public districtList: any = [];
   public provinceList: any = [];
 
+  public pendingRequest: IPendingRequest = {
+    type: 0,
+    status: 0
+  };
+
+  public branchList: any[] = [
+    {
+      label: 'สาขาใหญ่',
+      id: 1
+    },
+    {
+      label: 'สาขาย่อย',
+      id: 2
+    },
+  ];
+
   @Input() set setPendingStatus(data: IPendingRequest) {
     console.log("[setPendingStatus] event => ", data);
+    this.pendingRequest = {
+      type: data.type,
+      status: data.status,
+    };
     this.loadPendingRequest(data.type, data.status);
   };
 
@@ -64,7 +88,10 @@ export class ApprovalManagementApprovalComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private restApiService: RestApiService
+    private restApiService: RestApiService,
+    private transformDatePipe: TransformDatePipe,
+    private modalDialogService: ModalDialogService,
+    private ngbModal: NgbModal
   ) {
     this.postalCodeChanged.pipe(switchMap((searchText: any) => {
       console.log("[subscribe] res => ", searchText);
@@ -87,7 +114,7 @@ export class ApprovalManagementApprovalComponent {
         this.form.get('subDistrict')?.enable();
         const district: string = this.form.get('district')?.value;
         const subDistrict: string = this.form.get('subDistrict')?.value;
-        if( this.form.get('subDistrict')?.value){
+        if (this.form.get('subDistrict')?.value) {
           const dd = this.postalCodeList.find((res: any) => res.districtId === Number(district) && res.subdistrict.id === Number(subDistrict));
           console.log("[subscribe] dd => ", dd);
           this.form.get('subDistrict')?.setValue(dd);
@@ -100,6 +127,9 @@ export class ApprovalManagementApprovalComponent {
     });
 
     this.form = this.formBuilder.group({
+      id: new FormControl({ value: undefined, disabled: false }, Validators.required),
+      citizenDocId: new FormControl({ value: undefined, disabled: false }, Validators.required),
+      pictures: new FormControl({ value: undefined, disabled: false }, Validators.required),
       citizenId: new FormControl({ value: undefined, disabled: false }, Validators.required),
       cardExpDate: new FormControl({ value: undefined, disabled: false }, Validators.required),
       gender: new FormControl({ value: 'M', disabled: false }, Validators.required),
@@ -389,28 +419,26 @@ export class ApprovalManagementApprovalComponent {
         eventType: type,
         status: status,
       }
-    }
-
+    };
+    this.modalDialogService.loading();
     this.restApiService.postBackOffice('pending-request/get', data).subscribe({
       next: (res: any) => {
         console.log("[onSubmit] res => ", res);
-        // this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
           console.log("[onSubmit] res => ", res);
           for (let i = 0; i < res.data.length; i++) {
             res.data[i].eventValue.customer.fullName = res.data[i].eventValue.customer.firstName + ' ' + res.data[i].eventValue.customer.lastName;
           }
           this.rows = res.data,
-          this.tempRows = this.rows;
+            this.tempRows = this.rows;
           this.collectionSize = res.totalData;
-          // this.router.navigate(['work-space/menu-option']);
         } else {
-          // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
         }
-
+        this.modalDialogService.hideLoading();
       },
       error: (err) => {
-        // this.modalDialogService.hideLoading();
+        this.modalDialogService.hideLoading();
         console.error(err);
       }
     })
@@ -433,10 +461,38 @@ export class ApprovalManagementApprovalComponent {
     this.pages = event;
   }
 
+  onChangeBranch(event: any) {
+    console.log("[onChangeBranch] event => ", event);
+    this.setDisableBranch(event.id);
+  }
+
+  setDisableBranch(branchId: number) {
+    if (branchId === 1) {
+      this.form.get('branchName')?.setValue('สาขาใหญ่');
+      this.form.get('branchNo')?.setValue('00000');
+      this.form.get('branchName')?.disable();
+      this.form.get('branchNo')?.disable();
+    } else if (branchId === 2) {
+      this.form.get('branchName')?.setValue('');
+      this.form.get('branchNo')?.setValue('');
+      this.form.get('branchName')?.enable();
+      this.form.get('branchNo')?.enable();
+    }
+  }
+
+
   onAction(event: RowActionEventModel) {
     console.info(event);
     console.log("[onAction] form => ", this.form.value);
     this.isShowDescription = true;
+    this.form.get('id')?.setValue(event.row.id);
+    this.form.get('citizenDocId')?.setValue(event.row.eventValue.customer.citizenDocId);
+    this.form.get('pictures')?.setValue(event.row.eventValue.customer.pictures);
+    this.form.get('taxId')?.setValue(event.row.eventValue.customer.taxId);
+    this.form.get('companyName')?.setValue(event.row.eventValue.customer.corporateName);
+    this.form.get('branch')?.setValue(event.row.eventValue.customer.branchTypeId);
+    this.form.get('branchName')?.setValue(event.row.eventValue.customer.corporateBranch);
+    this.form.get('branchNo')?.setValue(event.row.eventValue.customer.branchId);
     this.form.get('citizenId')?.setValue(event.row.eventValue.customer.citizenId);
     this.form.get('cardExpDate')?.setValue(new Date(event.row.eventValue.customer.cardExpDate));
     this.form.get('gender')?.setValue(event.row.eventValue.customer.gender);
@@ -444,8 +500,9 @@ export class ApprovalManagementApprovalComponent {
     this.form.get('lastName')?.setValue(event.row.eventValue.customer.lastName);
     this.form.get('birthdate')?.setValue(new Date(event.row.eventValue.customer.birthdate));
     this.form.get('phone')?.setValue(event.row.eventValue.customer.mobilePhone);
+    this.setDisableBranch(event.row.eventValue.customer.branchTypeId);
     event.row.eventValue.addresses.forEach((x: any) => {
-      if (x.typeId === 3) {
+      if (Number(x.typeId) === 3) {
         this.form.get('addressNo')?.setValue(x.addressNo);
         this.form.get('building')?.setValue(x.building);
         this.form.get('floor')?.setValue(x.floor);
@@ -475,35 +532,166 @@ export class ApprovalManagementApprovalComponent {
     this.hiddenFillterMenu.emit(false);
   }
 
-  onReject() {
+  onApprove() {
+    const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
+    const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
+    const addressProvince = this.form.get('province')?.value;
+    const addressDistrict = this.form.get('district')?.value;
+    const addressSubDistrict = this.form.get('subDistrict')?.value;
+    const eventValue = {
+      customer: {
+        customerTypeId: 2,
+        title: 'นาย',
+        firstName: this.form.get('firstName')?.value,
+        lastName: this.form.get('lastName')?.value,
+        mobilePhone: this.form.get('phone')?.value,
+        citizenDocId: this.form.get('citizenDocId')?.value,
+        citizenId: this.form.get('citizenId')?.value,
+        cardExpDate: cardExpDateFormat,
+        birthdate: birthDateFormat,
+        // occupation: this.occupationDetailForm.get('occupation')?.value,
+        gender: this.form.get('gender')?.value,
+        taxId: this.form.get('taxId')?.value,
+        corporateName: this.form.get('companyName')?.value,
+        branchTypeId: this.form.get('branch')?.value,
+        corporateBranch: this.form.get('branchName')?.value,
+        branchId: this.form.get('branchNo')?.value,
+        pictures: this.form.get('pictures')?.value,
+      },
+      addresses: [
+        {
+          typeId: "3",
+          addressNo: this.form.get('addressNo')?.value,
+          building: this.form.get('building')?.value,
+          floor: this.form.get('floor')?.value,
+          villageNo: this.form.get('villageNo')?.value,
+          village: this.form.get('village')?.value,
+          alley: this.form.get('alley')?.value,
+          soi: this.form.get('soi')?.value,
+          street: this.form.get('street')?.value,
+          provinceCode: addressProvince?.id,
+          provinceName: addressProvince?.name,
+          districtCode: addressDistrict?.id,
+          districtName: addressDistrict?.name,
+          subdistrictCode: addressSubDistrict?.subdistrict.id,
+          subdistrictName: addressSubDistrict?.subdistrict.name,
+          zipcode: this.form.get('postalCode')?.value,
+        }
+      ]
+    };
     const data = {
       requestParam: {
         channelId: 4,
         reqId: 1712915977405
       },
       content: {
+        id: this.form.get('id')?.value,
         eventType: PendingRequestEventType.addJuristic,
+        eventValue: JSON.stringify(eventValue),
         status: PendingRequestStatus.waiting,
-        remark: 'Test'
+        channel_id: 4
       }
     };
-    this.restApiService.postBackOffice('pending-request/reject', data).subscribe({
+    console.log("[onApprove] eventValue => ", eventValue);
+    console.log("[onApprove] data => ", data);
+    this.modalDialogService.loading();
+    this.restApiService.postBackOffice('pending-request/approve', data).subscribe({
       next: (res: any) => {
-        console.log("[onReject] res => ", res);
-        // this.modalDialogService.hideLoading();
+        console.log("[onApprove] res => ", res);
+        this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
-          console.log("[onReject] res => ", res);
-          // this.router.navigate(['work-space/menu-option']);
+          console.log("[onApprove] res => ", res);
+          this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การอนุมัติสำเร็จ');
+          this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
+          this.onBack();
         } else {
-          // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
         }
 
       },
       error: (err) => {
-        // this.modalDialogService.hideLoading();
+        this.modalDialogService.hideLoading();
         console.error(err);
       }
     })
+  }
+
+  onReject() {
+    const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
+    const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
+    const addressProvince = this.form.get('province')?.value;
+    const addressDistrict = this.form.get('district')?.value;
+    const addressSubDistrict = this.form.get('subDistrict')?.value;
+    const eventValue = {
+      customer: {
+        customerTypeId: 2,
+        title: 'นาย',
+        firstName: this.form.get('firstName')?.value,
+        lastName: this.form.get('lastName')?.value,
+        mobilePhone: this.form.get('phone')?.value,
+        citizenDocId: this.form.get('citizenDocId')?.value,
+        citizenId: this.form.get('citizenId')?.value,
+        cardExpDate: cardExpDateFormat,
+        birthdate: birthDateFormat,
+        // occupation: this.occupationDetailForm.get('occupation')?.value,
+        gender: this.form.get('gender')?.value,
+        taxId: this.form.get('taxId')?.value,
+        corporateName: this.form.get('companyName')?.value,
+        branchTypeId: this.form.get('branch')?.value,
+        corporateBranch: this.form.get('branchName')?.value,
+        branchId: this.form.get('branchNo')?.value,
+        pictures: this.form.get('pictures')?.value,
+      },
+      addresses: [
+        {
+          typeId: "3",
+          addressNo: this.form.get('addressNo')?.value,
+          building: this.form.get('building')?.value,
+          floor: this.form.get('floor')?.value,
+          villageNo: this.form.get('villageNo')?.value,
+          village: this.form.get('village')?.value,
+          alley: this.form.get('alley')?.value,
+          soi: this.form.get('soi')?.value,
+          street: this.form.get('street')?.value,
+          provinceCode: addressProvince?.id,
+          provinceName: addressProvince?.name,
+          districtCode: addressDistrict?.id,
+          districtName: addressDistrict?.name,
+          subdistrictCode: addressSubDistrict?.subdistrict.id,
+          subdistrictName: addressSubDistrict?.subdistrict.name,
+          zipcode: this.form.get('postalCode')?.value,
+        }
+      ]
+    };
+    const data = {
+      requestParam: {
+        channelId: 4,
+        reqId: 1712915977405
+      },
+      content: {
+        id: this.form.get('id')?.value,
+        eventType: PendingRequestEventType.addJuristic,
+        eventValue: JSON.stringify(eventValue),
+        status: PendingRequestStatus.waiting,
+        channel_id: 4
+      }
+    };
+    console.log("[onReject] eventValue => ", eventValue);
+    console.log("[onReject] data => ", data);
+    const modalRef = this.ngbModal.open(RejectPendingRequestModalComponent, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    modalRef.componentInstance.data = data;
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
+          this.onBack();
+        }
+      }
+    );
   }
 
 }
