@@ -10,7 +10,7 @@
         <div class="body-wrapper">
             <h3 class="mb-3">ข้อมูลที่ปัจจุบัน</h3>
             <form [formGroup]="form">
-                <div class="row">
+                <div *ngIf="identityType !== 3" class="row">
                     <div class="col-sm-12 col-md-6 mb-3">
                         <div class="form-check">
                             <label class="form-check-label" for="isCurrentAddressSameIdcardCheckbox">
@@ -42,6 +42,27 @@
                             </label>
                             <input class="form-control" data-testid="floorInput" formControlName="floor"
                                 id="floorInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="villageNoInput">
+                                หมูที่
+                            </label>
+                            <input class="form-control" data-testid="villageNoInput" formControlName="villageNo" id="villageNoInput"
+                                type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="villageInput">
+                                หมู่บ้าน
+                            </label>
+                            <input class="form-control" data-testid="villageInput" formControlName="village" id="villageInput"
+                                type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="alleyInput">
+                                ตรอก
+                            </label>
+                            <input class="form-control" data-testid="alleyInput" formControlName="alley" id="alleyInput"
+                                type="text">
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="soiInput">

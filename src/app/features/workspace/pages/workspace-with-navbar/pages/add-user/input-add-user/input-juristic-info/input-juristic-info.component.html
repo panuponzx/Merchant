@@ -13,11 +13,11 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6 mb-3">
                         <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="citizenIdInput">
+                            <label class="label-input required-field" for="taxIdInput">
                                 หมายเลขผู้เสียภาษี
                             </label>
-                            <input class="form-control" data-testid="citizenIdInput" formControlName="citizenId"
-                                id="citizenIdInput" type="text">
+                            <input class="form-control" data-testid="taxIdInput" formControlName="taxId"
+                                id="taxIdInput" type="text">
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="companyNameInput">
@@ -33,7 +33,7 @@
                                 สาขา
                             </label>
                             <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
-                                data-testid="branchSelect" formControlName="branch" id="branchSelect"
+                                data-testid="branchSelect" formControlName="branch" placeholder="กรุณาระบุ" (change)="onChangeBranch($event)" id="branchSelect"
                                 [items]="branchList"></ng-select>
                         </div>
                         <div class="col-12 mb-3">
@@ -47,16 +47,16 @@
                             <label class="label-input required-field" for="branchNoInput">
                                 หมายเลขสาขาย่อย
                             </label>
-                            <input idCard class="form-control" data-testid="branchNoInput" formControlName="branchNo" id="branchNoInput"
+                            <input class="form-control" data-testid="branchNoInput" formControlName="branchNo" id="branchNoInput"
                                 type="text">
                         </div>
-                        <div class="col-12 mb-3">
+                        <!-- <div class="col-12 mb-3">
                             <label class="label-input required-field" for="companyNumberInput">
                                 เบอร์ติดต่อบริษัท
                             </label>
                             <input idCard class="form-control" data-testid="companyNumberInput" formControlName="companyNumber" id="companyNumberInput"
                                 type="text">
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </form>
@@ -69,7 +69,7 @@
             ย้อนกลับ
         </button>
         <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-            (click)="onNext()">
+        [disabled]="form.invalid" (click)="onNext()">
             ถัดไป
         </button>
     </div>
