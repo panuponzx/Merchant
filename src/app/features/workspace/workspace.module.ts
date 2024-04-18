@@ -66,14 +66,13 @@ import { TollComponent } from './pages/workspace-backoffice-management/pages/set
 import { ApprovalManagementWaitingComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-waiting/approval-management-waiting.component';
 import { ApprovalManagementApprovalComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-approval/approval-management-approval.component';
 import { ApprovalManagementRejectComponent } from './pages/workspace-backoffice-management/pages/approval-management/tabs/approval-management-reject/approval-management-reject.component';
-<<<<<<< HEAD
 import { AddEditComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/add-edit/add-edit.component';
 import { AddComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/add/add.component';
-=======
 import { PaymentInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/payment-information.component';
 import { WaitingPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/tabs/waiting-payment/waiting-payment.component';
 import { PaidPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/tabs/paid-payment/paid-payment.component';
->>>>>>> f4d5a416aea67173908592974dbbdc8a82c2d20e
+import { TransferInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/transfer-information.component';
+import { TransferInfoComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/tabs/transfer-info/transfer-info.component';
 
 @NgModule({
   declarations: [
@@ -128,14 +127,13 @@ import { PaidPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/
     ApprovalManagementWaitingComponent,
     ApprovalManagementApprovalComponent,
     ApprovalManagementRejectComponent,
-<<<<<<< HEAD
     AddEditComponent,
     AddComponent,
-=======
     PaymentInformationComponent,
     WaitingPaymentComponent,
     PaidPaymentComponent,
->>>>>>> f4d5a416aea67173908592974dbbdc8a82c2d20e
+    TransferInformationComponent,
+    TransferInfoComponent,
   ],
   imports: [
     CommonModule,

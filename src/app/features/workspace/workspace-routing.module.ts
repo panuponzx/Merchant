@@ -22,12 +22,10 @@ import { ApprovalManagementComponent } from './pages/workspace-backoffice-manage
 import { ApprovalCancelDeviceComponent } from './pages/workspace-backoffice-management/pages/approval-cancel-device/approval-cancel-device.component';
 import { AccountMaintenanceFeeComponent } from './pages/workspace-backoffice-management/pages/account-maintenance-fee/account-maintenance-fee.component';
 import { ManageEarningComponent, ManageRedeemComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign';
-<<<<<<< HEAD
 import { AddEditComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/add-edit/add-edit.component';
 import { AddComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/add/add.component';
-=======
 import { PaymentInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/payment-information.component';
->>>>>>> f4d5a416aea67173908592974dbbdc8a82c2d20e
+import { TransferInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/transfer-information.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -127,6 +125,17 @@ export const routesConfig: CustomRoutesModel = [
             },
             canActivate: [ TabGuard ]
           },
+          {
+            id: 'transfer-information',
+            path: 'transfer-information/:id',
+            component: TransferInformationComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ข้อมูลการโอนเงิน',
+              request_id: true,
+              default_path: 'transfer-information'
+            }
+          },
         ],
         data: {
           is_sidebar: true
@@ -189,7 +198,6 @@ export const routesConfig: CustomRoutesModel = [
             // canActivate: [ TabGuard ]
           },
           {
-<<<<<<< HEAD
             id: 'add-edit',
             path: 'add-edit',
             component:AddEditComponent,
@@ -214,8 +222,7 @@ export const routesConfig: CustomRoutesModel = [
               // allowed_tabs: ['Exchange-products', 'coupon', 'toll']
             },
             // canActivate: [ TabGuard ]
-          }
-=======
+          },{
             id: 'approvalManagementRoute',
             path: 'approval-management/:tab',
             component: ApprovalManagementComponent,
@@ -228,7 +235,6 @@ export const routesConfig: CustomRoutesModel = [
             },
             canActivate: [ TabGuard ]
           },
->>>>>>> f4d5a416aea67173908592974dbbdc8a82c2d20e
         ],
         
         data: {
