@@ -1,0 +1,20 @@
+<div class="modal-body">
+    <div class="header-label">
+        <h2>ปฏิเสธการอนุมัติการสร้างผู้ใช้</h2>
+        <!-- <h3 class="mb-3">กรุณาตรวจสอบ และ ระบุรายละเอียด</h3> -->
+    </div>
+    <form [formGroup]="form">
+        <div class="mb-3">
+            <label class="label-input required-field" for="walletTypeSelect">
+                เหตุผลที่ปฏิเสธ
+            </label>
+            <textarea id="remark" formControlName="remark" placeholder="กรุณาระบุเหตุผล" rows="4"
+                class="form-control mt-1">
+            </textarea>
+        </div>
+        <div class="d-flex justify-content-end gap-3">
+            <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
+            <button class="custom-btn btn-type-1 red" (click)="onReject()" [disabled]="form.invalid">ปฏิเสธ</button>
+        </div>
+    </form>
+</div>

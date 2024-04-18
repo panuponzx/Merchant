@@ -60,10 +60,12 @@ export interface AddressModel {
 export interface CustomerModel {
   birthdate: string,
   branchTypeId: number,
+  branchId?: string,
   cardExpDate: string,
   channelId: number,
   citizenDocId: number,
   citizenId: string,
+  corporateBranch?: string,
   createDate: string,
   customerTypeId: number,
   customerTypeName: string,
