@@ -10,6 +10,7 @@ import { FormcontrolToFormgroupPipe } from './formcontrol-to-formgroup.pipe';
 import { GetTotalPagePipe } from './get-total-page.pipe';
 import { TransformDatePipe } from './transform-date.pipe';
 import { WalletStatusPipe } from './wallet-status.pipe';
+import { ApproveStatusPipe } from './approve-status.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { WalletStatusPipe } from './wallet-status.pipe';
     FormcontrolToFormgroupPipe,
     GetTotalPagePipe,
     TransformDatePipe,
-    WalletStatusPipe
+    WalletStatusPipe,
+    ApproveStatusPipe
   ],
   imports: [
     CommonModule
@@ -35,7 +37,8 @@ import { WalletStatusPipe } from './wallet-status.pipe';
     FormcontrolToFormgroupPipe,
     GetTotalPagePipe,
     TransformDatePipe,
-    WalletStatusPipe
+    WalletStatusPipe,
+    ApproveStatusPipe
   ],
   providers: [
     GetRoutePathPipe,
@@ -46,7 +49,8 @@ import { WalletStatusPipe } from './wallet-status.pipe';
     FormcontrolToFormgroupPipe,
     GetTotalPagePipe,
     TransformDatePipe,
-    WalletStatusPipe
+    WalletStatusPipe,
+    ApproveStatusPipe
   ]
 })
 export class PipesModule {
