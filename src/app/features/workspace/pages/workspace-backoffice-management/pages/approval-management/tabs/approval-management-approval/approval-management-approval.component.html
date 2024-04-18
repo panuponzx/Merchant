@@ -18,10 +18,10 @@
                 <th>ชื่อพนักงานทำรายการ</th>
             </tr>
             <tr>
-                <td>{{ rowDescription.createDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</td>
-                <td>ชื่อบริษัท</td>
-                <td>{{ rowDescription.status }}</td>
-                <td>{{ rowDescription.eventValue.customer.fullName }}</td>
+                <td>{{ rowDescription?.createDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</td>
+                <td>{{ rowDescription?.eventValue?.customer?.corporateName }}</td>
+                <td>{{ rowDescription?.status | approveStatus }}</td>
+                <td>{{ rowDescription?.eventValue?.customer?.fullName }}</td>
             </tr>
         </table>
     </div>

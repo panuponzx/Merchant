@@ -58,6 +58,9 @@
             <ng-container *ngIf="column.type === 'text'">
               {{ value ? value : '-' }}
             </ng-container>
+            <ng-container *ngIf="column.type === 'approve-status'">
+              {{ value | approveStatus }}
+            </ng-container>
             <ng-container *ngIf="column.type === 'text-with-boolean'">
               <ng-container *ngIf="value; else textFalseEl;">
                 <span [ngClass]="column.textWithBoolean?.classCondition1 ? column.textWithBoolean?.classCondition1 : null">
