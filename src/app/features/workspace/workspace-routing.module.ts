@@ -25,6 +25,7 @@ import { ManageEarningComponent, ManageRedeemComponent } from './pages/workspace
 import { AddEditComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/add-edit/add-edit.component';
 import { AddComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/add/add.component';
 import { PaymentInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/payment-information.component';
+import { TransferInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/transfer-information.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -124,6 +125,17 @@ export const routesConfig: CustomRoutesModel = [
             },
             canActivate: [TabGuard]
           },
+          {
+            id: 'transfer-information',
+            path: 'transfer-information/:id',
+            component: TransferInformationComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ข้อมูลการโอนเงิน',
+              request_id: true,
+              default_path: 'transfer-information'
+            }
+          },
         ],
         data: {
           is_sidebar: true
@@ -222,8 +234,8 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'approval-management',
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
-            canActivate: [TabGuard]
-          }
+            canActivate: [ TabGuard ]
+          },
         ],
 
         data: {
