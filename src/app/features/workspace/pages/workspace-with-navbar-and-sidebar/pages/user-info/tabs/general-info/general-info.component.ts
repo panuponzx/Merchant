@@ -69,12 +69,15 @@ export class GeneralInfoComponent {
       createDate: new FormControl(undefined),
       customerId: new FormControl(undefined),
       districtCode: new FormControl(undefined, [Validators.required]),
+      districtName: new FormControl(undefined, [Validators.required]),
       floor: new FormControl(undefined),
       provinceCode: new FormControl(undefined, [Validators.required]),
+      provinceName: new FormControl(undefined, [Validators.required]),
       remark: new FormControl(undefined),
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       subdistrictCode: new FormControl(undefined, [Validators.required]),
+      subdistrictName: new FormControl(undefined, [Validators.required]),
       typeId: new FormControl(undefined),
       typeName: new FormControl(undefined),
       alley: new FormControl(undefined),
@@ -88,12 +91,15 @@ export class GeneralInfoComponent {
       createDate: new FormControl(undefined),
       customerId: new FormControl(undefined),
       districtCode: new FormControl(undefined, [Validators.required]),
+      districtName: new FormControl(undefined, [Validators.required]),
       floor: new FormControl(undefined),
       provinceCode: new FormControl(undefined, [Validators.required]),
+      provinceName: new FormControl(undefined, [Validators.required]),
       remark: new FormControl(undefined),
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       subdistrictCode: new FormControl(undefined, [Validators.required]),
+      subdistrictName: new FormControl(undefined, [Validators.required]),
       typeId: new FormControl(undefined),
       typeName: new FormControl(undefined),
       alley: new FormControl(undefined),
@@ -107,12 +113,15 @@ export class GeneralInfoComponent {
       createDate: new FormControl(undefined),
       customerId: new FormControl(undefined),
       districtCode: new FormControl(undefined, [Validators.required]),
+      districtName: new FormControl(undefined, [Validators.required]),
       floor: new FormControl(undefined),
       provinceCode: new FormControl(undefined, [Validators.required]),
+      provinceName: new FormControl(undefined, [Validators.required]),
       remark: new FormControl(undefined),
       soi: new FormControl(undefined),
       street: new FormControl(undefined),
       subdistrictCode: new FormControl(undefined, [Validators.required]),
+      subdistrictName: new FormControl(undefined, [Validators.required]),
       typeId: new FormControl(undefined),
       typeName: new FormControl(undefined),
       alley: new FormControl(undefined),
@@ -197,107 +206,185 @@ export class GeneralInfoComponent {
     console.log("[onUpdate] form => ", this.form.getRawValue());
     const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
     const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
-    const data = {
-      customer: {
-        id: this.customerId,
-        // customerTypeId: this.form.getRawValue().customerType,
-        title: this.form.getRawValue().title,
-        firstName: this.form.getRawValue().firstName,
-        lastName: this.form.getRawValue().lastName,
-        mobilePhone: this.form.getRawValue().mobilePhone,
-        email: this.form.getRawValue().email,
-        // citizenDocId: this.form.getRawValue().citizenDocId,
-        // citizenId: this.form.getRawValue().citizenId,
-        cardExpDate: cardExpDateFormat,
-        birthdate: birthDateFormat,
-        occupation: this.form.getRawValue().occupation,
-        gender: this.form.getRawValue().gender,
-        // taxId: this.form.getRawValue().taxId,
-        requestParam: {
-          reqId: this.requestParam.reqId,
-          channelId: this.requestParam.channelId,
-        }
-      }, addresses: [
-        {
-          addressNo: this.form.getRawValue().registration_address.addressNo,
-          alley: this.form.getRawValue().registration_address.alley,
-          building: this.form.getRawValue().registration_address.building,
-          // createDate: this.transformDatePipe.transform(this.form.getRawValue().registration_address.createDate, 'YYYY-MM-DD'),
-          // customerId: this.form.getRawValue().registration_address.customerId,
-          districtCode: this.form.getRawValue().registration_address.districtCode,
-          floor: this.form.getRawValue().registration_address.floor,
-          provinceCode: this.form.getRawValue().registration_address.provinceCode,
-          soi: this.form.getRawValue().registration_address.soi,
-          street: this.form.getRawValue().registration_address.street,
-          subdistrictCode: this.form.getRawValue().registration_address.subdistrictCode,
-          typeId: this.form.getRawValue().registration_address.typeId,
-          // typeName: this.form.getRawValue().registration_address.typeName,
-          village: this.form.getRawValue().registration_address.village,
-          villageNo: this.form.getRawValue().registration_address.villageNo,
-          zipcode: this.form.getRawValue().registration_address.zipcode,
-        },
-        {
-          addressNo: this.form.getRawValue().current_address.addressNo,
-          alley: this.form.getRawValue().current_address.alley,
-          building: this.form.getRawValue().current_address.building,
-          // createDate: this.transformDatePipe.transform(this.form.getRawValue().current_address.createDate, 'YYYY-MM-DD'),
-          // customerId: this.form.getRawValue().current_address.customerId,
-          districtCode: this.form.getRawValue().current_address.districtCode,
-          floor: this.form.getRawValue().current_address.floor,
-          provinceCode: this.form.getRawValue().current_address.provinceCode,
-          soi: this.form.getRawValue().current_address.soi,
-          street: this.form.getRawValue().current_address.street,
-          subdistrictCode: this.form.getRawValue().current_address.subdistrictCode,
-          typeId: this.form.getRawValue().current_address.typeId,
-          // typeName: this.form.getRawValue().current_address.typeName,
-          village: this.form.getRawValue().current_address.village,
-          villageNo: this.form.getRawValue().current_address.villageNo,
-          zipcode: this.form.getRawValue().current_address.zipcode,
-        },
-        {
-          addressNo: this.form.getRawValue().work_address.addressNo,
-          alley: this.form.getRawValue().work_address.alley,
-          building: this.form.getRawValue().work_address.building,
-          // createDate: this.transformDatePipe.transform(this.form.getRawValue().work_address.createDate, 'YYYY-MM-DD'),
-          // customerId: this.form.getRawValue().work_address.customerId,
-          districtCode: this.form.getRawValue().work_address.districtCode,
-          floor: this.form.getRawValue().work_address.floor,
-          provinceCode: this.form.getRawValue().work_address.provinceCode,
-          soi: this.form.getRawValue().work_address.soi,
-          street: this.form.getRawValue().work_address.street,
-          subdistrictCode: this.form.getRawValue().work_address.subdistrictCode,
-          typeId: this.form.getRawValue().work_address.typeId,
-          // typeName: this.form.getRawValue().work_address.typeName,
-          village: this.form.getRawValue().work_address.village,
-          villageNo: this.form.getRawValue().work_address.villageNo,
-          zipcode: this.form.getRawValue().work_address.zipcode,
-        },
-      ]
-    };
-    this.modalDialogService.loading();
-    this.restApiService
-      .post('edit-customer', data)
-      .pipe(
-        first(),
-        map(res => res as any)
-      ).subscribe({
-        next: (res) => {
-          // alert(res.errorMessage);
-          this.modalDialogService.hideLoading();
-          console.log("[onSubmit] res => ", res);
-          if (res.errorMessage === 'Success') {
-            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ').then((res: boolean) => {
-              if (res) this.loadCustomer();
-            });
-          } else {
-            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+    if (this.customerTypeId === '1' || this.customerTypeId === '2') {
+      const data = {
+        customer: {
+          id: this.customerId,
+          // customerTypeId: this.form.getRawValue().customerType,
+          title: this.form.getRawValue().title,
+          firstName: this.form.getRawValue().firstName,
+          lastName: this.form.getRawValue().lastName,
+          mobilePhone: this.form.getRawValue().mobilePhone,
+          email: this.form.getRawValue().email,
+          citizenDocId: this.form.getRawValue().citizenDocId,
+          citizenId: this.form.getRawValue().citizenId,
+          cardExpDate: cardExpDateFormat,
+          birthdate: birthDateFormat,
+          occupation: this.form.getRawValue().occupation,
+          gender: this.form.getRawValue().gender,
+          // taxId: this.form.getRawValue().taxId,
+          requestParam: {
+            reqId: this.requestParam.reqId,
+            channelId: this.requestParam.channelId,
           }
+        }, addresses: [
+          {
+            addressNo: this.form.getRawValue().registration_address.addressNo,
+            alley: this.form.getRawValue().registration_address.alley,
+            building: this.form.getRawValue().registration_address.building,
+            // createDate: this.transformDatePipe.transform(this.form.getRawValue().registration_address.createDate, 'YYYY-MM-DD'),
+            // customerId: this.form.getRawValue().registration_address.customerId,
+            districtCode: this.form.getRawValue().registration_address.districtCode,
+            floor: this.form.getRawValue().registration_address.floor,
+            provinceCode: this.form.getRawValue().registration_address.provinceCode,
+            soi: this.form.getRawValue().registration_address.soi,
+            street: this.form.getRawValue().registration_address.street,
+            subdistrictCode: this.form.getRawValue().registration_address.subdistrictCode,
+            typeId: this.form.getRawValue().registration_address.typeId,
+            // typeName: this.form.getRawValue().registration_address.typeName,
+            village: this.form.getRawValue().registration_address.village,
+            villageNo: this.form.getRawValue().registration_address.villageNo,
+            zipcode: this.form.getRawValue().registration_address.zipcode,
+          },
+          {
+            addressNo: this.form.getRawValue().current_address.addressNo,
+            alley: this.form.getRawValue().current_address.alley,
+            building: this.form.getRawValue().current_address.building,
+            // createDate: this.transformDatePipe.transform(this.form.getRawValue().current_address.createDate, 'YYYY-MM-DD'),
+            // customerId: this.form.getRawValue().current_address.customerId,
+            districtCode: this.form.getRawValue().current_address.districtCode,
+            floor: this.form.getRawValue().current_address.floor,
+            provinceCode: this.form.getRawValue().current_address.provinceCode,
+            soi: this.form.getRawValue().current_address.soi,
+            street: this.form.getRawValue().current_address.street,
+            subdistrictCode: this.form.getRawValue().current_address.subdistrictCode,
+            typeId: this.form.getRawValue().current_address.typeId,
+            // typeName: this.form.getRawValue().current_address.typeName,
+            village: this.form.getRawValue().current_address.village,
+            villageNo: this.form.getRawValue().current_address.villageNo,
+            zipcode: this.form.getRawValue().current_address.zipcode,
+          },
+          {
+            addressNo: this.form.getRawValue().work_address.addressNo,
+            alley: this.form.getRawValue().work_address.alley,
+            building: this.form.getRawValue().work_address.building,
+            // createDate: this.transformDatePipe.transform(this.form.getRawValue().work_address.createDate, 'YYYY-MM-DD'),
+            // customerId: this.form.getRawValue().work_address.customerId,
+            districtCode: this.form.getRawValue().work_address.districtCode,
+            floor: this.form.getRawValue().work_address.floor,
+            provinceCode: this.form.getRawValue().work_address.provinceCode,
+            soi: this.form.getRawValue().work_address.soi,
+            street: this.form.getRawValue().work_address.street,
+            subdistrictCode: this.form.getRawValue().work_address.subdistrictCode,
+            typeId: this.form.getRawValue().work_address.typeId,
+            // typeName: this.form.getRawValue().work_address.typeName,
+            village: this.form.getRawValue().work_address.village,
+            villageNo: this.form.getRawValue().work_address.villageNo,
+            zipcode: this.form.getRawValue().work_address.zipcode,
+          },
+        ]
+      };
+      this.modalDialogService.loading();
+      this.restApiService
+        .post('edit-customer', data)
+        .pipe(
+          first(),
+          map(res => res as any)
+        ).subscribe({
+          next: (res) => {
+            // alert(res.errorMessage);
+            this.modalDialogService.hideLoading();
+            console.log("[onSubmit] res => ", res);
+            if (res.errorMessage === 'Success') {
+              this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ').then((res: boolean) => {
+                if (res) this.loadCustomer();
+              });
+            } else {
+              this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+            }
+          },
+          error: (err) => {
+            this.modalDialogService.hideLoading();
+            console.error(err);
+          }
+        })
+    } else if (this.customerTypeId === '3') {
+      const data = {
+        requestParam: {
+          channelId: 4,
+          reqId: 1713329944160
         },
-        error: (err) => {
-          this.modalDialogService.hideLoading();
-          console.error(err);
+        content: {
+          addresses: [
+            {
+              addressNo: this.form.getRawValue().work_address.addressNo,
+              alley: this.form.getRawValue().work_address.alley,
+              building: this.form.getRawValue().work_address.building,
+              // createDate: this.transformDatePipe.transform(this.form.getRawValue().work_address.createDate, 'YYYY-MM-DD'),
+              customerId: this.form.getRawValue().work_address.customerId,
+              districtCode: this.form.getRawValue().work_address.districtCode,
+              districtName: this.form.getRawValue().work_address.districtName,
+              floor: this.form.getRawValue().work_address.floor,
+              provinceCode: this.form.getRawValue().work_address.provinceCode,
+              provinceName: this.form.getRawValue().work_address.provinceName,
+              soi: this.form.getRawValue().work_address.soi,
+              street: this.form.getRawValue().work_address.street,
+              subdistrictCode: this.form.getRawValue().work_address.subdistrictCode,
+              subdistrictName: this.form.getRawValue().work_address.subdistrictName,
+              typeId: 3,
+              typeName: this.form.getRawValue().work_address.typeName,
+              village: this.form.getRawValue().work_address.village,
+              villageNo: this.form.getRawValue().work_address.villageNo,
+              zipcode: this.form.getRawValue().work_address.zipcode,
+            }
+          ],
+          customer: {
+            id: this.customerId,
+            // customerTypeId: this.form.getRawValue().customerType,
+            title: this.form.getRawValue().title,
+            firstName: this.form.getRawValue().firstName,
+            lastName: this.form.getRawValue().lastName,
+            mobilePhone: this.form.getRawValue().mobilePhone,
+            // email: this.form.getRawValue().email,
+            citizenDocId: this.form.getRawValue().citizenDocId,
+            citizenId: this.form.getRawValue().citizenId,
+            corporateName: this.form.getRawValue().corporateName,
+            branchTypeId: this.form.getRawValue().branchType,
+            corporateBranch: this.form.getRawValue().branchName,
+            branchId: this.form.getRawValue().branchCode,
+            cardExpDate: cardExpDateFormat,
+            birthdate: birthDateFormat,
+            // occupation: this.form.getRawValue().occupation,
+            gender: this.form.getRawValue().gender,
+            taxId: this.form.getRawValue().taxId,
+          }
         }
-      })
+      };
+      this.modalDialogService.loading();
+      this.restApiService
+        .postBackOffice('customer/edit/juristic', data)
+        .pipe(
+          first(),
+          map(res => res as any)
+        ).subscribe({
+          next: (res) => {
+            // alert(res.errorMessage);
+            this.modalDialogService.hideLoading();
+            console.log("[onSubmit] res => ", res);
+            if (res.errorMessage === 'Success') {
+              this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ').then((res: boolean) => {
+                if (res) this.loadCustomer();
+              });
+            } else {
+              this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+            }
+          },
+          error: (err) => {
+            this.modalDialogService.hideLoading();
+            console.error(err);
+          }
+        })
+    }
   }
 
   onUpload() {
@@ -363,14 +450,17 @@ export class GeneralInfoComponent {
         createDate: new FormControl(x.createDate),
         customerId: new FormControl(x.customerId),
         districtCode: new FormControl(Number(x.districtCode), [Validators.required]),
+        districtName: new FormControl(undefined, [Validators.required]),
         // districtCode: new FormControl('1036', [ Validators.required ]), // Demo
         floor: new FormControl(x.floor),
         provinceCode: new FormControl(Number(x.provinceCode), [Validators.required]),
+        provinceName: new FormControl(undefined, [Validators.required]),
         // provinceCode: new FormControl('19', [ Validators.required ]), // Demo
         remark: new FormControl(x.remark),
         soi: new FormControl(x.soi),
         street: new FormControl(x.street),
         subdistrictCode: new FormControl(Number(x.subdistrictCode), [Validators.required]),
+        subdistrictName: new FormControl(undefined, [Validators.required]),
         // subdistrictCode: new FormControl('103602'), // Demo
         typeId: new FormControl(x.typeId),
         typeName: new FormControl(x.typeName),
