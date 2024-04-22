@@ -112,7 +112,7 @@ export class TransferInformationComponent implements OnInit {
   }
 
   onSearch() {
-    if (this.form.invalid || this.isLoadingSearch) return;
+    // if (this.form.invalid || this.isLoadingSearch) return;
     const searchValue = this.getSearchValue(1);
     this.tempSearch = searchValue;
   }

@@ -1,4 +1,4 @@
-import { AddressModel, CarInfoModel, CustomerModel, ObuInfoModel, PassageInformationModel, TopupModel, TransactionModel, WalletSummaryModel, ZipcodeModel } from "./data.interface";
+import { AddressModel, CarInfoModel, CustomerModel, ITransferModel, ObuInfoModel, PassageInformationModel, TopupModel, TransactionModel, WalletSummaryModel, ZipcodeModel } from "./data.interface";
 
 export interface ResponseMessageModel {
   errorCode: string,
@@ -45,4 +45,13 @@ export interface ResponsePassageInformationModel extends ReponseCustomerModel {
   // transactions: PassageInformationModel[]
   totalData: number,
   data: any[]
+}
+
+export interface IResponseTransferModel extends ResponseMessageModel {
+  data: ITransferModel[]
+  // data: any[]
+  errorCode: string
+  errorMessage: string
+  throwableMessage: string
+  totalData: number
 }

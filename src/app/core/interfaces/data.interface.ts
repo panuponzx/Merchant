@@ -187,3 +187,12 @@ export interface PassageInformationModel {
     walletName: string
   }
 }
+
+export interface ITransferModel {
+  amount: number
+  fromWalletId: number
+  fromWalletName: string
+  toWalletId: number
+  toWalletName: string
+  transactionDate: string
+}

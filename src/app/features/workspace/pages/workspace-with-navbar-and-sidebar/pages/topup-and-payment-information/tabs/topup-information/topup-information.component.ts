@@ -45,6 +45,7 @@ export class TopupInformationComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("[ngOnChanges]");
     const tempSearch = changes['tempSearch'];
     if (tempSearch.previousValue) {
       this.loadTopupInformation(tempSearch.currentValue);
