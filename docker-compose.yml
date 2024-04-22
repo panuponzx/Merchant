@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  ewallet-bakoffice-fe:
+    build:
+        context: ./
+        dockerfile: Dockerfile
+    container_name: ewallet-bakoffice-fe
+    command: "chmod +x /tmp/set_env.sh && /tmp/set_env.sh"
+    ports:
+      - "80:80"
+    environment:
+      API_URL: 'https://ewallet-uat.bifrost.asia'
+      API_BACKOFFICE_URL: "https://ewallet-backoffice.bifrost.asia"
+      AES_SECRET_KEY: "jXn2r4u7x!A%D*G-KaPdSgVkYp3s6v8y"
+      ENV: "DEV"
+      GIT_SHORTHASH: "N/A"
