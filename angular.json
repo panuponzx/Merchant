@@ -48,13 +48,27 @@
             "scripts": []
           },
           "configurations": {
-            "dev": {
-              "fileReplacements": [
+            "default": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": false,
+              "budgets": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
+                  "type": "initial",
+                  "maximumWarning": "30mb",
+                  "maximumError": "30mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "30mb",
+                  "maximumError": "30mb"
                 }
-              ],
+              ]
+            },
+            "dev": {
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": true,
@@ -75,12 +89,6 @@
               ]
             },
             "uat": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.uat.ts"
-                }
-              ],
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": true,
@@ -101,16 +109,16 @@
               ]
             }
           },
-          "defaultConfiguration": "dev"
+          "defaultConfiguration": "default"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "dev": {
-              "buildTarget": "exat-ewallet-fe:build:dev"
+              "buildTarget": "exat-ewallet-fe:build"
             },
             "uat": {
-              "buildTarget": "exat-ewallet-fe:build:uat"
+              "buildTarget": "exat-ewallet-fe:build"
             }
           },
           "defaultConfiguration": "dev"
