@@ -694,4 +694,32 @@ export class ApprovalManagementApprovalComponent {
     );
   }
 
+  onDownloadAttachment() {
+    this.modalDialogService.loading();
+    const picturesId = JSON.parse(this.form.get('pictures')?.value);
+    console.log("[onDownloadAttachment] ", picturesId);
+    this.restApiService.getFileBackOffice(`attachment/pending-customer-attachment/${picturesId[0].id}/file`).subscribe({
+      next: (res: any) => {
+        // console.log("[onDownloadAttachment] res => ", res);
+        this.modalDialogService.hideLoading();
+        if (res.status === 200) {
+          console.log("[onDownloadAttachment] res => ", res);
+          let blob: Blob = res.body;
+          let a = document.createElement('a');
+          a.download = picturesId[0].originalFileName;;
+          a.href = window.URL.createObjectURL(blob);
+          a.click();
+          this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การอนุมัติสำเร็จ');
+        } else {
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+        }
+
+      },
+      error: (err) => {
+        this.modalDialogService.hideLoading();
+        console.error(err);
+      }
+    })
+  }
+
 }

@@ -6,12 +6,14 @@ import { PipesModule } from './pipes';
 import { DirectivesModule } from './directives';
 import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 import { LoadingModalComponent } from './modals/loading-modal/loading-modal.component';
+import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
   
     InfoModalComponent,
        LoadingModalComponent,
+       ConfirmModalComponent,
   ],
   imports: [
     CommonModule,

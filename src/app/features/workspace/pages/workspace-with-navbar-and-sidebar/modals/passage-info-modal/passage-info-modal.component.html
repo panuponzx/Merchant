@@ -1,0 +1,60 @@
+<div class="modal-body">
+    <div class="header-label">
+        <h2>ยืนยันการยกค่าผ่านทาง</h2>
+        <h3 class="mb-3">กรุณาตรวจสอบรายละเอียด</h3>
+    </div>
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 mb-3">
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="transactionDate">
+                        วันที่ และ เวลา
+                    </label>
+                    <input class="form-control" formControlName="transactionDate" data-testid="transactionDate" id="transactionDate" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="entryHqName">
+                        สายทาง
+                    </label>
+                    <input class="form-control" formControlName="entryHqName" data-testid="entryHqName" id="entryHqName" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="entryPlazaName">
+                        อาคารด่าน
+                    </label>
+                    <input class="form-control" formControlName="entryPlazaName" data-testid="entryPlazaName" id="entryPlazaName" type="text">
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 mb-3">
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="walletName">
+                        กระเป๋าเงิน
+                    </label>
+                    <input class="form-control" formControlName="walletName" data-testid="walletName" id="walletName" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="obu">
+                        OBU serial no.
+                    </label>
+                    <input class="form-control" formControlName="obu" data-testid="obu" id="obu" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="smartCard">
+                        Smart card serial no.
+                    </label>
+                    <input class="form-control" formControlName="smartCard" data-testid="smartCard" id="smartCard" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="amount">
+                        จำนวนเงิน
+                    </label>
+                    <input class="form-control" formControlName="amount" data-testid="amount" id="amount" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end gap-3">
+            <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
+            <button class="custom-btn btn-type-1 red" (click)="onCancelPassage()">ยกเลิกค่าผ่านทาง</button>
+        </div>
+    </form>
+</div>
