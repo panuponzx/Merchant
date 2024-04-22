@@ -101,7 +101,7 @@
                     [class.datatable-icon-down-custom]="expanded"
                     title="Expand/Collapse Group"
                   >
-                  <span>สายทาง {{ group.value[0].gAmount }} - สายทาง {{ group.value[0].gAmount }}</span>
+                  <span>{{ group.value[0].entryHqName }} - {{ group.value[0].exitHqName }}</span>
                   </a>
                   <span>จำนวน {{ group.value[0].gAmount }} บาท</span>
                 </div>
@@ -132,7 +132,7 @@
                   <span>สายทางเข้า</span>
               </ng-template>
               <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.group }}
+                  {{  row.entryHqName }}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column 
@@ -145,7 +145,7 @@
                   <span>สายทางออก</span>
               </ng-template>
               <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.group }}
+                  {{  row.exitHqName }}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column 
@@ -158,7 +158,7 @@
                   <span>อาคารด่านเข้า</span>
               </ng-template>
               <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.group }}
+                  {{  row.entryPlazaName }}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column 
@@ -171,7 +171,7 @@
                   <span>อาคารด่านออก</span>
               </ng-template>
               <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.group }}
+                  {{  row.exitPlazaName }}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column 

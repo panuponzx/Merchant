@@ -23,6 +23,7 @@ export class IconPipe implements PipeTransform {
     { iconName: 'exat-logo', path: 'assets/images/icons/exat-logo.svg' },
     { iconName: 'success', path: 'assets/images/icons/success.svg' },
     { iconName: 'warning', path: 'assets/images/icons/warning.svg' },
+    { iconName: 'download', path: 'assets/images/icons/download.svg' },
   ];
 
   transform(iconName: IconModel | null | undefined | string): string | null {

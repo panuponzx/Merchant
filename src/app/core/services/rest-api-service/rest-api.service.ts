@@ -31,6 +31,16 @@ export class RestApiService {
     return this.httpClient.post<ResponseMessageModel>(url, body)
   }
 
+  getBackOffice(url: string): Observable<ResponseMessageModel> {
+    const baseURL = environment.apiBackOffice + '/' + url;
+    return this.httpClient.get<ResponseMessageModel>(baseURL);
+  }
+
+  getFileBackOffice(url: string) {
+    const baseURL = environment.apiBackOffice + '/' + url;
+    return this.httpClient.get(baseURL, { observe: 'response', responseType: 'blob' });
+  }
+  
   get(url: string): Observable<ResponseMessageModel> {
     const baseURL = environment.api + '/' + url;
     return this.httpClient.get<ResponseMessageModel>(baseURL);
