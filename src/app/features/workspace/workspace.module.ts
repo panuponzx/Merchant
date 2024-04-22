@@ -25,8 +25,6 @@ import {
   DeviceListComponent,
   PassageInfoComponent,
   TopupAndPaymentInformationComponent,
-  BillingPendingComponent,
-  PayInformationComponent,
   TopupInformationComponent
 } from './pages';
 
@@ -74,6 +72,7 @@ import { PaidPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/
 import { TransferInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/transfer-information.component';
 import { TransferInfoComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/tabs/transfer-info/transfer-info.component';
 import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice-management/pages/approval-management/modals/reject-pending-request-modal/reject-pending-request-modal.component';
+import { PassageInfoModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/passage-info-modal/passage-info-modal.component';
 
 @NgModule({
   declarations: [
@@ -102,8 +101,6 @@ import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice
     InputJuristicAttachDocumentComponent,
     PassageInfoComponent,
     TopupAndPaymentInformationComponent,
-    BillingPendingComponent,
-    PayInformationComponent,
     TopupInformationComponent,
     AddWalletModalComponent,
     EditCarModalComponent,
@@ -136,6 +133,7 @@ import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice
     TransferInformationComponent,
     TransferInfoComponent,
     RejectPendingRequestModalComponent,
+    PassageInfoModalComponent,
   ],
   imports: [
     CommonModule,
@@ -165,8 +163,6 @@ import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice
     DeviceListComponent,
     AddressComponent,
     DatatableComponent,
-    BillingPendingComponent,
-    PayInformationComponent,
     TopupInformationComponent
   ],
   providers: [provideNgxMask()]

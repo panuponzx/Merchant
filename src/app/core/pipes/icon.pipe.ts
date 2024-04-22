@@ -24,6 +24,7 @@ export class IconPipe implements PipeTransform {
     { iconName: 'success', path: 'assets/images/icons/success.svg' },
     { iconName: 'warning', path: 'assets/images/icons/warning.svg' },
     { iconName: 'download', path: 'assets/images/icons/download.svg' },
+    { iconName: 'close', path: 'assets/images/icons/close.svg' },
   ];
 
   transform(iconName: IconModel | null | undefined | string): string | null {

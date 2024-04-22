@@ -196,3 +196,22 @@ export interface ITransferModel {
   toWalletName: string
   transactionDate: string
 }
+
+export interface IPassageInfoRowModel {
+  gTransactionDate: any
+  gObu: string
+  gAmount: number
+  gisCancelled: boolean
+  transactionDate: any
+  obu: string
+  amount: number
+  isCancelled: boolean
+  smartCard: string
+  walletName: string
+  entryHqName: string
+  entryPlazaName: string
+  exitHqName: string
+  exitPlazaName: string
+  group: number
+}
+

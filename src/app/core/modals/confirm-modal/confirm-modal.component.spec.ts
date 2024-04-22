@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BillingPendingComponent } from './billing-pending.component';
+import { ConfirmModalComponent } from './confirm-modal.component';
 
-describe('BillingPendingComponent', () => {
-  let component: BillingPendingComponent;
-  let fixture: ComponentFixture<BillingPendingComponent>;
+describe('ConfirmModalComponent', () => {
+  let component: ConfirmModalComponent;
+  let fixture: ComponentFixture<ConfirmModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BillingPendingComponent]
+      declarations: [ConfirmModalComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(BillingPendingComponent);
+    fixture = TestBed.createComponent(ConfirmModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -6,6 +6,7 @@ import { CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, Repons
 import { HistoryPayloadModel } from '../../../../../../core/interfaces/payload.interface';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
+import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'app-topup-and-payment-information',

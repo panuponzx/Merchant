@@ -1,0 +1,12 @@
+<!-- <div class="modal-header justify-content-center border-0">
+    <h2 class="modal-title">{{ title }}</h2>
+</div> -->
+<div *ngIf="message" class="modal-body">
+    <h2 class="text-center mb-1">{{ title }}</h2>
+    <p class="text-center mb-0">{{ message }}</p>
+</div>
+
+<div class="modal-footer border-0 justify-content-center">
+    <button type="button" class="custom-btn btn-type-1 outline" (click)="decline()">{{ btnCancelText }}</button>
+    <button type="button" class="custom-btn btn-type-1" (click)="accept()">{{ btnOkText }}</button>
+</div>
