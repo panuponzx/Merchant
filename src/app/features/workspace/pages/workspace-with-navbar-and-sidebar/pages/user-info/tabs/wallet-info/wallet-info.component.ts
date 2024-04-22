@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel } from '../../../../../../../../core/interfaces';
+import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel } from 'src/app/core/interfaces';
 import { first, map } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -106,7 +106,7 @@ export class WalletInfoComponent implements OnInit {
               const mergedArray = wallet.lstCars.reduce((acc: any, obj1) => {
                 const matchingObj2 = wallet.lstObus.find(obj2 => obj2.index === obj1.index);
                 if (matchingObj2) {
-                  acc.push({ ...obj1, ...matchingObj2 });
+                  acc.push({ ...obj1, ...matchingObj2, walletId: wallet.walletId});
                 }
                 return acc;
               }, []);
@@ -142,7 +142,6 @@ export class WalletInfoComponent implements OnInit {
       keyboard: false,
     });
     modalRef.componentInstance.customerId = this.customerId;
-    modalRef.componentInstance.customerTypeId = this.customerTypeId;
     modalRef.result.then(
       (result) => {
         if (result) {
@@ -161,17 +160,20 @@ export class WalletInfoComponent implements OnInit {
   }
 
   onAction(event: RowActionEventModel) {
-    console.info(event);
+    console.info("onAction edit car", event);
     const modalRef = this.ngbModal.open(EditCarModalComponent, {
       centered: true,
       backdrop: 'static',
       size: 'lg',
       keyboard: false,
     });
+    modalRef.componentInstance.carInfo = event.row;
+    modalRef.componentInstance.walletIdList = this.walletList.map((x) => x.walletId);
     modalRef.result.then(
       (result) => {
         if (result) {
           console.log('[showTableModal] result => ', result);
+          this.loadWalletInfo();
         }
       },
       (reason) => {
