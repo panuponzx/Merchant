@@ -69,19 +69,15 @@ export class EditCarModalComponent {
       preConfirm: async () => {
         try {
           const payload = {
-            obu: {
-              obuPan: this.carInfo.obuPan,
-              smartcardNo: this.carInfo.smartcardNo
-            },
-            wallet: {
-              id: this.carInfo.walletId.toString()
-            },
+            obuPan: this.carInfo.obuPan,
+            smartcardNo: this.carInfo.smartcardNo,
+            walletId: this.carInfo.walletId.toString(),
             requestParam: {
               reqId: "23498-sss-k339c-322s2",
               channelId: "1"
             }
           };
-          await firstValueFrom(this.restApiService.post('faremedia/suspend-obu-by-staff', payload).pipe(first()))
+          await firstValueFrom(this.restApiService.postBackOffice('faremedia/suspend-obu-by-staff', payload).pipe(first()))
           // return response.json();
         } catch (error: any) {
           console.error(error);
@@ -122,19 +118,15 @@ export class EditCarModalComponent {
       preConfirm: async () => {
         try {
           const payload = {
-            obu: {
-              obuPan: this.carInfo.obuPan,
-              smartcardNo: this.carInfo.smartcardNo
-            },
-            wallet: {
-              id: this.carInfo.walletId.toString()
-            },
+            obuPan: this.carInfo.obuPan,
+            smartcardNo: this.carInfo.smartcardNo,
+            walletId: this.carInfo.walletId.toString(),
             requestParam: {
               reqId: "23498-sss-k339c-322s2",
               channelId: "1"
             }
           };
-          await firstValueFrom(this.restApiService.post('faremedia/active-obu-by-staff', payload).pipe(first()))
+          await firstValueFrom(this.restApiService.postBackOffice('faremedia/active-obu-by-staff', payload).pipe(first()))
           // return response.json();
         } catch (error: any) {
           console.error(error);
