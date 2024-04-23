@@ -54,7 +54,7 @@
         </div>
         <div class="d-flex justify-content-end gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
-            <button class="custom-btn btn-type-1 red" (click)="onCancelPassage()">ยกเลิกค่าผ่านทาง</button>
+            <button class="custom-btn btn-type-1 red" [disabled]="row.isCancelled" (click)="onCancelPassage()">ยกเลิกค่าผ่านทาง</button>
         </div>
     </form>
 </div>

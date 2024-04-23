@@ -203,6 +203,7 @@ export interface IPassageInfoRowModel {
   gAmount: number
   gisCancelled: boolean
   transactionDate: any
+  transactionId: string
   obu: string
   amount: number
   isCancelled: boolean

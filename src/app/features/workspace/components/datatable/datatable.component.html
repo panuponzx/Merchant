@@ -94,12 +94,20 @@
                   class="custome-btn btn-icon"
                   [id]="column.id + rowIndex + 'btn-cancel'"
                   type="button"
+                  [disabled]="row.isCancelled"
                   [title]="column.label"
                   (click)="onCancel({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })"
                 >
                   <icon-svg
+                    *ngIf="row.isCancelled"
                     size="17px"
                     [color]="'#a1a1a1'"
+                    [path]="'close' | icon"
+                  />
+                  <icon-svg
+                    *ngIf="!row.isCancelled"
+                    size="17px"
+                    [color]="'#D63226'"
                     [path]="'close' | icon"
                   />
                 </button>

@@ -203,6 +203,7 @@ export class PassageInfoComponent implements OnInit {
                   entryPlazaName: this.rows[i].passages[j].entryPlazaName,
                   exitHqName: this.rows[i].passages[j].exitHqName,
                   exitPlazaName: this.rows[i].passages[j].exitPlazaName,
+                  transactionId: this.rows[i].passages[j].transactionId,
                   group: i
                 });
               }
@@ -222,6 +223,7 @@ export class PassageInfoComponent implements OnInit {
                 entryPlazaName: this.rows[i].entryPlazaName,
                 exitHqName: this.rows[i].exitHqName,
                 exitPlazaName: this.rows[i].exitPlazaName,
+                transactionId: this.rows[i].transactionId,
                 group: i
               });
             }
@@ -284,6 +286,7 @@ export class PassageInfoComponent implements OnInit {
       (result) => {
         if (result) {
           console.log('[onAction] result => ', result);
+          if(result && this.tempSearch) this.loadPassageInformation(this.tempSearch);
         }
       },
       (reason) => {
