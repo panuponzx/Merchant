@@ -120,7 +120,7 @@ export class TopupInformationComponent implements OnInit {
           }
           this.modalDialogService.loading();
           this.restApiService
-            .post('transaction-balance/void-topup', data)
+            .postBackOffice('transaction-balance/void-topup', data)
             .pipe(
               first(),
               map(res => res as any)
@@ -129,13 +129,17 @@ export class TopupInformationComponent implements OnInit {
               next: (res) => {
                 console.log(res);
                 this.modalDialogService.hideLoading();
-                this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การยกเลิกการเติมเงินสำเร็จ').then((res: boolean) => {
-                  // if (res) this.loadCustomer();
-                });
-                // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+                if (res.errorMessage === "Success") {
+                  this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การยกเลิกการเติมเงินสำเร็จ').then((res: boolean) => {
+                    if (res && this.tempSearch) this.loadTopupInformation(this.tempSearch);
+                  });
+                } else {
+                  this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+                }
               },
               error: (err) => {
                 console.error(err);
+                this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
                 this.modalDialogService.hideLoading();
               }
             })

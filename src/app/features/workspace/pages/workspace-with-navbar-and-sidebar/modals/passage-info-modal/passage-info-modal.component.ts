@@ -14,7 +14,7 @@ import { first, map } from 'rxjs';
 })
 export class PassageInfoModalComponent implements OnInit {
 
-  private row = {} as IPassageInfoRowModel;
+  public row = {} as IPassageInfoRowModel;
   public form: FormGroup;
 
   constructor(
@@ -25,18 +25,20 @@ export class PassageInfoModalComponent implements OnInit {
     private modalDialogService: ModalDialogService
   ) {
     this.form = this.formBuilder.group({
-      transactionDate: new FormControl({value: undefined, disabled: true}, Validators.required),
-      entryHqName: new FormControl({value: undefined, disabled: true}, Validators.required),
-      entryPlazaName: new FormControl({value: undefined, disabled: true}, Validators.required),
-      walletName: new FormControl({value: undefined, disabled: true}, Validators.required),
-      obu: new FormControl({value: undefined, disabled: true}, Validators.required),
-      smartCard: new FormControl({value: undefined, disabled: true}, Validators.required),
-      amount: new FormControl({value: undefined, disabled: true}, Validators.required),
+      transactionId: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      transactionDate: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      entryHqName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      entryPlazaName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      walletName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      obu: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      smartCard: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      amount: new FormControl({ value: undefined, disabled: true }, Validators.required),
     });
   }
 
   ngOnInit(): void {
-    if(this.row){
+    if (this.row) {
+      this.form.get('transactionId')?.setValue(this.row.transactionId);
       this.form.get('transactionDate')?.setValue(this.transformDatePipe.transform(this.row.transactionDate, 'DD/MM/BBBB HH:mm:ss', 'th'));
       this.form.get('entryHqName')?.setValue(this.row.entryHqName);
       this.form.get('entryPlazaName')?.setValue(this.row.entryPlazaName);
@@ -53,12 +55,12 @@ export class PassageInfoModalComponent implements OnInit {
         reqId: "23498-sss-k339c-322s2",
         channelId: 1
       },
-      transactionId: "TP240312100000026",
+      transactionId: this.form.get('transactionId')?.value,
       amount: this.form.get('amount')?.value,
     }
     this.modalDialogService.loading();
     this.restApiService
-      .post('transaction-balance/void-toll', data)
+      .postBackOffice('transaction-balance/void-toll', data)
       .pipe(
         first(),
         map(res => res as any)
@@ -67,9 +69,17 @@ export class PassageInfoModalComponent implements OnInit {
         next: (res) => {
           console.log(res)
           this.modalDialogService.hideLoading();
+          if (res.errorMessage === "Success") {
+            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การยกเลิกค่าผ่านทางสำเร็จ').then((res: boolean) => {
+              if (res) this.ngbActiveModal.close(true);
+            })
+          } else {
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+          }
         },
         error: (err) => {
           console.error(err);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
           this.modalDialogService.hideLoading();
         }
       })
