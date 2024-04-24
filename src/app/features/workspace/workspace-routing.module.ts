@@ -25,10 +25,7 @@ import { ManageEarningComponent, ManageRedeemComponent } from './pages/workspace
 import { AddEditComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-earning/add-edit/add-edit.component';
 import { AddComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/add/add.component';
 import { PaymentInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/payment-information.component';
-<<<<<<< HEAD
 import { TransferInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/transfer-information.component';
-=======
->>>>>>> ed323c8769e579c844e8d22f87310f2a53bb7e11
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -89,7 +86,7 @@ export const routesConfig: CustomRoutesModel = [
               label: 'ข้อมูลผู้ใช้',
               request_id: true,
               default_path: 'user-info',
-              allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
+              allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list','e-tax']
             },
             canActivate: [TabGuard]
           },
@@ -225,12 +222,7 @@ export const routesConfig: CustomRoutesModel = [
               // allowed_tabs: ['Exchange-products', 'coupon', 'toll']
             },
             // canActivate: [ TabGuard ]
-<<<<<<< HEAD
           },{
-=======
-          },
-          {
->>>>>>> ed323c8769e579c844e8d22f87310f2a53bb7e11
             id: 'approvalManagementRoute',
             path: 'approval-management/:tab',
             component: ApprovalManagementComponent,
@@ -241,13 +233,8 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'approval-management',
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
-<<<<<<< HEAD
             canActivate: [ TabGuard ]
           },
-=======
-            canActivate: [TabGuard]
-          }
->>>>>>> ed323c8769e579c844e8d22f87310f2a53bb7e11
         ],
 
         data: {

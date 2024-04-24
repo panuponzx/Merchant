@@ -27,11 +27,11 @@ export class TransferInfoComponent implements OnInit {
   ];
   
   public rows1 = [
-    { TransactionDate: new Date('2024-04-15T08:30:00'), walletNamein: 'Wallet A', walletNameout: 'Wallet B', amount: 500.25, status: 'Deposit' },
-    { TransactionDate: new Date('2024-04-16T10:45:00'), walletNamein: 'Wallet B', walletNameout: 'Wallet C', amount: 1000.75, status: 'Withdrawal' },
-    { TransactionDate: new Date('2024-04-17T14:20:00'), walletNamein: 'Wallet C', walletNameout: 'Wallet A', amount: 750.50, status: 'Deposit' },
-    { TransactionDate: new Date('2024-04-18T16:55:00'), walletNamein: 'Wallet A', walletNameout: 'Wallet B', amount: 300.30, status: 'Withdrawal' },
-    { TransactionDate: new Date('2024-04-19T20:10:00'), walletNamein: 'Wallet B', walletNameout: 'Wallet C', amount: 600.60, status: 'Deposit' }
+    { TransactionDate: new Date('2024-04-15T08:30:00'), walletNamein: 'Wallet A', walletNameout: 'Wallet B', amount: 500.25, status: 'โอนออก' },
+    { TransactionDate: new Date('2024-04-16T10:45:00'), walletNamein: 'Wallet B', walletNameout: 'Wallet C', amount: 1000.75, status: 'รับโอน' },
+    { TransactionDate: new Date('2024-04-17T14:20:00'), walletNamein: 'Wallet C', walletNameout: 'Wallet A', amount: 750.50, status: 'โอนออก' },
+    { TransactionDate: new Date('2024-04-18T16:55:00'), walletNamein: 'Wallet A', walletNameout: 'Wallet B', amount: 300.30, status: 'รับโอน' },
+    { TransactionDate: new Date('2024-04-19T20:10:00'), walletNamein: 'Wallet B', walletNameout: 'Wallet C', amount: 600.60, status: 'โอนออก' }
   ];
   
   

@@ -71,12 +71,10 @@ import { AddComponent } from './pages/workspace-backoffice-management/pages/sett
 import { PaymentInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/payment-information.component';
 import { WaitingPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/tabs/waiting-payment/waiting-payment.component';
 import { PaidPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/tabs/paid-payment/paid-payment.component';
-<<<<<<< HEAD
 import { TransferInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/transfer-information.component';
 import { TransferInfoComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/tabs/transfer-info/transfer-info.component';
-=======
 import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice-management/pages/approval-management/modals/reject-pending-request-modal/reject-pending-request-modal.component';
->>>>>>> ed323c8769e579c844e8d22f87310f2a53bb7e11
+import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info/tabs/e-tax/e-tax.component';
 
 @NgModule({
   declarations: [
@@ -136,12 +134,10 @@ import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice
     PaymentInformationComponent,
     WaitingPaymentComponent,
     PaidPaymentComponent,
-<<<<<<< HEAD
     TransferInformationComponent,
     TransferInfoComponent,
-=======
     RejectPendingRequestModalComponent,
->>>>>>> ed323c8769e579c844e8d22f87310f2a53bb7e11
+    ETaxComponent,
   ],
   imports: [
     CommonModule,

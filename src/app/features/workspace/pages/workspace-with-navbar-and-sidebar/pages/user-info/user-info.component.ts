@@ -18,7 +18,7 @@ export class UserInfoComponent implements OnInit {
   public customerId: string | null = null;
   public customerTypeId: string | null = null;
 
-  public activeTab: 'general-info' | 'wallet-info' | 'loyalty-point-info' | 'device-list' | string | null ;
+  public activeTab: 'general-info' | 'wallet-info' | 'loyalty-point-info' | 'device-list' | 'e-tax' | string | null ;
 
   public customer: CustomerModel | undefined;
   public walletTotal: number = 0;
