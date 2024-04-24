@@ -17,7 +17,7 @@ export interface CustomColumnModel {
   minWidth: number,
   headerClass?: string,
   cellClass?: string,
-  type: 'no' | 'number' | 'text' | 'date' | 'action' | 'check-uncheck' | 'text-with-boolean' ,
+  type: 'no' | 'number' | 'text' | 'date' | 'action' | 'check-uncheck' | 'text-with-boolean' | 'approve-status' | 'cancel',
   actionIcon?: {
     actionName: string,
     iconName: string,

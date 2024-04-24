@@ -38,6 +38,7 @@ export class DatatableComponent {
   @Output() onChangeLimitEvent = new EventEmitter<number>();
 
   @Output() onRowActionEvent = new EventEmitter<RowActionEventModel>();
+  @Output() onRowCancelEvent = new EventEmitter<RowActionEventModel>();
 
   constructor(
   ) {
@@ -56,6 +57,10 @@ export class DatatableComponent {
 
   onAction(event: RowActionEventModel) {
     this.onRowActionEvent.emit(event);
+  }
+
+  onCancel(event: RowActionEventModel) {
+    this.onRowCancelEvent.emit(event);
   }
 
 }

@@ -6,6 +6,7 @@ import { CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, Repons
 import { HistoryPayloadModel } from '../../../../../../core/interfaces/payload.interface';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
+import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'app-topup-and-payment-information',
@@ -113,7 +114,7 @@ export class TopupAndPaymentInformationComponent implements OnInit {
   }
 
   onSearch() {
-    if (this.form.invalid || this.isLoadingSearch) return;
+    // if (this.form.invalid || this.isLoadingSearch) return;
     const searchValue = this.getSearchValue(1);
     this.tempSearch = searchValue;
   }

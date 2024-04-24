@@ -54,7 +54,7 @@ export class AddWalletModalComponent {
       },
       wallet: {
         walletTypeId: this.form.get('walletType')?.value,
-        walletName: 'ทดสอบ FE'
+        walletName: ''
       }
     };
     console.log("[onAddWallet] data => ", data);

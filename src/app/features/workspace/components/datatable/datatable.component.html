@@ -58,6 +58,9 @@
             <ng-container *ngIf="column.type === 'text'">
               {{ value ? value : '-' }}
             </ng-container>
+            <ng-container *ngIf="column.type === 'approve-status'">
+              {{ value | approveStatus }}
+            </ng-container>
             <ng-container *ngIf="column.type === 'text-with-boolean'">
               <ng-container *ngIf="value; else textFalseEl;">
                 <span [ngClass]="column.textWithBoolean?.classCondition1 ? column.textWithBoolean?.classCondition1 : null">
@@ -81,6 +84,33 @@
                   [color]="'#2255CE'"
                   [path]="'check' | icon"
                 />
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="column.type === 'cancel'">
+              <ng-container>
+                <button
+                  [attr.data-testid]="column.id + rowIndex + 'btn-cancel'"
+                  class="custome-btn btn-icon"
+                  [id]="column.id + rowIndex + 'btn-cancel'"
+                  type="button"
+                  [disabled]="row.isCancelled"
+                  [title]="column.label"
+                  (click)="onCancel({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })"
+                >
+                  <icon-svg
+                    *ngIf="row.isCancelled"
+                    size="17px"
+                    [color]="'#a1a1a1'"
+                    [path]="'close' | icon"
+                  />
+                  <icon-svg
+                    *ngIf="!row.isCancelled"
+                    size="17px"
+                    [color]="'#D63226'"
+                    [path]="'close' | icon"
+                  />
+                </button>
               </ng-container>
             </ng-container>
 

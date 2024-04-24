@@ -54,7 +54,15 @@ export class AddressComponent implements OnInit {
               if (isInit) {
                 this.districts = this.getDistrict(formControl['subdistrictCode'].value);
                 this.provinces = this.getProvince(formControl['districtCode'].value);
+                console.log("[loadZipcode] getSubdistrictName => ", this.getSubdistrictName(formControl['subdistrictCode'].value));
+                this.form?.get('subdistrictName')?.setValue(this.getSubdistrictName(formControl['subdistrictCode'].value));
+                this.form?.get('districtName')?.setValue(this.getDistrictName(formControl['subdistrictCode'].value));
+                this.form?.get('provinceName')?.setValue(this.getProvinceName(formControl['districtCode'].value));
+                console.log("[loadZipcode] subdistrictCode => ", formControl['subdistrictCode'].value);
+                console.log("[loadZipcode] districts => ", this.districts);
+                console.log("[loadZipcode] provinces => ", this.provinces);
               }
+              console.log("[loadZipcode] form => ", this.form?.value);
               this.isLoading = false;
             },
             error: (err) => {
@@ -74,12 +82,31 @@ export class AddressComponent implements OnInit {
     }
   }
 
+  getSubdistrictName(subdistrictId: number): string | null {
+    if (subdistrictId) {
+      const subdistrictsName = this.subdistricts.filter(x => x.id === subdistrictId);
+      console.log("[getSubdistrictName] subdistrictsName => ", subdistrictsName[0].name);
+      return subdistrictsName[0].name;
+    }else {
+      return null;
+    }
+  }
+
   getDistrict(subdistrictCode: number | undefined | null): DistrictModel[] {
     if (subdistrictCode) {
       const districts = this.subdistricts.filter(x => x.id === subdistrictCode).map(x => x.district);
-    return districts;
+      return districts;
     } else {
       return [];
+    }
+  }
+
+  getDistrictName(subdistrictCode: number): string | null {
+    if (subdistrictCode) {
+      const districts = this.subdistricts.filter(x => x.id === subdistrictCode).map(x => x.district);
+      return districts[0].name;
+    } else {
+      return null;
     }
   }
 
@@ -92,15 +119,27 @@ export class AddressComponent implements OnInit {
     }
   }
 
+  getProvinceName(districtCode: number): string | null {
+    if (districtCode) {
+      const provinces = this.districts.filter(x => x.id === districtCode).map(x => x.province);
+      return provinces[0].name;
+    } else {
+      return null;
+    }
+  }
+
   onChangeZipcode(event: string) {
     if (event && event.length >= 5) {
       this.loadZipcode(false);
     } else {
       if (this.form) {
         const formControl = this.form.controls;
-              formControl['subdistrictCode'].reset();
-              formControl['districtCode'].reset();
-              formControl['provinceCode'].reset();
+        formControl['subdistrictCode'].reset();
+        formControl['districtCode'].reset();
+        formControl['provinceCode'].reset();
+        formControl['subdistrictName'].reset();
+        formControl['districtName'].reset();
+        formControl['provinceName'].reset();
         this.subdistricts = [];
         this.districts = [];
         this.provinces = [];
@@ -113,11 +152,14 @@ export class AddressComponent implements OnInit {
     if (event) {
       this.districts = this.getDistrict(event);
       if (this.districts) {
+        this.form?.get('subdistrictName')?.setValue(this.getSubdistrictName(event));
         console.log("[onChangeSubdistrict] districts => ", this.districts);
         this.form?.controls['districtCode'].setValue(this.districts[0].id);
+        this.form?.get('districtName')?.setValue(this.getDistrictName(event));
         this.provinces = this.getProvince(this.districts[0].id);
         if (this.provinces) {
           this.form?.controls['provinceCode'].setValue(this.provinces[0].id);
+          this.form?.get('provinceName')?.setValue(this.getProvinceName(this.form.get('districtCode')?.value));
         }
       }
     }

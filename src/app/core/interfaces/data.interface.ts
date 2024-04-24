@@ -187,3 +187,32 @@ export interface PassageInformationModel {
     walletName: string
   }
 }
+
+export interface ITransferModel {
+  amount: number
+  fromWalletId: number
+  fromWalletName: string
+  toWalletId: number
+  toWalletName: string
+  transactionDate: string
+}
+
+export interface IPassageInfoRowModel {
+  gTransactionDate: any
+  gObu: string
+  gAmount: number
+  gisCancelled: boolean
+  transactionDate: any
+  transactionId: string
+  obu: string
+  amount: number
+  isCancelled: boolean
+  smartCard: string
+  walletName: string
+  entryHqName: string
+  entryPlazaName: string
+  exitHqName: string
+  exitPlazaName: string
+  group: number
+}
+

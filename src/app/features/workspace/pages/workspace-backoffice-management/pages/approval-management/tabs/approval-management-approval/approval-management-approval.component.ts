@@ -34,8 +34,8 @@ export class ApprovalManagementApprovalComponent {
   public collectionSize: number = 0;
   public columns: CustomColumnModel[] = [
     { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา ที่สร้าง', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/YYYY HH:mm:ss', locale: 'th' } },
-    { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'userName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'status', name: 'Status', label: 'สถานะ', prop: 'status', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'eventValue.customer.corporateName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'status', name: 'Status', label: 'สถานะ', prop: 'status', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'approve-status' },
     { id: 'nameEmpTransaction', name: 'Name Emp Transaction', label: 'ชื่อพนักงานทำรายการ', prop: 'eventValue.customer.fullName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
@@ -692,6 +692,34 @@ export class ApprovalManagementApprovalComponent {
         }
       }
     );
+  }
+
+  onDownloadAttachment() {
+    this.modalDialogService.loading();
+    const picturesId = JSON.parse(this.form.get('pictures')?.value);
+    console.log("[onDownloadAttachment] ", picturesId);
+    this.restApiService.getFileBackOffice(`attachment/pending-customer-attachment/${picturesId[0].id}/file`).subscribe({
+      next: (res: any) => {
+        // console.log("[onDownloadAttachment] res => ", res);
+        this.modalDialogService.hideLoading();
+        if (res.status === 200) {
+          console.log("[onDownloadAttachment] res => ", res);
+          let blob: Blob = res.body;
+          let a = document.createElement('a');
+          a.download = picturesId[0].originalFileName;;
+          a.href = window.URL.createObjectURL(blob);
+          a.click();
+          this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การอนุมัติสำเร็จ');
+        } else {
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+        }
+
+      },
+      error: (err) => {
+        this.modalDialogService.hideLoading();
+        console.error(err);
+      }
+    })
   }
 
 }

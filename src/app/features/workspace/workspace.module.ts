@@ -25,8 +25,6 @@ import {
   DeviceListComponent,
   PassageInfoComponent,
   TopupAndPaymentInformationComponent,
-  BillingPendingComponent,
-  PayInformationComponent,
   TopupInformationComponent
 } from './pages';
 
@@ -75,6 +73,7 @@ import { TransferInformationComponent } from './pages/workspace-with-navbar-and-
 import { TransferInfoComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/tabs/transfer-info/transfer-info.component';
 import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice-management/pages/approval-management/modals/reject-pending-request-modal/reject-pending-request-modal.component';
 import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info/tabs/e-tax/e-tax.component';
+import { PassageInfoModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/passage-info-modal/passage-info-modal.component';
 
 @NgModule({
   declarations: [
@@ -103,8 +102,6 @@ import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/u
     InputJuristicAttachDocumentComponent,
     PassageInfoComponent,
     TopupAndPaymentInformationComponent,
-    BillingPendingComponent,
-    PayInformationComponent,
     TopupInformationComponent,
     AddWalletModalComponent,
     EditCarModalComponent,
@@ -138,6 +135,7 @@ import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/u
     TransferInfoComponent,
     RejectPendingRequestModalComponent,
     ETaxComponent,
+    PassageInfoModalComponent,
   ],
   imports: [
     CommonModule,
@@ -167,8 +165,6 @@ import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/u
     DeviceListComponent,
     AddressComponent,
     DatatableComponent,
-    BillingPendingComponent,
-    PayInformationComponent,
     TopupInformationComponent
   ],
   providers: [provideNgxMask()]

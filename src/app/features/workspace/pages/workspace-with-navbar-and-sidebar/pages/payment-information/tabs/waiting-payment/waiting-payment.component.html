@@ -1,1 +1,19 @@
-<p>waiting-payment works!</p>
+<ng-container *ngIf="tempSearch && !isLoading">
+    <div class="datatable-container">
+      <datatable
+        [columns]="columns"
+        [collectionSize]="collectionSize"
+        [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
+        [externalPaging]="true"
+        [id]="'transactionDatatable'"
+        [isLoading]="isLoading"
+        [limitRow]="limitRow"
+        [pages]="pages"
+        [rows]="rows"
+        emptyMessage="ไม่มีข้อมูล"
+        (onChangePageEvent)="onChangePage($event)"
+        (onRowActionEvent)="onAction($event)"
+      />
+    </div>
+  </ng-container>
+  

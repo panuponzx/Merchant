@@ -1,7 +1,7 @@
 <ng-container *ngIf="tempSearch && !isLoading">
     <div class="datatable-container">
       <datatable
-        [columns]="columns1"
+        [columns]="columns"
         [collectionSize]="collectionSize"
         [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
         [externalPaging]="true"
@@ -9,7 +9,7 @@
         [isLoading]="isLoading"
         [limitRow]="limitRow"
         [pages]="pages"
-        [rows]="rows1"
+        [rows]="rows"
         emptyMessage="ไม่มีข้อมูล"
       ></datatable>
     </div>

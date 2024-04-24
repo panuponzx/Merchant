@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingModalComponent } from '../../modals/loading-modal/loading-modal.component';
 import { InfoModalComponent } from '../../modals/info-modal/info-modal.component';
+import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,26 @@ export class ModalDialogService {
 
   public hideInfo() {
     if(this.modalInfoRef) this.modalInfoRef.close(true);
+  }
+
+  public confirm(
+    title: string,
+    message: string,
+    btnCancelText: string = 'Cancel',
+    btnOkText: string = 'OK',
+    icon?: string
+  ) {
+    const modalRef = this.ngbModal.open(ConfirmModalComponent, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    modalRef.componentInstance.title = title;
+    modalRef.componentInstance.message = message;
+    modalRef.componentInstance.btnOkText = btnOkText;
+    modalRef.componentInstance.btnCancelText = btnCancelText;
+    modalRef.componentInstance.icon = icon;
+    return modalRef.result;
   }
 
 }

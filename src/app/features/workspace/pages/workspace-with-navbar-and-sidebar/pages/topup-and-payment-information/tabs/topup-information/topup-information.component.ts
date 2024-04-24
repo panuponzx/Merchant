@@ -23,9 +23,10 @@ export class TopupInformationComponent implements OnInit {
     { id: 'walletName', name: 'Wallet Name', label: 'กระเป่าเงิน', prop: 'walletName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'paymentMethod', name: 'Payment Method', label: 'ช่องทางการชำระ', prop: 'paymentMethod', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'bankName', name: 'Bank Name', label: 'ธนาคาร', prop: 'bankName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
-    { id: 'bankAccount', name: 'Bank Account', label: 'หมายเลขบัญชี / บัญชี', prop: 'bankAccountNo', sortable: false, resizeable: true, width: 250, minWidth: 250, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text'},
+    { id: 'bankAccount', name: 'Bank Account', label: 'หมายเลขบัญชี / บัญชี', prop: 'bankAccountNo', sortable: false, resizeable: true, width: 250, minWidth: 250, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'amount', name: 'Amount', label: 'จำนวนเงิน', prop: 'amount', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'number', numberFormat: '1.2-2' },
-    { id: 'type', name: 'Type', label: 'ประเภท', prop: 'status', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' }
+    { id: 'type', name: 'Type', label: 'ประเภท', prop: 'status', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'cancel', name: 'Cancel', label: 'ยกเลิก', prop: 'isCancelled', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'cancel' }
   ];
 
   public isLoading: boolean = false;
@@ -45,6 +46,7 @@ export class TopupInformationComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("[ngOnChanges]");
     const tempSearch = changes['tempSearch'];
     if (tempSearch.previousValue) {
       this.loadTopupInformation(tempSearch.currentValue);
@@ -57,8 +59,8 @@ export class TopupInformationComponent implements OnInit {
     this.modalDialogService.loading();
     const mockupData = {
       requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: "1"
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "1"
       },
       from: data.from,
       to: data.to,
@@ -95,6 +97,54 @@ export class TopupInformationComponent implements OnInit {
 
   onAction(event: RowActionEventModel) {
     console.info(event)
+  }
+
+  onCancel(event: RowActionEventModel) {
+    console.log("[onCancel] event => ", event);
+    const row: TopupModel = event.row;
+    this.modalDialogService.confirm(
+      'ยืนยันการยกเลิกการเติมเงิน',
+      'กรุณายืนยัน',
+      'กลับ',
+      'ยกเลิกการเติมเงิน')
+      .then((res: boolean) => {
+        console.log("[confirm] res => ", res);
+        if (res) {
+          const data = {
+            requestParam: {
+              reqId: "23498-sss-k339c-322s2",
+              channelId: 1
+            },
+            transactionId: row.transactionId,
+            amount: row.amount,
+          }
+          this.modalDialogService.loading();
+          this.restApiService
+            .postBackOffice('transaction-balance/void-topup', data)
+            .pipe(
+              first(),
+              map(res => res as any)
+            )
+            .subscribe({
+              next: (res) => {
+                console.log(res);
+                this.modalDialogService.hideLoading();
+                if (res.errorMessage === "Success") {
+                  this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การยกเลิกการเติมเงินสำเร็จ').then((res: boolean) => {
+                    if (res && this.tempSearch) this.loadTopupInformation(this.tempSearch);
+                  });
+                } else {
+                  this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+                }
+              },
+              error: (err) => {
+                console.error(err);
+                this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
+                this.modalDialogService.hideLoading();
+              }
+            })
+        }
+      })
   }
 
 }
