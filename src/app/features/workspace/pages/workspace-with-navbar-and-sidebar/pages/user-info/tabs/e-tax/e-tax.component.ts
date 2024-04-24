@@ -1,17 +1,15 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'e-tax',
   templateUrl: './e-tax.component.html',
-  styleUrl: './e-tax.component.scss'
+  styleUrls: ['./e-tax.component.scss']
 })
 export class ETaxComponent {
 
-
-
   @Input() public customerId: string | null = null;
   @Input() public customerTypeId: string | null = null;
-
 
   public status: number = 1;
   public Usagestatus = [
@@ -25,7 +23,6 @@ export class ETaxComponent {
     }
   ];
 
-
   public level: number = 1;
   public Settinglevel = [
     {
@@ -37,5 +34,11 @@ export class ETaxComponent {
       id: 2
     }
   ];
+  
+  constructor(private router: Router) {}
+  
+  public openModal() {
+    this.router.navigate(['/work-space/modals/email-verification-modal']);
+  }
 
 }

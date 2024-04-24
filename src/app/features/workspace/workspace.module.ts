@@ -74,6 +74,8 @@ import { TransferInfoComponent } from './pages/workspace-with-navbar-and-sidebar
 import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice-management/pages/approval-management/modals/reject-pending-request-modal/reject-pending-request-modal.component';
 import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info/tabs/e-tax/e-tax.component';
 import { PassageInfoModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/passage-info-modal/passage-info-modal.component';
+import { EmailVerificationModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/email-verification-modal/email-verification-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -136,6 +138,8 @@ import { PassageInfoModalComponent } from './pages/workspace-with-navbar-and-sid
     RejectPendingRequestModalComponent,
     ETaxComponent,
     PassageInfoModalComponent,
+    EmailVerificationModalComponent,
+
   ],
   imports: [
     CommonModule,

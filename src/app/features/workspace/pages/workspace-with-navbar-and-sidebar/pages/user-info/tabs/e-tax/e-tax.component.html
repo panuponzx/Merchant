@@ -22,7 +22,7 @@
               <div class="label-input  ">ผ่าน Email โดยอัตโนมัติ </div>
           </div>
       
-          <div class="etax-item col-12 col-lg-4">
+          <div *ngIf="status === 2" class="etax-item col-12 col-lg-4">
               <div class="form-group d-inline">
                   <label class="form-check-label pb-3" for="1">ระดับการตั้งค่า</label>
                   <ng-select 
@@ -39,7 +39,7 @@
               <div class="label-input pt-3">การตั้งค่าหลายอีเมล รองรับในการตั้งค่าขั้นสูง</div>
           </div>
 
-          <div class="etax-item col-12 col-lg-4">
+          <div *ngIf="status === 2" class="etax-item col-12 col-lg-4">
               <div class="form-group d-inline">
                   <label class="form-check-label pb-3" for="1">อีเมล</label>
                   <input
@@ -53,12 +53,18 @@
                   >
               </div>
               <div class="label-input pt-3">การตั้งค่าหลายอีเมล รองรับในการตั้งค่าขั้นสูง</div>
+              <div class="text-center" (click)="openModal()">
+                <a class="etax-item" (click)="openModal()">เปลี่ยนอีเมล</a>
+              </div>
           </div>
       </div>
 
-      <h3 class="content-title pt-3">ข้อมูลรายละเอียดการตั้งค่าขั้นสูง</h3>
+      <div *ngIf="level === 2">
+        <h3 class="content-title pt-3">ข้อมูลรายละเอียดการตั้งค่าขั้นสูง</h3>
+      </div>
+      
 
-      <div class="row">
+      <div *ngIf="level === 2"  class="row">
           <div class="etax-item col-12 col-lg-4">
               <div class="form-group d-inline">
                   <h4 class="fw-bold mb-3">การเติมเงินเข้าระบบ (ETC)</h4>
@@ -135,7 +141,7 @@
           </div>
       </div>
 
-      <div class="row">
+      <div *ngIf="level === 2"  class="row">
           <div class="etax-item col-12 col-lg-4">
               <div class="form-group d-inline">
                   <h4 class="fw-bold mb-3">การชำระค่าผ่านทาง (ETC)</h4>

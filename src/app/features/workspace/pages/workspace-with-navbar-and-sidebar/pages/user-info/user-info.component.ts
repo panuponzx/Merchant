@@ -28,7 +28,7 @@ export class UserInfoComponent implements OnInit {
   public isLoading: boolean = false;
 
   constructor(
-    private restApiService: RestApiService,
+    private restApiService: RestApiService, 
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private customerTypePipe: CustomerTypePipe
