@@ -75,6 +75,7 @@ import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice
 import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info/tabs/e-tax/e-tax.component';
 import { PassageInfoModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/passage-info-modal/passage-info-modal.component';
 import { EmailVerificationModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/email-verification-modal/email-verification-modal.component';
+import { OtpRequestModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/otp-request-modal/otp-request-modal.component';
 
 
 @NgModule({
@@ -139,7 +140,7 @@ import { EmailVerificationModalComponent } from './pages/workspace-with-navbar-a
     ETaxComponent,
     PassageInfoModalComponent,
     EmailVerificationModalComponent,
-
+    OtpRequestModalComponent,
   ],
   imports: [
     CommonModule,

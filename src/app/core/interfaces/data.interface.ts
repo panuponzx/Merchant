@@ -216,3 +216,11 @@ export interface IPassageInfoRowModel {
   group: number
 }
 
+export interface ICustomerEtaxResModel {
+  id: string
+  isEtaxActive: boolean
+  etaxSettingLevel: number
+  customerEtax: any[]
+  summaryInfoCustomerName: string
+}
+
