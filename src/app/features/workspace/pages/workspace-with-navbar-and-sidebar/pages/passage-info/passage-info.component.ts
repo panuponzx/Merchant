@@ -161,6 +161,7 @@ export class PassageInfoComponent implements OnInit {
     this.isLoadingSearch = true;
     this.modalDialogService.loading();
     const mockupData = {
+      customerId: this.customerId,
       requestParam: {
         reqId: "23498-sss-k339c-322s2",
         channelId: "2"
