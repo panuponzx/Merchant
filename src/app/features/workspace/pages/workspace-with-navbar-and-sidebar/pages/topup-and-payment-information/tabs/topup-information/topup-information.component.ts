@@ -13,6 +13,7 @@ import { ModalDialogService } from '../../../../../../../../core/services/modal-
 export class TopupInformationComponent implements OnInit {
 
   @Input() public tempSearch: TopupPayloadModel | undefined;
+  @Input() public customerId: string | null = null;
 
   public rows: TopupModel[] = [];
   @Input() public limitRow: number = 10;
@@ -58,6 +59,7 @@ export class TopupInformationComponent implements OnInit {
     this.onLoading.emit(true);
     this.modalDialogService.loading();
     const mockupData = {
+      customerId: this.customerId,
       requestParam: {
         reqId: "23498-sss-k339c-322s2",
         channelId: "1"

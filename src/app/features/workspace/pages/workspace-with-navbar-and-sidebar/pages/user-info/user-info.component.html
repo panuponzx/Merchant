@@ -121,6 +121,12 @@
               <device-list [customerId]="customerId" [customerTypeId]="customerTypeId"/>
             </ng-template>
           </li>
+          <li [ngbNavItem]="'e-tax'">
+            <button ngbNavLink>การรับใบกำกับภาษี</button>
+            <ng-template ngbNavContent>
+              <e-tax [customerId]="customerId" [customerTypeId]="customerTypeId"/>
+            </ng-template>
+          </li>
         </ul>
         <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
       </div>

@@ -72,7 +72,11 @@ import { PaidPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/
 import { TransferInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/transfer-information.component';
 import { TransferInfoComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/tabs/transfer-info/transfer-info.component';
 import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice-management/pages/approval-management/modals/reject-pending-request-modal/reject-pending-request-modal.component';
+import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info/tabs/e-tax/e-tax.component';
 import { PassageInfoModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/passage-info-modal/passage-info-modal.component';
+import { EmailVerificationModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/email-verification-modal/email-verification-modal.component';
+import { OtpRequestModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/otp-request-modal/otp-request-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -133,7 +137,10 @@ import { PassageInfoModalComponent } from './pages/workspace-with-navbar-and-sid
     TransferInformationComponent,
     TransferInfoComponent,
     RejectPendingRequestModalComponent,
+    ETaxComponent,
     PassageInfoModalComponent,
+    EmailVerificationModalComponent,
+    OtpRequestModalComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,128 @@
+<div class="modal-body">
+    <div class="header-label text-center mb-3">
+        <h2 *ngIf="step === 1">กรุณาระบุอีเมล สำหรับการขอรับรหัสผ่าน OTP</h2>
+        <h2 *ngIf="step === 2">กรุณายืนยันรหัส OTP</h2>
+    </div>
+    <form [formGroup]="form">
+        <div class="d-flex justify-content-center mb-5" [ngSwitch]="step">
+            <div class="col-10" *ngSwitchCase="1">
+                <label class="label-input required-field" for="emailInput">
+                    อีเมล
+                </label>
+                <input class="form-control" data-testid="emailInput" placeholder="example@mail.com"
+                    formControlName="email" id="emailInput" type="text">
+                <span class="label-input">ระบุอีเมล</span>
+            </div>
+            <div class="col-10" *ngSwitchCase="2">
+                <div class="row otp-container">
+                    <p class="text-center mb-0" style="color: #777777">
+                        รหัสยืนยัน OTP <br>
+                        ได้ถูกส่งไปที่หมายเลขโทรศัพท์ +66 81 ••• 8888
+                    </p>
+                    <div class="col-sm-12 col-md-8 col-lg-5 col-xl-4 otp-form-wrapper d-flex justify-content-center">
+                        <input #digit_1 formControlName="digit_1" class="form-control otp-input" type="number"
+                            pattern="[0-9]*" maxlength="1" minlength="0" spellcheck="false" autocapitalize="off"
+                            autocomplete="off" inputmode="numeric" (keyup)="
+                                onChangeDigit(
+                                  $event,
+                                  digit_2,
+                                  null,
+                                  digit_1,
+                                  this.form.controls['digit_1']
+                                )
+                              " (keydown)="onBlockKeydown($event, digit_1)" (click)="onClickDigit(digit_1)" />
+
+                        <input #digit_2 formControlName="digit_2" class="form-control otp-input" type="number"
+                            pattern="[0-9]*" maxlength="1" minlength="0" spellcheck="false" autocapitalize="off"
+                            autocomplete="off" inputmode="numeric" (keyup)="
+                                onChangeDigit(
+                                  $event,
+                                  digit_3,
+                                  digit_1,
+                                  digit_2,
+                                  this.form.controls['digit_2']
+                                )
+                              " (keydown)="onBlockKeydown($event, digit_2)" (click)="onClickDigit(digit_2)" />
+
+                        <input #digit_3 formControlName="digit_3" class="form-control otp-input" type="number"
+                            pattern="[0-9]*" maxlength="1" minlength="0" spellcheck="false" autocapitalize="off"
+                            autocomplete="off" inputmode="numeric" (keyup)="
+                                onChangeDigit(
+                                  $event,
+                                  digit_4,
+                                  digit_2,
+                                  digit_3,
+                                  this.form.controls['digit_3']
+                                )
+                              " (keydown)="onBlockKeydown($event, digit_3)" (click)="onClickDigit(digit_3)" />
+
+                        <input #digit_4 formControlName="digit_4" class="form-control otp-input" type="number"
+                            pattern="[0-9]*" maxlength="1" minlength="0" spellcheck="false" autocapitalize="off"
+                            autocomplete="off" inputmode="numeric" (keyup)="
+                                onChangeDigit(
+                                  $event,
+                                  digit_5,
+                                  digit_3,
+                                  digit_4,
+                                  this.form.controls['digit_4']
+                                )
+                              " (keydown)="onBlockKeydown($event, digit_4)" (click)="onClickDigit(digit_4)" />
+
+                        <input #digit_5 formControlName="digit_5" class="form-control otp-input" type="number"
+                            pattern="[0-9]*" maxlength="1" minlength="0" spellcheck="false" autocapitalize="off"
+                            autocomplete="off" inputmode="numeric" (keyup)="
+                                onChangeDigit(
+                                  $event,
+                                  digit_6,
+                                  digit_4,
+                                  digit_5,
+                                  this.form.controls['digit_5']
+                                )
+                              " (keydown)="onBlockKeydown($event, digit_5)" (click)="onClickDigit(digit_5)" />
+
+                        <input #digit_6 formControlName="digit_6" class="form-control otp-input" type="number"
+                            pattern="[0-9]*" maxlength="1" minlength="0" spellcheck="false" autocapitalize="off"
+                            autocomplete="off" inputmode="numeric" (keyup)="
+                                onChangeDigit(
+                                  $event,
+                                  null,
+                                  digit_5,
+                                  digit_6,
+                                  this.form.controls['digit_6']
+                                )
+                              " (keydown)="onBlockKeydown($event, digit_6)" (click)="onClickDigit(digit_6)" />
+
+                        <!-- <div *ngFor="let input of formInput;  index as i">
+                                          <input #formRow type="text" formControlName="{{input}}" class="form-control otp-input"
+                                              type="number" pattern="[0-9]*" maxlength="1" minlength="0" spellcheck="false"
+                                              autocapitalize="off" autocomplete="off" inputmode="numeric" (keyup)="keyUpEvent($event, i)"
+                                              (paste)="onPasteOtp($event, i)">
+                                      </div> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div
+                            class="otp-resend d-flex justify-content-center gap-2 my-3 mt-sm-3 text-center flex-column flex-sm-row">
+                            <p style="color: #777777" class="d-flex align-items-center m-0 justify-content-center">
+                                ส่งอีกครั้ง
+                                {{this.refOTP }} ({{ display }}s)</p>
+                            <!-- <button
+                                type="button"
+                                id="signInWithUser"
+                                class="btn btn-white-round"
+                                (click)="onsendOTP()"
+                              >
+                                ส่งซ้ำ
+                              </button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-type-1 outline" (click)="onPreviousStep()">ย้อนกลับ</button>
+            <button class="custom-btn btn-type-1" [disabled]="form.invalid" (click)="onNextStep()">ยืนยัน</button>
+        </div>
+    </form>
+</div>

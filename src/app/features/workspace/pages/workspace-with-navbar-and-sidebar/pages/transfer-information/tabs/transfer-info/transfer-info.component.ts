@@ -13,7 +13,7 @@ export class TransferInfoComponent implements OnInit {
 
 
   @Input() public tempSearch: TopupPayloadModel | undefined;
-
+  @Input() public customerId: string | null = null;
 
   @Input() public limitRow: number = 10;
   public pages: number = 1;
@@ -62,6 +62,7 @@ export class TransferInfoComponent implements OnInit {
 
   loadTransfer(data: TopupPayloadModel) {
     const mockupData = {
+      customerId: this.customerId,
       requestParam: {
         reqId: "23498-sss-k339c-322s2",
         channelId: "2"

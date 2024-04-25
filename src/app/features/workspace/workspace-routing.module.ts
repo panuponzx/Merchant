@@ -86,7 +86,7 @@ export const routesConfig: CustomRoutesModel = [
               label: 'ข้อมูลผู้ใช้',
               request_id: true,
               default_path: 'user-info',
-              allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
+              allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list','e-tax']
             },
             canActivate: [TabGuard]
           },

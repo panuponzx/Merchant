@@ -116,6 +116,7 @@
       <ng-container *ngIf="tempSearch">
         <div class="navs-container pt-5">
           <app-transfer-info
+          [customerId]="customerId"
           [tempSearch]="tempSearch"
           (onLoading)="onLoading($event)"
           ></app-transfer-info>

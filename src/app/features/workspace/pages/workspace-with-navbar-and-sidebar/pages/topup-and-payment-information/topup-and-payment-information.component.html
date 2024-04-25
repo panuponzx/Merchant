@@ -59,7 +59,7 @@
       </div>
     </form>
     <ng-container *ngIf="tempSearch">
-      <topup-information [tempSearch]="tempSearch" (onLoading)="onLoading($event)"></topup-information>
+      <topup-information [customerId]="customerId" [tempSearch]="tempSearch" (onLoading)="onLoading($event)"></topup-information>
     </ng-container>
 
     <!-- <div class="datatable-container" *ngIf="tempSearch && !isLoadingSearch">

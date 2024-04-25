@@ -1,0 +1,348 @@
+<div class="content-container container-xl p-0">
+  <div class="device-header-wrapper mb-3">
+      <h2 class="content-title mb-3">การรับใบกำกับภาษี</h2>
+      <h3 class="content-title mb-3">การเปิดใช้งาน และ การตั้งค่า</h3>
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-12 col-lg-4 mb-5">
+                <div class="form-group d-inline">
+                    <label class="form-check-label mb-2" for="selectisEtaxActive">การรับเอกสารใบกำกับภาษีอัตโนมัติ</label>
+                    <ng-select 
+                        class="form-control mb-2"
+                        [clearable]="false" 
+                        bindLabel="label"
+                        bindValue="id"
+                        id="selectisEtaxActive"
+                        data-testid="selectisEtaxActive"
+                        formControlName="isEtaxActive"
+                        (change)="onChangeIsEtaxActive($event)"
+                        [items]="Usagestatus">
+                    </ng-select>
+                </div>
+                <div class="text-description">รับเอกสารใบกำกับภาษีในรูปแบบ E-Tax</div>
+                <div class="text-description">ผ่าน Email โดยอัตโนมัติ </div>
+            </div>
+        
+            <div class="col-12 col-lg-4 mb-5" *ngIf="form.get('isEtaxActive')?.value && form.get('isEtaxActive')?.value === true">
+                <div class="form-group d-inline">
+                    <label class="form-check-label mb-2" for="selectEtaxSettingLevel">ระดับการตั้งค่า</label>
+                    <ng-select 
+                        class="form-control"
+                        [clearable]="false" 
+                        bindLabel="label"
+                        bindValue="id"
+                        id="selectEtaxSettingLevel"
+                        data-testid="selectEtaxSettingLevel" 
+                        formControlName="etaxSettingLevel"
+                        (change)="onChangeIsEtaxActive({id: true})"
+                        [items]="Settinglevel">
+                    </ng-select>
+                </div>
+                <div class="text-description">การตั้งค่าหลายอีเมล รองรับในการตั้งค่าขั้นสูง</div>
+            </div>
+  
+            <div *ngIf="
+            (form.get('isEtaxActive')?.value && form.get('isEtaxActive')?.value === true) && 
+            (form.get('etaxSettingLevel')?.value && form.get('etaxSettingLevel')?.value === 1)" class="etax-item col-12 col-lg-4">
+                <div class="form-group d-inline">
+                    <label class="form-check-label mb-2" for="emailType0">อีเมล</label>
+                    <input
+                        class="form-control"
+                        data-testid="emailType0"
+                        placeholder="example@mail.com"
+                        formControlName="emailType0"
+                        id="emailType0"
+                        type="text"
+                    >
+                </div>
+                <div class="text-description">การตั้งค่าหลายอีเมล รองรับในการตั้งค่าขั้นสูง</div>
+                <div class="text-center">
+                  <a class="etax-link" (click)="openModal(0)">
+                    <span *ngIf="form.get('emailType0')?.value">เปลี่ยนอีเมล</span>
+                    <span *ngIf="!form.get('emailType0')?.value">เพิ่ม / เปลี่ยนอีเมลรับใบกำกับภาษี</span>
+                </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="form.get('isEtaxActive')?.value && form.get('isEtaxActive')?.value === true && form.get('etaxSettingLevel')?.value === 2">
+            <h3 class="content-title mb-4">ข้อมูลรายละเอียดการตั้งค่าขั้นสูง</h3>
+            <div class="col-sm-12 col-md-12 col-lg-4">
+                <div class="col-12">
+                    <div class="form-group d-inline">
+                        <h4 class="fw-bold mb-3">การเติมเงินเข้าระบบ (ETC)</h4>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" formControlName="isEtaxActive1" (change)="onChangeActiveEtaxByTypeId($event, 1)" type="checkbox" role="switch" id="switchEmailType1">
+                            <label class="form-check-label" for="switchEmailType1">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-input" for="emailType1">
+                            อีเมล
+                            </label>
+                            <input
+                                class="form-control"
+                                data-testid="emailType1"
+                                placeholder="example@mail.com"
+                                formControlName="emailType1"
+                                id="emailType1"
+                                type="text"
+                                [readonly]="true"
+                            >
+                        </div>
+                        <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                        <div class="text-center mb-5">
+                            <a class="etax-link" (click)="openModal(1)">เปลี่ยนอีเมล</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group d-inline">
+                        <h4 class="fw-bold mb-3">การชำระค่าผ่านทาง (MTC)</h4>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" formControlName="isEtaxActive4" (change)="onChangeActiveEtaxByTypeId($event, 4)" type="checkbox" role="switch" id="switchEmailType4">
+                            <label class="form-check-label" for="switchEmailType4">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-input" for="emailType4">
+                            อีเมล
+                            </label>
+                            <input
+                                class="form-control"
+                                data-testid="emailType4"
+                                placeholder="example@mail.com"
+                                formControlName="emailType4"
+                                id="emailType4"
+                                type="text"
+                                [readonly]="true"
+                            >
+                        </div>
+                        <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                        <div class="text-center mb-5">
+                            <a class="etax-link" (click)="openModal(4)">เปลี่ยนอีเมล</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-4">
+                <div class="col-12">
+                    <div class="form-group d-inline">
+                        <h4 class="fw-bold mb-3">การชำระค่าผ่านทาง (ETC)</h4>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" formControlName="isEtaxActive2" (change)="onChangeActiveEtaxByTypeId($event, 2)" type="checkbox" role="switch" id="switchEmailType2">
+                            <label class="form-check-label" for="switchEmailType2">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-input" for="emailType2">
+                            อีเมล
+                            </label>
+                            <input
+                                class="form-control"
+                                data-testid="emailType2"
+                                placeholder="example@mail.com"
+                                formControlName="emailType2"
+                                id="emailType2"
+                                type="text"
+                                [readonly]="true"
+                            >
+                        </div>
+                        <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                        <div class="text-center mb-5">
+                            <a class="etax-link" (click)="openModal(2)">เปลี่ยนอีเมล</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group d-inline">
+                        <h4 class="fw-bold mb-3">อื่นๆ</h4>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" formControlName="isEtaxActive5" (change)="onChangeActiveEtaxByTypeId($event, 5)" type="checkbox" role="switch" id="switchEmailType5">
+                            <label class="form-check-label" for="switchEmailType5">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-input" for="emailType5">
+                            อีเมล
+                            </label>
+                            <input
+                                class="form-control"
+                                data-testid="emailType5"
+                                placeholder="example@mail.com"
+                                formControlName="emailType5"
+                                id="emailType5"
+                                type="text"
+                                [readonly]="true"
+                            >
+                        </div>
+                        <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                        <div class="text-center mb-5">
+                            <a class="etax-link" (click)="openModal(5)">เปลี่ยนอีเมล</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-4">
+                <div class="col-12">
+                    <div class="form-group d-inline">
+                        <h4 class="fw-bold mb-3">การเช่าใช้งาน</h4>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" formControlName="isEtaxActive3" (change)="onChangeActiveEtaxByTypeId($event, 3)" type="checkbox" role="switch" id="switchEmailType3">
+                            <label class="form-check-label" for="switchEmailType3">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-input" for="emailType3">
+                            อีเมล
+                            </label>
+                            <input
+                                class="form-control"
+                                data-testid="emailType3"
+                                placeholder="example@mail.com"
+                                formControlName="emailType3"
+                                id="emailType3"
+                                type="text"
+                                [readonly]="true"
+                            >
+                        </div>
+                        <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                        <div class="text-center mb-5">
+                            <a class="etax-link" (click)="openModal(3)">เปลี่ยนอีเมล</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+        <!-- <div *ngIf="level === 2">
+          <h3 class="content-title pt-3">ข้อมูลรายละเอียดการตั้งค่าขั้นสูง</h3>
+        </div>
+        
+  
+        <div *ngIf="level === 2"  class="row">
+            <div class="etax-item col-12 col-lg-4">
+                <div class="form-group d-inline">
+                    <h4 class="fw-bold mb-3">การเติมเงินเข้าระบบ (ETC)</h4>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" role="switch" id="1">
+                        <label class="form-check-label" for="1">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-input" for="emailInput">
+                        อีเมล
+                        </label>
+                        <input
+                            class="form-control"
+                            data-testid="emailInput"
+                            placeholder="example@mail.com"
+                            id="emailInput"
+                            type="text"
+                            [readonly]="true"
+                        >
+                    </div>
+                    <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                    <div class="text-center"><a>เปลี่ยนอีเมล</a></div>
+                </div>
+            </div>
+        
+            <div class="etax-item col-12 col-lg-4">
+                <div class="form-group d-inline">
+                    <h4 class="fw-bold mb-3">การชำระค่าผ่านทาง (ETC)</h4>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" role="switch" id="1">
+                        <label class="form-check-label" for="1">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-input" for="emailInput">
+                        อีเมล
+                        </label>
+                        <input
+                            class="form-control"
+                            data-testid="emailInput"
+                            placeholder="example@mail.com"
+                            id="emailInput"
+                            type="text"
+                            [readonly]="true"
+                        >
+                    </div>
+                    <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                    <div class="text-center"><a>เปลี่ยนอีเมล</a></div>
+                </div>
+            </div>
+  
+            <div class="etax-item col-12 col-lg-4">
+                <div class="form-group d-inline">
+                    <h4 class="fw-bold mb-3">การเช่าใช้งาน</h4>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" role="switch" id="1">
+                        <label class="form-check-label" for="1">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-input" for="emailInput">
+                        อีเมล
+                        </label>
+                        <input
+                            class="form-control"
+                            data-testid="emailInput"
+                            placeholder="example@mail.com"
+                            id="emailInput"
+                            type="text"
+                            [readonly]="true"
+                        >
+                    </div>
+                    <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                    <div class="text-center"><a>เปลี่ยนอีเมล</a></div>
+                </div>
+            </div>
+        </div>
+  
+        <div *ngIf="level === 2"  class="row">
+            <div class="etax-item col-12 col-lg-4">
+                <div class="form-group d-inline">
+                    <h4 class="fw-bold mb-3">การชำระค่าผ่านทาง (ETC)</h4>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" role="switch" id="1">
+                        <label class="form-check-label" for="1">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-input" for="emailInput">
+                        อีเมล
+                        </label>
+                        <input
+                            class="form-control"
+                            data-testid="emailInput"
+                            placeholder="example@mail.com"
+                            id="emailInput"
+                            type="text"
+                            [readonly]="true"
+                        >
+                    </div>
+                    <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                    <div class="text-center"><a>เปลี่ยนอีเมล</a></div>
+                </div>
+            </div>
+        
+            <div class="etax-item col-12 col-lg-4">
+                <div class="form-group d-inline">
+                    <h4 class="fw-bold mb-3">อื้่นๆ</h4>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" role="switch" id="1">
+                        <label class="form-check-label" for="1">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-input" for="emailInput">
+                        อีเมล
+                        </label>
+                        <input
+                            class="form-control"
+                            data-testid="emailInput"
+                            placeholder="example@mail.com"
+                            id="emailInput"
+                            type="text"
+                            [readonly]="true"
+                        >
+                    </div>
+                    <div class="label-input mb-3">ระบุอีเมลเพื่อใช้รับใบกำกับภาษี E-Tax</div>
+                    <div class="text-center"><a>เปลี่ยนอีเมล</a></div>
+                </div>
+            </div>
+        </div> -->
+    </form>
+  </div>
+</div>
