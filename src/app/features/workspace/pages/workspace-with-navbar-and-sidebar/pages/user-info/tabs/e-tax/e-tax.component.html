@@ -15,6 +15,7 @@
                         id="selectisEtaxActive"
                         data-testid="selectisEtaxActive"
                         formControlName="isEtaxActive"
+                        (change)="onChangeIsEtaxActive($event)"
                         [items]="Usagestatus">
                     </ng-select>
                 </div>
@@ -33,6 +34,7 @@
                         id="selectEtaxSettingLevel"
                         data-testid="selectEtaxSettingLevel" 
                         formControlName="etaxSettingLevel"
+                        (change)="onChangeIsEtaxActive({id: true})"
                         [items]="Settinglevel">
                     </ng-select>
                 </div>
@@ -63,14 +65,14 @@
             </div>
         </div>
 
-        <div class="row" *ngIf="form.get('etaxSettingLevel')?.value === 2">
+        <div class="row" *ngIf="form.get('isEtaxActive')?.value && form.get('isEtaxActive')?.value === true && form.get('etaxSettingLevel')?.value === 2">
             <h3 class="content-title mb-4">ข้อมูลรายละเอียดการตั้งค่าขั้นสูง</h3>
             <div class="col-sm-12 col-md-12 col-lg-4">
                 <div class="col-12">
                     <div class="form-group d-inline">
                         <h4 class="fw-bold mb-3">การเติมเงินเข้าระบบ (ETC)</h4>
                         <div class="form-check form-switch mb-3">
-                            <input class="form-check-input" formControlName="isEtaxActive1" type="checkbox" role="switch" id="switchEmailType1">
+                            <input class="form-check-input" formControlName="isEtaxActive1" (change)="onChangeActiveEtaxByTypeId($event, 1)" type="checkbox" role="switch" id="switchEmailType1">
                             <label class="form-check-label" for="switchEmailType1">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
                         </div>
                         <div class="form-group">
@@ -97,7 +99,7 @@
                     <div class="form-group d-inline">
                         <h4 class="fw-bold mb-3">การชำระค่าผ่านทาง (MTC)</h4>
                         <div class="form-check form-switch mb-3">
-                            <input class="form-check-input" formControlName="isEtaxActive4" type="checkbox" role="switch" id="switchEmailType4">
+                            <input class="form-check-input" formControlName="isEtaxActive4" (change)="onChangeActiveEtaxByTypeId($event, 4)" type="checkbox" role="switch" id="switchEmailType4">
                             <label class="form-check-label" for="switchEmailType4">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
                         </div>
                         <div class="form-group">
@@ -126,7 +128,7 @@
                     <div class="form-group d-inline">
                         <h4 class="fw-bold mb-3">การชำระค่าผ่านทาง (ETC)</h4>
                         <div class="form-check form-switch mb-3">
-                            <input class="form-check-input" formControlName="isEtaxActive2" type="checkbox" role="switch" id="switchEmailType2">
+                            <input class="form-check-input" formControlName="isEtaxActive2" (change)="onChangeActiveEtaxByTypeId($event, 2)" type="checkbox" role="switch" id="switchEmailType2">
                             <label class="form-check-label" for="switchEmailType2">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
                         </div>
                         <div class="form-group">
@@ -153,7 +155,7 @@
                     <div class="form-group d-inline">
                         <h4 class="fw-bold mb-3">อื่นๆ</h4>
                         <div class="form-check form-switch mb-3">
-                            <input class="form-check-input" formControlName="isEtaxActive5" type="checkbox" role="switch" id="switchEmailType5">
+                            <input class="form-check-input" formControlName="isEtaxActive5" (change)="onChangeActiveEtaxByTypeId($event, 5)" type="checkbox" role="switch" id="switchEmailType5">
                             <label class="form-check-label" for="switchEmailType5">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
                         </div>
                         <div class="form-group">
@@ -182,7 +184,7 @@
                     <div class="form-group d-inline">
                         <h4 class="fw-bold mb-3">การเช่าใช้งาน</h4>
                         <div class="form-check form-switch mb-3">
-                            <input class="form-check-input" formControlName="isEtaxActive3" type="checkbox" role="switch" id="switchEmailType3">
+                            <input class="form-check-input" formControlName="isEtaxActive3" (change)="onChangeActiveEtaxByTypeId($event, 3)" type="checkbox" role="switch" id="switchEmailType3">
                             <label class="form-check-label" for="switchEmailType3">เปิดใช้งาน - รับใบกับกับภาษี E-Tax อัตโนมัติ</label>
                         </div>
                         <div class="form-group">

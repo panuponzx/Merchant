@@ -117,7 +117,7 @@ export class ETaxComponent implements OnInit {
       switch (customerEtax.customerEtax[i].etaxTypeId) {
         case 1: {
           console.log(customerEtax.customerEtax[i].email);
-          
+
           this.form.get('emailType1')?.setValue(customerEtax.customerEtax[i].email);
           this.form.get('isEtaxActive1')?.setValue(customerEtax.customerEtax[i].isEtaxActive);
           break;
@@ -146,45 +146,141 @@ export class ETaxComponent implements OnInit {
     }
   }
 
-  public openModal(etaxTypeId: number) {
-    // this.router.navigate(['/work-space/modals/email-verification-modal']);
-    // const data = {
-    //   customer: {
-    //     id: this.customerId,
-    //     isEtaxActive: this.form.get('isEtaxActive')?.value,
-    //     etaxSettingLevel: this.form.get('etaxSettingLevel')?.value,
-    //     customerEtax: [
-    //       {
-    //         etaxTypeId: 0,
-    //         email: 'abc@hotmail.com',
-    //       }
-    //     ],
-    //   },
-    //   requestParam: {
-    //     reqId: "23498-sss-k339c-322s2",
-    //     channelId: "1"
-    //   }
-    // };
-    // return this.restApiService
-    //   .postBackOffice('customer/etax/edit', data)
-    //   .pipe(
-    //     first(),
-    //     map(res => res as any)
-    //   ).subscribe({
-    //     next: (res) => {
-    //       console.log("[loadEtax] res => ", res);
-    //       if(res.errorMessage === "Success") {
-    //         this.customerEtax = res.customer;
-    //         this.setFormGroup(res.customer);
-    //         console.log("[loadEtax] customerEtax => ", this.customerEtax.id);
-    //       }else {
+  onChangeIsEtaxActive(event: any) {
+    console.log("[onChangeIsEtaxActive] event => ", event);
+    console.log("[onChangeIsEtaxActive] isEtaxActive => ", this.form.get('isEtaxActive')?.value);
+    if(this.customerEtax.isEtaxActive === false && this.customerEtax.customerEtax.length === 0 ) return;
+    let data = {
+      customer: {
+        id: this.customerId,
+        isEtaxActive: this.form.get('isEtaxActive')?.value,
+        etaxSettingLevel: this.form.get('etaxSettingLevel')?.value,
+        ...(
+          event.id === true ? {
+            customerEtax: this.customerEtax.customerEtax.map(item => ({
+              customerId: item.customerId,
+              etaxTypeId: item.etaxTypeId,
+              isEtaxActive: item.isEtaxActive,
+              email: item.email
+            })),
+            // etaxSettingLevel: 2,
+          } : []
+        ),
+      },
+      requestParam: {
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "1"
+      }
+    };
+    console.log("[onChangeIsEtaxActive] data => ", data);
+    this.restApiService
+      .postBackOffice('customer/etax/edit', data)
+      .pipe(
+        first(),
+        map(res => res as any)
+      ).subscribe({
+        next: (res) => {
+          console.log("[loadEtax] res => ", res);
+          this.modalDialogService.hideLoading();
+          if (res.errorMessage === "Success") {
+            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การเพิ่ม/เปลี่ยนอีเมลรับใบกำกับภาษีสำเร็จ').then((res: boolean) => {
+              if (res) this.loadEtax();
+            });
+          } else {
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+          }
+        },
+        error: (err) => {
+          this.modalDialogService.hideLoading();
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
+          console.error(err);
+        }
+      });
+  }
 
-    //       }
-    //     },
-    //     error: (err) => {
-    //       console.error(err);
-    //     }
-    //   });
+  onChangeActiveEtaxByTypeId(event: any, etaxTypeId: number) {
+    console.log("[onChangeActiveEtaxByTypeId] event => ", event.target.checked);
+    console.log("[onChangeActiveEtaxByTypeId] etaxTypeId => ", etaxTypeId);
+    const data = {
+      customer: {
+        id: this.customerId,
+        isEtaxActive: this.form.get('isEtaxActive')?.value,
+        etaxSettingLevel: this.form.get('etaxSettingLevel')?.value,
+        customerEtax: [
+          ...(
+            etaxTypeId === 1 ? [{
+              customerId: this.customerId,
+              etaxTypeId: etaxTypeId,
+              isEtaxActive: this.form.get('isEtaxActive1')?.value,
+              email: this.form.get('emailType1')?.value,
+            }] : []
+          ),
+          ...(
+            etaxTypeId === 2 ? [{
+              customerId: this.customerId,
+              etaxTypeId: etaxTypeId,
+              isEtaxActive: this.form.get('isEtaxActive2')?.value,
+              email: this.form.get('emailType2')?.value,
+            }] : []
+          ),
+          ...(
+            etaxTypeId === 3 ? [{
+              customerId: this.customerId,
+              etaxTypeId: etaxTypeId,
+              isEtaxActive: this.form.get('isEtaxActive3')?.value,
+              email: this.form.get('emailType3')?.value,
+            }] : []
+          ),
+          ...(
+            etaxTypeId === 4 ? [{
+              customerId: this.customerId,
+              etaxTypeId: etaxTypeId,
+              isEtaxActive: this.form.get('isEtaxActive4')?.value,
+              email: this.form.get('emailType4')?.value,
+            }] : []
+          ),
+          ...(
+            etaxTypeId === 5 ? [{
+              customerId: this.customerId,
+              etaxTypeId: etaxTypeId,
+              isEtaxActive: this.form.get('isEtaxActive5')?.value,
+              email: this.form.get('emailType5')?.value,
+            }] : []
+          ),
+        ],
+      },
+      requestParam: {
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "1"
+      }
+    };
+    this.modalDialogService.loading();
+    this.restApiService
+      .postBackOffice('customer/etax/edit', data)
+      .pipe(
+        first(),
+        map(res => res as any)
+      ).subscribe({
+        next: (res) => {
+          console.log("[loadEtax] res => ", res);
+          this.modalDialogService.hideLoading();
+          if (res.errorMessage === "Success") {
+            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'เปิดใช้งาน/ปิดใช้งาน รับใบกับกับภาษี E-Tax อัตโนมัติ สำเร็จ').then((res: boolean) => {
+              if (res) this.loadEtax();
+            });
+          } else {
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+          }
+        },
+        error: (err) => {
+          this.modalDialogService.hideLoading();
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
+          console.error(err);
+        }
+      });
+  }
+
+  public openModal(etaxTypeId: number) {
     const modalRef = this.ngbModal.open(OtpRequestModalComponent, {
       centered: true,
       backdrop: 'static',

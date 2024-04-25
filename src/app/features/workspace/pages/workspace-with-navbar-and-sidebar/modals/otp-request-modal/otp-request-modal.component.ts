@@ -14,7 +14,7 @@ export class OtpRequestModalComponent {
 
   public form: FormGroup;
 
-  public step: number = 2;
+  public step: number = 1;
 
   private currentDigit: number | null | undefined;
   display: any;
@@ -31,24 +31,25 @@ export class OtpRequestModalComponent {
     private restApiService: RestApiService,
     private modalDialogService: ModalDialogService
   ) {
+    const emailPattern = new RegExp(/^[a-zA-Z0-9]+(?:[._-][a-zA-Z0-9]+)*@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}$/);
     this.form = this.formBuilder.group({
-      email: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      digit_1: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      digit_2: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      digit_3: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      digit_4: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      digit_5: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      digit_6: new FormControl({ value: undefined, disabled: false }, Validators.required),
+      email: new FormControl({ value: undefined, disabled: false }, [Validators.required, Validators.pattern(emailPattern)]),
+      digit_1: new FormControl({ value: undefined, disabled: false }),
+      digit_2: new FormControl({ value: undefined, disabled: false }),
+      digit_3: new FormControl({ value: undefined, disabled: false }),
+      digit_4: new FormControl({ value: undefined, disabled: false }),
+      digit_5: new FormControl({ value: undefined, disabled: false }),
+      digit_6: new FormControl({ value: undefined, disabled: false }),
     })
   }
 
 
   onChangeDigit(
     event: KeyboardEvent,
-    nextEl: HTMLInputElement | null,
+    nextEl: HTMLInputElement | any,
     previousEl: HTMLInputElement | any,
-    currentEl: HTMLInputElement,
-    formControl: AbstractControl
+    currentEl: HTMLInputElement | any,
+    formControl: AbstractControl | any
   ) {
     // if (this.submitted) {
     //   this.submitted = false;
@@ -164,6 +165,15 @@ export class OtpRequestModalComponent {
   }
 
   onNextStep() {
+    console.log('[onNextStep] findInvalidControls => ', this.findInvalidControls());
+    if (this.step === 1) {
+      // this.form.get('digit_1')?.addValidators(Validators.required);
+      // this.form.get('digit_2')?.addValidators(Validators.required);
+      // this.form.get('digit_3')?.addValidators(Validators.required);
+      // this.form.get('digit_4')?.addValidators(Validators.required);
+      // this.form.get('digit_5')?.addValidators(Validators.required);
+      // this.form.get('digit_6')?.addValidators(Validators.required);
+    }
     if (this.step === 2) {
       this.onConfirm();
     } else {
@@ -183,42 +193,42 @@ export class OtpRequestModalComponent {
           ...(
             this.etaxTypeId === 0 ? [{
               etaxTypeId: this.etaxTypeId,
-              email: 'abc000@hotmail.com',
+              email: this.form.get('email')?.value,
             }] : []
           ),
           ...(
             this.etaxTypeId === 1 ? [{
               etaxTypeId: this.etaxTypeId,
               isEtaxActive: this.formEtax.get('isEtaxActive1')?.value,
-              email: 'abc111@hotmail.com',
+              email: this.form.get('email')?.value,
             }] : []
           ),
           ...(
             this.etaxTypeId === 2 ? [{
               etaxTypeId: this.etaxTypeId,
               isEtaxActive: this.formEtax.get('isEtaxActive2')?.value,
-              email: 'abc222@hotmail.com',
+              email: this.form.get('email')?.value,
             }] : []
           ),
           ...(
             this.etaxTypeId === 3 ? [{
               etaxTypeId: this.etaxTypeId,
               isEtaxActive: this.formEtax.get('isEtaxActive3')?.value,
-              email: 'abc333@hotmail.com',
+              email: this.form.get('email')?.value,
             }] : []
           ),
           ...(
             this.etaxTypeId === 4 ? [{
               etaxTypeId: this.etaxTypeId,
               isEtaxActive: this.formEtax.get('isEtaxActive4')?.value,
-              email: 'abc444@hotmail.com',
+              email: this.form.get('email')?.value,
             }] : []
           ),
           ...(
             this.etaxTypeId === 5 ? [{
               etaxTypeId: this.etaxTypeId,
               isEtaxActive: this.formEtax.get('isEtaxActive5')?.value,
-              email: 'abc555@hotmail.com',
+              email: this.form.get('email')?.value,
             }] : []
           ),
           // {
@@ -233,7 +243,7 @@ export class OtpRequestModalComponent {
       }
     };
     this.modalDialogService.loading();
-    return this.restApiService
+    this.restApiService
       .postBackOffice('customer/etax/edit', data)
       .pipe(
         first(),
@@ -260,6 +270,17 @@ export class OtpRequestModalComponent {
 
   onClose() {
     this.ngbActiveModal.dismiss(true);
+  }
+
+  public findInvalidControls() {
+    const invalid = [];
+    const controls = this.form.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    return invalid;
   }
 
 }
