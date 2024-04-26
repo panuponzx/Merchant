@@ -473,8 +473,8 @@ export class ApprovalManagementApprovalComponent {
       this.form.get('branchName')?.disable();
       this.form.get('branchNo')?.disable();
     } else if (branchId === 2) {
-      this.form.get('branchName')?.setValue('');
-      this.form.get('branchNo')?.setValue('');
+      // this.form.get('branchName')?.setValue('');
+      // this.form.get('branchNo')?.setValue('');
       this.form.get('branchName')?.enable();
       this.form.get('branchNo')?.enable();
     }
