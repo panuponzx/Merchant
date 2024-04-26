@@ -86,7 +86,7 @@
                             [value]="'Active - ใช้งาน'" readonly />
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="walletList.length"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
                     [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [limitRow]="limitRow" [pages]="pages"
                     [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
                     (onRowActionEvent)="onAction($event)" />
@@ -166,7 +166,7 @@
                             [value]="'Active - ใช้งาน'" readonly />
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="walletList.length"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
                     [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [limitRow]="limitRow" [pages]="pages"
                     [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
                     (onRowActionEvent)="onAction($event)" />
@@ -255,7 +255,7 @@
                             [value]="'**** **** **** 4123'" readonly>
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="walletList.length"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
                     [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [limitRow]="limitRow" [pages]="pages"
                     [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
                     (onRowActionEvent)="onAction($event)" />
@@ -335,7 +335,7 @@
                             [value]="row.walletStatus | walletStatus" readonly />
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="walletList.length"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
                     [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [limitRow]="limitRow" [pages]="pages"
                     [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
                     (onRowActionEvent)="onAction($event)" />
