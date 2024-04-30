@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators,FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, map } from 'rxjs';
 import { CustomColumnModel, CustomerModel, ReponseSearchCustomerModel, RowActionEventModel } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
+import { id } from '@swimlane/ngx-datatable';
 
 
 @Component({
@@ -56,12 +57,9 @@ import { style, animate, transition, trigger, stagger, query } from '@angular/an
     ])
   ]
 })
-export class SearchUserComponent {
-
-  
-
-  public rows: CustomerModel[] = []
-
+export class SearchUserComponent implements OnInit {
+  public status: number = 1;
+  public rows: CustomerModel[] = [];
   public limitRow: number = 10;
   public pages: number = 1;
   public collectionSize: number = 0;
@@ -85,12 +83,22 @@ export class SearchUserComponent {
 
   public isLoading = false;
 
+
   constructor(
     private restApiService: RestApiService,
-    public router: Router
+    public router: Router,
+    private fb: FormBuilder
   ) {
 
   }
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      customerTypeId: [''], // กำหนดให้ customerTypeId เป็นสตริงเริ่มต้นว่างเปล่า
+      citizenId: [undefined, [ Validators.required ]] // เพิ่ม validators ให้ citizenId
+    });
+  }
+
+
 
   onSearch() {
     if (this.form.invalid || this.isLoading) return;
@@ -134,6 +142,7 @@ export class SearchUserComponent {
           this.isLoading = false;
         }
       });
+     
   }
 
   onChangePage(event: number) {
@@ -158,5 +167,4 @@ export class SearchUserComponent {
   onBackToHome() {
     this.router.navigate(['work-space/menu-option']);
   }
-
 }
