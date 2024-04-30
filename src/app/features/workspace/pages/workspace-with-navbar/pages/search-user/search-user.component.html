@@ -22,9 +22,20 @@
       </div>
     </ng-container>
 
-    <h2 class="mb-4 ">ค้นหาข้อมูลผู้ใช้งาน</h2>
+    <h2 class="mb-4" *ngIf="!tempSearch">ค้นหาข้อมูลผู้ใช้งาน</h2>
+<h2 class="mb-4" *ngIf="tempSearch">
+  ค้นหาข้อมูลผู้ใช้งาน 
+  {{ form.get('customerTypeId')?.value === 'domesticRadio' ? ' - บุคคลธรรมดา' : '' }}
+  {{ form.get('customerTypeId')?.value === 'Legal' ? ' - นิติบุคคล / องค์กร' : '' }}
+  {{ form.get('customerTypeId')?.value === 'international' ? ' - ชาวต่างชาติ' : '' }}
+  {{ form.get('customerTypeId')?.value === 'Device' ? ' - หมายเลขอุปกรณ์' : '' }}
+  {{ form.get('customerTypeId')?.value === 'SmartCard' ? ' - หมายเลขบัตร Smart Card' : '' }}
+</h2>
 
-    <form  [formGroup]="form" class="form-wrapper" (ngSubmit)="onSearch()">
+    
+
+
+    <form  [formGroup]="form" class="form-wrapper" (ngSubmit)="onSearch()" *ngIf="!tempSearch">
       <div class="form-check mb-4">
         <input
           class="form-check-input"
@@ -38,6 +49,7 @@
         <h3
           class="form-check-label"
           for="domesticRadio"
+          formControlName="NameInput"
         >
           บุคคลธรรมดา
         </h3>
