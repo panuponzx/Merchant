@@ -1,324 +1,155 @@
-<div
-  class="search-container search-user-container h-100 "
-  [ngClass]="tempSearch ? null : 'd-flex align-items-center justify-content-center'"
->
-  <div
-    class="search-user-content-wrapper "
-    [ngClass]="tempSearch ? 'mb-5' : null"
-    [@fadeInOutseach]
-  >
+<div class="search-container search-user-container h-100 "
+  [ngClass]="tempSearch ? null : 'd-flex align-items-center justify-content-center'">
+  <div class="search-user-content-wrapper " [ngClass]="tempSearch ? 'mb-5' : null" [@fadeInOutseach]>
     <ng-container *ngIf="tempSearch">
       <div class="mb-4">
-        <button
-          class="custom-btn btn-type-3"
-          data-testid="backButton"
-          id="backButton"
-          title="กลับ"
-          type="button"
-          (click)="onBack()"
-        >
+        <button class="custom-btn btn-type-3" data-testid="backButton" id="backButton" title="กลับ" type="button"
+          (click)="onBack()">
           กลับ
         </button>
       </div>
     </ng-container>
 
     <h2 class="mb-4" *ngIf="!tempSearch">ค้นหาข้อมูลผู้ใช้งาน</h2>
-<h2 class="mb-4" *ngIf="tempSearch">
-  ค้นหาข้อมูลผู้ใช้งาน 
-  {{ form.get('customerTypeId')?.value === 'domesticRadio' ? ' - บุคคลธรรมดา' : '' }}
-  {{ form.get('customerTypeId')?.value === 'Legal' ? ' - นิติบุคคล / องค์กร' : '' }}
-  {{ form.get('customerTypeId')?.value === 'international' ? ' - ชาวต่างชาติ' : '' }}
-  {{ form.get('customerTypeId')?.value === 'Device' ? ' - หมายเลขอุปกรณ์' : '' }}
-  {{ form.get('customerTypeId')?.value === 'SmartCard' ? ' - หมายเลขบัตร Smart Card' : '' }}
-</h2>
+    <h2 class="mb-4" *ngIf="tempSearch">
+      ค้นหาข้อมูลผู้ใช้งาน
+      {{ form.get('customerTypeId')?.value === 'domesticRadio' ? ' - บุคคลธรรมดา' : '' }}
+      {{ form.get('customerTypeId')?.value === 'Legal' ? ' - นิติบุคคล / องค์กร' : '' }}
+      {{ form.get('customerTypeId')?.value === 'international' ? ' - ชาวต่างชาติ' : '' }}
+      {{ form.get('customerTypeId')?.value === 'Device' ? ' - หมายเลขอุปกรณ์' : '' }}
+      {{ form.get('customerTypeId')?.value === 'SmartCard' ? ' - หมายเลขบัตร Smart Card' : '' }}
+    </h2>
 
-    
-
-
-    <form  [formGroup]="form" class="form-wrapper" (ngSubmit)="onSearch()" *ngIf="!tempSearch">
+    <form [formGroup]="form" class="form-wrapper" (ngSubmit)="onSearch()" *ngIf="!tempSearch">
       <div class="form-check mb-4">
-        <input
-          class="form-check-input"
-          data-testid="domesticRadio"
-          id="domesticRadio"
-          formControlName="customerTypeId"
-          type="radio"
-          value="domesticRadio"
-          
-        >
-        <h3
-          class="form-check-label"
-          for="domesticRadio"
-          formControlName="NameInput"
-        >
+        <input class="form-check-input" data-testid="domesticRadio" id="domesticRadio" formControlName="customerTypeId"
+          type="radio" value="domesticRadio">
+        <h3 class="form-check-label" for="domesticRadio" formControlName="NameInput">
           บุคคลธรรมดา
         </h3>
       </div>
 
       <div class="form-check mb-4">
-        <input
-          class="form-check-input"
-          data-testid="LegalRadio"
-          id="LegalRadio"
-          formControlName="customerTypeId"
-          type="radio"
-          value="Legal"
-        >
-        <h3
-          class="form-check-label"
-          for="LegalRadio"
-        >
+        <input class="form-check-input" data-testid="LegalRadio" id="LegalRadio" formControlName="customerTypeId"
+          type="radio" value="Legal">
+        <h3 class="form-check-label" for="LegalRadio">
           นิติบุคคล / องค์กร
         </h3>
       </div>
 
       <div class="form-check mb-4">
-        <input
-          class="form-check-input"
-          data-testid="internationalRadio"
-          id="internationalRadio"
-          formControlName="customerTypeId"
-          type="radio"
-          value="international"
-        >
-        <h3
-          class="form-check-label"
-          for="internationalRadio"
-        >
+        <input class="form-check-input" data-testid="internationalRadio" id="internationalRadio"
+          formControlName="customerTypeId" type="radio" value="international">
+        <h3 class="form-check-label" for="internationalRadio">
           ชาวต่างชาติ
         </h3>
       </div>
 
       <div class="form-check mb-4">
-        <input
-          class="form-check-input"
-          data-testid="Devicenumber"
-          id="Devicenumber"
-          formControlName="customerTypeId"
-          type="radio"
-          value="Device"
-        >
-        <h3
-          class="form-check-label"
-          for="Devicenumber"
-        >
+        <input class="form-check-input" data-testid="Devicenumber" id="Devicenumber" formControlName="customerTypeId"
+          type="radio" value="Device">
+        <h3 class="form-check-label" for="Devicenumber">
           หมายเลขอุปกรณ์ / หมายเลขบัตร Smart Card
         </h3>
       </div>
 
-      <div 
-        class="ms-3"
-       *ngIf=" form.value.customerTypeId === 'SmartCard' || form.value.customerTypeId === 'Device' ">
-       
+      <div class="ms-3" *ngIf=" form.value.customerTypeId === 'SmartCard' || form.value.customerTypeId === 'Device' ">
+
         <div class="form-check mb-4">
-          <input
-            class="form-check-input"
-            data-testid="Devicenumber"
-            id="Devicenumber"
-            formControlName="customerTypeId"
-            type="radio"
-            value="Device"
-          >
-          <h3
-            class="form-check-label"
-            for="Devicenumber"
-          >
+          <input class="form-check-input" data-testid="Devicenumber" id="Devicenumber" formControlName="customerTypeId"
+            type="radio" value="Device">
+          <h3 class="form-check-label" for="Devicenumber">
             หมายเลขอุปกรณ์
           </h3>
         </div>
-  
+
         <div class="form-check mb-4">
-          <input
-            class="form-check-input"
-            data-testid="Devicenumber"
-            id="Devicenumber"
-            formControlName="customerTypeId"
-            type="radio"
-            value="SmartCard"
-          >
-          <h3
-            class="form-check-label"
-            for="Devicenumber"
-          >
+          <input class="form-check-input" data-testid="Devicenumber" id="Devicenumber" formControlName="customerTypeId"
+            type="radio" value="SmartCard">
+          <h3 class="form-check-label" for="Devicenumber">
             หมายเลขบัตร Smart Card
           </h3>
         </div>
       </div>
-     
 
 
-      <div class="mb-5" *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'Legal'">
+
+      <div class="mb-3" *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'Legal'">
         <label class="label-input">เลขประจำตัวผู้เสียภาษี</label>
         <div class="input-with-icon-wrapper">
-          <icon-svg
-            class="svg-search-icon"
-            [color]="'#2255CE'"
-            [size]="'l'"
-            [path]="'search' | icon"
-          />
-          <input
-            aria-label="Username"
-            class="form-control input-with-icon-right"
-            data-testid="citizenIdInput"
-            formControlName="citizenId"
-            id="citizenIdInput"
-            type="text"
-            placeholder="กรุณาระบุ"
-          >
+          <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
+          <input aria-label="Username" class="form-control input-with-icon-right" data-testid="citizenIdInput"
+            formControlName="citizenId" id="citizenIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
       </div>
 
-      <div class="mb-5" *ngIf="form.value.customerTypeId === 'international'">
+      <div class="mb-3" *ngIf="form.value.customerTypeId === 'international'">
         <label class="label-input">หมายเลขหนังสือเดินทาง</label>
         <div class="input-with-icon-wrapper">
-          <icon-svg
-            class="svg-search-icon"
-            [color]="'#2255CE'"
-            [size]="'l'"
-            [path]="'search' | icon"
-          />
-          <input
-            aria-label="Username"
-            class="form-control input-with-icon-right"
-            data-testid="citizenIdInput"
-            formControlName="citizenId"
-            id="citizenIdInput"
-            type="text"
-            placeholder="กรุณาระบุ"
-          >
+          <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
+          <input aria-label="Username" class="form-control input-with-icon-right" data-testid="citizenIdInput"
+            formControlName="citizenId" id="citizenIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
       </div>
 
-      <div class="mb-5" *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'international'" >
-        <div class="mb-5"  >
-          <label class="label-input">ชื่อ</label>
-          <div class="input-with-icon-wrapper">
-            <icon-svg
-              class="svg-search-icon"
-              [color]="'#2255CE'"
-              [size]="'l'"
-              [path]="'search' | icon"
-            />
-            <input
-              aria-label="Username"
-              class="form-control input-with-icon-right"
-              data-testid="citizenIdInput"
-              formControlName="citizenId"
-              id="citizenIdInput"
-              type="text"
-              placeholder="กรุณาระบุ"
-            >
-          </div>
+      <div class="mb-3"
+        *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'international'">
+        <label class="label-input">ชื่อ</label>
+        <div class="input-with-icon-wrapper">
+          <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
+          <input aria-label="Username" class="form-control input-with-icon-right" data-testid="citizenIdInput"
+            formControlName="citizenId" id="citizenIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
       </div>
 
-      <div class="mb-5" *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'Legal'">
-        <div class="mb-5"  >
-          <label class="label-input">ชื่อบริษัท / องค์กร</label>
-          <div class="input-with-icon-wrapper">
-            <icon-svg
-              class="svg-search-icon"
-              [color]="'#2255CE'"
-              [size]="'l'"
-              [path]="'search' | icon"
-            />
-            <input
-              aria-label="Username"
-              class="form-control input-with-icon-right"
-              data-testid="citizenIdInput"
-              formControlName="citizenId"
-              id="citizenIdInput"
-              type="text"
-              placeholder="กรุณาระบุ"
-            >
-          </div>
+      <div class="mb-3" *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'Legal'">
+        <label class="label-input">ชื่อบริษัท / องค์กร</label>
+        <div class="input-with-icon-wrapper">
+          <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
+          <input aria-label="Username" class="form-control input-with-icon-right" data-testid="citizenIdInput"
+            formControlName="citizenId" id="citizenIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
       </div>
-      
 
-      <div class="mb-5" *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'international'">
+
+      <div class="mb-3"
+        *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'international'">
         <label class="label-input">นามสกุล</label>
         <div class="input-with-icon-wrapper">
-          <icon-svg
-            class="svg-search-icon"
-            [color]="'#2255CE'"
-            [size]="'l'"
-            [path]="'search' | icon"
-          />
-          <input
-            aria-label="Username"
-            class="form-control input-with-icon-right"
-            data-testid="citizenIdInput"
-            formControlName="citizenId"
-            id="citizenIdInput"
-            type="text"
-            placeholder="กรุณาระบุ"
-          >
+          <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
+          <input aria-label="Username" class="form-control input-with-icon-right" data-testid="citizenIdInput"
+            formControlName="citizenId" id="citizenIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
       </div>
 
-      <div class="mb-5" *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'Legal' || form.value.customerTypeId === 'international'">
+      <div class="mb-3"
+        *ngIf="form.value.customerTypeId === 'domesticRadio' || form.value.customerTypeId === 'Legal' || form.value.customerTypeId === 'international'">
         <label class="label-input">เบอร์ติดต่อ</label>
         <div class="input-with-icon-wrapper">
-          <icon-svg
-            class="svg-search-icon"
-            [color]="'#2255CE'"
-            [size]="'l'"
-            [path]="'search' | icon"
-          />
-          <input
-            aria-label="Username"
-            class="form-control input-with-icon-right"
-            data-testid="citizenIdInput"
-            formControlName="citizenId"
-            id="citizenIdInput"
-            type="text"
-            placeholder="กรุณาระบุ"
-          >
+          <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
+          <input aria-label="Username" class="form-control input-with-icon-right" data-testid="citizenIdInput"
+            formControlName="citizenId" id="citizenIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
       </div>
 
-      <div class="mb-5" *ngIf="form.value.customerTypeId === 'SmartCard' || form.value.customerTypeId === 'Device' ">
+      <div class="mb-3" *ngIf="form.value.customerTypeId === 'SmartCard' || form.value.customerTypeId === 'Device' ">
         <label class="label-input">กรุณาระบุ</label>
         <div class="input-with-icon-wrapper">
-          <icon-svg
-            class="svg-search-icon"
-            [color]="'#2255CE'"
-            [size]="'l'"
-            [path]="'search' | icon"
-          />
-          <input
-            aria-label="Username"
-            class="form-control input-with-icon-right"
-            data-testid="citizenIdInput"
-            formControlName="citizenId"
-            id="citizenIdInput"
-            type="text"
-            placeholder="กรุณาระบุ"
-          >
+          <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
+          <input aria-label="Username" class="form-control input-with-icon-right" data-testid="citizenIdInput"
+            formControlName="citizenId" id="citizenIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
       </div>
 
       <ng-container *ngIf="!tempSearch">
         <div class="button-wrapper">
-          <button
-            class="custom-btn btn-type-2 mb-3"
-            data-testid="searchButton"
-            [disabled]="!form.controls['citizenId'].value || isLoading"
-            id="searchButton"
-            title="ค้นหา"
-            type="submit"
-            (click)="onSearch()"
-          >
+          <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton"
+            [disabled]="!form.controls['citizenId'].value || isLoading" id="searchButton" title="ค้นหา" type="submit"
+            (click)="onSearch()">
             ค้นหา
           </button>
-          <button
-            class="custom-btn btn-back"
-            data-testid="backButton"
-            id="backButton"
-            title="ย้อนกลับ"
-            (click)="onBackToHome()"
-          >
+          <button class="custom-btn btn-back" data-testid="backButton" id="backButton" title="ย้อนกลับ"
+            (click)="onBackToHome()">
             กลับ
           </button>
         </div>
@@ -329,19 +160,10 @@
   <ng-container *ngIf="tempSearch && !isLoading">
     <hr class="hr-custom light mb-5" />
     <div class="search-user-datatable-wrapper" [@fadeInOutTable]>
-      <datatable
-        [columns]="columns"
-        [collectionSize]="collectionSize"
-        [customDatatableFooterClass]="'datatable-info-white'"
-        [id]="'userDatatable'"
-        [isLoading]="isLoading"
-        [limitRow]="limitRow"
-        [pages]="pages"
-        [rows]="rows"
-        emptyMessage="ไม่มีข้อมูล"
-        (onChangePageEvent)="onChangePage($event)"
-        (onRowActionEvent)="onAction($event)"
-      />
+      <datatable [columns]="columns" [collectionSize]="collectionSize"
+        [customDatatableFooterClass]="'datatable-info-white'" [id]="'userDatatable'" [isLoading]="isLoading"
+        [limitRow]="limitRow" [pages]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+        (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
     </div>
   </ng-container>
 
