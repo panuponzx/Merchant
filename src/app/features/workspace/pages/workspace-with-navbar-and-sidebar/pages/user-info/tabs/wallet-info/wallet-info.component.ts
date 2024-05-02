@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel } from '../../../../../../../../core/interfaces';
+import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel } from 'src/app/core/interfaces';
 import { first, map } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,9 +28,9 @@ export class WalletInfoComponent implements OnInit {
     { id: 'color', name: 'Color', label: 'สีรถ', prop: 'color', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'licensePlate', name: 'licensePlate', label: 'หมายเลขทะเบียนรถ', prop: 'licensePlate', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'yearRegistration', name: 'yearRegistration', label: 'ปีจดทะเบียน', prop: 'yearRegistration', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'type', name: 'Type', label: 'ประเภท', prop: 'type', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'obuSerialNo', name: 'OBU serial no.', label: 'OBU serial no.', prop: 'obuPan', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'Smart card serial no.', prop: 'smartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'status', name: 'Status', label: 'สถานะ', prop: 'obuStatus', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'edit', name: 'Edit', label: 'แก้ไข', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'edit', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
@@ -106,7 +106,7 @@ export class WalletInfoComponent implements OnInit {
               const mergedArray = wallet.lstCars.reduce((acc: any, obj1) => {
                 const matchingObj2 = wallet.lstObus.find(obj2 => obj2.index === obj1.index);
                 if (matchingObj2) {
-                  acc.push({ ...obj1, ...matchingObj2 });
+                  acc.push({ ...obj1, ...matchingObj2, walletId: wallet.walletId});
                 }
                 return acc;
               }, []);
@@ -142,7 +142,6 @@ export class WalletInfoComponent implements OnInit {
       keyboard: false,
     });
     modalRef.componentInstance.customerId = this.customerId;
-    modalRef.componentInstance.customerTypeId = this.customerTypeId;
     modalRef.result.then(
       (result) => {
         if (result) {
@@ -161,17 +160,20 @@ export class WalletInfoComponent implements OnInit {
   }
 
   onAction(event: RowActionEventModel) {
-    console.info(event);
+    console.info("onAction edit car", event);
     const modalRef = this.ngbModal.open(EditCarModalComponent, {
       centered: true,
       backdrop: 'static',
       size: 'lg',
       keyboard: false,
     });
+    modalRef.componentInstance.carInfo = event.row;
+    modalRef.componentInstance.walletIdList = this.walletList.map((x) => x.walletId);
     modalRef.result.then(
       (result) => {
         if (result) {
           console.log('[showTableModal] result => ', result);
+          this.loadWalletInfo();
         }
       },
       (reason) => {

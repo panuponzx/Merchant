@@ -59,17 +59,8 @@
                         <label class="label-input" for="yearRegistrationSelect">
                             ปีจดทะเบียน
                         </label>
-                        <ng-select 
-                            class="form-control" 
-                            [clearable]="false" 
-                            bindLabel="lable"
-                            bindValue="id"
-                            data-testid="yearRegistrationSelect"
-                            placeholder="กรุณาระบุ"
-                            id="yearRegistrationSelect"
-                            formControlName="yearRegistration"
-                            [items]="[]">
-                        </ng-select>
+                        <input class="form-control" data-testid="yearRegistrationSelect" formControlName="yearRegistration"
+                            id="yearRegistrationSelect" type="number" min="1900">
                     </div>
                 </div>
                 <div class="col-12 mb-3">
@@ -123,7 +114,7 @@
                         placeholder="กรุณาระบุ"
                         id="walletIdSelect"
                         formControlName="walletId"
-                        [items]="[]">
+                        [items]="walletIdList">
                     </ng-select>
                 </div>
                 <div class="col-12 mb-3">
@@ -134,7 +125,9 @@
     </form>
     <div class="d-flex justify-content-between">
         <div class="left">
-            <button class="custom-btn btn-type-1 red-outline"><icon-svg [color]="'#ED1B24'" [path]="'assets/images/icons/delete.svg'" [size]="'m'" /> ยกเลิกอุปกรณ์</button>
+            <button class="custom-btn btn-type-1 red-outline">ยกเลิกอุปกรณ์</button>
+            <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onSuspend()" *ngIf="carInfo.obuStatus == 200">อายัดชั่วคราว</button>
+            <button class="custom-btn btn-type-1 outline ms-2" (click)="onActive()" *ngIf="carInfo.obuStatus >= 300 && carInfo.obuStatus <= 399">ยกเลิกการอายัด</button>
         </div>
         <div class="right d-flex justify-content-center gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ยกเลิก</button>

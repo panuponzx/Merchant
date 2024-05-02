@@ -23,7 +23,10 @@ export interface CarInfoModel {
   yearRegistration: string,
   walletId: number,
   smartcardNo: string,
-  obuPan: string
+  obuPan: string,
+  licensePlate: string,
+  isType9: boolean,
+  obuStatus: number,
 }
 
 export interface ObuInfoModel {
