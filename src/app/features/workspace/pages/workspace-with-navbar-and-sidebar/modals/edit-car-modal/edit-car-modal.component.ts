@@ -7,6 +7,7 @@ import { CarInfoModel, ResponseMessageModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-edit-car-modal',
   templateUrl: './edit-car-modal.component.html',
@@ -16,9 +17,9 @@ export class EditCarModalComponent  {
 
   @Input() public carInfo: CarInfoModel= {} as CarInfoModel;
   @Input() public walletIdList: number[] = [];
-  @Input() public brands: string[]= [];
-  
-
+  @Input() public brands: CarInfoModel[] = [];
+  @Input() public provinces: any[] =[];
+  @Input() public models: CarInfoModel[] =[];
   
 
   public form: FormGroup =this.formBuilder.group({
@@ -59,23 +60,46 @@ export class EditCarModalComponent  {
     this.form.get('isType9')?.setValue(this.carInfo.isType9);
     this.form.get('walletId')?.setValue(this.carInfo.walletId);     
     this.province();
+    this.brand();
+    // this.model();
   }
 
-  provinces: any[] =[];
-   
 
+  //car model select dropdown
+  // model() {
+  //   this.restApiService.getBackOffice('').subscribe(
+  //   (response: any) => {
+  //     if (Array.isArray(response.data)) {
+  //       this.models = response.data.map((value : {value:string;}) => value.models);
+  //       console.log(models);
+  //     }
+  //   });
+  // }
+
+  //brand select dropdown 
+  brand() {
+    this.restApiService.getBackOffice('master-data/car-model').subscribe(
+      (Response: any) => {
+        if (Array.isArray(Response.data)){
+          console.log(this.brands);
+       this.brands = Response.data.map((value: {brand:string;}) => {return value.brand});
+        }
+      }
+    );
+  }
+
+  //province select dropdown
   province() {
     this.restApiService.getBackOffice('master-data/province').subscribe(
       (response: any) => {
-        console.log(response);
         if (Array.isArray(response.data)) {
           this.provinces =  response.data.map((value: { provinceName: string; }) =>{ return value.provinceName}); 
           console.log(this.provinces);
         }
-      })
-      
+      });
   }
 
+  
   
   onSuspend() {
     Swal.fire({
