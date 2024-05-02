@@ -69,9 +69,13 @@ export class EditCarModalComponent {
       preConfirm: async () => {
         try {
           const payload = {
-            obuPan: this.carInfo.obuPan,
-            smartcardNo: this.carInfo.smartcardNo,
-            walletId: this.carInfo.walletId.toString(),
+            obu: {
+              obuPan: this.carInfo.obuPan,
+              smartcardNo: this.carInfo.smartcardNo,
+            },
+            wallet: {
+              id: this.carInfo.walletId.toString(),
+            },
             requestParam: {
               reqId: "23498-sss-k339c-322s2",
               channelId: "1"
@@ -118,9 +122,13 @@ export class EditCarModalComponent {
       preConfirm: async () => {
         try {
           const payload = {
-            obuPan: this.carInfo.obuPan,
-            smartcardNo: this.carInfo.smartcardNo,
-            walletId: this.carInfo.walletId.toString(),
+            obu: {
+              obuPan: this.carInfo.obuPan,
+              smartcardNo: this.carInfo.smartcardNo,
+            },
+            wallet: {
+              id: this.carInfo.walletId.toString(),
+            },
             requestParam: {
               reqId: "23498-sss-k339c-322s2",
               channelId: "1"
