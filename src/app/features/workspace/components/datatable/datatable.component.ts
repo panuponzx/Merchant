@@ -49,8 +49,8 @@ export class DatatableComponent {
   }
 
   ngOnInit(): void {
-    this.collectionSize = this.rows.length;
-    console.log(this.totalPages);
+    // this.collectionSize = this.rows.length;
+    // console.log(this.totalPages);
     
   }
 

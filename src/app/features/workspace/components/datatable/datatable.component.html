@@ -165,7 +165,7 @@
             id="datatableInfo"
             data-testid="datatableInfo"
             class="datatable-info"
-          >Page {{ page }} of  {{ totalPages }}
+          >Page {{ page }} of  {{ collectionSize | getTotalPage: pageSize  }}
           </div>
           <div>
             <ngb-pagination

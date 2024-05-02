@@ -155,17 +155,19 @@
   <ng-container *ngIf="tempSearch && !isLoading">
     <hr class="hr-custom light mb-5" />
     <div class="search-user-datatable-wrapper" [@fadeInOutTable]>
-      <datatable [columns]="columns" 
-        [customDatatableFooterClass]="'datatable-info-white'" 
-        [id]="'userDatatable'" 
-        [isLoading]="isLoading"
+      <datatable 
+        [columns]="columns"
         [collectionSize]="collectionSize"
-        [pageSize]="pageSize" 
-        [page]="page" 
-        [totalPages]="totalPages"
-        [rows]="rows" 
+        [customDatatableFooterClass]="'datatable-info-white'" 
+        [externalPaging]="true"
+        [id]="'userDatatable'"
+        [isLoading]="isLoading"
+        [pageSize]="pageSize"
+        [page]="page"
+        [rows]="rows"
         emptyMessage="ไม่มีข้อมูล"
-        (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
+        (onChangePageEvent)="onChangePage($event)"
+        (onRowActionEvent)="onAction($event)" />
     </div>
   </ng-container>
 

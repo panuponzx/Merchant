@@ -63,7 +63,7 @@ export class SearchUserComponent implements OnInit {
   public pageSize: number = 5;
 
   page : number = 1;
-  totalPages : number = 1;
+  // totalPages : number = 1;
 
   public collectionSize: number = 0;
   public columns: CustomColumnModel[] = [
@@ -121,19 +121,19 @@ export class SearchUserComponent implements OnInit {
     }
 
     if (searchType === 'corporate') {
-      payload.identificationId = this.form.value.identificationId;
-      payload.corporateName = this.form.value.corporateName;
-      payload.mobilePhone = this.form.value.mobilePhone;
+      if(this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
+      if(this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
+      if(this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
       this.searchByCoporate(payload);
     } else if (searchType === 'personal' || searchType === 'international') {
-      payload.identificationId = this.form.value.identificationId;
-      payload.firstName = this.form.value.firstName;
-      payload.lastName = this.form.value.lastName;
-      payload.mobilePhone = this.form.value.mobilePhone;
+      if(this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
+      if(this.form.value.firstName) payload.firstName = this.form.value.firstName;
+      if(this.form.value.lastName) payload.lastName = this.form.value.lastName;
+      if(this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
       this.searchByPersonal(payload);
     } else if (searchType === 'device') {
-      payload.type = this.form.value.deviceType.toUpperCase();
-      payload.value = this.form.value.faremediaValue;
+      if(this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
+      if(this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
       // console.log(payload);
       this.searchByFaremedia(payload);
     }
@@ -189,7 +189,9 @@ export class SearchUserComponent implements OnInit {
       next: (res: ResponseMessageModel) => {
         let response = res as ResponseSearchCutomerModel;
         this.rows = response.data.elements;
-        this.totalPages = response.data.totalPages;
+        // this.totalPages = response.data.totalPages;
+        this.collectionSize = response.data.totalElements;
+        console.log("[searchByPersonal] collectionSize => ", this.collectionSize);
         this.isLoading = false;
         this.tempSearch = true;
       },
@@ -205,7 +207,8 @@ export class SearchUserComponent implements OnInit {
       next: (res: ResponseMessageModel) => {
         let response = res as ResponseSearchCutomerModel;
         this.rows = response.data.elements;
-        this.totalPages = response.data.totalPages;
+        // this.totalPages = response.data.totalPages;
+        this.collectionSize = response.data.totalElements;
         this.isLoading = false;
         this.tempSearch = true;
       },
@@ -221,7 +224,8 @@ export class SearchUserComponent implements OnInit {
       next: (res: ResponseMessageModel) => {
         let response = res as ResponseSearchCutomerModel;
         this.rows = response.data.elements;
-        this.totalPages = response.data.totalPages;
+        // this.totalPages = response.data.totalPages;
+        this.collectionSize = response.data.totalElements;
         this.isLoading = false;
         this.tempSearch = true;
       },
@@ -234,6 +238,7 @@ export class SearchUserComponent implements OnInit {
 
   onChangePage(event: number) {
     this.page = event;
+    this.onSearch();
   }
 
   onAction(event: RowActionEventModel) {
