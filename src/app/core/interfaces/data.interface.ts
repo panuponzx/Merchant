@@ -34,6 +34,7 @@ export interface ObuInfoModel {
   isType9: boolean
   obuPan: string,
   obuStatus: number,
+  obuStatusText?: string,
   smartcardExpiryDate: Date,
   smartcardNo: string,
   smartcardStatus: number,

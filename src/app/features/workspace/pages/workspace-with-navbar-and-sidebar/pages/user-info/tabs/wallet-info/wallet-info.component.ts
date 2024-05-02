@@ -5,6 +5,7 @@ import { RestApiService } from '../../../../../../../../core/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddWalletModalComponent } from '../../../../modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from '../../../../modals/edit-car-modal/edit-car-modal.component';
+import { FairmediaStatusPipe } from 'src/app/core/pipes/fairmedia-status.pipe';
 
 @Component({
   selector: 'wallet-info',
@@ -30,7 +31,7 @@ export class WalletInfoComponent implements OnInit {
     { id: 'yearRegistration', name: 'yearRegistration', label: 'ปีจดทะเบียน', prop: 'yearRegistration', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'obuSerialNo', name: 'OBU serial no.', label: 'OBU serial no.', prop: 'obuPan', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'Smart card serial no.', prop: 'smartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
-    { id: 'status', name: 'Status', label: 'สถานะ', prop: 'obuStatus', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'status', name: 'Status', label: 'สถานะ', prop: 'obuStatusText', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'edit', name: 'Edit', label: 'แก้ไข', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'edit', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
@@ -44,7 +45,8 @@ export class WalletInfoComponent implements OnInit {
 
   constructor(
     private restApiService: RestApiService,
-    private ngbModal: NgbModal
+    private ngbModal: NgbModal,
+    private fairmediaStatusPipe: FairmediaStatusPipe
     ) {
 
   }
@@ -106,6 +108,8 @@ export class WalletInfoComponent implements OnInit {
               const mergedArray = wallet.lstCars.reduce((acc: any, obj1) => {
                 const matchingObj2 = wallet.lstObus.find(obj2 => obj2.index === obj1.index);
                 if (matchingObj2) {
+                  matchingObj2.obuStatusText = this.fairmediaStatusPipe.transform(matchingObj2.obuStatus);
+                  console.log("[setWallet] matchingObj2 => ", matchingObj2);
                   acc.push({ ...obj1, ...matchingObj2, walletId: wallet.walletId});
                 }
                 return acc;

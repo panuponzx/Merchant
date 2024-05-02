@@ -11,6 +11,7 @@ import { GetTotalPagePipe } from './get-total-page.pipe';
 import { TransformDatePipe } from './transform-date.pipe';
 import { WalletStatusPipe } from './wallet-status.pipe';
 import { ApproveStatusPipe } from './approve-status.pipe';
+import { FairmediaStatusPipe } from './fairmedia-status.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ApproveStatusPipe } from './approve-status.pipe';
     GetTotalPagePipe,
     TransformDatePipe,
     WalletStatusPipe,
-    ApproveStatusPipe
+    ApproveStatusPipe,
+    FairmediaStatusPipe
   ],
   imports: [
     CommonModule
@@ -38,7 +40,8 @@ import { ApproveStatusPipe } from './approve-status.pipe';
     GetTotalPagePipe,
     TransformDatePipe,
     WalletStatusPipe,
-    ApproveStatusPipe
+    ApproveStatusPipe,
+    FairmediaStatusPipe
   ],
   providers: [
     GetRoutePathPipe,
@@ -50,7 +53,8 @@ import { ApproveStatusPipe } from './approve-status.pipe';
     GetTotalPagePipe,
     TransformDatePipe,
     WalletStatusPipe,
-    ApproveStatusPipe
+    ApproveStatusPipe,
+    FairmediaStatusPipe
   ]
 })
 export class PipesModule {
