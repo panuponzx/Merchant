@@ -21,8 +21,8 @@
         [collectionSize]="collectionSize"
         [id]="'userDatatable'"
         [isLoading]="isLoading"
-        [limitRow]="limitRow"
-        [pages]="pages"
+        [pageSize]="limitRow"
+        [page]="pages"
         [rows]="rows"
         emptyMessage="ไม่มีข้อมูล"
         (onRowActionEvent)="onAction($event)">
@@ -54,8 +54,8 @@
         [collectionSize]="collectionSize1"
         [id]="'userDatatable'"
         [isLoading]="isLoading"
-        [limitRow]="limitRow1"
-        [pages]="pages1"
+        [pageSize]="limitRow1"
+        [page]="pages1"
         [rows]="rows1"
         emptyMessage="ไม่มีข้อมูล"
         (onRowActionEvent)="onAction($event)">

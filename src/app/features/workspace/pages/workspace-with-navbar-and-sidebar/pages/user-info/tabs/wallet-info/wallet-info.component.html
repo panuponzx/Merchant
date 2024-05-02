@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
-                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [limitRow]="limitRow" [pages]="pages"
+                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
                     [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
                     (onRowActionEvent)="onAction($event)" />
 
@@ -167,7 +167,7 @@
                     </div>
                 </div>
                 <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
-                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [limitRow]="limitRow" [pages]="pages"
+                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
                     [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
                     (onRowActionEvent)="onAction($event)" />
 
@@ -256,7 +256,7 @@
                     </div>
                 </div>
                 <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
-                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [limitRow]="limitRow" [pages]="pages"
+                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
                     [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
                     (onRowActionEvent)="onAction($event)" />
 
@@ -336,7 +336,7 @@
                     </div>
                 </div>
                 <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
-                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [limitRow]="limitRow" [pages]="pages"
+                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
                     [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
                     (onRowActionEvent)="onAction($event)" />
 

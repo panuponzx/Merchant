@@ -14,10 +14,10 @@
         [attr.data-testid]="id"
         class="material"
         [ngClass]="customDatatableClass ? customDatatableClass : 'default-datatable'"
-        [limit]="limitRow ? limitRow : undefined"
+        [limit]="pageSize ? pageSize : undefined"
         [rows]="rows"
         [rowHeight]="rowHeight"
-        [offset]="pages - 1"
+        [offset]="page - 1"
         [externalPaging]="externalPaging"
         [count]="collectionSize"
         [columnMode]="columnMode.force"
@@ -53,7 +53,7 @@
             let-rowIndex="rowIndex"
           >
             <ng-container *ngIf="column.type === 'no'">
-              {{ (pages - 1) * limitRow + rowIndex + 1 }}
+              {{ (page - 1) * pageSize + rowIndex + 1 }}
             </ng-container>
             <ng-container *ngIf="column.type === 'text'">
               {{ value ? value : '-' }}
@@ -161,11 +161,11 @@
         </div>
         <div class="datatable-pagination-wrapper">
           <div
-            *ngIf="footerOptions && footerOptions.info && limitRow"
+            *ngIf="footerOptions && footerOptions.info && pageSize"
             id="datatableInfo"
             data-testid="datatableInfo"
             class="datatable-info"
-          >Page {{ pages }} of  {{ collectionSize | getTotalPage: limitRow  }}
+          >Page {{ page }} of  {{ totalPages }}
           </div>
           <div>
             <ngb-pagination
@@ -173,8 +173,8 @@
               id="datatablePagination"
               data-testid="datatablePagination"
               [collectionSize]="collectionSize"
-              [(page)]="pages"
-              [pageSize]="limitRow"
+              [(page)]="page"
+              [pageSize]="pageSize"
               (pageChange)="onChangePage($event)"
             >
               <ng-template ngbPaginationPages let-page let-pages="pages"></ng-template>
