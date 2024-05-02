@@ -6,12 +6,30 @@
     <form *ngIf="form" [formGroup]="form">
         <div class="row">
             <div class="col-sm-12 col-md-6 mb-3">
-                <div class="col-12 mb-3">
-                    <label class="label-input" for="licensePlateInput">
-                        ทะเบียนรถ
-                    </label>
-                    <input class="form-control" data-testid="licensePlateInput" formControlName="licensePlate"
-                        id="licensePlateInput" type="text">
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label class="label-input" for="licensePlateInput">
+                            ทะเบียนรถ
+                        </label>
+                        <input class="form-control" data-testid="licensePlateInput" formControlName="licensePlate"
+                            id="licensePlateInput" type="text">
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="label-input"  for="province">
+                            จังหวัด
+                          </label>
+                          <ng-select
+                            class="form-control" 
+                            [clearable]="false" 
+                            bindLabel="label"
+                            bindValue="id"
+                            data-testid="provinces"
+                            placeholder="กรุณาระบุ"
+                            id="provinces"
+                            formControlName="province"
+                            [items]="provinces">
+                          </ng-select>
+                    </div>
                 </div>
                 <div class="col-12 mb-3">
                     <label class="label-input" for="fullnameCarOwnerInput">
@@ -34,7 +52,7 @@
                             placeholder="กรุณาระบุ"
                             id="brandSelect"
                             formControlName="brand"
-                            [items]="[]">
+                            [items]="brands">
                         </ng-select>
                     </div>
                     <div class="col-6 mb-3">
