@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators,FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, map } from 'rxjs';
-import { CustomColumnModel, CustomerModel, ReponseSearchCustomerModel, RowActionEventModel } from '../../../../../../core/interfaces';
+import { CustomColumnModel, CustomerModel, ReponseSearchCustomerModel, ResponseMessageModel, ResponseSearchCutomerModel, RowActionEventModel } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
 import { id } from '@swimlane/ngx-datatable';
@@ -75,8 +75,16 @@ export class SearchUserComponent implements OnInit {
 
   public submitted: boolean = false;
   public form: FormGroup = new FormGroup({
-    customerTypeId: new FormControl('domestic', [ Validators.required ]),
-    citizenId: new FormControl(undefined, [ Validators.required ])
+    deviceRadioGroup: new FormControl(undefined),
+    searchType: new FormControl(undefined, [Validators.required]),
+
+    identificationId: new FormControl(undefined,),
+    firstName: new FormControl(undefined,),
+    lastName: new FormControl(undefined,),
+    mobilePhone: new FormControl(undefined,),
+    corporateName: new FormControl(undefined,),
+
+    faremediaValue: new FormControl(undefined,),
   });
 
   public tempSearch: string | undefined;
@@ -92,10 +100,6 @@ export class SearchUserComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.form = this.fb.group({
-      customerTypeId: [''], // กำหนดให้ customerTypeId เป็นสตริงเริ่มต้นว่างเปล่า
-      citizenId: [undefined, [ Validators.required ]] // เพิ่ม validators ให้ citizenId
-    });
   }
 
 
@@ -103,46 +107,98 @@ export class SearchUserComponent implements OnInit {
   onSearch() {
     if (this.form.invalid || this.isLoading) return;
     this.isLoading = true;
-    const mockupData = {
-      customer: {
-        citizenId: this.form.controls['citizenId'].value
-      },
-      requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: "1"
-      }
-    }
-    this.restApiService
-      .post('get-customers', mockupData)
-      .pipe(
-        first(),
-        map(res => res as ReponseSearchCustomerModel)
-      )
-      .subscribe({
-        next: (res) => {
-          console.log(res)
-          // this.rows = res.customers;
-          this.rows = res.customers.map(element => {
-            if(element['firstName'] == undefined){
-              element['firstName'] = element['firstNameEng']
-            }
-            if(element['lastName'] == undefined){
-              element['lastName'] = element['lastNameEng']
-            }
-            return element
-          });
-         
 
-          this.collectionSize = this.rows.length;
+    const searchType = this.form.value.searchType;
+    const deviceRadioGroup = this.form.value.deviceRadioGroup;
+
+
+    let payload: any = {
+      requestParam: {
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "1"
+      },
+      limit: 5,
+      page: 1
+    }
+
+    if (searchType === 'corporate') {
+      payload.identificationId = this.form.value.identificationId;
+      payload.corporateName = this.form.value.corporateName;
+      payload.mobilePhone = this.form.value.mobilePhone;
+    } else if (searchType === 'personal' || searchType === 'international') {
+      payload.identificationId = this.form.value.identificationId;
+      payload.firstName = this.form.value.firstName;
+      payload.lastName = this.form.value.lastName;
+      payload.mobilePhone = this.form.value.mobilePhone;
+    } else if (deviceRadioGroup === 'device') {
+      payload.type = this.form.value.searchType.toUpperCase();
+      payload.value = this.form.value.faremediaValue;
+      this.searchFaremedia(payload);
+    }
+
+
+    // const mockupData = {
+    //   customer: {
+    //     citizenId: this.form.controls['citizenId'].value
+    //   },
+    //   requestParam: {
+    //       reqId: "23498-sss-k339c-322s2",
+    //       channelId: "1"
+    //   }
+    // }
+    // console.log(this.form.controls['citizenId'].value);
+
+
+    // this.restApiService
+    //   .post('get-customers', mockupData)
+    //   .pipe(
+    //     first(),
+    //     map(res => res as ReponseSearchCustomerModel)
+    //   )
+    //   .subscribe({
+    //     next: (res) => {
+    //       console.log(res)
+    //       // this.rows = res.customers;
+    //       this.rows = res.customers.map(element => {
+    //         if(element['firstName'] == undefined){
+    //           element['firstName'] = element['firstNameEng']
+    //         }
+    //         if(element['lastName'] == undefined){
+    //           element['lastName'] = element['lastNameEng']
+    //         }
+    //         return element
+    //       });
+
+
+    //       this.collectionSize = this.rows.length;
+    //       this.isLoading = false;
+    //       this.tempSearch = mockupData.customer.citizenId;
+    //     },
+    //     error: (err) => {
+    //       console.error(err);
+    //       this.isLoading = false;
+    //     }
+    //   });
+
+  }
+
+  searchFaremedia(payload: any) {
+    this.restApiService.postBackOffice('customer/search-by-faremedia', payload).pipe(first()).subscribe({
+      next: (res: ResponseMessageModel) => {
+        let response = res as ResponseSearchCutomerModel;
+        console.log(response.data.totalElements);
+        if(response.data.totalElements == 0){
           this.isLoading = false;
-          this.tempSearch = mockupData.customer.citizenId;
-        },
-        error: (err) => {
-          console.error(err);
-          this.isLoading = false;
+          
+          return;
         }
-      });
-     
+        this.isLoading = false;        
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false;
+      }
+    });
   }
 
   onChangePage(event: number) {

@@ -1,4 +1,4 @@
-import { AddressModel, CarInfoModel, CustomerModel, ITransferModel, ObuInfoModel, PassageInformationModel, TopupModel, TransactionModel, WalletSummaryModel, ZipcodeModel } from "./data.interface";
+import { AddressModel, CarInfoModel, CustomerModel, CustomerSearchModel, ITransferModel, ObuInfoModel, PaginationModel, PassageInformationModel, TopupModel, TransactionModel, WalletSummaryModel, ZipcodeModel } from "./data.interface";
 
 export interface ResponseMessageModel {
   errorCode: string,
@@ -7,6 +7,10 @@ export interface ResponseMessageModel {
     channelId: number,
     reqId: string
   }
+}
+
+export interface ResponseSearchCutomerModel extends ResponseMessageModel {
+  data: PaginationModel<Array<CustomerSearchModel>>
 }
 
 export interface ReponseWalletSummaryModel extends ResponseMessageModel {
