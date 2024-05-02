@@ -301,7 +301,7 @@
 <ng-container *ngIf="tempRows && !isShowDescription">
     <div class="datatable-container">
         <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
-            [limitRow]="limitRow" [pages]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+            [pageSize]="limitRow" [page]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
             (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
     </div>
 </ng-container>

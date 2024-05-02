@@ -26,7 +26,7 @@ export class RestApiService {
     return this.httpClient.post<ResponseMessageModel>(baseURL, formData);
   }
 
-  postBackOffice(endpoint: string, body: any) {
+  postBackOffice(endpoint: string, body: any): Observable<ResponseMessageModel>{
     const url = environment.apiBackOffice + '/' + endpoint;
     return this.httpClient.post<ResponseMessageModel>(url, body)
   }

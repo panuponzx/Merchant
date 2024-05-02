@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, map } from 'rxjs';
-import { CustomColumnModel, CustomerModel, ReponseSearchCustomerModel, RowActionEventModel } from '../../../../../../core/interfaces';
+import { CustomColumnModel, CustomerModel, CustomerSearchModel, ReponseSearchCustomerModel, ResponseMessageModel, ResponseSearchCutomerModel, RowActionEventModel } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
+import { id } from '@swimlane/ngx-datatable';
 
 
 @Component({
@@ -56,88 +57,183 @@ import { style, animate, transition, trigger, stagger, query } from '@angular/an
     ])
   ]
 })
-export class SearchUserComponent {
+export class SearchUserComponent implements OnInit {
+  public status: number = 1;
+  public rows: CustomerSearchModel[] = [];
+  public pageSize: number = 5;
 
-  
+  page : number = 1;
+  totalPages : number = 1;
 
-  public rows: CustomerModel[] = []
-
-  public limitRow: number = 10;
-  public pages: number = 1;
   public collectionSize: number = 0;
   public columns: CustomColumnModel[] = [
-    { id: 'firstName', name: 'First Name', label: 'ชื่อ', prop: 'firstName', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'lastName', name: 'Last Name', label: 'นามสกุล', prop: 'lastName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'citizenId', name: 'Citizen ID', label: 'หมายเลขบัตรประชาชน', prop: 'citizenId', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'customerTypeName', name: 'CustomerTypeName', label: 'ประเภท', prop: 'customerTypeName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'birthdate', name: 'Birthdate', label: 'วันเกิด', prop: 'birthdate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'identificationId', name: 'Identification ID', label: 'หมายเลขประจำตัวผู้เสียภาษี / หนังสือเดินทาง', prop: 'identification', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'name', name: 'Name', label: 'ชื่อผู้ใช้ / องค์กร', prop: 'name', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'mobilePhone', name: 'mobilePhone', label: 'เบอร์ติดต่อ', prop: 'mobilePhone', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
   public submitted: boolean = false;
   public form: FormGroup = new FormGroup({
-    customerTypeId: new FormControl('domestic', [ Validators.required ]),
-    citizenId: new FormControl(undefined, [ Validators.required ])
+    searchType: new FormControl(undefined, [Validators.required]),
+    deviceType: new FormControl('obu'),
+
+    identificationId: new FormControl(undefined,),
+    firstName: new FormControl(undefined,),
+    lastName: new FormControl(undefined,),
+    mobilePhone: new FormControl(undefined,),
+    corporateName: new FormControl(undefined,),
+
+    faremediaValue: new FormControl(undefined,),
   });
 
-  public tempSearch: string | undefined;
+  public tempSearch: boolean = false;
 
   public isLoading = false;
 
+
   constructor(
     private restApiService: RestApiService,
-    public router: Router
+    public router: Router,
+    private fb: FormBuilder
   ) {
 
   }
+  ngOnInit(): void {
+  }
+
+
 
   onSearch() {
     if (this.form.invalid || this.isLoading) return;
     this.isLoading = true;
-    const mockupData = {
-      customer: {
-        citizenId: this.form.controls['citizenId'].value
-      },
-      requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: "1"
-      }
-    }
-    this.restApiService
-      .post('get-customers', mockupData)
-      .pipe(
-        first(),
-        map(res => res as ReponseSearchCustomerModel)
-      )
-      .subscribe({
-        next: (res) => {
-          console.log(res)
-          // this.rows = res.customers;
-          this.rows = res.customers.map(element => {
-            if(element['firstName'] == undefined){
-              element['firstName'] = element['firstNameEng']
-            }
-            if(element['lastName'] == undefined){
-              element['lastName'] = element['lastNameEng']
-            }
-            return element
-          });
-         
 
-          this.collectionSize = this.rows.length;
-          this.isLoading = false;
-          this.tempSearch = mockupData.customer.citizenId;
-        },
-        error: (err) => {
-          console.error(err);
-          this.isLoading = false;
-        }
-      });
+    const searchType = this.form.value.searchType;
+
+
+    let payload: any = {
+      requestParam: {
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "1"
+      },
+      limit: this.pageSize,
+      page: this.page
+    }
+
+    if (searchType === 'corporate') {
+      payload.identificationId = this.form.value.identificationId;
+      payload.corporateName = this.form.value.corporateName;
+      payload.mobilePhone = this.form.value.mobilePhone;
+      this.searchByCoporate(payload);
+    } else if (searchType === 'personal' || searchType === 'international') {
+      payload.identificationId = this.form.value.identificationId;
+      payload.firstName = this.form.value.firstName;
+      payload.lastName = this.form.value.lastName;
+      payload.mobilePhone = this.form.value.mobilePhone;
+      this.searchByPersonal(payload);
+    } else if (searchType === 'device') {
+      payload.type = this.form.value.deviceType.toUpperCase();
+      payload.value = this.form.value.faremediaValue;
+      // console.log(payload);
+      this.searchByFaremedia(payload);
+    }
+
+
+    // const mockupData = {
+    //   customer: {
+    //     citizenId: this.form.controls['citizenId'].value
+    //   },
+    //   requestParam: {
+    //       reqId: "23498-sss-k339c-322s2",
+    //       channelId: "1"
+    //   }
+    // }
+    // console.log(this.form.controls['citizenId'].value);
+
+
+    // this.restApiService
+    //   .post('get-customers', mockupData)
+    //   .pipe(
+    //     first(),
+    //     map(res => res as ReponseSearchCustomerModel)
+    //   )
+    //   .subscribe({
+    //     next: (res) => {
+    //       console.log(res)
+    //       // this.rows = res.customers;
+    //       this.rows = res.customers.map(element => {
+    //         if(element['firstName'] == undefined){
+    //           element['firstName'] = element['firstNameEng']
+    //         }
+    //         if(element['lastName'] == undefined){
+    //           element['lastName'] = element['lastNameEng']
+    //         }
+    //         return element
+    //       });
+
+
+    //       this.collectionSize = this.rows.length;
+    //       this.isLoading = false;
+    //       this.tempSearch = mockupData.customer.citizenId;
+    //     },
+    //     error: (err) => {
+    //       console.error(err);
+    //       this.isLoading = false;
+    //     }
+    //   });
+
+  }
+
+  searchByPersonal(payload: any) {
+    this.restApiService.postBackOffice('customer/search-by-personal', payload).pipe(first()).subscribe({
+      next: (res: ResponseMessageModel) => {
+        let response = res as ResponseSearchCutomerModel;
+        this.rows = response.data.elements;
+        this.totalPages = response.data.totalPages;
+        this.isLoading = false;
+        this.tempSearch = true;
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  searchByCoporate(payload: any) {
+    this.restApiService.postBackOffice('customer/search-by-corporate', payload).pipe(first()).subscribe({
+      next: (res: ResponseMessageModel) => {
+        let response = res as ResponseSearchCutomerModel;
+        this.rows = response.data.elements;
+        this.totalPages = response.data.totalPages;
+        this.isLoading = false;
+        this.tempSearch = true;
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  searchByFaremedia(payload: any) {
+    let x = this.restApiService.postBackOffice('customer/search-by-faremedia', payload).pipe(first()).subscribe({
+      next: (res: ResponseMessageModel) => {
+        let response = res as ResponseSearchCutomerModel;
+        this.rows = response.data.elements;
+        this.totalPages = response.data.totalPages;
+        this.isLoading = false;
+        this.tempSearch = true;
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false;
+      }
+    });
   }
 
   onChangePage(event: number) {
-    this.pages = event;
+    this.page = event;
   }
 
   onAction(event: RowActionEventModel) {
@@ -149,14 +245,13 @@ export class SearchUserComponent {
 
   onBack() {
     this.submitted = false;
-    this.pages = 1;
-    this.tempSearch = undefined;
+    this.page = 1;
+    this.tempSearch = false;
     this.form.reset();
-    this.form.controls['customerTypeId'].setValue('domestic');
+    this.form.controls['deviceType'].setValue('obu');
   }
 
   onBackToHome() {
     this.router.navigate(['work-space/menu-option']);
   }
-
 }

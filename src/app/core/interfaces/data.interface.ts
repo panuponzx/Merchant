@@ -226,4 +226,17 @@ export interface ICustomerEtaxResModel {
   customerEtax: any[]
   summaryInfoCustomerName: string
 }
+export interface PaginationModel<T> {
+  elements: T,
+  page: number,
+  pageSize: number,
+  totalElements: number,
+  totalPages: number
+}
 
+export interface CustomerSearchModel {
+  id: string,
+  identification: string,
+  mobilePhone: string,
+  name: string,
+}
