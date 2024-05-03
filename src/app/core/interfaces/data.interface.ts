@@ -25,6 +25,7 @@ export interface CarInfoModel {
   smartcardNo: string,
   obuPan: string,
   licensePlate: string,
+  province: string,
   isType9: boolean,
   obuStatus: number,
 }
@@ -242,5 +243,13 @@ export interface ICustomerSearchModel {
   name: string,
 }
 
-// export interface IMasterData
+export interface IProvinceMasterData{
+  provinceId: string,
+  provinceName: string,
+  provinceNameEn: string,
+}
 
+export interface ICarMasterData{
+  id: number,
+  brand: string,
+}
