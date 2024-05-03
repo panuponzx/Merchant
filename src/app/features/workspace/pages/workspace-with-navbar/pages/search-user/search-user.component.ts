@@ -97,7 +97,9 @@ export class SearchUserComponent implements OnInit {
     public router: Router,
     private fb: FormBuilder
   ) {
-
+    this.form.valueChanges.subscribe(x => {
+      console.log("[valueChanges] x => ", x);
+    });
   }
   ngOnInit(): void {
   }
@@ -105,6 +107,17 @@ export class SearchUserComponent implements OnInit {
 
 
   onSearch() {
+    console.log(this.form.invalid );
+    
+    console.log((
+      this.form.invalid &&
+      (this.form.get('searchType')?.value === 'personal') && 
+      !this.form.get('identificationId')?.value && 
+      !this.form.get('firstName')?.value && 
+      !this.form.get('lastName')?.value && 
+      !this.form.get('corporateName')?.value && 
+      !this.form.get('mobilePhone')?.value));
+    
     if (this.form.invalid || this.isLoading) return;
     this.isLoading = true;
 
@@ -129,6 +142,7 @@ export class SearchUserComponent implements OnInit {
       if(this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
       if(this.form.value.firstName) payload.firstName = this.form.value.firstName;
       if(this.form.value.lastName) payload.lastName = this.form.value.lastName;
+      if(this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
       if(this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
       this.searchByPersonal(payload);
     } else if (searchType === 'device') {

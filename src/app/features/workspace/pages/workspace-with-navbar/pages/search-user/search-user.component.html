@@ -78,8 +78,10 @@
         <label class="label-input" *ngIf="form.value.searchType === 'international'">หมายเลขหนังสือเดินทาง</label>
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
-          <input id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
-            formControlName="identificationId" id="identificationIdInput" type="text" placeholder="กรุณาระบุ">
+          <input *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'corporate'" id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
+            formControlName="identificationId" mask="0 0000 00000 00 0" id="identificationIdInput" type="text" placeholder="กรุณาระบุ">
+          <input *ngIf="form.value.searchType === 'international'" id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
+            formControlName="identificationId" minlength="7" id="identificationIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
       </div>
 
@@ -88,7 +90,7 @@
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="firstName" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
-            formControlName="firstName">
+            formControlName="firstName" minlength="2">
         </div>
       </div>
 
@@ -97,7 +99,7 @@
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="lastName" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
-            formControlName="lastName">
+            formControlName="lastName" minlength="2">
         </div>
       </div>
 
@@ -106,7 +108,7 @@
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="corporateName" class="form-control input-with-icon-right" type="text"
-            placeholder="กรุณาระบุ" formControlName="corporateName">
+            placeholder="กรุณาระบุ" formControlName="corporateName" minlength="2">
         </div>
       </div>
 
@@ -116,7 +118,7 @@
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="mobilePhone" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
-            formControlName="mobilePhone">
+            formControlName="mobilePhone" mask="000 000 0000">
         </div>
       </div>
 
@@ -125,7 +127,7 @@
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="faremediaValue" class="form-control input-with-icon-right" type="text"
-            placeholder="กรุณาระบุ" formControlName="faremediaValue">
+            placeholder="กรุณาระบุ" minlength="10" formControlName="faremediaValue">
         </div>
       </div>
 
@@ -137,7 +139,29 @@
             ค้นหา
           </button> -->
           <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton" id="searchButton" title="ค้นหา"
-          [disabled]="isLoading" id="searchButton" 
+          [disabled]="isLoading || form.invalid || 
+          ((form.get('searchType')?.value === 'personal') && 
+          !form.get('identificationId')?.value && 
+          !form.get('firstName')?.value && 
+          !form.get('lastName')?.value && 
+          !form.get('corporateName')?.value && 
+          !form.get('mobilePhone')?.value) ||
+          ((form.get('searchType')?.value === 'corporate') && 
+          !form.get('identificationId')?.value &&
+          !form.get('corporateName')?.value && 
+          !form.get('mobilePhone')?.value) || 
+          ((form.get('searchType')?.value === 'international') && 
+          !form.get('identificationId')?.value && 
+          !form.get('firstName')?.value && 
+          !form.get('lastName')?.value &&
+          !form.get('mobilePhone')?.value) || 
+          ((form.get('searchType')?.value === 'device') && 
+          (form.get('deviceType')?.value === 'smartCard') &&
+          !form.get('faremediaValue')?.value) || 
+          ((form.get('searchType')?.value === 'device') && 
+          (form.get('deviceType')?.value === 'obu') &&
+          !form.get('faremediaValue')?.value)"
+          id="searchButton" 
             type="submit" (click)="onSearch()">
             ค้นหา
           </button>
