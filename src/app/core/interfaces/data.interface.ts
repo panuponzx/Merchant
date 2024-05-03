@@ -25,6 +25,7 @@ export interface CarInfoModel {
   smartcardNo: string,
   obuPan: string,
   licensePlate: string,
+  province: string,
   isType9: boolean,
   obuStatus: number,
 }
@@ -227,7 +228,7 @@ export interface ICustomerEtaxResModel {
   customerEtax: any[]
   summaryInfoCustomerName: string
 }
-export interface PaginationModel<T> {
+export interface IPaginationModel<T> {
   elements: T,
   page: number,
   pageSize: number,
@@ -235,9 +236,20 @@ export interface PaginationModel<T> {
   totalPages: number
 }
 
-export interface CustomerSearchModel {
+export interface ICustomerSearchModel {
   id: string,
   identification: string,
   mobilePhone: string,
   name: string,
+}
+
+export interface IProvinceMasterData{
+  provinceId: string,
+  provinceName: string,
+  provinceNameEn: string,
+}
+
+export interface ICarMasterData{
+  id: number,
+  brand: string,
 }

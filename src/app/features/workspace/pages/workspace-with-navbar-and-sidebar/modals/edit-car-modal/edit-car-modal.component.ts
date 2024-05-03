@@ -3,9 +3,10 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first, firstValueFrom } from 'rxjs';
-import { CarInfoModel, ResponseMessageModel } from 'src/app/core/interfaces';
+import { CarInfoModel, ICarMasterData, IProvinceMasterData, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-edit-car-modal',
@@ -14,21 +15,27 @@ import Swal from 'sweetalert2';
 })
 export class EditCarModalComponent {
 
-  @Input() public carInfo: CarInfoModel= {} as CarInfoModel;
+  @Input() public carInfo: CarInfoModel = {} as CarInfoModel;
   @Input() public walletIdList: number[] = [];
+  @Input() public brands: string[] = [];
+  @Input() public provinces: string[] = [];
+  @Input() public models: CarInfoModel[] = [];
 
-  public form: FormGroup =this.formBuilder.group({
+
+  public form: FormGroup = this.formBuilder.group({
     licensePlate: new FormControl(undefined, Validators.required),
     fullnameCarOwner: new FormControl(undefined, Validators.required),
     brand: new FormControl(undefined, Validators.required),
     model: new FormControl(undefined, Validators.required),
     yearRegistration: new FormControl(undefined, Validators.required),
     remark: new FormControl(undefined, Validators.required),
-    obuPan: new FormControl({value: undefined, disabled: true}, Validators.required),
-    smartcardNo: new FormControl({value: undefined, disabled: true}, Validators.required),
+    obuPan: new FormControl({ value: undefined, disabled: true }, Validators.required),
+    smartcardNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
     isType9: new FormControl(undefined, Validators.required),
     walletId: new FormControl(undefined, Validators.required),
+    province: new FormControl(undefined, Validators.required),
   });
+
 
 
   constructor(
@@ -36,10 +43,14 @@ export class EditCarModalComponent {
     private ngbActiveModal: NgbActiveModal,
     private ngbModal: NgbModal,
     private restApiService: RestApiService,
-    ) { 
+  ) {
   }
 
+
+
   ngOnInit() {
+    this.province();
+    this.brand();
     this.form.get('licensePlate')?.setValue(this.carInfo.licensePlate);
     this.form.get('fullnameCarOwner')?.setValue('นายทดสอบ ทดสอบ');
     this.form.get('brand')?.setValue(this.carInfo.brand);
@@ -49,8 +60,43 @@ export class EditCarModalComponent {
     this.form.get('obuPan')?.setValue(this.carInfo.obuPan);
     this.form.get('smartcardNo')?.setValue(this.carInfo.smartcardNo);
     this.form.get('isType9')?.setValue(this.carInfo.isType9);
-    this.form.get('walletId')?.setValue(this.carInfo.walletId);     
+    this.form.get('walletId')?.setValue(this.carInfo.walletId);
+    this.form.get('province')?.setValue(this.carInfo.province);
+    // this.model();
   }
+
+
+  //car model select dropdown
+  // model() {
+  //   this.restApiService.getBackOffice('').subscribe(
+  //   (response: any) => {
+  //     if (Array.isArray(response.data)) {
+  //       this.models = response.data.map((value : {value:string;}) => value.models);
+  //       console.log(models);
+  //     }
+  //   });
+  // }
+
+  //brand select dropdown 
+  brand() {
+    this.restApiService.getBackOffice('master-data/car-model').subscribe(
+      (res: ResponseMessageModel) => {
+        let response = res as ResponseModel<ICarMasterData[]>;
+        this.brands = response.data.map((value: { brand: string; }) => { return value.brand });
+      }
+    );
+  }
+
+  //province select dropdown
+  province() {
+    this.restApiService.getBackOffice('master-data/province').subscribe(
+      (res: ResponseMessageModel) => {
+        let response = res as ResponseModel<IProvinceMasterData[]>;
+        this.provinces = response.data.map((value: { provinceName: string; }) => { return value.provinceName });
+      });
+  }
+
+
 
   onSuspend() {
     Swal.fire({
@@ -159,5 +205,6 @@ export class EditCarModalComponent {
   onClose() {
     this.ngbActiveModal.close(false);
   }
+
 
 }
