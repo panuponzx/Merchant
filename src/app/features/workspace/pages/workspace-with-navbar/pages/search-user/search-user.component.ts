@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, map } from 'rxjs';
-import { CustomColumnModel, CustomerModel, CustomerSearchModel, ReponseSearchCustomerModel, ResponseMessageModel, ResponseSearchCutomerModel, RowActionEventModel } from '../../../../../../core/interfaces';
+import { CustomColumnModel, CustomerModel, ICustomerSearchModel, IPaginationModel, ResponseMessageModel, ResponseModel, RowActionEventModel } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
 import { id } from '@swimlane/ngx-datatable';
@@ -59,7 +59,7 @@ import { id } from '@swimlane/ngx-datatable';
 })
 export class SearchUserComponent implements OnInit {
   public status: number = 1;
-  public rows: CustomerSearchModel[] = [];
+  public rows: ICustomerSearchModel[] = [];
   public pageSize: number = 5;
 
   page : number = 1;
@@ -187,7 +187,7 @@ export class SearchUserComponent implements OnInit {
   searchByPersonal(payload: any) {
     this.restApiService.postBackOffice('customer/search-by-personal', payload).pipe(first()).subscribe({
       next: (res: ResponseMessageModel) => {
-        let response = res as ResponseSearchCutomerModel;
+        let response = res as ResponseModel<IPaginationModel<Array<ICustomerSearchModel>>>;
         this.rows = response.data.elements;
         // this.totalPages = response.data.totalPages;
         this.collectionSize = response.data.totalElements;
@@ -205,7 +205,7 @@ export class SearchUserComponent implements OnInit {
   searchByCoporate(payload: any) {
     this.restApiService.postBackOffice('customer/search-by-corporate', payload).pipe(first()).subscribe({
       next: (res: ResponseMessageModel) => {
-        let response = res as ResponseSearchCutomerModel;
+        let response = res as ResponseModel<IPaginationModel<Array<ICustomerSearchModel>>>;
         this.rows = response.data.elements;
         // this.totalPages = response.data.totalPages;
         this.collectionSize = response.data.totalElements;
@@ -222,7 +222,7 @@ export class SearchUserComponent implements OnInit {
   searchByFaremedia(payload: any) {
     let x = this.restApiService.postBackOffice('customer/search-by-faremedia', payload).pipe(first()).subscribe({
       next: (res: ResponseMessageModel) => {
-        let response = res as ResponseSearchCutomerModel;
+        let response = res as ResponseModel<IPaginationModel<Array<ICustomerSearchModel>>>;
         this.rows = response.data.elements;
         // this.totalPages = response.data.totalPages;
         this.collectionSize = response.data.totalElements;

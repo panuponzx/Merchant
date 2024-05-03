@@ -1,4 +1,4 @@
-import { AddressModel, CarInfoModel, CustomerModel, CustomerSearchModel, ITransferModel, ObuInfoModel, PaginationModel, PassageInformationModel, TopupModel, TransactionModel, WalletSummaryModel, ZipcodeModel } from "./data.interface";
+import { AddressModel, CarInfoModel, CustomerModel, ICustomerSearchModel, ITransferModel, ObuInfoModel, IPaginationModel, PassageInformationModel, TopupModel, TransactionModel, WalletSummaryModel, ZipcodeModel } from "./data.interface";
 
 export interface ResponseMessageModel {
   errorCode: string,
@@ -9,9 +9,14 @@ export interface ResponseMessageModel {
   }
 }
 
-export interface ResponseSearchCutomerModel extends ResponseMessageModel {
-  data: PaginationModel<Array<CustomerSearchModel>>
+export interface ResponseModel <T> extends ResponseMessageModel{
+  data: T,
+  throwableMessage: string
 }
+
+// export interface ResponseSearchCutomerModel extends ResponseMessageModel {
+//   data: IPaginationModel<Array<ICustomerSearchModel>>
+// }
 
 export interface ReponseWalletSummaryModel extends ResponseMessageModel {
   lstSummary: WalletSummaryModel[]
