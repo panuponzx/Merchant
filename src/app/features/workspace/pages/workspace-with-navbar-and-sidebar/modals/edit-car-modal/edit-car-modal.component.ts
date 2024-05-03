@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input  } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first, firstValueFrom } from 'rxjs';
@@ -12,10 +12,14 @@ import Swal from 'sweetalert2';
   templateUrl: './edit-car-modal.component.html',
   styleUrl: './edit-car-modal.component.scss'
 })
-export class EditCarModalComponent {
+export class EditCarModalComponent  {
 
   @Input() public carInfo: CarInfoModel= {} as CarInfoModel;
   @Input() public walletIdList: number[] = [];
+  @Input() public brands: string[]= [];
+  
+
+  
 
   public form: FormGroup =this.formBuilder.group({
     licensePlate: new FormControl(undefined, Validators.required),
@@ -28,8 +32,10 @@ export class EditCarModalComponent {
     smartcardNo: new FormControl({value: undefined, disabled: true}, Validators.required),
     isType9: new FormControl(undefined, Validators.required),
     walletId: new FormControl(undefined, Validators.required),
+    province: new FormControl(undefined, Validators.required),
   });
 
+  
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,7 +45,9 @@ export class EditCarModalComponent {
     ) { 
   }
 
-  ngOnInit() {
+  
+
+  ngOnInit()  {
     this.form.get('licensePlate')?.setValue(this.carInfo.licensePlate);
     this.form.get('fullnameCarOwner')?.setValue('นายทดสอบ ทดสอบ');
     this.form.get('brand')?.setValue(this.carInfo.brand);
@@ -50,8 +58,25 @@ export class EditCarModalComponent {
     this.form.get('smartcardNo')?.setValue(this.carInfo.smartcardNo);
     this.form.get('isType9')?.setValue(this.carInfo.isType9);
     this.form.get('walletId')?.setValue(this.carInfo.walletId);     
+    this.province();
   }
 
+  provinces: any[] =[];
+   
+
+  province() {
+    this.restApiService.getBackOffice('master-data/province').subscribe(
+      (response: any) => {
+        console.log(response);
+        if (Array.isArray(response.data)) {
+          this.provinces =  response.data.map((value: { provinceName: string; }) =>{ return value.provinceName}); 
+          console.log(this.provinces);
+        }
+      })
+      
+  }
+
+  
   onSuspend() {
     Swal.fire({
       title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการอายัดอุปกรณ์</h2>',
@@ -160,4 +185,5 @@ export class EditCarModalComponent {
     this.ngbActiveModal.close(false);
   }
 
+  
 }
