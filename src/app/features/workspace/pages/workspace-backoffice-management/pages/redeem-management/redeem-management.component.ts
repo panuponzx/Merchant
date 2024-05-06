@@ -17,7 +17,7 @@ export class RedeemManagementComponent {
   @ViewChild('inputFile', { static: false }) private inputFileEl: | ElementRef | any;
 
 
-  public isAdd: boolean = true;
+  public isAdd: boolean = false;
   public submitted: boolean = false;
   public form: FormGroup;
 

@@ -22,7 +22,7 @@
         </div>
         <div class="navs-container">
             <datatable [columns]="basicRatingColumns" [collectionSize]="collectionSize" [id]="'userDatatable'"
-                [isLoading]="isLoading" [limitRow]="limitRow" [pages]="pages" [rows]="basicRatingRows"
+                [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="basicRatingRows"
                 emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onAction($event)">
             </datatable>
         </div>
@@ -37,7 +37,7 @@
             </button>
         </div>
         <datatable [columns]="specialRatingColumns" [collectionSize]="collectionSize1" [id]="'userDatatable'"
-            [isLoading]="isLoading" [limitRow]="limitRow1" [pages]="pages1" [rows]="specialRatingRows"
+            [isLoading]="isLoading" [pageSize]="limitRow1" [page]="pages1" [rows]="specialRatingRows"
             emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onAction($event)">
         </datatable>
     </section>
