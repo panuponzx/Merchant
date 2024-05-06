@@ -1,0 +1,139 @@
+<div class="content-container container-xl p-0">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">ตั้งค่าการแลกคะแนน</h1>
+        </div>
+    </div>
+    <hr class="hr-custom mb-3" />
+    <button *ngIf="isAdd" class="custom-btn btn-type-1 mb-3" data-testid="backButton" id="backButton" title="กลับ"
+        type="button" (click)="onBack()">
+        กลับ
+    </button>
+    <section *ngIf="!isAdd" class="navs-container">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
+                class="nav-tabs nav-tabs-header">
+                <li [ngbNavItem]="'exchange'">
+                    <button ngbNavLink>สินค้าแลก</button>
+                    <ng-template ngbNavContent>
+                        <redeem-exchange></redeem-exchange>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="'coupon'">
+                    <button ngbNavLink>คูปอง</button>
+                    <ng-template ngbNavContent>
+                        <redeem-exchange></redeem-exchange>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="'toll'">
+                    <button ngbNavLink>ค่าผ่านทาง</button>
+                    <ng-template ngbNavContent>
+                        <redeem-exchange></redeem-exchange>
+                    </ng-template>
+                </li>
+            </ul>
+            <button class="custom-btn btn-type-1" title="Login" type="submit" (click)="onAdd()">
+                เพิ่มรายการใหม่
+            </button>
+        </div>
+        <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
+    </section>
+
+    <section *ngIf="isAdd">
+        <form [formGroup]="form">
+            <h3 class="content-title mb-5">
+                กรุณาระบุรายละเอียด
+            </h3>
+            <div class="row">
+                <div class="col-12 col-lg-6 mb-3">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="attachDocumentInput">
+                            อัปโหลดรูปภาพ
+                        </label>
+                        <div>
+                            <input #inputFile id="inputImportSignature" class="d-none" type="file"
+                                (change)="fileTypeValidation($event)" />
+                            <button style="width: 100%" class="custom-btn btn-type-3" data-testid="uploadImageButton"
+                                id="uploadImageButton" title="อัพโหลด" (click)="inputFile.click()">
+                                <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
+                                Browse - Upload
+                            </button>
+                            <span>{{ form.get('attachDocument')?.value?.name }}</span>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="type">
+                            ประเภท
+                        </label>
+                        <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                            data-testid="type" placeholder="กรุณาระบุ" formControlName="type" id="type"
+                            [items]="[]"></ng-select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="identificationInput">
+                            ชื่อรายการ
+                        </label>
+                        <input class="form-control" data-testid="identificationInput" formControlName="itemName"
+                            id="identificationInput" placeholder="กรุณาระบุ" type="text">
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 mb-3">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="dateDatePicker">
+                            เวลาเริ่ม
+                        </label>
+                        <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
+                            formControlName="startDate" [id]="'dateDatePicker'" [invalid]="submitted ? true : false"
+                            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="dateDatePicker">
+                            เวลาสิ้นสุด
+                        </label>
+                        <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
+                            formControlName="endDate" [id]="'dateDatePicker'" [invalid]="submitted ? true : false"
+                            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="identificationInput">
+                            จำนวนคะแนนที่ใช้แลก
+                        </label>
+                        <input class="form-control" data-testid="identificationInput" formControlName="totalPoint"
+                            id="identificationInput" placeholder="กรุณาระบุ" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="identificationInput">
+                        รายละเอียด
+                    </label>
+                    <textarea data-testid="description" id="description" formControlName="description"
+                        placeholder="กรุณาระบุ" rows="4" class="form-control">
+                    </textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="identificationInput">
+                        รายละเอียด
+                    </label>
+                    <textarea data-testid="condition" id="condition" formControlName="condition" placeholder="กรุณาระบุ"
+                        rows="4" class="form-control">
+                    </textarea>
+                </div>
+            </div>
+            <hr class="hr-custom mb-3" />
+            <div class="footer d-flex justify-content-center gap-3">
+                <button class="custom-btn btn-fixed-size-1 btn-type-3" (click)="onBack()" data-testid="cancelButton"
+                    id="cancelButton" title="ยกเลิก">
+                    ยกเลิก
+                </button>
+                <button class="custom-btn btn-fixed-size-1 btn-type-1" (click)="onSubmit()" data-testid="submitButton"
+                    id="submitButton" title="บันทึก">
+                    บันทึก
+                </button>
+            </div>
+        </form>
+    </section>
+</div>
