@@ -146,6 +146,7 @@ export class WalletInfoComponent implements OnInit {
       keyboard: false,
     });
     modalRef.componentInstance.customerId = this.customerId;
+    modalRef.componentInstance.customerTypeId = this.customerTypeId;
     modalRef.result.then(
       (result) => {
         if (result) {
