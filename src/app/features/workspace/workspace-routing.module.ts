@@ -26,6 +26,8 @@ import { AddEditComponent } from './pages/workspace-backoffice-management/pages/
 import { AddComponent } from './pages/workspace-backoffice-management/pages/setting-earn-campaign/tabs/manage-redeem/add/add.component';
 import { PaymentInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/payment-information/payment-information.component';
 import { TransferInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/transfer-information.component';
+import { EarningManagementComponent } from './pages/workspace-backoffice-management/pages/earning-management/earning-management.component';
+import { RedeemManagementComponent } from './pages/workspace-backoffice-management/pages/redeem-management/redeem-management.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -172,30 +174,27 @@ export const routesConfig: CustomRoutesModel = [
             canActivate: [TabGuard]
           },
           {
-            id: 'ManageEarningComponent',
+            id: 'EarningManagementComponent',
             path: 'manage-earning',
-            component: ManageEarningComponent,
+            component: EarningManagementComponent,
             data: {
               is_sidebar: true,
               label: 'ระบบการให้คะแนน',
-              // request_id: true,
               default_path: 'manage-earning',
-              // allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list']
             },
             canActivate: [TabGuard]
           },
           {
-            id: 'ManageRedeemComponent',
-            path: 'manage-redeem/:tabs',
-            component: ManageRedeemComponent,
+            id: 'RedeemManagementComponent',
+            path: 'manage-redeem/:tab',
+            component: RedeemManagementComponent,
             data: {
               is_sidebar: true,
               label: 'ระบบการแลกคะแนน',
-              // request_id: true,
               default_path: 'manage-redeem',
-              allowed_tabs: ['Exchange-products', 'coupon', 'toll']
+              allowed_tabs: ['exchange', 'coupon', 'toll']
             },
-            // canActivate: [ TabGuard ]
+            canActivate: [ TabGuard ]
           },
           {
             id: 'add-edit',

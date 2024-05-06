@@ -76,6 +76,9 @@ import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/u
 import { PassageInfoModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/passage-info-modal/passage-info-modal.component';
 import { EmailVerificationModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/email-verification-modal/email-verification-modal.component';
 import { OtpRequestModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/otp-request-modal/otp-request-modal.component';
+import { EarningManagementComponent } from './pages/workspace-backoffice-management/pages/earning-management/earning-management.component';
+import { RedeemManagementComponent } from './pages/workspace-backoffice-management/pages/redeem-management/redeem-management.component';
+import { RedeemExchangeComponent } from './pages/workspace-backoffice-management/pages/redeem-management/tabs/redeem-exchange/redeem-exchange.component';
 
 
 @NgModule({
@@ -141,6 +144,9 @@ import { OtpRequestModalComponent } from './pages/workspace-with-navbar-and-side
     PassageInfoModalComponent,
     EmailVerificationModalComponent,
     OtpRequestModalComponent,
+    EarningManagementComponent,
+    RedeemManagementComponent,
+    RedeemExchangeComponent,
   ],
   imports: [
     CommonModule,
