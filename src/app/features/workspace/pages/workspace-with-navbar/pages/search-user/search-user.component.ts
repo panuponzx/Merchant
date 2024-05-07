@@ -142,7 +142,7 @@ export class SearchUserComponent implements OnInit {
       if(this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
       if(this.form.value.firstName) payload.firstName = this.form.value.firstName;
       if(this.form.value.lastName) payload.lastName = this.form.value.lastName;
-      if(this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
+      // if(this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
       if(this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
       this.searchByPersonal(payload);
     } else if (searchType === 'device') {
