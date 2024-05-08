@@ -224,3 +224,12 @@ export interface ICustomerEtaxResModel {
   summaryInfoCustomerName: string
 }
 
+export interface IFaremediaModel {
+  carBrand: string
+  carModel: string
+  carLicensePlate: string
+  carYearRegistration: string
+  obuNo: string
+  smartCardNo: string
+  walletName: string | null
+}

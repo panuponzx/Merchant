@@ -41,17 +41,17 @@
             />
           </ng-template>
         </li>
-        <li [ngbNavItem]="'unactive'">
-          <button ngbNavLink>ยังไม่ได้เปิดใช้งาน ({{ unactiveRows.length }})</button>
+        <li [ngbNavItem]="'inactive'">
+          <button ngbNavLink>ยังไม่ได้เปิดใช้งาน ({{ inactiveRows.length }})</button>
           <ng-template ngbNavContent>
             <datatable
-              [columns]="unactiveUsedColumns"
-              [collectionSize]="unactiveRows.length"
-              [id]="'deviceUnactiveDatatable'"
+              [columns]="inactiveUsedColumns"
+              [collectionSize]="inactiveRows.length"
+              [id]="'deviceInactiveDatatable'"
               [isLoading]="isLoading"
               [limitRow]="limitRow"
               [pages]="pages"
-              [rows]="unactiveRows"
+              [rows]="inactiveRows"
               emptyMessage="ไม่มีข้อมูล"
               (onChangePageEvent)="onChangePage($event)"
               (onRowActionEvent)="onAction($event)"
