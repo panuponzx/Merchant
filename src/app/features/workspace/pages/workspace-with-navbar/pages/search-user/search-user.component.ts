@@ -5,7 +5,6 @@ import { first, map } from 'rxjs';
 import { CustomColumnModel, CustomerModel, ICustomerSearchModel, IPaginationModel, ResponseMessageModel, ResponseModel, RowActionEventModel } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
-import { id } from '@swimlane/ngx-datatable';
 
 
 @Component({
@@ -25,7 +24,15 @@ import { id } from '@swimlane/ngx-datatable';
         animate('400ms', style({ opacity: 1 }))
       ]),
       transition(':leave', [
-        animate('400ms', style({ opacity: 0 }))
+        animate('200ms', style({ opacity: 0 }))
+      ])
+    ]),trigger('fadeInseach', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('400ms', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('0ms', style({ opacity: 0 }))
       ])
     ]), trigger('slideInOutSearch', [
       transition(':enter', [
