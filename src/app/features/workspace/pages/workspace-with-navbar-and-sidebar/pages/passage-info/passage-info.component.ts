@@ -166,10 +166,8 @@ export class PassageInfoComponent implements OnInit {
         reqId: "23498-sss-k339c-322s2",
         channelId: "2"
       },
-      // from: data.from,
-      from: '2024-01-01',
-      to: '2024-04-30',
-      // to: data.to,
+      from: data.from,
+      to: data.to,
       walletId: data.walletId,
       page: data.page,
     };
