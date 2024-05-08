@@ -1,4 +1,4 @@
-import { AddressModel, CarInfoModel, CustomerModel, ICustomerSearchModel, ITransferModel, ObuInfoModel, IPaginationModel, PassageInformationModel, TopupModel, TransactionModel, WalletSummaryModel, ZipcodeModel } from "./data.interface";
+import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel } from "./data.interface"
 
 export interface ResponseMessageModel {
   errorCode: string,
@@ -63,4 +63,8 @@ export interface IResponseTransferModel extends ResponseMessageModel {
   errorMessage: string
   throwableMessage: string
   totalData: number
+}
+
+export interface IResponseFaremediaModel extends ResponseMessageModel {
+  data: IFaremediaModel[]
 }

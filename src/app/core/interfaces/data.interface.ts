@@ -243,13 +243,23 @@ export interface ICustomerSearchModel {
   name: string,
 }
 
-export interface IProvinceMasterData{
+export interface IProvinceMasterData {
   provinceId: string,
   provinceName: string,
   provinceNameEn: string,
 }
 
-export interface ICarMasterData{
+export interface ICarMasterData {
   id: number,
   brand: string,
+
+}
+export interface IFaremediaModel {
+  carBrand: string
+  carModel: string
+  carLicensePlate: string
+  carYearRegistration: string
+  obuNo: string
+  smartCardNo: string
+  walletName: string | null
 }
