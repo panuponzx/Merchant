@@ -51,8 +51,8 @@
         </div>
       </div>
       <div class="button-wrapper">
-        <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา" type="submit"
-        (click)="onSearch()">
+        <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" [disabled]="form.invalid" title="ค้นหา" type="submit"
+          (click)="onSearch()">
           <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
         </button>
       </div>
@@ -66,217 +66,153 @@
           [externalPaging]="true"
           [id]="'transactionDatatable'"
           [isLoading]="isLoading"
-          [limitRow]="limitRow"
-          [pages]="pages"
+          [pageSize]="limitRow"
+          [page]="pages"
           [rows]="rows"
           emptyMessage="ไม่มีข้อมูล"
           (onChangePageEvent)="onChangePage($event)"
           (onRowActionEvent)="onAction($event)"
         /> -->
 
-
+        <ng-container *ngIf="rows && rows.length > 0; else emptyEl; ">
           <div class="datatable-content datatable-no-box-shadow datatable-border-solid">
-            <ngx-datatable
-            #myTable
-            class="material expandable"
-            [rows]="rows"
-            [rowHeight]="'auto'"
-            [headerHeight]="$any('auto')"
-            [groupRowsBy]="'group'"
-            [columnMode]="columnMode.force"
-            [scrollbarH]="true"
-            [limit]="limitRow"
-            [groupExpansionDefault]="true"
-            [count]="collectionSize"
-            [externalPaging]="true"
-            [offset]="pages - 1"
-          >
-            <!-- Group Header Template -->
-            <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
-              <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
-                <div class="d-flex justify-content-between" style="width: 100%; padding-left:5px;" (click)="toggleExpandGroup(group)">
-                  <a
-                    class="toggle-group-header"
-                    [class.datatable-icon-right-custom]="!expanded"
-                    [class.datatable-icon-down-custom]="expanded"
-                    title="Expand/Collapse Group"
-                  >
-                  <span>{{ group.value[0].entryHqName }} - {{ group.value[0].exitHqName }}</span>
-                  </a>
-                  <span>จำนวน {{ group.value[0].gAmount }} บาท</span>
-                </div>
-              </ng-template>
-            </ngx-datatable-group-header>
-            <ngx-datatable-column 
-              prop="transactionDate"
-              [sortable]="false"
-              [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"
-            >
-              <ng-template ngx-datatable-header-template>
+            <ngx-datatable #myTable class="material expandable" [rows]="rows" [rowHeight]="'auto'"
+              [headerHeight]="$any('auto')" [groupRowsBy]="'group'" [columnMode]="columnMode.force" [scrollbarH]="true"
+              [limit]="limitRow" [groupExpansionDefault]="true" [count]="collectionSize" [externalPaging]="true"
+              [offset]="pages - 1">
+              <!-- Group Header Template -->
+              <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+                <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                  <div class="d-flex justify-content-between" style="width: 100%; padding-left:5px;"
+                    (click)="toggleExpandGroup(group)">
+                    <a class="toggle-group-header" [class.datatable-icon-right-custom]="!expanded"
+                      [class.datatable-icon-down-custom]="expanded" title="Expand/Collapse Group">
+                      <span>{{ group.value[0].entryHqName }} - {{ group.value[0].exitHqName }}</span>
+                    </a>
+                    <span>จำนวน {{ group.value[0].gAmount }} บาท</span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-group-header>
+              <ngx-datatable-column prop="transactionDate" [sortable]="false" [headerClass]="'text-break text-center'"
+                [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
                   <span>วันที่ และ เวลา</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                <ng-container>
-                  {{  row.transactionDate ? ( row.transactionDate | transformDate : 'DD/MM/BBBB HH:mm:ss' : 'th') : "-" }}
-                </ng-container>
                 </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column 
-              prop="group"
-              [sortable]="false"
-              [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"
-            >
-              <ng-template ngx-datatable-header-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  <ng-container>
+                    {{ row.transactionDate ? ( row.transactionDate | transformDate : 'DD/MM/BBBB HH:mm:ss' : 'th') : "-"
+                    }}
+                  </ng-container>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="group" [sortable]="false" [headerClass]="'text-break text-center'"
+                [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
                   <span>สายทางเข้า</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.entryHqName }}
                 </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column 
-              prop="group"
-              [sortable]="false"
-              [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"
-            >
-              <ng-template ngx-datatable-header-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{ row.entryHqName }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="group" [sortable]="false" [headerClass]="'text-break text-center'"
+                [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
                   <span>สายทางออก</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.exitHqName }}
                 </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column 
-              prop="group"
-              [sortable]="false"
-              [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"
-            >
-              <ng-template ngx-datatable-header-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{ row.exitHqName }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="group" [sortable]="false" [headerClass]="'text-break text-center'"
+                [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
                   <span>อาคารด่านเข้า</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.entryPlazaName }}
                 </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column 
-              prop="group"
-              [sortable]="false"
-              [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"
-            >
-              <ng-template ngx-datatable-header-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{ row.entryPlazaName }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="group" [sortable]="false" [headerClass]="'text-break text-center'"
+                [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
                   <span>อาคารด่านออก</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.exitPlazaName }}
                 </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column 
-              prop="obu"
-              [sortable]="false"
-              [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"
-            >
-              <ng-template ngx-datatable-header-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{ row.exitPlazaName }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="obu" [sortable]="false" [headerClass]="'text-break text-center'"
+                [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
                   <span>OBU serial no.</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.obu }}
                 </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column 
-              prop="amount"
-              [sortable]="false"
-              [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"
-            >
-              <ng-template ngx-datatable-header-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{ row.obu }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="amount" [sortable]="false" [headerClass]="'text-break text-center'"
+                [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
                   <span>จำนวนเงิน</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{  row.amount }}
                 </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column 
-              prop="isCancelled"
-              [sortable]="false"
-              [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"
-            >
-              <ng-template ngx-datatable-header-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{ row.amount }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="isCancelled" [sortable]="false" [headerClass]="'text-break text-center'"
+                [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
                   <span>สถานะ</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                <ng-container *ngIf="value; else textFalseEl;">
-                  <span [ngClass]="'text-red-exat' ? 'text-red-exat' : null">
-                    ยกเลิกแล้ว
-                  </span>
-                </ng-container>
-                <ng-template #textFalseEl>
-                  <span>-</span>
                 </ng-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  <ng-container *ngIf="value; else textFalseEl;">
+                    <span [ngClass]="'text-red-exat' ? 'text-red-exat' : null">
+                      ยกเลิกแล้ว
+                    </span>
+                  </ng-container>
+                  <ng-template #textFalseEl>
+                    <span>-</span>
+                  </ng-template>
                 </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column 
-              prop="transactionDate"
-              [sortable]="false"
-              [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"
-            >
-              <ng-template ngx-datatable-header-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="transactionDate" [sortable]="false" [headerClass]="'text-break text-center'"
+                [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
                   <span>รายละเอียด</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
-                <button
-                    [attr.data-testid]="'description' + rowIndex + 'Button'"
-                    class="custome-btn btn-icon"
-                    [id]="'description' + rowIndex + 'Button'"
-                    type="button"
-                    [title]="'รายละเอียด'"
-                    (click)="onAction({ index: rowIndex, type: 'action', row: row, action: 'description' })"
-                  >
-                    <icon-svg
-                      size="l"
-                      [color]="'#2255CE'"
-                      [path]="'list' | icon"
-                    />
+                </ng-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
+                  <button [attr.data-testid]="'description' + rowIndex + 'Button'" class="custome-btn btn-icon"
+                    [id]="'description' + rowIndex + 'Button'" type="button" [title]="'รายละเอียด'"
+                    (click)="onAction({ index: rowIndex, type: 'action', row: row, action: 'description' })">
+                    <icon-svg size="l" [color]="'#2255CE'" [path]="'list' | icon" />
                   </button>
                 </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>
+              </ngx-datatable-column>
+            </ngx-datatable>
           </div>
 
-          <div  class="datatable-footer">
-        <div class="datatable-total">
-          total {{ collectionSize }}
-        </div>
-        <div class="datatable-pagination-wrapper">
-          <div
-            id="datatableInfo"
-            data-testid="datatableInfo"
-            class="datatable-info"
-          >Page {{ pages }} of  {{ collectionSize | getTotalPage: limitRow  }}
-          </div>
-          <div>
-            <ngb-pagination
-              class="datatable-pagination"
-              id="datatablePagination"
-              data-testid="datatablePagination"
-              [collectionSize]="collectionSize"
-              [(page)]="pages"
-              [pageSize]="limitRow"
-              (pageChange)="onChangePage($event)"
-            >
-              <ng-template ngbPaginationPages let-page let-pages="pages"></ng-template>
-            </ngb-pagination>
-          </div>
-        </div>
+          <div class="datatable-footer">
+            <div class="datatable-total">
+              total {{ collectionSize }}
+            </div>
+            <div class="datatable-pagination-wrapper">
+              <div id="datatableInfo" data-testid="datatableInfo" class="datatable-info">Page {{ pages }} of {{
+                collectionSize | getTotalPage: limitRow }}
+              </div>
+              <div>
+                <ngb-pagination class="datatable-pagination" id="datatablePagination" data-testid="datatablePagination"
+                  [collectionSize]="collectionSize" [(page)]="pages" [pageSize]="limitRow"
+                  (pageChange)="onChangePage($event)">
+                  <ng-template ngbPaginationPages let-page let-pages="pages"></ng-template>
+                </ngb-pagination>
+              </div>
+            </div>
 
-      </div>
-
+          </div>
+        </ng-container>
+        <ng-template #emptyEl>
+          <div class="empty-row mb-3">ไม่มีข้อมูล</div>
+        </ng-template>
       </div>
     </ng-container>
   </div>

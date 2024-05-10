@@ -1,4 +1,4 @@
-import { AddressModel, CarInfoModel, CustomerModel, ITransferModel, ObuInfoModel, PassageInformationModel, TopupModel, TransactionModel, WalletSummaryModel, ZipcodeModel } from "./data.interface";
+import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel } from "./data.interface"
 
 export interface ResponseMessageModel {
   errorCode: string,
@@ -8,6 +8,15 @@ export interface ResponseMessageModel {
     reqId: string
   }
 }
+
+export interface ResponseModel <T> extends ResponseMessageModel{
+  data: T,
+  throwableMessage: string
+}
+
+// export interface ResponseSearchCutomerModel extends ResponseMessageModel {
+//   data: IPaginationModel<Array<ICustomerSearchModel>>
+// }
 
 export interface ReponseWalletSummaryModel extends ResponseMessageModel {
   lstSummary: WalletSummaryModel[]
@@ -54,4 +63,8 @@ export interface IResponseTransferModel extends ResponseMessageModel {
   errorMessage: string
   throwableMessage: string
   totalData: number
+}
+
+export interface IResponseFaremediaModel extends ResponseMessageModel {
+  data: IFaremediaModel[]
 }

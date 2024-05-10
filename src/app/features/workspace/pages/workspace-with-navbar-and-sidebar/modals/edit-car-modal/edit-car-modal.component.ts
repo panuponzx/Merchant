@@ -1,9 +1,9 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, Input  } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first, firstValueFrom } from 'rxjs';
-import { CarInfoModel, ResponseMessageModel } from 'src/app/core/interfaces';
+import { CarInfoModel, ICarMasterData, IProvinceMasterData, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
 
@@ -13,43 +13,46 @@ import Swal from 'sweetalert2';
   templateUrl: './edit-car-modal.component.html',
   styleUrl: './edit-car-modal.component.scss'
 })
-export class EditCarModalComponent  {
+export class EditCarModalComponent {
 
-  @Input() public carInfo: CarInfoModel= {} as CarInfoModel;
+  @Input() public carInfo: CarInfoModel = {} as CarInfoModel;
   @Input() public walletIdList: number[] = [];
   @Input() public brands: CarInfoModel[] = [];
   @Input() public selectedProvince: CarInfoModel[]=[];
   @Input() public models: CarInfoModel[] =[];
   
 
-  public form: FormGroup =this.formBuilder.group({
+
+  public form: FormGroup = this.formBuilder.group({
     licensePlate: new FormControl(undefined, Validators.required),
     fullnameCarOwner: new FormControl(undefined, Validators.required),
     brand: new FormControl(undefined, Validators.required),
     model: new FormControl(undefined, Validators.required),
     yearRegistration: new FormControl(undefined, Validators.required),
     remark: new FormControl(undefined, Validators.required),
-    obuPan: new FormControl({value: undefined, disabled: true}, Validators.required),
-    smartcardNo: new FormControl({value: undefined, disabled: true}, Validators.required),
+    obuPan: new FormControl({ value: undefined, disabled: true }, Validators.required),
+    smartcardNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
     isType9: new FormControl(undefined, Validators.required),
     walletId: new FormControl(undefined, Validators.required),
     province: new FormControl(undefined, Validators.required),
     color: new FormControl(undefined, Validators.required),
   });
 
-  
+
 
   constructor(
     private formBuilder: FormBuilder,
     private ngbActiveModal: NgbActiveModal,
     private ngbModal: NgbModal,
     private restApiService: RestApiService,
-    ) { 
+  ) {
   }
 
-  
 
-  ngOnInit()  {
+
+  ngOnInit() {
+    this.province();
+    this.brand();
     this.form.get('licensePlate')?.setValue(this.carInfo.licensePlate);
     this.form.get('fullnameCarOwner')?.setValue('นายทดสอบ ทดสอบ');
     this.form.get('province')?.setValue(this.carInfo.province);
@@ -107,9 +110,13 @@ export class EditCarModalComponent  {
       preConfirm: async () => {
         try {
           const payload = {
-            obuPan: this.carInfo.obuPan,
-            smartcardNo: this.carInfo.smartcardNo,
-            walletId: this.carInfo.walletId.toString(),
+            obu: {
+              obuPan: this.carInfo.obuPan,
+              smartcardNo: this.carInfo.smartcardNo,
+            },
+            wallet: {
+              id: this.carInfo.walletId.toString(),
+            },
             requestParam: {
               reqId: "23498-sss-k339c-322s2",
               channelId: "1"
@@ -156,9 +163,13 @@ export class EditCarModalComponent  {
       preConfirm: async () => {
         try {
           const payload = {
-            obuPan: this.carInfo.obuPan,
-            smartcardNo: this.carInfo.smartcardNo,
-            walletId: this.carInfo.walletId.toString(),
+            obu: {
+              obuPan: this.carInfo.obuPan,
+              smartcardNo: this.carInfo.smartcardNo,
+            },
+            wallet: {
+              id: this.carInfo.walletId.toString(),
+            },
             requestParam: {
               reqId: "23498-sss-k339c-322s2",
               channelId: "1"

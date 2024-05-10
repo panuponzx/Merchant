@@ -17,109 +17,264 @@
     กลับ
     </button>
 </div>
+<form [formGroup]="form">
+    <div class="row pt-3">
+        <h3 class="content-title">
+            รายละเอียดกิจกรรม
+        </h3>
+        <div class="col-12 col-lg-4 mb-3">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="firstName">
+                  ชื่อกิจกรรม
+                </label>
+             <input class="form-control"  formControlName="firstName" id="firstName" type="text" placeholder="กรุณาระบุ">
+             </div>
+        </div>
+            
+    </div>    
+    
+        <h3 class="content-title">
+            รายละเอียดคะแนน
+        </h3>
 
-<div class="pt-3">
-    <h3 class="content-title">
+    <div class="row pt-3">
+        <div class="col-12 col-lg-4 mb-3">
+            <div class="form-group d-inline">
+                <label class="text-description mb-2 required-field">ตัวแปรการคำนวนคะแนน</label>
+                <ng-select 
+                    class="form-control mb-2"
+                    [clearable]="false" 
+                    bindLabel="label"
+                    bindValue="id"
+                    id="selectisEtaxActive"
+                    data-testid="selectisEtaxActive"
+                    formControlName="isEtaxActive"
+                    [items]="CalculatedVariables"
+                    placeholder="กรุณาระบุ">
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+                <label class="text-description mb-2 required-field" for="firstName">
+                  ชื่อกิจกรรม
+                </label>
+             <input class="form-control"  data-testid="lastName" formControlName="lastName" id="lastName" type="text" placeholder="กรุณาระบุ">
+        </div>
+        <h3 class="pb-3">
+            รายละเอียดการคำนวน :
+            <span class="text-description">กรุณาระบุ ตัวแปรการคำนวนคะแนน และ ตัวเลขการคำนวนคะแนน</span>
+          </h3>
+                  
+    </div>
+
+    <h3 class="content-title pt-3">
+        ประเภทที่ร่วมรายการ
+    </h3>
+
+    <div class="row pt-3">
+        <div class="col-12 col-lg-4 mb-3">
+            <div class="form-group d-inline">
+                <label class="text-description mb-2 required-field">ประเภทรถ</label>
+                <ng-select 
+                    class="form-control mb-2"
+                    [clearable]="false" 
+                    bindLabel="name"
+                    bindValue="name"
+                    id="selectisEtaxActive"
+                    data-testid="selectisEtaxActive"
+                    [items]="CarType"
+                    placeholder="กรุณาระบุ"
+                    [multiple]="true">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input 
+                        id="item-{{index}}" 
+                        type="checkbox" 
+                        >
+                        {{item.name}}
+                </ng-template>
+                </ng-select>
+
+            </div>
+        </div>
+        
+        <div class="col-12 col-lg-4 mb-3">
+            <div class="form-group d-inline">
+                <label class="text-description mb-2 required-field">ประเภทผู้ใช้</label>
+                <ng-select 
+                    class="form-control mb-2"
+                    [clearable]="false" 
+                    bindLabel="name"
+                    bindValue="name"
+                    id="selectisEtaxActive"
+                    data-testid="selectisEtaxActive"
+                    [items]="UserType"
+                    placeholder="กรุณาระบุ"
+                    [multiple]="true">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <input 
+                            id="item-{{index}}" 
+                            type="checkbox" 
+                            >
+                            {{item.name}}
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div> 
+        
+    </div>
+
+    <h3 class="content-title pt-3">
         รายละเอียดกิจกรรม
     </h3>
-    <div class="col-sm-12 col-md-6 mb-3">
-        <div class="col-12 mb-3">
-            <label class="label-input required-field" for="firstName">
-              ชื่อกิจกรรม
-            </label>
-         <input class="form-control" [ngClass]="{
-               'is-invalid': submitted && form.get('firstName')!.errors
-              }" data-testid="firstName" formControlName="firstName" id="firstName" type="text">
-         </div>
-    </div>
-        
-</div>    
-<div class="content-container ">
-    
-    <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
-      
-        <div class="body-wrapper">
-           
-            <form [formGroup]="form">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 mb-3">
-                        <h3 class="content-title">
-                            รายละเอียดคะแนน
-                        </h3>
-                        <div class="col-12 mb-3">
-                           
-                        </div>
-                        <h3 class="content-title">
-                            รายละเอียดกิจกรรม
-                        </h3>
-                        <div class="col-12 mb-3">
-                            
-                        </div>
-                        <h3 class="content-title">
-                            ตั้งเวลาแคมเปญ
-                        </h3>
-                        <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="birthDateDatePicker">
-                                เวลาเริ่มต้น
-                            </label>
-                            <date-picker class="datepicker-input" [invalid]="submitted && form.get('birthDate')!.errors"
-                                [clearable]="false" format="DD/MM/YYYY" formControlName="birthDate"
-                                [id]="'startcampaign'" locale="th" [placeholder]="'กรุณาระบุ'"
-                                [placement]="'bottom'"></date-picker>
-                        </div>
-                    </div>
 
-                    <div class="col-sm-12 col-md-6 mb-3">
-                        <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="firstName">
-                                ตัวเลขการคำนวนคะแนน
-                            </label>
-                            <input class="form-control" [ngClass]="{
-                                'is-invalid': submitted && form.get('firstName')!.errors
-                              }" data-testid="firstName" formControlName="firstName" id="firstName" type="text">
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="lastName">
-                                นามสกุล
-                            </label>
-                            <input class="form-control" [ngClass]="{
-                                'is-invalid': submitted && form.get('lastName')!.errors
-                              }" data-testid="lastName" formControlName="lastName" id="lastName" type="text">
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="birthDateDatePicker">
-                                วันเกิด (วัน/เดือน/ปี)
-                            </label>
-                            <date-picker class="datepicker-input" [invalid]="submitted && form.get('birthDate')!.errors"
-                                [clearable]="false" format="DD/MM/YYYY" formControlName="birthDate"
-                                [id]="'birthDateDatePicker'" locale="th" [placeholder]="'วันที่ เดือน ปี'"
-                                [placement]="'bottom'"></date-picker>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="phone">
-                                เบอร์ติดต่อ
-                            </label>
-                            <input class="form-control" [ngClass]="{
-                                'is-invalid': submitted && form.get('phone')!.errors
-                              }" data-testid="phone" formControlName="phone" id="phone" type="text"
-                                mask="000 000 0000">
-                        </div>
-                    </div>
-                </div>
-            </form>
+    <div class="row pt-3">
+        <div class="col-12 col-lg-4 mb-3">
+            <div class="form-group d-inline">
+                <label class="text-description mb-2 required-field">สายทาง</label>
+                <ng-select 
+                    class="form-control mb-2"
+                    [clearable]="false" 
+                    bindLabel="name"
+                    bindValue="name"
+                    id="selectisEtaxActive"
+                    data-testid="selectisEtaxActive"
+                    [items]="route"
+                    placeholder="กรุณาระบุ"
+                    [multiple]="true">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <input 
+                            id="item-{{index}}" 
+                            type="checkbox" 
+                            >
+                            {{item.name}}
+                    </ng-template>
+                </ng-select>
+            </div>
         </div>
-        <hr class="hr-custom mb-3" />
+        <div class="col-12 col-lg-4 mb-3">
+            <div class="form-group d-inline">
+                <label class="text-description mb-2 required-field">อาคารด่วน</label>
+                <ng-select 
+                class="form-control mb-2"
+                [clearable]="false" 
+                bindLabel="name"
+                bindValue="name"
+                id="selectisEtaxActive"
+                data-testid="selectisEtaxActive"
+                [items]="expressBuilding"
+                placeholder="กรุณาระบุ"
+                [multiple]="true">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input 
+                        id="item-{{index}}" 
+                        type="checkbox" 
+                        >
+                        {{item.name}}
+                </ng-template>
+            </ng-select>
+            </div>
+        </div> 
+    </div>
+    
+    <h3 class="content-title pt-3">
+        ตั้งเวลาแคมเปญ
+    </h3>
+
+    <div class="row pt-3">
+        <div class="col-12 col-lg-4 mb-3">
+            <div class="form-group d-inline">
+                <label
+                class="label-input"
+                
+              >
+                เวลาเริ่มต้น
+              </label>
+              <date-picker
+                class="datepicker-input"
+                [clearable]="false"
+                format="D MMMM YYYY"
+                formControlName="startdate"
+                [id]="'birthDateDatePicke'"
+                locale="th"
+                [placeholder]="'วันที่ เดือน ปี'"
+                [placement]="'bottom'"
+              ></date-picker>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+            <div class="form-group d-inline">
+                <label
+                class="label-input"
+               
+              >
+                เวลาสิ้นสุด
+              </label>
+              <date-picker
+                class="datepicker-input"
+                [clearable]="false"
+                format="D MMMM YYYY"
+                formControlName="enddate"
+                [id]="'birthDateDatePicke'"
+                locale="th"
+                [placeholder]="'วันที่ เดือน ปี'"
+                [placement]="'bottom'"
+              ></date-picker>
+            </div>
+        </div> 
     </div>
 
-    <div #footer class="footer d-flex justify-content-center gap-3">
-        <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
-            (click)="onBack()">
-            ย้อนกลับ
-        </button>
-        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-            [disabled]="form.invalid" (click)="onNext()">
-            ถัดไป
-        </button>
+    <h3 class="content-title pt-3">
+        การเผยแพร่ และ ทำแบบร่าง
+    </h3>
+
+    <div class="col-12 col-lg-4 mb-3 pt-3">
+        <div class="form-check mb-4">
+            <input
+              class="form-check-input"
+              data-testid="domesticRadio"
+              id="domesticRadio"
+              formControlName="Save"
+              type="radio"
+              value="domesticRadio"
+              
+            >
+            <h3
+              class="form-check-label"
+              for="domesticRadio"
+            >
+              บันทึกแบบร่าง
+            </h3>
+        </div>
+        <div class="form-check mb-4">
+            <input
+              class="form-check-input"
+              data-testid="domesticRadio"
+              id="domesticRadio"
+              formControlName="publicAndSave"
+              type="radio"
+              value="domesticRadio"
+              
+            >
+            <h3
+              class="form-check-label"
+              for="domesticRadio"
+            >
+              เผยแพร่ทันที / เผยแพร่แบบอัตโนมัติเมื่อถึงเวลา
+            </h3>
+        </div>
     </div>
+</form>
+
+<hr class="hr-custom mb-3" />
+
+<div #footer class="footer d-flex justify-content-center gap-3">
+    <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
+        >
+        ย้อนกลับ
+    </button>
+    <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
+        [disabled]="form.invalid" >
+        บันทึก
+    </button>
 </div>
 </div>

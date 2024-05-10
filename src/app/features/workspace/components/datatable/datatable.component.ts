@@ -12,9 +12,12 @@ export class DatatableComponent {
   @ViewChild(DatatablesComponent) public dataTableEl: DatatablesComponent | undefined;
 
   @Input() public id: string = 'datatable';
-  @Input() public limitRow: number = 5;
+  
   @Input() public collectionSize: number = 0;
-  @Input() public pages: number = 1;
+  @Input() public page: number = 1;
+  @Input() public pageSize: number = 5;
+  @Input() public totalPages: number = 0;
+
   @Input() public rows: any[] = [];
   @Input() public emptyMessage: string = 'No Data Found';
   @Input() public columns: CustomColumnModel[] = [];
@@ -45,7 +48,15 @@ export class DatatableComponent {
 
   }
 
+  ngOnInit(): void {
+    // this.collectionSize = this.rows.length;
+    // console.log(this.totalPages);
+    
+  }
+
   onChangePage(value: number) {
+    console.log('xxxxxxxx');
+    
     this.onChangePageEvent.emit(value);
     this.dataTableEl?.recalculate();
   }

@@ -25,6 +25,7 @@ export interface CarInfoModel {
   smartcardNo: string,
   obuPan: string,
   licensePlate: string,
+  province: string,
   isType9: boolean,
   obuStatus: number,
   province: string,
@@ -35,6 +36,7 @@ export interface ObuInfoModel {
   isType9: boolean
   obuPan: string,
   obuStatus: number,
+  obuStatusText?: string,
   smartcardExpiryDate: Date,
   smartcardNo: string,
   smartcardStatus: number,
@@ -227,4 +229,38 @@ export interface ICustomerEtaxResModel {
   customerEtax: any[]
   summaryInfoCustomerName: string
 }
+export interface IPaginationModel<T> {
+  elements: T,
+  page: number,
+  pageSize: number,
+  totalElements: number,
+  totalPages: number
+}
 
+export interface ICustomerSearchModel {
+  id: string,
+  identification: string,
+  mobilePhone: string,
+  name: string,
+}
+
+export interface IProvinceMasterData {
+  provinceId: string,
+  provinceName: string,
+  provinceNameEn: string,
+}
+
+export interface ICarMasterData {
+  id: number,
+  brand: string,
+
+}
+export interface IFaremediaModel {
+  carBrand: string
+  carModel: string
+  carLicensePlate: string
+  carYearRegistration: string
+  obuNo: string
+  smartCardNo: string
+  walletName: string | null
+}
