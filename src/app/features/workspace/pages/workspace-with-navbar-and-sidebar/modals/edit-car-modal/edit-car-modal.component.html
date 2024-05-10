@@ -15,21 +15,23 @@
                             id="licensePlateInput" type="text">
                     </div>
                     <div class="col-6 mb-3">
-                        <label class="label-input"  for="province">
-                            จังหวัด
-                          </label>
-                          <ng-select
-                            class="form-control" 
-                            [clearable]="false" 
-                            bindLabel="label"
-                            bindValue="id"
-                            data-testid="provinces"
-                            placeholder="กรุณาระบุ"
-                            id="provinces"
-                            formControlName="province"
-                            [items]="provinces">
-                          </ng-select>
-                    </div>
+                        <label class="label-input" for="province">
+                          จังหวัด
+                        </label>
+                        <ng-select 
+                          class="form-control" 
+                          [clearable]="false" 
+                          bindLabel="label"
+                          bindValue="id"
+                          data-testid="province"
+                          placeholder="กรุณาระบุ"
+                          id="province"
+                          [items]="selectedProvince"
+                          formControlName="province"
+                          >
+                        </ng-select>
+                      </div>
+                      
                 </div>
                 <div class="col-12 mb-3">
                     <label class="label-input" for="fullnameCarOwnerInput">
@@ -59,17 +61,8 @@
                         <label class="label-input" for="modelSelect">
                             รุ่น
                         </label>
-                        <ng-select 
-                            class="form-control" 
-                            [clearable]="false" 
-                            bindLabel="lable"
-                            bindValue="id"
-                            data-testid="modelSelect"
-                            placeholder="กรุณาระบุ"
-                            id="modelSelect"
-                            formControlName="model"
-                            [items]="[]">
-                        </ng-select>
+                        <input class="form-control" placeholder="กรุณาระบุ" id="modelSelect" formControlName="model" data-testid="modelSelect" type="text">
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -79,6 +72,13 @@
                         </label>
                         <input class="form-control" data-testid="yearRegistrationSelect" formControlName="yearRegistration"
                             id="yearRegistrationSelect" type="number" min="1900">
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="label-input" for="color">
+                            สีรถ
+                        </label>
+                        <input class="form-control" placeholder="กรุณาระบุ" id="color" formControlName="color" data-testid="color" type="text">
+                        
                     </div>
                 </div>
                 <div class="col-12 mb-3">
@@ -149,7 +149,7 @@
         </div>
         <div class="right d-flex justify-content-center gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ยกเลิก</button>
-            <button class="custom-btn btn-type-1">แก้ไข</button>
+            <button class="custom-btn btn-type-1" (click)="onEnter()">แก้ไข</button>
         </div>
     </div>
 </div>
