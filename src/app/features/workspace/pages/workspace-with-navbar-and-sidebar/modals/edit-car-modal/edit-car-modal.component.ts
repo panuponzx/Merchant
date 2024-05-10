@@ -164,7 +164,7 @@ export class EditCarModalComponent  {
               channelId: "1"
             }
           };
-          await firstValueFrom(this.restApiService.postBackOffice('/faremedia/active-obu-by-staff', payload).pipe(first()))
+          await firstValueFrom(this.restApiService.postBackOffice('faremedia/active-obu-by-staff', payload).pipe(first()))
           // return response.json();
         } catch (error: any) {
           console.error(error);
