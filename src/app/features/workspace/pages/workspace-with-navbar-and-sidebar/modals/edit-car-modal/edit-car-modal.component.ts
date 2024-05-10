@@ -17,9 +17,10 @@ export class EditCarModalComponent {
 
   @Input() public carInfo: CarInfoModel = {} as CarInfoModel;
   @Input() public walletIdList: number[] = [];
-  @Input() public brands: string[] = [];
-  @Input() public provinces: string[] = [];
-  @Input() public models: CarInfoModel[] = [];
+  @Input() public brands: CarInfoModel[] = [];
+  @Input() public selectedProvince: CarInfoModel[]=[];
+  @Input() public models: CarInfoModel[] =[];
+  
 
 
   public form: FormGroup = this.formBuilder.group({
@@ -34,6 +35,7 @@ export class EditCarModalComponent {
     isType9: new FormControl(undefined, Validators.required),
     walletId: new FormControl(undefined, Validators.required),
     province: new FormControl(undefined, Validators.required),
+    color: new FormControl(undefined, Validators.required),
   });
 
 
@@ -53,6 +55,7 @@ export class EditCarModalComponent {
     this.brand();
     this.form.get('licensePlate')?.setValue(this.carInfo.licensePlate);
     this.form.get('fullnameCarOwner')?.setValue('นายทดสอบ ทดสอบ');
+    this.form.get('province')?.setValue(this.carInfo.province);
     this.form.get('brand')?.setValue(this.carInfo.brand);
     this.form.get('model')?.setValue(this.carInfo.model);
     this.form.get('yearRegistration')?.setValue(this.carInfo.yearRegistration);
@@ -61,43 +64,35 @@ export class EditCarModalComponent {
     this.form.get('smartcardNo')?.setValue(this.carInfo.smartcardNo);
     this.form.get('isType9')?.setValue(this.carInfo.isType9);
     this.form.get('walletId')?.setValue(this.carInfo.walletId);
-    this.form.get('province')?.setValue(this.carInfo.province);
-    // this.model();
+    this.form.get('color')?.setValue(this.carInfo.color);
+    this.provinceList();
+    this.brand();
+    
   }
 
-
-  //car model select dropdown
-  // model() {
-  //   this.restApiService.getBackOffice('').subscribe(
-  //   (response: any) => {
-  //     if (Array.isArray(response.data)) {
-  //       this.models = response.data.map((value : {value:string;}) => value.models);
-  //       console.log(models);
-  //     }
-  //   });
-  // }
-
-  //brand select dropdown 
+  // brand select dropdown
   brand() {
     this.restApiService.getBackOffice('master-data/car-model').subscribe(
-      (res: ResponseMessageModel) => {
-        let response = res as ResponseModel<ICarMasterData[]>;
-        this.brands = response.data.map((value: { brand: string; }) => { return value.brand });
-      }
-    );
-  }
-
-  //province select dropdown
-  province() {
-    this.restApiService.getBackOffice('master-data/province').subscribe(
-      (res: ResponseMessageModel) => {
-        let response = res as ResponseModel<IProvinceMasterData[]>;
-        this.provinces = response.data.map((value: { provinceName: string; }) => { return value.provinceName });
+      (Response: any) => {
+        if (Array.isArray(Response.data)){
+          
+       this.brands = Response.data.map((value: {brand:string;}) => {return value.brand});
+        }
       });
   }
 
+  //province select dropdown
+  provinceList() {
+    this.restApiService.getBackOffice('master-data/province').subscribe(
+      (response: any) => {
+        if (Array.isArray(response.data)) {
+         
+          this.selectedProvince = response.data.map((value: {provinceName:string;}) => {return value.provinceName});
+        }
+      });
+  }
 
-
+  
   onSuspend() {
     Swal.fire({
       title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการอายัดอุปกรณ์</h2>',
@@ -202,9 +197,75 @@ export class EditCarModalComponent {
     });
   }
 
+  onEnter() {
+    Swal.fire({
+      title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการแก้ไข</h2>',
+      html: '<label>กรุณายืนยัน</label>',
+      showCancelButton: true,
+      customClass: {
+        confirmButton: "custom-btn btn-type-1 blue ms-2",
+        cancelButton: "custom-btn btn-type-1 outline"
+      },
+      buttonsStyling: false,
+      showLoaderOnConfirm: true,
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "กลับ",
+      reverseButtons: true,
+      preConfirm: async () => {
+        try {
+          const payload = {
+            obu: {
+              obuPan: this.carInfo.obuPan,
+              smartcardNo: this.carInfo.smartcardNo,
+              walletId: this.carInfo.walletId,
+              isType9: this.carInfo.isType9
+            },
+            car: {
+            brand: this.carInfo.brand,
+            model: this.carInfo.model,
+            licensePlate: this.carInfo.licensePlate,
+            yearRegistration: this.carInfo.yearRegistration,
+            color: this.carInfo.color,
+            remark: this.carInfo.remark,
+            province: this.carInfo.province
+           },
+           requestParam: {
+            "reqId": "23498-sss-k339c-322s2",
+            "channelId": 1
+           }
+          };
+          console.log('load',payload);
+          
+          const res = await firstValueFrom(this.restApiService.postBackOffice('faremedia/edit-info-obu', payload ).pipe(first()))
+          console.log('reponse',res);
+          // return response.json();
+        } catch (error: any) {
+          console.error(error);
+          if (error instanceof HttpResponse) {
+            Swal.showValidationMessage(`
+            Request failed: ${error.body.errorCode}, ${error.body.errorMessage}
+          `);
+          }
+          else {
+            Swal.showValidationMessage(`Some thing failed`);
+          }
+        }
+        
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ngbActiveModal.close(true);
+      }
+    });
+
+
+  }
+
   onClose() {
     this.ngbActiveModal.close(false);
   }
 
-
+  
+  
 }
