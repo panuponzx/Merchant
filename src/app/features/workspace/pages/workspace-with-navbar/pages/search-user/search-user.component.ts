@@ -81,23 +81,24 @@ export class SearchUserComponent implements OnInit {
   ];
 
   public submitted: boolean = false;
+
+  // Create form group with custom validator for searchType
   public form: FormGroup = new FormGroup({
-    searchType: new FormControl(undefined, [Validators.required]),
+    searchType: new FormControl(undefined, Validators.required),
     deviceType: new FormControl('obu'),
-    
-    identificationId: new FormControl(undefined, [Validators.minLength(13),Validators.pattern(/^[A-Za-z]{2}\d{5}$/)]),
+    identificationId: new FormControl(undefined, [Validators.required,Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
     firstName: new FormControl(undefined, [Validators.minLength(2)]),
     lastName: new FormControl(undefined, [Validators.minLength(2)]),
     mobilePhone: new FormControl(undefined, [Validators.minLength(10)]),
     corporateName: new FormControl(undefined, [Validators.minLength(2)]),
-
-    faremediaValue: new FormControl(undefined, [Validators.minLength(10),Validators.maxLength(10)]),
-  });
+    faremediaValue: new FormControl(undefined, [Validators.minLength(10)]),
+  }); 
 
   public tempSearch: boolean = false;
 
   public isLoading = false;
-  mobilePhone: any;
+  public mobilePhone: number[]=[];
+  
 
 
   constructor(
@@ -107,6 +108,10 @@ export class SearchUserComponent implements OnInit {
   ) {
     this.form.valueChanges.subscribe(x => {
       console.log("[valueChanges] x => ", x);
+      console.log(this.form.errors);
+      console.log(this.form);
+      
+      
     });
   }
   ngOnInit(): void {
@@ -115,7 +120,7 @@ export class SearchUserComponent implements OnInit {
 
 
   onSearch() {
-    console.log(this.form.valid );
+    console.log(this.form.invalid );
     
     console.log((
       this.form.invalid &&
@@ -124,14 +129,10 @@ export class SearchUserComponent implements OnInit {
       !this.form.get('firstName')?.value && 
       !this.form.get('lastName')?.value && 
       !this.form.get('corporateName')?.value && 
-      !this.form.get('mobilePhone')?.value &&
-      !this.form.get('faremediaValue')?.value));
+      !this.form.get('mobilePhone')?.value ));
     
-    if (this.form.valid || this.isLoading) return;
+    if (this.form.invalid || this.isLoading ) return;
     this.isLoading = true;
-
-    const searchType = this.form.value.searchType;
-
 
     let payload: any = {
       requestParam: {
@@ -141,70 +142,28 @@ export class SearchUserComponent implements OnInit {
       limit: this.pageSize,
       page: this.page
     }
+    
+    const searchType = this.form.value.searchType;
 
-    if (searchType === 'corporate') {
-      if(this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
-      if(this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
-      if(this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
-      this.searchByCoporate(payload);
+    
+      if (searchType === 'corporate') {
+        if (this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
+        if (this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
+        if (this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
+        this.searchByCoporate(payload);
     } else if (searchType === 'personal' || searchType === 'international') {
-      if(this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
-      if(this.form.value.firstName) payload.firstName = this.form.value.firstName;
-      if(this.form.value.lastName) payload.lastName = this.form.value.lastName;
-      // if(this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
-      if(this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
-      this.searchByPersonal(payload);
+        if (this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
+        if (this.form.value.firstName) payload.firstName = this.form.value.firstName;
+        if (this.form.value.lastName) payload.lastName = this.form.value.lastName;
+        if (this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
+        this.searchByPersonal(payload);
     } else if (searchType === 'device') {
-      if(this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
-      if(this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
-      // console.log(payload);
-      this.searchByFaremedia(payload);
-    }
-
-
-    // const mockupData = {
-    //   customer: {
-    //     citizenId: this.form.controls['citizenId'].value
-    //   },
-    //   requestParam: {
-    //       reqId: "23498-sss-k339c-322s2",
-    //       channelId: "1"
-    //   }
-    // }
-    // console.log(this.form.controls['citizenId'].value);
-
-
-    // this.restApiService
-    //   .post('get-customers', mockupData)
-    //   .pipe(
-    //     first(),
-    //     map(res => res as ReponseSearchCustomerModel)
-    //   )
-    //   .subscribe({
-    //     next: (res) => {
-    //       console.log(res)
-    //       // this.rows = res.customers;
-    //       this.rows = res.customers.map(element => {
-    //         if(element['firstName'] == undefined){
-    //           element['firstName'] = element['firstNameEng']
-    //         }
-    //         if(element['lastName'] == undefined){
-    //           element['lastName'] = element['lastNameEng']
-    //         }
-    //         return element
-    //       });
-
-
-    //       this.collectionSize = this.rows.length;
-    //       this.isLoading = false;
-    //       this.tempSearch = mockupData.customer.citizenId;
-    //     },
-    //     error: (err) => {
-    //       console.error(err);
-    //       this.isLoading = false;
-    //     }
-    //   });
-
+        if (this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
+        if (this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
+        this.searchByFaremedia(payload);
+        
+    } 
+  
   }
 
   searchByPersonal(payload: any) {
@@ -243,7 +202,7 @@ export class SearchUserComponent implements OnInit {
   }
 
   searchByFaremedia(payload: any) {
-    let x = this.restApiService.postBackOffice('customer/search-by-faremedia', payload).pipe(first()).subscribe({
+    this.restApiService.postBackOffice('customer/search-by-faremedia', payload).pipe(first()).subscribe({
       next: (res: ResponseMessageModel) => {
         let response = res as ResponseModel<IPaginationModel<Array<ICustomerSearchModel>>>;
         this.rows = response.data.elements;

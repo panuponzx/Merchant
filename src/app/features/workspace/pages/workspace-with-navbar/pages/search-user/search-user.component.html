@@ -83,7 +83,7 @@
           <input *ngIf="form.value.searchType === 'international'" id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
             formControlName="identificationId" minlength="7" id="identificationIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
-        <div *ngIf="form.value.searchType === 'personal' && form.get('identificationId')?.hasError('minlength') && form.get('identificationId')?.touched || form.value.searchType === 'corporate' && form.get('identificationId')?.hasError('minlength') && form.get('identificationId')?.touched ">
+        <div *ngIf="form.value.searchType === 'personal' && form.get('identificationId')?.hasError('pattern') && form.get('identificationId')?.touched || form.value.searchType === 'corporate' && form.get('identificationId')?.hasError('pattern') && form.get('identificationId')?.touched ">
           <span class="req-text">*โปรดระบุ หมายเลขบัตร 13 หลัก</span>
         </div>
         <div *ngIf="form.value.searchType === 'international' && form.get('identificationId')?.hasError('pattern') && form.get('identificationId')?.touched " >
@@ -160,10 +160,10 @@
             ค้นหา
           </button> -->
           <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton" id="searchButton" title="ค้นหา"
-          [disabled]="isLoading || form.valid"
+          [disabled]="isLoading || form.invalid "
           id="searchButton" 
             type="submit" (click)="onSearch()">
-            ค้นหา
+            ค้นหา 
           </button>
           <button class="custom-btn btn-back" data-testid="backButton" id="backButton" title="ย้อนกลับ"
             (click)="onBackToHome()">
@@ -171,7 +171,7 @@
           </button>
         </div>
       </ng-container>
-
+     
     </form>
   </div>
 
