@@ -28,6 +28,7 @@ export interface CarInfoModel {
   province: string,
   isType9: boolean,
   obuStatus: number,
+  province: string,
 }
 
 export interface ObuInfoModel {
