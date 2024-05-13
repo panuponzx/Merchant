@@ -85,13 +85,13 @@ export class SearchUserComponent implements OnInit {
     searchType: new FormControl(undefined, [Validators.required]),
     deviceType: new FormControl('obu'),
     
-    identificationId: new FormControl(undefined, [Validators.minLength(13),Validators.pattern(/^[A-Za-z]{2}\d{5}$/)]),
+    identificationId: new FormControl(undefined, [Validators.minLength(7), Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
     firstName: new FormControl(undefined, [Validators.minLength(2)]),
     lastName: new FormControl(undefined, [Validators.minLength(2)]),
     mobilePhone: new FormControl(undefined, [Validators.minLength(10)]),
     corporateName: new FormControl(undefined, [Validators.minLength(2)]),
 
-    faremediaValue: new FormControl(undefined, [Validators.minLength(10),Validators.maxLength(10)]),
+    faremediaValue: new FormControl(undefined, [Validators.minLength(10), Validators.maxLength(10)]),
   });
 
   public tempSearch: boolean = false;
@@ -107,6 +107,8 @@ export class SearchUserComponent implements OnInit {
   ) {
     this.form.valueChanges.subscribe(x => {
       console.log("[valueChanges] x => ", x);
+      console.log(this.form.valid);
+      
     });
   }
   ngOnInit(): void {
@@ -160,51 +162,6 @@ export class SearchUserComponent implements OnInit {
       // console.log(payload);
       this.searchByFaremedia(payload);
     }
-
-
-    // const mockupData = {
-    //   customer: {
-    //     citizenId: this.form.controls['citizenId'].value
-    //   },
-    //   requestParam: {
-    //       reqId: "23498-sss-k339c-322s2",
-    //       channelId: "1"
-    //   }
-    // }
-    // console.log(this.form.controls['citizenId'].value);
-
-
-    // this.restApiService
-    //   .post('get-customers', mockupData)
-    //   .pipe(
-    //     first(),
-    //     map(res => res as ReponseSearchCustomerModel)
-    //   )
-    //   .subscribe({
-    //     next: (res) => {
-    //       console.log(res)
-    //       // this.rows = res.customers;
-    //       this.rows = res.customers.map(element => {
-    //         if(element['firstName'] == undefined){
-    //           element['firstName'] = element['firstNameEng']
-    //         }
-    //         if(element['lastName'] == undefined){
-    //           element['lastName'] = element['lastNameEng']
-    //         }
-    //         return element
-    //       });
-
-
-    //       this.collectionSize = this.rows.length;
-    //       this.isLoading = false;
-    //       this.tempSearch = mockupData.customer.citizenId;
-    //     },
-    //     error: (err) => {
-    //       console.error(err);
-    //       this.isLoading = false;
-    //     }
-    //   });
-
   }
 
   searchByPersonal(payload: any) {

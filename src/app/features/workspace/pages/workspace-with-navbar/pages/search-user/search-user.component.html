@@ -160,7 +160,7 @@
             ค้นหา
           </button> -->
           <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton" id="searchButton" title="ค้นหา"
-          [disabled]="isLoading || form.valid"
+          [disabled]="isLoading || form.invalid"
           id="searchButton" 
             type="submit" (click)="onSearch()">
             ค้นหา
