@@ -23,7 +23,7 @@
                         <div class="col-12 mb-3">
                             <label *ngIf="form.get('identityType').value === 1" class="label-input required-field"
                                 for="identificationInput">
-                                หมายเลขบัตรประชาชน
+                                หมายเลขบัตรประชาชน1
                             </label>
                             <label *ngIf="form.get('identityType').value === 3" class="label-input required-field"
                                 for="identificationInput">
@@ -37,7 +37,12 @@
                                     'is-invalid': submitted && form.get('citizenId')!.errors
                                 }" data-testid="identificationInput" formControlName="citizenId"
                                 id="identificationInput" type="text">
+                            <small *ngIf="form.get('identityType').value === 1 && form.get('citizenId')?.hasError('minlength') && form.get('citizenId')?.touched " 
+                                class="req-text">*โปรดระบุหมายเลขบัตร 13 หลัก</small>
+                            <small *ngIf="form.get('identityType').value === 3 && form.get('citizenId')?.hasError('pattern') && form.get('citizenId')?.touched " 
+                                class="req-text">*โปรดระบุหมายหนังสือเดินทาง</small>
                         </div>
+                        
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="expiredDateDatePicker">
                                 <span *ngIf="this.form.get('identityType')?.value === 1">วันหมดอายุบัตร
@@ -75,6 +80,10 @@
                             <input class="form-control" [ngClass]="{
                                 'is-invalid': submitted && form.get('firstName')!.errors
                               }" data-testid="firstName" formControlName="firstName" id="firstName" type="text">
+                            <small *ngIf="form.get('firstName') && form.get('firstName')?.hasError('minlength') && form.get('firstName')?.touched " class="req-text">
+                                *โปรดระบุชื่อ
+                            </small>
+
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="lastName">
@@ -83,6 +92,9 @@
                             <input class="form-control" [ngClass]="{
                                 'is-invalid': submitted && form.get('lastName')!.errors
                               }" data-testid="lastName" formControlName="lastName" id="lastName" type="text">
+                              <small *ngIf="form.get('lastName') && form.get('lastName')?.hasError('minlength') && form.get('lastName')?.touched " class="req-text">
+                                *โปรดระบุนามสกุล
+                            </small>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="birthDateDatePicker">
@@ -92,6 +104,7 @@
                                 [clearable]="false" format="DD/MM/YYYY" formControlName="birthDate"
                                 [id]="'birthDateDatePicker'" locale="th" [placeholder]="'วันที่ เดือน ปี'"
                                 [placement]="'bottom'"></date-picker>
+                            
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="phone">
