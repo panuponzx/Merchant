@@ -51,7 +51,6 @@ export class EditCarModalComponent {
 
 
   ngOnInit() {
-    this.province();
     this.brand();
     this.form.get('licensePlate')?.setValue(this.carInfo.licensePlate);
     this.form.get('fullnameCarOwner')?.setValue('นายทดสอบ ทดสอบ');
