@@ -25,7 +25,6 @@ export interface CarInfoModel {
   smartcardNo: string,
   obuPan: string,
   licensePlate: string,
-  province: string,
   isType9: boolean,
   obuStatus: number,
   province: string,
