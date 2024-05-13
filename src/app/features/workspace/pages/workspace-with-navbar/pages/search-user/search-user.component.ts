@@ -84,19 +84,20 @@ export class SearchUserComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     searchType: new FormControl(undefined, [Validators.required]),
     deviceType: new FormControl('obu'),
+    
+    identificationId: new FormControl(undefined, [Validators.minLength(13),Validators.pattern(/^[A-Za-z]{2}\d{5}$/)]),
+    firstName: new FormControl(undefined, [Validators.minLength(2)]),
+    lastName: new FormControl(undefined, [Validators.minLength(2)]),
+    mobilePhone: new FormControl(undefined, [Validators.minLength(10)]),
+    corporateName: new FormControl(undefined, [Validators.minLength(2)]),
 
-    identificationId: new FormControl(undefined,),
-    firstName: new FormControl(undefined,),
-    lastName: new FormControl(undefined,),
-    mobilePhone: new FormControl(undefined,),
-    corporateName: new FormControl(undefined,),
-
-    faremediaValue: new FormControl(undefined,),
+    faremediaValue: new FormControl(undefined, [Validators.minLength(10),Validators.maxLength(10)]),
   });
 
   public tempSearch: boolean = false;
 
   public isLoading = false;
+  mobilePhone: any;
 
 
   constructor(
@@ -114,7 +115,7 @@ export class SearchUserComponent implements OnInit {
 
 
   onSearch() {
-    console.log(this.form.invalid );
+    console.log(this.form.valid );
     
     console.log((
       this.form.invalid &&
@@ -123,9 +124,10 @@ export class SearchUserComponent implements OnInit {
       !this.form.get('firstName')?.value && 
       !this.form.get('lastName')?.value && 
       !this.form.get('corporateName')?.value && 
-      !this.form.get('mobilePhone')?.value));
+      !this.form.get('mobilePhone')?.value &&
+      !this.form.get('faremediaValue')?.value));
     
-    if (this.form.invalid || this.isLoading) return;
+    if (this.form.valid || this.isLoading) return;
     this.isLoading = true;
 
     const searchType = this.form.value.searchType;
