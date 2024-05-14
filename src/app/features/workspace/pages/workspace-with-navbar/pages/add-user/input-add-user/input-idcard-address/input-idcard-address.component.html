@@ -19,6 +19,8 @@
                             </label>
                             <input class="form-control" data-testid="addressNoInput" formControlName="addressNo"
                                 id="addressNoInput" type="text">
+                                <small *ngIf="form.get('addressNo').errors?.['required'] && form.get('addressNo').touched"
+                                class="req-text">*โปรดระบุเลขที่</small>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="buildingInput">
@@ -77,6 +79,8 @@
                             </label>
                             <input class="form-control" data-testid="postalCodeInput" (keyup)="onKeyUpPostalCode($event)" mask="00000" formControlName="postalCode"
                                 id="postalCodeInput" type="text">
+                                <small *ngIf="form.get('postalCode').errors?.['required'] && form.get('postalCode').touched"
+                                class="req-text">*โปรดระบุรหัสไปรษณีย์</small>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="subDistrictInput">
@@ -92,6 +96,8 @@
                                 (change)="onChangeSubDistrict($event)"
                                 [items]="postalCodeList">
                             </ng-select>
+                            <small *ngIf="form.get('subDistrict').errors?.['required'] && form.get('subDistrict').touched"
+                                class="req-text">*โปรดระบุ แขวง/ตำบล</small>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="districtInput">
@@ -106,6 +112,8 @@
                                 id="districtInput"
                                 [items]="districtList">
                             </ng-select>
+                            <small *ngIf="form.get('district').errors?.['required'] && form.get('district').touched"
+                                class="req-text">*โปรดระบุ เขต/อำเภอ</small>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="provinceInput">
@@ -120,6 +128,8 @@
                                 id="provinceInput"
                                 [items]="provinceList">
                             </ng-select>
+                            <small *ngIf="form.get('province').errors?.['required'] && form.get('province').touched"
+                                class="req-text">*โปรดระบุ จังหวัด</small>
                         </div>
                     </div>
                 </div>

@@ -18,6 +18,8 @@
                             </label>
                             <input class="form-control" data-testid="taxIdInput" formControlName="taxId"
                                 id="taxIdInput" type="text">
+                                <small *ngIf="form.get('taxId').errors?.['required'] && form.get('taxId').touched " class="req-text">
+                                    *โปรดระบุหมายเลขผู้เสียภาษี</small>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="companyNameInput">
@@ -25,6 +27,8 @@
                             </label>
                             <input class="form-control" data-testid="companyNameInput" formControlName="companyName"
                                 id="companyNameInput" type="text">
+                                <small *ngIf="form.get('companyName').errors?.['required'] && form.get('companyName').touched " class="req-text">
+                                    *โปรดระบุชื่อบริษัท</small>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 mb-3">
@@ -42,6 +46,8 @@
                             </label>
                             <input class="form-control" data-testid="branchNameInput" formControlName="branchName"
                                 id="branchNameInput" type="text">
+                                <small *ngIf="form.get('branchName').errors?.['required'] && form.get('branchName').touched " class="req-text">
+                                    *โปรดระบุชื่อสาขา</small>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="branchNoInput">
@@ -49,6 +55,8 @@
                             </label>
                             <input class="form-control" data-testid="branchNoInput" formControlName="branchNo" id="branchNoInput"
                                 type="text">
+                                <small *ngIf="form.get('branchNo').errors?.['required'] && form.get('branchNo').touched " class="req-text">
+                                    *โปรดระบุหมายเลขสาขาย่อย</small>
                         </div>
                         <!-- <div class="col-12 mb-3">
                             <label class="label-input required-field" for="companyNumberInput">

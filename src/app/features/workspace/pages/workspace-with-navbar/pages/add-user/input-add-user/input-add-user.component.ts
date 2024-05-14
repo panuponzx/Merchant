@@ -42,11 +42,11 @@ export class InputAddUserComponent {
     console.log("[AddUserInfo] customerType => ", this.customerType);
     this.userInfoForm = this.formBuilder.group({
       identityType: new FormControl(1, Validators.required),
-      firstName: new FormControl(undefined, [Validators.required,Validators.minLength(2)]),
-      lastName: new FormControl(undefined, [Validators.required,Validators.minLength(2)]),
+      firstName: new FormControl(undefined, Validators.required),
+      lastName: new FormControl(undefined, Validators.required),
       birthDate: new FormControl(undefined, Validators.required),
-      phone: new FormControl(undefined, [Validators.required,Validators.minLength(10)]),
-      citizenId: new FormControl(undefined, [Validators.required,Validators.minLength(13),Validators.pattern(/^[A-Za-z]{2}\d{5}$/)]),
+      phone: new FormControl(undefined, Validators.required),
+      citizenId: new FormControl(undefined, Validators.required),
       cardExpDate: new FormControl(undefined, Validators.required),
       gender: new FormControl('M', Validators.required),
     });
@@ -146,7 +146,7 @@ export class InputAddUserComponent {
     });
 
     this.otpRequestForm = this.formBuilder.group({
-      mobilePhone: new FormControl(undefined, Validators.required)
+      mobilePhone: new FormControl(undefined, [Validators.required,Validators.minLength(10)])
     });
 
     this.otpConfirmForm = this.formBuilder.group({

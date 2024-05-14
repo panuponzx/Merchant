@@ -37,9 +37,9 @@
                                     'is-invalid': submitted && form.get('citizenId')!.errors
                                 }" data-testid="identificationInput" formControlName="citizenId"
                                 id="identificationInput" type="text">
-                            <small *ngIf="form.get('identityType').value === 1 && form.get('citizenId')?.hasError('minlength') && form.get('citizenId')?.touched " 
-                                class="req-text">*โปรดระบุหมายเลขบัตร 13 หลัก</small>
-                            <small *ngIf="form.get('identityType').value === 3 && form.get('citizenId')?.hasError('pattern') && form.get('citizenId')?.touched " 
+                            <small *ngIf="form.get('identityType').value === 1  && form.get('citizenId').errors?.['required'] && form.get('citizenId').touched"
+                                class="req-text">*โปรดระบุหมายเลขบัตร</small>
+                            <small *ngIf="form.get('identityType').value === 3  && form.get('citizenId').touched && form.get('citizenId').errors?.['required'] "
                                 class="req-text">*โปรดระบุหมายหนังสือเดินทาง</small>
                         </div>
                         
@@ -55,6 +55,10 @@
                                 format="DD/MM/YYYY" formControlName="cardExpDate" [id]="'expiredDateDatePicker'"
                                 locale="th" [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"
                                 [minDate]="minDate"></date-picker>
+                            <small class="req-text" *ngif="form.get('identityType')?.value === 1 && form.get('cardExpDate').errors?.['required'] && form.get('cardExpDate').touched ">
+                                *โปรดใส่วันหมดอายุบัตร</small>
+                            <small class="req-text" *ngif="form.get('identityType')?.value === 3 && form.get('cardExpDate').errors?.['required'] && form.get('cardExpDate').touched ">
+                                *โปรดใส่วันหมดอายุหนังสือเดินทาง</small>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="gender">
@@ -80,7 +84,7 @@
                             <input class="form-control" [ngClass]="{
                                 'is-invalid': submitted && form.get('firstName')!.errors
                               }" data-testid="firstName" formControlName="firstName" id="firstName" type="text">
-                            <small *ngIf="form.get('firstName') && form.get('firstName')?.hasError('minlength') && form.get('firstName')?.touched " class="req-text">
+                            <small *ngIf="form.get('firstName').errors?.['required'] && form.get('firstName').touched " class="req-text">
                                 *โปรดระบุชื่อ
                             </small>
 
@@ -92,7 +96,7 @@
                             <input class="form-control" [ngClass]="{
                                 'is-invalid': submitted && form.get('lastName')!.errors
                               }" data-testid="lastName" formControlName="lastName" id="lastName" type="text">
-                              <small *ngIf="form.get('lastName') && form.get('lastName')?.hasError('minlength') && form.get('lastName')?.touched " class="req-text">
+                              <small *ngIf="form.get('lastName').errors?.['required'] && form.get('lastName').touched " class="req-text">
                                 *โปรดระบุนามสกุล
                             </small>
                         </div>
@@ -104,6 +108,7 @@
                                 [clearable]="false" format="DD/MM/YYYY" formControlName="birthDate"
                                 [id]="'birthDateDatePicker'" locale="th" [placeholder]="'วันที่ เดือน ปี'"
                                 [placement]="'bottom'"></date-picker>
+                            <small class="req-text" *ngif="form.get('birthDate').errors?.['required'] && form.get('birthDate').touched "></small>
                             
                         </div>
                         <div class="col-12 mb-3">
@@ -114,6 +119,9 @@
                                 'is-invalid': submitted && form.get('phone')!.errors
                               }" data-testid="phone" formControlName="phone" id="phone" type="text"
                                 mask="000 000 0000">
+                            <small *ngIf="form.get('phone').errors?.['required'] && form.get('phone').touched " class="req-text">
+                                *โปรดระบุหมายเลขโทรศัพท์
+                            </small>
                         </div>
                     </div>
                 </div>
