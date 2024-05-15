@@ -14,9 +14,16 @@
                     <label class="label-input required-field" for="mobilePhoneInput">
                         เบอร์โทรศัพท์
                     </label>
-                    <input class="form-control" data-testid="mobilePhoneInput" placeholder="081 000 0000"
+                    <input [ngClass]="{
+                        'is-invalid': form.get('mobilePhone').errors?.['required'] && form.get('mobilePhone').touched || form.get('mobilePhone').errors?.['minlength'] && form.get('mobilePhone').touched
+                      }" class="form-control" data-testid="mobilePhoneInput" placeholder="081 000 0000"
                         mask="000 000 0000" formControlName="mobilePhone" id="mobilePhoneInput" type="text">
-                    <span>กรอกหมายเลขโทรศัพท์ 10 หลัก</span>
+                    <!-- <div>
+                        <small *ngIf="form.get('mobilePhone')?.hasError('minlength')  && form.get('mobilePhone').touched ||
+                        form.get('mobilePhone').touched && form.get('mobilePhone').errors?.['required'] " class="req-text">*โปรดระบุหมายเลขโทรศัพท์</small>
+                    </div> -->
+                        <span>กรอกหมายเลขโทรศัพท์ 10 หลัก</span>
+                    
                 </div>
             </form>
         </div>

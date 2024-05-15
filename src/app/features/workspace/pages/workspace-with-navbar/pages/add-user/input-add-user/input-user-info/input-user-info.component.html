@@ -23,21 +23,26 @@
                         <div class="col-12 mb-3">
                             <label *ngIf="form.get('identityType').value === 1" class="label-input required-field"
                                 for="identificationInput">
-                                หมายเลขบัตรประชาชน
+                                หมายเลขบัตรประชาชน1
                             </label>
                             <label *ngIf="form.get('identityType').value === 3" class="label-input required-field"
                                 for="identificationInput">
                                 หมายเลขหนังสือเดินทาง
                             </label>
                             <input *ngIf="form.get('identityType').value === 1" class="form-control" [ngClass]="{
-                                'is-invalid': submitted && form.get('citizenId')!.errors
+                                'is-invalid': submitted && form.get('citizenId')!.errors || form.get('citizenId').errors?.['required'] && form.get('citizenId').touched
                               }" data-testid="identificationInput" formControlName="citizenId" id="identificationInput"
-                                type="text" mask="0 0000 00000 00 0">
+                                type="text" mask="0 0000 00000 00 0" >
                             <input *ngIf="form.get('identityType').value === 3" class="form-control" [ngClass]="{
-                                    'is-invalid': submitted && form.get('citizenId')!.errors
+                                    'is-invalid': submitted && form.get('citizenId')!.errors || form.get('citizenId').errors?.['required'] && form.get('citizenId').touched
                                 }" data-testid="identificationInput" formControlName="citizenId"
                                 id="identificationInput" type="text">
+                            <!-- <small *ngIf="form.get('identityType').value === 1  && form.get('citizenId').errors?.['required'] && form.get('citizenId').touched"
+                                class="req-text">*โปรดระบุหมายเลขบัตร</small>
+                            <small *ngIf="form.get('identityType').value === 3  && form.get('citizenId').touched && form.get('citizenId').errors?.['required'] "
+                                class="req-text">*โปรดระบุหมายหนังสือเดินทาง</small> -->
                         </div>
+                        
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="expiredDateDatePicker">
                                 <span *ngIf="this.form.get('identityType')?.value === 1">วันหมดอายุบัตร
@@ -50,6 +55,10 @@
                                 format="DD/MM/YYYY" formControlName="cardExpDate" [id]="'expiredDateDatePicker'"
                                 locale="th" [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"
                                 [minDate]="minDate"></date-picker>
+                            <!-- <small class="req-text" *ngif="form.get('identityType')?.value === 1 && form.get('cardExpDate').errors?.['required'] && form.get('cardExpDate').touched ">
+                                *โปรดใส่วันหมดอายุบัตร</small>
+                            <small class="req-text" *ngif="form.get('identityType')?.value === 3 && form.get('cardExpDate').errors?.['required'] && form.get('cardExpDate').touched ">
+                                *โปรดใส่วันหมดอายุหนังสือเดินทาง</small> -->
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="gender">
@@ -73,16 +82,23 @@
                                 ชื่อ
                             </label>
                             <input class="form-control" [ngClass]="{
-                                'is-invalid': submitted && form.get('firstName')!.errors
+                                'is-invalid':submitted && form.get('firstName')!.errors || form.get('firstName').errors?.['required'] && form.get('firstName').touched
                               }" data-testid="firstName" formControlName="firstName" id="firstName" type="text">
+                            <!-- <small *ngIf="form.get('firstName').errors?.['required'] && (submitted || form.get('firstName').touched) " class="req-text">
+                                *โปรดระบุชื่อ
+                            </small> -->
+
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="lastName">
                                 นามสกุล
                             </label>
                             <input class="form-control" [ngClass]="{
-                                'is-invalid': submitted && form.get('lastName')!.errors
+                                'is-invalid':submitted && form.get('lastName')!.errors || form.get('lastName').errors?.['required'] && form.get('lastName').touched
                               }" data-testid="lastName" formControlName="lastName" id="lastName" type="text">
+                              <!-- <small *ngIf="form.get('lastName').errors?.['required'] && form.get('lastName').touched " class="req-text">
+                                *โปรดระบุนามสกุล
+                            </small> -->
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="birthDateDatePicker">
@@ -92,15 +108,21 @@
                                 [clearable]="false" format="DD/MM/YYYY" formControlName="birthDate"
                                 [id]="'birthDateDatePicker'" locale="th" [placeholder]="'วันที่ เดือน ปี'"
                                 [placement]="'bottom'"></date-picker>
+                            <!-- <small class="req-text" *ngif="form.get('birthDate').errors?.['required'] && form.get('birthDate').touched ">
+                            </small> -->
+                            
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="phone">
                                 เบอร์ติดต่อ
                             </label>
                             <input class="form-control" [ngClass]="{
-                                'is-invalid': submitted && form.get('phone')!.errors
+                                'is-invalid':submitted && form.get('phone')!.errors || form.get('phone').errors?.['required'] && form.get('phone').touched
                               }" data-testid="phone" formControlName="phone" id="phone" type="text"
                                 mask="000 000 0000">
+                            <!-- <small *ngIf="form.get('phone').errors?.['required'] && form.get('phone').touched " class="req-text">
+                                *โปรดระบุเบอร์โทรศัพท์
+                            </small> -->
                         </div>
                     </div>
                 </div>

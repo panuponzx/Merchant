@@ -146,7 +146,7 @@ export class InputAddUserComponent {
     });
 
     this.otpRequestForm = this.formBuilder.group({
-      mobilePhone: new FormControl(undefined, Validators.required)
+      mobilePhone: new FormControl(undefined, [Validators.required,Validators.minLength(10)])
     });
 
     this.otpConfirmForm = this.formBuilder.group({
