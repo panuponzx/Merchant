@@ -202,7 +202,7 @@ export class SearchUserComponent implements OnInit {
   }
 
   searchByFaremedia(payload: any) {
-    this.restApiService.postBackOffice('customer/search-by-faremedia', payload).pipe(first()).subscribe({
+    let x = this.restApiService.postBackOffice('customer/search-by-faremedia', payload).pipe(first()).subscribe({
       next: (res: ResponseMessageModel) => {
         let response = res as ResponseModel<IPaginationModel<Array<ICustomerSearchModel>>>;
         this.rows = response.data.elements;
