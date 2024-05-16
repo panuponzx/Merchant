@@ -9,13 +9,15 @@
         <hr class="hr-custom" />
         <div class="body-wrapper">
             <h3 class="mb-3 text-center">กรุณากรอกหมายเลขโทรศัพท์มือถือ สำหรับการขอรับรหัสผ่าน OTP</h3>
-            <form class="d-flex justify-content-center" [formGroup]="form">
+            <form class="d-flex justify-content-center" [formGroup]="form" >
                 <div class="col-4">
                     <label class="label-input required-field" for="mobilePhoneInput">
                         เบอร์โทรศัพท์
                     </label>
                     <input [ngClass]="{
-                        'is-invalid': form.get('mobilePhone').errors?.['required'] && form.get('mobilePhone').touched || form.get('mobilePhone').errors?.['minlength'] && form.get('mobilePhone').touched
+                        'is-invalid': 
+                          form.get('mobilePhone').errors?.['required'] && form.get('mobilePhone').touched || 
+                          form.get('mobilePhone').errors?.['minlength'] && form.get('mobilePhone').touched
                       }" class="form-control" data-testid="mobilePhoneInput" placeholder="081 000 0000"
                         mask="000 000 0000" formControlName="mobilePhone" id="mobilePhoneInput" type="text">
                     <!-- <div>
@@ -34,9 +36,9 @@
             (click)="onBack()">
             ย้อนกลับ
         </button>
-        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
+        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ยืนยัน"
             (click)="onNext()">
-            ถัดไป
+            ยืนยัน
         </button>
     </div>
 </div>

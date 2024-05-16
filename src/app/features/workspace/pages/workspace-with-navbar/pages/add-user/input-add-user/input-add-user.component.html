@@ -61,6 +61,7 @@
         *ngSwitchCase="6"
         [form]="otpConfirmForm"
         [customerType]="customerType"
+        [mobileNumber]="otpRequestForm.get('mobilePhone')?.value"
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"
         (submit)="onSubmit($event)"

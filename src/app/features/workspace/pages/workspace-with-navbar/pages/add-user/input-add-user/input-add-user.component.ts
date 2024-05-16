@@ -13,8 +13,9 @@ import { ModalDialogService } from '../../../../../../../core/services/modal-dia
 })
 export class InputAddUserComponent {
 
-  public step: number = 1;
+  public step: number = 5;
   public customerType: number = 0;
+  public refCode: string | undefined; 
 
   public userInfoForm: FormGroup;
   public addressInfoForm: FormGroup;
@@ -24,6 +25,7 @@ export class InputAddUserComponent {
   public juristicAttachDocument: FormGroup;
   public otpRequestForm: FormGroup;
   public otpConfirmForm: FormGroup;
+  nextStep: any;
 
   constructor(
     private formBuilder: FormBuilder,

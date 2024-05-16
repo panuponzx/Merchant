@@ -1,6 +1,7 @@
 import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel } from "./data.interface"
 
 export interface ResponseMessageModel {
+  token: any
   errorCode: string,
   errorMessage: string,
   requestParam: {
