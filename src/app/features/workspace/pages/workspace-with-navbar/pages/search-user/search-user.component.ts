@@ -120,18 +120,8 @@ export class SearchUserComponent implements OnInit {
 
 
   onSearch() {
-    console.log(this.form.invalid );
-    
-    console.log((
-      this.form.invalid &&
-      (this.form.get('searchType')?.value === 'personal') && 
-      !this.form.get('identificationId')?.value && 
-      !this.form.get('firstName')?.value && 
-      !this.form.get('lastName')?.value && 
-      !this.form.get('corporateName')?.value && 
-      !this.form.get('mobilePhone')?.value ));
-    
-    if (this.form.invalid || this.isLoading ) return;
+    console.log("onSearch",this.form.valid );
+    if (this.form.valid || this.isLoading ) return;
     this.isLoading = true;
 
     let payload: any = {
