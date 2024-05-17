@@ -16,7 +16,6 @@ export class OtpRequestModalComponent {
   public form: FormGroup;
 
   public step: number = 1;
-  VerifyCode:any;
   VerifyToken:any;
 
   private currentDigit: number | null | undefined;
@@ -177,15 +176,14 @@ export class OtpRequestModalComponent {
             "reqId": "111908f1-04e9-499c"
           }
       }
-      console.log(data);
 
-      this.restApiService.postBackOffice('email-otp', data)
+      this.restApiService.postBackOffice('notification/email-otp', data)
       .pipe(
         map((response:any) => {
-          if (response.data && response.data.verifyCode && response.data.verifyToken) {
-            this.VerifyToken = response.data.verifyToken;
-            this.VerifyCode = response.data.verifyCode;
-            return { VerifyCode: response.data.VerifyCode, VerifyToken: response.data.VerifyToken };
+          if (response.data && response.data.verify_token && response.data.ref_code) {
+            this.VerifyToken = response.data.verify_token;
+            this.refOTP = response.data.ref_code;
+            return { refOTP: response.data.ref_code, VerifyToken: response.data.verify_token };
           } else {
             throw new Error('VerifyCode and Token is missing');
           }
@@ -193,8 +191,6 @@ export class OtpRequestModalComponent {
       ).subscribe({
         next: (response:any) => {
           const {VerifyCode,VerifyToken} = response;
-          console.log('POST Code:',VerifyCode);
-          console.log('POST TOKEN:', VerifyToken);
         },
         error: (error) => {
           console.log(error);
@@ -221,15 +217,14 @@ export class OtpRequestModalComponent {
             "reqId": "111908f1-04e9-499c"
           }
       }
-      console.log(data);
 
-      this.restApiService.postBackOffice('email-otp', data)
+      this.restApiService.postBackOffice('notification/email-otp', data)
       .pipe(
         map((response:any) => {
-          if (response.data && response.data.verifyCode && response.data.verifyToken) {
-            this.VerifyToken = response.data.verifyToken;
-            this.VerifyCode = response.data.verifyCode;
-            return { VerifyCode: response.data.VerifyCode, VerifyToken: response.data.VerifyToken };
+          if (response.data && response.data.verify_token && response.data.ref_code) {
+            this.VerifyToken = response.data.verify_token;
+            this.refOTP = response.data.ref_code;
+            return { refOTP: response.data.ref_code, VerifyToken: response.data.verify_token };
           } else {
             throw new Error('VerifyCode and Token is missing');
           }
@@ -237,8 +232,6 @@ export class OtpRequestModalComponent {
       ).subscribe({
         next: (response:any) => {
           const {VerifyCode,VerifyToken} = response;
-          console.log('POST Code:',VerifyCode);
-          console.log('POST TOKEN:', VerifyToken);
         },
         error: (error) => {
           console.log(error);
@@ -249,10 +242,9 @@ export class OtpRequestModalComponent {
     if (this.step === 2) {
       const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4','digit_5', 'digit_6'];
       const otpCode = digitControls.map(controlName => this.form.get(controlName)?.value).join('');
-      console.log('OTP:', otpCode);
 
       const VerifyToken = this.VerifyToken;
-      const VerifyCode = this.VerifyCode;
+      const VerifyCode = this.refOTP;
 
       const data = {
           verifyToken: VerifyToken,
@@ -262,12 +254,10 @@ export class OtpRequestModalComponent {
             channelId: 2,
             reqId: "111908f1-04e9-499c"
         }}
-        console.log('data:',data);
         
-        this.restApiService.postBackOffice('email-otp-verify', data)
+        this.restApiService.postBackOffice('notification/email-otp-verify', data)
         .subscribe({
           next: (response: ResponseMessageModel) => {
-            console.log('response:',response);
           }, error: (error:any) => {
             console.error('error:',error);
           }
