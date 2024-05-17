@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel } from 'src/app/core/interfaces';
+import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel, CustomerModel } from 'src/app/core/interfaces';
 import { first, map } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ export class WalletInfoComponent implements OnInit {
 
   @Input() public customerId: string | null = null;
   @Input() public customerTypeId: string | null = null;
+  @Input() public customer: CustomerModel | undefined;
 
   // public isCollapsedPrepaid: boolean = true;
   // public isCollapsedPostpaid: boolean = true;
@@ -173,6 +174,7 @@ export class WalletInfoComponent implements OnInit {
       keyboard: false,
     });
     modalRef.componentInstance.carInfo = event.row;
+    modalRef.componentInstance.customer = this.customer;
     modalRef.componentInstance.walletIdList = this.walletList.map((x) => x.walletId);
     modalRef.result.then(
       (result) => {

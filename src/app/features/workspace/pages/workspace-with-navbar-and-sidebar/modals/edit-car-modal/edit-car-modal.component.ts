@@ -6,6 +6,7 @@ import { first, firstValueFrom } from 'rxjs';
 import { CarInfoModel, ICarMasterData, IProvinceMasterData, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
+import { CustomerModel } from '../../../../../../core/interfaces';
 
 
 @Component({
@@ -18,14 +19,13 @@ export class EditCarModalComponent {
   @Input() public carInfo: CarInfoModel = {} as CarInfoModel;
   @Input() public walletIdList: number[] = [];
   @Input() public brands: CarInfoModel[] = [];
-  @Input() public selectedProvince: CarInfoModel[]=[];
-  @Input() public models: CarInfoModel[] =[];
-  
-
+  @Input() public selectedProvince: CarInfoModel[] = [];
+  @Input() public models: CarInfoModel[] = [];
+  @Input() public customer: CustomerModel | undefined;
 
   public form: FormGroup = this.formBuilder.group({
     licensePlate: new FormControl(undefined, Validators.required),
-    fullnameCarOwner: new FormControl(undefined, Validators.required),
+    fullnameCarOwner: new FormControl({ value: undefined, disabled: true }, Validators.required),
     brand: new FormControl(undefined, Validators.required),
     model: new FormControl(undefined, Validators.required),
     yearRegistration: new FormControl(undefined, Validators.required),
@@ -53,7 +53,7 @@ export class EditCarModalComponent {
   ngOnInit() {
     this.brand();
     this.form.get('licensePlate')?.setValue(this.carInfo.licensePlate);
-    this.form.get('fullnameCarOwner')?.setValue('นายทดสอบ ทดสอบ');
+    this.form.get('fullnameCarOwner')?.setValue((this.customer?.title ? this.customer.title + ' ' : '') + this.customer?.firstName + ' ' + this.customer?.lastName);
     this.form.get('province')?.setValue(this.carInfo.province);
     this.form.get('brand')?.setValue(this.carInfo.brand);
     this.form.get('model')?.setValue(this.carInfo.model);
@@ -66,16 +66,16 @@ export class EditCarModalComponent {
     this.form.get('color')?.setValue(this.carInfo.color);
     this.provinceList();
     this.brand();
-    
+
   }
 
   // brand select dropdown
   brand() {
     this.restApiService.getBackOffice('master-data/car-model').subscribe(
       (Response: any) => {
-        if (Array.isArray(Response.data)){
-          
-       this.brands = Response.data.map((value: {brand:string;}) => {return value.brand});
+        if (Array.isArray(Response.data)) {
+
+          this.brands = Response.data.map((value: { brand: string; }) => { return value.brand });
         }
       });
   }
@@ -85,13 +85,13 @@ export class EditCarModalComponent {
     this.restApiService.getBackOffice('master-data/province').subscribe(
       (response: any) => {
         if (Array.isArray(response.data)) {
-         
-          this.selectedProvince = response.data.map((value: {provinceName:string;}) => {return value.provinceName});
+
+          this.selectedProvince = response.data.map((value: { provinceName: string; }) => { return value.provinceName });
         }
       });
   }
 
-  
+
   onSuspend() {
     Swal.fire({
       title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการอายัดอุปกรณ์</h2>',
@@ -216,27 +216,27 @@ export class EditCarModalComponent {
             obu: {
               obuPan: this.carInfo.obuPan,
               smartcardNo: this.carInfo.smartcardNo,
-              walletId: this.carInfo.walletId,
-              isType9: this.carInfo.isType9
+              walletId: this.form.get('walletId')?.value, //this.carInfo.walletId,
+              isType9: this.form.get('isType9')?.value, //this.carInfo.isType9
             },
             car: {
-            brand: this.carInfo.brand,
-            model: this.carInfo.model,
-            licensePlate: this.carInfo.licensePlate,
-            yearRegistration: this.carInfo.yearRegistration,
-            color: this.carInfo.color,
-            remark: this.carInfo.remark,
-            province: this.carInfo.province
-           },
-           requestParam: {
-            "reqId": "23498-sss-k339c-322s2",
-            "channelId": 1
-           }
+              brand: this.form.get('brand')?.value, //this.carInfo.brand,
+              model: this.form.get('model')?.value, //this.carInfo.model,
+              licensePlate: this.form.get('licensePlate')?.value, //this.carInfo.licensePlate,
+              yearRegistration: this.form.get('yearRegistration')?.value, //this.carInfo.yearRegistration,
+              color: this.form.get('color')?.value, //this.carInfo.color,
+              remark: this.form.get('remark')?.value, //this.carInfo.remark,
+              province: this.form.get('province')?.value, //this.carInfo.province
+            },
+            requestParam: {
+              "reqId": "23498-sss-k339c-322s2",
+              "channelId": 1
+            }
           };
-          console.log('load',payload);
-          
-          const res = await firstValueFrom(this.restApiService.postBackOffice('faremedia/edit-info-obu', payload ).pipe(first()))
-          console.log('reponse',res);
+          console.log('load', payload);
+
+          const res = await firstValueFrom(this.restApiService.postBackOffice('faremedia/edit-info-obu', payload).pipe(first()))
+          console.log('reponse', res);
           // return response.json();
         } catch (error: any) {
           console.error(error);
@@ -249,7 +249,7 @@ export class EditCarModalComponent {
             Swal.showValidationMessage(`Some thing failed`);
           }
         }
-        
+
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
@@ -265,6 +265,6 @@ export class EditCarModalComponent {
     this.ngbActiveModal.close(false);
   }
 
-  
-  
+
+
 }

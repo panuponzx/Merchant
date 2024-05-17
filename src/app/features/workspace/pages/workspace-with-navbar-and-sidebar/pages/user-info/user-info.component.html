@@ -106,7 +106,7 @@
           <li [ngbNavItem]="'wallet-info'">
             <button ngbNavLink>ข้อมูลกระเป๋าเงิน</button>
             <ng-template ngbNavContent>
-              <wallet-info [customerId]="customerId" [customerTypeId]="customerTypeId"/>
+              <wallet-info [customerId]="customerId" [customerTypeId]="customerTypeId" [customer]="customer"/>
             </ng-template>
           </li>
           <li [ngbNavItem]="'loyalty-point-info'">
