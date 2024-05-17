@@ -407,9 +407,13 @@ export class GeneralInfoComponent {
     // console.log("[setFormValue] dd", this.transformDatePipe.transform(customer.birthdate, null));
     console.log("[setFormValue] birthdate => ", customer.birthdate);
     console.log("[setFormValue] cardExpDate => ", customer.cardExpDate);
-    formControl['birthdate'].setValue(new Date(customer.birthdate));
+    if (customer.birthdate) {
+      formControl['birthdate'].setValue(new Date(customer.birthdate));
+    }
+    if (customer.cardExpDate) {
+      formControl['cardExpDate'].setValue(new Date(customer.cardExpDate));
+    }
     formControl['branchTypeId'].setValue(customer.branchTypeId);
-    formControl['cardExpDate'].setValue(new Date(customer.cardExpDate));
     formControl['channelId'].setValue(customer.channelId);
     formControl['citizenDocId'].setValue(customer.citizenDocId);
     formControl['citizenId'].setValue(this.utilitiesService.formatIdCard(customer.citizenId));
@@ -481,7 +485,7 @@ export class GeneralInfoComponent {
         formControl['work_address'] = newFormGroup;
       }
     });
-    console.log("[setFormValue] birthdate => ", this.form.value);
+    console.log("[setFormValue] => ", this.form.value);
     this.form.valueChanges.subscribe(x => {
       console.log("[valueChanges] x => ", x);
       this.isUpdated = true;
