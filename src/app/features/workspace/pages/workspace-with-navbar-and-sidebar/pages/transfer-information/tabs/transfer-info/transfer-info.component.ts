@@ -21,9 +21,11 @@ export class TransferInfoComponent implements OnInit {
   public columns: CustomColumnModel[] = [
     { id: 'Transaction Date', name: 'Transaction Date', label: 'วันที่ และ เวลา', prop: 'transactionDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm:ss', locale: 'th' } },
     { id: 'From WalletId', name: 'From WalletId', label: 'กระเป่าเงินออก', prop: 'fromWalletId', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'From WalletId', name: 'From WalletId', label: 'ชื่อกระเป่าเงินออก', prop: 'fromWalletName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'To WalletId', name: 'To WalletId', label: 'กระเป่าเงินเข้า', prop: 'toWalletId', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'To WalletId', name: 'To WalletId', label: 'ชื่อกระเป่าเงินเข้า', prop: 'toWalletName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'Amount', name: 'Amount', label: 'จำนวนเงิน', prop: 'amount', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'number', numberFormat: '1.2-2' },
-    // { id: 'type', name: 'Type', label: 'ประเภท', prop: 'status', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' }
+    { id: 'type', name: 'Type', label: 'ประเภท', prop: 'status', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' }
   ];
 
   public rows: ITransferModel[] = [];
@@ -79,8 +81,11 @@ export class TransferInfoComponent implements OnInit {
         map(res => res as IResponseTransferModel)
       )
       .subscribe({
-        next: (res) => {
+        next: (res: any) => {
           console.log(res)
+          for (let i = 0; i < res.data.length; i++) {
+            res.data[i].status = 'โอนเงิน';
+          }
           this.rows = res.data;
           this.collectionSize = res.totalData;
           this.isLoading = false;
