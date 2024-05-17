@@ -8,9 +8,9 @@
             <label class="label-input required-field" for="walletTypeSelect">
                 ประเภทกระเป๋า
             </label>
-            <ng-select 
-                class="form-control" 
-                [clearable]="false" 
+            <ng-select
+                class="form-control"
+                [clearable]="false"
                 bindLabel="lable"
                 bindValue="id"
                 data-testid="walletTypeSelect"
@@ -27,6 +27,13 @@
             <input class="form-control" data-testid="buildingInput" formControlName="building"
                 id="buildingInput" type="text">
         </div> -->
+        <div class="mb-3">
+          <label class="label-input" for="walletNameInput">
+              ชื่อกระเป๋า
+          </label>
+          <input class="form-control" data-testid="walletNameInput" formControlName="walletName"
+              id="walletNameInput" type="text" maxlength="36" minlength="1">
+        </div>
         <div class="d-flex justify-content-end gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
             <button class="custom-btn btn-type-1" (click)="onAddWallet()" [disabled]="form.invalid">เพิ่มกระเป๋าเงิน</button>

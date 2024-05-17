@@ -19,11 +19,11 @@ export class AddWalletModalComponent {
       lable: 'Prepaid (Top-up)',
       id: 1
     },
-    // { 
+    // {
     //   lable: 'Postpaid (Billing)',
     //   id: 2
     // },
-    // { 
+    // {
     //   lable: 'Direct credit card',
     //   id: 3
     // }
@@ -39,6 +39,7 @@ export class AddWalletModalComponent {
   ) {
     this.form = this.formBuilder.group({
       walletType: new FormControl(1, Validators.required),
+      walletName: new FormControl('', Validators.required),
     });
   }
 
@@ -54,7 +55,7 @@ export class AddWalletModalComponent {
       },
       wallet: {
         walletTypeId: this.form.get('walletType')?.value,
-        walletName: ''
+        walletName: this.form.get('walletName')?.value,
       }
     };
     console.log("[onAddWallet] data => ", data);
