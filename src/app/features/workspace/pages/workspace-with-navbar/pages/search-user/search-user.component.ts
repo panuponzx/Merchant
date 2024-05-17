@@ -86,19 +86,19 @@ export class SearchUserComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     searchType: new FormControl(undefined, Validators.required),
     deviceType: new FormControl('obu'),
-    identificationId: new FormControl(undefined, [Validators.required,Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
+    identificationId: new FormControl(undefined, [Validators.minLength(13),Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
     firstName: new FormControl(undefined, [Validators.minLength(2)]),
     lastName: new FormControl(undefined, [Validators.minLength(2)]),
     mobilePhone: new FormControl(undefined, [Validators.minLength(10)]),
     corporateName: new FormControl(undefined, [Validators.minLength(2)]),
     faremediaValue: new FormControl(undefined, [Validators.minLength(10)]),
-  }); 
+  });
 
   public tempSearch: boolean = false;
 
   public isLoading = false;
   public mobilePhone: number[]=[];
-  
+
 
 
   constructor(
@@ -110,8 +110,8 @@ export class SearchUserComponent implements OnInit {
       console.log("[valueChanges] x => ", x);
       console.log(this.form.errors);
       console.log(this.form);
-      
-      
+
+
     });
   }
   ngOnInit(): void {
@@ -121,7 +121,7 @@ export class SearchUserComponent implements OnInit {
 
   onSearch() {
     console.log("onSearch",this.form.valid );
-    if (this.form.valid || this.isLoading ) return;
+    if (this.form.invalid || this.isLoading ) return;
     this.isLoading = true;
 
     let payload: any = {
@@ -132,10 +132,9 @@ export class SearchUserComponent implements OnInit {
       limit: this.pageSize,
       page: this.page
     }
-    
+
     const searchType = this.form.value.searchType;
 
-    
       if (searchType === 'corporate') {
         if (this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
         if (this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
