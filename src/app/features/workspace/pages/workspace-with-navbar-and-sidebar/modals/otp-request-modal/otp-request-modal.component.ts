@@ -4,6 +4,7 @@ import { RestApiService } from '../../../../../../core/services';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { first, map } from 'rxjs';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
+import { ResponseMessageModel } from 'src/app/core/interfaces';
 
 @Component({
   selector: 'app-otp-request-modal',
@@ -15,6 +16,8 @@ export class OtpRequestModalComponent {
   public form: FormGroup;
 
   public step: number = 1;
+  VerifyCode:any;
+  VerifyToken:any;
 
   private currentDigit: number | null | undefined;
   display: any;
@@ -164,6 +167,42 @@ export class OtpRequestModalComponent {
     }
   }
 
+  onAgain() {
+    const Email = this.form.get('email')?.value;
+      console.log(Email);
+      const data = {
+          "recipientEmail": Email,
+          "requestParam": {
+            "channelId": 2,
+            "reqId": "111908f1-04e9-499c"
+          }
+      }
+      console.log(data);
+
+      this.restApiService.postBackOffice('email-otp', data)
+      .pipe(
+        map((response:any) => {
+          if (response.data && response.data.verifyCode && response.data.verifyToken) {
+            this.VerifyToken = response.data.verifyToken;
+            this.VerifyCode = response.data.verifyCode;
+            return { VerifyCode: response.data.VerifyCode, VerifyToken: response.data.VerifyToken };
+          } else {
+            throw new Error('VerifyCode and Token is missing');
+          }
+        })
+      ).subscribe({
+        next: (response:any) => {
+          const {VerifyCode,VerifyToken} = response;
+          console.log('POST Code:',VerifyCode);
+          console.log('POST TOKEN:', VerifyToken);
+        },
+        error: (error) => {
+          console.log(error);
+          
+        }
+      })
+  }
+
   onNextStep() {
     console.log('[onNextStep] findInvalidControls => ', this.findInvalidControls());
     if (this.step === 1) {
@@ -173,17 +212,76 @@ export class OtpRequestModalComponent {
       // this.form.get('digit_4')?.addValidators(Validators.required);
       // this.form.get('digit_5')?.addValidators(Validators.required);
       // this.form.get('digit_6')?.addValidators(Validators.required);
+      const Email = this.form.get('email')?.value;
+      console.log(Email);
+      const data = {
+          "recipientEmail": Email,
+          "requestParam": {
+            "channelId": 2,
+            "reqId": "111908f1-04e9-499c"
+          }
+      }
+      console.log(data);
+
+      this.restApiService.postBackOffice('email-otp', data)
+      .pipe(
+        map((response:any) => {
+          if (response.data && response.data.verifyCode && response.data.verifyToken) {
+            this.VerifyToken = response.data.verifyToken;
+            this.VerifyCode = response.data.verifyCode;
+            return { VerifyCode: response.data.VerifyCode, VerifyToken: response.data.VerifyToken };
+          } else {
+            throw new Error('VerifyCode and Token is missing');
+          }
+        })
+      ).subscribe({
+        next: (response:any) => {
+          const {VerifyCode,VerifyToken} = response;
+          console.log('POST Code:',VerifyCode);
+          console.log('POST TOKEN:', VerifyToken);
+        },
+        error: (error) => {
+          console.log(error);
+          
+        }
+      });
     }
     if (this.step === 2) {
+      const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4','digit_5', 'digit_6'];
+      const otpCode = digitControls.map(controlName => this.form.get(controlName)?.value).join('');
+      console.log('OTP:', otpCode);
+
+      const VerifyToken = this.VerifyToken;
+      const VerifyCode = this.VerifyCode;
+
+      const data = {
+          verifyToken: VerifyToken,
+          verifyCode: otpCode,
+          refCode: VerifyCode,
+          requestParam: {
+            channelId: 2,
+            reqId: "111908f1-04e9-499c"
+        }}
+        console.log('data:',data);
+        
+        this.restApiService.postBackOffice('email-otp-verify', data)
+        .subscribe({
+          next: (response: ResponseMessageModel) => {
+            console.log('response:',response);
+          }, error: (error:any) => {
+            console.error('error:',error);
+          }
+        })
       this.onConfirm();
     } else {
       this.step++;
     }
   }
 
+  
 
 
-  onConfirm() {
+  onConfirm() { 
     const data = {
       customer: {
         id: this.customerId,
