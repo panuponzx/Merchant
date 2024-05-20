@@ -225,7 +225,12 @@ export class OtpRequestModalComponent {
           if (response.data && response.data.verify_token && response.data.ref_code) {
             this.VerifyToken = response.data.verify_token;
             this.refOTP = response.data.ref_code;
-            return { refOTP: response.data.ref_code, VerifyToken: response.data.verify_token };
+            const cooldownMinute = parseFloat(response.data.limit_minute);
+            if (isNaN(cooldownMinute)) {
+              throw new Error('Cooldown time');
+            }
+            const cooldownTime = cooldownMinute * 60
+            return { refOTP: response.data.ref_code, VerifyToken: response.data.verify_token , cooldownTime: cooldownTime };
           } else {
             throw new Error('VerifyCode and Token are missing');
           }
@@ -233,6 +238,7 @@ export class OtpRequestModalComponent {
       ).subscribe({
         next: (response: any) => {
           // console.log('OTP sent successfully', response);
+          this.startCooldown(response.cooldownTime);
         },
         error: (error) => {
           console.error('Error sending OTP:', error);
@@ -247,14 +253,13 @@ export class OtpRequestModalComponent {
   onAgain() {
     if (!this.cooldownActive) {
       this.sendOTP();
-      this.startCooldown();
     }
   }
 
-  startCooldown() {
+  startCooldown(cooldownTimeInSeconds: number) {
     this.cooldownActive = true;
-    this.display = 60;
-
+    this.display = cooldownTimeInSeconds;
+  
     this.intervalId = setInterval(() => {
       this.display--;
       if (this.display <= 0) {
@@ -263,14 +268,14 @@ export class OtpRequestModalComponent {
       }
     }, 1000);
   }
-
+  
   clearInterval() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
   }
-
+  
   ngOnDestroy() {
     this.clearInterval();
   }
