@@ -17,7 +17,7 @@
                 <div class="row otp-container">
                     <p class="text-center mb-0" style="color: #777777">
                         รหัสยืนยัน OTP <br>
-                        ได้ถูกส่งไปที่อีเมล <br> 
+                        ได้ถูกส่งไปที่อีเมล {{ this.Email }} <br> 
                     </p>
                     <div class="col-sm-12 col-md-8 col-lg-5 col-xl-4 otp-form-wrapper d-flex justify-content-center">
                         <input #digit_1 formControlName="digit_1" class="form-control otp-input" type="number" pattern="[0-9]*"
@@ -184,9 +184,13 @@
                     <div class="col-12">
                         <div
                             class="otp-resend d-flex justify-content-center gap-2 my-3 mt-sm-3 text-center flex-column flex-sm-row">
-                            <p (click)="onAgain()" style="color: #777777 " class="d-flex align-items-center m-0 justify-content-center mouse">
+                            <p (click)="onAgain()" [ngStyle]="{'color': cooldownActive ? '#cccccc' : '#777777', 'pointer-events': cooldownActive ? 'none' : 'auto'}" 
+                            class="d-flex align-items-center m-0 justify-content-center mouse">
                                 ส่งอีกครั้ง
                                 {{this.refOTP }} ({{ display }}s)</p>
+                                <div *ngIf="err" class="error-message">
+                                    {{ err }}
+                                  </div>
                             <!-- <button
                                 type="button"
                                 id="signInWithUser"

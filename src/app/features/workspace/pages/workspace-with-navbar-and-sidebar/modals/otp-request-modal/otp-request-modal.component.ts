@@ -16,10 +16,12 @@ export class OtpRequestModalComponent {
   public form: FormGroup;
 
   public step: number = 1;
-  VerifyToken:any;
+  VerifyToken:string ='';
+  err: string = '';
+  public Email: any = '';
 
   private currentDigit: number | null | undefined;
-  display: any;
+  display: number = 60;
   refOTP: string = '';
 
   @Input() public customerId: string | null = null;
@@ -166,195 +168,455 @@ export class OtpRequestModalComponent {
     }
   }
 
-  onAgain() {
-    const Email = this.form.get('email')?.value;
-      console.log(Email);
-      const data = {
-          "recipientEmail": Email,
-          "requestParam": {
-            "channelId": 2,
-            "reqId": "111908f1-04e9-499c"
-          }
-      }
+  // sendOTP() {
+  //   const Email = this.form.get('email')?.value;
+  //   const data = {
+  //     recipientEmail: Email,
+  //     requestParam: {
+  //       channelId: 2,
+  //       reqId: "111908f1-04e9-499c"
+  //     }
+  //   };
 
-      this.restApiService.postBackOffice('notification/email-otp', data)
+  //   this.restApiService.postBackOffice('notification/email-otp', data)
+  //     .pipe(
+  //       map((response: any) => {
+  //         if (response.data && response.data.verify_token && response.data.ref_code) {
+  //           this.VerifyToken = response.data.verify_token;
+  //           this.refOTP = response.data.ref_code;
+  //           return { refOTP: response.data.ref_code, VerifyToken: response.data.verify_token };
+  //         } else {
+  //           throw new Error('VerifyCode and Token is missing');
+  //         }
+  //       })
+  //     ).subscribe({
+  //       next: (response: any) => {
+  //         console.log('OTP sent successfully',response);
+  //       },
+  //       error: (error) => {
+  //         console.error(error);
+  //         this.err = error.message;
+  //       }
+  //     });
+  // }
+
+  sendOTP() {
+    this.Email = this.form.get('email')?.value;
+    if (!this.Email) {
+      console.error('Email is missing');
+      this.err = 'Email is required';
+      return;
+    }
+
+    console.log('Sending OTP to:', this.Email);  // Debug log
+
+    const data = {
+      recipientEmail: this.Email,
+      requestParam: {
+        channelId: 2,
+        reqId: "111908f1-04e9-499c"
+      }
+    };
+
+    this.restApiService.postBackOffice('notification/email-otp', data)
       .pipe(
-        map((response:any) => {
+        map((response: any) => {
+          // console.log('API response:', response);  // Debug log
           if (response.data && response.data.verify_token && response.data.ref_code) {
             this.VerifyToken = response.data.verify_token;
             this.refOTP = response.data.ref_code;
             return { refOTP: response.data.ref_code, VerifyToken: response.data.verify_token };
           } else {
-            throw new Error('VerifyCode and Token is missing');
+            throw new Error('VerifyCode and Token are missing');
           }
         })
       ).subscribe({
-        next: (response:any) => {
-          const {VerifyCode,VerifyToken} = response;
+        next: (response: any) => {
+          // console.log('OTP sent successfully', response);
         },
         error: (error) => {
-          console.log(error);
-          
+          console.error('Error sending OTP:', error);
+          this.err = error.message;
         }
-      })
+      });
   }
+
+  cooldownActive: boolean = false;
+  intervalId: any;
+
+  onAgain() {
+    if (!this.cooldownActive) {
+      this.sendOTP();
+      this.startCooldown();
+    }
+  }
+
+  startCooldown() {
+    this.cooldownActive = true;
+    this.display = 60;
+
+    this.intervalId = setInterval(() => {
+      this.display--;
+      if (this.display <= 0) {
+        this.clearInterval();
+        this.cooldownActive = false;
+      }
+    }, 1000);
+  }
+
+  clearInterval() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+  }
+
+  ngOnDestroy() {
+    this.clearInterval();
+  }
+
+  // onNextStep() {
+  //   console.log('[onNextStep] findInvalidControls => ', this.findInvalidControls());
+  //   if (this.step === 1) {
+  //     // this.form.get('digit_1')?.addValidators(Validators.required);
+  //     // this.form.get('digit_2')?.addValidators(Validators.required);
+  //     // this.form.get('digit_3')?.addValidators(Validators.required);
+  //     // this.form.get('digit_4')?.addValidators(Validators.required);
+  //     // this.form.get('digit_5')?.addValidators(Validators.required);
+  //     // this.form.get('digit_6')?.addValidators(Validators.required);
+  //     this.sendOTP();
+  //   }
+  //   if (this.step === 2) {
+  //     this.verifyOTP();
+  //     this.onConfirm();
+  //   } else {
+  //     this.step++
+  //   }
+  // }
 
   onNextStep() {
     console.log('[onNextStep] findInvalidControls => ', this.findInvalidControls());
     if (this.step === 1) {
-      // this.form.get('digit_1')?.addValidators(Validators.required);
-      // this.form.get('digit_2')?.addValidators(Validators.required);
-      // this.form.get('digit_3')?.addValidators(Validators.required);
-      // this.form.get('digit_4')?.addValidators(Validators.required);
-      // this.form.get('digit_5')?.addValidators(Validators.required);
-      // this.form.get('digit_6')?.addValidators(Validators.required);
-      const Email = this.form.get('email')?.value;
-      console.log(Email);
-      const data = {
-          "recipientEmail": Email,
-          "requestParam": {
-            "channelId": 2,
-            "reqId": "111908f1-04e9-499c"
-          }
-      }
-
-      this.restApiService.postBackOffice('notification/email-otp', data)
-      .pipe(
-        map((response:any) => {
-          if (response.data && response.data.verify_token && response.data.ref_code) {
-            this.VerifyToken = response.data.verify_token;
-            this.refOTP = response.data.ref_code;
-            return { refOTP: response.data.ref_code, VerifyToken: response.data.verify_token };
-          } else {
-            throw new Error('VerifyCode and Token is missing');
-          }
-        })
-      ).subscribe({
-        next: (response:any) => {
-          const {VerifyCode,VerifyToken} = response;
-        },
-        error: (error) => {
-          console.log(error);
-          
-        }
-      });
-    }
-    if (this.step === 2) {
-      const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4','digit_5', 'digit_6'];
-      const otpCode = digitControls.map(controlName => this.form.get(controlName)?.value).join('');
-
-      const VerifyToken = this.VerifyToken;
-      const VerifyCode = this.refOTP;
-
-      const data = {
-          verifyToken: VerifyToken,
-          verifyCode: otpCode,
-          refCode: VerifyCode,
-          requestParam: {
-            channelId: 2,
-            reqId: "111908f1-04e9-499c"
-        }}
-        
-        this.restApiService.postBackOffice('notification/email-otp-verify', data)
-        .subscribe({
-          next: (response: ResponseMessageModel) => {
-          }, error: (error:any) => {
-            console.error('error:',error);
-          }
-        })
+      this.sendOTP();
+      
+    } if (this.step === 2) {
       this.onConfirm();
-    } else {
-      this.step++;
-    }
+    } else (
+      this.step++
+    )
   }
 
+
+  // verifyOTP() {
+  //   const otpCode = this.getOtpCode();
+  //   if (!this.VerifyToken || !this.refOTP) {
+  //     this.err = 'Verification token or reference OTP is missing.';
+  //     return;
+  //   }
+
+  //   const data = {
+  //     verifyToken: this.VerifyToken,
+  //     verifyCode: otpCode,
+  //     refCode: this.refOTP,
+  //     requestParam: {
+  //       channelId: 2,
+  //       reqId: "111908f1-04e9-499c"
+  //     }
+  //   };
+
+  //   this.restApiService.postBackOffice('notification/email-otp-verify', data)
+  //     .subscribe({
+  //       next: (response: any) => {
+  //         if (response && response.data && response.data.verified) {
+  //           console.log('OTP verified successfully:', response);
+  //           // Proceed to the next step or indicate success
+  //         } else {
+  //           this.err = 'Invalid OTP';
+  //           console.error('OTP verification failed:', response);
+  //         }
+  //       },
+  //       error: (error: any) => {
+  //         console.error('Error verifying OTP:', error);
+  //         this.err = 'Invalid OTP or verification failed.';
+  //       }
+  //     });
+  // }
+
+  // verifyOTP() {
+    
+  //   const otpCode = this.getOtpCode();
+  //   if (!this.VerifyToken || !this.refOTP) {
+  //     this.err = 'Verification token or reference OTP is missing.';
+  //     return;
+  //   }
+  
+  //   const data = {
+  //     verifyToken: this.VerifyToken,
+  //     verifyCode: otpCode,
+  //     refCode: this.refOTP,
+  //     requestParam: {
+  //       channelId: 2,
+  //       reqId: "111908f1-04e9-499c"
+  //     }
+  //   };
+  
+  //   this.restApiService.postBackOffice('notification/email-otp-verify', data)
+  //     .subscribe({
+  //       next: (response: any) => {
+  //         if (response && response.data && response.data.verified) {
+  //           this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การเพิ่ม/เปลี่ยนอีเมลรับใบกำกับภาษีสำเร็จ').then
+  //           ((res: boolean) => {
+  //             if (res) this.ngbActiveModal.close(true);
+  //             console.log('OTP verified successfully:', response);
+  //           });
+  //         } else {
+  //           this.err = 'Invalid OTP';
+  //           console.error('OTP verification failed:', response);
+  //           this.modalDialogService.info('warning', '#FF0000', 'Verification Failed', 'Invalid OTP');
+  //         }
+  //       },
+  //       error: (error: any) => {
+  //         console.error('Error verifying OTP:', error);
+  //         this.err = 'Invalid OTP or verification failed.';
+  //         this.modalDialogService.info('warning', '#FF0000', 'Verification Failed', 'Invalid OTP or verification failed.');
+  //       }
+  //     });
+  // }
+
+  // getOtpCode(): string {
+  //   const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4', 'digit_5', 'digit_6'];
+  //   return digitControls.map(controlName => this.form.get(controlName)?.value).join('');
+  // }
   
 
 
-  onConfirm() { 
-    const data = {
-      customer: {
-        id: this.customerId,
-        isEtaxActive: this.formEtax.get('isEtaxActive')?.value,
-        etaxSettingLevel: this.formEtax.get('etaxSettingLevel')?.value,
-        customerEtax: [
-          ...(
-            this.etaxTypeId === 0 ? [{
-              etaxTypeId: this.etaxTypeId,
-              email: this.form.get('email')?.value,
-            }] : []
-          ),
-          ...(
-            this.etaxTypeId === 1 ? [{
-              etaxTypeId: this.etaxTypeId,
-              isEtaxActive: this.formEtax.get('isEtaxActive1')?.value,
-              email: this.form.get('email')?.value,
-            }] : []
-          ),
-          ...(
-            this.etaxTypeId === 2 ? [{
-              etaxTypeId: this.etaxTypeId,
-              isEtaxActive: this.formEtax.get('isEtaxActive2')?.value,
-              email: this.form.get('email')?.value,
-            }] : []
-          ),
-          ...(
-            this.etaxTypeId === 3 ? [{
-              etaxTypeId: this.etaxTypeId,
-              isEtaxActive: this.formEtax.get('isEtaxActive3')?.value,
-              email: this.form.get('email')?.value,
-            }] : []
-          ),
-          ...(
-            this.etaxTypeId === 4 ? [{
-              etaxTypeId: this.etaxTypeId,
-              isEtaxActive: this.formEtax.get('isEtaxActive4')?.value,
-              email: this.form.get('email')?.value,
-            }] : []
-          ),
-          ...(
-            this.etaxTypeId === 5 ? [{
-              etaxTypeId: this.etaxTypeId,
-              isEtaxActive: this.formEtax.get('isEtaxActive5')?.value,
-              email: this.form.get('email')?.value,
-            }] : []
-          ),
-          // {
-          //   etaxTypeId: this.etaxTypeId,
-          //   email: 'abc111@hotmail.com',
-          // }
-        ],
-      },
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
+  // onConfirm() { 
+  //   const data = {
+  //     customer: {
+  //       id: this.customerId,
+  //       isEtaxActive: this.formEtax.get('isEtaxActive')?.value,
+  //       etaxSettingLevel: this.formEtax.get('etaxSettingLevel')?.value,
+  //       customerEtax: [
+  //         ...(
+  //           this.etaxTypeId === 0 ? [{
+  //             etaxTypeId: this.etaxTypeId,
+  //             email: this.form.get('email')?.value,
+  //           }] : []
+  //         ),
+  //         ...(
+  //           this.etaxTypeId === 1 ? [{
+  //             etaxTypeId: this.etaxTypeId,
+  //             isEtaxActive: this.formEtax.get('isEtaxActive1')?.value,
+  //             email: this.form.get('email')?.value,
+  //           }] : []
+  //         ),
+  //         ...(
+  //           this.etaxTypeId === 2 ? [{
+  //             etaxTypeId: this.etaxTypeId,
+  //             isEtaxActive: this.formEtax.get('isEtaxActive2')?.value,
+  //             email: this.form.get('email')?.value,
+  //           }] : []
+  //         ),
+  //         ...(
+  //           this.etaxTypeId === 3 ? [{
+  //             etaxTypeId: this.etaxTypeId,
+  //             isEtaxActive: this.formEtax.get('isEtaxActive3')?.value,
+  //             email: this.form.get('email')?.value,
+  //           }] : []
+  //         ),
+  //         ...(
+  //           this.etaxTypeId === 4 ? [{
+  //             etaxTypeId: this.etaxTypeId,
+  //             isEtaxActive: this.formEtax.get('isEtaxActive4')?.value,
+  //             email: this.form.get('email')?.value,
+  //           }] : []
+  //         ),
+  //         ...(
+  //           this.etaxTypeId === 5 ? [{
+  //             etaxTypeId: this.etaxTypeId,
+  //             isEtaxActive: this.formEtax.get('isEtaxActive5')?.value,
+  //             email: this.form.get('email')?.value,
+  //           }] : []
+  //         ),
+  //         // {
+  //         //   etaxTypeId: this.etaxTypeId,
+  //         //   email: 'abc111@hotmail.com',
+  //         // }
+  //       ],
+  //     },
+  //     requestParam: {
+  //       reqId: "23498-sss-k339c-322s2",
+  //       channelId: "1"
+  //     }
+  //   };
+  //   this.modalDialogService.loading();
+  //   this.restApiService
+  //     .postBackOffice('customer/etax/edit', data)
+  //     .pipe(
+  //       first(),
+  //       map(res => res as any)
+  //     ).subscribe({
+  //       next: (res) => {
+  //         console.log("[loadEtax] res => ", res);
+  //         this.modalDialogService.hideLoading();
+  //         if (res.errorMessage === "Success") {
+  //           // this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การเพิ่ม/เปลี่ยนอีเมลรับใบกำกับภาษีสำเร็จ').then
+  //           ((res: boolean) => {
+  //             if (res) this.ngbActiveModal.close(true);
+  //             this.verifyOTP();
+  //           });;
+  //         } else {
+  //           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+  //         } 
+  //       },
+  //       error: (err) => {
+  //         this.modalDialogService.hideLoading();
+  //         this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
+  //         console.error(err);
+  //       }
+  //     })
+      
+  // }
+
+  verifyOTP(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const otpCode = this.getOtpCode();
+      if (!this.VerifyToken || !this.refOTP) {
+        this.err = 'Verification token or reference OTP is missing.';
+        reject('Verification token or reference OTP is missing.');
+        return;
       }
-    };
-    this.modalDialogService.loading();
-    this.restApiService
-      .postBackOffice('customer/etax/edit', data)
-      .pipe(
-        first(),
-        map(res => res as any)
-      ).subscribe({
-        next: (res) => {
-          console.log("[loadEtax] res => ", res);
-          this.modalDialogService.hideLoading();
-          if (res.errorMessage === "Success") {
-            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การเพิ่ม/เปลี่ยนอีเมลรับใบกำกับภาษีสำเร็จ').then((res: boolean) => {
-              if (res) this.ngbActiveModal.close(true);
-            });
-          } else {
-            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
-          }
-        },
-        error: (err) => {
-          this.modalDialogService.hideLoading();
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
-          console.error(err);
+  
+      const data = {
+        verifyToken: this.VerifyToken,
+        verifyCode: otpCode,
+        refCode: this.refOTP,
+        requestParam: {
+          channelId: 2,
+          reqId: "111908f1-04e9-499c"
         }
-      });
+      };
+  
+      this.restApiService.postBackOffice('notification/email-otp-verify', data)
+        .subscribe({
+          next: (response: any) => {
+            if (response && response.data && response.data.verified) {
+              // console.log('OTP verified successfully:', response);
+              resolve(true);
+            } else {
+              this.err = 'Invalid OTP';
+              // console.error('OTP verification failed:', response);
+              this.modalDialogService.info('warning', '#FF0000', 'Verification Failed', 'Invalid OTP');
+              resolve(false);
+            }
+          },
+          error: (error: any) => {
+            console.error('Error verifying OTP:', error);
+            this.err = 'Invalid OTP or verification failed.';
+            this.modalDialogService.info('warning', '#FF0000', 'Verification Failed', 'Invalid OTP or verification failed.');
+            reject(false);
+          }
+        });
+    });
   }
+  
+  getOtpCode(): string {
+    const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4', 'digit_5', 'digit_6'];
+    return digitControls.map(controlName => this.form.get(controlName)?.value).join('');
+  }
+  
+  onConfirm() {
+    this.verifyOTP().then((verified) => {
+      if (!verified) {
+        return;
+      }
+  
+      const data = {
+        customer: {
+          id: this.customerId,
+          isEtaxActive: this.formEtax.get('isEtaxActive')?.value,
+          etaxSettingLevel: this.formEtax.get('etaxSettingLevel')?.value,
+          customerEtax: [
+            ...(
+              this.etaxTypeId === 0 ? [{
+                etaxTypeId: this.etaxTypeId,
+                email: this.form.get('email')?.value,
+              }] : []
+            ),
+            ...(
+              this.etaxTypeId === 1 ? [{
+                etaxTypeId: this.etaxTypeId,
+                isEtaxActive: this.formEtax.get('isEtaxActive1')?.value,
+                email: this.form.get('email')?.value,
+              }] : []
+            ),
+            ...(
+              this.etaxTypeId === 2 ? [{
+                etaxTypeId: this.etaxTypeId,
+                isEtaxActive: this.formEtax.get('isEtaxActive2')?.value,
+                email: this.form.get('email')?.value,
+              }] : []
+            ),
+            ...(
+              this.etaxTypeId === 3 ? [{
+                etaxTypeId: this.etaxTypeId,
+                isEtaxActive: this.formEtax.get('isEtaxActive3')?.value,
+                email: this.form.get('email')?.value,
+              }] : []
+            ),
+            ...(
+              this.etaxTypeId === 4 ? [{
+                etaxTypeId: this.etaxTypeId,
+                isEtaxActive: this.formEtax.get('isEtaxActive4')?.value,
+                email: this.form.get('email')?.value,
+              }] : []
+            ),
+            ...(
+              this.etaxTypeId === 5 ? [{
+                etaxTypeId: this.etaxTypeId,
+                isEtaxActive: this.formEtax.get('isEtaxActive5')?.value,
+                email: this.form.get('email')?.value,
+              }] : []
+            ),
+          ],
+        },
+        requestParam: {
+          reqId: "23498-sss-k339c-322s2",
+          channelId: "1"
+        }
+      };
+  
+      this.modalDialogService.loading();
+      this.restApiService
+        .postBackOffice('customer/etax/edit', data)
+        .pipe(
+          first(),
+          map(res => res as any)
+        ).subscribe({
+          next: (res) => {
+            console.log("[loadEtax] res => ", res);
+            this.modalDialogService.hideLoading();
+            if (res.errorMessage === "Success") {
+              this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การเพิ่ม/เปลี่ยนอีเมลรับใบกำกับภาษีสำเร็จ')
+                .then(() => {
+                  this.ngbActiveModal.close(true);
+                });
+            } else {
+              this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+            }
+          },
+          error: (err) => {
+            this.modalDialogService.hideLoading();
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
+            console.error(err);
+          }
+        });
+    }).catch((error) => {
+      console.error('OTP verification promise rejected:', error);
+    });
+  }
+  
+  
 
   onClose() {
     this.ngbActiveModal.dismiss(true);
