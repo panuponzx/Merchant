@@ -50,7 +50,7 @@ export class DeviceListComponent implements OnInit {
 
   constructor(
     private restApiService: RestApiService,
-    private modalDialogService: ModalDialogService
+    private modalDialogService: ModalDialogService,
   ) {
 
   }
@@ -76,6 +76,7 @@ export class DeviceListComponent implements OnInit {
         this.modalDialogService.hideLoading();
         this.isLoading = true;
         console.error(error);
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${error.body.errorMessage}`);
       }
     });
   }

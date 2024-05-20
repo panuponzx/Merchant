@@ -97,6 +97,7 @@ export class TransferInfoComponent implements OnInit {
           this.isLoading = false;
           this.onLoading.emit(false);
           this.modalDialogService.hideLoading();
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
         }
       });
   }
