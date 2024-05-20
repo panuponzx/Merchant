@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { map , Observer} from 'rxjs';
+import { catchError, map , Observer, throwError} from 'rxjs';
 import { ResponseMessageModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 
@@ -26,19 +26,72 @@ export class OtpConfirmComponent implements AfterContentInit {
 
   public submitted: boolean = false;
   private currentDigit: number | null | undefined;
-  display: any;
+  display: number = 60;
   public isLoading: boolean = false;
   refCode : string | undefined;
+  token: string = '';
+  err: string = '';
 
   footerHeight: number = 0
   
   constructor(private restApiService:RestApiService) {}
 
-  ngOnInit(): void {
-    if (this.form) {
-      const mobileNumber = this.mobileNumber
+  cooldownActive: boolean = false;
+  intervalId: any;
 
-      const endpoint = 'notification/sms-otp';
+  ngOnInit(): void {
+    this.sendOTP();
+  }
+
+  // sendOTP() {
+  //   if (this.form) {
+  //     const mobileNumber = this.mobileNumber
+  //     console.log(this.mobileNumber)
+  //     const body = {
+  //       mobileNumber: mobileNumber,
+  //       requestParam: {
+  //         channelId: 2,
+  //         reqId: '111908f1-04e9-499c'
+  //       }
+  //     };
+
+  //     this.restApiService.postBackOffice('notification/sms-otp', body)
+  //       .pipe(
+  //         map((response: any) => {
+  //           if (response.data && response.data.otp_token && response.data.ref_code && response.data.limit_minute) {
+  //             this.refCode = response.data.ref_code;
+  //             console.log(this.refCode);
+  //             console.log(response.data.otp_token);
+              
+              
+  //             const cooldownMinute = parseFloat(response.data.limit_minute);
+  //             if (isNaN(cooldownMinute)){
+  //               throw new Error('cooldown Time');
+  //             }
+  //             const cooldownTime = cooldownMinute * 60
+  //             return { otpToken: response.data.otp_token, refCode: response.data.ref_code, cooldownTime: cooldownMinute };
+  //           } else {
+  //             throw new Error('OTP token or ref code is missing in the response');
+  //           }
+  //         })
+  //       )
+  //       .subscribe({
+  //         next: (response: any) => { 
+  //           this.startCooldown(response.cooldownTime);
+  //         },
+
+  //         error: (error: any) => {
+  //           console.error(error);
+  //           this.err = error
+  //         }
+  //       });
+  //   }
+  // }
+
+  sendOTP() {
+    if (this.form) {
+      const mobileNumber = this.mobileNumber;
+      console.log(this.mobileNumber);
       const body = {
         mobileNumber: mobileNumber,
         requestParam: {
@@ -46,29 +99,76 @@ export class OtpConfirmComponent implements AfterContentInit {
           reqId: '111908f1-04e9-499c'
         }
       };
-
-      this.restApiService.postBackOffice(endpoint, body)
+  
+      this.restApiService.postBackOffice('notification/sms-otp', body)
         .pipe(
           map((response: any) => {
-            if (response.data && response.data.otp_token && response.data.ref_code) {
-              return { otpToken: response.data.otp_token, refCode: response.data.ref_code };
+            if (response.data && response.data.otp_token && response.data.ref_code && response.data.limit_minute) {
+              this.refCode = response.data.ref_code;
+              this.token = response.data.otp_token;
+              console.log(this.refCode);
+              console.log(response.data.otp_token);
+  
+              const cooldownMinute = parseFloat(response.data.limit_minute);
+              if (isNaN(cooldownMinute)){
+                throw new Error('Cooldown time is not a valid number.');
+              }
+              const cooldownTime = cooldownMinute * 60;
+              return { otpToken: response.data.otp_token, refCode: response.data.ref_code, cooldownTime: cooldownTime };
             } else {
-              throw new Error('OTP token or ref code is missing in the response');
+              throw new Error('OTP token, ref code, or cooldown time is missing in the response.');
             }
+          }),
+          catchError((error: any) => {
+            console.error(error);
+            this.err = error;
+            return throwError(() => new Error('Error sending OTP. Please try again later.'));
           })
         )
         .subscribe({
-          next: (response: any) => {
-            const { otpToken, refCode } = response;
-            this.refCode = refCode;
+          next: (response: any) => { 
+            this.startCooldown(response.cooldownTime);
           },
-
           error: (error: any) => {
             console.error(error);
+            this.err = error;
           }
         });
     }
   }
+  
+
+  onAgain() {
+    if (!this.cooldownActive) {
+      this.sendOTP();
+    }
+  }
+
+  startCooldown(cooldownTime: number) {
+    this.cooldownActive = true;
+    this.display = cooldownTime;
+
+    this.intervalId = setInterval(() => {
+      this.display--;
+      if (this.display <= 0 ){
+        this.clearInterval();
+        this.cooldownActive = false;
+      }
+    }, 1000);
+  }
+
+  clearInterval() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+  }
+
+  ngOnDestroy() {
+    this.clearInterval();
+  }
+
+  
 
   ngAfterContentInit(): void {
     const footerElement = this.footerRef?.nativeElement as HTMLElement;
@@ -262,11 +362,14 @@ export class OtpConfirmComponent implements AfterContentInit {
 //     }
 // }
 
+  invalidOTP:boolean = false;
+  verify: any;
+
   onNext() {
     if (this.form.valid) {
         const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4', 'digit_5', 'digit_6'];
-        const otpToken = digitControls.map(controlName => this.form.get(controlName)?.value).join(''); 
-        const otpCode = otpToken
+        const otpCode = digitControls.map(controlName => this.form.get(controlName)?.value).join(''); 
+        const otpToken = this.token;
         const refCode = this.refCode;
         
         const verifyData = {
@@ -281,16 +384,46 @@ export class OtpConfirmComponent implements AfterContentInit {
         
         this.restApiService.postBackOffice('notification/sms-otp-verify', verifyData)
             .subscribe({
-                next: (response: ResponseMessageModel) => {
-
+                next: (response: any) => {
+                    if (response && response.data && response.data.verified === true) {
+                        this.submit.emit(true);
+                        this.invalidOTP = false;
+                        this.verify = response.verified;
+                        this.err = 'Success';
+                    } else {
+                        this.err = 'Invalid OTP';
+                        this.invalidOTP = true;
+                    }
                 },
                 error: (error: any) => {
                     console.error('Error:', error);
-
+                    this.err = 'Invalid OTP';
+                    this.invalidOTP = true;
                 }
             }); 
+    } else {
+        console.log('Form is invalid');
+        this.err = 'Form is invalid.';
+        this.invalidOTP = true;
     }
-    this.submit.emit(true);
-}
+    //     .subscribe({
+    //         next: (response: ResponseMessageModel) => {
+    //           this.submit.emit(true);
+    //           this.invalidOTP = false;
+    //           this.err = "success"
+    //         },
+    //         error: (error: any) => {
+    //             console.error('Error:', error);
+    //             this.err = "Invalid OTP"
+    //             this.invalidOTP = true;
+    //         }
+    //     }); 
+    // } else {
+    //   this.err = "Invalid OTP"
+    //   this.invalidOTP = true;
+    // }
 
+    
+      
+  }
 }
