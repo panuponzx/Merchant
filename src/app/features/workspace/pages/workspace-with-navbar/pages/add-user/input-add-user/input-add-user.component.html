@@ -1,5 +1,5 @@
 <div [ngSwitch]="step">
-    <input-user-info 
+    <input-user-info
         *ngSwitchCase="1"
         [form]="userInfoForm"
         [customerType]="customerType"
@@ -60,6 +60,7 @@
     <otp-confirm
         *ngSwitchCase="6"
         [form]="otpConfirmForm"
+        [otpFrom]="otpRequestForm"
         [customerType]="customerType"
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"

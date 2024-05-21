@@ -62,7 +62,7 @@
                             <input [ngClass]="{
                                 'is-invalid':  form.get('branchNo').errors?.['required'] && form.get('branchNo').touched
                               }" class="form-control" data-testid="branchNoInput" formControlName="branchNo" id="branchNoInput"
-                                type="text">
+                                type="text" maxlength="5">
                                 <!-- <small *ngIf="form.get('branchNo').errors?.['required'] && form.get('branchNo').touched " class="req-text">
                                     *โปรดระบุหมายเลขสาขาย่อย</small> -->
                         </div>

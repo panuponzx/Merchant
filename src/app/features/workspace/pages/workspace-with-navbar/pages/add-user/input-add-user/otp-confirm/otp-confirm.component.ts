@@ -11,6 +11,7 @@ export class OtpConfirmComponent implements AfterContentInit {
   @ViewChild('footer', { static: true }) footerRef: ElementRef | undefined;
 
   @Input() public form: FormGroup | any;
+  @Input() public otpFrom: FormGroup | any;
   @Input() public customerType: number = 0;
 
   @Output() nextStep: EventEmitter<string> = new EventEmitter<string>();
@@ -24,13 +25,23 @@ export class OtpConfirmComponent implements AfterContentInit {
   private currentDigit: number | null | undefined;
   display: any;
   refOTP: string = '';
+  mobilePhone: string = '';
   public isLoading: boolean = false;
 
   footerHeight: number = 0
-  
+
   ngAfterContentInit(): void {
     const footerElement = this.footerRef?.nativeElement as HTMLElement;
     this.footerHeight = footerElement.offsetHeight;
+    this.formatMobilePhone();
+  }
+
+  formatMobilePhone() {
+    let cleaned = ('' + this.otpFrom.get('mobilePhone')?.value).replace(/\D/g, '');
+    let match = cleaned.match(/^(0|)(\d{2})(\d{3})(\d{4})$/);
+    if (match) {
+      this.mobilePhone = '+66 ' + match[2] + ' ••• ' + match[4];
+    }
   }
 
   onChangeDigit(
@@ -157,5 +168,5 @@ export class OtpConfirmComponent implements AfterContentInit {
     // this.nextStep.emit('user-info');
     this.submit.emit(true);
   }
-  
+
 }
