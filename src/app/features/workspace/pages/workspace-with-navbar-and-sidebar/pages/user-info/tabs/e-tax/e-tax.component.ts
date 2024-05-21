@@ -6,7 +6,7 @@ import { first, map } from 'rxjs';
 import { ICustomerEtaxResModel } from '../../../../../../../../core/interfaces';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { OtpRequestModalComponent } from '../../../../modals/otp-request-modal/otp-request-modal.component';
+import { EmailVerificationModalComponent } from '../../../../modals/email-verification-modal/email-verification-modal.component';
 
 @Component({
   selector: 'e-tax',
@@ -282,7 +282,7 @@ export class ETaxComponent implements OnInit {
   }
 
   public openModal(etaxTypeId: number) {
-    const modalRef = this.ngbModal.open(OtpRequestModalComponent, {
+    const modalRef = this.ngbModal.open(EmailVerificationModalComponent, {
       centered: true,
       backdrop: 'static',
       // size: 'xl',
@@ -294,6 +294,8 @@ export class ETaxComponent implements OnInit {
     modalRef.result.then(
       (result) => {
         if (result) {
+
+
           console.log('[onAction] result => ', result);
           this.loadEtax();
           // if(result && this.tempSearch) this.loadPassageInformation(this.tempSearch);

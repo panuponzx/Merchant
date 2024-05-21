@@ -17,6 +17,7 @@ import {
   WorkspaceModule,
   PageNotFoundComponent
 } from './features';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {
     WorkspaceModule,
     ShareModule,
     NgbModule,
+    NgOtpInputModule,
     HttpClientModule,
     BrowserAnimationsModule
   ],
