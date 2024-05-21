@@ -19,7 +19,7 @@
                             <input [ngClass]="{
                                 'is-invalid':  form.get('taxId').errors?.['required'] && form.get('taxId').touched
                               }" class="form-control" data-testid="taxIdInput" formControlName="taxId"
-                                id="taxIdInput" type="text" idCard>
+                                id="taxIdInput" type="text" mask="0 0000 00000 00 0">
                                 <!-- <small *ngIf="form.get('taxId').errors?.['required'] && form.get('taxId').touched " class="req-text">
                                     *โปรดระบุหมายเลขผู้เสียภาษี</small> -->
                         </div>
@@ -70,7 +70,7 @@
                             <label class="label-input required-field" for="companyNumberInput">
                                 เบอร์ติดต่อบริษัท
                             </label>
-                            <input idCard class="form-control" data-testid="companyNumberInput" formControlName="companyNumber" id="companyNumberInput"
+                            <input class="form-control" data-testid="companyNumberInput" formControlName="companyNumber" id="companyNumberInput"
                                 type="text">
                         </div> -->
                     </div>
