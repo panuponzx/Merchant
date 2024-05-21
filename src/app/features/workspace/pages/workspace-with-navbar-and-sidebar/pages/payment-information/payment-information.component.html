@@ -72,8 +72,10 @@
                     <li [ngbNavItem]="'pay-information'">
                         <button ngbNavLink>ชำระแล้ว</button>
                         <ng-template ngbNavContent>
-                            <topup-information [tempSearch]="tempSearch"
-                                (onLoading)="onLoading($event)"></topup-information>
+                            <!-- <topup-information [tempSearch]="tempSearch"
+                                (onLoading)="onLoading($event)"></topup-information> -->
+                            <app-paid-payment [tempSearch]="tempSearch"
+                                (onLoading)="onLoading($event)"></app-paid-payment>
                         </ng-template>
                     </li>
                 </ul>
