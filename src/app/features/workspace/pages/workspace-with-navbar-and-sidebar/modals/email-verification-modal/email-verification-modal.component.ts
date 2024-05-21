@@ -24,7 +24,7 @@ export class EmailVerificationModalComponent {
   }
   // public form: FormGroup;
   public otpCtrl: FormControl = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]);
-  public email: FormControl = new FormControl('test.co@gg.co', [Validators.required, Validators.email]);
+  public email: FormControl = new FormControl('', [Validators.required, Validators.email]);
   public isLoading: boolean = false;
   public otpData: IEmailOtpModel = {} as IEmailOtpModel;
   public otpDelay: number = 0;
