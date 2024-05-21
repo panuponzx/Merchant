@@ -146,10 +146,10 @@ export class ETaxComponent implements OnInit {
     }
   }
 
-  onChangeIsEtaxActive(event: any) {
+  onChangeIsEtaxActive(event: any, email: string | undefined = undefined) {
     console.log("[onChangeIsEtaxActive] event => ", event);
     console.log("[onChangeIsEtaxActive] isEtaxActive => ", this.form.get('isEtaxActive')?.value);
-    if(this.customerEtax.isEtaxActive === false && this.customerEtax.customerEtax.length === 0 ) return;
+    if (this.customerEtax.isEtaxActive === false && this.customerEtax.customerEtax.length === 0) return;
     let data = {
       customer: {
         id: this.customerId,
@@ -161,7 +161,7 @@ export class ETaxComponent implements OnInit {
               customerId: item.customerId,
               etaxTypeId: item.etaxTypeId,
               isEtaxActive: item.isEtaxActive,
-              email: item.email
+              email: email ? email : item.email,
             })),
             // etaxSettingLevel: 2,
           } : []
@@ -198,7 +198,7 @@ export class ETaxComponent implements OnInit {
       });
   }
 
-  onChangeActiveEtaxByTypeId(event: any, etaxTypeId: number) {
+  onChangeActiveEtaxByTypeId(event: any, etaxTypeId: number, email: string | undefined = undefined) {
     console.log("[onChangeActiveEtaxByTypeId] event => ", event.target.checked);
     console.log("[onChangeActiveEtaxByTypeId] etaxTypeId => ", etaxTypeId);
     const data = {
@@ -212,7 +212,7 @@ export class ETaxComponent implements OnInit {
               customerId: this.customerId,
               etaxTypeId: etaxTypeId,
               isEtaxActive: this.form.get('isEtaxActive1')?.value,
-              email: this.form.get('emailType1')?.value,
+              email: email ? email : this.form.get('emailType1')?.value,
             }] : []
           ),
           ...(
@@ -220,7 +220,7 @@ export class ETaxComponent implements OnInit {
               customerId: this.customerId,
               etaxTypeId: etaxTypeId,
               isEtaxActive: this.form.get('isEtaxActive2')?.value,
-              email: this.form.get('emailType2')?.value,
+              email: email ? email : this.form.get('emailType2')?.value,
             }] : []
           ),
           ...(
@@ -228,7 +228,7 @@ export class ETaxComponent implements OnInit {
               customerId: this.customerId,
               etaxTypeId: etaxTypeId,
               isEtaxActive: this.form.get('isEtaxActive3')?.value,
-              email: this.form.get('emailType3')?.value,
+              email: email ? email : this.form.get('emailType3')?.value,
             }] : []
           ),
           ...(
@@ -236,7 +236,7 @@ export class ETaxComponent implements OnInit {
               customerId: this.customerId,
               etaxTypeId: etaxTypeId,
               isEtaxActive: this.form.get('isEtaxActive4')?.value,
-              email: this.form.get('emailType4')?.value,
+              email: email ? email : this.form.get('emailType4')?.value,
             }] : []
           ),
           ...(
@@ -244,7 +244,7 @@ export class ETaxComponent implements OnInit {
               customerId: this.customerId,
               etaxTypeId: etaxTypeId,
               isEtaxActive: this.form.get('isEtaxActive5')?.value,
-              email: this.form.get('emailType5')?.value,
+              email: email ? email : this.form.get('emailType5')?.value,
             }] : []
           ),
         ],
@@ -287,17 +287,12 @@ export class ETaxComponent implements OnInit {
       // size: 'xl',
       keyboard: false,
     });
-    modalRef.componentInstance.customerId = this.customerId;
-    modalRef.componentInstance.formEtax = this.form;
-    modalRef.componentInstance.etaxTypeId = etaxTypeId;
     modalRef.result.then(
       (result) => {
-        if (result) {
-
-
-          console.log('[onAction] result => ', result);
-          this.loadEtax();
-          // if(result && this.tempSearch) this.loadPassageInformation(this.tempSearch);
+        if (result && etaxTypeId === 0) {
+          this.onChangeIsEtaxActive({ id: true }, result);
+        } else if (result) {
+          this.onChangeActiveEtaxByTypeId({ target: { checked: true } }, etaxTypeId, result);
         }
       },
       (reason) => {
