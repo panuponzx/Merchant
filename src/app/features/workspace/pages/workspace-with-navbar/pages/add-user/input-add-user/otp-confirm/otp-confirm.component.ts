@@ -14,6 +14,7 @@ export class OtpConfirmComponent implements AfterContentInit {
   @ViewChild('footer', { static: true }) footerRef: ElementRef | undefined;
 
   @Input() public form: FormGroup | any;
+  @Input() public otpFrom: FormGroup | any;
   @Input() public customerType: number = 0;
   @Input() public mobileNumber: number | null = null;  
 
@@ -173,6 +174,15 @@ export class OtpConfirmComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     const footerElement = this.footerRef?.nativeElement as HTMLElement;
     this.footerHeight = footerElement.offsetHeight;
+    this.formatMobilePhone();
+  }
+
+  formatMobilePhone() {
+    let cleaned = ('' + this.otpFrom.get('mobilePhone')?.value).replace(/\D/g, '');
+    let match = cleaned.match(/^(0|)(\d{2})(\d{3})(\d{4})$/);
+    if (match) {
+      this.mobilePhone = '+66 ' + match[2] + ' ••• ' + match[4];
+    }
   }
 
   onChangeDigit(

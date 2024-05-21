@@ -5,6 +5,7 @@ import { RestApiService } from '../../../../../../core/services';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, WalletSummaryModel } from '../../../../../../core/interfaces';
 import { CustomerTypePipe } from '../../../../../../core/pipes';
+import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'app-user-info',
@@ -28,10 +29,11 @@ export class UserInfoComponent implements OnInit {
   public isLoading: boolean = false;
 
   constructor(
-    private restApiService: RestApiService, 
+    private restApiService: RestApiService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private customerTypePipe: CustomerTypePipe
+    private customerTypePipe: CustomerTypePipe,
+    private modalDialogService: ModalDialogService
   ) {
     this.customerId = this.activatedRoute.snapshot.paramMap.get('id');
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
@@ -70,10 +72,11 @@ export class UserInfoComponent implements OnInit {
         console.log("[loadCustomerInfo] customerTypeId => ", this.customerTypeId);
         console.log("[loadCustomerInfo] customer => ", this.customer);
         console.log("[loadCustomerInfo] customerId => ", this.customerId);
-        
+
       },
       error: (err) => {
         console.error(err);
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
       }
     })
   }

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RestApiService } from '../../../../../../core/services';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'app-transfer-information',
@@ -51,7 +52,8 @@ export class TransferInformationComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private restApiService: RestApiService,
-    private transformDatePipe: TransformDatePipe
+    private transformDatePipe: TransformDatePipe,
+    private modalDialogService: ModalDialogService
   ) {
     this.customerId = this.activatedRoute.snapshot.paramMap.get('id');
     this.title = (this.activatedRoute as CustomeActivatedRouteModel).routeConfig.data?.label;
@@ -82,6 +84,7 @@ export class TransferInformationComponent implements OnInit {
       },
       error: (err: any) => {
         console.error(err);
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
       }
     })
   }
