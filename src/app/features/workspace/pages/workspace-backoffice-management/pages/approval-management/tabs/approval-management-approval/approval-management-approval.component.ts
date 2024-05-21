@@ -247,7 +247,7 @@ export class ApprovalManagementApprovalComponent {
     this.form.get('branchName')?.setValue(event.row.eventValue.customer.corporateBranch);
     this.form.get('branchNo')?.setValue(event.row.eventValue.customer.branchId);
     this.form.get('citizenId')?.setValue(event.row.eventValue.customer.citizenId);
-    this.form.get('cardExpDate')?.setValue(new Date(event.row.eventValue.customer.cardExpDate));
+    // this.form.get('cardExpDate')?.setValue(new Date(event.row.eventValue.customer.cardExpDate));
     this.form.get('gender')?.setValue(event.row.eventValue.customer.gender);
     this.form.get('firstName')?.setValue(event.row.eventValue.customer.firstName);
     this.form.get('lastName')?.setValue(event.row.eventValue.customer.lastName);
@@ -286,7 +286,7 @@ export class ApprovalManagementApprovalComponent {
   }
 
   onApprove() {
-    const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
+    // const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
     const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
     const addressProvince = this.form.get('province')?.value;
     const addressDistrict = this.form.get('district')?.value;
@@ -300,7 +300,7 @@ export class ApprovalManagementApprovalComponent {
         mobilePhone: this.form.get('phone')?.value,
         citizenDocId: this.form.get('citizenDocId')?.value,
         citizenId: this.form.get('citizenId')?.value,
-        cardExpDate: cardExpDateFormat,
+        // cardExpDate: cardExpDateFormat,
         birthdate: birthDateFormat,
         // occupation: this.occupationDetailForm.get('occupation')?.value,
         gender: this.form.get('gender')?.value,
@@ -371,7 +371,7 @@ export class ApprovalManagementApprovalComponent {
   }
 
   onReject() {
-    const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
+    // const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
     const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
     const addressProvince = this.form.get('province')?.value;
     const addressDistrict = this.form.get('district')?.value;
@@ -385,7 +385,7 @@ export class ApprovalManagementApprovalComponent {
         mobilePhone: this.form.get('phone')?.value,
         citizenDocId: this.form.get('citizenDocId')?.value,
         citizenId: this.form.get('citizenId')?.value,
-        cardExpDate: cardExpDateFormat,
+        // cardExpDate: cardExpDateFormat,
         birthdate: birthDateFormat,
         // occupation: this.occupationDetailForm.get('occupation')?.value,
         gender: this.form.get('gender')?.value,
