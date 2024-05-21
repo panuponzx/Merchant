@@ -415,7 +415,6 @@
                         ชื่อสาขา
                       </label>
                       <input
-                        idCard
                         class="form-control"
                         data-testid="branchNameInput"
                         formControlName="branchName"
@@ -430,12 +429,12 @@
                         หมายเลขสาขาย่อย
                       </label>
                       <input
-                        idCard
                         class="form-control"
                         data-testid="branchCodeInput"
                         formControlName="branchCode"
                         id="branchCodeInput"
                         type="text"
+                        maxlength="5"
                         [readonly]="!form.controls['branchType'].value || form.controls['branchType'].value === 1"
                       >
                     </div>
@@ -463,7 +462,7 @@
                   <li [ngbNavItem]="'contact-detail'">
                     <button ngbNavLink>รายละเอียดผู้มาติดต่อ</button>
                     <ng-template ngbNavContent>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label class="label-input" for="identificationInput">
                           หมายเลขบัตรประชาชน
                         </label>
@@ -475,9 +474,9 @@
                           id="identificationInput"
                           type="text"
                         >
-                      </div>
+                      </div> -->
 
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label
                           class="label-input"
                           for="expiredDateDatePicker"
@@ -496,7 +495,7 @@
                           [placement]="'bottom'"
                           [minDate]="minDate"
                         ></date-picker>
-                      </div>
+                      </div> -->
 
                       <div class="form-group">
                         <label class="label-input">เพศ</label>

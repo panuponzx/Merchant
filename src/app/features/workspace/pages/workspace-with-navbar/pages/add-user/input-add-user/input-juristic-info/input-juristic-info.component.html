@@ -19,7 +19,7 @@
                             <input [ngClass]="{
                                 'is-invalid':  form.get('taxId').errors?.['required'] && form.get('taxId').touched
                               }" class="form-control" data-testid="taxIdInput" formControlName="taxId"
-                                id="taxIdInput" type="text">
+                                id="taxIdInput" type="text" idCard>
                                 <!-- <small *ngIf="form.get('taxId').errors?.['required'] && form.get('taxId').touched " class="req-text">
                                     *โปรดระบุหมายเลขผู้เสียภาษี</small> -->
                         </div>

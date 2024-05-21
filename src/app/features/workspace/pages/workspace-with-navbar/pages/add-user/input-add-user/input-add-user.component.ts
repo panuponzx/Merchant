@@ -16,7 +16,7 @@ export class InputAddUserComponent {
   public step: number = 1;
   public customerType: number = 0;
 
-  public userInfoForm: FormGroup;
+  public userInfoForm!: FormGroup;
   public addressInfoForm: FormGroup;
   public addressCurrentInfoForm: FormGroup;
   public occupationDetailForm: FormGroup;
@@ -36,30 +36,31 @@ export class InputAddUserComponent {
     const customerTypeStr = this.activatedRoute.snapshot.paramMap.get('customerType');
     if (customerTypeStr === 'personal-info') {
       this.customerType = 1;
+      this.userInfoForm = this.formBuilder.group({
+        identityType: new FormControl(1, Validators.required),
+        firstName: new FormControl(undefined, Validators.required),
+        lastName: new FormControl(undefined, Validators.required),
+        birthDate: new FormControl(undefined, Validators.required),
+        phone: new FormControl(undefined, Validators.required),
+        citizenId: new FormControl(undefined, Validators.required),
+        cardExpDate: new FormControl(undefined, Validators.required),
+        gender: new FormControl('M', Validators.required),
+      });
     } else if (customerTypeStr === 'juristic-info') {
       this.customerType = 2;
+      this.userInfoForm = this.formBuilder.group({
+        identityType: new FormControl(1, Validators.required),
+        firstName: new FormControl(undefined, Validators.required),
+        lastName: new FormControl(undefined, Validators.required),
+        birthDate: new FormControl(undefined, Validators.required),
+        phone: new FormControl(undefined, Validators.required),
+        // citizenId: new FormControl(undefined, Validators.required),
+        // cardExpDate: new FormControl(undefined, Validators.required),
+        gender: new FormControl('M', Validators.required),
+      });
     }
     console.log("[AddUserInfo] customerType => ", this.customerType);
-    this.userInfoForm = this.formBuilder.group({
-      identityType: new FormControl(1, Validators.required),
-      firstName: new FormControl(undefined, Validators.required),
-      lastName: new FormControl(undefined, Validators.required),
-      birthDate: new FormControl(undefined, Validators.required),
-      phone: new FormControl(undefined, Validators.required),
-      citizenId: new FormControl(undefined, Validators.required),
-      cardExpDate: new FormControl(undefined, Validators.required),
-      gender: new FormControl('M', Validators.required),
-    });
-    // this.userInfoForm = this.formBuilder.group({
-    //   identityType: new FormControl(1, Validators.required),
-    //   firstName: new FormControl('อธิวัฒน์', Validators.required),
-    //   lastName: new FormControl('ทองมาก', Validators.required),
-    //   birthDate: new FormControl(new Date('1998-10-19'), Validators.required),
-    //   phone: new FormControl('0943485992', Validators.required),
-    //   citizenId: new FormControl('1459900715114', Validators.required),
-    //   cardExpDate: new FormControl(new Date('2028-10-19'), Validators.required),
-    //   gender: new FormControl('M', Validators.required),
-    // });
+
     this.addressInfoForm = this.formBuilder.group({
       addressNo: new FormControl(undefined, Validators.required),
       building: new FormControl(undefined),
@@ -146,7 +147,7 @@ export class InputAddUserComponent {
     });
 
     this.otpRequestForm = this.formBuilder.group({
-      mobilePhone: new FormControl(undefined, [Validators.required,Validators.minLength(10)])
+      mobilePhone: new FormControl(undefined, [Validators.required, Validators.minLength(10)])
     });
 
     this.otpConfirmForm = this.formBuilder.group({
