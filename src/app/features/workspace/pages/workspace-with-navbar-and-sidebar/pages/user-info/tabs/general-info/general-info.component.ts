@@ -210,7 +210,7 @@ export class GeneralInfoComponent {
       const data = {
         customer: {
           id: this.customerId,
-          // customerTypeId: this.form.getRawValue().customerType,
+          customerTypeId: this.customerTypeId,
           title: this.form.getRawValue().title,
           firstName: this.form.getRawValue().firstName,
           lastName: this.form.getRawValue().lastName,
@@ -340,7 +340,7 @@ export class GeneralInfoComponent {
           ],
           customer: {
             id: this.customerId,
-            // customerTypeId: this.form.getRawValue().customerType,
+            customerTypeId: this.customerTypeId,
             title: this.form.getRawValue().title,
             firstName: this.form.getRawValue().firstName,
             lastName: this.form.getRawValue().lastName,
