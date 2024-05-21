@@ -25,7 +25,7 @@
                         form.get('mobilePhone').touched && form.get('mobilePhone').errors?.['required'] " class="req-text">*โปรดระบุหมายเลขโทรศัพท์</small>
                     </div> -->
                         <span>กรอกหมายเลขโทรศัพท์ 10 หลัก</span>
-                    
+
                 </div>
             </form>
         </div>
@@ -36,8 +36,8 @@
             (click)="onBack()">
             ย้อนกลับ
         </button>
-        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ยืนยัน"
-            (click)="onNext()">
+        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
+            (click)="onNext()" [disabled]="form.invalid">
             ถัดไป
         </button>
     </div>

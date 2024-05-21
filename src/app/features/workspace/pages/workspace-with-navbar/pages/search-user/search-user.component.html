@@ -69,7 +69,7 @@
         </div>
 
       </div>
-      
+
 
       <div class="mb-3" [@fadeInseach]
         *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'corporate' || form.value.searchType === 'international'">
@@ -160,10 +160,10 @@
             ค้นหา
           </button> -->
           <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton" id="searchButton" title="ค้นหา"
-          [disabled]="isLoading || form.valid"
-          id="searchButton" 
+          [disabled]="isLoading || form.invalid || (!this.form.value.identificationId && !this.form.value.firstName && !this.form.value.lastName && !this.form.value.mobilePhone && !this.form.value.corporateName && !this.form.value.faremediaValue )"
+          id="searchButton"
             type="submit" (click)="onSearch()">
-            ค้นหา 
+            ค้นหา
           </button>
           <button class="custom-btn btn-back" data-testid="backButton" id="backButton" title="ย้อนกลับ"
             (click)="onBackToHome()">
@@ -171,7 +171,7 @@
           </button>
         </div>
       </ng-container>
-     
+
     </form>
   </div>
 
@@ -179,10 +179,10 @@
   <ng-container *ngIf="tempSearch && !isLoading">
     <hr class="hr-custom light mb-5" />
     <div class="search-user-datatable-wrapper" [@fadeInOutTable]>
-      <datatable 
+      <datatable
         [columns]="columns"
         [collectionSize]="collectionSize"
-        [customDatatableFooterClass]="'datatable-info-white'" 
+        [customDatatableFooterClass]="'datatable-info-white'"
         [externalPaging]="true"
         [id]="'userDatatable'"
         [isLoading]="isLoading"

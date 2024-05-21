@@ -1,5 +1,6 @@
 import { AfterContentInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
+import { start } from '@popperjs/core';
 import { catchError, map , Observer, throwError} from 'rxjs';
 import { ResponseMessageModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
@@ -14,6 +15,7 @@ export class OtpConfirmComponent implements AfterContentInit {
   @ViewChild('footer', { static: true }) footerRef: ElementRef | undefined;
 
   @Input() public form: FormGroup | any;
+  @Input() public otpFrom: FormGroup | any;
   @Input() public customerType: number = 0;
   @Input() public mobileNumber: number | null = null;  
 
@@ -26,7 +28,9 @@ export class OtpConfirmComponent implements AfterContentInit {
 
   public submitted: boolean = false;
   private currentDigit: number | null | undefined;
-  display: number = 60;
+  display: any;
+  refOTP: string = '';
+  mobilePhone: string = '';
   public isLoading: boolean = false;
   refCode : string | undefined;
   token: string = '';
@@ -36,11 +40,13 @@ export class OtpConfirmComponent implements AfterContentInit {
   
   constructor(private restApiService:RestApiService) {}
 
-  cooldownActive: boolean = false;
+  cooldownActive: boolean = true;
   intervalId: any;
+
 
   ngOnInit(): void {
     this.sendOTP();
+
   }
 
   // sendOTP() {
@@ -99,7 +105,7 @@ export class OtpConfirmComponent implements AfterContentInit {
           reqId: '111908f1-04e9-499c'
         }
       };
-  
+      this.isLoading = true;
       this.restApiService.postBackOffice('notification/sms-otp', body)
         .pipe(
           map((response: any) => {
@@ -132,6 +138,9 @@ export class OtpConfirmComponent implements AfterContentInit {
           error: (error: any) => {
             console.error(error);
             this.err = error;
+          },
+          complete: () => {
+            this.isLoading = false;
           }
         });
     }
@@ -173,6 +182,15 @@ export class OtpConfirmComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     const footerElement = this.footerRef?.nativeElement as HTMLElement;
     this.footerHeight = footerElement.offsetHeight;
+    this.formatMobilePhone();
+  }
+
+  formatMobilePhone() {
+    let cleaned = ('' + this.otpFrom.get('mobilePhone')?.value).replace(/\D/g, '');
+    let match = cleaned.match(/^(0|)(\d{2})(\d{3})(\d{4})$/);
+    if (match) {
+      this.mobilePhone = '+66 ' + match[2] + ' ••• ' + match[4];
+    }
   }
 
   onChangeDigit(

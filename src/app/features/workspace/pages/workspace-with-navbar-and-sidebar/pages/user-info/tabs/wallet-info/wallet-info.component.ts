@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel } from 'src/app/core/interfaces';
+import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel, CustomerModel } from 'src/app/core/interfaces';
 import { first, map } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddWalletModalComponent } from '../../../../modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from '../../../../modals/edit-car-modal/edit-car-modal.component';
 import { FairmediaStatusPipe } from 'src/app/core/pipes/fairmedia-status.pipe';
+import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'wallet-info',
@@ -16,6 +17,7 @@ export class WalletInfoComponent implements OnInit {
 
   @Input() public customerId: string | null = null;
   @Input() public customerTypeId: string | null = null;
+  @Input() public customer: CustomerModel | undefined;
 
   // public isCollapsedPrepaid: boolean = true;
   // public isCollapsedPostpaid: boolean = true;
@@ -46,7 +48,8 @@ export class WalletInfoComponent implements OnInit {
   constructor(
     private restApiService: RestApiService,
     private ngbModal: NgbModal,
-    private fairmediaStatusPipe: FairmediaStatusPipe
+    private fairmediaStatusPipe: FairmediaStatusPipe,
+    private modalDialogService: ModalDialogService
     ) {
 
   }
@@ -77,6 +80,7 @@ export class WalletInfoComponent implements OnInit {
         },
         error: (err) => {
           console.error(err);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
         }
       });
   }
@@ -173,6 +177,7 @@ export class WalletInfoComponent implements OnInit {
       keyboard: false,
     });
     modalRef.componentInstance.carInfo = event.row;
+    modalRef.componentInstance.customer = this.customer;
     modalRef.componentInstance.walletIdList = this.walletList.map((x) => x.walletId);
     modalRef.result.then(
       (result) => {

@@ -10,8 +10,8 @@
         <div class="body-wrapper">
             <h3 class="mb-3">ข้อมูลรายละเอียด</h3>
             <form [formGroup]="form">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 mb-3">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-sm-12 col-md-6 mb-3" *ngIf="customerType === 1">
                         <div *ngIf="customerType === 1" class="col-12 mb-3">
                             <label class="label-input" for="identityType">
                                 ประเภทการยืนยันตัวตน
@@ -23,7 +23,7 @@
                         <div class="col-12 mb-3">
                             <label *ngIf="form.get('identityType').value === 1" class="label-input required-field"
                                 for="identificationInput">
-                                หมายเลขบัตรประชาชน1
+                                หมายเลขบัตรประชาชน
                             </label>
                             <label *ngIf="form.get('identityType').value === 3" class="label-input required-field"
                                 for="identificationInput">
@@ -42,7 +42,7 @@
                             <small *ngIf="form.get('identityType').value === 3  && form.get('citizenId').touched && form.get('citizenId').errors?.['required'] "
                                 class="req-text">*โปรดระบุหมายหนังสือเดินทาง</small> -->
                         </div>
-                        
+
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="expiredDateDatePicker">
                                 <span *ngIf="this.form.get('identityType')?.value === 1">วันหมดอายุบัตร
@@ -77,6 +77,21 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="col-12 mb-3" *ngIf="customerType === 2">
+                          <label class="label-input" for="gender">
+                              เพศ
+                          </label>
+                          <div class="gender-selector">
+                              <div class="gender-wrapper">
+                                  <input type="radio" formControlName="gender" id="male" value="M">
+                                  <label for="male">ชาย</label>
+                              </div>
+                              <div class="gender-wrapper">
+                                  <input type="radio" formControlName="gender" id="female" value="F">
+                                  <label for="female">หญิง</label>
+                              </div>
+                          </div>
+                        </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="firstName">
                                 ชื่อ
@@ -110,7 +125,7 @@
                                 [placement]="'bottom'"></date-picker>
                             <!-- <small class="req-text" *ngif="form.get('birthDate').errors?.['required'] && form.get('birthDate').touched ">
                             </small> -->
-                            
+
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="phone">

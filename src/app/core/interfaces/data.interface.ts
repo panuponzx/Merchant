@@ -263,3 +263,12 @@ export interface IFaremediaModel {
   smartCardNo: string
   walletName: string | null
 }
+
+export interface IEmailOtpModel {
+  expire_time: string,
+  limit_minute: string,
+  recipient_email: string,
+  ref_code: string,
+  verify_token: string,
+  verify_use: string,
+}

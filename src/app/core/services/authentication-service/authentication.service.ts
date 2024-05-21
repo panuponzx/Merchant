@@ -32,6 +32,7 @@ export class AuthenticationService {
   onLogin(user: UserModel) {
     this.setUserValue(user);
     this.router.navigate(['work-space/menu-option']);
+    window.location.reload();
   }
 
   getUserValue(): UserModel | undefined {

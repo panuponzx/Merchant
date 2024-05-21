@@ -5,6 +5,7 @@ import { zip, Observable } from 'rxjs';
 import { CustomerModel, WalletSummaryModel, HistoryPayloadModel, CustomeActivatedRouteModel, ReponseCustomerModel, ReponseWalletSummaryModel } from '../../../../../../core/interfaces';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
+import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'app-payment-information',
@@ -51,7 +52,8 @@ export class PaymentInformationComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private restApiService: RestApiService,
-    private transformDatePipe: TransformDatePipe
+    private transformDatePipe: TransformDatePipe,
+    private modalDialogService: ModalDialogService
   ) {
     this.customerId = this.activatedRoute.snapshot.paramMap.get('id');
     this.title = (this.activatedRoute as CustomeActivatedRouteModel).routeConfig.data?.label;
@@ -82,6 +84,7 @@ export class PaymentInformationComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
       }
     })
   }

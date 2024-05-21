@@ -13,9 +13,8 @@
         <div class="row otp-container"  >
             <p class="text-center mb-0" style="color: #777777"  >
             รหัสยืนยัน OTP <br>
-            ได้ถูกส่งไปที่หมายเลขโทรศัพท์ +66 {{ mobileNumber ? (mobileNumber.toString().slice(0, 3) + ' *** ' + mobileNumber.toString().slice(-4)) : '' }}  <br>
-            Ref Code: {{ refCode ? refCode : 'Not available' }} <br>
-            <span *ngIf="err" class="text-center mb-0" style="color: red">{{ err }}</span>
+            ได้ถูกส่งไปที่หมายเลขโทรศัพท์ {{mobilePhone}} <br>
+             refCode : {{  this.refCode }}
           </p>
           <div class="col-sm-12 col-md-8 col-lg-5 col-xl-4 otp-form-wrapper d-flex justify-content-around">
             <input #digit_1 formControlName="digit_1" class="form-control otp-input" type="number" pattern="[0-9]*"
@@ -114,7 +113,8 @@
           <div class="col-12">
             <div
               class="otp-resend d-flex justify-content-center gap-2 my-3 mt-sm-3 text-center flex-column flex-sm-row">
-              <p (click)="onAgain()" [ngStyle]="{'color': cooldownActive ? '#cccccc' : 'var(--color-blue-exat)', 'pointer-events': cooldownActive ? 'none' : 'auto'}" class="d-flex align-items-center m-0 justify-content-center mouse">ส่งอีกครั้ง
+              <p (click)="onAgain()" [ngStyle]="{ 'color': cooldownActive ? '#cccccc' : 'var(--color-blue-exat)', 'pointer-events': cooldownActive ? 'none' : 'auto'}" 
+              class="d-flex align-items-center m-0 justify-content-center mouse"  >ส่งอีกครั้ง
                  ({{ display }}s)</p>
               <!-- <button
                       type="button"
