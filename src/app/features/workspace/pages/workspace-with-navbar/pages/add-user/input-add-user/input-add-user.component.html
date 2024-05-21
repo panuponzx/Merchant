@@ -62,6 +62,7 @@
         [form]="otpConfirmForm"
         [otpFrom]="otpRequestForm"
         [customerType]="customerType"
+        [mobileNumber]="otpRequestForm.get('mobilePhone')?.value"
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"
         (submit)="onSubmit($event)"
