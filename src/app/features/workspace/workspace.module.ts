@@ -75,10 +75,10 @@ import { RejectPendingRequestModalComponent } from './pages/workspace-backoffice
 import { ETaxComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info/tabs/e-tax/e-tax.component';
 import { PassageInfoModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/passage-info-modal/passage-info-modal.component';
 import { EmailVerificationModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/email-verification-modal/email-verification-modal.component';
-import { OtpRequestModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/otp-request-modal/otp-request-modal.component';
 import { EarningManagementComponent } from './pages/workspace-backoffice-management/pages/earning-management/earning-management.component';
 import { RedeemManagementComponent } from './pages/workspace-backoffice-management/pages/redeem-management/redeem-management.component';
 import { RedeemExchangeComponent } from './pages/workspace-backoffice-management/pages/redeem-management/tabs/redeem-exchange/redeem-exchange.component';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 
 @NgModule({
@@ -143,7 +143,6 @@ import { RedeemExchangeComponent } from './pages/workspace-backoffice-management
     ETaxComponent,
     PassageInfoModalComponent,
     EmailVerificationModalComponent,
-    OtpRequestModalComponent,
     EarningManagementComponent,
     RedeemManagementComponent,
     RedeemExchangeComponent,
@@ -165,6 +164,7 @@ import { RedeemExchangeComponent } from './pages/workspace-backoffice-management
     NgxDatatableModule,
     NgxMaskDirective,
     NgxMaskPipe,
+    NgOtpInputModule
   ],
   exports: [
     NavbarComponent,
