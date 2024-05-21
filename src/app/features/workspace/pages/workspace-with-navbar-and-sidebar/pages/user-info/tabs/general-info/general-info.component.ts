@@ -375,7 +375,7 @@ export class GeneralInfoComponent {
             console.log("[onSubmit] res => ", res);
             if (res.errorMessage === 'Success') {
               this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ').then((res: boolean) => {
-                if (res) this.loadCustomer();
+                if (res) window.location.reload(); //this.loadCustomer();
               });
             } else {
               this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
