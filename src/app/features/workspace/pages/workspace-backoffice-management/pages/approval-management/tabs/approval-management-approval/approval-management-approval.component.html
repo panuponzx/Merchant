@@ -86,7 +86,7 @@
                             <li [ngbNavItem]="'information-visitor'">
                                 <button ngbNavLink>รายละเอียดผู้มาติดต่อ</button>
                                 <ng-template ngbNavContent>
-                                    <div class="col-12 mb-3">
+                                    <!-- <div class="col-12 mb-3">
                                         <label class="label-input required-field" for="identificationInput">
                                             หมายเลขบัตรประชาชน
                                         </label>
@@ -102,7 +102,7 @@
                                             formControlName="cardExpDate" [id]="'expiredDateDatePicker'" locale="th"
                                             [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"
                                             [minDate]="minDate"></date-picker>
-                                    </div>
+                                    </div> -->
                                     <div class="col-12 mb-3">
                                         <label class="label-input" for="gender">
                                             เพศ
@@ -138,7 +138,7 @@
                                         </label>
                                         <date-picker class="datepicker-input" [clearable]="false" format="DD/MM/YYYY"
                                             formControlName="birthdate" [id]="'birthdateDatePicker'" locale="th"
-                                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="true" ></date-picker>
                                     </div>
                                     <div class="col-12 mb-5">
                                         <label class="label-input required-field" for="phone">
@@ -149,14 +149,14 @@
                                     </div>
                                     <div class="col-12 mb-3">
                                         <h3>เอกสารแนบ</h3>
-                                        <label class="label-input" for="birthdateDatePicker">
+                                        <label class="label-input">
                                           หนังสือรับรองบริษัท
                                         </label>
                                         <button style="width: 100%" class="custom-btn btn-type-3"
                                             data-testid="downloadImageButton" id="downloadImageButton" title="ดาวน์โหลด" (click)="onDownloadAttachment()">
                                             <icon-svg [color]="'#2255CE'" [size]="'m'"
                                                 [path]="'download' | icon" />
-                                            แนบเอกสาร
+                                            ดาวน์โหลดเอกสาร
                                         </button>
                                     </div>
                                 </ng-template>

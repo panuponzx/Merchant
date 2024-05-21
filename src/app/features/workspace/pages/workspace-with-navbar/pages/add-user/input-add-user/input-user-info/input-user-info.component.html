@@ -77,6 +77,21 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="col-12 mb-3" *ngIf="customerType === 2">
+                          <label class="label-input" for="gender">
+                              เพศ
+                          </label>
+                          <div class="gender-selector">
+                              <div class="gender-wrapper">
+                                  <input type="radio" formControlName="gender" id="male" value="M">
+                                  <label for="male">ชาย</label>
+                              </div>
+                              <div class="gender-wrapper">
+                                  <input type="radio" formControlName="gender" id="female" value="F">
+                                  <label for="female">หญิง</label>
+                              </div>
+                          </div>
+                        </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="firstName">
                                 ชื่อ
@@ -123,21 +138,6 @@
                             <!-- <small *ngIf="form.get('phone').errors?.['required'] && form.get('phone').touched " class="req-text">
                                 *โปรดระบุเบอร์โทรศัพท์
                             </small> -->
-                        </div>
-                        <div class="col-12 mb-3" *ngIf="customerType === 2">
-                          <label class="label-input" for="gender">
-                              เพศ
-                          </label>
-                          <div class="gender-selector">
-                              <div class="gender-wrapper">
-                                  <input type="radio" formControlName="gender" id="male" value="M">
-                                  <label for="male">ชาย</label>
-                              </div>
-                              <div class="gender-wrapper">
-                                  <input type="radio" formControlName="gender" id="female" value="F">
-                                  <label for="female">หญิง</label>
-                              </div>
-                          </div>
                         </div>
                     </div>
                 </div>

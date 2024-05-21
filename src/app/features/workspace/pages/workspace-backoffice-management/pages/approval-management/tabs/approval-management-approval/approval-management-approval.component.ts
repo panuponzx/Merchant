@@ -106,12 +106,12 @@ export class ApprovalManagementApprovalComponent {
       console.log("[subscribe] res => ", this.postalCodeList);
       // debugger;
       if (this.postalCodeList && this.postalCodeList.length === 0 || res && Object.keys(res).length === 0) {
-        this.form.get('subDistrict')?.disable();
+        // this.form.get('subDistrict')?.disable();
         this.form.get('subDistrict')?.setValue(undefined);
         this.form.get('district')?.setValue(undefined);
         this.form.get('province')?.setValue(undefined);
       } else {
-        this.form.get('subDistrict')?.enable();
+        // this.form.get('subDistrict')?.enable();
         const district: string = this.form.get('district')?.value;
         const subDistrict: string = this.form.get('subDistrict')?.value;
         if (this.form.get('subDistrict')?.value) {
@@ -127,285 +127,37 @@ export class ApprovalManagementApprovalComponent {
     });
 
     this.form = this.formBuilder.group({
-      id: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      citizenDocId: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      pictures: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      citizenId: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      cardExpDate: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      gender: new FormControl({ value: 'M', disabled: false }, Validators.required),
-      firstName: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      lastName: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      birthdate: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      phone: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      // firstName: new FormControl({value: undefined, disabled: false}, Validators.required),
-      taxId: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      companyName: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      branch: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      branchName: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      branchNo: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      companyNumber: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      // firstName: new FormControl({value: undefined, disabled: false}, Validators.required),
-      addressNo: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      building: new FormControl(undefined),
-      floor: new FormControl(undefined),
-      villageNo: new FormControl(undefined),
-      village: new FormControl(undefined),
-      alley: new FormControl(undefined),
-      soi: new FormControl(undefined),
-      street: new FormControl(undefined),
-      postalCode: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      subDistrict: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      district: new FormControl({ value: undefined, disabled: false }, Validators.required),
-      province: new FormControl({ value: undefined, disabled: false }, Validators.required),
+      id: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      citizenDocId: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      pictures: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      citizenId: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      cardExpDate: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      gender: new FormControl({ value: 'M', disabled: true }, Validators.required),
+      firstName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      lastName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      birthdate: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      phone: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      taxId: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      companyName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      branch: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      branchName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      branchNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      companyNumber: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      addressNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      building: new FormControl({ value: undefined, disabled: true }),
+      floor: new FormControl({ value: undefined, disabled: true }),
+      villageNo: new FormControl({ value: undefined, disabled: true }),
+      village: new FormControl({ value: undefined, disabled: true }),
+      alley: new FormControl({ value: undefined, disabled: true }),
+      soi: new FormControl({ value: undefined, disabled: true }),
+      street: new FormControl({ value: undefined, disabled: true }),
+      postalCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      subDistrict: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      district: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      province: new FormControl({ value: undefined, disabled: true }, Validators.required),
     });
-    this.rows = [
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-      {
-        date: '21/04/2556 19:10:32',
-        userName: 'ชื่อบริษัท',
-        status: 'รอการอนุมัติ',
-        nameEmpTransaction: 'นายทดสอบ ทดสอบ'
-      },
-    ];
     // this.tempRows = this.rows;
     // this.collectionSize = this.rows.length;
-    this.customer = {
-      id: "c00000006",
-      customerTypeId: 1,
-      customerTypeName: "Personal",
-      title: "นาย",
-      firstName: "ทดสอบจำนวนตัวอักษร",
-      lastName: "ตัวหนังสือที่ยาวมาก",
-      mobilePhone: "0098998098",
-      citizenId: "5432178998791",
-      channelId: 100,
-      gender: "M",
-      cardExpDate: "2024-03-30",
-      birthdate: "2023-10-09",
-      occupation: "พนักงานบริษัท",
-      status: 1,
-      createDate: "2024-02-27T01:07:16.062+00:00",
-      citizenDocId: 1,
-      taxId: "1234567890123",
-      branchTypeId: 0,
-      firstNameEng: '',
-      email: ''
-    }
   }
 
   loadPendingRequest(type: number, status: number) {
@@ -471,13 +223,13 @@ export class ApprovalManagementApprovalComponent {
     if (branchId === 1) {
       this.form.get('branchName')?.setValue('สาขาใหญ่');
       this.form.get('branchNo')?.setValue('00000');
-      this.form.get('branchName')?.disable();
-      this.form.get('branchNo')?.disable();
+      // this.form.get('branchName')?.disable();
+      // this.form.get('branchNo')?.disable();
     } else if (branchId === 2) {
       // this.form.get('branchName')?.setValue('');
       // this.form.get('branchNo')?.setValue('');
-      this.form.get('branchName')?.enable();
-      this.form.get('branchNo')?.enable();
+      // this.form.get('branchName')?.enable();
+      // this.form.get('branchNo')?.enable();
     }
   }
 
@@ -711,7 +463,7 @@ export class ApprovalManagementApprovalComponent {
           a.download = picturesId[0].originalFileName;;
           a.href = window.URL.createObjectURL(blob);
           a.click();
-          this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การอนุมัติสำเร็จ');
+          this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'ดาวน์โหลดไฟล์สำเร็จ');
         } else {
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
         }
