@@ -181,6 +181,7 @@ export class GeneralInfoComponent {
         },
         error: (err) => {
           console.error(err);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
         }
       });
   }
@@ -306,6 +307,7 @@ export class GeneralInfoComponent {
           error: (err) => {
             this.modalDialogService.hideLoading();
             console.error(err);
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
           }
         })
     } else if (this.customerTypeId === '3') {
@@ -382,6 +384,7 @@ export class GeneralInfoComponent {
           error: (err) => {
             this.modalDialogService.hideLoading();
             console.error(err);
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
           }
         })
     }

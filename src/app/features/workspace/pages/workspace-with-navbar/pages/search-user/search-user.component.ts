@@ -5,7 +5,7 @@ import { first, map } from 'rxjs';
 import { CustomColumnModel, CustomerModel, ICustomerSearchModel, IPaginationModel, ResponseMessageModel, ResponseModel, RowActionEventModel } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
-
+import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'app-search-user',
@@ -104,7 +104,8 @@ export class SearchUserComponent implements OnInit {
   constructor(
     private restApiService: RestApiService,
     public router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private modalDialogService: ModalDialogService
   ) {
     this.form.valueChanges.subscribe(x => {
       console.log("[valueChanges] x => ", x);
@@ -150,9 +151,9 @@ export class SearchUserComponent implements OnInit {
         if (this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
         if (this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
         this.searchByFaremedia(payload);
-        
-    } 
-  
+
+    }
+
   }
 
   searchByPersonal(payload: any) {
@@ -169,6 +170,7 @@ export class SearchUserComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.isLoading = false;
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
       }
     });
   }
@@ -186,6 +188,7 @@ export class SearchUserComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.isLoading = false;
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
       }
     });
   }
@@ -203,6 +206,7 @@ export class SearchUserComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.isLoading = false;
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
       }
     });
   }

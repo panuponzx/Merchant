@@ -53,7 +53,8 @@ export class TopupAndPaymentInformationComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private restApiService: RestApiService,
-    private transformDatePipe: TransformDatePipe
+    private transformDatePipe: TransformDatePipe,
+    private modalDialogService: ModalDialogService
   ) {
     this.customerId = this.activatedRoute.snapshot.paramMap.get('id');
     this.title = (this.activatedRoute as CustomeActivatedRouteModel).routeConfig.data?.label;
@@ -84,6 +85,7 @@ export class TopupAndPaymentInformationComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
       }
     })
   }

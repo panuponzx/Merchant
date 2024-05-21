@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddWalletModalComponent } from '../../../../modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from '../../../../modals/edit-car-modal/edit-car-modal.component';
 import { FairmediaStatusPipe } from 'src/app/core/pipes/fairmedia-status.pipe';
+import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'wallet-info',
@@ -47,7 +48,8 @@ export class WalletInfoComponent implements OnInit {
   constructor(
     private restApiService: RestApiService,
     private ngbModal: NgbModal,
-    private fairmediaStatusPipe: FairmediaStatusPipe
+    private fairmediaStatusPipe: FairmediaStatusPipe,
+    private modalDialogService: ModalDialogService
     ) {
 
   }
@@ -78,6 +80,7 @@ export class WalletInfoComponent implements OnInit {
         },
         error: (err) => {
           console.error(err);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
         }
       });
   }

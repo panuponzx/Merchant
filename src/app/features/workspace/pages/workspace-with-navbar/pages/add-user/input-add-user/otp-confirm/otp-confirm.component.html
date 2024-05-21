@@ -159,7 +159,7 @@
       ย้อนกลับ
     </button>
     <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-      (click)="onNext()">
+      (click)="onNext()" [disabled]="form.invalid">
       ถัดไป
     </button>
   </div>

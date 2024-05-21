@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { first, map } from 'rxjs';
 import { DistrictModel, ProvinceModel, ReponseZipcodeModel, SubdistrictModel, ZipcodeModel } from '../../../../../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../../../../../core/services';
+import { ModalDialogService } from '../../../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'address',
@@ -23,7 +24,8 @@ export class AddressComponent implements OnInit {
   public isLoading: boolean = false;
 
   constructor(
-    private restApiService: RestApiService
+    private restApiService: RestApiService,
+    private modalDialogService: ModalDialogService
   ) {
 
   }
@@ -67,6 +69,7 @@ export class AddressComponent implements OnInit {
             },
             error: (err) => {
               console.error(err);
+              this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
             }
           });
       }
