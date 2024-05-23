@@ -85,7 +85,7 @@ export class TopupAndPaymentInformationComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
-        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     })
   }

@@ -111,7 +111,7 @@ export class PassageInfoComponent implements OnInit {
         error: (err) => {
           this.modalDialogService.hideLoading();
           console.error(err);
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       })
   }
@@ -241,7 +241,7 @@ export class PassageInfoComponent implements OnInit {
           this.tempSearch = undefined;
           this.isLoadingSearch = false;
           this.modalDialogService.hideLoading();
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${err.body.errorMessage}`);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       })
   }
