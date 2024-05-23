@@ -1,5 +1,5 @@
 import { AfterContentInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'input-juristic-info',
@@ -15,8 +15,14 @@ export class InputJuristicInfoComponent implements AfterContentInit {
 
   @Output() nextStep: EventEmitter<string> = new EventEmitter<string>();
   @Output() previousStep: EventEmitter<string> = new EventEmitter<string>();
-  
 
+  public taxRequired: any = [{
+    label: 'มีหมายเลขผู้เสียภาษี',
+    value: true
+  }, {
+    label: 'ไม่มีหมายเลขผู้เสียภาษี',
+    value: false
+  }];
   public branchList: any[] = [
     {
       label: 'สาขาใหญ่',
@@ -29,27 +35,45 @@ export class InputJuristicInfoComponent implements AfterContentInit {
   ];
 
   footerHeight: number = 0;
+  taxRequiredStatus: boolean = true;
+
+  constructor(private formBuilder: FormBuilder) { }
 
   ngAfterContentInit(): void {
     const footerElement = this.footerRef?.nativeElement as HTMLElement;
     this.footerHeight = footerElement.offsetHeight;
+    this.form.addControl('taxRequiredStatus', this.formBuilder.control(true));
   }
 
   onChangeBranch(event: any) {
     console.log("[onChangeBranch] event => ", event);
-    if(event.id === 1) {
+    if (event.id === 1) {
       this.form.get('branchName').setValue('สาขาใหญ่');
       this.form.get('branchNo').setValue('00000');
       this.form.get('branchName').disable();
       this.form.get('branchNo').disable();
-    }else if(event.id === 2) {
+    } else if (event.id === 2) {
       this.form.get('branchName').setValue('');
       this.form.get('branchNo').setValue('');
       this.form.get('branchName').enable();
       this.form.get('branchNo').enable();
     }
   }
-  
+
+  onChangeTaxRequired(event: any) {
+    console.log("[onChangeTaxRequired] event => ", event);
+    this.taxRequiredStatus = event.value;
+    if(event.value === true) {
+      this.form.get('taxId').setValidators([Validators.required]);
+      this.form.get('taxId').enable();
+      this.form.get('taxId').updateValueAndValidity();
+    } else {
+      this.form.get('taxId').clearValidators();
+      this.form.get('taxId').setValue('');
+      this.form.get('taxId').disable();
+      this.form.get('taxId').updateValueAndValidity();
+    }
+  }
 
   onBack() {
     this.previousStep.emit('user-info');
@@ -58,5 +82,5 @@ export class InputJuristicInfoComponent implements AfterContentInit {
   onNext() {
     this.nextStep.emit('user-info');
   }
-  
+
 }

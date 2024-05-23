@@ -26,7 +26,7 @@ import { ModalDialogService } from '../../../../../../core/services/modal-dialog
       transition(':leave', [
         animate('200ms', style({ opacity: 0 }))
       ])
-    ]),trigger('fadeInseach', [
+    ]), trigger('fadeInseach', [
       transition(':enter', [
         style({ opacity: 0 }),
         animate('400ms', style({ opacity: 1 }))
@@ -69,7 +69,7 @@ export class SearchUserComponent implements OnInit {
   public rows: ICustomerSearchModel[] = [];
   public pageSize: number = 5;
 
-  page : number = 1;
+  page: number = 1;
   // totalPages : number = 1;
 
   public collectionSize: number = 0;
@@ -86,7 +86,7 @@ export class SearchUserComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     searchType: new FormControl(undefined, Validators.required),
     deviceType: new FormControl('obu'),
-    identificationId: new FormControl(undefined, [Validators.minLength(13),Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
+    identificationId: new FormControl(undefined, [Validators.minLength(7), Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
     firstName: new FormControl(undefined, [Validators.minLength(2)]),
     lastName: new FormControl(undefined, [Validators.minLength(2)]),
     mobilePhone: new FormControl(undefined, [Validators.minLength(10)]),
@@ -97,9 +97,7 @@ export class SearchUserComponent implements OnInit {
   public tempSearch: boolean = false;
 
   public isLoading = false;
-  public mobilePhone: number[]=[];
-
-
+  public mobilePhone: number[] = [];
 
   constructor(
     private restApiService: RestApiService,
@@ -107,12 +105,20 @@ export class SearchUserComponent implements OnInit {
     private fb: FormBuilder,
     private modalDialogService: ModalDialogService
   ) {
-    this.form.valueChanges.subscribe(x => {
+    // this.form.valueChanges.subscribe(x => {
+    //   // console.log("[valueChanges] x => ", x);
+    //   // console.log(this.form.errors);
+    //   // console.log(this.form);
+    // });
+    this.form.controls['searchType'].valueChanges.subscribe(x => {
       console.log("[valueChanges] x => ", x);
-      console.log(this.form.errors);
-      console.log(this.form);
-
-
+      this.form.controls['deviceType'].reset();
+      this.form.controls['identificationId'].reset();
+      this.form.controls['firstName'].reset();
+      this.form.controls['lastName'].reset();
+      this.form.controls['mobilePhone'].reset();
+      this.form.controls['corporateName'].reset();
+      this.form.controls['faremediaValue'].reset();
     });
   }
   ngOnInit(): void {
@@ -121,8 +127,8 @@ export class SearchUserComponent implements OnInit {
 
 
   onSearch() {
-    console.log("onSearch",this.form.valid );
-    if (this.form.invalid || this.isLoading ) return;
+    console.log("onSearch", this.form.valid);
+    if (this.form.invalid || this.isLoading) return;
     this.isLoading = true;
 
     let payload: any = {
@@ -136,21 +142,21 @@ export class SearchUserComponent implements OnInit {
 
     const searchType = this.form.value.searchType;
 
-      if (searchType === 'corporate') {
-        if (this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
-        if (this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
-        if (this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
-        this.searchByCoporate(payload);
+    if (searchType === 'corporate') {
+      if (this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
+      if (this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
+      if (this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
+      this.searchByCoporate(payload);
     } else if (searchType === 'personal' || searchType === 'international') {
-        if (this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
-        if (this.form.value.firstName) payload.firstName = this.form.value.firstName;
-        if (this.form.value.lastName) payload.lastName = this.form.value.lastName;
-        if (this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
-        this.searchByPersonal(payload);
+      if (this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
+      if (this.form.value.firstName) payload.firstName = this.form.value.firstName;
+      if (this.form.value.lastName) payload.lastName = this.form.value.lastName;
+      if (this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
+      this.searchByPersonal(payload);
     } else if (searchType === 'device') {
-        if (this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
-        if (this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
-        this.searchByFaremedia(payload);
+      if (this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
+      if (this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
+      this.searchByFaremedia(payload);
 
     }
 
@@ -170,7 +176,7 @@ export class SearchUserComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.isLoading = false;
-        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -188,7 +194,7 @@ export class SearchUserComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.isLoading = false;
-        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -206,7 +212,7 @@ export class SearchUserComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.isLoading = false;
-        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }

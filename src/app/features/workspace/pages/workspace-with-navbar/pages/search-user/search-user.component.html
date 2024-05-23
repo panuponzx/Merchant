@@ -80,6 +80,8 @@
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'corporate'" id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
             formControlName="identificationId" mask="0 0000 00000 00 0" id="identificationIdInput" type="text" placeholder="กรุณาระบุ">
+          <!-- <input *ngIf="form.value.searchType === 'corporate'" id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
+            formControlName="identificationId" mask="A AAAA AAAAA AA A" id="identificationIdInput" type="text" placeholder="กรุณาระบุ"> -->
           <input *ngIf="form.value.searchType === 'international'" id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
             formControlName="identificationId" minlength="7" id="identificationIdInput" type="text" placeholder="กรุณาระบุ">
         </div>
