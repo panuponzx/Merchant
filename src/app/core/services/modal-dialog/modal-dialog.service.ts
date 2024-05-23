@@ -36,6 +36,7 @@ export class ModalDialogService {
     title: string,
     message?: string
   ){
+    if (this.modalInfoRef) { this.modalInfoRef.close(true); }
     this.modalInfoRef = this.ngbModal.open(InfoModalComponent, {
       windowClass: 'info-modal',
       centered: true,

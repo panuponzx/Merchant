@@ -23,9 +23,9 @@
         <div class="navs-container">
             <datatable [columns]="basicRatingColumns" [collectionSize]="collectionSize" [id]="'userDatatable'"
                 [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="basicRatingRows"
-                emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onAction($event)">
+                emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onAction($event)" [footer]="false">
             </datatable>
-        </div>
+        </div><br>
         <hr class="hr-custom mb-3" />
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
             <h2 class="content-title mb-3 mb-md-0">
@@ -49,10 +49,10 @@
                 </h3>
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="col-12 mb-3">
-                        <label class="label-input required-field" for="firstName">
+                        <label class="label-input required-field" for="campaignName">
                             ชื่อกิจกรรม
                         </label>
-                        <input class="form-control" formControlName="firstName" id="firstName" type="text"
+                        <input class="form-control" formControlName="campaignName" id="campaignName" type="text"
                             placeholder="กรุณาระบุ">
                     </div>
                 </div>
@@ -68,16 +68,16 @@
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">ตัวแปรการคำนวนคะแนน</label>
                         <ng-select class="form-control mb-2" [clearable]="false" bindLabel="label" bindValue="id"
-                            id="selectisEtaxActive" data-testid="selectisEtaxActive" formControlName="isEtaxActive"
+                            id="conditionPoint" data-testid="conditionPoint" formControlName="conditionPoint"
                             [items]="CalculatedVariables" placeholder="กรุณาระบุ">
                         </ng-select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 mb-3">
-                    <label class="text-description mb-2 required-field" for="firstName">
-                        ชื่อกิจกรรม
+                    <label class="text-description mb-2 required-field" for="calculatePoint">
+                      ตัวเลขการคำนวนคะแนน
                     </label>
-                    <input class="form-control" data-testid="lastName" formControlName="lastName" id="lastName"
+                    <input class="form-control" data-testid="calculatePoint" formControlName="calculatePoint" id="calculatePoint"
                         type="text" placeholder="กรุณาระบุ">
                 </div>
                 <h3 class="pb-3">
@@ -127,6 +127,13 @@
                             bindValue="name" id="selectisCustomerType" data-testid="selectisCustomerType"
                             placeholder="กรุณาระบุ" [closeOnSelect]="false" [searchable]="false"
                             formControlName="customerType">
+                            <ng-template ng-header-tmp>
+                              <div style="margin: 3px 3px;">
+                                  <input (click)="selectAll('customerType')" [checked]="getStatusSelectAll('customerType')"
+                                      id="selectAllcustomerType" type="checkbox">
+                                  <label style="margin-left: 3px;" for="selectAllcustomerType">เลือกทั้งหมด</label>
+                              </div>
+                            </ng-template>
                             <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
                                 <div class="ng-value">
                                     <span>เลือก ({{items.length}})</span>
@@ -176,7 +183,7 @@
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">อาคารด่วน</label>
-                        <ng-select [items]="expressBuilding" [multiple]="true" bindLabel="name" bindValue="name"
+                        <ng-select class="form-control mb-2" [items]="expressBuilding" [multiple]="true" bindLabel="name" bindValue="name"
                             groupBy="group" id="selectExpressBuilding" data-testid="selectExpressBuilding"
                             placeholder="กรุณาระบุ" [searchable]="false" [selectableGroup]="true"
                             [selectableGroupAsModel]="false" [closeOnSelect]="false"
@@ -206,7 +213,7 @@
             <div class="row pt-3">
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="form-group d-inline">
-                        <label class="label-input">
+                        <label class="text-description mb-2 required-field">
                             เวลาเริ่มต้น
                         </label>
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
@@ -216,7 +223,7 @@
                 </div>
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="form-group d-inline">
-                        <label class="label-input">
+                        <label class="text-description mb-2 required-field">
                             เวลาสิ้นสุด
                         </label>
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
@@ -233,14 +240,14 @@
             <div class="col-12 mb-3">
                 <div class="form-check mb-4">
                     <input class="form-check-input" data-testid="draftRadio" id="draftRadio"
-                        formControlName="publishing" type="radio" value="draft">
+                        formControlName="publishing" type="radio" [value]="false">
                     <label class="form-check-label" for="draftRadio">
                         บันทึกแบบร่าง
                     </label>
                 </div>
                 <div class="form-check mb-4">
                     <input class="form-check-input" data-testid="publishRadio" id="publishRadio"
-                        formControlName="publishing" type="radio" value="publish">
+                        formControlName="publishing" type="radio" [value]="true">
                     <label class="form-check-label" for="publishRadio">
                         เผยแพร่ทันที / เผยแพร่แบบอัตโนมัติเมื่อถึงเวลา
                     </label>
@@ -254,7 +261,7 @@
                     ย้อนกลับ
                 </button>
                 <button (click)="onSubmit()" class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton"
-                    title="ถัดไป">
+                    title="ถัดไป" >
                     บันทึก
                 </button>
             </div>
