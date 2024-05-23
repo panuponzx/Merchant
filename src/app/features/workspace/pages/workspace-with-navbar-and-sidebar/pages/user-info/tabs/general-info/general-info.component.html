@@ -72,7 +72,7 @@
 
         </div>
       </div> -->
-      <div class="col-sm-12 col-lg-4">
+      <div class="col-sm-12 col-lg-6">
         <ng-container [ngSwitch]="customerTypeId">
           <ng-container *ngSwitchCase="'1'">
             <h3 class="mb-3">ข้อมูลตามบัตรประชาชน</h3>
@@ -89,10 +89,14 @@
             <ng-container *ngSwitchCase="'1'">
 
               <div class="form-group">
-                <label class="label-input" for="identificationInput">
+                <label class="label-input required-field" for="identificationInput">
                   หมายเลขบัตรประชาชน
                 </label>
                 <input
+                [ngClass]="{
+                  'is-invalid': this.form.get('citizenId')?.hasError('pattern') && this.form.get('citizenId')?.touched || 
+                  this.form.get('citizenId')?.errors?.['required'] && this.form.get('citizenId')?.touched 
+                }"
                   mask="0 0000 00000 00 0"
                   class="form-control"
                   data-testid="identificationInput"
@@ -104,7 +108,7 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="expiredDateDatePicker"
                 >
                   วันหมดอายุบัตร (วัน/เดือน/ปี)
@@ -151,12 +155,15 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="firstNameInput"
                 >
                   ชื่อ
                 </label>
                 <input
+                [ngClass]="{
+                  'is-invalid': this.form.get('firstName')?.errors?.['required'] && this.form.get('firstName')?.touched
+                }"
                   class="form-control"
                   data-testid="firstNameInput"
                   formControlName="firstName"
@@ -168,12 +175,15 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="lastNameInput"
                 >
                   นามสกุล
                 </label>
                 <input
+                [ngClass]="{
+                  'is-invalid': this.form.get('lastName')?.errors?.['required'] && this.form.get('lastName')?.touched
+                }"
                   class="form-control"
                   data-testid="lastNameInput"
                   formControlName="lastName"
@@ -185,7 +195,7 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="birthDateDatePicker"
                 >
                   วันเกิด (วัน/เดือน/ปี)
@@ -205,12 +215,15 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="phoneInput"
                 >
                   เบอร์ติดต่อ
                 </label>
                 <input
+                [ngClass]="{
+                  'is-invalid': this.form.get('mobilePhone')?.errors?.['required'] && this.form.get('mobilePhone')?.touched
+                }"
                   class="form-control"
                   data-testid="phoneInput"
                   formControlName="mobilePhone"
@@ -225,10 +238,14 @@
             <ng-container *ngSwitchCase="'2'">
 
               <div class="form-group">
-                <label class="label-input" for="identificationInput">
+                <label class="label-input required-field" for="identificationInput">
                   หมายเลขหนังสือเดินทาง
                 </label>
                 <input
+                [ngClass]="{
+                  'is-invalid': this.form.get('citizenId')?.errors?.['required'] && this.form.get('citizenId')?.touched ||
+                  this.form.get('citizenId')?.hasError('pattern') && this.form.get('citizenId')?.touched
+                }"
                   class="form-control"
                   data-testid="identificationInput"
                   formControlName="citizenId"
@@ -239,7 +256,7 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="expiredDateDatePicker"
                 >
                   วันหมดอายุหนังสือเดินทาง (วัน/เดือน/ปี)
@@ -284,12 +301,15 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="firstNameInput"
                 >
                   ชื่อ
                 </label>
                 <input
+                [ngClass]="{
+                  'is-invalid': this.form.get('firstName')?.errors?.['required'] && this.form.get('firstName')?.touched
+                }"
                   class="form-control"
                   data-testid="firstNameInput"
                   formControlName="firstName"
@@ -301,12 +321,15 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="lastNameInput"
                 >
                   นามสกุล
                 </label>
                 <input
+                [ngClass]="{
+                  'is-invalid': this.form.get('lastName')?.errors?.['required'] && this.form.get('lastName')?.touched
+                }"
                   class="form-control"
                   data-testid="lastNameInput"
                   formControlName="lastName"
@@ -318,7 +341,7 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="birthDateDatePicker"
                 >
                   วันเกิด (วัน/เดือน/ปี)
@@ -338,12 +361,15 @@
 
               <div class="form-group">
                 <label
-                  class="label-input"
+                  class="label-input required-field"
                   for="phoneInput"
                 >
                   เบอร์ติดต่อ
                 </label>
                 <input
+                [ngClass]="{
+                  'is-invalid': this.form.get('mobilePhone')?.errors?.['required'] && this.form.get('mobilePhone')?.touched
+                }"
                   class="form-control"
                   data-testid="phoneInput"
                   formControlName="mobilePhone"
@@ -366,10 +392,14 @@
                   <button ngbNavLink>รายละเอียดบริษัท</button>
                   <ng-template ngbNavContent>
                     <div class="form-group">
-                      <label class="label-input" for="taxIdInput">
+                      <label class="label-input required-field" for="taxIdInput">
                         หมายเลขผู้เสียภาษี
                       </label>
                       <input
+                      [ngClass]="{
+                        'is-invalid': this.form.get('citizenId')?.errors?.['required'] && this.form.get('citizenId')?.touched ||
+                        this.form.get('citizenId')?.hasError('pattern') && this.form.get('citizenId')?.touched
+                      }"
                         mask="0 0000 00000 00 0"
                         class="form-control"
                         data-testid="taxInput"
@@ -380,10 +410,13 @@
                     </div>
 
                     <div class="form-group">
-                      <label class="label-input" for="corporateNameInput">
+                      <label class="label-input required-field" for="corporateNameInput">
                         ชื่อบริษัท
                       </label>
                       <input
+                      [ngClass]="{
+                        'is-invalid': this.form.get('corporateName')?.errors?.['required'] && this.form.get('corporateName')?.touched
+                      }"
                         class="form-control"
                         data-testid="corporateNameInput"
                         formControlName="corporateName"
@@ -393,10 +426,13 @@
                     </div>
 
                     <div class="form-group">
-                      <label class="label-input" for="branchTypeSelect">
+                      <label class="label-input required-field" for="branchTypeSelect">
                         ประเภทสาขา
                       </label>
                       <ng-select
+                      [ngClass]="{
+                        'is-invalid': this.form.get('branchTypeSelect')?.errors?.['required'] && this.form.get('branchTypeSelect')?.touched
+                      }"
                         bindLabel="name"
                         bindValue="id"
                         class="form-control"
@@ -410,10 +446,13 @@
                     </div>
 
                     <div class="form-group">
-                      <label class="label-input" for="branchNameInput">
+                      <label class="label-input required-field" or="branchNameInput">
                         ชื่อสาขา
                       </label>
                       <input
+                      [ngClass]="{
+                        'is-invalid': this.form.get('branchName')?.errors?.['required'] && this.form.get('branchName')?.touched
+                      }"
                         class="form-control"
                         data-testid="branchNameInput"
                         formControlName="branchName"
@@ -424,10 +463,13 @@
                     </div>
 
                     <div class="form-group">
-                      <label class="label-input" for="branchCodeInput">
+                      <label class="label-input required-field" for="branchCodeInput">
                         หมายเลขสาขาย่อย
                       </label>
                       <input
+                      [ngClass]="{
+                        'is-invalid': this.form.get('branchCode')?.errors?.['required'] && this.form.get('branchCode')?.touched
+                      }"
                         class="form-control"
                         data-testid="branchCodeInput"
                         formControlName="branchCode"
@@ -522,12 +564,15 @@
 
                       <div class="form-group">
                         <label
-                          class="label-input"
+                          class="label-input required-field"
                           for="firstNameInput"
                         >
                           ชื่อ
                         </label>
                         <input
+                        [ngClass]="{
+                          'is-invalid': this.form.get('firstName')?.errors?.['required'] && this.form.get('firstName')?.touched
+                        }"
                           class="form-control"
                           data-testid="firstNameInput"
                           formControlName="firstName"
@@ -539,12 +584,15 @@
 
                       <div class="form-group">
                         <label
-                          class="label-input"
+                          class="label-input required-field"
                           for="lastNameInput"
                         >
                           นามสกุล
                         </label>
                         <input
+                        [ngClass]="{
+                          'is-invalid': this.form.get('lastName')?.errors?.['required'] && this.form.get('lastName')?.touched
+                        }"
                           class="form-control"
                           data-testid="lastNameInput"
                           formControlName="lastName"
@@ -556,7 +604,7 @@
 
                       <div class="form-group">
                         <label
-                          class="label-input"
+                          class="label-input required-field"
                           for="birthDateDatePicker"
                         >
                           วันเกิด (วัน/เดือน/ปี)
@@ -576,12 +624,15 @@
 
                       <div class="form-group">
                         <label
-                          class="label-input"
+                          class="label-input required-field"
                           for="phoneInput"
                         >
                           เบอร์ติดต่อ
                         </label>
                         <input
+                        [ngClass]="{
+                          'is-invalid': this.form.get('mobilePhone')?.errors?.['required'] && this.form.get('mobilePhone')?.touched
+                        }"
                           class="form-control"
                           data-testid="phoneInput"
                           formControlName="mobilePhone"
@@ -601,7 +652,7 @@
 
         </div>
       </div>
-      <div class="col-sm-12 col-lg-4">
+      <div class="col-sm-12 col-lg-6">
         <ng-container [ngSwitch]="customerTypeId">
           <ng-container *ngSwitchCase="'3'">
             <h3 class="mb-3">ข้อมูลที่อยู่บริษัท</h3>

@@ -5,7 +5,10 @@
       <label class="label-input required-field" for="addressNumberInput">
         เลขที่
       </label>
-      <input
+      <input 
+      [ngClass]="{ 
+          'is-invalid': this.form.get('addressNo')?.errors?.['required'] && this.form.get('addressNo')?.touched
+        }"
         class="form-control"
         formControlName="addressNo"
         id="addressNumberInput"
@@ -109,6 +112,9 @@
         รหัสไปรษณีย์
       </label>
       <input
+      [ngClass]="{
+        'is-invalid': this.form.get('zipcode')?.errors?.['required'] && this.form.get('zipcode')?.touched 
+      }"
         class="form-control"
         formControlName="zipcode"
         id="zipcodeInput"
