@@ -347,6 +347,7 @@ export class EarningManagementComponent {
       this.form.get('campaignName')?.clearValidators();
       this.form.get('conditionPoint')?.clearValidators();
       this.form.get('calculatePoint')?.clearValidators();
+      this.form.get('customerType')?.clearValidators();
       this.form.get('startdate')?.clearValidators();
       this.form.get('enddate')?.clearValidators();
       this.form.get('publishing')?.clearValidators();

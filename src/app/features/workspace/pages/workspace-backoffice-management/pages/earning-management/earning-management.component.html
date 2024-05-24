@@ -68,7 +68,7 @@
 
             </div>
 
-            <h3 class="content-title" *ngIf="!isBaseCampaign">
+            <h3 class="content-title">
                 รายละเอียดคะแนน
             </h3>
 
@@ -93,7 +93,23 @@
                     รายละเอียดการคำนวน :
                     <span class="text-description">กรุณาระบุ ตัวแปรการคำนวนคะแนน และ ตัวเลขการคำนวนคะแนน</span>
                 </h3>
+            </div>
 
+            <div class="row pt-3" *ngIf="isBaseCampaign">
+                <div class="col-12 col-lg-4 mb-3">
+                    <label class="text-description mb-2 required-field" for="everyThaiBath">
+                      ทุกจำนวนเงินบาท
+                    </label>
+                    <input class="form-control" data-testid="everyThaiBath" formControlName="everyThaiBath" id="everyThaiBath"
+                      type="number" placeholder="กรุณาระบุ">
+                </div>
+                <div class="col-12 col-lg-4 mb-3">
+                    <label class="text-description mb-2 required-field" for="takePoint">
+                      จำนวน Point ที่ได้รับ
+                    </label>
+                    <input class="form-control" data-testid="takePoint" formControlName="takePoint" id="takePoint"
+                      type="number" placeholder="กรุณาระบุ">
+                </div>
             </div>
 
             <h3 class="content-title pt-3">
@@ -129,7 +145,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-4 mb-3">
+                <div class="col-12 col-lg-4 mb-3" *ngIf="!isBaseCampaign">
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">ประเภทผู้ใช้</label>
                         <ng-select class="form-control mb-2" [items]="UserType" [multiple]="true" bindLabel="name"
