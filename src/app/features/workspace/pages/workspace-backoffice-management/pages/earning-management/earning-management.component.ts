@@ -86,6 +86,8 @@ export class EarningManagementComponent {
       publishing: new FormControl(false, Validators.required),
       startdate: [null, Validators.required],
       enddate: [null, Validators.required],
+      everyThaiBath: [null],
+      takePoint: [null],
     });
     this.loadData();
   }
@@ -271,30 +273,44 @@ export class EarningManagementComponent {
 
   onSubmit() {
     console.log("[onSubmit] form => ", this.form.value);
-    const toDate = this.transformDatePipe.transform(this.form.get('enddate')?.value, 'YYYY-MM-DD');
-    const fromDate = this.transformDatePipe.transform(this.form.get('startdate')?.value, 'YYYY-MM-DD');
-    const data = {
-      campaignName: this.form.get('campaignName')?.value,
-      condition: this.form?.get('conditionPoint')?.value,
-      calculateValue: this.form?.get('calculatePoint')?.value,
-      // tollStations: this.form?.get('route')?.value,
-      // isAllTollStation: this.getStatusSelectAll('route'),
-      tollStations: this.form?.get('expressBuilding')?.value,
-      isAllTollStation: this.getStatusSelectAll('expressBuilding'),
-      customerTypes: this.form?.get('customerType')?.value,
-      isAllCustomerTypes: this.getStatusSelectAll('customerType'),
-      carTypes: this.form?.get('carType')?.value,
-      isAllCarTypes: this.getStatusSelectAll('carType'),
-      fromDate: fromDate,
-      toDate: toDate,
-      publish: this.form.get('publishing')?.value
+    const toDate = this.transformDatePipe.transform(this.form.get('enddate')?.value, `YYYY-MM-DDTHH:mm:ss.SSSZ`);
+    const fromDate = this.transformDatePipe.transform(this.form.get('startdate')?.value, `YYYY-MM-DDTHH:mm:ss.SSSZ`);
+    let payload: any = {};
+    if (this.isBaseCampaign) {
+      payload = {
+        tollStations: this.form?.get('expressBuilding')?.value,
+        isAllTollStation: this.getStatusSelectAll('expressBuilding'),
+        everyThaiBath: this.form?.get('everyThaiBath')?.value,
+        takePoint: this.form?.get('takePoint')?.value,
+        carTypes: this.form?.get('carType')?.value,
+        isAllCarTypes: this.getStatusSelectAll('carType'),
+        lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DDTHH:mm:ss.SSSZ`)
+      }
     }
-    // console.log("[onSubmit] form => ", data);
+    else {
+      payload = {
+        campaignName: this.form.get('campaignName')?.value,
+        condition: this.form?.get('conditionPoint')?.value,
+        calculateValue: this.form?.get('calculatePoint')?.value,
+        // tollStations: this.form?.get('route')?.value,
+        // isAllTollStation: this.getStatusSelectAll('route'),
+        tollStations: this.form?.get('expressBuilding')?.value,
+        isAllTollStation: this.getStatusSelectAll('expressBuilding'),
+        customerTypes: this.form?.get('customerType')?.value,
+        isAllCustomerTypes: this.getStatusSelectAll('customerType'),
+        carTypes: this.form?.get('carType')?.value,
+        isAllCarTypes: this.getStatusSelectAll('carType'),
+        fromDate: fromDate,
+        toDate: toDate,
+        publish: this.form.get('publishing')?.value
+      }
+    }
+    // console.log("[onSubmit] form => ", payload);
     const url = !this.isEditCondition ? 'campaign/add' : this.isBaseCampaign ? 'campaign/edit-base' : `campaign/${this.form?.get('id')?.value}/edit`;
     const message = this.isEditCondition ? 'แก้ไขเงือนไขการให้คะแนนสำเร็จ' : 'เพิ่มเงือนไขการให้คะแนนสำเร็จ';
     this.modalDialogService.loading();
     this.restApiService
-      .postBackOffice(url, data)
+      .postBackOffice(url, payload)
       .pipe(
         first(),
         map(res => res as any)
@@ -328,9 +344,20 @@ export class EarningManagementComponent {
     console.log("[onAction] event => ", event);
     if (event.row.campaignType === 'base') {
       this.isBaseCampaign = true;
-      // this.form.get('campaignName')?.clearValidators();
-      // this.form.get('campaignName')?.disable();
-      // this.form.updateValueAndValidity();
+      this.form.get('campaignName')?.clearValidators();
+      this.form.get('conditionPoint')?.clearValidators();
+      this.form.get('calculatePoint')?.clearValidators();
+      this.form.get('startdate')?.clearValidators();
+      this.form.get('enddate')?.clearValidators();
+      this.form.get('publishing')?.clearValidators();
+      this.form.get('everyThaiBath')?.setValidators([Validators.required]);
+      this.form.get('takePoint')?.setValidators([Validators.required]);
+      this.form.updateValueAndValidity();
+    }
+    else {
+      this.form.get('everyThaiBath')?.clearValidators();
+      this.form.get('takePoint')?.clearValidators();
+      this.form.updateValueAndValidity();
     }
     this.setFormValue(event?.row);
     this.isShowDescription = true;
@@ -344,18 +371,20 @@ export class EarningManagementComponent {
 
   setFormValue(event: any) {
     this.form?.get('id')?.setValue(event?.id);
-    this.form?.get('campaignName')?.setValue(event?.campaignName)
-    this.form?.get('conditionPoint')?.setValue(event?.conditionPoint)
-    this.form?.get('calculatePoint')?.setValue(event?.everyThaiBath)
-    this.form?.get('route')?.setValue(event?.route)
-    // this.form?.get('')?.setValue(this.getStatusSelectAll('route'))
-    this.form?.get('customerType')?.setValue(event?.customerTypes)
-    // this.form?.get('')?.setValue(this.getStatusSelectAll('customerType'))
-    this.form?.get('carType')?.setValue(event?.carTypes)
-    // this.form?.get('')?.setValue(this.getStatusSelectAll('carType'))
-    this.form?.get('startdate')?.setValue(event?.fromDate)
-    this.form?.get('enddate')?.setValue(event?.toDate)
-    this.form?.get('publishing')?.setValue(event?.publish)
+    this.form?.get('campaignName')?.setValue(event?.campaignName);
+    this.form?.get('conditionPoint')?.setValue(event?.conditionPoint);
+    this.form?.get('calculatePoint')?.setValue(event?.everyThaiBath);
+    this.form?.get('route')?.setValue(event?.route);
+    // this.form?.get('')?.setValue(this.getStatusSelectAll('route'));
+    this.form?.get('customerType')?.setValue(event?.customerTypes);
+    // this.form?.get('')?.setValue(this.getStatusSelectAll('customerType'));
+    this.form?.get('carType')?.setValue(event?.carTypes);
+    // this.form?.get('')?.setValue(this.getStatusSelectAll('carType'));
+    this.form?.get('startdate')?.setValue(event?.fromDate);
+    this.form?.get('enddate')?.setValue(event?.toDate);
+    this.form?.get('publishing')?.setValue(event?.publish);
+    this.form?.get('everyThaiBath')?.setValue(event?.everyThaiBath);
+    this.form?.get('takePoint')?.setValue(event?.takePoint);
   }
 
   onBack() {
@@ -378,6 +407,8 @@ export class EarningManagementComponent {
       publishing: new FormControl(false, Validators.required),
       startdate: [null, Validators.required],
       enddate: [null, Validators.required],
+      everyThaiBath: [null],
+      takePoint: [null],
     });
     // this.loadCampaignBase();
     // this.loadCampaignSpecial();

@@ -10,10 +10,10 @@
         </div>
     </div>
     <hr class="hr-custom mb-3" />
-    <button *ngIf="isShowDescription" class="custom-btn btn-type-1" data-testid="backButton" id="backButton"
+    <!-- <button *ngIf="isShowDescription" class="custom-btn btn-type-1" data-testid="backButton" id="backButton"
         title="กลับ" type="button" (click)="onBack()">
         กลับ
-    </button>
+    </button> -->
     <section *ngIf="!isShowDescription">
         <div class="col-4 mb-3">
             <h2 class="content-title">
@@ -43,27 +43,30 @@
     </section>
     <section *ngIf="isShowDescription">
         <form [formGroup]="form">
-            <div class="row pt-3">
-                <h3 class="content-title">
-                    รายละเอียดกิจกรรม
-                </h3>
-                <div class="col-12 col-lg-4 mb-3">
-                    <div class="col-12 mb-3">
-                        <label class="label-input required-field" for="campaignName">
-                            ชื่อกิจกรรม
-                        </label>
-                        <input class="form-control" formControlName="campaignName" id="campaignName" type="text"
-                            placeholder="กรุณาระบุ">
-                    </div>
-                </div>
+          <!-- <div class="row pt-3"> -->
+
+            <h3 class="content-title" *ngIf="!isBaseCampaign">
+                รายละเอียดกิจกรรม
+            </h3>
+
+            <div class="row pt-3" *ngIf="!isBaseCampaign">
+              <div class="col-12 col-lg-4 mb-3">
+                  <div class="col-12 mb-3">
+                      <label class="label-input required-field" for="campaignName">
+                          ชื่อกิจกรรม
+                      </label>
+                      <input class="form-control" formControlName="campaignName" id="campaignName" type="text"
+                          placeholder="กรุณาระบุ">
+                  </div>
+              </div>
 
             </div>
 
-            <h3 class="content-title">
+            <h3 class="content-title" *ngIf="!isBaseCampaign">
                 รายละเอียดคะแนน
             </h3>
 
-            <div class="row pt-3">
+            <div class="row pt-3" *ngIf="!isBaseCampaign">
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">ตัวแปรการคำนวนคะแนน</label>
@@ -206,11 +209,11 @@
                 </div>
             </div>
 
-            <h3 class="content-title pt-3">
+            <h3 class="content-title pt-3" *ngIf="!isBaseCampaign">
                 ตั้งเวลาแคมเปญ
             </h3>
 
-            <div class="row pt-3">
+            <div class="row pt-3" *ngIf="!isBaseCampaign">
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">
@@ -218,7 +221,7 @@
                         </label>
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                             formControlName="startdate" [id]="'birthDateDatePicke'" locale="th"
-                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign"></date-picker>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 mb-3">
@@ -228,16 +231,16 @@
                         </label>
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                             formControlName="enddate" [id]="'birthDateDatePicke'" locale="th"
-                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign"></date-picker>
                     </div>
                 </div>
             </div>
 
-            <h3 class="content-title mb-3">
+            <h3 class="content-title mb-3" *ngIf="!isBaseCampaign">
                 การเผยแพร่ และ ทำแบบร่าง
             </h3>
 
-            <div class="col-12 mb-3">
+            <div class="col-12 mb-3" *ngIf="!isBaseCampaign">
                 <div class="form-check mb-4">
                     <input class="form-check-input" data-testid="draftRadio" id="draftRadio"
                         formControlName="publishing" type="radio" [value]="false">
@@ -265,6 +268,7 @@
                     บันทึก
                 </button>
             </div>
+          <!-- </div> -->
         </form>
     </section>
 </div>
