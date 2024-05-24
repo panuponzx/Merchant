@@ -4,8 +4,14 @@
             <h1 *ngIf="!isShowDescription" class="content-title">
                 ระบบการให้คะแนน
             </h1>
-            <h1 *ngIf="isShowDescription" class="content-title">
-                เพิ่มเงือนไขการให้คะแนนพิเศษ
+            <h1 *ngIf="isShowDescription && !isEditCondition" class="content-title">
+                เพิ่มเงื่อนไขการให้คะแนนพิเศษ
+            </h1>
+            <h1 *ngIf="isShowDescription && isEditCondition && !isBaseCampaign" class="content-title">
+                แก้ไขเงื่อนไขการให้คะแนนพิเศษ
+            </h1>
+            <h1 *ngIf="isShowDescription && isEditCondition && isBaseCampaign" class="content-title">
+                แก้ไขเงื่อนไขการให้คะแนนพื้นฐาน
             </h1>
         </div>
     </div>
