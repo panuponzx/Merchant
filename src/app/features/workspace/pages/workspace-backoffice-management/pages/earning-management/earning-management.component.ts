@@ -34,11 +34,12 @@ export class EarningManagementComponent {
 
   public specialRatingColumns: CustomColumnModel[] = [
     { id: 'campaignName', name: 'ชื่อกิจกรรม', label: 'ชื่อกิจกรรม', prop: 'campaignName', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'conditionText', name: 'บวก / คูณ', label: 'บวก / คูณ', prop: 'conditionText', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'operation', name: 'บวก / คูณ', label: 'บวก / คูณ', prop: 'operation', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'calculateValue', name: 'จำนวน Point', label: 'จำนวน Point', prop: 'calculateValue', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'customerTypesList', name: 'กลุ่มลูกค้า', label: 'กลุ่มลูกค้า', prop: 'customerTypesList', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carTypesList', name: 'สำหรับประเภทรถ', label: 'สำหรับประเภทรถ', prop: 'carTypesList', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'activityDuration', name: 'ระยะกิจกรรม', label: 'ระยะกิจกรรม', prop: 'activityDuration', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM YYYY', locale: 'th' } },
+    // { id: 'activityDuration', name: 'ระยะกิจกรรม', label: 'ระยะกิจกรรม', prop: 'activityDuration', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM YYYY', locale: 'th' } },
+    { id: 'activityDuration', name: 'ระยะกิจกรรม', label: 'ระยะกิจกรรม', prop: 'activityDuration', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     // { id: 'createdBy', name: 'ชื่อพนักงานที่สร้าง', label: 'ชื่อพนักงานที่สร้าง', prop: 'createdBy', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'publishText', name: 'การเผยแพร่', label: 'การเผยแพร่', prop: 'publishText', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'setting', name: 'ตั้งค่า', label: 'ตั้งค่า', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'setting', iconName: 'setting', size: 'l', color: '#2255CE' } }
@@ -112,10 +113,7 @@ export class EarningManagementComponent {
             const data = Object.assign([] as any[], res.data)
               .map((value: any) => {
                 value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกด่านอาคาร' : value.customerTypes;
-                value.carTypesList = value.isAllCarType == true ? 'ทุกประเภท' : value.carTypes;
-                value.conditionText = value.condition == 0 ? 'บวก' : 'คูณ';
-                value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'DD/MM/BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'DD/MM/BBBB HH:mm', 'th');
-                value.publishText = value.publish == true ? 'กำลังเผยแพร่' : 'แบบร่าง';
+                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภท' : value.carTypes;
                 value.campaignType = 'base';
                 return value;
               });
@@ -152,7 +150,10 @@ export class EarningManagementComponent {
             const data = Object.assign([] as any[], res.data.elements)
               .map((value: any) => {
                 value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกด่านอาคาร' : value.customerTypes;
-                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภท' : value.carTypes;
+                value.carTypesList = value.isAllCarType == true ? 'ทุกประเภท' : value.carTypes;
+                // value.conditionText = value.condition == 0 ? 'บวก' : 'คูณ';
+                value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'DD/MM/BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'DD/MM/BBBB HH:mm', 'th');
+                value.publishText = value.publish == true ? 'กำลังเผยแพร่' : 'แบบร่าง';
                 value.campaignType = 'special';
                 return value;
               });
