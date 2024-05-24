@@ -67,7 +67,6 @@ export class EarningManagementComponent {
 
   public isLoading = false;
 
-
   constructor(
     private restApiService: RestApiService,
     private formBuilder: FormBuilder,
@@ -112,7 +111,7 @@ export class EarningManagementComponent {
           if (res.data?.length > 0) {
             const data = Object.assign([] as any[], res.data)
               .map((value: any) => {
-                value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกด่านอาคาร' : value.customerTypes;
+                value.tollStationsList = value.isAllTollStation == true ? 'ทุกด่านอาคาร' : value.tollStations;
                 value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภท' : value.carTypes;
                 value.campaignType = 'base';
                 return value;
@@ -149,7 +148,7 @@ export class EarningManagementComponent {
           if (res.data?.elements?.length > 0) {
             const data = Object.assign([] as any[], res.data.elements)
               .map((value: any) => {
-                value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกด่านอาคาร' : value.customerTypes;
+                value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกกลุ่มลูกค้า' : value.customerTypes;
                 value.carTypesList = value.isAllCarType == true ? 'ทุกประเภท' : value.carTypes;
                 // value.conditionText = value.condition == 0 ? 'บวก' : 'คูณ';
                 value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'DD/MM/BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'DD/MM/BBBB HH:mm', 'th');
@@ -206,8 +205,8 @@ export class EarningManagementComponent {
           this.route?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
         }
         // if (Array.isArray(Response.data.children)) {
-        this.expressBuilding = Response.data.children;
-        this.expressBuilding?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
+        // this.expressBuilding = Response.data.children;
+        // this.expressBuilding?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
         // }
       });
   }
@@ -220,6 +219,19 @@ export class EarningManagementComponent {
           this.CalculatedVariables?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
         }
       });
+  }
+
+  onSelectRoute(item: any) {
+    this.form?.get('expressBuilding')?.setValue(undefined);
+    this.expressBuilding = [];
+    let routeSelect: any[] = this.route.filter(route =>
+      !!item.find((routeEvent: any) => route.name === routeEvent)
+    );
+    for (let toll of routeSelect) {
+      // console.log(toll);
+      this.expressBuilding.push(...toll.children);
+    }
+    this.expressBuilding?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
   }
 
   selectAll(formControlName: string) {
@@ -337,13 +349,13 @@ export class EarningManagementComponent {
     this.form?.get('calculatePoint')?.setValue(event?.everyThaiBath)
     this.form?.get('route')?.setValue(event?.route)
     // this.form?.get('')?.setValue(this.getStatusSelectAll('route'))
-    this.form?.get('customerType')?.setValue(event?.customerType)
+    this.form?.get('customerType')?.setValue(event?.customerTypes)
     // this.form?.get('')?.setValue(this.getStatusSelectAll('customerType'))
-    this.form?.get('carType')?.setValue(event?.carTypesList)
+    this.form?.get('carType')?.setValue(event?.carTypes)
     // this.form?.get('')?.setValue(this.getStatusSelectAll('carType'))
     this.form?.get('startdate')?.setValue(event?.fromDate)
     this.form?.get('enddate')?.setValue(event?.toDate)
-    this.form?.get('publishing')?.setValue(event?.publishText)
+    this.form?.get('publishing')?.setValue(event?.publish)
   }
 
   onBack() {

@@ -159,7 +159,7 @@
                         <label class="text-description mb-2 required-field">สายทาง</label>
                         <ng-select class="form-control mb-2" [items]="route" [multiple]="true" bindLabel="name"
                             bindValue="name" id="selectRoute" data-testid="selectRoute" placeholder="กรุณาระบุ"
-                            [closeOnSelect]="false" [searchable]="false" formControlName="route">
+                            [closeOnSelect]="false" [searchable]="false" formControlName="route" (ngModelChange)="onSelectRoute($event)">
                             <ng-template ng-header-tmp>
                                 <div style="margin: 3px 3px;">
                                     <input (click)="selectAll('route')" [checked]="getStatusSelectAll('route')"
