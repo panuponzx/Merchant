@@ -14,21 +14,24 @@ import { TransformDatePipe } from '../../../../../../core/pipes';
 })
 export class EarningManagementComponent {
 
-  public basicRatingRows: any[] = [
-    { id: "1", tollStationsList: 'ทุกด่านอาคาร', everyThaiBath: '10', takePoint: '1', carTypesList: 'ทุกประเภท', lastModifyDate: new Date(), createdBy: 'นายทดสอบ ทดสอบ', },
-  ];
+  public basicRatingRows: any[] = [];
+  public specialRatingRows: any[] = [];
 
-  public specialRatingRows: any[] = [
-    { id: "1", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '10', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'กำลังเผยแพร่' },
-    { id: "2", activityName: 'Promotion A', addOrMultiply: 'คูณ', pointAmount: '2', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
-    { id: "3", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '3', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
-    { id: "4", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '15', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
-    { id: "5", activityName: 'Promotion A', addOrMultiply: 'คูณ', pointAmount: '20', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
-    { id: "6", activityName: 'Promotion A', addOrMultiply: 'คูณ', pointAmount: '10', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
-    { id: "7", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '15', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
-    { id: "7", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '15', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
-    { id: "7", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '15', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
-  ];
+  // public basicRatingRows: any[] = [
+  //   { id: "1", tollStationsList: 'ทุกด่านอาคาร', everyThaiBath: '10', takePoint: '1', carTypesList: 'ทุกประเภท', lastModifyDate: new Date(), createdBy: 'นายทดสอบ ทดสอบ', campaignType: 'base' },
+  // ];
+
+  // public specialRatingRows: any[] = [
+  //   { id: "1", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '10', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'กำลังเผยแพร่' },
+  //   { id: "2", activityName: 'Promotion A', addOrMultiply: 'คูณ', pointAmount: '2', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
+  //   { id: "3", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '3', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
+  //   { id: "4", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '15', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
+  //   { id: "5", activityName: 'Promotion A', addOrMultiply: 'คูณ', pointAmount: '20', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
+  //   { id: "6", activityName: 'Promotion A', addOrMultiply: 'คูณ', pointAmount: '10', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
+  //   { id: "7", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '15', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
+  //   { id: "7", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '15', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
+  //   { id: "7", activityName: 'Promotion A', addOrMultiply: 'บวก', pointAmount: '15', vehicleType: 'ทุกประเภท', activityDuration: new Date(), createdBy: 'นายทดสอบ ทดสอบ', publishing: 'แบบร่าง' },
+  // ];
 
   public basicRatingColumns: CustomColumnModel[] = [
     { id: 'tollStationsList', name: 'อาคารด่าน', label: 'อาคารด่าน', prop: 'tollStationsList', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
@@ -127,7 +130,7 @@ export class EarningManagementComponent {
 
   public isShowDescription: boolean = false;
   public isEditCondition: boolean = false;
-
+  public isBaseCampaign: boolean = false;
 
   public submitted: boolean = false;
   public form: FormGroup;
@@ -157,38 +160,38 @@ export class EarningManagementComponent {
       startdate: [null, Validators.required],
       enddate: [null, Validators.required],
     });
-    // this.loadCampaignBase();
-    // this.loadCampaignSpecial();
+    this.loadCampaignBase();
+    this.loadCampaignSpecial();
   }
 
   loadCampaignBase() {
     this.isLoading = true;
     this.restApiService
-      .get(`campaign/base`)
+      .getBackOffice(`campaign/base`)
       .pipe(
         first(),
         // map(res => res as any)
         map((res: any) => {
-          if (res.data) {
+          if (res.data?.length > 0) {
             const data = Object.assign([] as any[], res.data)
               .map((value: any) => {
-                value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกด่านอาคาร' : value.customerTypes
-                value.carTypesList = value.isAllCarType == true ? 'ทุกประเภท' : value.carTypes
-                value.conditionText = value.condition == 0 ? 'บวก' : 'คูณ'
+                value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกด่านอาคาร' : value.customerTypes;
+                value.carTypesList = value.isAllCarType == true ? 'ทุกประเภท' : value.carTypes;
+                value.conditionText = value.condition == 0 ? 'บวก' : 'คูณ';
                 value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'DD/MM/BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'DD/MM/BBBB HH:mm', 'th');
-                value.publishText = value.publish == true ? 'กำลังเผยแพร่' : 'แบบร่าง'
-
+                value.publishText = value.publish == true ? 'กำลังเผยแพร่' : 'แบบร่าง';
+                value.campaignType = 'base';
                 return value;
               });
-            res.result.data = data;
+            res.data = data;
           }
           return res;
         })
       ).subscribe({
         next: (res) => {
-          this.isLoading = false;
           console.log("[loadData] res => ", res);
           this.basicRatingRows = res.data;
+          this.isLoading = false;
         },
         error: (err) => {
           this.isLoading = false;
@@ -201,26 +204,27 @@ export class EarningManagementComponent {
   loadCampaignSpecial() {
     this.isLoading = true;
     this.restApiService
-      .get(`campaign/all?limit=${this.limitRow1}&offset=${this.pages1 * this.limitRow1}`)
+      .getBackOffice(`campaign/all?limit=${this.limitRow1}&offset=${(this.pages1 * this.limitRow1) - this.limitRow1}`)
       .pipe(
         first(),
         map((res: any) => {
-          if (res.data) {
-            const data = Object.assign([] as any[], res.data)
+          if (res.data?.elements?.length > 0) {
+            const data = Object.assign([] as any[], res.data.elements)
               .map((value: any) => {
-                value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกด่านอาคาร' : value.customerTypes
-                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภท' : value.carTypes
+                value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกด่านอาคาร' : value.customerTypes;
+                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภท' : value.carTypes;
+                value.campaignType = 'special';
                 return value;
               });
-            res.result.data = data;
+            res.data = data;
           }
           return res;
         })
       ).subscribe({
         next: (res) => {
-          this.isLoading = false;
           console.log("[loadData] res => ", res);
           this.specialRatingRows = res.data;
+          this.isLoading = false;
         },
         error: (err) => {
           this.isLoading = false;
@@ -265,8 +269,8 @@ export class EarningManagementComponent {
 
   onSubmit() {
     console.log("[onSubmit] form => ", this.form.value);
+    const toDate = this.transformDatePipe.transform(this.form.get('enddate')?.value, 'YYYY-MM-DD');
     const fromDate = this.transformDatePipe.transform(this.form.get('startdate')?.value, 'YYYY-MM-DD');
-    const toDate = this.transformDatePipe.transform(this.form.get('endDate')?.value, 'YYYY-MM-DD');
     const data = {
       campaignName: this.form.get('campaignName')?.value,
       condition: this.form?.get('conditionPoint')?.value,
@@ -282,11 +286,11 @@ export class EarningManagementComponent {
       publish: this.form.get('publishing')?.value
     }
     // console.log("[onSubmit] form => ", data);
-    const url = this.isEditCondition ? `campaign/${this.form?.get('id')?.value}/edit` : 'campaign/add';
+    const url = !this.isEditCondition ? 'campaign/add' : this.isBaseCampaign ? 'campaign/edit-base' : `campaign/${this.form?.get('id')?.value}/edit`;
     const message = this.isEditCondition ? 'แก้ไขเงือนไขการให้คะแนนสำเร็จ' : 'เพิ่มเงือนไขการให้คะแนนสำเร็จ';
     this.modalDialogService.loading();
     this.restApiService
-      .post(url, data)
+      .postBackOffice(url, data)
       .pipe(
         first(),
         map(res => res as any)
@@ -295,12 +299,13 @@ export class EarningManagementComponent {
           this.modalDialogService.hideLoading();
           if (res.errorMessage === "Success") {
             console.log("[onSubmit] res => ", res);
-            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', message);
-            this.onBack();
+            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', message).then(function () {
+              // this.onBack();
+              window.location.reload();
+            })
           } else {
             this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
           }
-
         },
         error: (err) => {
           this.modalDialogService.hideLoading();
@@ -317,7 +322,13 @@ export class EarningManagementComponent {
 
   onAction(event: RowActionEventModel) {
     console.log("[onAction] event => ", event);
-    this.form?.get('id')?.setValue(event.row.id);
+    if (event.row.campaignType === 'base') {
+      this.isBaseCampaign = true;
+      // this.form.get('campaignName')?.clearValidators();
+      // this.form.get('campaignName')?.disable();
+      // this.form.updateValueAndValidity();
+    }
+    this.setFormValue(event?.row);
     this.isShowDescription = true;
     this.isEditCondition = true;
     // if (event.action === 'description' && event.row) {
@@ -327,6 +338,21 @@ export class EarningManagementComponent {
     // }
   }
 
+  setFormValue(event: any) {
+    this.form?.get('id')?.setValue(event?.id);
+    this.form?.get('campaignName')?.setValue(event?.campaignName)
+    this.form?.get('conditionPoint')?.setValue(event?.conditionPoint)
+    this.form?.get('calculatePoint')?.setValue(event?.everyThaiBath)
+    this.form?.get('route')?.setValue(event?.route)
+    // this.form?.get('')?.setValue(this.getStatusSelectAll('route'))
+    this.form?.get('customerType')?.setValue(event?.customerType)
+    // this.form?.get('')?.setValue(this.getStatusSelectAll('customerType'))
+    this.form?.get('carType')?.setValue(event?.carTypesList)
+    // this.form?.get('')?.setValue(this.getStatusSelectAll('carType'))
+    this.form?.get('startdate')?.setValue(event?.fromDate)
+    this.form?.get('enddate')?.setValue(event?.toDate)
+    this.form?.get('publishing')?.setValue(event?.publishText)
+  }
 
   onBack() {
     this.submitted = false;
@@ -334,6 +360,7 @@ export class EarningManagementComponent {
     this.isEditCondition = false;
     this.pages = 1;
     this.tempSearch = undefined;
+    this.isBaseCampaign = false;
     this.form.reset();
     this.form = this.formBuilder.group({
       id: [null],
@@ -348,6 +375,8 @@ export class EarningManagementComponent {
       startdate: [null, Validators.required],
       enddate: [null, Validators.required],
     });
+    // this.loadCampaignBase();
+    // this.loadCampaignSpecial();
   }
 
 
