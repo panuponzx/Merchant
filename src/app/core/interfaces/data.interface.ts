@@ -251,3 +251,12 @@ export interface IPassageModel {
   obuPan: string,
   smartcardNo: string,
 }
+
+export interface IWalletInfoModel {
+  id: number,
+  name: string,
+  statusId: number,
+  statusNmae: string,
+  typeId: number,
+  typeName: string,
+}

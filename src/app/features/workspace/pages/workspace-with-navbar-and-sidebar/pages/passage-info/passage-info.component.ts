@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, map, Observable, zip } from 'rxjs';
-import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel, PassageInformationPayloadModel, ResponsePassageInformationModel, IPassageModel, IPaginationModel, ResponseModel } from '../../../../../../core/interfaces';
+import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel, PassageInformationPayloadModel, ResponsePassageInformationModel, IPassageModel, IPaginationModel, ResponseModel, IWalletInfoModel } from '../../../../../../core/interfaces';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
@@ -24,7 +24,7 @@ export class PassageInfoComponent implements OnInit {
   public customerId: string | null = null;
   public customer: CustomerModel | undefined;
 
-  public wallets: WalletSummaryModel[] = [];
+  public wallets: IWalletInfoModel[] = [];
 
   public rows: any[] = [];
   public limitRow: number = 10;
@@ -78,8 +78,8 @@ export class PassageInfoComponent implements OnInit {
           if (info[0].customer) {
             this.customer = info[0].customer;
           }
-          if (info[1].lstSummary) {
-            this.wallets = [...info[1].lstSummary];
+          if (info[1].data) {
+            this.wallets = info[1].data;
           }
           this.modalDialogService.hideLoading();
           this.isLoading = false;
@@ -114,7 +114,8 @@ export class PassageInfoComponent implements OnInit {
         channelId: "1"
       }
     };
-    return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+    // return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+    return this.restApiService.postBackOffice('wallet/get-wallets', mockupData) as Observable<ResponseModel<IWalletInfoModel[]>>;
   }
 
   onSearch() {
@@ -148,7 +149,7 @@ export class PassageInfoComponent implements OnInit {
       page: data.page,
       limit: this.limitRow
     };
-    const walletName = this.wallets.find((w) => w.walletId === data.walletId)?.walletName;
+    const walletName = this.wallets.find((w) => w.id === data.walletId)?.name;
     this.restApiService
       .postBackOffice('transaction-history/get-passage', mockupData)
       .pipe(
