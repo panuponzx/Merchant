@@ -158,41 +158,6 @@ export interface ProvinceModel {
   nameEn: string
 }
 
-export interface PassageInformationModel {
-  transactionId: string,
-  walletId: number,
-  amount: number,
-  createDate: Date,
-  properties: {
-    recordId: string,
-    amount: number,
-    entry_hq: number,
-    entry_plaza: number,
-    exit_hq: number,
-    exit_plaza: number,
-    obuPan: string,
-    requestDate: Date,
-    transactionDate: Date,
-    typeId: string,
-    category: string,
-    smartcardNo: string,
-    raw: {
-      exit_hq: number,
-      entry_hq: number,
-      trn_uuid: string,
-      exit_lane: number,
-      entry_lane: number,
-      exit_plaza: number,
-      entry_plaza: number
-    }
-  },
-  isCancelled: boolean,
-  wallet: {
-    id: number,
-    walletName: string
-  }
-}
-
 export interface ITransferModel {
   amount: number
   fromWalletId: number
@@ -271,4 +236,18 @@ export interface IEmailOtpModel {
   ref_code: string,
   verify_token: string,
   verify_use: string,
+}
+
+export interface IPassageModel {
+  walletName: string,
+  amount: number,
+  entryHq: string,
+  entryPlaza: string,
+  exitHq: string,
+  exitPlaza: string,
+  isCancelled: boolean,
+  transactionDate: string,
+  transactionId: string,
+  obuPan: string,
+  smartcardNo: string,
 }

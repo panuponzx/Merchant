@@ -6,7 +6,7 @@ export interface HistoryPayloadModel {
 }
 
 export interface PassageInformationPayloadModel {
-  walletId: string,
+  walletId: number,
   from?: Date | string | undefined | null,
   to?: Date | string | undefined | null,
   page: number,

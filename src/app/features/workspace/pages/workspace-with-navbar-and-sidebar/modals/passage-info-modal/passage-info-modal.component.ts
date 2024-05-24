@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { IPassageInfoRowModel } from '../../../../../../core/interfaces';
+import { IPassageInfoRowModel, IPassageModel } from '../../../../../../core/interfaces';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
@@ -14,7 +14,7 @@ import { first, map } from 'rxjs';
 })
 export class PassageInfoModalComponent implements OnInit {
 
-  public row = {} as IPassageInfoRowModel;
+  public row = {} as IPassageModel;
   public form: FormGroup;
 
   constructor(
@@ -40,11 +40,11 @@ export class PassageInfoModalComponent implements OnInit {
     if (this.row) {
       this.form.get('transactionId')?.setValue(this.row.transactionId);
       this.form.get('transactionDate')?.setValue(this.transformDatePipe.transform(this.row.transactionDate, 'DD/MM/BBBB HH:mm:ss', 'th'));
-      this.form.get('entryHqName')?.setValue(this.row.entryHqName);
-      this.form.get('entryPlazaName')?.setValue(this.row.entryPlazaName);
+      this.form.get('entryHqName')?.setValue(this.row.entryHq);
+      this.form.get('entryPlazaName')?.setValue(this.row.entryPlaza);
       this.form.get('walletName')?.setValue(this.row.walletName);
-      this.form.get('obu')?.setValue(this.row.obu);
-      this.form.get('smartCard')?.setValue(this.row.smartCard);
+      this.form.get('obu')?.setValue(this.row.obuPan);
+      this.form.get('smartCard')?.setValue(this.row.smartcardNo);
       this.form.get('amount')?.setValue(this.row.amount);
     }
   }

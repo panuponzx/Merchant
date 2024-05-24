@@ -87,9 +87,9 @@
                     (click)="toggleExpandGroup(group)">
                     <a class="toggle-group-header" [class.datatable-icon-right-custom]="!expanded"
                       [class.datatable-icon-down-custom]="expanded" title="Expand/Collapse Group">
-                      <span>{{ group.value[0].entryHqName }} - {{ group.value[0].exitHqName }}</span>
+                      <span>{{ group.key}}</span>
                     </a>
-                    <span>จำนวน {{ group.value[0].gAmount }} บาท</span>
+                    <span>จำนวน {{ sumAmount(group.value) }} บาท</span>
                   </div>
                 </ng-template>
               </ngx-datatable-group-header>
@@ -105,66 +105,25 @@
                   </ng-container>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column prop="group" [sortable]="false" [headerClass]="'text-break text-center'"
+              <ngx-datatable-column name="สายทางเข้า" prop="entryHq" [headerClass]="'text-break text-center'"
+              [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="สายทางออก" prop="exitHq" [headerClass]="'text-break text-center'"
+              [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="อาคารด่านเข้า" prop="entryPlaza" [headerClass]="'text-break text-center'"
+              [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="อาคารด่านออก" prop="exitPlaza" [headerClass]="'text-break text-center'"
+              [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="OBU serial no." prop="obuPan" [headerClass]="'text-break text-center'"
+              [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="จำนวนเงิน" prop="amount" [sortable]="false" [headerClass]="'text-break text-center'"
                 [cellClass]="'text-break text-center'">
-                <ng-template ngx-datatable-header-template>
-                  <span>สายทางเข้า</span>
-                </ng-template>
                 <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{ row.entryHqName }}
+                  <span>{{ value * -1 }}</span>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column prop="group" [sortable]="false" [headerClass]="'text-break text-center'"
+              <ngx-datatable-column name="สถานะ" prop="isCancelled" [sortable]="false" [headerClass]="'text-break text-center'"
                 [cellClass]="'text-break text-center'">
-                <ng-template ngx-datatable-header-template>
-                  <span>สายทางออก</span>
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{ row.exitHqName }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="group" [sortable]="false" [headerClass]="'text-break text-center'"
-                [cellClass]="'text-break text-center'">
-                <ng-template ngx-datatable-header-template>
-                  <span>อาคารด่านเข้า</span>
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{ row.entryPlazaName }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="group" [sortable]="false" [headerClass]="'text-break text-center'"
-                [cellClass]="'text-break text-center'">
-                <ng-template ngx-datatable-header-template>
-                  <span>อาคารด่านออก</span>
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{ row.exitPlazaName }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="obu" [sortable]="false" [headerClass]="'text-break text-center'"
-                [cellClass]="'text-break text-center'">
-                <ng-template ngx-datatable-header-template>
-                  <span>OBU serial no.</span>
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{ row.obu }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="amount" [sortable]="false" [headerClass]="'text-break text-center'"
-                [cellClass]="'text-break text-center'">
-                <ng-template ngx-datatable-header-template>
-                  <span>จำนวนเงิน</span>
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                  {{ row.amount }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="isCancelled" [sortable]="false" [headerClass]="'text-break text-center'"
-                [cellClass]="'text-break text-center'">
-                <ng-template ngx-datatable-header-template>
-                  <span>สถานะ</span>
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                <ng-template ngx-datatable-cell-template let-value="value">
                   <ng-container *ngIf="value; else textFalseEl;">
                     <span [ngClass]="'text-red-exat' ? 'text-red-exat' : null">
                       ยกเลิกแล้ว
@@ -175,11 +134,8 @@
                   </ng-template>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column prop="transactionDate" [sortable]="false" [headerClass]="'text-break text-center'"
+              <ngx-datatable-column name="รายละเอียด" prop="transactionDate" [sortable]="false" [headerClass]="'text-break text-center'"
                 [cellClass]="'text-break text-center'">
-                <ng-template ngx-datatable-header-template>
-                  <span>รายละเอียด</span>
-                </ng-template>
                 <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
                   <button [attr.data-testid]="'description' + rowIndex + 'Button'" class="custome-btn btn-icon"
                     [id]="'description' + rowIndex + 'Button'" type="button" [title]="'รายละเอียด'"
