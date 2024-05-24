@@ -163,6 +163,7 @@ export class SearchUserComponent implements OnInit {
   }
 
   searchByPersonal(payload: any) {
+    this.modalDialogService.loading();
     this.restApiService.postBackOffice('customer/search-by-personal', payload).pipe(first()).subscribe({
       next: (res: ResponseMessageModel) => {
         let response = res as ResponseModel<IPaginationModel<Array<ICustomerSearchModel>>>;
@@ -172,8 +173,10 @@ export class SearchUserComponent implements OnInit {
         console.log("[searchByPersonal] collectionSize => ", this.collectionSize);
         this.isLoading = false;
         this.tempSearch = true;
+        this.modalDialogService.hideLoading();
       },
       error: (err) => {
+        this.modalDialogService.hideLoading();
         console.error(err);
         this.isLoading = false;
         this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
@@ -182,6 +185,7 @@ export class SearchUserComponent implements OnInit {
   }
 
   searchByCoporate(payload: any) {
+    this.modalDialogService.loading();
     this.restApiService.postBackOffice('customer/search-by-corporate', payload).pipe(first()).subscribe({
       next: (res: ResponseMessageModel) => {
         let response = res as ResponseModel<IPaginationModel<Array<ICustomerSearchModel>>>;
@@ -190,8 +194,10 @@ export class SearchUserComponent implements OnInit {
         this.collectionSize = response.data.totalElements;
         this.isLoading = false;
         this.tempSearch = true;
+        this.modalDialogService.hideLoading();
       },
       error: (err) => {
+        this.modalDialogService.hideLoading();
         console.error(err);
         this.isLoading = false;
         this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
@@ -200,6 +206,7 @@ export class SearchUserComponent implements OnInit {
   }
 
   searchByFaremedia(payload: any) {
+    this.modalDialogService.loading();
     let x = this.restApiService.postBackOffice('customer/search-by-faremedia', payload).pipe(first()).subscribe({
       next: (res: ResponseMessageModel) => {
         let response = res as ResponseModel<IPaginationModel<Array<ICustomerSearchModel>>>;
@@ -208,9 +215,11 @@ export class SearchUserComponent implements OnInit {
         this.collectionSize = response.data.totalElements;
         this.isLoading = false;
         this.tempSearch = true;
+        this.modalDialogService.hideLoading();
       },
       error: (err) => {
         console.error(err);
+        this.modalDialogService.hideLoading();
         this.isLoading = false;
         this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
