@@ -13,7 +13,7 @@
                 <div class="row d-flex justify-content-center">
                     <div class="col-sm-12 col-md-6 mb-3" *ngIf="customerType === 1">
                         <div *ngIf="customerType === 1" class="col-12 mb-3">
-                            <label class="label-input" for="identityType">
+                            <label class="label-input required-field" for="identityType">
                                 ประเภทการยืนยันตัวตน
                             </label>
                             <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
@@ -61,7 +61,7 @@
                                 *โปรดใส่วันหมดอายุหนังสือเดินทาง</small> -->
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="label-input" for="gender">
+                            <label class="label-input required-field" for="gender">
                                 เพศ
                             </label>
                             <div class="gender-selector">
@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 mb-3">
                         <div class="col-12 mb-3" *ngIf="customerType === 2">
-                          <label class="label-input" for="gender">
+                          <label class="label-input required-field" for="gender">
                               เพศ
                           </label>
                           <div class="gender-selector">
