@@ -155,6 +155,7 @@ export class GeneralInfoComponent {
       queryType: 2,
       customer: {
         id: this.customerId,
+        requestParam: this.restApiService.generateRequestParam()
       }
     };
     this.restApiService

@@ -15,6 +15,13 @@ export class RestApiService {
     private httpClient: HttpClient
   ) { }
 
+  generateRequestParam() {
+    return {
+      reqId: self.crypto.randomUUID(),
+      channelId: this.requestParamChannelId
+    }
+  }
+
   post(url: string, data: any): Observable<ResponseMessageModel> {
     const requestParam ={
       reqId: self.crypto.randomUUID(),
