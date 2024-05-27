@@ -48,6 +48,7 @@ export class AddWalletModalComponent {
       customer: {
         id: this.customerId,
         customerTypeId: this.customerTypeId,
+        requestParam: this.restApiService.generateRequestParam(),
       },
       wallet: {
         walletTypeId: this.form.get('walletType')?.value,
@@ -76,7 +77,7 @@ export class AddWalletModalComponent {
         error: (err) => {
           this.modalDialogService.hideLoading();
           console.error(err);
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       })
   }
