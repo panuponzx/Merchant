@@ -8,14 +8,14 @@
             <div class="col-sm-12 col-md-6 mb-3">
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <label class="label-input" for="licensePlateInput">
+                        <label class="label-input required-field" for="licensePlateInput">
                             ทะเบียนรถ
                         </label>
                         <input class="form-control" data-testid="licensePlateInput" formControlName="licensePlate"
                             id="licensePlateInput" type="text">
                     </div>
                     <div class="col-6 mb-3">
-                        <label class="label-input" for="province">
+                        <label class="label-input required-field" for="province">
                           จังหวัด
                         </label>
                         <ng-select
@@ -34,7 +34,7 @@
 
                 </div>
                 <div class="col-12 mb-3">
-                    <label class="label-input" for="fullnameCarOwnerInput">
+                    <label class="label-input required-field" for="fullnameCarOwnerInput">
                         ชื่อเจ้าของรถ
                     </label>
                     <input class="form-control" data-testid="fullnameCarOwnerInput" formControlName="fullnameCarOwner"
@@ -42,7 +42,7 @@
                 </div>
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <label class="label-input" for="brandSelect">
+                        <label class="label-input required-field" for="brandSelect">
                             ยี่ห้อ
                         </label>
                         <ng-select
@@ -58,7 +58,7 @@
                         </ng-select>
                     </div>
                     <div class="col-6 mb-3">
-                        <label class="label-input" for="modelSelect">
+                        <label class="label-input required-field" for="modelSelect">
                             รุ่น
                         </label>
                         <input class="form-control" placeholder="กรุณาระบุ" id="modelSelect" formControlName="model" data-testid="modelSelect" type="text">
@@ -67,14 +67,14 @@
                 </div>
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <label class="label-input" for="yearRegistrationSelect">
+                        <label class="label-input required-field" for="yearRegistrationSelect">
                             ปีจดทะเบียน
                         </label>
                         <input class="form-control" data-testid="yearRegistrationSelect" formControlName="yearRegistration"
                             id="yearRegistrationSelect" type="number" min="1900">
                     </div>
                     <div class="col-6 mb-3">
-                        <label class="label-input" for="color">
+                        <label class="label-input required-field" for="color">
                             สีรถ
                         </label>
                         <input class="form-control" placeholder="กรุณาระบุ" id="color" formControlName="color" data-testid="color" type="text">
@@ -105,7 +105,7 @@
                         id="smartcardNoInput" type="text">
                 </div>
                 <div class="col-12 mb-3">
-                    <h3 class="mb-3">ประเภทรถผู้ใช้งาน</h3>
+                    <h3 class="mb-3 required-field">ประเภทรถผู้ใช้งาน</h3>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" formControlName="isType9" [value]="false" name="isType9" id="carNormalRadio">
                         <label class="label-input" for="carNormalRadio">
@@ -149,7 +149,7 @@
         </div>
         <div class="right d-flex justify-content-center gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ยกเลิก</button>
-            <button class="custom-btn btn-type-1" (click)="onEnter()">แก้ไข</button>
+            <button class="custom-btn btn-type-1" (click)="onEnter()" [disabled]="form.invalid">แก้ไข</button>
         </div>
     </div>
 </div>
