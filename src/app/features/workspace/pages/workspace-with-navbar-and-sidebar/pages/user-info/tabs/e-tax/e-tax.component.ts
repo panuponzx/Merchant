@@ -87,34 +87,28 @@ export class ETaxComponent implements OnInit {
         map(res => res as any)
       ).subscribe({
         next: (res) => {
-          console.log("[loadEtax] res => ", res);
-          if (res.errorMessage === "Success") {
-            this.customerEtax = res.customer;
-            this.setFormGroup(res.customer);
-            console.log("[loadEtax] customerEtax => ", this.customerEtax.id);
-          } else {
-
-          }
+          this.customerEtax = res.customer;
+          this.setFormGroup(res.customer);
         },
         error: (err) => {
           console.error(err);
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       });
   }
 
   setFormGroup(customerEtax: ICustomerEtaxResModel) {
     this.form.get('isEtaxActive')?.setValue(customerEtax.isEtaxActive);
-    if (customerEtax.etaxSettingLevel === 1 || customerEtax.etaxSettingLevel === 2) {
+    if (customerEtax.etaxSettingLevel === 1) {
       this.form.get('etaxSettingLevel')?.setValue(customerEtax.etaxSettingLevel);
-      if (customerEtax.etaxSettingLevel === 1) this.form.get('emailType0')?.setValue(customerEtax.customerEtax[0].email);
+      this.form.get('emailType0')?.setValue(customerEtax.customerEtax[0].email);
+    } else if (customerEtax.etaxSettingLevel === 2) {
+      this.form.get('etaxSettingLevel')?.setValue(customerEtax.etaxSettingLevel);
     }
+
     for (let i = 0; i < customerEtax.customerEtax.length; i++) {
-      console.log(customerEtax.customerEtax[i]);
       switch (customerEtax.customerEtax[i].etaxTypeId) {
         case 1: {
-          console.log(customerEtax.customerEtax[i].email);
-
           this.form.get('emailType1')?.setValue(customerEtax.customerEtax[i].email);
           this.form.get('isEtaxActive1')?.setValue(customerEtax.customerEtax[i].isEtaxActive);
           break;
@@ -144,9 +138,6 @@ export class ETaxComponent implements OnInit {
   }
 
   onChangeIsEtaxActive(event: any, email: string | undefined = undefined) {
-    console.log("[onChangeIsEtaxActive] event => ", event);
-    console.log("[onChangeIsEtaxActive] isEtaxActive => ", this.form.get('isEtaxActive')?.value);
-    if (this.customerEtax.isEtaxActive === false && this.customerEtax.customerEtax.length === 0) return;
     let data = {
       customer: {
         id: this.customerId,
@@ -165,15 +156,13 @@ export class ETaxComponent implements OnInit {
         ),
       },
     };
-    console.log("[onChangeIsEtaxActive] data => ", data);
     this.restApiService
       .postBackOffice('customer/etax/edit', data)
       .pipe(
         first(),
         map(res => res as any)
       ).subscribe({
-        next: (res) => {
-          console.log("[loadEtax] res => ", res);
+        next: (res) => {    
           this.modalDialogService.hideLoading();
           if (res.errorMessage === "Success") {
             this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การเพิ่ม/เปลี่ยนอีเมลรับใบกำกับภาษีสำเร็จ').then((res: boolean) => {
@@ -283,9 +272,6 @@ export class ETaxComponent implements OnInit {
         } else if (result) {
           this.onChangeActiveEtaxByTypeId({ target: { checked: true } }, etaxTypeId, result);
         }
-      },
-      (reason) => {
-        console.log('[onAction] reason => ', reason);
       }
     );
   }

@@ -48,7 +48,7 @@
                     ได้ถูกส่งไปที่อีเมล {{email.value}} <br> 
                     Ref code : {{otpData.ref_code}}
                 </p>
-                <ng-otp-input [config]="ngOtpConfig" [formCtrl]="otpCtrl" class="mb-2"></ng-otp-input>
+                <ng-otp-input  #ngOtpInput [config]="ngOtpConfig" [formCtrl]="otpCtrl" class="mb-2"></ng-otp-input>
                 <div class="mt-3">
                     <a class="etax-link mouse" (click)="onSentOtpAgain()" *ngIf="otpDelay==0">ส่งอีเมลอีกครั้ง</a>
                     <span for="" *ngIf="otpDelay>0">ส่งอีเมลอีกครั้ง ({{otpDelay}})</span>

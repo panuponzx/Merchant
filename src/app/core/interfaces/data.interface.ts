@@ -238,6 +238,10 @@ export interface IEmailOtpModel {
   verify_use: string,
 }
 
+export interface IEmailOtpVerifyModel {
+  verified: boolean,
+}
+
 export interface IPassageModel {
   walletName: string,
   amount: number,

@@ -1,8 +1,9 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgOtpInputComponent } from 'ng-otp-input';
 import { first, map } from 'rxjs';
-import { IEmailOtpModel, ResponseModel } from 'src/app/core/interfaces';
+import { IEmailOtpModel, IEmailOtpVerifyModel, ResponseModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 
 @Component({
@@ -11,7 +12,8 @@ import { RestApiService } from 'src/app/core/services';
   styleUrl: './email-verification-modal.component.scss'
 })
 export class EmailVerificationModalComponent {
-
+  @ViewChild('ngOtpInput') ngOtpInputRef:any;
+  
   public stepEnum = {
     SENT_OTP: "sent-otp",
     CONFIRM_OTP: "confirm-otp",
@@ -19,7 +21,7 @@ export class EmailVerificationModalComponent {
   }
   public step: string = this.stepEnum.SENT_OTP;
   public ngOtpConfig={
-    length:6,
+    length: 6,
     allowNumbersOnly: true
   }
   // public form: FormGroup;
@@ -30,6 +32,7 @@ export class EmailVerificationModalComponent {
   public otpDelay: number = 0;
   public otpDelayInterval: any | undefined;
   public errorMessage: string | undefined;
+
   
   
   constructor(private formBuilder: FormBuilder,
@@ -66,7 +69,7 @@ export class EmailVerificationModalComponent {
     if(this.otpDelayInterval) clearInterval(this.otpDelayInterval);
     this.otpDelayInterval = setInterval(() => {
       this.otpDelay--;
-      console.log(this.otpDelay);
+      // console.log(this.otpDelay);
       
       if (this.otpDelay == 0) {
         clearInterval(this.otpDelayInterval);
@@ -112,19 +115,27 @@ export class EmailVerificationModalComponent {
 
     this.restApiService.postBackOffice('notification/email-otp-verify', data).pipe(
       first(),
+      map((response) => {
+        let res = response as ResponseModel<IEmailOtpVerifyModel>;
+        if(res.data.verified === false) {
+          throw new Error("OTP is invalid");
+        }
+        return res;
+      }),
     ).subscribe(
       {
         next: (response) => {
-          let data = response as ResponseModel<IEmailOtpModel>;
-          this.otpData = data.data;
           this.isLoading = false;
         },
         error: (error) => {
-          console.error(error.error);
-          this.errorMessage = `Server Error: ${error.error.errorMessage}`;
+          this.ngOtpInputRef.setValue('');
+          console.error(error.message || error.error.errorMessage);
+          this.errorMessage = `Server Error: ${error.message || error.error.errorMessage}`;
           this.isLoading = false;
         },
         complete: () => {
+          console.log("complete");
+          
           this.ngbActiveModal.close(this.email.value);
         }
       }
