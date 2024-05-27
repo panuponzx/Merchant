@@ -261,7 +261,7 @@
             <p style="color:rgba(34, 85, 206, 1)" *ngIf="pendingRequest.status === 1">รายการนี้ถูกอนุมัติไปแล้ว
                 เมื่อวันที่
                 {{ rowDescription.updateDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</p>
-            <p style="color:rgba(214, 50, 38, 1);" *ngIf="pendingRequest.status === 2">รายการนี้ถูกอนุมัติไปแล้ว
+            <p style="color:rgba(214, 50, 38, 1);" *ngIf="pendingRequest.status === 2">รายการนี้ถูกปฏิเสธไปแล้ว
                 เมื่อวันที่ {{ rowDescription.updateDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</p>
         </div>
         <hr class="hr-custom mb-3" />

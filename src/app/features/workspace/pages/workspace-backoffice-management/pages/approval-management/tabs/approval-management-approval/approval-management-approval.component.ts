@@ -160,9 +160,10 @@ export class ApprovalManagementApprovalComponent {
     // this.collectionSize = this.rows.length;
   }
 
-  loadPendingRequest(type: number, status: number) {
+  loadPendingRequest(type: number, status: number, page: number = 1) {
     const data = {
-      page: 1,
+      // page: 1,
+      page: page,
       content: {
         eventType: type,
         status: status,
@@ -208,6 +209,8 @@ export class ApprovalManagementApprovalComponent {
 
   onChangePage(event: number) {
     this.pages = event;
+    // console.log("[onChangePage] event => ", event);
+    this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status, event);
   }
 
   onChangeBranch(event: any) {
