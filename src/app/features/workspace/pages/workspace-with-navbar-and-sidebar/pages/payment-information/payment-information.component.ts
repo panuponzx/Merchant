@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { zip, Observable } from 'rxjs';
-import { CustomerModel, WalletSummaryModel, HistoryPayloadModel, CustomeActivatedRouteModel, ReponseCustomerModel, ReponseWalletSummaryModel } from '../../../../../../core/interfaces';
+import { CustomerModel, WalletSummaryModel, HistoryPayloadModel, CustomeActivatedRouteModel, ReponseCustomerModel, ReponseWalletSummaryModel, IWalletInfoModel, ResponseModel } from '../../../../../../core/interfaces';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
@@ -21,7 +21,7 @@ export class PaymentInformationComponent implements OnInit {
 
   public activeTab: 'billing-pending' | 'pay-information' | 'topup-information' = 'billing-pending';
 
-  public wallets: WalletSummaryModel[] = [];
+  public wallets: IWalletInfoModel[] = [];
   public allWallet: WalletSummaryModel = {
     totalBalance: 0,
     totalPoint: 0,
@@ -77,8 +77,8 @@ export class PaymentInformationComponent implements OnInit {
         if (info[0].customer) {
           this.customer = info[0].customer;
         }
-        if (info[1].lstSummary) {
-          this.wallets = [...[this.allWallet], ...info[1].lstSummary];
+        if (info[1].data) {
+          this.wallets = info[1].data;
         }
         this.isLoading = false;
       },
@@ -103,15 +103,27 @@ export class PaymentInformationComponent implements OnInit {
     return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;
   }
 
+  // loadWalletInfo() {
+  //   const mockupData = {
+  //     id: this.customerId,
+  //     requestParam: {
+  //         reqId: "23498-sss-k339c-322s2",
+  //         channelId: "1"
+  //     }
+  //   };
+  //   return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+  // }
+
   loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
       requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: "1"
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "1"
       }
     };
-    return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+    // return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+    return this.restApiService.postBackOffice('wallet/get-wallets', mockupData) as Observable<ResponseModel<IWalletInfoModel[]>>;
   }
 
   onSearch() {
