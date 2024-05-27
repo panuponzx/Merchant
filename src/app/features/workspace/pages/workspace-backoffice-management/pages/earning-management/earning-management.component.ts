@@ -223,15 +223,32 @@ export class EarningManagementComponent {
       });
   }
 
+  onChangePublisher(event: any) {
+    console.log("[onChangePublisher] event => ", event);
+    if (event === true) {
+      let date = new Date();
+      // console.log("[onChangePublisher] dateAdd => ", new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
+      // this.form?.get('startdate')?.setValue(new Date());
+      this.form?.get('startdate')?.setValue(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
+      this.form?.get('startdate')?.disable();
+    }
+    else {
+      this.form?.get('startdate')?.setValue(undefined);
+      this.form?.get('startdate')?.enable();
+    }
+  }
+
   onSelectRoute(item: any) {
     this.form?.get('expressBuilding')?.setValue(undefined);
     this.expressBuilding = [];
-    let routeSelect: any[] = this.route.filter(route =>
-      !!item.find((routeEvent: any) => route.name === routeEvent)
-    );
-    for (let toll of routeSelect) {
-      // console.log(toll);
-      this.expressBuilding.push(...toll.children);
+    if (item) {
+      let routeSelect: any[] = this.route.filter(route =>
+        !!item.find((routeEvent: any) => route.name === routeEvent)
+      );
+      for (let toll of routeSelect) {
+        // console.log(toll);
+        this.expressBuilding.push(...toll.children);
+      }
     }
     this.expressBuilding?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
   }
@@ -273,8 +290,6 @@ export class EarningManagementComponent {
 
   onSubmit() {
     console.log("[onSubmit] form => ", this.form.value);
-    const toDate = this.transformDatePipe.transform(this.form.get('enddate')?.value, `YYYY-MM-DDTHH:mm:ss.SSSZ`);
-    const fromDate = this.transformDatePipe.transform(this.form.get('startdate')?.value, `YYYY-MM-DDTHH:mm:ss.SSSZ`);
     let payload: any = {};
     if (this.isBaseCampaign) {
       payload = {
@@ -288,6 +303,11 @@ export class EarningManagementComponent {
       }
     }
     else {
+      const fromDateValue = this.form.get('startdate')?.value;
+      const fromDate = this.transformDatePipe.transform(new Date(fromDateValue?.getFullYear(), fromDateValue?.getMonth(), fromDateValue?.getDate()), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
+      const toDateValue = this.form.get('enddate')?.value;
+      const toDateValueDate = new Date(toDateValue?.getFullYear(), toDateValue?.getMonth(), toDateValue?.getDate());
+      const toDate = this.transformDatePipe.transform(new Date(toDateValue?.getFullYear(), toDateValue?.getMonth(), toDateValue?.getDate(), toDateValueDate?.getHours() + 23, toDateValueDate?.getMinutes() + 59, toDateValueDate?.getSeconds() + 59, toDateValueDate?.getMilliseconds() + 999), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
       payload = {
         campaignName: this.form.get('campaignName')?.value,
         condition: this.form?.get('conditionPoint')?.value,

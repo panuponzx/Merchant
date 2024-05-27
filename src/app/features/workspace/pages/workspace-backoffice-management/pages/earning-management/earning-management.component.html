@@ -243,7 +243,7 @@
                         </label>
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                             formControlName="startdate" [id]="'birthDateDatePicke'" locale="th"
-                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign"></date-picker>
+                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign || form.value.publishing"></date-picker>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 mb-3">
@@ -265,14 +265,14 @@
             <div class="col-12 mb-3" *ngIf="!isBaseCampaign">
                 <div class="form-check mb-4">
                     <input class="form-check-input" data-testid="draftRadio" id="draftRadio"
-                        formControlName="publishing" type="radio" [value]="false">
+                        formControlName="publishing" type="radio" [value]="false" (ngModelChange)="onChangePublisher($event)">
                     <label class="form-check-label" for="draftRadio">
                         บันทึกแบบร่าง
                     </label>
                 </div>
                 <div class="form-check mb-4">
                     <input class="form-check-input" data-testid="publishRadio" id="publishRadio"
-                        formControlName="publishing" type="radio" [value]="true">
+                        formControlName="publishing" type="radio" [value]="true" (ngModelChange)="onChangePublisher($event)">
                     <label class="form-check-label" for="publishRadio">
                         เผยแพร่ทันที / เผยแพร่แบบอัตโนมัติเมื่อถึงเวลา
                     </label>
