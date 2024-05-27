@@ -259,4 +259,6 @@ export interface IWalletInfoModel {
   statusNmae: string,
   typeId: number,
   typeName: string,
+  totalBalance: number,
+  totalPointBalance: number,
 }

@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Observable, zip, map } from 'rxjs';
 import { RestApiService } from '../../../../../../core/services';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CustomeActivatedRouteModel, CustomerModel, ReponseCustomerModel, ReponseWalletSummaryModel, WalletSummaryModel } from '../../../../../../core/interfaces';
+import { CustomeActivatedRouteModel, CustomerModel, IWalletInfoModel, ReponseCustomerModel, ReponseWalletSummaryModel, ResponseModel, WalletSummaryModel } from '../../../../../../core/interfaces';
 import { CustomerTypePipe } from '../../../../../../core/pipes';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 
@@ -19,12 +19,14 @@ export class UserInfoComponent implements OnInit {
   public customerId: string | null = null;
   public customerTypeId: string | null = null;
 
+  public wallets: IWalletInfoModel[] = [];
+
   public activeTab: 'general-info' | 'wallet-info' | 'loyalty-point-info' | 'device-list' | 'e-tax' | string | null ;
 
   public customer: CustomerModel | undefined;
   public walletTotal: number = 0;
-  public totalLoyaltyPoint: number = 0;
-  public totalBalance: number = 0;
+  public totalLoyaltyPoint: number=0;
+  public totalBalance: number=0;
 
   public isLoading: boolean = false;
 
@@ -62,11 +64,11 @@ export class UserInfoComponent implements OnInit {
           // this.customer.citizenDocId = 4; // Demo
           this.customerTypeId = this.customerTypePipe.transform(this.customer, 'id');
         }
-        if (info[1].lstSummary) {
-          this.walletTotal = info[1].lstSummary.length;
+        if (info[1].data) {
+          this.walletTotal = info[1].data.length;
           console.log("[loadCustomerInfo] info => ", info);
-          this.totalLoyaltyPoint = info[1].lstSummary.reduce((a, b) => a + b.totalPoint, 0);
-          this.totalBalance = info[1].lstSummary.reduce((a, b) => a + b.totalBalance, 0);
+          this.totalLoyaltyPoint = info[1].data.reduce((a, b) => a + b.totalPointBalance, 0);
+          this.totalBalance = info[1].data.reduce((a, b) => a + b.totalBalance, 0);
         }
         this.isLoading = false;
         console.log("[loadCustomerInfo] customerTypeId => ", this.customerTypeId);
@@ -99,11 +101,12 @@ export class UserInfoComponent implements OnInit {
     const mockupData = {
       id: this.customerId,
       requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: "1"
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "1"
       }
     };
-    return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+    // return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+    return this.restApiService.postBackOffice('wallet/get-wallets', mockupData) as Observable<ResponseModel<IWalletInfoModel[]>>;
   }
 
   onChangeNav(event: NgbNavChangeEvent) {

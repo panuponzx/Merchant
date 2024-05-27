@@ -22,24 +22,13 @@ export class PaymentInformationComponent implements OnInit {
   public activeTab: 'billing-pending' | 'pay-information' | 'topup-information' = 'billing-pending';
 
   public wallets: IWalletInfoModel[] = [];
-  public allWallet: WalletSummaryModel = {
-    totalBalance: 0,
-    totalPoint: 0,
-    totalPointBalance: 0,
-    walletId: 0,
-    walletName: 'ทุกกระเป๋า',
-    walletStatus: 0,
-    walletTypeId: 0,
-    walletTypeName: 'ทุกกระเป๋า',
-    lstCars: [],
-    lstObus: []
-  }
+  
 
   public submitted: boolean = false;
   public form: FormGroup = new FormGroup({
     startDate: new FormControl(undefined, [ Validators.required ]),
     endDate: new FormControl(undefined, [ Validators.required ]),
-    walletId: new FormControl(this.allWallet.walletId, [ Validators.required ])
+    walletId: new FormControl(undefined, [ Validators.required ])
   });
 
   public tempSearch: HistoryPayloadModel | undefined;
@@ -67,6 +56,7 @@ export class PaymentInformationComponent implements OnInit {
 
   loadCustomerInfo() {
     this.isLoading = true;
+    this.modalDialogService.loading();
     zip(
       this.loadCustomer(),
       this.loadWalletInfo()
@@ -81,8 +71,10 @@ export class PaymentInformationComponent implements OnInit {
           this.wallets = info[1].data;
         }
         this.isLoading = false;
+        this.modalDialogService.hideLoading();
       },
       error: (err) => {
+        this.modalDialogService.hideLoading();
         console.error(err);
         this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
