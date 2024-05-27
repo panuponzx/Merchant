@@ -19,6 +19,8 @@ export class RestApiService {
   }
 
   postAddForJuristic(url: string, data: any, file: File): Observable<ResponseMessageModel> {
+    data.requestParam.reqId = self.crypto.randomUUID();
+    data.requestParam.channelId = 1;
     const baseURL = environment.apiBackOffice + '/' + url;
     const formData: FormData = new FormData();
     formData.append("file", file)
