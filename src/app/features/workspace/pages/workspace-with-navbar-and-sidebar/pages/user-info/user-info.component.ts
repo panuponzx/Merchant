@@ -49,6 +49,7 @@ export class UserInfoComponent implements OnInit {
 
   loadCustomerInfo() {
     this.isLoading = true;
+    this.modalDialogService.loading();
     zip(
       this.loadCustomer(),
       this.loadWalletInfo()
@@ -68,6 +69,7 @@ export class UserInfoComponent implements OnInit {
           this.totalLoyaltyPoint = info[1].lstSummary.reduce((a, b) => a + b.totalPoint, 0);
           this.totalBalance = info[1].lstSummary.reduce((a, b) => a + b.totalBalance, 0);
         }
+        this.modalDialogService.hideLoading();
         this.isLoading = false;
         console.log("[loadCustomerInfo] customerTypeId => ", this.customerTypeId);
         console.log("[loadCustomerInfo] customer => ", this.customer);
@@ -75,6 +77,7 @@ export class UserInfoComponent implements OnInit {
 
       },
       error: (err) => {
+        this.modalDialogService.hideLoading();
         console.error(err);
         this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
