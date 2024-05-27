@@ -142,7 +142,7 @@
         </div>
       </div>
 
-      <div class="mb-3" *ngIf="form.value.searchType === 'device'" [@fadeInseach]>
+      <div class="mb-3" *ngIf="form.value.searchType === 'device' && form.value.deviceType != undefined" [@fadeInseach]>
         <label class="label-input">กรุณาระบุ</label>
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
