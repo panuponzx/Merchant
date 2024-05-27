@@ -91,6 +91,7 @@ export class UserInfoComponent implements OnInit {
       queryType: 2,
       customer: {
           id: this.customerId,
+          requestParam: this.restApiService.generateRequestParam()
       }
     };
     return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;

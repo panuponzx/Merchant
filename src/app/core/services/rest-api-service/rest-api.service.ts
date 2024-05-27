@@ -15,16 +15,29 @@ export class RestApiService {
     private httpClient: HttpClient
   ) { }
 
+  generateRequestParam() {
+    return {
+      reqId: self.crypto.randomUUID(),
+      channelId: this.requestParamChannelId
+    }
+  }
+
   post(url: string, data: any): Observable<ResponseMessageModel> {
-    data.requestParam.reqId = self.crypto.randomUUID();
-    data.requestParam.channelId = this.requestParamChannelId;
+    const requestParam ={
+      reqId: self.crypto.randomUUID(),
+      channelId: this.requestParamChannelId
+    }
+    data['requestParam'] = requestParam;
     const baseURL = environment.api + '/' + url;
     return this.httpClient.post<ResponseMessageModel>(baseURL, data);
   }
 
   postAddForJuristic(url: string, data: any, file: File): Observable<ResponseMessageModel> {
-    data.requestParam.reqId = self.crypto.randomUUID();
-    data.requestParam.channelId = this.requestParamChannelId;
+    const requestParam ={
+      reqId: self.crypto.randomUUID(),
+      channelId: this.requestParamChannelId
+    }
+    data['requestParam'] = requestParam;
     const baseURL = environment.apiBackOffice + '/' + url;
     const formData: FormData = new FormData();
     formData.append("file", file)
@@ -33,8 +46,11 @@ export class RestApiService {
   }
 
   postBackOffice(endpoint: string, body: any): Observable<ResponseMessageModel>{
-    body.requestParam.reqId = self.crypto.randomUUID();
-    body.requestParam.channelId = this.requestParamChannelId;
+    const requestParam ={
+      reqId: self.crypto.randomUUID(),
+      channelId: this.requestParamChannelId
+    }
+    body['requestParam'] = requestParam;
     const url = environment.apiBackOffice + '/' + endpoint;
     return this.httpClient.post<ResponseMessageModel>(url, body)
   }
