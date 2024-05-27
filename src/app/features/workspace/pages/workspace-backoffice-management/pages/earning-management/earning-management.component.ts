@@ -301,10 +301,7 @@ export class EarningManagementComponent {
         carTypes: this.form?.get('carType')?.value,
         isAllCarTypes: this.getStatusSelectAll('carType'),
         lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DDTHH:mm:ss.SSSZ`),
-        requestParam: {
-          reqId: '',
-          channelId: '',
-        }
+        requestParam: this.restApiService.generateRequestParam(),
       }
     }
     else {
@@ -325,10 +322,7 @@ export class EarningManagementComponent {
         fromDate: fromDate,
         toDate: toDate,
         publish: this.form.get('publishing')?.value,
-        requestParam: {
-          reqId: '',
-          channelId: '',
-        }
+        requestParam: this.restApiService.generateRequestParam(),
       }
     }
     console.log("[onSubmit] form => ", payload);
