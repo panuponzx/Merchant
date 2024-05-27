@@ -243,7 +243,8 @@
                         </label>
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                             formControlName="startdate" [id]="'birthDateDatePicke'" locale="th"
-                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign || form.value.publishing"></date-picker>
+                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign || form.value.publishing"
+                            [minDate]="today"></date-picker>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 mb-3">
@@ -253,7 +254,8 @@
                         </label>
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                             formControlName="enddate" [id]="'birthDateDatePicke'" locale="th"
-                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign"></date-picker>
+                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign"
+                            [minDate]="form.value.startdate || today"></date-picker>
                     </div>
                 </div>
             </div>

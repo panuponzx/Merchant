@@ -67,6 +67,8 @@ export class EarningManagementComponent {
 
   public isLoading = false;
 
+  public today: Date = new Date();
+
   constructor(
     private restApiService: RestApiService,
     private formBuilder: FormBuilder,
@@ -227,14 +229,13 @@ export class EarningManagementComponent {
     console.log("[onChangePublisher] event => ", event);
     if (event === true) {
       let date = new Date();
-      // console.log("[onChangePublisher] dateAdd => ", new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
       // this.form?.get('startdate')?.setValue(new Date());
       this.form?.get('startdate')?.setValue(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
-      this.form?.get('startdate')?.disable();
+      // this.form?.get('startdate')?.disable();
     }
     else {
       this.form?.get('startdate')?.setValue(undefined);
-      this.form?.get('startdate')?.enable();
+      // this.form?.get('startdate')?.enable();
     }
   }
 
@@ -299,15 +300,16 @@ export class EarningManagementComponent {
         takePoint: this.form?.get('takePoint')?.value,
         carTypes: this.form?.get('carType')?.value,
         isAllCarTypes: this.getStatusSelectAll('carType'),
-        lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DDTHH:mm:ss.SSSZ`)
+        lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DDTHH:mm:ss.SSSZ`),
+        requestParam: {
+          reqId: '',
+          channelId: '',
+        }
       }
     }
     else {
-      const fromDateValue = this.form.get('startdate')?.value;
-      const fromDate = this.transformDatePipe.transform(new Date(fromDateValue?.getFullYear(), fromDateValue?.getMonth(), fromDateValue?.getDate()), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
-      const toDateValue = this.form.get('enddate')?.value;
-      const toDateValueDate = new Date(toDateValue?.getFullYear(), toDateValue?.getMonth(), toDateValue?.getDate());
-      const toDate = this.transformDatePipe.transform(new Date(toDateValue?.getFullYear(), toDateValue?.getMonth(), toDateValue?.getDate(), toDateValueDate?.getHours() + 23, toDateValueDate?.getMinutes() + 59, toDateValueDate?.getSeconds() + 59, toDateValueDate?.getMilliseconds() + 999), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
+      const fromDate = this.transformDatePipe.transform(this.form.get('startdate')?.value?.setHours(0, 0, 0, 0), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
+      const toDate = this.transformDatePipe.transform(this.form.get('enddate')?.value?.setHours(23, 59, 59, 999), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
       payload = {
         campaignName: this.form.get('campaignName')?.value,
         condition: this.form?.get('conditionPoint')?.value,
@@ -322,10 +324,14 @@ export class EarningManagementComponent {
         isAllCarTypes: this.getStatusSelectAll('carType'),
         fromDate: fromDate,
         toDate: toDate,
-        publish: this.form.get('publishing')?.value
+        publish: this.form.get('publishing')?.value,
+        requestParam: {
+          reqId: '',
+          channelId: '',
+        }
       }
     }
-    // console.log("[onSubmit] form => ", payload);
+    console.log("[onSubmit] form => ", payload);
     const url = !this.isEditCondition ? 'campaign/add' : this.isBaseCampaign ? 'campaign/edit-base' : `campaign/${this.form?.get('id')?.value}/edit`;
     const message = this.isEditCondition ? 'แก้ไขเงือนไขการให้คะแนนสำเร็จ' : 'เพิ่มเงือนไขการให้คะแนนสำเร็จ';
     this.modalDialogService.loading();
