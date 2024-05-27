@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomeActivatedRouteModel, CustomerModel, HistoryPayloadModel, ReponseCustomerModel, ReponseWalletSummaryModel, WalletSummaryModel } from '../../../../../../core/interfaces';
+import { CustomeActivatedRouteModel, CustomerModel, HistoryPayloadModel, IWalletInfoModel, ReponseCustomerModel, ReponseWalletSummaryModel, ResponseModel, WalletSummaryModel } from '../../../../../../core/interfaces';
 import { Observable, zip } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestApiService } from '../../../../../../core/services';
@@ -21,7 +21,7 @@ export class TransferInformationComponent implements OnInit {
 
   public activeTab: 'billing-pending' | 'pay-information' | 'topup-information' = 'billing-pending';
 
-  public wallets: WalletSummaryModel[] = [];
+  public wallets: IWalletInfoModel[] = [];
   public allWallet: WalletSummaryModel = {
     totalBalance: 0,
     totalPoint: 0,
@@ -77,8 +77,8 @@ export class TransferInformationComponent implements OnInit {
         if (info[0].customer) {
           this.customer = info[0].customer;
         }
-        if (info[1].lstSummary) {
-          this.wallets = [...[this.allWallet], ...info[1].lstSummary];
+        if (info[1].data) {
+          this.wallets = info[1].data;
         }
         this.isLoading = false;
       },
@@ -103,15 +103,27 @@ export class TransferInformationComponent implements OnInit {
     return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;
   }
 
+  // loadWalletInfo() {
+  //   const mockupData = {
+  //     id: this.customerId,
+  //     requestParam: {
+  //         reqId: "23498-sss-k339c-322s2",
+  //         channelId: "1"
+  //     }
+  //   };
+  //   return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+  // }
+
   loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
       requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: "1"
+        reqId: "23498-sss-k339c-322s2",
+        channelId: "1"
       }
     };
-    return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+    // return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
+    return this.restApiService.postBackOffice('wallet/get-wallets', mockupData) as Observable<ResponseModel<IWalletInfoModel[]>>;
   }
 
   onSearch() {
