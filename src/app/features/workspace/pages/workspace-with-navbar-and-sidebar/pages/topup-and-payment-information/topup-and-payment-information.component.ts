@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, zip } from 'rxjs';
+import { Observable, concat, zip } from 'rxjs';
 import { CustomeActivatedRouteModel, CustomerModel, IWalletInfoModel, ReponseCustomerModel, ReponseWalletSummaryModel, ResponseModel, WalletSummaryModel } from '../../../../../../core/interfaces';
 import { HistoryPayloadModel } from '../../../../../../core/interfaces/payload.interface';
 import { TransformDatePipe } from '../../../../../../core/pipes';
@@ -23,17 +23,15 @@ export class TopupAndPaymentInformationComponent implements OnInit {
   public activeTab: 'billing-pending' | 'pay-information' | 'topup-information' = 'billing-pending';
 
   public wallets: IWalletInfoModel[] = [];
-  public allWallet: WalletSummaryModel = {
+  public allWallet: IWalletInfoModel = {
     totalBalance: 0,
-    totalPoint: 0,
+    statusNmae: '',
     totalPointBalance: 0,
-    walletId: 0,
-    walletName: 'ทุกกระเป๋า',
-    walletStatus: 0,
-    walletTypeId: 0,
-    walletTypeName: 'ทุกกระเป๋า',
-    lstCars: [],
-    lstObus: []
+    id: 0,
+    name: 'ทุกกระเป๋า',
+    statusId: 0,
+    typeId: 0,
+    typeName: 'ทุกกระเป๋า',
   }
   
 
@@ -41,7 +39,7 @@ export class TopupAndPaymentInformationComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     startDate: new FormControl(undefined, [ Validators.required ]),
     endDate: new FormControl(undefined, [ Validators.required ]),
-    walletId: new FormControl(this.allWallet, [ Validators.required ])
+    walletId: new FormControl(this.allWallet.id, [ Validators.required ])
   });
 
   public tempSearch: HistoryPayloadModel | undefined;
@@ -81,7 +79,7 @@ export class TopupAndPaymentInformationComponent implements OnInit {
           this.customer = info[0].customer;
         }
         if (info[1].data) {
-          this.wallets = info[1].data;
+          this.wallets = [this.allWallet, ].concat(info[1].data)
         }
         this.modalDialogService.hideLoading();
         this.isLoading = false;

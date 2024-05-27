@@ -22,17 +22,15 @@ export class TransferInformationComponent implements OnInit {
   public activeTab: 'billing-pending' | 'pay-information' | 'topup-information' = 'billing-pending';
 
   public wallets: IWalletInfoModel[] = [];
-  public allWallet: WalletSummaryModel = {
+  public allWallet: IWalletInfoModel = {
     totalBalance: 0,
-    totalPoint: 0,
+    statusNmae: '',
     totalPointBalance: 0,
-    walletId: 0,
-    walletName: 'ทุกกระเป๋า',
-    walletStatus: 0,
-    walletTypeId: 0,
-    walletTypeName: 'ทุกกระเป๋า',
-    lstCars: [],
-    lstObus: []
+    id: 0,
+    name: 'ทุกกระเป๋า',
+    statusId: 0,
+    typeId: 0,
+    typeName: 'ทุกกระเป๋า',
   }
   
 
@@ -40,7 +38,7 @@ export class TransferInformationComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     startDate: new FormControl(undefined, [ Validators.required ]),
     endDate: new FormControl(undefined, [ Validators.required ]),
-    walletId: new FormControl(this.allWallet, [ Validators.required ])
+    walletId: new FormControl(this.allWallet.id, [ Validators.required ])
   });
 
   public tempSearch: HistoryPayloadModel | undefined;
@@ -80,7 +78,7 @@ export class TransferInformationComponent implements OnInit {
           this.customer = info[0].customer;
         }
         if (info[1].data) {
-          this.wallets = info[1].data;
+          this.wallets = [this.allWallet, ].concat(info[1].data)
         }
         this.isLoading = false;
         this.modalDialogService.hideLoading();
