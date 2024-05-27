@@ -81,39 +81,8 @@ export class DeviceListComponent implements OnInit {
     });
   }
 
-  // loadDevice(tab: string) {
-  //   this.isLoading = true;
-  //   const data = {
-  //     requestParam: {
-  //       reqId: "23498-sss-k339c-322s2",
-  //       channelId: "4"
-  //     }
-  //   };
-  //   return this.restApiService
-  //     .post(`faremedia/get/${tab}/customer/${this.customerId}`, data)
-  //     .pipe(
-  //       first(),
-  //       map(res => res as IResponseFaremediaModel)
-  //     ).subscribe({
-  //       next: (res) => {
-  //         console.log("[loadActiveDevice] res => ", res);
-  //         if (tab === 'active') this.activeRows = res.data;
-  //         else if (tab === 'inactive') this.inactiveRows = res.data;
-  //         this.isLoading = false;
-  //       },
-  //       error: (err) => {
-  //         console.error(err);
-  //       }
-  //     });
-  // }
-
   loadDevice(tab: string): Observable<IResponseFaremediaModel> {
-    const data = {
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "4"
-      }
-    };
+    const data = {};
     return this.restApiService
       .post(`faremedia/get/${tab}/customer/${this.customerId}`, data)
       .pipe(
@@ -122,31 +91,9 @@ export class DeviceListComponent implements OnInit {
       );
   }
 
-  // loadDevice() {
-  //   this.isLoading = true;
-  //   zip(
-  //     this.loadWalletInfo(),
-  //     this.loadCustomerObu()
-  //   )
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.setActive(res[0].lstSummary);
-  //         this.setinactive(res[1].obus);
-  //         this.isLoading = false;
-  //       },
-  //       error: (err) => {
-  //         console.error(err);
-  //       }
-  //     })
-  // }
-
   loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      }
     };
     return this.restApiService
       .post('get-summary', mockupData)
@@ -156,45 +103,11 @@ export class DeviceListComponent implements OnInit {
       );
   }
 
-  // setActive(lstSummary: WalletSummaryModel[]) {
-  //   const obus = lstSummary.flatMap(y => {
-  //     let lstObus = [...y.lstObus];
-  //     let newLstObus = lstObus
-  //       .filter(x => Object.keys(x).length !== 0)
-  //       .map(x => {
-  //         let newObu = x;
-  //         newObu.walletId = y.walletId;
-  //         return newObu;
-  //       });
-  //     return newLstObus;
-  //   });
-  //   const cars = lstSummary.flatMap(y => {
-  //     const lstCars = [...y.lstCars];
-  //     const newLstCars = lstCars
-  //       .filter(x => Object.keys(x).length !== 0)
-  //       .map(x => {
-  //         let newCar = x;
-  //         newCar.walletId = y.walletId;
-  //         let obu = obus.find(z => z.walletId === x.walletId && z.index === x.index);
-  //         if (obu) {
-  //           newCar.smartcardNo = obu.smartcardNo;
-  //           newCar.obuPan = obu.obuPan;
-  //         }
-  //         return newCar;
-  //       });
-  //     return newLstCars;
-  //   });
-  //   this.activeRows = [...cars];
-  // }
 
   loadCustomerObu() {
     const mockupData = {
       customer: {
         id: this.customerId,
-        requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: "1"
-        }
       }
     };
     return this.restApiService
@@ -205,17 +118,6 @@ export class DeviceListComponent implements OnInit {
       );
   }
 
-  // setinactive(obus: [ObuInfoModel, CarInfoModel][]) {
-  //   const newCars = obus
-  //     .filter(x => x.length >= 2)
-  //     .map(x => {
-  //       let newCar = x[1];
-  //       newCar.smartcardNo = x[0].smartcardNo;
-  //       newCar.obuPan = x[0].obuPan;
-  //       return newCar;
-  //     });
-  //   this.inactiveRows = [...newCars];
-  // }
 
   onAddDevice() {
 

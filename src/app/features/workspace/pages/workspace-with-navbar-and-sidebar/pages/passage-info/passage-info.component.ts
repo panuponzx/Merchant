@@ -97,10 +97,6 @@ export class PassageInfoComponent implements OnInit {
       queryType: 2,
       customer: {
         id: this.customerId,
-        requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: 1
-        }
       }
     };
     return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;
@@ -109,10 +105,6 @@ export class PassageInfoComponent implements OnInit {
   loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      }
     };
     // return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
     return this.restApiService.postBackOffice('wallet/get-wallets', mockupData) as Observable<ResponseModel<IWalletInfoModel[]>>;
@@ -139,10 +131,6 @@ export class PassageInfoComponent implements OnInit {
     this.modalDialogService.loading();
     const mockupData = {
       customerId: this.customerId,
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "2"
-      },
       from: data.from,
       to: data.to,
       walletId: data.walletId,

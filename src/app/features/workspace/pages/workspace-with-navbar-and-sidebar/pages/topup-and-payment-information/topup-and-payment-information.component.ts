@@ -97,33 +97,14 @@ export class TopupAndPaymentInformationComponent implements OnInit {
       queryType: 2,
       customer: {
           id: this.customerId,
-          requestParam: {
-              reqId: "23498-sss-k339c-322s2",
-              channelId: 1
-          }
       }
     };
     return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;
   }
 
-  // loadWalletInfo() {
-  //   const mockupData = {
-  //     id: this.customerId,
-  //     requestParam: {
-  //         reqId: "23498-sss-k339c-322s2",
-  //         channelId: "1"
-  //     }
-  //   };
-  //   return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
-  // }
-
   loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      }
     };
     // return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
     return this.restApiService.postBackOffice('wallet/get-wallets', mockupData) as Observable<ResponseModel<IWalletInfoModel[]>>;

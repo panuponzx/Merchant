@@ -77,10 +77,6 @@ export class EmailVerificationModalComponent {
   postSentOtp() {
     const data = {
       recipientEmail: this.email.value,
-      requestParam: {
-        channelId: 2,
-        reqId: "111908f1-04e9-499c"
-      }
     };
 
     this.restApiService.postBackOffice('notification/email-otp', data).pipe(
@@ -112,10 +108,6 @@ export class EmailVerificationModalComponent {
       verifyToken: this.otpData.verify_token,
       verifyCode: this.otpCtrl.value,
       refCode: this.otpData.ref_code,
-      requestParam: {
-        channelId: 2,
-        reqId: "111908f1-04e9-499c"
-      }
     };
 
     this.restApiService.postBackOffice('notification/email-otp-verify', data).pipe(

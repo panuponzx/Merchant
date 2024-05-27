@@ -14,6 +14,8 @@ export class RestApiService {
   ) { }
 
   post(url: string, data: any): Observable<ResponseMessageModel> {
+    data.requestParam.reqId = self.crypto.randomUUID();
+    data.requestParam.channelId = 1;
     const baseURL = environment.api + '/' + url;
     return this.httpClient.post<ResponseMessageModel>(baseURL, data);
   }

@@ -91,10 +91,6 @@ export class UserInfoComponent implements OnInit {
       queryType: 2,
       customer: {
           id: this.customerId,
-          requestParam: {
-              reqId: "23498-sss-k339c-322s2",
-              channelId: 1
-          }
       }
     };
     return this.restApiService.post('get-customer', mockupData) as Observable<ReponseCustomerModel>;
@@ -103,10 +99,6 @@ export class UserInfoComponent implements OnInit {
   loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      }
     };
     // return this.restApiService.post('get-summary', mockupData) as Observable<ReponseWalletSummaryModel>;
     return this.restApiService.postBackOffice('wallet/get-wallets', mockupData) as Observable<ResponseModel<IWalletInfoModel[]>>;

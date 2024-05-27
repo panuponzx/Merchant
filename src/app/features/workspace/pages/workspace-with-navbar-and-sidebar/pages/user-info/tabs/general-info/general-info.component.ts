@@ -155,10 +155,6 @@ export class GeneralInfoComponent {
       queryType: 2,
       customer: {
         id: this.customerId,
-        requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: 1
-        }
       }
     };
     this.restApiService
@@ -312,10 +308,6 @@ export class GeneralInfoComponent {
         })
     } else if (this.customerTypeId === '3') {
       const data = {
-        requestParam: {
-          channelId: 4,
-          reqId: 1713329944160
-        },
         content: {
           addresses: [
             {

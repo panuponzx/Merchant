@@ -65,10 +65,6 @@ export class TransferInfoComponent implements OnInit {
   loadTransfer(data: TopupPayloadModel) {
     const mockupData = {
       customerId: this.customerId,
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "2"
-      },
       from: data.from,
       to: data.to,
       walletId: data.walletId,
@@ -109,66 +105,4 @@ export class TransferInfoComponent implements OnInit {
   onAction(event: RowActionEventModel) {
     console.info(event)
   }
-
-  // ngOnInit(): void {
-  //   if (this.tempSearch) {
-  //     this.loadTopupInformation(this.tempSearch);
-  //   }
-  // }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   const tempSearch = changes['tempSearch'];
-  //   if (tempSearch.previousValue) {
-  //     this.loadTopupInformation(tempSearch.currentValue);
-  //   }
-  // }
-
-  // loadTopupInformation(data: TopupPayloadModel) {
-  //   this.isLoading = true;
-  //   this.onLoading.emit(true);
-  //   this.modalDialogService.loading();
-  /* Commented out for testing without API call
-  const mockupData = {
-    requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-    },
-    from: data.from,
-    to: data.to,
-    walletId: data.walletId,
-    page: data.page
-  };
-  this.restApiService
-    .postBackOffice('transaction-history/get-topup', mockupData)
-    .pipe(
-      first(),
-      map(res => res as ReponseTopupModel)
-    )
-    .subscribe({
-      next: (res) => {
-        console.log(res)
-        this.rows = res.transactions;
-        this.collectionSize = res.totalTransactions;
-        this.isLoading = false;
-        this.onLoading.emit(false);
-        this.modalDialogService.hideLoading();
-      },
-      error: (err) => {
-        console.error(err);
-        this.isLoading = false;
-        this.onLoading.emit(false);
-        this.modalDialogService.hideLoading();
-      }
-    });
-  */
 }
-
-// onChangePage(event: number) {
-//   this.pages = event;
-// }
-
-// onAction(event: RowActionEventModel) {
-//   console.info(event)
-// }
-
-// }
