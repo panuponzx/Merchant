@@ -48,10 +48,6 @@ export class AddWalletModalComponent {
       customer: {
         id: this.customerId,
         customerTypeId: this.customerTypeId,
-        requestParam: {
-          reqId: "23498-sss-k339c-322s2",
-          channelId: 1,
-        },
       },
       wallet: {
         walletTypeId: this.form.get('walletType')?.value,

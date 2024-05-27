@@ -55,10 +55,6 @@ export class WaitingPaymentComponent implements OnInit {
     this.onLoading.emit(true);
     this.modalDialogService.loading();
     const mockupData = {
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      },
       status: 'pending',
       from: data.from,
       to: data.to,

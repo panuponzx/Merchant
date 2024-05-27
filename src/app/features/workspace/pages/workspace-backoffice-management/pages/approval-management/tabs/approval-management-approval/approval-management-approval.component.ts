@@ -163,10 +163,6 @@ export class ApprovalManagementApprovalComponent {
   loadPendingRequest(type: number, status: number) {
     const data = {
       page: 1,
-      requestParam: {
-        channelId: 4,
-        reqId: 1712915977405
-      },
       content: {
         eventType: type,
         status: status,
@@ -333,10 +329,6 @@ export class ApprovalManagementApprovalComponent {
       ]
     };
     const data = {
-      requestParam: {
-        channelId: 4,
-        reqId: 1712915977405
-      },
       content: {
         id: this.form.get('id')?.value,
         eventType: PendingRequestEventType.addJuristic,
@@ -418,10 +410,6 @@ export class ApprovalManagementApprovalComponent {
       ]
     };
     const data = {
-      requestParam: {
-        channelId: 4,
-        reqId: 1712915977405
-      },
       content: {
         id: this.form.get('id')?.value,
         eventType: PendingRequestEventType.addJuristic,

@@ -79,10 +79,6 @@ export class ETaxComponent implements OnInit {
       customer: {
         id: this.customerId,
       },
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      }
     };
     return this.restApiService
       .postBackOffice('customer/etax/get', mockupData)
@@ -168,10 +164,6 @@ export class ETaxComponent implements OnInit {
           } : []
         ),
       },
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      }
     };
     console.log("[onChangeIsEtaxActive] data => ", data);
     this.restApiService
@@ -250,10 +242,6 @@ export class ETaxComponent implements OnInit {
           ),
         ],
       },
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      }
     };
     this.modalDialogService.loading();
     this.restApiService

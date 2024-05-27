@@ -214,11 +214,7 @@ export class InputAddUserComponent {
           birthdate: birthDateFormat,
           occupation: this.occupationDetailForm.get('occupation')?.value,
           gender: this.userInfoForm.get('gender')?.value,
-          taxId: '',
-          requestParam: {
-            reqId: "12345",
-            channelId: 1,
-          }
+          taxId: ''
         }, addresses: [
           ...(
             this.userInfoForm.get('identityType')?.value !== 3 ? [{
@@ -326,10 +322,6 @@ export class InputAddUserComponent {
           branchTypeId: this.juristicInfoForm.get('branch')?.value,
           corporateBranch: this.juristicInfoForm.get('branchName')?.value,
           branchId: this.juristicInfoForm.get('branchNo')?.value,
-          requestParam: {
-            reqId: "12345",
-            channelId: 1,
-          }
         }, addresses: [
           {
             typeId: "3",

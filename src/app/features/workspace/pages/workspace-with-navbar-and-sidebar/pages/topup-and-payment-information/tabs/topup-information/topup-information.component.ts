@@ -62,10 +62,6 @@ export class TopupInformationComponent implements OnInit {
     this.modalDialogService.loading();
     const mockupData = {
       customerId: this.customerId,
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      },
       from: data.from,
       to: data.to,
       walletId: data.walletId,
@@ -116,10 +112,6 @@ export class TopupInformationComponent implements OnInit {
         console.log("[confirm] res => ", res);
         if (res) {
           const data = {
-            requestParam: {
-              reqId: "23498-sss-k339c-322s2",
-              channelId: 1
-            },
             transactionId: row.transactionId,
             amount: row.amount,
           }

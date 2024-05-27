@@ -132,10 +132,6 @@ export class SearchUserComponent implements OnInit {
     this.isLoading = true;
 
     let payload: any = {
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      },
       limit: this.pageSize,
       page: this.page
     }

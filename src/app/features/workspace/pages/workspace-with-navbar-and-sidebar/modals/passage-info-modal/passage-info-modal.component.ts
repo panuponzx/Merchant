@@ -51,10 +51,6 @@ export class PassageInfoModalComponent implements OnInit {
 
   onCancelPassage() {
     const data = {
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: 1
-      },
       transactionId: this.form.get('transactionId')?.value,
       amount: this.form.get('amount')?.value,
     }

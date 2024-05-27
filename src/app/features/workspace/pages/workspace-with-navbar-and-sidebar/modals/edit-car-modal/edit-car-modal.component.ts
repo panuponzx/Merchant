@@ -116,10 +116,6 @@ export class EditCarModalComponent {
             wallet: {
               id: this.carInfo.walletId.toString(),
             },
-            requestParam: {
-              reqId: "23498-sss-k339c-322s2",
-              channelId: "1"
-            }
           };
           await firstValueFrom(this.restApiService.postBackOffice('faremedia/suspend-obu-by-staff', payload).pipe(first()))
           // return response.json();
@@ -169,10 +165,6 @@ export class EditCarModalComponent {
             wallet: {
               id: this.carInfo.walletId.toString(),
             },
-            requestParam: {
-              reqId: "23498-sss-k339c-322s2",
-              channelId: "1"
-            }
           };
           await firstValueFrom(this.restApiService.postBackOffice('faremedia/active-obu-by-staff', payload).pipe(first()))
           // return response.json();
@@ -228,10 +220,6 @@ export class EditCarModalComponent {
               remark: this.form.get('remark')?.value, //this.carInfo.remark,
               province: this.form.get('province')?.value, //this.carInfo.province
             },
-            requestParam: {
-              "reqId": "23498-sss-k339c-322s2",
-              "channelId": 1
-            }
           };
           console.log('load', payload);
 

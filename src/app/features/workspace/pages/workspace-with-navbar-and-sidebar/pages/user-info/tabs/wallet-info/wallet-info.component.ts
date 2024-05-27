@@ -62,10 +62,6 @@ export class WalletInfoComponent implements OnInit {
   loadWalletInfo() {
     const mockupData = {
       id: this.customerId,
-      requestParam: {
-        reqId: "23498-sss-k339c-322s2",
-        channelId: "1"
-      }
     };
     return this.restApiService
       .post('get-summary', mockupData)
