@@ -225,19 +225,19 @@ export class EarningManagementComponent {
       });
   }
 
-  onChangePublisher(event: any) {
-    console.log("[onChangePublisher] event => ", event);
-    if (event === true) {
-      let date = new Date();
-      // this.form?.get('startdate')?.setValue(new Date());
-      this.form?.get('startdate')?.setValue(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
-      // this.form?.get('startdate')?.disable();
-    }
-    else {
-      this.form?.get('startdate')?.setValue(undefined);
-      // this.form?.get('startdate')?.enable();
-    }
-  }
+  // onChangePublisher(event: any) {
+  //   console.log("[onChangePublisher] event => ", event);
+  //   if (event === true) {
+  //     let date = new Date();
+  //     // this.form?.get('startdate')?.setValue(new Date());
+  //     this.form?.get('startdate')?.setValue(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
+  //     // this.form?.get('startdate')?.disable();
+  //   }
+  //   else {
+  //     this.form?.get('startdate')?.setValue(undefined);
+  //     // this.form?.get('startdate')?.enable();
+  //   }
+  // }
 
   onSelectRoute(item: any) {
     this.form?.get('expressBuilding')?.setValue(undefined);
@@ -309,8 +309,8 @@ export class EarningManagementComponent {
       const toDate = this.transformDatePipe.transform(this.form.get('enddate')?.value?.setHours(23, 59, 59, 999), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
       payload = {
         campaignName: this.form.get('campaignName')?.value,
-        condition: this.form?.get('conditionPoint')?.value,
-        calculateValue: this.form?.get('calculatePoint')?.value,
+        condition: Number(this.form?.get('conditionPoint')?.value),
+        calculateValue: Number(this.form?.get('calculatePoint')?.value),
         // tollStations: this.form?.get('route')?.value,
         // isAllTollStation: this.getStatusSelectAll('route'),
         tollStations: this.form?.get('expressBuilding')?.value,
@@ -322,6 +322,7 @@ export class EarningManagementComponent {
         fromDate: fromDate,
         toDate: toDate,
         publish: this.form.get('publishing')?.value,
+        lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DDTHH:mm:ss.SSSZ`),
         requestParam: this.restApiService.generateRequestParam(),
       }
     }

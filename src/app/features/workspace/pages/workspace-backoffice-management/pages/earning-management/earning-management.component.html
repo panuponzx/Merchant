@@ -76,7 +76,7 @@
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">ตัวแปรการคำนวนคะแนน</label>
-                        <ng-select class="form-control mb-2" [clearable]="false" bindLabel="name" bindValue="name"
+                        <ng-select class="form-control mb-2" [clearable]="false" bindLabel="name" bindValue="key"
                             id="conditionPoint" data-testid="conditionPoint" formControlName="conditionPoint"
                             [items]="CalculatedVariables" placeholder="กรุณาระบุ">
                         </ng-select>
@@ -87,7 +87,7 @@
                       ตัวเลขการคำนวนคะแนน
                     </label>
                     <input class="form-control" data-testid="calculatePoint" formControlName="calculatePoint" id="calculatePoint"
-                        type="text" placeholder="กรุณาระบุ">
+                        type="number" placeholder="กรุณาระบุ">
                 </div>
                 <h3 class="pb-3">
                     รายละเอียดการคำนวน :
@@ -243,7 +243,7 @@
                         </label>
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                             formControlName="startdate" [id]="'birthDateDatePicke'" locale="th"
-                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign || form.value.publishing"
+                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign"
                             [minDate]="today"></date-picker>
                     </div>
                 </div>
@@ -267,14 +267,14 @@
             <div class="col-12 mb-3" *ngIf="!isBaseCampaign">
                 <div class="form-check mb-4">
                     <input class="form-check-input" data-testid="draftRadio" id="draftRadio"
-                        formControlName="publishing" type="radio" [value]="false" (ngModelChange)="onChangePublisher($event)">
+                        formControlName="publishing" type="radio" [value]="false">
                     <label class="form-check-label" for="draftRadio">
                         บันทึกแบบร่าง
                     </label>
                 </div>
                 <div class="form-check mb-4">
                     <input class="form-check-input" data-testid="publishRadio" id="publishRadio"
-                        formControlName="publishing" type="radio" [value]="true" (ngModelChange)="onChangePublisher($event)">
+                        formControlName="publishing" type="radio" [value]="true">
                     <label class="form-check-label" for="publishRadio">
                         เผยแพร่ทันที / เผยแพร่แบบอัตโนมัติเมื่อถึงเวลา
                     </label>
