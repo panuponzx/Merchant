@@ -394,6 +394,7 @@ export class EarningManagementComponent {
     if (event?.condition) this.form?.get('conditionPoint')?.setValue(String(event?.condition));
     this.form?.get('calculatePoint')?.setValue(event?.calculateValue);
     this.form?.get('route')?.setValue(event?.tollStations);
+    this.onSelectRoute(event?.tollStations);
     this.form?.get('expressBuilding')?.setValue(event?.tollStations);
     this.form?.get('customerType')?.setValue(event?.customerTypes);
     this.form?.get('carType')?.setValue(event?.carTypes);
