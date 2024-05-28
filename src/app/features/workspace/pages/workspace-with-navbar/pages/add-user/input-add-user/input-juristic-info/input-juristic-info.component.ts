@@ -35,7 +35,6 @@ export class InputJuristicInfoComponent implements AfterContentInit {
   ];
 
   footerHeight: number = 0;
-  taxRequiredStatus: boolean = true;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -62,7 +61,6 @@ export class InputJuristicInfoComponent implements AfterContentInit {
 
   onChangeTaxRequired(event: any) {
     console.log("[onChangeTaxRequired] event => ", event);
-    this.taxRequiredStatus = event.value;
     if(event.value === true) {
       this.form.get('taxId').setValidators([Validators.required]);
       this.form.get('taxId').enable();

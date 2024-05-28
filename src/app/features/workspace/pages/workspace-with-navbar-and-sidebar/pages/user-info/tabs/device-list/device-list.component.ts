@@ -70,11 +70,11 @@ export class DeviceListComponent implements OnInit {
        this.activeRows = active.data;
        this.inactiveRows = inactive.data;
        this.modalDialogService.hideLoading();
-       this.isLoading = true;
+       this.isLoading = false;
       },
       error: error => {
         this.modalDialogService.hideLoading();
-        this.isLoading = true;
+        this.isLoading = false;
         console.error(error);
         this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${error.body.errorMessage}`);
       }

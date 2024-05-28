@@ -21,10 +21,10 @@
                               [items]="taxRequired"></ng-select>
                         </div>
                         <div class="col-12 mb-3">
-                            <label *ngIf="taxRequiredStatus" class="label-input required-field" for="taxIdInput">
+                            <label *ngIf="form.value.taxRequiredStatus" class="label-input required-field" for="taxIdInput">
                               หมายเลขผู้เสียภาษี
                             </label>
-                            <label *ngIf="!taxRequiredStatus" class="label-input" for="taxIdInput">
+                            <label *ngIf="!form.value.taxRequiredStatus" class="label-input" for="taxIdInput">
                               หมายเลขผู้เสียภาษี
                             </label>
                             <input [ngClass]="{

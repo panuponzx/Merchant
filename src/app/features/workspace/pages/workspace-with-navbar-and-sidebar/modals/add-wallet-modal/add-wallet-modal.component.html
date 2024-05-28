@@ -36,7 +36,7 @@
         </div>
         <div class="d-flex justify-content-end gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
-            <button class="custom-btn btn-type-1" (click)="onAddWallet()" [disabled]="form.invalid">เพิ่มกระเป๋าเงิน</button>
+            <button class="custom-btn btn-type-1" (click)="onAddWallet()" [disabled]="form.invalid || isLoading">เพิ่มกระเป๋าเงิน</button>
         </div>
     </form>
 </div>

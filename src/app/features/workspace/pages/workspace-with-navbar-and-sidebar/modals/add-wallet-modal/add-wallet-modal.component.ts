@@ -30,6 +30,7 @@ export class AddWalletModalComponent {
   ];
   customerId: string | null = null;
   customerTypeId: string | null = null;
+  isLoading: boolean = false;
 
   constructor(
     public ngbActiveModal: NgbActiveModal,
@@ -44,6 +45,7 @@ export class AddWalletModalComponent {
   }
 
   onAddWallet() {
+    this.isLoading = true;
     const data = {
       customer: {
         id: this.customerId,
@@ -72,10 +74,11 @@ export class AddWalletModalComponent {
           } else {
             this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
           }
-
+          this.isLoading = false;
         },
         error: (err) => {
           this.modalDialogService.hideLoading();
+          this.isLoading = false;
           console.error(err);
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }

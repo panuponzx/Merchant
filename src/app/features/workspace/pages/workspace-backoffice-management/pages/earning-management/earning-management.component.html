@@ -241,10 +241,10 @@
                         <label class="text-description mb-2 required-field">
                             เวลาเริ่มต้น
                         </label>
-                        <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
+                        <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY, HH:mm"
                             formControlName="startdate" [id]="'birthDateDatePicke'" locale="th"
                             [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign"
-                            [minDate]="today"></date-picker>
+                            [minDate]="today" [timePicker]="true"></date-picker>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 mb-3">
@@ -252,10 +252,10 @@
                         <label class="text-description mb-2 required-field">
                             เวลาสิ้นสุด
                         </label>
-                        <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
+                        <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY, HH:mm"
                             formControlName="enddate" [id]="'birthDateDatePicke'" locale="th"
                             [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="isBaseCampaign"
-                            [minDate]="form.value.startdate || today"></date-picker>
+                            [minDate]="form.value.startdate || today" [timePicker]="true"></date-picker>
                     </div>
                 </div>
             </div>
