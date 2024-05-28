@@ -34,7 +34,7 @@ export class EarningManagementComponent {
 
   public specialRatingColumns: CustomColumnModel[] = [
     { id: 'campaignName', name: 'ชื่อกิจกรรม', label: 'ชื่อกิจกรรม', prop: 'campaignName', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'operation', name: 'บวก / คูณ', label: 'บวก / คูณ', prop: 'operation', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'condition', name: 'บวก / คูณ', label: 'บวก / คูณ', prop: 'conditionText', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'calculateValue', name: 'จำนวน Point', label: 'จำนวน Point', prop: 'calculateValue', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'customerTypesList', name: 'กลุ่มลูกค้า', label: 'กลุ่มลูกค้า', prop: 'customerTypesList', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carTypesList', name: 'สำหรับประเภทรถ', label: 'สำหรับประเภทรถ', prop: 'carTypesList', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
@@ -116,7 +116,7 @@ export class EarningManagementComponent {
             const data = Object.assign([] as any[], res.data)
               .map((value: any) => {
                 value.tollStationsList = value.isAllTollStation == true ? 'ทุกด่านอาคาร' : value.tollStations;
-                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภท' : value.carTypes;
+                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypes;
                 value.campaignType = 'base';
                 return value;
               });
@@ -153,8 +153,9 @@ export class EarningManagementComponent {
             const data = Object.assign([] as any[], res.data.elements)
               .map((value: any) => {
                 value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกกลุ่มลูกค้า' : value.customerTypes;
-                value.carTypesList = value.isAllCarType == true ? 'ทุกประเภท' : value.carTypes;
-                // value.conditionText = value.condition == 0 ? 'บวก' : 'คูณ';
+                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypes;
+                value.conditionText = value.condition == 1 ? 'บวก (+)' : 'คูณ (x)';
+                // value.conditionText = this.CalculatedVariables.find(x => x.key == value.condition)?.name
                 value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'DD/MM/BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'DD/MM/BBBB HH:mm', 'th');
                 value.publishText = value.publish == true ? 'กำลังเผยแพร่' : 'แบบร่าง';
                 value.campaignType = 'special';
@@ -223,21 +224,8 @@ export class EarningManagementComponent {
           this.CalculatedVariables?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
         }
       });
-  }
 
-  // onChangePublisher(event: any) {
-  //   console.log("[onChangePublisher] event => ", event);
-  //   if (event === true) {
-  //     let date = new Date();
-  //     // this.form?.get('startdate')?.setValue(new Date());
-  //     this.form?.get('startdate')?.setValue(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
-  //     // this.form?.get('startdate')?.disable();
-  //   }
-  //   else {
-  //     this.form?.get('startdate')?.setValue(undefined);
-  //     // this.form?.get('startdate')?.enable();
-  //   }
-  // }
+  }
 
   onSelectRoute(item: any) {
     this.form?.get('expressBuilding')?.setValue(undefined);
@@ -300,15 +288,13 @@ export class EarningManagementComponent {
         takePoint: this.form?.get('takePoint')?.value,
         carTypes: this.form?.get('carType')?.value,
         isAllCarTypes: this.getStatusSelectAll('carType'),
-        lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DDTHH:mm:ss.SSSZ`),
+        // lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DD HH:mm`),
         requestParam: this.restApiService.generateRequestParam(),
       }
     }
     else {
-      const fromDateValue = this.form.get('startdate')?.value;
-      const toDateValue = this.form.get('enddate')?.value;
-      const fromDate = this.transformDatePipe.transform(fromDateValue?.setHours(fromDateValue?.getHours(), fromDateValue?.getMinutes(), 0, 0), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
-      const toDate = this.transformDatePipe.transform(toDateValue?.setHours(toDateValue?.getHours(), toDateValue?.getMinutes(), 59, 999), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
+      const fromDate = this.transformDatePipe.transform(this.form.get('startdate')?.value, `YYYY-MM-DD HH:mm`);
+      const toDate = this.transformDatePipe.transform(this.form.get('enddate')?.value, `YYYY-MM-DD HH:mm`);
       payload = {
         campaignName: this.form.get('campaignName')?.value,
         condition: Number(this.form?.get('conditionPoint')?.value),
@@ -324,7 +310,7 @@ export class EarningManagementComponent {
         fromDate: fromDate,
         toDate: toDate,
         publish: this.form.get('publishing')?.value,
-        lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DDTHH:mm:ss.SSSZ`),
+        // lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DD HH:mm`),
         requestParam: this.restApiService.generateRequestParam(),
       }
     }
@@ -396,16 +382,14 @@ export class EarningManagementComponent {
   setFormValue(event: any) {
     this.form?.get('id')?.setValue(event?.id);
     this.form?.get('campaignName')?.setValue(event?.campaignName);
-    this.form?.get('conditionPoint')?.setValue(event?.conditionPoint);
-    this.form?.get('calculatePoint')?.setValue(event?.everyThaiBath);
-    this.form?.get('route')?.setValue(event?.route);
-    // this.form?.get('')?.setValue(this.getStatusSelectAll('route'));
+    if (event?.condition) this.form?.get('conditionPoint')?.setValue(String(event?.condition));
+    this.form?.get('calculatePoint')?.setValue(event?.calculateValue);
+    this.form?.get('route')?.setValue(event?.tollStations);
+    this.form?.get('expressBuilding')?.setValue(event?.tollStations);
     this.form?.get('customerType')?.setValue(event?.customerTypes);
-    // this.form?.get('')?.setValue(this.getStatusSelectAll('customerType'));
     this.form?.get('carType')?.setValue(event?.carTypes);
-    // this.form?.get('')?.setValue(this.getStatusSelectAll('carType'));
-    this.form?.get('startdate')?.setValue(event?.fromDate);
-    this.form?.get('enddate')?.setValue(event?.toDate);
+    if (event?.fromDate) this.form?.get('startdate')?.setValue(new Date(event?.fromDate));
+    if (event?.toDate) this.form?.get('enddate')?.setValue(new Date(event?.toDate));
     this.form?.get('publishing')?.setValue(event?.publish);
     this.form?.get('everyThaiBath')?.setValue(event?.everyThaiBath);
     this.form?.get('takePoint')?.setValue(event?.takePoint);
