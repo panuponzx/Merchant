@@ -27,7 +27,7 @@ export class EarningManagementComponent {
     { id: 'everyThaiBath', name: 'ทุกจำนวนเงินบาท', label: 'ทุกจำนวนเงินบาท', prop: 'everyThaiBath', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'takePoint', name: 'จำนวน Point ที่ได้รับ', label: 'จำนวน Point ที่ได้รับ', prop: 'takePoint', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carTypesList', name: 'สำหรับประเภทรถ', label: 'สำหรับประเภทรถ', prop: 'carTypesList', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'lastModifyDate', name: 'วันที่เปลี่ยนแปลงล่าสุด', label: 'วันที่เปลี่ยนแปลงล่าสุด', prop: 'lastModifyDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM YYYY', locale: 'th' } },
+    { id: 'lastModifyDate', name: 'วันที่เปลี่ยนแปลงล่าสุด', label: 'วันที่เปลี่ยนแปลงล่าสุด', prop: 'lastModifyDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm', locale: 'th' } },
     // { id: 'createdBy', name: 'ชื่อพนักงานที่สร้าง', label: 'ชื่อพนักงานที่สร้าง', prop: 'createdBy', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'setting', name: 'ตั้งค่า', label: 'ตั้งค่า', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'setting', iconName: 'setting', size: 'l', color: '#2255CE' } }
   ];
@@ -38,7 +38,7 @@ export class EarningManagementComponent {
     { id: 'calculateValue', name: 'จำนวน Point', label: 'จำนวน Point', prop: 'calculateValue', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'customerTypesList', name: 'กลุ่มลูกค้า', label: 'กลุ่มลูกค้า', prop: 'customerTypesList', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carTypesList', name: 'สำหรับประเภทรถ', label: 'สำหรับประเภทรถ', prop: 'carTypesList', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    // { id: 'activityDuration', name: 'ระยะกิจกรรม', label: 'ระยะกิจกรรม', prop: 'activityDuration', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM YYYY', locale: 'th' } },
+    // { id: 'activityDuration', name: 'ระยะกิจกรรม', label: 'ระยะกิจกรรม', prop: 'activityDuration', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'activityDuration', name: 'ระยะกิจกรรม', label: 'ระยะกิจกรรม', prop: 'activityDuration', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     // { id: 'createdBy', name: 'ชื่อพนักงานที่สร้าง', label: 'ชื่อพนักงานที่สร้าง', prop: 'createdBy', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'publishText', name: 'การเผยแพร่', label: 'การเผยแพร่', prop: 'publishText', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
@@ -110,24 +110,33 @@ export class EarningManagementComponent {
       .getBackOffice(`campaign/base`)
       .pipe(
         first(),
-        // map(res => res as any)
-        map((res: any) => {
-          if (res.data?.length > 0) {
-            const data = Object.assign([] as any[], res.data)
-              .map((value: any) => {
-                value.tollStationsList = value.isAllTollStation == true ? 'ทุกด่านอาคาร' : value.tollStations;
-                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypes;
-                value.campaignType = 'base';
-                return value;
-              });
-            res.data = data;
-          }
-          return res;
-        })
+        map(res => res as any)
+        // map((res: any) => {
+        //   if (res.data) {
+        //     console.log("[loadData] res => ", res);
+
+        //     const data = Object.assign([] as any[], res.data)
+        //       .map((value: any) => {
+        //         value.tollStationsList = value.isAllTollStation == true ? 'ทุกด่านอาคาร' : value.tollStations;
+        //         value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypes;
+        //         value.campaignType = 'base';
+        //         return value;
+        //       });
+        //     res.data = data;
+        //     console.log(res);
+
+        //   }
+        //   return res;
+        // })
       ).subscribe({
         next: (res) => {
+          let data: any[] = [];
+          res.data['campaignType'] = 'base'
+          res.data['carTypesList'] = res.data['isAllCarType'] == true ? 'ทุกประเภทรถ' : res.data['carTypes'];
+          res.data['tollStationsList'] = res.data['isAllTollStation'] == true ? 'ทุกด่านอาคาร' : res.data['tollStations'];
+          data.push(res.data);
           console.log("[loadData] res => ", res);
-          this.basicRatingRows = res.data;
+          this.basicRatingRows = data;
           this.collectionSize = this.basicRatingRows?.length | 0;
           this.isLoading = false;
           this.modalDialogService.hideLoading();
@@ -156,7 +165,7 @@ export class EarningManagementComponent {
                 value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypes;
                 value.conditionText = value.condition == 1 ? 'บวก (+)' : 'คูณ (x)';
                 // value.conditionText = this.CalculatedVariables.find(x => x.key == value.condition)?.name
-                value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'DD/MM/BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'DD/MM/BBBB HH:mm', 'th');
+                value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'D MMM BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'D MMM BBBB HH:mm', 'th');
                 value.publishText = value.publish == true ? 'กำลังเผยแพร่' : 'แบบร่าง';
                 value.campaignType = 'special';
                 return value;
@@ -287,7 +296,7 @@ export class EarningManagementComponent {
         everyThaiBath: this.form?.get('everyThaiBath')?.value,
         takePoint: this.form?.get('takePoint')?.value,
         carTypes: this.form?.get('carType')?.value,
-        isAllCarTypes: this.getStatusSelectAll('carType'),
+        isAllCarType: this.getStatusSelectAll('carType'),
         // lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DD HH:mm`),
         requestParam: this.restApiService.generateRequestParam(),
       }
