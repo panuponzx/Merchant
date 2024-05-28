@@ -305,8 +305,10 @@ export class EarningManagementComponent {
       }
     }
     else {
-      const fromDate = this.transformDatePipe.transform(this.form.get('startdate')?.value?.setHours(0, 0, 0, 0), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
-      const toDate = this.transformDatePipe.transform(this.form.get('enddate')?.value?.setHours(23, 59, 59, 999), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
+      const fromDateValue = this.form.get('startdate')?.value;
+      const toDateValue = this.form.get('enddate')?.value;
+      const fromDate = this.transformDatePipe.transform(fromDateValue?.setHours(fromDateValue?.getHours(), fromDateValue?.getMinutes(), 0, 0), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
+      const toDate = this.transformDatePipe.transform(toDateValue?.setHours(toDateValue?.getHours(), toDateValue?.getMinutes(), 59, 999), `YYYY-MM-DDTHH:mm:ss.SSSZ`);
       payload = {
         campaignName: this.form.get('campaignName')?.value,
         condition: Number(this.form?.get('conditionPoint')?.value),
