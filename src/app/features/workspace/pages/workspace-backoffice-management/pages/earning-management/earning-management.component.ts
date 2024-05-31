@@ -170,15 +170,15 @@ export class EarningManagementComponent {
                 value.campaignType = 'special';
                 return value;
               });
-            res.data = data;
+            res.data.value = data;
           }
           return res;
         })
       ).subscribe({
         next: (res) => {
           console.log("[loadData] res => ", res);
-          this.specialRatingRows = res.data;
-          this.collectionSize1 = this.specialRatingRows?.length | 0;
+          this.specialRatingRows = res.data.value;
+          this.collectionSize1 = res.data.totalElements | 0;
           this.isLoading = false;
           this.modalDialogService.hideLoading();
         },
@@ -189,6 +189,12 @@ export class EarningManagementComponent {
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       });
+  }
+
+  onChangePageSpecial(event: number) {
+    console.log("[onChangePage] event => ", event);
+    this.pages1 = event;
+    this.loadCampaignSpecial();
   }
 
   loadCarType() {

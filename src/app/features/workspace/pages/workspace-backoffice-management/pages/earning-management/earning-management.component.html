@@ -44,7 +44,7 @@
         </div>
         <datatable [columns]="specialRatingColumns" [collectionSize]="collectionSize1" [id]="'userDatatable'"
             [isLoading]="isLoading" [pageSize]="limitRow1" [page]="pages1" [rows]="specialRatingRows"
-            emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onAction($event)">
+            emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onAction($event)" (onChangePageEvent)="onChangePageSpecial($event)">
         </datatable>
     </section>
     <section *ngIf="isShowDescription">
