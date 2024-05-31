@@ -163,7 +163,7 @@ export class EarningManagementComponent {
               .map((value: any) => {
                 value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกกลุ่มลูกค้า' : value.customerTypes;
                 value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypes;
-                value.conditionText = value.condition == 1 ? 'บวก (+)' : 'คูณ (x)';
+                value.conditionText = value.operation == 1 ? 'บวก (+)' : value.operation == 2 ? 'คูณ (x)' : null;
                 // value.conditionText = this.CalculatedVariables.find(x => x.key == value.condition)?.name
                 value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'D MMM BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'D MMM BBBB HH:mm', 'th');
                 value.publishText = value.publish == true ? 'กำลังเผยแพร่' : 'แบบร่าง';
@@ -312,7 +312,7 @@ export class EarningManagementComponent {
       const toDate = this.transformDatePipe.transform(this.form.get('enddate')?.value, `YYYY-MM-DD HH:mm`);
       payload = {
         campaignName: this.form.get('campaignName')?.value,
-        condition: Number(this.form?.get('conditionPoint')?.value),
+        operation: Number(this.form?.get('conditionPoint')?.value),
         calculateValue: Number(this.form?.get('calculatePoint')?.value),
         // tollStations: this.form?.get('route')?.value,
         // isAllTollStation: this.getStatusSelectAll('route'),
@@ -397,7 +397,7 @@ export class EarningManagementComponent {
   setFormValue(event: any) {
     this.form?.get('id')?.setValue(event?.id);
     this.form?.get('campaignName')?.setValue(event?.campaignName);
-    if (event?.condition) this.form?.get('conditionPoint')?.setValue(String(event?.condition));
+    if (event?.operation) this.form?.get('conditionPoint')?.setValue(String(event?.operation));
     this.form?.get('calculatePoint')?.setValue(event?.calculateValue);
     this.form?.get('route')?.setValue(event?.tollStations);
     this.onSelectRoute(event?.tollStations);
