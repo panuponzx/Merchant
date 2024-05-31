@@ -7,9 +7,9 @@ export class WalletStatusPipe implements PipeTransform {
 
   private walletStatus: any[] = [
     { walletStatus: 1, name: 'Active - ใช้งาน' },
-    { walletStatus: 2, name: 'Blacklist' },
-    { walletStatus: 3, name: 'Suspend' },
-    { walletStatus: 4, name: 'Deactivate' }
+    { walletStatus: 2, name: 'Blacklist - บัญชีดำ' },
+    { walletStatus: 3, name: 'Suspend - อายัดชั่วคราว' },
+    { walletStatus: 4, name: 'Deactivate - ปิดใช้งาน' }
   ];
 
   transform(value: number): string {

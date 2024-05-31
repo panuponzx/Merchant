@@ -83,7 +83,7 @@
                             สถานะ
                         </label>
                         <input class="form-control" data-testid="totalBalanceInput" id="totalBalanceInput"
-                            [value]="'Active - ใช้งาน'" readonly />
+                            [value]="row.walletStatus | walletStatus" readonly />
                     </div>
                 </div>
                 <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
@@ -163,7 +163,7 @@
                             สถานะ
                         </label>
                         <input class="form-control" data-testid="totalBalanceInput" id="totalBalanceInput"
-                            [value]="'Active - ใช้งาน'" readonly />
+                            [value]="row.walletStatus | walletStatus" readonly />
                     </div>
                 </div>
                 <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
@@ -243,7 +243,7 @@
                             สถานะ
                         </label>
                         <input class="form-control" data-testid="totalBalanceInput" id="totalBalanceInput"
-                            [value]="'Active - ใช้งาน'" readonly />
+                            [value]="row.walletStatus | walletStatus" readonly />
                     </div>
                 </div>
                 <div class="row mb-3">
