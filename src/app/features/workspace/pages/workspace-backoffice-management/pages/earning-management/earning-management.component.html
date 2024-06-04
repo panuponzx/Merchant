@@ -16,10 +16,10 @@
         </div>
     </div>
     <hr class="hr-custom mb-3" />
-    <!-- <button *ngIf="isShowDescription" class="custom-btn btn-type-1" data-testid="backButton" id="backButton"
+    <button *ngIf="isShowDescription" class="custom-btn btn-type-1" data-testid="backButton" id="backButton"
         title="กลับ" type="button" (click)="onBack()">
         กลับ
-    </button> -->
+    </button>
     <section *ngIf="!isShowDescription">
         <div class="col-4 mb-3">
             <h2 class="content-title">
@@ -49,7 +49,7 @@
     </section>
     <section *ngIf="isShowDescription">
         <form [formGroup]="form">
-          <!-- <div class="row pt-3"> -->
+          <div class="pt-4">
 
             <h3 class="content-title" *ngIf="!isBaseCampaign">
                 รายละเอียดกิจกรรม
@@ -183,7 +183,7 @@
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">สายทาง</label>
                         <ng-select class="form-control mb-2" [items]="route" [multiple]="true" bindLabel="name"
-                            bindValue="name" id="selectRoute" data-testid="selectRoute" placeholder="กรุณาระบุ"
+                            id="selectRoute" data-testid="selectRoute" placeholder="กรุณาระบุ"
                             [closeOnSelect]="false" [searchable]="false" formControlName="route" (ngModelChange)="onSelectRoute($event)">
                             <ng-template ng-header-tmp>
                                 <div style="margin: 3px 3px;">
@@ -208,7 +208,7 @@
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">อาคารด่าน</label>
-                        <ng-select class="form-control mb-2" [items]="expressBuilding" [multiple]="true" bindLabel="name" bindValue="key"
+                        <ng-select class="form-control mb-2" [items]="expressBuilding" [multiple]="true" bindLabel="tollName" bindValue="tollCode"
                             groupBy="group" id="selectExpressBuilding" data-testid="selectExpressBuilding"
                             placeholder="กรุณาระบุ" [searchable]="false" [selectableGroup]="true"
                             [selectableGroupAsModel]="false" [closeOnSelect]="false"
@@ -224,7 +224,7 @@
                             </ng-template>
                             <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
                                 <input id="item-{{index}}" type="checkbox" [(ngModel)]="item$.selected"
-                                    [ngModelOptions]="{ standalone : true }" /> {{item.name}}
+                                    [ngModelOptions]="{ standalone : true }" /> {{item.tollName}}
                             </ng-template>
                         </ng-select>
                     </div>
@@ -292,7 +292,7 @@
                     บันทึก
                 </button>
             </div>
-          <!-- </div> -->
+          </div>
         </form>
     </section>
 </div>

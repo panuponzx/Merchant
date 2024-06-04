@@ -21,6 +21,7 @@ export class EarningManagementComponent {
   public UserType: any[] = [];
   public route: any[] = [];
   public expressBuilding: any[] = [];
+  public expressBuildingTemp: any[] = [];
 
   public basicRatingColumns: CustomColumnModel[] = [
     { id: 'tollStationsList', name: 'อาคารด่าน', label: 'อาคารด่าน', prop: 'tollStationsList', sortable: false, resizeable: true, width: 150, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
@@ -95,12 +96,13 @@ export class EarningManagementComponent {
   }
 
   loadData(): void {
-    this.loadCampaignBase();
-    this.loadCampaignSpecial();
     this.loadCarType();
     this.loadCustomerType();
     this.loadTollStation();
+    this.loadSubTollStation();
     this.loadCampaignOperation();
+    this.loadCampaignBase();
+    this.loadCampaignSpecial();
   }
 
   loadCampaignBase() {
@@ -111,26 +113,17 @@ export class EarningManagementComponent {
       .pipe(
         first(),
         map(res => res as any)
-        // map((res: any) => {
-        //   if (res.data) {
-        //     console.log("[loadData] res => ", res);
-
-        //     const data = Object.assign([] as any[], res.data)
-        //       .map((value: any) => {
-        //         value.tollStationsList = value.isAllTollStation == true ? 'ทุกด่านอาคาร' : value.tollStations;
-        //         value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypes;
-        //         value.campaignType = 'base';
-        //         return value;
-        //       });
-        //     res.data = data;
-        //     console.log(res);
-
-        //   }
-        //   return res;
-        // })
       ).subscribe({
         next: (res) => {
           let data: any[] = [];
+          // let toll: any[] = res.data['tollStations'];
+          // toll = toll.map(item => {
+          //   item = this.expressBuildingTemp.find(toll => toll.id == item);
+          //   console.log(item);
+          //   console.log(item?.tollName);
+          //   return item;
+          // });
+          // console.log(toll);
           res.data['campaignType'] = 'base'
           res.data['carTypesList'] = res.data['isAllCarType'] == true ? 'ทุกประเภทรถ' : res.data['carTypes'];
           res.data['tollStationsList'] = res.data['isAllTollStation'] == true ? 'ทุกด่านอาคาร' : res.data['tollStations'];
@@ -224,10 +217,16 @@ export class EarningManagementComponent {
           this.route = Response.data;
           this.route?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
         }
-        // if (Array.isArray(Response.data.children)) {
-        // this.expressBuilding = Response.data.children;
-        // this.expressBuilding?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
-        // }
+      });
+  }
+
+  loadSubTollStation() {
+    this.restApiService.getBackOffice('master-data/all-toll-stations').subscribe(
+      (Response: any) => {
+        if (Array.isArray(Response.data)) {
+          this.expressBuildingTemp = Response.data;
+          // this.expressBuildingTemp?.sort((a: any, b: any) => a.expresswayId.localeCompare(b.expresswayId) || a.tollName - b.tollName);
+        }
       });
   }
 
@@ -242,19 +241,24 @@ export class EarningManagementComponent {
 
   }
 
-  onSelectRoute(item: any) {
-    this.form?.get('expressBuilding')?.setValue(undefined);
+  onSelectRoute(item: any, pages?: any) {
+    console.log("[onSelectRoute] item => ", item);
+    if (!item || item?.length === 0) {
+      this.form?.get('expressBuilding')?.setValue(undefined);
+    }
     this.expressBuilding = [];
-    if (item) {
-      let routeSelect: any[] = this.route.filter(route =>
-        !!item.find((routeEvent: any) => route.name === routeEvent)
+    if (item?.length > 0) {
+      let routeSelect: any[] = this.expressBuildingTemp.filter(route =>
+        !!item.find((routeEvent: any) => route.expresswayId == routeEvent.key)
       );
-      for (let toll of routeSelect) {
-        // console.log(toll);
-        this.expressBuilding.push(...toll.children);
+      this.expressBuilding = routeSelect;
+      if (pages != 'edit') {
+        let tollBuilding: any[] = this.form?.get('expressBuilding')?.value;
+        let tollRoute: any = tollBuilding?.filter(itemA => routeSelect.some(itemB => itemB.tollCode === itemA));
+        this.form?.get('expressBuilding')?.setValue(tollRoute);
       }
     }
-    this.expressBuilding?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
+    this.expressBuilding?.sort((a: any, b: any) => a.tollName.localeCompare(b.tollName) || a.tollCode - b.tollCode);
   }
 
   selectAll(formControlName: string) {
@@ -268,7 +272,7 @@ export class EarningManagementComponent {
       if (this.getStatusSelectAll(formControlName)) {
         this.form?.get('route')?.setValue(undefined);
       } else {
-        this.form?.get('route')?.setValue(this.route.map(x => x.name));
+        this.form?.get('route')?.setValue(this.route.map(x => x));
       }
     } else if (formControlName === 'customerType') {
       if (this.getStatusSelectAll(formControlName)) {
@@ -399,9 +403,9 @@ export class EarningManagementComponent {
     this.form?.get('campaignName')?.setValue(event?.campaignName);
     if (event?.operation) this.form?.get('conditionPoint')?.setValue(String(event?.operation));
     this.form?.get('calculatePoint')?.setValue(event?.calculateValue);
-    this.form?.get('route')?.setValue(event?.tollStations);
-    this.onSelectRoute(event?.tollStations);
-    this.form?.get('expressBuilding')?.setValue(event?.tollStations);
+    // this.form?.get('route')?.setValue(event?.tollStations);
+    this.selectToll(event?.tollStations);
+    // this.form?.get('expressBuilding')?.setValue(event?.tollStations);
     this.form?.get('customerType')?.setValue(event?.customerTypes);
     this.form?.get('carType')?.setValue(event?.carTypes);
     if (event?.fromDate) this.form?.get('startdate')?.setValue(new Date(event?.fromDate));
@@ -409,6 +413,20 @@ export class EarningManagementComponent {
     this.form?.get('publishing')?.setValue(event?.publish);
     this.form?.get('everyThaiBath')?.setValue(event?.everyThaiBath);
     this.form?.get('takePoint')?.setValue(event?.takePoint);
+  }
+
+  selectToll(tollStations: any) {
+    if (tollStations && tollStations.length > 0) {
+      let TollSelect: any[] = this.expressBuildingTemp.filter(route =>
+        !!tollStations.find((routeEvent: any) => route.tollCode == routeEvent)
+      );
+      let routeSelect: any[] = this.route.filter(route =>
+        !!TollSelect.find((routeEvent: any) => route.key == routeEvent.expresswayId)
+      );
+      this.form?.get('route')?.setValue(routeSelect);
+      this.onSelectRoute(routeSelect, 'edit');
+      this.form?.get('expressBuilding')?.setValue(tollStations);
+    }
   }
 
   onBack() {
