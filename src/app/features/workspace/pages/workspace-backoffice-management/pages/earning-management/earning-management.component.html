@@ -121,7 +121,7 @@
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">ประเภทรถ</label>
                         <ng-select class="form-control mb-2" [items]="CarType" [multiple]="true" bindLabel="name"
-                            bindValue="name" id="selectisCarType" data-testid="selectisCarType" placeholder="กรุณาระบุ"
+                            bindValue="key" id="selectisCarType" data-testid="selectisCarType" placeholder="กรุณาระบุ"
                             [closeOnSelect]="false" [searchable]="false" formControlName="carType">
                             <ng-template ng-header-tmp>
                                 <div style="margin: 3px 3px;">
@@ -149,7 +149,7 @@
                     <div class="form-group d-inline">
                         <label class="text-description mb-2 required-field">ประเภทผู้ใช้</label>
                         <ng-select class="form-control mb-2" [items]="UserType" [multiple]="true" bindLabel="name"
-                            bindValue="name" id="selectisCustomerType" data-testid="selectisCustomerType"
+                            bindValue="key" id="selectisCustomerType" data-testid="selectisCustomerType"
                             placeholder="กรุณาระบุ" [closeOnSelect]="false" [searchable]="false"
                             formControlName="customerType">
                             <ng-template ng-header-tmp>

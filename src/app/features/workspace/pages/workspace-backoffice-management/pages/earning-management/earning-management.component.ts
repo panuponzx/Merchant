@@ -92,17 +92,27 @@ export class EarningManagementComponent {
       everyThaiBath: [null],
       takePoint: [null],
     });
-    this.loadData();
+    // this.loadData();
+    this.loadData().then(() => {
+      this.loadCampaignBase();
+      this.loadCampaignSpecial();
+    });
   }
 
-  loadData(): void {
-    this.loadCarType();
-    this.loadCustomerType();
-    this.loadTollStation();
-    this.loadSubTollStation();
-    this.loadCampaignOperation();
-    this.loadCampaignBase();
-    this.loadCampaignSpecial();
+  async loadData(): Promise<void> {
+    try {
+      this.loadCarType();
+      this.loadCustomerType();
+      this.loadTollStation();
+      this.loadSubTollStation();
+      this.loadCampaignOperation();
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      // this.loadCampaignBase();
+      // this.loadCampaignSpecial();
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   loadCampaignBase() {
@@ -125,8 +135,16 @@ export class EarningManagementComponent {
           // });
           // console.log(toll);
           res.data['campaignType'] = 'base'
-          res.data['carTypesList'] = res.data['isAllCarType'] == true ? 'ทุกประเภทรถ' : res.data['carTypes'];
-          res.data['tollStationsList'] = res.data['isAllTollStation'] == true ? 'ทุกด่านอาคาร' : res.data['tollStations'];
+          let carTypesTextTemp = this.CarType.filter(car =>
+            !!res.data['carTypes'].find((carEvent: any) => car.key == carEvent)
+          );
+          res.data['carTypesText'] = [...carTypesTextTemp.map((value: any) => value.name)].join(', ');
+          res.data['carTypesList'] = res.data['isAllCarType'] == true ? 'ทุกประเภทรถ' : res.data['carTypesText'];
+          let tollStationsTextTemp = this.expressBuildingTemp.filter(toll =>
+            !!res.data['tollStations'].find((tollEvent: any) => toll.tollCode == tollEvent)
+          );
+          res.data['tollStationsText'] = [...tollStationsTextTemp.map((value: any) => value.tollName)].join(', ');
+          res.data['tollStationsList'] = res.data['isAllTollStation'] == true ? 'ทุกด่านอาคาร' : res.data['tollStationsText'];
           data.push(res.data);
           console.log("[loadData] res => ", res);
           this.basicRatingRows = data;
@@ -154,10 +172,18 @@ export class EarningManagementComponent {
           if (res.data?.elements?.length > 0) {
             const data = Object.assign([] as any[], res.data.elements)
               .map((value: any) => {
-                value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกกลุ่มลูกค้า' : value.customerTypes;
-                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypes;
-                value.conditionText = value.operation == 1 ? 'บวก (+)' : value.operation == 2 ? 'คูณ (x)' : null;
-                // value.conditionText = this.CalculatedVariables.find(x => x.key == value.condition)?.name
+                let customerTypesTextTemp = this.UserType.filter(user =>
+                  !!value.customerTypes.find((userEvent: any) => user.key == userEvent)
+                );
+                value.customerTypesText = [...customerTypesTextTemp.map((value: any) => value.name)].join(', ');
+                value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกกลุ่มลูกค้า' : value.customerTypesText;
+                let carTypesTextTemp = this.CarType.filter(car =>
+                  !!value.carTypes.find((carEvent: any) => car.key == carEvent)
+                );
+                value.carTypesText = [...carTypesTextTemp.map((value: any) => value.name)].join(', ');
+                value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypesText;
+                // value.conditionText = value.operation == 1 ? 'บวก (+)' : value.operation == 2 ? 'คูณ (x)' : null;
+                value.conditionText = this.CalculatedVariables.find(x => x.key == value.operation)?.name
                 value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'D MMM BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'D MMM BBBB HH:mm', 'th');
                 value.publishText = value.publish == true ? 'กำลังเผยแพร่' : 'แบบร่าง';
                 value.campaignType = 'special';
@@ -266,7 +292,7 @@ export class EarningManagementComponent {
       if (this.getStatusSelectAll(formControlName)) {
         this.form?.get('carType')?.setValue(undefined);
       } else {
-        this.form?.get('carType')?.setValue(this.CarType.map(x => x.name));
+        this.form?.get('carType')?.setValue(this.CarType.map(x => x.key));
       }
     } else if (formControlName === 'route') {
       if (this.getStatusSelectAll(formControlName)) {
@@ -278,7 +304,7 @@ export class EarningManagementComponent {
       if (this.getStatusSelectAll(formControlName)) {
         this.form?.get('customerType')?.setValue(undefined);
       } else {
-        this.form?.get('customerType')?.setValue(this.UserType.map(x => x.name));
+        this.form?.get('customerType')?.setValue(this.UserType.map(x => x.key));
       }
     }
   }
