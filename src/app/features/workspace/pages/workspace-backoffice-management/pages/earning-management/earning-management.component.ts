@@ -300,6 +300,12 @@ export class EarningManagementComponent {
       } else {
         this.form?.get('route')?.setValue(this.route.map(x => x));
       }
+    } else if (formControlName === 'tollBuilding') {
+      if (this.getStatusSelectAll(formControlName)) {
+        this.form?.get('expressBuilding')?.setValue(undefined);
+      } else {
+        this.form?.get('expressBuilding')?.setValue(this.expressBuilding.map(x => x.tollCode));
+      }
     } else if (formControlName === 'customerType') {
       if (this.getStatusSelectAll(formControlName)) {
         this.form?.get('customerType')?.setValue(undefined);
@@ -314,7 +320,7 @@ export class EarningManagementComponent {
       if (this.form?.get('carType')?.value && this.form?.get('carType')?.value.length === this.CarType.length) return true;
     } else if (formControlName === 'route') {
       if (this.form?.get('route')?.value && this.form?.get('route')?.value.length === this.route.length) return true;
-    } else if (formControlName === 'expressBuilding') {
+    } else if (formControlName === 'tollBuilding') {
       if (this.form?.get('expressBuilding')?.value && this.form?.get('expressBuilding')?.value.length === this.expressBuilding.length) return true;
     } else if (formControlName === 'customerType') {
       if (this.form?.get('customerType')?.value && this.form?.get('customerType')?.value.length === this.UserType.length) return true;
@@ -328,7 +334,7 @@ export class EarningManagementComponent {
     if (this.isBaseCampaign) {
       payload = {
         tollStations: this.form?.get('expressBuilding')?.value,
-        isAllTollStation: this.getStatusSelectAll('expressBuilding'),
+        isAllTollStation: this.getStatusSelectAll('route') && this.getStatusSelectAll('tollBuilding'),
         everyThaiBath: this.form?.get('everyThaiBath')?.value,
         takePoint: this.form?.get('takePoint')?.value,
         carTypes: this.form?.get('carType')?.value,
@@ -347,7 +353,7 @@ export class EarningManagementComponent {
         // tollStations: this.form?.get('route')?.value,
         // isAllTollStation: this.getStatusSelectAll('route'),
         tollStations: this.form?.get('expressBuilding')?.value,
-        isAllTollStation: this.getStatusSelectAll('expressBuilding'),
+        isAllTollStation: this.getStatusSelectAll('route') && this.getStatusSelectAll('tollBuilding'),
         customerTypes: this.form?.get('customerType')?.value,
         isAllCustomerTypes: this.getStatusSelectAll('customerType'),
         carTypes: this.form?.get('carType')?.value,

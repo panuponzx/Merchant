@@ -213,15 +213,22 @@
                             placeholder="กรุณาระบุ" [searchable]="false" [selectableGroup]="true"
                             [selectableGroupAsModel]="false" [closeOnSelect]="false"
                             formControlName="expressBuilding">
+                            <ng-template ng-header-tmp>
+                              <div style="margin: 3px 3px;">
+                                  <input (click)="selectAll('tollBuilding')" [checked]="getStatusSelectAll('tollBuilding')"
+                                      id="selectAllRoute" type="checkbox">
+                                  <label style="margin-left: 3px;" for="selectAllRoute">เลือกทั้งหมด</label>
+                              </div>
+                            </ng-template>
                             <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
                                 <div class="ng-value">
                                     <span>เลือก ({{items.length}})</span>
                                 </div>
                             </ng-template>
-                            <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                            <!-- <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
                                 <input id="item-{{index}}" type="checkbox" [(ngModel)]="item$.selected"
                                     [ngModelOptions]="{ standalone : true }" /> {{item.group}}
-                            </ng-template>
+                            </ng-template> -->
                             <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
                                 <input id="item-{{index}}" type="checkbox" [(ngModel)]="item$.selected"
                                     [ngModelOptions]="{ standalone : true }" /> {{item.tollName}}
