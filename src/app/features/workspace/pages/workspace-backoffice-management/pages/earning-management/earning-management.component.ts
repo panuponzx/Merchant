@@ -89,6 +89,8 @@ export class EarningManagementComponent {
       publishing: new FormControl(false, Validators.required),
       startdate: [null, Validators.required],
       enddate: [null, Validators.required],
+      timeStart: [{ value: '00:00', disabled: true }],
+      timeEnd: [{ value: '23:59', disabled: true }],
       everyThaiBath: [null],
       takePoint: [null],
     });
@@ -330,6 +332,7 @@ export class EarningManagementComponent {
 
   onSubmit() {
     console.log("[onSubmit] form => ", this.form.value);
+    this.submitted = true;
     let payload: any = {};
     if (this.isBaseCampaign) {
       payload = {
@@ -376,6 +379,7 @@ export class EarningManagementComponent {
         map(res => res as any)
       ).subscribe({
         next: (res) => {
+          this.submitted = false;
           this.modalDialogService.hideLoading();
           if (res.errorMessage === "Success") {
             console.log("[onSubmit] res => ", res);
@@ -388,6 +392,7 @@ export class EarningManagementComponent {
           }
         },
         error: (err) => {
+          this.submitted = false;
           this.modalDialogService.hideLoading();
           console.error(err);
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
@@ -481,6 +486,8 @@ export class EarningManagementComponent {
       publishing: new FormControl(false, Validators.required),
       startdate: [null, Validators.required],
       enddate: [null, Validators.required],
+      timeStart: [{ value: '00:00', disabled: true }],
+      timeEnd: [{ value: '23:59', disabled: true }],
       everyThaiBath: [null],
       takePoint: [null],
     });
