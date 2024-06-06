@@ -136,12 +136,12 @@ export class EarningManagementComponent {
           // console.log(toll);
           res.data['campaignType'] = 'base'
           let carTypesTextTemp = this.CarType.filter(car =>
-            !!res.data['carTypes'].find((carEvent: any) => car.key == carEvent)
+            !!res.data['carTypes']?.find((carEvent: any) => car.key == carEvent)
           );
           res.data['carTypesText'] = [...carTypesTextTemp.map((value: any) => value.name)].join(', ');
           res.data['carTypesList'] = res.data['isAllCarType'] == true ? 'ทุกประเภทรถ' : res.data['carTypesText'];
           let tollStationsTextTemp = this.expressBuildingTemp.filter(toll =>
-            !!res.data['tollStations'].find((tollEvent: any) => toll.tollCode == tollEvent)
+            !!res.data['tollStations']?.find((tollEvent: any) => toll.tollCode == tollEvent)
           );
           res.data['tollStationsText'] = [...tollStationsTextTemp.map((value: any) => value.tollName)].join(', ');
           res.data['tollStationsList'] = res.data['isAllTollStation'] == true ? 'ทุกด่านอาคาร' : res.data['tollStationsText'];
@@ -173,17 +173,17 @@ export class EarningManagementComponent {
             const data = Object.assign([] as any[], res.data.elements)
               .map((value: any) => {
                 let customerTypesTextTemp = this.UserType.filter(user =>
-                  !!value.customerTypes.find((userEvent: any) => user.key == userEvent)
+                  !!value.customerTypes?.find((userEvent: any) => user.key == userEvent)
                 );
                 value.customerTypesText = [...customerTypesTextTemp.map((value: any) => value.name)].join(', ');
                 value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกกลุ่มลูกค้า' : value.customerTypesText;
                 let carTypesTextTemp = this.CarType.filter(car =>
-                  !!value.carTypes.find((carEvent: any) => car.key == carEvent)
+                  !!value.carTypes?.find((carEvent: any) => car.key == carEvent)
                 );
                 value.carTypesText = [...carTypesTextTemp.map((value: any) => value.name)].join(', ');
                 value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypesText;
                 // value.conditionText = value.operation == 1 ? 'บวก (+)' : value.operation == 2 ? 'คูณ (x)' : null;
-                value.conditionText = this.CalculatedVariables.find(x => x.key == value.operation)?.name
+                value.conditionText = this.CalculatedVariables?.find(x => x.key == value.operation)?.name
                 value.activityDuration = this.transformDatePipe.transform(value?.fromDate, 'D MMM BBBB HH:mm', 'th') + ' - ' + this.transformDatePipe.transform(value?.toDate, 'D MMM BBBB HH:mm', 'th');
                 value.publishText = value.publish == true ? 'กำลังเผยแพร่' : 'แบบร่าง';
                 value.campaignType = 'special';
@@ -275,7 +275,7 @@ export class EarningManagementComponent {
     this.expressBuilding = [];
     if (item?.length > 0) {
       let routeSelect: any[] = this.expressBuildingTemp.filter(route =>
-        !!item.find((routeEvent: any) => route.expresswayId == routeEvent.key)
+        !!item?.find((routeEvent: any) => route.expresswayId == routeEvent.key)
       );
       this.expressBuilding = routeSelect;
       if (pages != 'edit') {
@@ -444,10 +444,10 @@ export class EarningManagementComponent {
   selectToll(tollStations: any) {
     if (tollStations && tollStations.length > 0) {
       let TollSelect: any[] = this.expressBuildingTemp.filter(route =>
-        !!tollStations.find((routeEvent: any) => route.tollCode == routeEvent)
+        !!tollStations?.find((routeEvent: any) => route.tollCode == routeEvent)
       );
       let routeSelect: any[] = this.route.filter(route =>
-        !!TollSelect.find((routeEvent: any) => route.key == routeEvent.expresswayId)
+        !!TollSelect?.find((routeEvent: any) => route.key == routeEvent.expresswayId)
       );
       this.form?.get('route')?.setValue(routeSelect);
       this.onSelectRoute(routeSelect, 'edit');
