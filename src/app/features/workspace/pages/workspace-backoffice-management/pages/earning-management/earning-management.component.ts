@@ -89,8 +89,8 @@ export class EarningManagementComponent {
       publishing: new FormControl(false, Validators.required),
       startdate: [null, Validators.required],
       enddate: [null, Validators.required],
-      timeStart: [{ value: '00:00', disabled: true }],
-      timeEnd: [{ value: '23:59', disabled: true }],
+      timeStart: [null],
+      timeEnd: [null],
       everyThaiBath: [null],
       takePoint: [null],
     });
@@ -363,6 +363,8 @@ export class EarningManagementComponent {
         isAllCarTypes: this.getStatusSelectAll('carType'),
         fromDate: fromDate,
         toDate: toDate,
+        fromPeriod: this.form?.get('timeStart')?.value,
+        toPeriod: this.form?.get('timeEnd')?.value,
         publish: this.form.get('publishing')?.value,
         // lastModifyDate: this.transformDatePipe.transform(Date(), `YYYY-MM-DD HH:mm`),
         requestParam: this.restApiService.generateRequestParam(),
@@ -450,6 +452,8 @@ export class EarningManagementComponent {
     this.form?.get('publishing')?.setValue(event?.publish);
     this.form?.get('everyThaiBath')?.setValue(event?.everyThaiBath);
     this.form?.get('takePoint')?.setValue(event?.takePoint);
+    this.form?.get('timeStart')?.setValue(event?.fromPeriod);
+    this.form?.get('timeEnd')?.setValue(event?.toPeriod);
   }
 
   selectToll(tollStations: any) {
@@ -486,8 +490,8 @@ export class EarningManagementComponent {
       publishing: new FormControl(false, Validators.required),
       startdate: [null, Validators.required],
       enddate: [null, Validators.required],
-      timeStart: [{ value: '00:00', disabled: true }],
-      timeEnd: [{ value: '23:59', disabled: true }],
+      timeStart: [null],
+      timeEnd: [null],
       everyThaiBath: [null],
       takePoint: [null],
     });

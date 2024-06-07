@@ -274,20 +274,20 @@
             <div class="row pt-3" *ngIf="!isBaseCampaign">
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="form-group d-inline">
-                        <label class="text-description mb-2 required-field">
+                        <label class="text-description mb-2">
                           ช่วงเวลาคะแนนพิเศษเริ่มต้น
                         </label>
                         <input class="form-control" id="timeStart" data-testid="timeStart" formControlName="timeStart"
-                          type="time" placeholder="เวลา">
+                          type="time" placeholder="เวลา" onclick="this.showPicker()" onfocus="this.value=''">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 mb-3">
                     <div class="form-group d-inline">
-                        <label class="text-description mb-2 required-field">
+                        <label class="text-description mb-2">
                           ช่วงเวลาคะแนนพิเศษสิ้นสุด
                         </label>
                         <input class="form-control" id="timeEnd" data-testid="timeEnd" formControlName="timeEnd"
-                          type="time" placeholder="เวลา">
+                          type="time" placeholder="เวลา" onclick="this.showPicker()" onfocus="this.value=''">
                     </div>
                 </div>
             </div>
