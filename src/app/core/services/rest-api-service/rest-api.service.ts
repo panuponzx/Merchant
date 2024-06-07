@@ -17,12 +17,12 @@ export class RestApiService {
 
   generateUUID(): string {
     // This implementation follows the UUID v4 standard
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
     });
-}
+  }
 
   generateRequestParam() {
     return {
@@ -33,7 +33,7 @@ export class RestApiService {
   }
 
   post(url: string, data: any): Observable<ResponseMessageModel> {
-    const requestParam ={
+    const requestParam = {
       // reqId: self.crypto.randomUUID(),
       reqId: this.generateUUID(),
       channelId: this.requestParamChannelId
@@ -44,7 +44,7 @@ export class RestApiService {
   }
 
   postAddForJuristic(url: string, data: any, file: File): Observable<ResponseMessageModel> {
-    const requestParam ={
+    const requestParam = {
       // reqId: self.crypto.randomUUID(),
       reqId: this.generateUUID(),
       channelId: this.requestParamChannelId
@@ -57,8 +57,8 @@ export class RestApiService {
     return this.httpClient.post<ResponseMessageModel>(baseURL, formData);
   }
 
-  postBackOffice(endpoint: string, body: any): Observable<ResponseMessageModel>{
-    const requestParam ={
+  postBackOffice(endpoint: string, body: any): Observable<ResponseMessageModel> {
+    const requestParam = {
       // reqId: self.crypto.randomUUID(),
       reqId: this.generateUUID(),
       channelId: this.requestParamChannelId
