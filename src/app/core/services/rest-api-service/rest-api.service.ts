@@ -15,16 +15,27 @@ export class RestApiService {
     private httpClient: HttpClient
   ) { }
 
+  generateUUID(): string {
+    // This implementation follows the UUID v4 standard
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
   generateRequestParam() {
     return {
-      reqId: self.crypto.randomUUID(),
+      // reqId: self.crypto.randomUUID(),
+      reqId: this.generateUUID(),
       channelId: this.requestParamChannelId
     }
   }
 
   post(url: string, data: any): Observable<ResponseMessageModel> {
     const requestParam ={
-      reqId: self.crypto.randomUUID(),
+      // reqId: self.crypto.randomUUID(),
+      reqId: this.generateUUID(),
       channelId: this.requestParamChannelId
     }
     data['requestParam'] = requestParam;
@@ -34,7 +45,8 @@ export class RestApiService {
 
   postAddForJuristic(url: string, data: any, file: File): Observable<ResponseMessageModel> {
     const requestParam ={
-      reqId: self.crypto.randomUUID(),
+      // reqId: self.crypto.randomUUID(),
+      reqId: this.generateUUID(),
       channelId: this.requestParamChannelId
     }
     data['requestParam'] = requestParam;
@@ -47,7 +59,8 @@ export class RestApiService {
 
   postBackOffice(endpoint: string, body: any): Observable<ResponseMessageModel>{
     const requestParam ={
-      reqId: self.crypto.randomUUID(),
+      // reqId: self.crypto.randomUUID(),
+      reqId: this.generateUUID(),
       channelId: this.requestParamChannelId
     }
     body['requestParam'] = requestParam;
@@ -64,7 +77,7 @@ export class RestApiService {
     const baseURL = environment.apiBackOffice + '/' + url;
     return this.httpClient.get(baseURL, { observe: 'response', responseType: 'blob' });
   }
-  
+
   get(url: string): Observable<ResponseMessageModel> {
     const baseURL = environment.api + '/' + url;
     return this.httpClient.get<ResponseMessageModel>(baseURL);
