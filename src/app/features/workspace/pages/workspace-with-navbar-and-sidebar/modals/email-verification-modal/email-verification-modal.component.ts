@@ -5,6 +5,7 @@ import { NgOtpInputComponent } from 'ng-otp-input';
 import { first, map } from 'rxjs';
 import { IEmailOtpModel, IEmailOtpVerifyModel, ResponseModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
+import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'app-email-verification-modal',
@@ -13,7 +14,7 @@ import { RestApiService } from 'src/app/core/services';
 })
 export class EmailVerificationModalComponent {
   @ViewChild('ngOtpInput') ngOtpInputRef:any;
-  
+
   public stepEnum = {
     SENT_OTP: "sent-otp",
     CONFIRM_OTP: "confirm-otp",
@@ -33,11 +34,12 @@ export class EmailVerificationModalComponent {
   public otpDelayInterval: any | undefined;
   public errorMessage: string | undefined;
 
-  
-  
+
+
   constructor(private formBuilder: FormBuilder,
     private restApiService: RestApiService,
-    public ngbActiveModal: NgbActiveModal) {
+    public ngbActiveModal: NgbActiveModal,
+    private modalDialogService: ModalDialogService) {
 
   }
 
@@ -70,7 +72,7 @@ export class EmailVerificationModalComponent {
     this.otpDelayInterval = setInterval(() => {
       this.otpDelay--;
       // console.log(this.otpDelay);
-      
+
       if (this.otpDelay == 0) {
         clearInterval(this.otpDelayInterval);
       }
@@ -81,7 +83,7 @@ export class EmailVerificationModalComponent {
     const data = {
       recipientEmail: this.email.value,
     };
-
+    this.modalDialogService.loading();
     this.restApiService.postBackOffice('notification/email-otp', data).pipe(
       first(),
     ).subscribe(
@@ -90,14 +92,17 @@ export class EmailVerificationModalComponent {
           let data = response as ResponseModel<IEmailOtpModel>;
           this.otpData = data.data;
           this.isLoading = false;
+          this.modalDialogService.hideLoading();
         },
         error: (error) => {
           console.error(error.error);
           this.errorMessage = `Server Error: ${error.error.errorMessage}`;
           this.isLoading = false;
+          this.modalDialogService.hideLoading();
         },
         complete: () => {
           this.step = this.stepEnum.CONFIRM_OTP;
+          this.modalDialogService.hideLoading();
           this.startInterval(parseFloat(this.otpData.limit_minute));
         }
       }
@@ -105,6 +110,7 @@ export class EmailVerificationModalComponent {
   }
 
   postSentOtpVerify() {
+    this.modalDialogService.loading();
     this.isLoading = true;
     this.errorMessage = undefined;
     const data = {
@@ -126,16 +132,18 @@ export class EmailVerificationModalComponent {
       {
         next: (response) => {
           this.isLoading = false;
+          this.modalDialogService.hideLoading();
         },
         error: (error) => {
           this.ngOtpInputRef.setValue('');
           console.error(error.message || error.error.errorMessage);
           this.errorMessage = `Server Error: ${error.message || error.error.errorMessage}`;
           this.isLoading = false;
+          this.modalDialogService.hideLoading();
         },
         complete: () => {
           console.log("complete");
-          
+          this.modalDialogService.hideLoading();
           this.ngbActiveModal.close(this.email.value);
         }
       }

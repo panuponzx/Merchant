@@ -60,6 +60,7 @@ export class WalletInfoComponent implements OnInit {
   }
 
   loadWalletInfo() {
+    this.modalDialogService.loading();
     const mockupData = {
       id: this.customerId,
     };
@@ -72,9 +73,11 @@ export class WalletInfoComponent implements OnInit {
         next: (res) => {
           console.log("[loadWalletInfo] res => ", res);
           this.setWallet(res.lstSummary);
+          this.modalDialogService.hideLoading();
           this.isLoading = false;
         },
         error: (err) => {
+          this.modalDialogService.hideLoading();
           console.error(err);
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }

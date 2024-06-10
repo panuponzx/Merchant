@@ -46,6 +46,7 @@ export class AddWalletModalComponent {
 
   onAddWallet() {
     this.isLoading = true;
+    this.modalDialogService.loading();
     const data = {
       customer: {
         id: this.customerId,

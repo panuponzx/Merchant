@@ -169,6 +169,7 @@ export class ApprovalManagementApprovalComponent {
         status: status,
       }
     };
+    this.isLoading = true;
     this.modalDialogService.loading();
     this.restApiService.postBackOffice('pending-request/get', data).subscribe({
       next: (res: any) => {
@@ -184,10 +185,12 @@ export class ApprovalManagementApprovalComponent {
         } else {
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
         }
+        this.isLoading = false;
         this.modalDialogService.hideLoading();
       },
       error: (err) => {
         this.modalDialogService.hideLoading();
+        this.isLoading = false;
         console.error(err);
         this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }

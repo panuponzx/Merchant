@@ -151,6 +151,7 @@ export class GeneralInfoComponent {
   }
 
   loadCustomer() {
+    this.modalDialogService.loading();
     const mockupData = {
       queryType: 2,
       customer: {
@@ -175,8 +176,10 @@ export class GeneralInfoComponent {
           this.requestParam = requestParam;
           this.setFormValue(customer, addresses);
           this.activeAddressTab = this.getActiveAddressTab();
+          this.modalDialogService.hideLoading();
         },
         error: (err) => {
+          this.modalDialogService.hideLoading();
           console.error(err);
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
@@ -393,7 +396,8 @@ export class GeneralInfoComponent {
 
   onCancel() {
     if (this.customer && this.addresses) {
-      this.setFormValue(this.customer, this.addresses);
+      // this.setFormValue(this.customer, this.addresses);
+      window.location.reload();
     }
   }
 

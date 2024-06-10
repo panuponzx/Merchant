@@ -59,36 +59,63 @@ export class DeviceListComponent implements OnInit {
     this.loadAllDevice();
   }
 
-  loadAllDevice(): void {
+  async loadAllDevice(): Promise<void> {
     this.modalDialogService.loading();
     this.isLoading = true;
-    forkJoin({
-      active: this.loadDevice('active'),
-      inactive: this.loadDevice('inactive'),
-    }).subscribe({
-      next: ({ active, inactive }) => {
-       this.activeRows = active.data;
-       this.inactiveRows = inactive.data;
-       this.modalDialogService.hideLoading();
-       this.isLoading = false;
-      },
-      error: error => {
-        this.modalDialogService.hideLoading();
-        this.isLoading = false;
-        console.error(error);
-        this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${error.body.errorMessage}`);
-      }
-    });
+    try {
+      await this.loadDevice('active');
+      await this.loadDevice('inactive');
+      this.modalDialogService.hideLoading();
+      this.isLoading = false;
+    } catch (error) {
+      console.error(error);
+      this.modalDialogService.hideLoading();
+      this.isLoading = false;
+    }
+    // forkJoin({
+    //   active: this.loadDevice('active'),
+    //   inactive: this.loadDevice('inactive'),
+    // }).subscribe({
+    //   next: ({ active, inactive }) => {
+    //    this.activeRows = active.data;
+    //    this.inactiveRows = inactive.data;
+    //    this.modalDialogService.hideLoading();
+    //    this.isLoading = false;
+    //   },
+    //   error: error => {
+    //     this.modalDialogService.hideLoading();
+    //     this.isLoading = false;
+    //     console.error(error);
+    //     this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${error.body.errorMessage}`);
+    //   }
+    // });
   }
 
-  loadDevice(tab: string): Observable<IResponseFaremediaModel> {
-    const data = {};
-    return this.restApiService
-      .post(`faremedia/get/${tab}/customer/${this.customerId}`, data)
-      .pipe(
-        first(),
-        map(res => res as IResponseFaremediaModel)
-      );
+  async loadDevice(tab: string): Promise<IResponseFaremediaModel | undefined> {
+    return new Promise((resolve) => {
+      const data = {};
+      this.restApiService
+        .post(`faremedia/get/${tab}/customer/${this.customerId}`, data)
+        .pipe(
+          first(),
+          map(res => res as IResponseFaremediaModel)
+        ).subscribe({
+          next: (data) => {
+            if (tab === 'active') { this.activeRows = data.data; }
+            if (tab === 'inactive') { this.inactiveRows = data.data; }
+            resolve(data);
+            //  this.modalDialogService.hideLoading();
+            //  this.isLoading = false;
+          },
+          error: error => {
+            resolve(undefined);
+            // this.modalDialogService.hideLoading();
+            // this.isLoading = false;
+            console.error(error);
+            if (!error.body?.errorMessage?.includes('No record found')) this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${error.body?.errorMessage}`);
+          }
+        });
+    });
   }
 
   loadWalletInfo() {

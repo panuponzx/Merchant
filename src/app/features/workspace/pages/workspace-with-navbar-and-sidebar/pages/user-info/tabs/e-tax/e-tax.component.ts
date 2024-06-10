@@ -75,6 +75,7 @@ export class ETaxComponent implements OnInit {
   }
 
   loadEtax() {
+    this.modalDialogService.loading();
     const mockupData = {
       customer: {
         id: this.customerId,
@@ -89,8 +90,10 @@ export class ETaxComponent implements OnInit {
         next: (res) => {
           this.customerEtax = res.customer;
           this.setFormGroup(res.customer);
+          this.modalDialogService.hideLoading();
         },
         error: (err) => {
+          this.modalDialogService.hideLoading();
           console.error(err);
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
@@ -138,6 +141,7 @@ export class ETaxComponent implements OnInit {
   }
 
   onChangeIsEtaxActive(event: any, email: string | undefined = undefined) {
+    this.modalDialogService.loading();
     let data = {
       customer: {
         id: this.customerId,
@@ -162,7 +166,7 @@ export class ETaxComponent implements OnInit {
         first(),
         map(res => res as any)
       ).subscribe({
-        next: (res) => {    
+        next: (res) => {
           this.modalDialogService.hideLoading();
           if (res.errorMessage === "Success") {
             this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การเพิ่ม/เปลี่ยนอีเมลรับใบกำกับภาษีสำเร็จ').then((res: boolean) => {
@@ -171,11 +175,13 @@ export class ETaxComponent implements OnInit {
           } else {
             this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
           }
+          this.modalDialogService.hideLoading();
         },
         error: (err) => {
           this.modalDialogService.hideLoading();
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
           console.error(err);
+          this.modalDialogService.hideLoading();
         }
       });
   }

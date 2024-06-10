@@ -63,6 +63,8 @@ export class TransferInfoComponent implements OnInit {
   }
 
   loadTransfer(data: TopupPayloadModel) {
+    this.modalDialogService.loading();
+    this.isLoading = true;
     const mockupData = {
       customerId: this.customerId,
       from: data.from,

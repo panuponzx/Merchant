@@ -188,7 +188,8 @@
   </ng-container>
 
   <ng-template #emptyEl>
-    <div class="empty-row mb-3">{{ emptyMessage }}</div>
+    <div *ngIf="!isLoading" class="empty-row mb-3">{{ emptyMessage }}</div>
+    <div *ngIf="isLoading" class="empty-row mb-3">{{ loadingMessage }}</div>
   </ng-template>
 
 </div>

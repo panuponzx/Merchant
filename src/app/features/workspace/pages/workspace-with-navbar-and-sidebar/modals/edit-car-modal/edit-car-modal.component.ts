@@ -123,7 +123,7 @@ export class EditCarModalComponent {
           console.error(error);
           if (error instanceof HttpResponse) {
             Swal.showValidationMessage(`
-            Request failed: ${error.body.errorCode}, ${error.body.errorMessage}
+            Request failed: ${error.body?.errorCode}, ${error.body?.errorMessage}
           `);
           }
           else {
@@ -172,7 +172,7 @@ export class EditCarModalComponent {
           console.error(error);
           if (error instanceof HttpResponse) {
             Swal.showValidationMessage(`
-            Request failed: ${error.body.errorCode}, ${error.body.errorMessage}
+            Request failed: ${error.body?.errorCode}, ${error.body?.errorMessage}
           `);
           }
           else {
@@ -230,7 +230,7 @@ export class EditCarModalComponent {
           console.error(error);
           if (error instanceof HttpResponse) {
             Swal.showValidationMessage(`
-            Request failed: ${error.body.errorCode}, ${error.body.errorMessage}
+            Request failed: ${error.body?.errorCode}, ${error.body?.errorMessage}
           `);
           }
           else {

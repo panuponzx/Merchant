@@ -12,7 +12,7 @@ export class DatatableComponent {
   @ViewChild(DatatablesComponent) public dataTableEl: DatatablesComponent | undefined;
 
   @Input() public id: string = 'datatable';
-  
+
   @Input() public collectionSize: number = 0;
   @Input() public page: number = 1;
   @Input() public pageSize: number = 5;
@@ -20,6 +20,7 @@ export class DatatableComponent {
 
   @Input() public rows: any[] = [];
   @Input() public emptyMessage: string = 'No Data Found';
+  @Input() public loadingMessage: string = 'กำลังโหลดข้อมูล...';
   @Input() public columns: CustomColumnModel[] = [];
   @Input() public headerHeight: number = 0;
   @Input() public rowHeight: any = 'auto';
@@ -44,19 +45,15 @@ export class DatatableComponent {
   @Output() onRowCancelEvent = new EventEmitter<RowActionEventModel>();
 
   constructor(
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     // this.collectionSize = this.rows.length;
     // console.log(this.totalPages);
-    
   }
 
   onChangePage(value: number) {
-    console.log('xxxxxxxx');
-    
+    // console.log('xxxxxxxx');
     this.onChangePageEvent.emit(value);
     this.dataTableEl?.recalculate();
   }

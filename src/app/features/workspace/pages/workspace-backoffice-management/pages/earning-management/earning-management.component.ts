@@ -220,7 +220,7 @@ export class EarningManagementComponent {
     this.loadCampaignSpecial();
   }
 
-  async loadCarType(): Promise<any> {
+  async loadCarType(): Promise<any[]> {
     return new Promise((resolve) => {
       this.restApiService.getBackOffice('master-data/car-types').subscribe(
         (Response: any) => {
@@ -228,13 +228,13 @@ export class EarningManagementComponent {
             this.CarType = Response.data;
             this.CarType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
           }
-          resolve({ data: this.CarType });
+          resolve(this.CarType);
         });
     });
 
   }
 
-  async loadCustomerType(): Promise<any> {
+  async loadCustomerType(): Promise<any[]> {
     return new Promise((resolve) => {
       this.restApiService.getBackOffice('master-data/customer-types').subscribe(
         (Response: any) => {
@@ -242,12 +242,12 @@ export class EarningManagementComponent {
             this.UserType = Response.data;
             // this.UserType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
           }
-          resolve({ data: this.UserType });
+          resolve(this.UserType);
         });
     });
   }
 
-  async loadTollStation(): Promise<any> {
+  async loadTollStation(): Promise<any[]> {
     return new Promise((resolve) => {
 
       this.restApiService.getBackOffice('master-data/toll-stations').subscribe(
@@ -256,12 +256,12 @@ export class EarningManagementComponent {
             this.route = Response.data;
             this.route?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
           }
-          resolve({ data: this.route });
+          resolve(this.route);
         });
     });
   }
 
-  async loadSubTollStation(): Promise<any> {
+  async loadSubTollStation(): Promise<any[]> {
     return new Promise((resolve) => {
 
       this.restApiService.getBackOffice('master-data/all-toll-stations').subscribe(
@@ -270,12 +270,12 @@ export class EarningManagementComponent {
             this.expressBuildingTemp = Response.data;
             // this.expressBuildingTemp?.sort((a: any, b: any) => a.expresswayId.localeCompare(b.expresswayId) || a.tollName - b.tollName);
           }
-          resolve({ data: this.expressBuildingTemp });
+          resolve(this.expressBuildingTemp);
         });
     });
   }
 
-  async loadCampaignOperation(): Promise<any> {
+  async loadCampaignOperation(): Promise<any[]> {
     return new Promise((resolve) => {
 
       this.restApiService.getBackOffice('master-data/campaign-cal-operations').subscribe(
@@ -284,7 +284,7 @@ export class EarningManagementComponent {
             this.CalculatedVariables = Response.data;
             this.CalculatedVariables?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
           }
-          resolve({ data: this.CalculatedVariables });
+          resolve(this.CalculatedVariables);
         });
     });
   }
