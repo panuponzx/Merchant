@@ -102,13 +102,15 @@ export class EarningManagementComponent {
   }
 
   async loadData(): Promise<void> {
+    this.isLoading = true;
+    this.modalDialogService.loading();
     try {
-      this.loadCarType();
-      this.loadCustomerType();
-      this.loadTollStation();
-      this.loadSubTollStation();
-      this.loadCampaignOperation();
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await this.loadCarType();
+      await this.loadCustomerType();
+      await this.loadTollStation();
+      await this.loadSubTollStation();
+      await this.loadCampaignOperation();
+      await new Promise(resolve => setTimeout(resolve, 100));
       // this.loadCampaignBase();
       // this.loadCampaignSpecial();
     }
@@ -140,12 +142,12 @@ export class EarningManagementComponent {
           let carTypesTextTemp = this.CarType.filter(car =>
             !!res.data['carTypes']?.find((carEvent: any) => car.key == carEvent)
           );
-          res.data['carTypesText'] = [...carTypesTextTemp.map((value: any) => value.name)].join(', ');
+          res.data['carTypesText'] = carTypesTextTemp.length > 0 ? [...carTypesTextTemp.map((value: any) => value.name)].join(', ') : res.data['carTypes'];
           res.data['carTypesList'] = res.data['isAllCarType'] == true ? 'ทุกประเภทรถ' : res.data['carTypesText'];
           let tollStationsTextTemp = this.expressBuildingTemp.filter(toll =>
             !!res.data['tollStations']?.find((tollEvent: any) => toll.tollCode == tollEvent)
           );
-          res.data['tollStationsText'] = [...tollStationsTextTemp.map((value: any) => value.tollName)].join(', ');
+          res.data['tollStationsText'] = tollStationsTextTemp.length > 0 ? [...tollStationsTextTemp.map((value: any) => value.tollName)].join(', ') : res.data['tollStations'];
           res.data['tollStationsList'] = res.data['isAllTollStation'] == true ? 'ทุกด่านอาคาร' : res.data['tollStationsText'];
           data.push(res.data);
           console.log("[loadData] res => ", res);
@@ -177,12 +179,12 @@ export class EarningManagementComponent {
                 let customerTypesTextTemp = this.UserType.filter(user =>
                   !!value.customerTypes?.find((userEvent: any) => user.key == userEvent)
                 );
-                value.customerTypesText = [...customerTypesTextTemp.map((value: any) => value.name)].join(', ');
+                value.customerTypesText = customerTypesTextTemp.length > 0 ? [...customerTypesTextTemp.map((value: any) => value.name)].join(', ') : value.customerTypes;
                 value.customerTypesList = value.isAllCustomerTypes == true ? 'ทุกกลุ่มลูกค้า' : value.customerTypesText;
                 let carTypesTextTemp = this.CarType.filter(car =>
                   !!value.carTypes?.find((carEvent: any) => car.key == carEvent)
                 );
-                value.carTypesText = [...carTypesTextTemp.map((value: any) => value.name)].join(', ');
+                value.carTypesText = carTypesTextTemp.length > 0 ? [...carTypesTextTemp.map((value: any) => value.name)].join(', ') : value.carTypes;
                 value.carTypesList = value.isAllCarTypes == true ? 'ทุกประเภทรถ' : value.carTypesText;
                 // value.conditionText = value.operation == 1 ? 'บวก (+)' : value.operation == 2 ? 'คูณ (x)' : null;
                 value.conditionText = this.CalculatedVariables?.find(x => x.key == value.operation)?.name
@@ -218,55 +220,73 @@ export class EarningManagementComponent {
     this.loadCampaignSpecial();
   }
 
-  loadCarType() {
-    this.restApiService.getBackOffice('master-data/car-types').subscribe(
-      (Response: any) => {
-        if (Array.isArray(Response.data)) {
-          this.CarType = Response.data;
-          this.CarType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
-        }
-      });
+  async loadCarType(): Promise<any> {
+    return new Promise((resolve) => {
+      this.restApiService.getBackOffice('master-data/car-types').subscribe(
+        (Response: any) => {
+          if (Array.isArray(Response.data)) {
+            this.CarType = Response.data;
+            this.CarType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
+          }
+          resolve({ data: this.CarType });
+        });
+    });
+
   }
 
-  loadCustomerType() {
-    this.restApiService.getBackOffice('master-data/customer-types').subscribe(
-      (Response: any) => {
-        if (Array.isArray(Response.data)) {
-          this.UserType = Response.data;
-          // this.UserType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
-        }
-      });
+  async loadCustomerType(): Promise<any> {
+    return new Promise((resolve) => {
+      this.restApiService.getBackOffice('master-data/customer-types').subscribe(
+        (Response: any) => {
+          if (Array.isArray(Response.data)) {
+            this.UserType = Response.data;
+            // this.UserType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
+          }
+          resolve({ data: this.UserType });
+        });
+    });
   }
 
-  loadTollStation() {
-    this.restApiService.getBackOffice('master-data/toll-stations').subscribe(
-      (Response: any) => {
-        if (Array.isArray(Response.data)) {
-          this.route = Response.data;
-          this.route?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
-        }
-      });
+  async loadTollStation(): Promise<any> {
+    return new Promise((resolve) => {
+
+      this.restApiService.getBackOffice('master-data/toll-stations').subscribe(
+        (Response: any) => {
+          if (Array.isArray(Response.data)) {
+            this.route = Response.data;
+            this.route?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
+          }
+          resolve({ data: this.route });
+        });
+    });
   }
 
-  loadSubTollStation() {
-    this.restApiService.getBackOffice('master-data/all-toll-stations').subscribe(
-      (Response: any) => {
-        if (Array.isArray(Response.data)) {
-          this.expressBuildingTemp = Response.data;
-          // this.expressBuildingTemp?.sort((a: any, b: any) => a.expresswayId.localeCompare(b.expresswayId) || a.tollName - b.tollName);
-        }
-      });
+  async loadSubTollStation(): Promise<any> {
+    return new Promise((resolve) => {
+
+      this.restApiService.getBackOffice('master-data/all-toll-stations').subscribe(
+        (Response: any) => {
+          if (Array.isArray(Response.data)) {
+            this.expressBuildingTemp = Response.data;
+            // this.expressBuildingTemp?.sort((a: any, b: any) => a.expresswayId.localeCompare(b.expresswayId) || a.tollName - b.tollName);
+          }
+          resolve({ data: this.expressBuildingTemp });
+        });
+    });
   }
 
-  loadCampaignOperation() {
-    this.restApiService.getBackOffice('master-data/campaign-cal-operations').subscribe(
-      (Response: any) => {
-        if (Array.isArray(Response.data)) {
-          this.CalculatedVariables = Response.data;
-          this.CalculatedVariables?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
-        }
-      });
+  async loadCampaignOperation(): Promise<any> {
+    return new Promise((resolve) => {
 
+      this.restApiService.getBackOffice('master-data/campaign-cal-operations').subscribe(
+        (Response: any) => {
+          if (Array.isArray(Response.data)) {
+            this.CalculatedVariables = Response.data;
+            this.CalculatedVariables?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
+          }
+          resolve({ data: this.CalculatedVariables });
+        });
+    });
   }
 
   onSelectRoute(item: any, pages?: any) {
