@@ -67,9 +67,8 @@ export class UserInfoComponent implements OnInit {
         }
         if (info[1].data) {
           this.walletTotal = info[1].data.length;
-          console.log("[loadCustomerInfo] info => ", info);
-          this.totalLoyaltyPoint = info[1].data.reduce((a, b) => a + b.totalPointBalance, 0);
-          this.totalBalance = info[1].data.reduce((a, b) => a + b.totalBalance, 0);
+          this.totalLoyaltyPoint = info[1].data.reduce((a, b) => a + b.totalPoint, 0);
+          this.totalBalance = info[1].data.reduce((a, b) => a + b.totalBalance + b.totalPointBalance, 0);
         }
         this.modalDialogService.hideLoading();
         this.isLoading = false;

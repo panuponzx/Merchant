@@ -32,6 +32,9 @@ export class TopupAndPaymentInformationComponent implements OnInit {
     statusId: 0,
     typeId: 0,
     typeName: 'ทุกกระเป๋า',
+    creditBalance: 0,
+    lastUse: new Date(),
+    totalPoint: 0
   }
   
 
