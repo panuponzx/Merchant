@@ -316,11 +316,11 @@
 
             <div class="footer d-flex justify-content-center gap-3">
                 <button (click)="onBack()" class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton"
-                    title="ย้อนกลับ">
+                    title="ย้อนกลับ" type="button">
                     ย้อนกลับ
                 </button>
                 <button (click)="onSubmit()" class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton"
-                    title="ถัดไป" [disabled]="form.invalid">
+                    title="ถัดไป" [disabled]="form.invalid" type="button">
                     บันทึก
                 </button>
             </div>
