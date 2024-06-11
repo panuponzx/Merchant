@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, ErrorHandler, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first, firstValueFrom } from 'rxjs';
+import { first, firstValueFrom, throwError } from 'rxjs';
 import { CarInfoModel, ICarMasterData, IProvinceMasterData, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
@@ -91,11 +91,66 @@ export class EditCarModalComponent {
       });
   }
 
+  onDeactivate() {
+    Swal.fire({
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      inputPlaceholder: "กรุณาระบุ",
+      title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการยกเลิกอุปกรณ์</h2>',
+      html: '<label>กรุณายืนยัน</label><br><label class="required-field" style="text-align: left;width: 100%;">หมายเหตุ</label>',
+      showCancelButton: true,
+      customClass: {
+        confirmButton: "custom-btn btn-type-1 red ms-2",
+        cancelButton: "custom-btn btn-type-1 outline"
+      },
+      buttonsStyling: false,
+      showLoaderOnConfirm: true,
+      confirmButtonText: "ยกเลิกอุปกรณ์",
+      cancelButtonText: "กลับ",
+      reverseButtons: true,
+      inputValidator: (remark) => {
+        return new Promise((resolve) => {
+          if (remark) {
+            resolve("Mock Alert");
+          } else {
+            resolve("กรุณาระบุหมายเหตุ");
+          }
+        });
+      },
+      preConfirm: async (remark) => {
+        try {
+
+        } catch (error: any) {
+          console.error(error);
+          if (error instanceof HttpResponse) {
+            Swal.showValidationMessage(`
+              Request failed: ${error.body?.errorCode}, ${error.body?.errorMessage}
+            `);
+          }
+          else {
+            Swal.showValidationMessage(`Some thing failed`);
+          }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ngbActiveModal.close(true);
+      }
+    });
+  }
 
   onSuspend() {
     Swal.fire({
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      inputPlaceholder: "กรุณาระบุ",
       title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการอายัดอุปกรณ์</h2>',
-      html: '<label>กรุณายืนยัน</label>',
+      html: '<label>กรุณายืนยัน</label><br><label class="required-field" style="text-align: left;width: 100%;">หมายเหตุ</label>',
       showCancelButton: true,
       customClass: {
         confirmButton: "custom-btn btn-type-1 red ms-2",
@@ -106,7 +161,16 @@ export class EditCarModalComponent {
       confirmButtonText: "อายัดชั่วคราว",
       cancelButtonText: "กลับ",
       reverseButtons: true,
-      preConfirm: async () => {
+      inputValidator: (remark) => {
+        return new Promise((resolve) => {
+          if (remark) {
+            resolve();
+          } else {
+            resolve("กรุณาระบุหมายเหตุ");
+          }
+        });
+      },
+      preConfirm: async (remark) => {
         try {
           const payload = {
             obu: {
@@ -143,8 +207,13 @@ export class EditCarModalComponent {
 
   onActive() {
     Swal.fire({
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      inputPlaceholder: "กรุณาระบุ",
       title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการอายัดอุปกรณ์</h2>',
-      html: '<label>กรุณายืนยัน</label>',
+      html: '<label>กรุณายืนยัน</label><br><label class="required-field" style="text-align: left;width: 100%;">หมายเหตุ</label>',
       showCancelButton: true,
       customClass: {
         confirmButton: "custom-btn btn-type-1 blue ms-2",
@@ -155,7 +224,16 @@ export class EditCarModalComponent {
       confirmButtonText: "ยกเลิกการอายัด",
       cancelButtonText: "กลับ",
       reverseButtons: true,
-      preConfirm: async () => {
+      inputValidator: (remark) => {
+        return new Promise((resolve) => {
+          if (remark) {
+            resolve();
+          } else {
+            resolve("กรุณาระบุหมายเหตุ");
+          }
+        });
+      },
+      preConfirm: async (remark) => {
         try {
           const payload = {
             obu: {

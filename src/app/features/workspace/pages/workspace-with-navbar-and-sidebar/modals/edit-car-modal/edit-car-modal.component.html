@@ -143,7 +143,7 @@
     </form>
     <div class="d-flex justify-content-between">
         <div class="left">
-            <button class="custom-btn btn-type-1 red-outline">ยกเลิกอุปกรณ์</button>
+            <button class="custom-btn btn-type-1 red-outline" (click)="onDeactivate()">ยกเลิกอุปกรณ์</button>
             <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onSuspend()" *ngIf="carInfo.obuStatus == 200">อายัดชั่วคราว</button>
             <button class="custom-btn btn-type-1 outline ms-2" (click)="onActive()" *ngIf="carInfo.obuStatus >= 300 && carInfo.obuStatus <= 399">ยกเลิกการอายัด</button>
         </div>
