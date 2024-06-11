@@ -1,7 +1,7 @@
 import { AfterContentInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { start } from '@popperjs/core';
-import { catchError, map , Observer, throwError} from 'rxjs';
+import { catchError, map, Observer, throwError } from 'rxjs';
 import { ResponseMessageModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
@@ -33,13 +33,13 @@ export class OtpConfirmComponent implements AfterContentInit {
   refOTP: string = '';
   mobilePhone: string = '';
   public isLoading: boolean = false;
-  refCode : string | undefined;
+  refCode: string | undefined;
   token: string = '';
   err: string = '';
 
   footerHeight: number = 0
 
-  constructor(private restApiService:RestApiService, private modalDialogService: ModalDialogService) {}
+  constructor(private restApiService: RestApiService, private modalDialogService: ModalDialogService) { }
 
   cooldownActive: boolean = true;
   intervalId: any;
@@ -47,7 +47,6 @@ export class OtpConfirmComponent implements AfterContentInit {
 
   ngOnInit(): void {
     this.sendOTP();
-
   }
 
   sendOTP() {
@@ -69,7 +68,7 @@ export class OtpConfirmComponent implements AfterContentInit {
               console.log(response.data.otp_token);
 
               const cooldownMinute = parseFloat(response.data.limit_minute);
-              if (isNaN(cooldownMinute)){
+              if (isNaN(cooldownMinute)) {
                 throw new Error('Cooldown time is not a valid number.');
               }
               const cooldownTime = cooldownMinute * 60;
@@ -87,10 +86,12 @@ export class OtpConfirmComponent implements AfterContentInit {
         .subscribe({
           next: (response: any) => {
             this.modalDialogService.hideLoading();
+            this.isLoading = false;
             this.startCooldown(response.cooldownTime);
           },
           error: (error: any) => {
             this.modalDialogService.hideLoading();
+            this.isLoading = false;
             console.error(error);
             this.err = error;
           },
@@ -105,6 +106,8 @@ export class OtpConfirmComponent implements AfterContentInit {
 
   onAgain() {
     if (!this.cooldownActive) {
+      const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4', 'digit_5', 'digit_6'];
+      digitControls.forEach(controlName => this.form.get(controlName)?.setValue(null));
       this.sendOTP();
     }
   }
@@ -115,7 +118,7 @@ export class OtpConfirmComponent implements AfterContentInit {
 
     this.intervalId = setInterval(() => {
       this.display--;
-      if (this.display <= 0 ){
+      if (this.display <= 0) {
         this.clearInterval();
         this.cooldownActive = false;
       }
@@ -142,7 +145,7 @@ export class OtpConfirmComponent implements AfterContentInit {
   }
 
   formatMobilePhone() {
-    let cleaned = ('' + this.otpFrom.get('mobilePhone')?.value).replace(/\D/g, '');
+    let cleaned = ('' + this.mobileNumber).replace(/\D/g, '');
     let match = cleaned.match(/^(0|)(\d{2})(\d{3})(\d{4})$/);
     if (match) {
       this.mobilePhone = '+66 ' + match[2] + ' ••• ' + match[4];
@@ -266,48 +269,54 @@ export class OtpConfirmComponent implements AfterContentInit {
   }
 
   onBack() {
+    const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4', 'digit_5', 'digit_6'];
+    digitControls.forEach(controlName => this.form.get(controlName)?.setValue(null));
     this.previousStep.emit('user-info');
   }
 
-  invalidOTP:boolean = false;
+  invalidOTP: boolean = false;
   verify: any;
 
   onNext() {
     if (this.form.valid) {
-        const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4', 'digit_5', 'digit_6'];
-        const otpCode = digitControls.map(controlName => this.form.get(controlName)?.value).join('');
-        const otpToken = this.token;
-        const refCode = this.refCode;
-
-        const verifyData = {
-          otpToken: otpToken,
-          otpCode: otpCode,
-          refCode: refCode,
-        }
-
-        this.restApiService.postBackOffice('notification/sms-otp-verify', verifyData)
-            .subscribe({
-                next: (response: any) => {
-                    if (response && response.data && response.data.verified === true) {
-                        this.submit.emit(true);
-                        this.invalidOTP = false;
-                        this.verify = response.verified;
-                        this.err = 'Success';
-                    } else {
-                        this.err = 'Invalid OTP';
-                        this.invalidOTP = true;
-                    }
-                },
-                error: (error: any) => {
-                    console.error('Error:', error);
-                    this.err = 'Invalid OTP';
-                    this.invalidOTP = true;
-                }
-            });
+      const digitControls = ['digit_1', 'digit_2', 'digit_3', 'digit_4', 'digit_5', 'digit_6'];
+      const otpCode = digitControls.map(controlName => this.form.get(controlName)?.value).join('');
+      const otpToken = this.token;
+      const refCode = this.refCode;
+      const verifyData = {
+        otpToken: otpToken,
+        otpCode: otpCode,
+        refCode: refCode,
+      }
+      this.isLoading = true;
+      this.modalDialogService.loading();
+      this.restApiService.postBackOffice('notification/sms-otp-verify', verifyData)
+        .subscribe({
+          next: (response: any) => {
+            this.isLoading = false;
+            this.modalDialogService.hideLoading();
+            if (response && response.data && response.data.verified === true) {
+              this.submit.emit(true);
+              this.invalidOTP = false;
+              this.verify = response.verified;
+              this.err = 'Success';
+            } else {
+              this.err = 'Invalid OTP';
+              this.invalidOTP = true;
+            }
+          },
+          error: (error: any) => {
+            this.isLoading = false;
+            this.modalDialogService.hideLoading();
+            console.error('Error:', error);
+            this.err = 'Invalid OTP';
+            this.invalidOTP = true;
+          }
+        });
     } else {
-        console.log('Form is invalid');
-        this.err = 'Form is invalid.';
-        this.invalidOTP = true;
+      console.log('Form is invalid');
+      this.err = 'Form is invalid.';
+      this.invalidOTP = true;
     }
 
   }

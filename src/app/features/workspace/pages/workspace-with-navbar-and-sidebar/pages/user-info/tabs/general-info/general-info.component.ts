@@ -181,7 +181,8 @@ export class GeneralInfoComponent {
         error: (err) => {
           this.modalDialogService.hideLoading();
           console.error(err);
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+          this.modalDialogService.handleError(err);
+          // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       });
   }
@@ -307,7 +308,8 @@ export class GeneralInfoComponent {
           error: (err) => {
             this.modalDialogService.hideLoading();
             console.error(err);
-            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+            this.modalDialogService.handleError(err);
+            // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
           }
         })
     } else if (this.customerTypeId === '3') {
@@ -380,7 +382,8 @@ export class GeneralInfoComponent {
           error: (err) => {
             this.modalDialogService.hideLoading();
             console.error(err);
-            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+            this.modalDialogService.handleError(err);
+            // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
           }
         })
     }

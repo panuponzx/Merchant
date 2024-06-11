@@ -94,11 +94,11 @@
                                 'is-invalid': form.get('subDistrict').errors?.['required'] && form.get('subDistrict').touched
                               }"
                                 class="form-control"
-                                [clearable]="false" 
+                                [clearable]="false"
                                 bindLabel="subdistrict.name"
                                 id="subDistrictInput"
-                                data-testid="subDistrictInput" 
-                                formControlName="subDistrict" 
+                                data-testid="subDistrictInput"
+                                formControlName="subDistrict"
                                 (change)="onChangeSubDistrict($event)"
                                 [items]="postalCodeList">
                             </ng-select>
@@ -112,10 +112,10 @@
                             <ng-select [ngClass]="{
                                 'is-invalid': form.get('district').errors?.['required'] && form.get('district').touched
                               }"
-                                class="form-control" 
-                                [clearable]="false" 
+                                class="form-control"
+                                [clearable]="false"
                                 bindLabel="name"
-                                data-testid="districtInput" 
+                                data-testid="districtInput"
                                 formControlName="district"
                                 id="districtInput"
                                 [items]="districtList">
@@ -130,11 +130,11 @@
                             <ng-select [ngClass]="{
                                 'is-invalid': form.get('province').errors?.['required'] && form.get('province').touched
                               }"
-                                class="form-control" 
-                                [clearable]="false" 
+                                class="form-control"
+                                [clearable]="false"
                                 bindLabel="name"
-                                data-testid="provinceInput" 
-                                formControlName="province" 
+                                data-testid="provinceInput"
+                                formControlName="province"
                                 id="provinceInput"
                                 [items]="provinceList">
                             </ng-select>
@@ -153,7 +153,7 @@
             ย้อนกลับ
         </button>
         <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-            [disabled]="form.invalid" (click)="onNext()">
+            [disabled]="form.invalid || !form.controls['subDistrict'].value" (click)="onNext()">
             ถัดไป
         </button>
     </div>

@@ -160,7 +160,8 @@ export class EarningManagementComponent {
           this.isLoading = false;
           this.modalDialogService.hideLoading();
           console.error(err);
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+          this.modalDialogService.handleError(err);
+          // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       });
   }
@@ -209,7 +210,8 @@ export class EarningManagementComponent {
           this.isLoading = false;
           this.modalDialogService.hideLoading();
           console.error(err);
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+          this.modalDialogService.handleError(err);
+          // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       });
   }
@@ -417,7 +419,8 @@ export class EarningManagementComponent {
           this.submitted = false;
           this.modalDialogService.hideLoading();
           console.error(err);
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+          this.modalDialogService.handleError(err);
+          // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       });
   }

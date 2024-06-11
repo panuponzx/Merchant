@@ -15,7 +15,7 @@ export class InputAddUserComponent {
 
   public step: number = 1;
   public customerType: number = 0;
-  public refCode: string | undefined; 
+  public refCode: string | undefined;
 
   public userInfoForm!: FormGroup;
   public addressInfoForm: FormGroup;
@@ -296,7 +296,8 @@ export class InputAddUserComponent {
           error: (err) => {
             this.modalDialogService.hideLoading();
             console.error(err);
-            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+            this.modalDialogService.handleError(err);
+            // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
           }
         })
     } else if (this.customerType === 2) {
@@ -369,7 +370,8 @@ export class InputAddUserComponent {
           error: (err) => {
             this.modalDialogService.hideLoading();
             console.error(err);
-            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+            this.modalDialogService.handleError(err);
+            // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
           }
         })
     }

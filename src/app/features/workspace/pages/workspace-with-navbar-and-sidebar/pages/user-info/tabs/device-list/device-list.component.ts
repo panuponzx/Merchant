@@ -73,7 +73,8 @@ export class DeviceListComponent implements OnInit {
           this.modalDialogService.hideLoading();
           this.isLoading = false;
           console.error(error);
-          if (!error.body?.errorMessage?.includes('No record found')) this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${error.body?.errorMessage}`);
+          if (!error.body?.errorMessage?.includes('No record found')) this.modalDialogService.handleError(error);
+          // if (!error.body?.errorMessage?.includes('No record found')) this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', `${error.body?.errorMessage}`);
         }
       });
   }

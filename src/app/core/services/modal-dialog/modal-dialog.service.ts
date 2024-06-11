@@ -27,7 +27,22 @@ export class ModalDialogService {
   }
 
   public hideLoading() {
-    if(this.modalLoadingRef) this.modalLoadingRef.close(true);
+    if (this.modalLoadingRef) this.modalLoadingRef.close(true);
+  }
+
+  public handleError(error: any) {
+    let errorMessage = "";
+    if (error.body) {
+      if (error.body.errorMessage && !error.body?.errorMessage?.toLowerCase().includes('internal server error')) {
+        errorMessage = error.body.errorMessage;
+      } else {
+        errorMessage = error.body.throwableMessage;
+      }
+    } else {
+      errorMessage = error.error.errorMessage;
+    }
+    // console.log('errorMessage: ', errorMessage);
+    this.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorMessage);
   }
 
   public info(
@@ -35,7 +50,7 @@ export class ModalDialogService {
     color: string,
     title: string,
     message?: string
-  ){
+  ) {
     if (this.modalInfoRef) { this.modalInfoRef.close(true); }
     this.modalInfoRef = this.ngbModal.open(InfoModalComponent, {
       windowClass: 'info-modal',
@@ -54,7 +69,7 @@ export class ModalDialogService {
   }
 
   public hideInfo() {
-    if(this.modalInfoRef) this.modalInfoRef.close(true);
+    if (this.modalInfoRef) this.modalInfoRef.close(true);
   }
 
   public confirm(
