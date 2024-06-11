@@ -53,9 +53,13 @@ export class DeviceListComponent implements OnInit {
     private modalDialogService: ModalDialogService,
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.loadDevice('active');
+    this.loadDevice('inactive');
+  }
 
   loadDevice(tab: string): void {
+    this.modalDialogService.loading();
     const data = {};
     this.restApiService
       .post(`faremedia/get/${tab}/customer/${this.customerId}`, data)
@@ -118,6 +122,6 @@ export class DeviceListComponent implements OnInit {
   onChangeNav(tab: string) {
     // console.info("onChangeNav: ", event);
     this.pages = 1;
-    this.loadDevice(tab);
+    // this.loadDevice(tab);
   }
 }
