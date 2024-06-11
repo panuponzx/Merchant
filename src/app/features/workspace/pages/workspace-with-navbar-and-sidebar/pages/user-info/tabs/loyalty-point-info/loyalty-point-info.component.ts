@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { zip, first, map } from 'rxjs';
-import { CustomColumnModel, CarInfoModel, ReponseWalletSummaryModel, WalletSummaryModel, ReponseCustomerObuModel, ObuInfoModel, RowActionEventModel } from '../../../../../../../../core/interfaces';
+import { CustomColumnModel, CarInfoModel, ReponseWalletSummaryModel, WalletSummaryModel, ReponseCustomerObuModel, ObuInfoModel, RowActionEventModel, IWalletInfoModel } from '../../../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../../../core/services';
+import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
   selector: 'loyalty-point-info',
@@ -35,11 +36,12 @@ export class LoyaltyPointInfoComponent implements OnInit {
 
   public getPointRows: any[] = [];
   public usePointRows: any[] = [];
+  public wallets: IWalletInfoModel[] = [];
 
   public isLoading: boolean = false;
 
   constructor(
-    private restApiService: RestApiService
+    private restApiService: RestApiService, private modalDialogService: ModalDialogService
   ) {
     this.getPointRows = [
       {
@@ -264,7 +266,29 @@ export class LoyaltyPointInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.customerId) {
+      this.loadWalletInfo();
+    }
+  }
 
+  loadWalletInfo() {
+    this.modalDialogService.loading();
+    const mockupData = {
+      id: this.customerId,
+    };
+    this.restApiService.postBackOffice('wallet/get-wallets', mockupData).pipe()
+      .subscribe({
+        next: (res: any) => {
+          this.wallets = res?.data;
+          this.modalDialogService.hideLoading();
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.modalDialogService.hideLoading();
+          console.error(err);
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+        }
+      })
   }
 
   onChangePage(event: number) {

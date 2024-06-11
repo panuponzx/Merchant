@@ -3,14 +3,15 @@
         <label class="label-input" for="walletSelect">
             กระเป๋าเงิน
         </label>
-        <ng-select 
+        <ng-select
             class="form-control"
-            [clearable]="false" 
-            bindLabel="label"
+            [clearable]="false"
+            bindLabel="name"
             bindValue="id"
             id="walletSelect"
-            data-testid="walletSelect" 
-            [items]="[]">
+            data-testid="walletSelect"
+            [placeholder]="'เลือกกระเป๋าเงิน'"
+            [items]="wallets">
         </ng-select>
     </div>
     <div class="device-header-wrapper mb-3">
@@ -59,8 +60,7 @@
           </li>
         </ul>
       </div>
-  
+
     </div>
     <div [ngbNavOutlet]="nav" class="navs-content-container"></div>
   </div>
-  

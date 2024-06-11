@@ -133,6 +133,18 @@ export class AddressComponent implements OnInit {
 
   onChangeZipcode(event: string) {
     if (event && event.length >= 5) {
+      if (this.form) {
+        const formControl = this.form.controls;
+        formControl['subdistrictCode'].reset();
+        formControl['districtCode'].reset();
+        formControl['provinceCode'].reset();
+        formControl['subdistrictName'].reset();
+        formControl['districtName'].reset();
+        formControl['provinceName'].reset();
+        this.subdistricts = [];
+        this.districts = [];
+        this.provinces = [];
+      }
       this.loadZipcode(false);
     } else {
       if (this.form) {
