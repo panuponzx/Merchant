@@ -48,7 +48,7 @@ export class GeneralInfoComponent {
     createDate: new FormControl(undefined, Validators.required),
     customerTypeId: new FormControl(undefined, Validators.required),
     customerTypeName: new FormControl(undefined, Validators.required),
-    email: new FormControl(undefined, Validators.required),
+    email: new FormControl(undefined),
     firstName: new FormControl(undefined, Validators.required),
     gender: new FormControl(undefined, Validators.required),
     id: new FormControl(undefined, Validators.required),
@@ -343,7 +343,7 @@ export class GeneralInfoComponent {
             firstName: this.form.getRawValue().firstName,
             lastName: this.form.getRawValue().lastName,
             mobilePhone: this.form.getRawValue().mobilePhone,
-            // email: this.form.getRawValue().email,
+            email: this.form.getRawValue().email,
             citizenDocId: this.form.getRawValue().citizenDocId,
             citizenId: this.form.getRawValue().citizenId,
             corporateName: this.form.getRawValue().corporateName,
@@ -420,12 +420,12 @@ export class GeneralInfoComponent {
     formControl['createDate'].setValue(customer.createDate);
     formControl['customerTypeId'].setValue(customer.customerTypeId);
     formControl['customerTypeName'].setValue(customer.customerTypeName);
-    formControl['email'].setValue(customer.email);
     formControl['firstName'].setValue(customer.firstName);
     formControl['gender'].setValue(customer.gender);
     formControl['id'].setValue(customer.id);
     formControl['lastName'].setValue(customer.lastName);
     formControl['mobilePhone'].setValue(customer.mobilePhone);
+    formControl['email'].setValue(customer.email);
     formControl['occupation'].setValue(customer.occupation);
     formControl['status'].setValue(customer.status);
     formControl['taxId'].setValue(customer.taxId);

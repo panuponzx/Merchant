@@ -92,148 +92,83 @@
                 <label class="label-input required-field" for="identificationInput">
                   หมายเลขบัตรประชาชน
                 </label>
-                <input
-                [ngClass]="{
+                <input [ngClass]="{
                   'is-invalid': this.form.get('citizenId')?.hasError('pattern') && this.form.get('citizenId')?.touched || 
                   this.form.get('citizenId')?.errors?.['required'] && this.form.get('citizenId')?.touched 
-                }"
-                  mask="0 0000 00000 00 0"
-                  class="form-control"
-                  data-testid="identificationInput"
-                  formControlName="citizenId"
-                  id="identificationInput"
-                  type="text"
-                >
+                }" mask="0 0000 00000 00 0" class="form-control" data-testid="identificationInput"
+                  formControlName="citizenId" id="identificationInput" type="text">
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="expiredDateDatePicker"
-                >
+                <label class="label-input required-field" for="expiredDateDatePicker">
                   วันหมดอายุบัตร (วัน/เดือน/ปี)
                 </label>
-                <date-picker
-                  class="datepicker-input"
-                  [clearable]="false"
-                  format="D MMMM YYYY"
-                  formControlName="cardExpDate"
-                  [id]="'expiredDateDatePicker'"
-                  [invalid]="submitted && form.controls['cardExpDate'].errors ? true : false"
-                  locale="th"
-                  [placeholder]="'วันที่ เดือน ปี'"
-                  [placement]="'bottom'"
-                  [minDate]="minDate"
-                ></date-picker>
+                <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
+                  formControlName="cardExpDate" [id]="'expiredDateDatePicker'"
+                  [invalid]="submitted && form.controls['cardExpDate'].errors ? true : false" locale="th"
+                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [minDate]="minDate"></date-picker>
               </div>
 
               <div class="form-group">
                 <label class="label-input">เพศ</label>
                 <div class="gender-selector">
                   <div class="gender-wrapper">
-                    <input
-                      data-testid="maleRadio"
-                      formControlName="gender"
-                      id="maleRadio"
-                      value="M"
-                      type="radio"
-                    >
+                    <input data-testid="maleRadio" formControlName="gender" id="maleRadio" value="M" type="radio">
                     <label for="maleRadio">ชาย</label>
                   </div>
                   <div class="gender-wrapper">
-                    <input
-                      data-testid="femaleRadio"
-                      formControlName="gender"
-                      id="femaleRadio"
-                      value="F"
-                      type="radio"
-                    >
+                    <input data-testid="femaleRadio" formControlName="gender" id="femaleRadio" value="F" type="radio">
                     <label for="femaleRadio">หญิง</label>
                   </div>
                 </div>
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="firstNameInput"
-                >
+                <label class="label-input required-field" for="firstNameInput">
                   ชื่อ
                 </label>
-                <input
-                [ngClass]="{
+                <input [ngClass]="{
                   'is-invalid': this.form.get('firstName')?.errors?.['required'] && this.form.get('firstName')?.touched
-                }"
-                  class="form-control"
-                  data-testid="firstNameInput"
-                  formControlName="firstName"
-                  id="firstNameInput"
-                  placeholder="ชื่อ"
-                  type="text"
-                >
+                }" class="form-control" data-testid="firstNameInput" formControlName="firstName" id="firstNameInput"
+                  placeholder="ชื่อ" type="text">
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="lastNameInput"
-                >
+                <label class="label-input required-field" for="lastNameInput">
                   นามสกุล
                 </label>
-                <input
-                [ngClass]="{
+                <input [ngClass]="{
                   'is-invalid': this.form.get('lastName')?.errors?.['required'] && this.form.get('lastName')?.touched
-                }"
-                  class="form-control"
-                  data-testid="lastNameInput"
-                  formControlName="lastName"
-                  id="lastNameInput"
-                  placeholder="ชื่อ"
-                  type="text"
-                >
+                }" class="form-control" data-testid="lastNameInput" formControlName="lastName" id="lastNameInput"
+                  placeholder="ชื่อ" type="text">
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="birthDateDatePicker"
-                >
+                <label class="label-input required-field" for="birthDateDatePicker">
                   วันเกิด (วัน/เดือน/ปี)
                 </label>
-                <date-picker
-                  class="datepicker-input"
-                  [clearable]="false"
-                  format="D MMMM YYYY"
-                  formControlName="birthdate"
-                  [id]="'birthDateDatePicke'"
-                  [invalid]="submitted && form.controls['birthdate'].errors ? true : false"
-                  locale="th"
-                  [placeholder]="'วันที่ เดือน ปี'"
-                  [placement]="'bottom'"
-                ></date-picker>
+                <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
+                  formControlName="birthdate" [id]="'birthDateDatePicke'"
+                  [invalid]="submitted && form.controls['birthdate'].errors ? true : false" locale="th"
+                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="phoneInput"
-                >
+                <label class="label-input required-field" for="phoneInput">
                   เบอร์ติดต่อ
                 </label>
-                <input
-                [ngClass]="{
+                <input [ngClass]="{
                   'is-invalid': this.form.get('mobilePhone')?.errors?.['required'] && this.form.get('mobilePhone')?.touched
-                }"
-                  class="form-control"
-                  data-testid="phoneInput"
-                  formControlName="mobilePhone"
-                  id="phoneInput"
-                  mask="000 000 0000"
-                  placeholder="081 000 0000"
-                  type="text"
-                >
+                }" class="form-control" data-testid="phoneInput" formControlName="mobilePhone" id="phoneInput"
+                  mask="000 000 0000" placeholder="081 000 0000" type="text">
               </div>
-
+              <div class="form-group">
+                <label class="label-input" for="emailInput">
+                  อีเมล
+                </label>
+                <input class="form-control" data-testid="emailInput" formControlName="email"
+                  placeholder="example@mail.com" id="emailInput" type="text">
+              </div>
             </ng-container>
             <ng-container *ngSwitchCase="'2'">
 
@@ -241,246 +176,138 @@
                 <label class="label-input required-field" for="identificationInput">
                   หมายเลขหนังสือเดินทาง
                 </label>
-                <input
-                [ngClass]="{
+                <input [ngClass]="{
                   'is-invalid': this.form.get('citizenId')?.errors?.['required'] && this.form.get('citizenId')?.touched ||
                   this.form.get('citizenId')?.hasError('pattern') && this.form.get('citizenId')?.touched
-                }"
-                  class="form-control"
-                  data-testid="identificationInput"
-                  formControlName="citizenId"
-                  id="identificationInput"
-                  type="text"
-                >
+                }" class="form-control" data-testid="identificationInput" formControlName="citizenId"
+                  id="identificationInput" type="text">
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="expiredDateDatePicker"
-                >
+                <label class="label-input required-field" for="expiredDateDatePicker">
                   วันหมดอายุหนังสือเดินทาง (วัน/เดือน/ปี)
                 </label>
-                <date-picker
-                  class="datepicker-input"
-                  [clearable]="false"
-                  format="D MMMM YYYY"
-                  formControlName="cardExpDate"
-                  [id]="'expiredDateDatePicker'"
-                  [invalid]="submitted && form.controls['cardExpDate'].errors ? true : false"
-                  locale="th"
-                  [placeholder]="'วันที่ เดือน ปี'"
-                  [placement]="'bottom'"
-                  [minDate]="minDate"
-                ></date-picker>
+                <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
+                  formControlName="cardExpDate" [id]="'expiredDateDatePicker'"
+                  [invalid]="submitted && form.controls['cardExpDate'].errors ? true : false" locale="th"
+                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [minDate]="minDate"></date-picker>
               </div>
 
               <div class="form-group">
                 <label class="label-input">เพศ</label>
                 <div class="gender-selector">
                   <div class="gender-wrapper">
-                    <input
-                      type="radio"
-                      formControlName="gender"
-                      id="male"
-                      value="M"
-                    >
+                    <input type="radio" formControlName="gender" id="male" value="M">
                     <label for="male">ชาย</label>
                   </div>
                   <div class="gender-wrapper">
-                    <input
-                      type="radio"
-                      formControlName="gender"
-                      id="female"
-                      value="F"
-                    >
+                    <input type="radio" formControlName="gender" id="female" value="F">
                     <label for="female">หญิง</label>
                   </div>
                 </div>
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="firstNameInput"
-                >
+                <label class="label-input required-field" for="firstNameInput">
                   ชื่อ
                 </label>
-                <input
-                [ngClass]="{
+                <input [ngClass]="{
                   'is-invalid': this.form.get('firstName')?.errors?.['required'] && this.form.get('firstName')?.touched
-                }"
-                  class="form-control"
-                  data-testid="firstNameInput"
-                  formControlName="firstName"
-                  id="firstNameInput"
-                  placeholder="ชื่อ"
-                  type="text"
-                >
+                }" class="form-control" data-testid="firstNameInput" formControlName="firstName" id="firstNameInput"
+                  placeholder="ชื่อ" type="text">
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="lastNameInput"
-                >
+                <label class="label-input required-field" for="lastNameInput">
                   นามสกุล
                 </label>
-                <input
-                [ngClass]="{
+                <input [ngClass]="{
                   'is-invalid': this.form.get('lastName')?.errors?.['required'] && this.form.get('lastName')?.touched
-                }"
-                  class="form-control"
-                  data-testid="lastNameInput"
-                  formControlName="lastName"
-                  id="lastNameInput"
-                  placeholder="ชื่อ"
-                  type="text"
-                >
+                }" class="form-control" data-testid="lastNameInput" formControlName="lastName" id="lastNameInput"
+                  placeholder="ชื่อ" type="text">
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="birthDateDatePicker"
-                >
+                <label class="label-input required-field" for="birthDateDatePicker">
                   วันเกิด (วัน/เดือน/ปี)
                 </label>
-                <date-picker
-                  class="datepicker-input"
-                  [clearable]="false"
-                  format="D MMMM YYYY"
-                  formControlName="birthdate"
-                  [id]="'birthDateDatePicke'"
-                  [invalid]="submitted && form.controls['birthdate'].errors ? true : false"
-                  locale="th"
-                  [placeholder]="'วันที่ เดือน ปี'"
-                  [placement]="'bottom'"
-                ></date-picker>
+                <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
+                  formControlName="birthdate" [id]="'birthDateDatePicke'"
+                  [invalid]="submitted && form.controls['birthdate'].errors ? true : false" locale="th"
+                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
               </div>
 
               <div class="form-group">
-                <label
-                  class="label-input required-field"
-                  for="phoneInput"
-                >
+                <label class="label-input required-field" for="phoneInput">
                   เบอร์ติดต่อ
                 </label>
-                <input
-                [ngClass]="{
+                <input [ngClass]="{
                   'is-invalid': this.form.get('mobilePhone')?.errors?.['required'] && this.form.get('mobilePhone')?.touched
-                }"
-                  class="form-control"
-                  data-testid="phoneInput"
-                  formControlName="mobilePhone"
-                  id="phoneInput"
-                  placeholder="XXX XXX XXXX"
-                  type="text"
-                >
+                }" class="form-control" data-testid="phoneInput" formControlName="mobilePhone" id="phoneInput"
+                  placeholder="XXX XXX XXXX" type="text">
               </div>
-
             </ng-container>
             <ng-container *ngSwitchCase="'3'">
               <div class="navs-container">
-                <ul
-                  ngbNav
-                  #nav="ngbNav"
-                  [(activeId)]="activeDetailTab"
-                  class="nav-tabs nav-tabs-content mb-3"
-                >
-                <li [ngbNavItem]="'company-detail'">
-                  <button ngbNavLink>รายละเอียดบริษัท</button>
-                  <ng-template ngbNavContent>
-                    <div class="form-group">
-                      <label class="label-input required-field" for="taxIdInput">
-                        หมายเลขผู้เสียภาษี
-                      </label>
-                      <input
-                      [ngClass]="{
+                <ul ngbNav #nav="ngbNav" [(activeId)]="activeDetailTab" class="nav-tabs nav-tabs-content mb-3">
+                  <li [ngbNavItem]="'company-detail'">
+                    <button ngbNavLink>รายละเอียดบริษัท</button>
+                    <ng-template ngbNavContent>
+                      <div class="form-group">
+                        <label class="label-input required-field" for="taxIdInput">
+                          หมายเลขผู้เสียภาษี
+                        </label>
+                        <input [ngClass]="{
                         'is-invalid': this.form.get('citizenId')?.errors?.['required'] && this.form.get('citizenId')?.touched ||
                         this.form.get('citizenId')?.hasError('pattern') && this.form.get('citizenId')?.touched
-                      }"
-                        mask="0 0000 00000 00 0"
-                        class="form-control"
-                        data-testid="taxInput"
-                        formControlName="citizenId"
-                        id="taxIdInput"
-                        type="text"
-                      >
-                    </div>
+                      }" mask="0 0000 00000 00 0" class="form-control" data-testid="taxInput"
+                          formControlName="citizenId" id="taxIdInput" type="text">
+                      </div>
 
-                    <div class="form-group">
-                      <label class="label-input required-field" for="corporateNameInput">
-                        ชื่อบริษัท
-                      </label>
-                      <input
-                      [ngClass]="{
+                      <div class="form-group">
+                        <label class="label-input required-field" for="corporateNameInput">
+                          ชื่อบริษัท
+                        </label>
+                        <input [ngClass]="{
                         'is-invalid': this.form.get('corporateName')?.errors?.['required'] && this.form.get('corporateName')?.touched
-                      }"
-                        class="form-control"
-                        data-testid="corporateNameInput"
-                        formControlName="corporateName"
-                        id="corporateNameInput"
-                        type="text"
-                      >
-                    </div>
+                      }" class="form-control" data-testid="corporateNameInput" formControlName="corporateName"
+                          id="corporateNameInput" type="text">
+                      </div>
 
-                    <div class="form-group">
-                      <label class="label-input required-field" for="branchTypeSelect">
-                        ประเภทสาขา
-                      </label>
-                      <ng-select
-                      [ngClass]="{
+                      <div class="form-group">
+                        <label class="label-input required-field" for="branchTypeSelect">
+                          ประเภทสาขา
+                        </label>
+                        <ng-select [ngClass]="{
                         'is-invalid': this.form.get('branchTypeSelect')?.errors?.['required'] && this.form.get('branchTypeSelect')?.touched
-                      }"
-                        bindLabel="name"
-                        bindValue="id"
-                        class="form-control"
-                        [clearable]="false"
-                        data-testid="branchTypeSelect"
-                        formControlName="branchType"
-                        id="branchTypeSelect"
-                        [items]="branchTypeList"
-                        [searchable]="false"
-                      ></ng-select>
-                    </div>
+                      }" bindLabel="name" bindValue="id" class="form-control" [clearable]="false"
+                          data-testid="branchTypeSelect" formControlName="branchType" id="branchTypeSelect"
+                          [items]="branchTypeList" [searchable]="false"></ng-select>
+                      </div>
 
-                    <div class="form-group">
-                      <label class="label-input required-field" or="branchNameInput">
-                        ชื่อสาขา
-                      </label>
-                      <input
-                      [ngClass]="{
+                      <div class="form-group">
+                        <label class="label-input required-field" or="branchNameInput">
+                          ชื่อสาขา
+                        </label>
+                        <input [ngClass]="{
                         'is-invalid': this.form.get('branchName')?.errors?.['required'] && this.form.get('branchName')?.touched
-                      }"
-                        class="form-control"
-                        data-testid="branchNameInput"
-                        formControlName="branchName"
-                        id="branchNameInput"
-                        type="text"
-                        [readonly]="!form.controls['branchType'].value || form.controls['branchType'].value === 1"
-                      >
-                    </div>
+                      }" class="form-control" data-testid="branchNameInput" formControlName="branchName"
+                          id="branchNameInput" type="text"
+                          [readonly]="!form.controls['branchType'].value || form.controls['branchType'].value === 1">
+                      </div>
 
-                    <div class="form-group">
-                      <label class="label-input required-field" for="branchCodeInput">
-                        หมายเลขสาขาย่อย
-                      </label>
-                      <input
-                      [ngClass]="{
+                      <div class="form-group">
+                        <label class="label-input required-field" for="branchCodeInput">
+                          หมายเลขสาขาย่อย
+                        </label>
+                        <input [ngClass]="{
                         'is-invalid': this.form.get('branchCode')?.errors?.['required'] && this.form.get('branchCode')?.touched
-                      }"
-                        class="form-control"
-                        data-testid="branchCodeInput"
-                        formControlName="branchCode"
-                        id="branchCodeInput"
-                        type="text"
-                        maxlength="5"
-                        [readonly]="!form.controls['branchType'].value || form.controls['branchType'].value === 1"
-                      >
-                    </div>
+                      }" class="form-control" data-testid="branchCodeInput" formControlName="branchCode"
+                          id="branchCodeInput" type="text" maxlength="5"
+                          [readonly]="!form.controls['branchType'].value || form.controls['branchType'].value === 1">
+                      </div>
 
-                    <!-- <div class="form-group">
+                      <!-- <div class="form-group">
                       <label
                         class="label-input"
                         for="corporatePhone"
@@ -498,8 +325,8 @@
                     </div> -->
 
 
-                  </ng-template>
-                </li>
+                    </ng-template>
+                  </li>
                   <li [ngbNavItem]="'contact-detail'">
                     <button ngbNavLink>รายละเอียดผู้มาติดต่อ</button>
                     <ng-template ngbNavContent>
@@ -542,104 +369,61 @@
                         <label class="label-input">เพศ</label>
                         <div class="gender-selector">
                           <div class="gender-wrapper">
-                            <input
-                              type="radio"
-                              formControlName="gender"
-                              id="male"
-                              value="M"
-                            >
+                            <input type="radio" formControlName="gender" id="male" value="M">
                             <label for="male">ชาย</label>
                           </div>
                           <div class="gender-wrapper">
-                            <input
-                              type="radio"
-                              formControlName="gender"
-                              id="female"
-                              value="F"
-                            >
+                            <input type="radio" formControlName="gender" id="female" value="F">
                             <label for="female">หญิง</label>
                           </div>
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label
-                          class="label-input required-field"
-                          for="firstNameInput"
-                        >
+                        <label class="label-input required-field" for="firstNameInput">
                           ชื่อ
                         </label>
-                        <input
-                        [ngClass]="{
+                        <input [ngClass]="{
                           'is-invalid': this.form.get('firstName')?.errors?.['required'] && this.form.get('firstName')?.touched
-                        }"
-                          class="form-control"
-                          data-testid="firstNameInput"
-                          formControlName="firstName"
-                          id="firstNameInput"
-                          placeholder="ชื่อ"
-                          type="text"
-                        >
+                        }" class="form-control" data-testid="firstNameInput" formControlName="firstName"
+                          id="firstNameInput" placeholder="ชื่อ" type="text">
                       </div>
 
                       <div class="form-group">
-                        <label
-                          class="label-input required-field"
-                          for="lastNameInput"
-                        >
+                        <label class="label-input required-field" for="lastNameInput">
                           นามสกุล
                         </label>
-                        <input
-                        [ngClass]="{
+                        <input [ngClass]="{
                           'is-invalid': this.form.get('lastName')?.errors?.['required'] && this.form.get('lastName')?.touched
-                        }"
-                          class="form-control"
-                          data-testid="lastNameInput"
-                          formControlName="lastName"
-                          id="lastNameInput"
-                          placeholder="ชื่อ"
-                          type="text"
-                        >
+                        }" class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                          id="lastNameInput" placeholder="ชื่อ" type="text">
                       </div>
 
                       <div class="form-group">
-                        <label
-                          class="label-input required-field"
-                          for="birthDateDatePicker"
-                        >
+                        <label class="label-input required-field" for="birthDateDatePicker">
                           วันเกิด (วัน/เดือน/ปี)
                         </label>
-                        <date-picker
-                          class="datepicker-input"
-                          [clearable]="false"
-                          format="D MMMM YYYY"
-                          formControlName="birthdate"
-                          [id]="'birthDateDatePicke'"
-                          [invalid]="submitted && form.controls['birthdate'].errors ? true : false"
-                          locale="th"
-                          [placeholder]="'วันที่ เดือน ปี'"
-                          [placement]="'bottom'"
-                        ></date-picker>
+                        <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
+                          formControlName="birthdate" [id]="'birthDateDatePicke'"
+                          [invalid]="submitted && form.controls['birthdate'].errors ? true : false" locale="th"
+                          [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
                       </div>
 
                       <div class="form-group">
-                        <label
-                          class="label-input required-field"
-                          for="phoneInput"
-                        >
+                        <label class="label-input required-field" for="phoneInput">
                           เบอร์ติดต่อ
                         </label>
-                        <input
-                        [ngClass]="{
+                        <input [ngClass]="{
                           'is-invalid': this.form.get('mobilePhone')?.errors?.['required'] && this.form.get('mobilePhone')?.touched
-                        }"
-                          class="form-control"
-                          data-testid="phoneInput"
-                          formControlName="mobilePhone"
-                          id="phoneInput"
-                          placeholder="XXX XXX XXXX"
-                          type="text"
-                        >
+                        }" class="form-control" data-testid="phoneInput" formControlName="mobilePhone" id="phoneInput"
+                          placeholder="XXX XXX XXXX" type="text">
+                      </div>
+                      <div class="form-group">
+                        <label class="label-input" for="emailInput">
+                          อีเมล
+                        </label>
+                        <input class="form-control" data-testid="emailInput" formControlName="email"
+                          placeholder="example@mail.com" id="emailInput" type="text">
                       </div>
                     </ng-template>
                   </li>
@@ -664,21 +448,14 @@
         <ng-container *ngIf="activeAddressTab">
           <div class="general-info-wrapper">
             <div class="navs-container">
-              <ul
-                ngbNav
-                #nav="ngbNav"
-                [(activeId)]="activeAddressTab"
-                class="nav-tabs nav-tabs-content mb-3"
-                [ngClass]="customerTypeId === '3' ? 'd-none' : null"
-              >
+              <ul ngbNav #nav="ngbNav" [(activeId)]="activeAddressTab" class="nav-tabs nav-tabs-content mb-3"
+                [ngClass]="customerTypeId === '3' ? 'd-none' : null">
                 <ng-container *ngIf="customerTypeId === '1'">
                   <li [ngbNavItem]="'address-on-the-card'">
                     <button ngbNavLink>ที่อยู่ตามบัตร</button>
                     <ng-template ngbNavContent>
-                      <address
-                        [form]="form.controls['registration_address'] | formControlToFormGroup"
-                        [submitted]="submitted"
-                      ></address>
+                      <address [form]="form.controls['registration_address'] | formControlToFormGroup"
+                        [submitted]="submitted"></address>
                     </ng-template>
                   </li>
                 </ng-container>
@@ -686,10 +463,8 @@
                   <li [ngbNavItem]="'current-address'">
                     <button ngbNavLink>ที่อยู่ปัจจุบัน</button>
                     <ng-template ngbNavContent>
-                      <address
-                        [form]="form.controls['current_address'] | formControlToFormGroup"
-                        [submitted]="submitted"
-                      ></address>
+                      <address [form]="form.controls['current_address'] | formControlToFormGroup"
+                        [submitted]="submitted"></address>
                     </ng-template>
                   </li>
                 </ng-container>
@@ -697,10 +472,8 @@
                   <li [ngbNavItem]="'work-address'">
                     <button ngbNavLink>ที่อยู่ที่ทำงาน</button>
                     <ng-template ngbNavContent>
-                      <address
-                        [form]="form.controls['work_address'] | formControlToFormGroup"
-                        [submitted]="submitted"
-                      ></address>
+                      <address [form]="form.controls['work_address'] | formControlToFormGroup" [submitted]="submitted">
+                      </address>
                     </ng-template>
                   </li>
                 </ng-container>
@@ -712,26 +485,14 @@
       </div>
     </div>
     <div class="form-button general-info-button-wrapper">
-      <button
-        class="custom-btn btn-fixed-size-1 btn-type-3"
-        data-testid="cancelButton"
-        id="cancelButton"
-        title="ยกเลิก"
-        (click)="onCancel()"
-      >
+      <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="cancelButton" id="cancelButton" title="ยกเลิก"
+        (click)="onCancel()">
         ยกเลิก
       </button>
-      <button
-        class="custom-btn btn-fixed-size-1 btn-type-1"
-        data-testid="editButton"
-        id="editButton"
-        title="แก้ไข"
-        (click)="onUpdate()"
-      >
+      <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="editButton" id="editButton" title="แก้ไข"
+        (click)="onUpdate()">
         แก้ไข
       </button>
     </div>
   </form>
 </div>
-
-
