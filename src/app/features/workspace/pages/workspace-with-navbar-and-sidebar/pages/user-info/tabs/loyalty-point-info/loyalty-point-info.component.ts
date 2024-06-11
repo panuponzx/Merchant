@@ -13,6 +13,7 @@ export class LoyaltyPointInfoComponent implements OnInit {
 
   @Input() public customerId: string | null = null;
   @Input() public customerTypeId: string | null = null;
+  @Input() public wallets: IWalletInfoModel[] = [];
 
   public activeTab: 'get-point' | 'use-point' | undefined;
 
@@ -36,7 +37,6 @@ export class LoyaltyPointInfoComponent implements OnInit {
 
   public getPointRows: any[] = [];
   public usePointRows: any[] = [];
-  public wallets: IWalletInfoModel[] = [];
 
   public isLoading: boolean = false;
 
@@ -265,31 +265,7 @@ export class LoyaltyPointInfoComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {
-    if (this.customerId) {
-      this.loadWalletInfo();
-    }
-  }
-
-  loadWalletInfo() {
-    this.modalDialogService.loading();
-    const mockupData = {
-      id: this.customerId,
-    };
-    this.restApiService.postBackOffice('wallet/get-wallets', mockupData).pipe()
-      .subscribe({
-        next: (res: any) => {
-          this.wallets = res?.data;
-          this.modalDialogService.hideLoading();
-          this.isLoading = false;
-        },
-        error: (err) => {
-          this.modalDialogService.hideLoading();
-          console.error(err);
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
-        }
-      })
-  }
+  ngOnInit(): void { }
 
   onChangePage(event: number) {
     this.pages = event;

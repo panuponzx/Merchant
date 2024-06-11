@@ -112,7 +112,7 @@
           <li [ngbNavItem]="'loyalty-point-info'">
             <button ngbNavLink>ข้อมูลคะแนน</button>
             <ng-template ngbNavContent>
-              <loyalty-point-info [customerId]="customerId" [customerTypeId]="customerTypeId"/>
+              <loyalty-point-info [customerId]="customerId" [customerTypeId]="customerTypeId" [wallets]="walletsList"/>
             </ng-template>
           </li>
           <li [ngbNavItem]="'device-list'">

@@ -21,7 +21,7 @@
         ngbNav
         #nav="ngbNav"
         [(activeId)]="activeTab"
-        (navChange)="onChangeNav()"
+        (activeIdChange)="onChangeNav($event)"
         class="nav-tabs mb-3"
       >
         <li [ngbNavItem]="'active'">

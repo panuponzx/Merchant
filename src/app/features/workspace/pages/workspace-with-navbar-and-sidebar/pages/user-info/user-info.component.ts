@@ -19,7 +19,7 @@ export class UserInfoComponent implements OnInit {
   public customerId: string | null = null;
   public customerTypeId: string | null = null;
 
-  public wallets: IWalletInfoModel[] = [];
+  public walletsList: IWalletInfoModel[] = [];
 
   public activeTab: 'general-info' | 'wallet-info' | 'loyalty-point-info' | 'device-list' | 'e-tax' | string | null ;
 
@@ -66,6 +66,7 @@ export class UserInfoComponent implements OnInit {
           this.customerTypeId = this.customerTypePipe.transform(this.customer, 'id');
         }
         if (info[1].data) {
+          this.walletsList = info[1].data;
           this.walletTotal = info[1].data.length;
           this.totalLoyaltyPoint = info[1].data.reduce((a, b) => a + b.totalPoint, 0);
           this.totalBalance = info[1].data.reduce((a, b) => a + b.totalBalance + b.totalPointBalance, 0);
