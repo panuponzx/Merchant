@@ -11,7 +11,8 @@
             id="walletSelect"
             data-testid="walletSelect"
             [placeholder]="'เลือกกระเป๋าเงิน'"
-            [items]="wallets">
+            [items]="wallets"
+            (change)="onChangeWallets($event)">
         </ng-select>
     </div>
     <div class="device-header-wrapper mb-3">

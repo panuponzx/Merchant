@@ -279,4 +279,9 @@ export class LoyaltyPointInfoComponent implements OnInit {
     this.pages = 1;
   }
 
+  onChangeWallets(event: IWalletInfoModel) {
+    this.pages = 1;
+    console.log(event);
+  }
+
 }
