@@ -47,7 +47,7 @@ export class RejectPendingRequestModalComponent {
           this.modalDialogService.hideLoading();
           console.error(err);
           this.modalDialogService.handleError(err);
-          if (err.body?.errorMessage?.toLowerCase().includes('failed to update')) {
+          if (err.body?.throwableMessage?.toLowerCase().includes('failed to update')) {
             this.ngbActiveModal.close(true);
           }
           // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
