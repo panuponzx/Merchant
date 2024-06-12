@@ -366,6 +366,10 @@ export class ApprovalManagementApprovalComponent {
         console.error(err);
         this.modalDialogService.handleError(err);
         // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+        if (err.body?.errorMessage?.toLowerCase().includes('failed to update')) {
+          this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
+          this.onBack();
+        }
       }
     })
   }
