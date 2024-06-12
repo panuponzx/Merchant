@@ -34,7 +34,7 @@ export class InputJuristicAttachDocumentComponent implements AfterContentInit {
   onUpload() {
 
   }
-  
+
   onBack() {
     this.previousStep.emit('user-info');
   }
@@ -42,5 +42,21 @@ export class InputJuristicAttachDocumentComponent implements AfterContentInit {
   onNext() {
     this.nextStep.emit('user-info');
   }
-  
+
+  onOpenPDF() {
+    const blob = new Blob([this.form.get('attachDocument').value], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    // // Option 1: Display in an iframe
+    // const iframe = document.createElement('iframe');
+    // iframe.src = url;
+    // document.body.appendChild(iframe);
+    // // Option 2: Open in a new tab/window
+    window.open(url, '_blank');
+    URL.revokeObjectURL(url);
+  }
+
+  onDeletePDF() {
+    this.form.get('attachDocument').setValue(null);
+  }
+
 }

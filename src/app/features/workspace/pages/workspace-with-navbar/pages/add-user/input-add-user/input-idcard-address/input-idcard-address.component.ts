@@ -28,9 +28,6 @@ export class InputIdcardAddressComponent implements AfterContentInit, OnInit {
 
   constructor(private restApiService: RestApiService) {
     this.postalCodeChanged.pipe(distinctUntilChanged(), switchMap((searchText: any) => {
-      this.form.get('subDistrict')?.setValue(undefined);
-      this.form.get('district')?.setValue(undefined);
-      this.form.get('province')?.setValue(undefined);
       if (searchText.length === 5) {
         return this.restApiService.get(`zip-code/code/${searchText}`);
       } else {
@@ -42,10 +39,10 @@ export class InputIdcardAddressComponent implements AfterContentInit, OnInit {
       console.log("[subscribe] res => ", this.postalCodeList);
       if (this.postalCodeList && this.postalCodeList.length === 0 || res && Object.keys(res).length === 0) {
         this.form.get('subDistrict')?.disable();
-        // this.form.get('subDistrict')?.setValue(undefined);
-        // this.form.get('district')?.setValue(undefined);
-        // this.form.get('province')?.setValue(undefined);
-      }else {
+        this.form.get('subDistrict')?.setValue(undefined);
+        this.form.get('district')?.setValue(undefined);
+        this.form.get('province')?.setValue(undefined);
+      } else {
         this.form.get('subDistrict')?.enable();
       };
     });

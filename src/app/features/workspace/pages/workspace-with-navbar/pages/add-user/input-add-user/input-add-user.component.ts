@@ -145,7 +145,7 @@ export class InputAddUserComponent {
     });
 
     this.juristicAttachDocument = this.formBuilder.group({
-      attachDocument: new FormControl(undefined, Validators.required),
+      attachDocument: new FormControl(undefined),
     });
 
     this.otpRequestForm = this.formBuilder.group({
@@ -301,7 +301,7 @@ export class InputAddUserComponent {
           }
         })
     } else if (this.customerType === 2) {
-      const file: File = this.juristicAttachDocument.get('attachDocument')?.value;
+      // const file: File = this.juristicAttachDocument.get('attachDocument')?.value;
       const data = {
         customer: {
           customerTypeId: this.customerType,
@@ -351,7 +351,7 @@ export class InputAddUserComponent {
       console.log("[onSubmit] data2 => ", data);
       this.modalDialogService.loading();
       this.restApiService
-        .postAddForJuristic('customer/add/juristic', data, file)
+        .postAddForJuristic('customer/add/juristic', data)
         .pipe(
           first(),
           map(res => res as any)

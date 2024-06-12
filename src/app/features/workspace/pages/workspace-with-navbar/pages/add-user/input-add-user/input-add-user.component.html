@@ -43,22 +43,22 @@
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"
     > </occupation-detail>
-    <input-juristic-attach-document
+    <!-- <input-juristic-attach-document
         *ngIf="customerType === 2 && step === 4"
         [form]="juristicAttachDocument"
         [customerType]="customerType"
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"
-    > </input-juristic-attach-document>
+    > </input-juristic-attach-document> -->
     <otp-request
-        *ngSwitchCase="5"
+        *ngIf="(customerType === 1 && step === 5)||(customerType === 2 && step === 4)"
         [form]="otpRequestForm"
         [customerType]="customerType"
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"
     > </otp-request>
     <otp-confirm
-        *ngSwitchCase="6"
+        *ngIf="(customerType === 1 && step === 6)||(customerType === 2 && step === 5)"
         [form]="otpConfirmForm"
         [otpFrom]="otpRequestForm"
         [customerType]="customerType"
