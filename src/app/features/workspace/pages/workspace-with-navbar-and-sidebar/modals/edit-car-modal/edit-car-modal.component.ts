@@ -16,8 +16,9 @@ import { CustomerModel } from '../../../../../../core/interfaces';
 })
 export class EditCarModalComponent {
 
-  @Input() public carInfo: CarInfoModel = {} as CarInfoModel;
+  @Input() public carInfo: CarInfoModel | any = {} as CarInfoModel;
   @Input() public walletIdList: number[] = [];
+  @Input() public walletId: any = undefined;
   @Input() public brands: CarInfoModel[] = [];
   @Input() public selectedProvince: CarInfoModel[] = [];
   @Input() public models: CarInfoModel[] = [];
@@ -52,20 +53,21 @@ export class EditCarModalComponent {
 
   ngOnInit() {
     this.brand();
-    this.form.get('licensePlate')?.setValue(this.carInfo.licensePlate);
-    this.form.get('fullnameCarOwner')?.setValue((this.customer?.title ? this.customer.title + ' ' : '') + this.customer?.firstName + ' ' + this.customer?.lastName);
-    this.form.get('province')?.setValue(this.carInfo.province);
-    this.form.get('brand')?.setValue(this.carInfo.brand);
-    this.form.get('model')?.setValue(this.carInfo.model);
-    this.form.get('yearRegistration')?.setValue(this.carInfo.yearRegistration);
-    this.form.get('remark')?.setValue(this.carInfo.remark);
-    this.form.get('obuPan')?.setValue(this.carInfo.obuPan);
-    this.form.get('smartcardNo')?.setValue(this.carInfo.smartcardNo);
-    this.form.get('isType9')?.setValue(this.carInfo.isType9);
-    this.form.get('walletId')?.setValue(this.carInfo.walletId);
-    this.form.get('color')?.setValue(this.carInfo.color);
     this.provinceList();
-    this.brand();
+    this.form.get('licensePlate')?.setValue(this.carInfo.plateNo);
+    this.form.get('fullnameCarOwner')?.setValue((this.customer?.title ? this.customer.title + ' ' : '') + this.customer?.firstName + ' ' + this.customer?.lastName);
+    this.form.get('province')?.setValue(this.carInfo.plateProvince);
+    this.form.get('brand')?.setValue(this.carInfo.carModel);
+    this.form.get('model')?.setValue(this.carInfo.carSubmodel);
+    this.form.get('yearRegistration')?.setValue(this.carInfo.carYear);
+    this.form.get('remark')?.setValue(this.carInfo.remark);
+    this.form.get('obuPan')?.setValue(this.carInfo.faremediaValue);
+    this.form.get('smartcardNo')?.setValue(this.carInfo.walletSmartcardNo);
+    this.form.get('isType9')?.setValue(this.carInfo.isType9);
+    this.form.get('walletId')?.setValue(this.walletId);
+    this.form.get('color')?.setValue(this.carInfo.carColor);
+    // this.provinceList();
+    // this.brand();
 
   }
 
@@ -174,8 +176,8 @@ export class EditCarModalComponent {
         try {
           const payload = {
             obu: {
-              obuPan: this.carInfo.obuPan,
-              smartcardNo: this.carInfo.smartcardNo,
+              obuPan: this.form.get('obuPan')?.value,
+              smartcardNo: this.form.get('smartcardNo')?.value,
             },
             wallet: {
               id: this.carInfo.walletId.toString(),
@@ -237,8 +239,8 @@ export class EditCarModalComponent {
         try {
           const payload = {
             obu: {
-              obuPan: this.carInfo.obuPan,
-              smartcardNo: this.carInfo.smartcardNo,
+              obuPan: this.form.get('obuPan')?.value,
+              smartcardNo: this.form.get('smartcardNo')?.value,
             },
             wallet: {
               id: this.carInfo.walletId.toString(),
@@ -284,8 +286,8 @@ export class EditCarModalComponent {
         try {
           const payload = {
             obu: {
-              obuPan: this.carInfo.obuPan,
-              smartcardNo: this.carInfo.smartcardNo,
+              obuPan: this.form.get('obuPan')?.value,
+              smartcardNo: this.form.get('smartcardNo')?.value,
               walletId: this.form.get('walletId')?.value, //this.carInfo.walletId,
               isType9: this.form.get('isType9')?.value, //this.carInfo.isType9
             },

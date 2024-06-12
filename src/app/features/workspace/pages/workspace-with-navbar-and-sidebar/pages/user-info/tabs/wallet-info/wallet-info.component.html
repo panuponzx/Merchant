@@ -1,6 +1,6 @@
 <div class="wallet-container">
     <div class="wallet-header-wrapper mb-3">
-        <h2>รายระเอียดกระเป๋าเงิน</h2>
+        <h2>รายละเอียดกระเป๋าเงิน</h2>
     </div>
     <div class="row mb-3">
         <div class="col-md-12 col-lg-6 d-flex align-items-end mb-3">
@@ -63,11 +63,11 @@
             <div #collapse="ngbCollapse" [(ngbCollapse)]="row.isCollapsed">
                 <div class="row mb-3">
                     <div class="col-sm-12 col-md-6 col-lg-4">
-                        <label class="label-input text-nowrap" for="walletTotalInput">
+                        <label class="label-input text-nowrap" for="walletLastUse">
                             วันที่ใช้งานล่าสุด
                         </label>
-                        <input class="form-control" data-testid="walletTotalInput" id="walletTotalInput" type="text"
-                            [value]="'31 กรกฏาคม 2566'" readonly>
+                        <input class="form-control" data-testid="walletLastUse" id="walletLastUse" type="text"
+                            [value]="row.walletLastUse | transformDate : 'DD MMMM BBBB' : 'th'" readonly>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <label class="label-input text-nowrap" for="totalLoyaltyPointInput">
@@ -86,10 +86,10 @@
                             [value]="row.walletStatus | walletStatus" readonly />
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="fareMediaList[row?.walletId]?.length"
                     [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
-                    [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
-                    (onRowActionEvent)="onAction($event)" />
+                    [rows]="fareMediaList[row?.walletId]" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
+                    (onRowActionEvent)="onAction($event, row?.walletId)" />
 
                 <div class="row">
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
@@ -101,7 +101,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <button class="custom-btn btn-type-4" (click)="row.isCollapsed = !row.isCollapsed"
+                <button class="custom-btn btn-type-4" (click)="row.isCollapsed = !row.isCollapsed; loadFareMediaDataTable(row)"
                     [attr.aria-expanded]="!row.isCollapsed" aria-controls="collapseExample"><span
                         *ngIf="row.isCollapsed">รายละเอียดเพิ่มเติม</span><span
                         *ngIf="!row.isCollapsed">ย่อรายละเอียด</span></button>
@@ -147,7 +147,7 @@
                             วันที่ใช้งานล่าสุด
                         </label>
                         <input class="form-control" data-testid="walletTotalInput" id="walletTotalInput" type="text"
-                            [value]="'31 กรกฏาคม 2566'" readonly>
+                            [value]="row.walletLastUse | transformDate : 'DD MMMM BBBB' : 'th'" readonly>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <label class="label-input text-nowrap" for="totalLoyaltyPointInput">
@@ -166,10 +166,10 @@
                             [value]="row.walletStatus | walletStatus" readonly />
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="fareMediaList[row?.walletId]?.length"
                     [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
-                    [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
-                    (onRowActionEvent)="onAction($event)" />
+                    [rows]="fareMediaList[row?.walletId]" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
+                    (onRowActionEvent)="onAction($event, row?.walletId)" />
 
                 <div class="row">
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
@@ -181,7 +181,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <button class="custom-btn btn-type-4" (click)="row.isCollapsed = !row.isCollapsed"
+                <button class="custom-btn btn-type-4" (click)="row.isCollapsed = !row.isCollapsed; loadFareMediaDataTable(row)"
                     [attr.aria-expanded]="!row.isCollapsed" aria-controls="collapseExample"><span
                         *ngIf="row.isCollapsed">รายละเอียดเพิ่มเติม</span><span
                         *ngIf="!row.isCollapsed">ย่อรายละเอียด</span></button>
@@ -227,7 +227,7 @@
                             วันที่ใช้งานล่าสุด
                         </label>
                         <input class="form-control" data-testid="walletTotalInput" id="walletTotalInput" type="text"
-                            [value]="'31 กรกฏาคม 2566'" readonly>
+                            [value]="row.walletLastUse | transformDate : 'DD MMMM BBBB' : 'th'" readonly>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <label class="label-input text-nowrap" for="totalLoyaltyPointInput">
@@ -255,10 +255,10 @@
                             [value]="'**** **** **** 4123'" readonly>
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="fareMediaList[row?.walletId]?.length"
                     [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
-                    [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
-                    (onRowActionEvent)="onAction($event)" />
+                    [rows]="fareMediaList[row?.walletId]" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
+                    (onRowActionEvent)="onAction($event, row?.walletId)" />
 
                 <div class="row">
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
@@ -270,7 +270,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <button class="custom-btn btn-type-4" (click)="row.isCollapsed = !row.isCollapsed"
+                <button class="custom-btn btn-type-4" (click)="row.isCollapsed = !row.isCollapsed; loadFareMediaDataTable(row)"
                     [attr.aria-expanded]="!row.isCollapsed" aria-controls="collapseExample"><span
                         *ngIf="row.isCollapsed">รายละเอียดเพิ่มเติม</span><span
                         *ngIf="!row.isCollapsed">ย่อรายละเอียด</span></button>
@@ -316,7 +316,7 @@
                             วันที่ใช้งานล่าสุด
                         </label>
                         <input class="form-control" data-testid="walletTotalInput" id="walletTotalInput" type="text"
-                            [value]="'31 กรกฏาคม 2566'" readonly>
+                            [value]="row.walletLastUse | transformDate : 'DD MMMM BBBB' : 'th'" readonly>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <label class="label-input text-nowrap" for="totalLoyaltyPointInput">
@@ -335,10 +335,10 @@
                             [value]="row.walletStatus | walletStatus" readonly />
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="row.row.length"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="fareMediaList[row?.walletId]?.length"
                     [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
-                    [rows]="row.row" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
-                    (onRowActionEvent)="onAction($event)" />
+                    [rows]="fareMediaList[row?.walletId]" emptyMessage="No Data" (onChangePageEvent)="onChangePage($event)"
+                    (onRowActionEvent)="onAction($event, row?.walletId)" />
 
                 <div class="row">
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
@@ -350,7 +350,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <button class="custom-btn btn-type-4" (click)="row.isCollapsed = !row.isCollapsed"
+                <button class="custom-btn btn-type-4" (click)="row.isCollapsed = !row.isCollapsed; loadFareMediaDataTable(row)"
                     [attr.aria-expanded]="!row.isCollapsed" aria-controls="collapseExample"><span
                         *ngIf="row.isCollapsed">รายละเอียดเพิ่มเติม</span><span
                         *ngIf="!row.isCollapsed">ย่อรายละเอียด</span></button>
