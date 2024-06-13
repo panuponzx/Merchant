@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomColumnModel, RowActionEventModel, CustomerModel } from '../../../../../../core/interfaces';
@@ -12,7 +12,7 @@ import { TransformDatePipe } from '../../../../../../core/pipes';
   templateUrl: './earning-management.component.html',
   styleUrl: './earning-management.component.scss'
 })
-export class EarningManagementComponent {
+export class EarningManagementComponent implements OnInit {
 
   public basicRatingRows: any[] = [];
   public specialRatingRows: any[] = [];
@@ -94,7 +94,9 @@ export class EarningManagementComponent {
       everyThaiBath: [null],
       takePoint: [null],
     });
-    // this.loadData();
+  }
+
+  ngOnInit(): void {
     this.loadData().then(() => {
       this.loadCampaignBase();
       this.loadCampaignSpecial();
@@ -105,14 +107,13 @@ export class EarningManagementComponent {
     this.isLoading = true;
     this.modalDialogService.loading();
     try {
-      await this.loadCarType();
-      await this.loadCustomerType();
-      await this.loadTollStation();
-      await this.loadSubTollStation();
-      await this.loadCampaignOperation();
+      await Promise.all([this.loadCarType(), this.loadCustomerType(), this.loadTollStation(), this.loadSubTollStation(), this.loadCampaignOperation()]);
+      // await this.loadCarType();
+      // await this.loadCustomerType();
+      // await this.loadTollStation();
+      // await this.loadSubTollStation();
+      // await this.loadCampaignOperation();
       await new Promise(resolve => setTimeout(resolve, 100));
-      // this.loadCampaignBase();
-      // this.loadCampaignSpecial();
     }
     catch (error) {
       console.log(error);
@@ -232,8 +233,8 @@ export class EarningManagementComponent {
           }
           resolve(this.CarType);
         });
+      setTimeout(resolve, 10000)
     });
-
   }
 
   async loadCustomerType(): Promise<any[]> {
@@ -246,6 +247,7 @@ export class EarningManagementComponent {
           }
           resolve(this.UserType);
         });
+      setTimeout(resolve, 10000)
     });
   }
 
@@ -260,6 +262,7 @@ export class EarningManagementComponent {
           }
           resolve(this.route);
         });
+      setTimeout(resolve, 10000)
     });
   }
 
@@ -274,6 +277,7 @@ export class EarningManagementComponent {
           }
           resolve(this.expressBuildingTemp);
         });
+      setTimeout(resolve, 10000)
     });
   }
 
@@ -288,6 +292,7 @@ export class EarningManagementComponent {
           }
           resolve(this.CalculatedVariables);
         });
+      setTimeout(resolve, 10000)
     });
   }
 
