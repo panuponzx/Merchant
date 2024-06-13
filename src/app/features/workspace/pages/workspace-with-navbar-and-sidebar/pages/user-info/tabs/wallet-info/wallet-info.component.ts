@@ -167,7 +167,7 @@ export class WalletInfoComponent implements OnInit {
         ).subscribe({
           next: (res) => {
             console.log("[loadFareMediaDataTable] res => ", res);
-            this.setFareMedia(res.data, row.walletId);
+            this.setFareMedia(res.data.elements, row.walletId);
             this.modalDialogService.hideLoading();
             this.isLoading = false;
           },
