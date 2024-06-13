@@ -60,7 +60,7 @@ export class EditCarModalComponent {
     this.form.get('brand')?.setValue(this.carInfo.carModel);
     this.form.get('model')?.setValue(this.carInfo.carSubmodel);
     this.form.get('yearRegistration')?.setValue(this.carInfo.carYear);
-    this.form.get('remark')?.setValue(this.carInfo.remark);
+    // this.form.get('remark')?.setValue(this.carInfo.remark);
     this.form.get('obuPan')?.setValue(this.carInfo.faremediaValue);
     this.form.get('smartcardNo')?.setValue(this.carInfo.walletSmartcardNo);
     this.form.get('isType9')?.setValue(this.carInfo.isType9);
@@ -297,7 +297,7 @@ export class EditCarModalComponent {
               licensePlate: this.form.get('licensePlate')?.value, //this.carInfo.licensePlate,
               yearRegistration: this.form.get('yearRegistration')?.value, //this.carInfo.yearRegistration,
               color: this.form.get('color')?.value, //this.carInfo.color,
-              remark: this.form.get('remark')?.value, //this.carInfo.remark,
+              // remark: this.form.get('remark')?.value, //this.carInfo.remark,
               province: this.form.get('province')?.value, //this.carInfo.province
             },
           };
