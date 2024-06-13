@@ -30,7 +30,7 @@ export class EditCarModalComponent {
     brand: new FormControl(undefined, Validators.required),
     model: new FormControl(undefined, Validators.required),
     yearRegistration: new FormControl(undefined, Validators.required),
-    remark: new FormControl(undefined),
+    remark: new FormControl({ value: undefined, disabled: true }),
     obuPan: new FormControl({ value: undefined, disabled: true }, Validators.required),
     smartcardNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
     isType9: new FormControl(undefined, Validators.required),

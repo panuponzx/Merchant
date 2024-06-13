@@ -223,6 +223,7 @@ export class WalletInfoComponent implements OnInit {
   }
 
   onChangePage(event: number) {
+    console.log("[onChangePage] event => ", event);
     this.pages = event;
   }
 
