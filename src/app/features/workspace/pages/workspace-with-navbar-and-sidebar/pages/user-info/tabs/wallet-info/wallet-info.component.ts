@@ -155,6 +155,9 @@ export class WalletInfoComponent implements OnInit {
       this.modalDialogService.loading();
       const mockupData = {
         walletId: row.walletId,
+        // todo: implement pagination
+        page: 1,
+        limit: 20
       };
       this.restApiService
         .postBackOffice('faremedia/get/wallet-id', mockupData)
