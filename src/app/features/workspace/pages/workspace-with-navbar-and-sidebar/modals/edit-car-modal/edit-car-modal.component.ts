@@ -2,12 +2,11 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ErrorHandler, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first, firstValueFrom, throwError } from 'rxjs';
-import { CarInfoModel, ICarMasterData, IProvinceMasterData, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
+import { first, firstValueFrom, map, throwError } from 'rxjs';
+import { CarInfoModel, ICarMasterData, ICarModal, IProvinceMasterData, IProvinceModal, IResponseCarModal, IResponseProvinceModal, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
 import { CustomerModel } from '../../../../../../core/interfaces';
-
 
 @Component({
   selector: 'app-edit-car-modal',
@@ -16,13 +15,12 @@ import { CustomerModel } from '../../../../../../core/interfaces';
 })
 export class EditCarModalComponent {
 
+  @Input() public customer: CustomerModel | undefined;
   @Input() public carInfo: CarInfoModel | any = {} as CarInfoModel;
   @Input() public walletIdList: number[] = [];
   @Input() public walletId: any = undefined;
-  @Input() public brands: CarInfoModel[] = [];
-  @Input() public selectedProvince: CarInfoModel[] = [];
-  @Input() public models: CarInfoModel[] = [];
-  @Input() public customer: CustomerModel | undefined;
+  public brandList: ICarModal[] = [];
+  provinceList: IProvinceModal[] = [];
 
   public form: FormGroup = this.formBuilder.group({
     licensePlate: new FormControl(undefined, Validators.required),
@@ -44,16 +42,13 @@ export class EditCarModalComponent {
   constructor(
     private formBuilder: FormBuilder,
     private ngbActiveModal: NgbActiveModal,
-    private ngbModal: NgbModal,
     private restApiService: RestApiService,
   ) {
   }
 
-
-
   ngOnInit() {
-    this.brand();
-    this.provinceList();
+    this.loadBrand();
+    this.loadProvince();
     this.form.get('licensePlate')?.setValue(this.carInfo.plateNo);
     this.form.get('fullnameCarOwner')?.setValue((this.customer?.title ? this.customer.title + ' ' : '') + this.customer?.firstName + ' ' + this.customer?.lastName);
     this.form.get('province')?.setValue(this.carInfo.plateProvince);
@@ -66,31 +61,31 @@ export class EditCarModalComponent {
     this.form.get('isType9')?.setValue(this.carInfo.isType9);
     this.form.get('walletId')?.setValue(this.walletId);
     this.form.get('color')?.setValue(this.carInfo.carColor);
-    // this.provinceList();
-    // this.brand();
 
   }
 
   // brand select dropdown
-  brand() {
-    this.restApiService.getBackOffice('master-data/car-model').subscribe(
-      (Response: any) => {
-        if (Array.isArray(Response.data)) {
-
-          this.brands = Response.data.map((value: { brand: string; }) => { return value.brand });
-        }
-      });
+  loadBrand() {
+    this.restApiService.getBackOffice('master-data/car-model').pipe(first(), map(res => res as IResponseCarModal)).subscribe({
+      next: (res) => {
+        this.brandList = res.data;
+      },
+      error: (err) => {
+        console.error("[loadBrand] err => ", err);
+      }
+    })
   }
 
   //province select dropdown
-  provinceList() {
-    this.restApiService.getBackOffice('master-data/province').subscribe(
-      (response: any) => {
-        if (Array.isArray(response.data)) {
-
-          this.selectedProvince = response.data.map((value: { provinceName: string; }) => { return value.provinceName });
-        }
-      });
+  loadProvince() {
+    this.restApiService.getBackOffice('master-data/province').pipe(first(), map(res => res as IResponseProvinceModal)).subscribe({
+      next: (res) => {
+        this.provinceList = res.data;
+      },
+      error: (err) => {
+        console.error("[loadProvince] err => ", err);
+      }
+    });
   }
 
   onDeactivate() {
@@ -180,7 +175,7 @@ export class EditCarModalComponent {
               smartcardNo: this.form.get('smartcardNo')?.value,
             },
             wallet: {
-              id: this.carInfo.walletId.toString(),
+              id: this.form.get('walletId')?.value,
             },
           };
           await firstValueFrom(this.restApiService.postBackOffice('faremedia/suspend-obu-by-staff', payload).pipe(first()))
@@ -243,7 +238,7 @@ export class EditCarModalComponent {
               smartcardNo: this.form.get('smartcardNo')?.value,
             },
             wallet: {
-              id: this.carInfo.walletId.toString(),
+              id: this.form.get('walletId')?.value,
             },
           };
           await firstValueFrom(this.restApiService.postBackOffice('faremedia/active-obu-by-staff', payload).pipe(first()))

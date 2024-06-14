@@ -5,7 +5,6 @@ import { RestApiService } from '../../../../../../../../core/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddWalletModalComponent } from '../../../../modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from '../../../../modals/edit-car-modal/edit-car-modal.component';
-import { FairmediaStatusPipe } from 'src/app/core/pipes/fairmedia-status.pipe';
 import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 
 @Component({
@@ -19,11 +18,6 @@ export class WalletInfoComponent implements OnInit {
   @Input() public customerTypeId: string | null = null;
   @Input() public customer: CustomerModel | undefined;
   @Input() public wallets: IWalletInfoModel[] = [];
-
-  // public isCollapsedPrepaid: boolean = true;
-  // public isCollapsedPostpaid: boolean = true;
-  // public isCollapsedDirectCredit: boolean = true;
-  // public isCollapsedType9: boolean = true;
 
   public activeUsedColumns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'ลำดับ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
@@ -46,47 +40,19 @@ export class WalletInfoComponent implements OnInit {
 
   public limitRow: number = 5;
   public pages: number = 1;
+  public collectionSize: number = 0;
 
   constructor(
     private restApiService: RestApiService,
     private ngbModal: NgbModal,
-    private fairmediaStatusPipe: FairmediaStatusPipe,
     private modalDialogService: ModalDialogService
   ) {
 
   }
 
-
   ngOnInit(): void {
-    // this.loadWalletInfo();
     this.setWallet(this.wallets);
   }
-
-  // loadWalletInfo() {
-  //   this.modalDialogService.loading();
-  //   const mockupData = {
-  //     id: this.customerId,
-  //   };
-  //   return this.restApiService
-  //     .post('get-summary', mockupData)
-  //     .pipe(
-  //       first(),
-  //       map(res => res as ReponseWalletSummaryModel)
-  //     ).subscribe({
-  //       next: (res) => {
-  //         console.log("[loadWalletInfo] res => ", res);
-  //         this.setWallet(res.lstSummary);
-  //         this.modalDialogService.hideLoading();
-  //         this.isLoading = false;
-  //       },
-  //       error: (err) => {
-  //         this.modalDialogService.hideLoading();
-  //         console.error(err);
-  //         this.modalDialogService.handleError(err);
-  //         // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
-  //       }
-  //     });
-  // }
 
   onChangeSearch() {
     if (this.search) {
@@ -106,26 +72,8 @@ export class WalletInfoComponent implements OnInit {
 
   setWallet(lstSummary: IWalletInfoModel[]) {
     let walletArr: any = [];
-    // console.log(lstSummary);
     lstSummary.forEach((wallet) => {
-      // wallet.lstObus.forEach((obu: any) => {
-      //   wallet.lstCars.filter((car: any) => {
-      //     if (car.index === obu.index) {
-      //       const hasDuplicateId = walletArr.some((value: any) => value.walletId === wallet.walletId);
-      //       if (!hasDuplicateId) {
-      //         const mergedArray = wallet.lstCars.reduce((acc: any, obj1) => {
-      //           const matchingObj2 = wallet.lstObus.find(obj2 => obj2.index === obj1.index);
-      //           if (matchingObj2) {
-      //             matchingObj2.obuStatusText = this.fairmediaStatusPipe.transform(matchingObj2.obuStatus);
-      //             console.log("[setWallet] matchingObj2 => ", matchingObj2);
-      //             acc.push({ ...obj1, ...matchingObj2, walletId: wallet.walletId});
-      //           }
-      //           return acc;
-      //         }, []);
       walletArr.push({
-        // lstCars: wallet.lstCars,
-        // lstObus: wallet.lstObus,
-        // row: Object.keys(car).length === 0 || Object.keys(obu).length === 0 ? [] : mergedArray,
         totalBalance: wallet.totalBalance,
         totalPoint: wallet.totalPoint,
         totalPointBalance: wallet.totalPointBalance,
@@ -137,10 +85,6 @@ export class WalletInfoComponent implements OnInit {
         walletLastUse: wallet.lastUse,
         isCollapsed: true,
       });
-      // }
-      //     }
-      //   });
-      // })
     });
     this.defaultWalletList = [...walletArr];
     this.walletList = [...walletArr];
@@ -155,9 +99,8 @@ export class WalletInfoComponent implements OnInit {
       this.modalDialogService.loading();
       const mockupData = {
         walletId: row.walletId,
-        // todo: implement pagination
-        page: 1,
-        limit: 20
+        page: this.pages,
+        limit: this.limitRow
       };
       this.restApiService
         .postBackOffice('faremedia/get/wallet-id', mockupData)
@@ -181,9 +124,7 @@ export class WalletInfoComponent implements OnInit {
   }
 
   setFareMedia(data: any, walletId: any) {
-    // console.log("[setWallet] faremedia => ", data);
     let faremedia: any = [];
-
     for (const index of Object.keys(data)) {
       let faremediaIndex = data[index];
       faremedia.push(faremediaIndex);

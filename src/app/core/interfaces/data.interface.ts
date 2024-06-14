@@ -30,6 +30,25 @@ export interface CarInfoModel {
   province: string,
 }
 
+export interface IFareMedia {
+  faremediaTypeId: number
+  faremediaType: string
+  faremediaStatusId: number
+  faremediaStatus: string
+  faremediaValue: string
+  faremediaGroup: number
+  isType9: boolean
+  carClass: any
+  carModel?: string
+  carSubmodel: any
+  carColor?: string
+  plateNo?: string
+  plateProvince: any
+  carYear: any
+  createDate: string
+  updateDate: string
+}
+
 export interface ObuInfoModel {
   index: number,
   isType9: boolean
@@ -257,15 +276,15 @@ export interface IPassageModel {
 }
 
 export interface IWalletInfoModel {
-  id: number,
-  name: string,
-  statusId: number,
-  statusNmae: string,
-  typeId: number,
-  typeName: string,
-  totalBalance: number,
-  totalPointBalance: number,
-  creditBalance: number,
-  totalPoint: number,
+  id: number
+  name: string
+  statusId: number
+  statusName: string
+  typeId: number
+  typeName: string
+  totalBalance: number
+  totalPointBalance: number
+  creditBalance: number
+  totalPoint: number
   lastUse: Date
 }

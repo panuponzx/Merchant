@@ -10,7 +10,7 @@ export interface ResponseMessageModel {
   }
 }
 
-export interface ResponseModel <T> extends ResponseMessageModel{
+export interface ResponseModel<T> extends ResponseMessageModel {
   data: T,
   throwableMessage: string
 }
@@ -29,7 +29,7 @@ export interface ReponseCustomerModel extends ResponseMessageModel {
 }
 
 export interface ReponseCustomerObuModel extends ResponseMessageModel {
-  obus: [ ObuInfoModel, CarInfoModel ][]
+  obus: [ObuInfoModel, CarInfoModel][]
 }
 
 export interface ResponseHistoryModel extends ReponseCustomerModel {
@@ -68,4 +68,21 @@ export interface IResponseTransferModel extends ResponseMessageModel {
 
 export interface IResponseFaremediaModel extends ResponseMessageModel {
   data: IFaremediaModel[]
+}
+
+export interface ICarModal extends ResponseMessageModel {
+  id: number
+  brand: string
+}
+export interface IResponseCarModal extends ResponseMessageModel {
+  data: ICarModal[]
+}
+
+export interface IProvinceModal extends ResponseMessageModel {
+  provinceId: number
+  provinceName: string
+  provinceNameEn: string
+}
+export interface IResponseProvinceModal extends ResponseMessageModel {
+  data: IProvinceModal[]
 }

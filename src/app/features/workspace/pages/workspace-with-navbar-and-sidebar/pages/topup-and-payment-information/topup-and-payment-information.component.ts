@@ -25,7 +25,7 @@ export class TopupAndPaymentInformationComponent implements OnInit {
   public wallets: IWalletInfoModel[] = [];
   public allWallet: IWalletInfoModel = {
     totalBalance: 0,
-    statusNmae: '',
+    statusName: '',
     totalPointBalance: 0,
     id: 0,
     name: 'ทุกกระเป๋า',

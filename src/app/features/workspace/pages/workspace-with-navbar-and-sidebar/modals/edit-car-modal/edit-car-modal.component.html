@@ -21,12 +21,12 @@
                         <ng-select
                           class="form-control"
                           [clearable]="false"
-                          bindLabel="label"
-                          bindValue="id"
+                          bindLabel="provinceName"
+                          bindValue="provinceName"
                           data-testid="province"
                           placeholder="กรุณาระบุ"
                           id="province"
-                          [items]="selectedProvince"
+                          [items]="provinceList"
                           formControlName="province"
                           >
                         </ng-select>
@@ -48,13 +48,13 @@
                         <ng-select
                             class="form-control"
                             [clearable]="false"
-                            bindLabel="lable"
-                            bindValue="id"
+                            bindLabel="brand"
+                            bindValue="brand"
                             data-testid="brandSelect"
                             placeholder="กรุณาระบุ"
                             id="brandSelect"
                             formControlName="brand"
-                            [items]="brands">
+                            [items]="brandList">
                         </ng-select>
                     </div>
                     <div class="col-6 mb-3">
@@ -144,8 +144,8 @@
     <div class="d-flex justify-content-between">
         <div class="left">
             <button class="custom-btn btn-type-1 red-outline" (click)="onDeactivate()">ยกเลิกอุปกรณ์</button>
-            <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onSuspend()" *ngIf="carInfo.obuStatus == 200">อายัดชั่วคราว</button>
-            <button class="custom-btn btn-type-1 outline ms-2" (click)="onActive()" *ngIf="carInfo.obuStatus >= 300 && carInfo.obuStatus <= 399">ยกเลิกการอายัด</button>
+            <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onSuspend()" *ngIf="carInfo.faremediaStatusId == 200">อายัดชั่วคราว</button>
+            <button class="custom-btn btn-type-1 outline ms-2" (click)="onActive()" *ngIf="carInfo.faremediaStatusId >= 300 && carInfo.faremediaStatusId <= 399">ยกเลิกการอายัด</button>
         </div>
         <div class="right d-flex justify-content-center gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ยกเลิก</button>
