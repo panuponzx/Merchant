@@ -105,7 +105,7 @@ export class ETaxComponent implements OnInit {
     this.form.get('isEtaxActive')?.setValue(customerEtax.isEtaxActive);
     if (customerEtax.etaxSettingLevel === 1) {
       this.form.get('etaxSettingLevel')?.setValue(customerEtax.etaxSettingLevel);
-      this.form.get('emailType0')?.setValue(customerEtax.customerEtax[0].email);
+      this.form.get('emailType0')?.setValue(customerEtax?.customerEtax[0]?.email);
     } else if (customerEtax.etaxSettingLevel === 2) {
       this.form.get('etaxSettingLevel')?.setValue(customerEtax.etaxSettingLevel);
     }
