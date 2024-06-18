@@ -21,8 +21,10 @@
     </div>
 
     <ng-container *ngFor="let row of walletList">
-        <div *ngIf="row.walletTypeId === 1 || row.walletTypeId === 4" class="wallet-box mt-3">
-            <h3 class="mb-3">กระเป๋าเติมเงิน (Prepaid) - {{row.walletName}}</h3>
+        <div *ngIf="row.walletTypeId === 1 || row.walletTypeId === 4 || row.walletTypeId === 7" class="wallet-box mt-3">
+            <h3 *ngIf="row.walletTypeId === 1 || row.walletTypeId === 4" class="mb-3">กระเป๋าเติมเงิน (Prepaid) -
+                {{row.walletName}}</h3>
+            <h3 *ngIf="row.walletTypeId === 7" class="mb-3">non-toll (shop) - {{row.walletName}}</h3>
             <div class="row mb-3">
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label class="label-input text-nowrap" for="walletTotalInput">

@@ -19,6 +19,10 @@ export class AddWalletModalComponent {
       lable: 'Prepaid (Top-up)',
       id: 1
     },
+    {
+      lable: 'non-toll (shop)',
+      id: 7
+    },
     // {
     //   lable: 'Postpaid (Billing)',
     //   id: 2
