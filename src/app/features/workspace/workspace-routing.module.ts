@@ -28,6 +28,7 @@ import { PaymentInformationComponent } from './pages/workspace-with-navbar-and-s
 import { TransferInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/transfer-information/transfer-information.component';
 import { EarningManagementComponent } from './pages/workspace-backoffice-management/pages/earning-management/earning-management.component';
 import { RedeemManagementComponent } from './pages/workspace-backoffice-management/pages/redeem-management/redeem-management.component';
+import { BillInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/bill-information.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -123,6 +124,19 @@ export const routesConfig: CustomRoutesModel = [
               label: 'ข้อมูลชำระเงิน',
               request_id: true,
               default_path: 'payment-information',
+              allowed_tabs: ['waiting-payment', 'paid-payment']
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'billInformationRoute',
+            path: 'bill-information/:tab/:id',
+            component: BillInformationComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ข้อมูลใบแจ้งหนี้',
+              request_id: true,
+              default_path: 'bill-information',
               allowed_tabs: ['waiting-payment', 'paid-payment']
             },
             canActivate: [TabGuard]
