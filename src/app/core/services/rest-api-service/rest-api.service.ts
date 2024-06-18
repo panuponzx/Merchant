@@ -54,7 +54,7 @@ export class RestApiService {
     const formData: FormData = new FormData();
     // formData.append("file", file)
     formData.append("json", JSON.stringify(data))
-    return this.httpClient.post<ResponseMessageModel>(baseURL, formData);
+    return this.httpClient.post<ResponseMessageModel>(baseURL, data);
   }
 
   postBackOffice(endpoint: string, body: any): Observable<ResponseMessageModel> {
