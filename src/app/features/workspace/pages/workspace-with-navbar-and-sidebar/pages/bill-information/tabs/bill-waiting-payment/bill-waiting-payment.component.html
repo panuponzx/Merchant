@@ -1,1 +1,33 @@
-<p>bill-waiting-payment works!</p>
+<div class="device-header-wrapper mt-3">
+    <div class="navs-container">
+        <datatable
+        [columns]="getBillWaitingPaymentColumns"
+        [collectionSize]="getBillWaitingPaymentRows.length"
+        [id]="'billWaitingPaymentTable'"
+        [isLoading]="isLoading"
+        [pageSize]="limitRow"
+        [page]="pages"
+        [rows]="getBillWaitingPaymentRows"
+        emptyMessage="ไม่มีข้อมูล"
+        (onChangePageEvent)="onChangePage($event)"
+        (onRowActionEvent)="onAction($event)"
+      >
+      <ng-template #rowTemplate let-row>
+        <tr>
+          <td *ngFor="let col of getBillWaitingPaymentColumns">
+            <ng-container *ngIf="col.id !== 'payment'; else buttonTemplate">
+              {{ row[col.prop] }}
+            </ng-container>
+            <ng-template #buttonTemplate>
+              <button class="btn btn-primary" (click)="handleButtonClick(row)">
+                View Details
+              </button>
+            </ng-template>
+          </td>
+        </tr>
+      </ng-template>
+    </datatable>
+    </div>
+    <input type="button" (click)="printPDF()">    
+
+  </div>

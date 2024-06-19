@@ -29,7 +29,7 @@ export class BillInformationComponent {
     lastUse: new Date(),
     totalPoint: 0
   }
-
+  public minDate: Date | undefined;
   public title: string | undefined;
   public customer: CustomerModel | undefined;
   public isLoading: boolean = false;
@@ -40,7 +40,6 @@ export class BillInformationComponent {
   });
   public wallets: IWalletInfoModel[] = [];
   public activeTab: 'waiting-payment' | 'paid-payment' | string | null;
-
 
   constructor(
     private router: Router,
@@ -54,6 +53,9 @@ export class BillInformationComponent {
 
   ngOnInit() {
     this.onInitData();
+
+    const today = new Date();
+    this.minDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
   }
 
   onInitData() {
