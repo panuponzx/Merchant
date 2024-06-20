@@ -58,7 +58,7 @@ export class BillWaitingPaymentComponent {
     },
     {
       date: '2024-03-05 14:06:17',
-      getBag: 'EWL2024010001',
+      getBag: 'EWL2024010002',
       status: 'รอการชำระเงิน',
       payRound: '2024-03-05',
       moneyAmout: '1,000.00',
@@ -69,47 +69,67 @@ export class BillWaitingPaymentComponent {
   constructor(
     private restApiService: RestApiService, private modalDialogService: ModalDialogService) { }
 
-  handleButtonClick(row: any) {
-    console.log('Button clicked for row:', row);
-    this.printPDF
-  }
 
-
-  qeCode() {
-
-  }
-
-  barCode() {
-
-  }
-
-  printPDF = () => {
+  printPDF = (rowData: { date: string; getBag: string; status: string; payRound: string; moneyAmout: string; }) => {
     this.mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
+    const data = `<div class="bill-details">
+             <div class="bill-details">
+            <h2>Detail</h2>
+            <p>วันที่ และ เวลา: ${rowData.date}</p>
+            <p>กระเป๋าเงิน: ${rowData.getBag}</p>
+            <p>สถานะ: ${rowData.status}</p>
+            <p>รอบการชำระเงิน: ${rowData.payRound}</p>
+            <p>จำนวนเงิน: ${rowData.moneyAmout}</p>
+            </div>
+    `
+    const html = `<!DOCTYPE html>
+      <html>
 
-    this.mywindow.document.write(`<html><head><title></title>`);
-    this.mywindow.document.write('</head><body >');
-    this.mywindow.document.write('วันที่ และ เวลา : ', this.getBillWaitingPaymentRows[0].date);
-    this.mywindow.document.write('<br>กระเป๋าเงิน : ', this.getBillWaitingPaymentRows[0].getBag);
-    this.mywindow.document.write('<br>สถานะ : ', this.getBillWaitingPaymentRows[0].status);
-    this.mywindow.document.write('<br>รอบการชำระเงิน : ', this.getBillWaitingPaymentRows[0].payRound);
-    this.mywindow.document.write('<br>จำนวนเงิน : ', this.getBillWaitingPaymentRows[0].moneyAmout);
-    // this.mywindow.document.write('<br>การชำระเงิน : ' , this.getBillWaitingPaymentRows[0].payment);
-    this.mywindow.document.write('<div class="qrcode">');
-    this.mywindow.document.write('</div>');
-    this.mywindow.document.write('</body></html>');
+      <head>
+          <title>QR Code</title>
+          <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+          <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+          
+      </head>
+
+      <body>
+          <div > ${data} </div>
+          <div class="footer">
+          <svg id="barcode1"></svg>
+          
+          <div id="qrcode"></div>
+          </div>
+          <script type="text/javascript">
+              JsBarcode("#barcode1", "123456789012", {
+                  format: "CODE128",
+                  displayValue: true,
+                  fontSize: 20,
+                  textMargin: 0,
+                  fontOptions: "bold",
+              });
+              new QRCode(document.getElementById("qrcode"), {
+                  text: "123456789012",
+                  width: 128,
+                  height: 128
+              });
+          </script>
+
+      </body>
+
+      </html>
+`
+
+    this.mywindow.document.write(html)
 
     this.mywindow.document.close(); // necessary for IE >= 10
     this.mywindow.focus(); // necessary for IE >= 10*/
 
-    this.mywindow.print();
-    this.mywindow.close();
-
+    setTimeout(() => {
+      this.mywindow.print();
+      this.mywindow.close();
+    }, 1000);
     return true;
   };
-
-
-
-
 
   getItemByIndex(index: number): void {
     const item = this.getBillWaitingPaymentRows[1];
@@ -147,9 +167,6 @@ export class BillWaitingPaymentComponent {
   //     });
   // }
 
-
-  public usePointRows: any[] = [];
-
   public isLoading: boolean = false;
 
 
@@ -159,6 +176,9 @@ export class BillWaitingPaymentComponent {
   }
 
   onAction(event: RowActionEventModel) {
+    const rowIndex = event.index;
+    const rowData = this.getBillWaitingPaymentRows[rowIndex];
+    this.printPDF(rowData);
     console.info(event)
   }
 

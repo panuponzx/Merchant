@@ -84,6 +84,7 @@ import { BillWaitingPaymentComponent } from './pages/workspace-with-navbar-and-s
 import { BillPaidPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/tabs/bill-paid-payment/bill-paid-payment.component';
 
 
+
 @NgModule({
   declarations: [
     SearchUserComponent,
@@ -152,6 +153,7 @@ import { BillPaidPaymentComponent } from './pages/workspace-with-navbar-and-side
     BillInformationComponent,
     BillWaitingPaymentComponent,
     BillPaidPaymentComponent
+    
   ],
   imports: [
     CommonModule,
