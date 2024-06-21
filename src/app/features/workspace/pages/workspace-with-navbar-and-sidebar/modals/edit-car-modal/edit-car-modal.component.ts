@@ -7,6 +7,7 @@ import { CarInfoModel, ICarMasterData, ICarModal, IProvinceMasterData, IProvince
 import { RestApiService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
 import { CustomerModel } from '../../../../../../core/interfaces';
+import { CancelObuModalComponent } from '../cancel-obu-modal/cancel-obu-modal.component';
 
 @Component({
   selector: 'app-edit-car-modal',
@@ -43,6 +44,7 @@ export class EditCarModalComponent {
     private formBuilder: FormBuilder,
     private ngbActiveModal: NgbActiveModal,
     private restApiService: RestApiService,
+    private ngbModal: NgbModal
   ) {
   }
 
@@ -89,54 +91,79 @@ export class EditCarModalComponent {
   }
 
   onDeactivate() {
-    Swal.fire({
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off"
-      },
-      inputPlaceholder: "กรุณาระบุ",
-      title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการยกเลิกอุปกรณ์</h2>',
-      html: '<label>กรุณายืนยัน</label><br><label class="required-field" style="text-align: left;width: 100%;">หมายเหตุ</label>',
-      showCancelButton: true,
-      customClass: {
-        confirmButton: "custom-btn btn-type-1 red ms-2",
-        cancelButton: "custom-btn btn-type-1 outline"
-      },
-      buttonsStyling: false,
-      showLoaderOnConfirm: true,
-      confirmButtonText: "ยกเลิกอุปกรณ์",
-      cancelButtonText: "กลับ",
-      reverseButtons: true,
-      inputValidator: (remark) => {
-        return new Promise((resolve) => {
-          if (remark) {
-            resolve("Mock Alert");
-          } else {
-            resolve("กรุณาระบุหมายเหตุ");
-          }
-        });
-      },
-      preConfirm: async (remark) => {
-        try {
-
-        } catch (error: any) {
-          console.error(error);
-          if (error instanceof HttpResponse) {
-            Swal.showValidationMessage(`
-              Request failed: ${error.body?.errorCode}, ${error.body?.errorMessage}
-            `);
-          }
-          else {
-            Swal.showValidationMessage(`Some thing failed`);
-          }
+    const modalRef = this.ngbModal.open(CancelObuModalComponent, {
+      windowClass: 'cancel-car-modal',
+      centered: true,
+      // backdrop: 'static',
+      size: 'md',
+      scrollable: true,
+      keyboard: false,
+    });
+    // modalRef.componentInstance.carInfo = event.row;
+    // modalRef.componentInstance.customer = this.customer;
+    // modalRef.componentInstance.walletIdList = this.walletList.map((x) => x.walletId);
+    // modalRef.componentInstance.walletId = walletId;
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          console.log('[showTableModal] result => ', result);
+          // this.loadWalletInfo();
+          window.location.reload();
         }
       },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.ngbActiveModal.close(true);
+      (reason) => {
+        console.log('[showTableModal] reason => ', reason);
       }
-    });
+    );
+
+    // Swal.fire({
+    //   input: "text",
+    //   inputAttributes: {
+    //     autocapitalize: "off"
+    //   },
+    //   inputPlaceholder: "กรุณาระบุ",
+    //   title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการยกเลิกอุปกรณ์</h2>',
+    //   html: '<label>กรุณายืนยัน</label><br><label class="required-field" style="text-align: left;width: 100%;">หมายเหตุ</label>',
+    //   showCancelButton: true,
+    //   customClass: {
+    //     confirmButton: "custom-btn btn-type-1 red ms-2",
+    //     cancelButton: "custom-btn btn-type-1 outline"
+    //   },
+    //   buttonsStyling: false,
+    //   showLoaderOnConfirm: true,
+    //   confirmButtonText: "ยกเลิกอุปกรณ์",
+    //   cancelButtonText: "กลับ",
+    //   reverseButtons: true,
+    //   inputValidator: (remark) => {
+    //     return new Promise((resolve) => {
+    //       if (remark) {
+    //         resolve("Mock Alert");
+    //       } else {
+    //         resolve("กรุณาระบุหมายเหตุ");
+    //       }
+    //     });
+    //   },
+    //   preConfirm: async (remark) => {
+    //     try {
+
+    //     } catch (error: any) {
+    //       console.error(error);
+    //       if (error instanceof HttpResponse) {
+    //         Swal.showValidationMessage(`
+    //           Request failed: ${error.body?.errorCode}, ${error.body?.errorMessage}
+    //         `);
+    //       }
+    //       else {
+    //         Swal.showValidationMessage(`Some thing failed`);
+    //       }
+    //     }
+    //   },
+    //   allowOutsideClick: () => !Swal.isLoading()
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     this.ngbActiveModal.close(true);
+    //   }
+    // });
   }
 
   onSuspend() {
@@ -173,6 +200,7 @@ export class EditCarModalComponent {
             obu: {
               obuPan: this.form.get('obuPan')?.value,
               smartcardNo: this.form.get('smartcardNo')?.value,
+              obuStatusRemark: remark
             },
             wallet: {
               id: this.form.get('walletId')?.value,

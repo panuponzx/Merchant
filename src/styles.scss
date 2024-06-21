@@ -61,6 +61,17 @@ html body {
   }
 }
 
+.cancel-car-modal {
+  .modal-content {
+    animation-name: show-modal;
+    animation-duration: 0.5s;
+    .modal-header {
+      border-bottom: none !important;
+      padding-bottom: 0 !important;
+    }
+  }
+}
+
 @keyframes show-modal {
   0% {
     transform: scale(0.7);
