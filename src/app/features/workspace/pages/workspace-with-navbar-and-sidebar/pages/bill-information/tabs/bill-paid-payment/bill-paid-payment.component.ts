@@ -25,13 +25,4 @@ export class BillPaidPaymentComponent {
     private restApiService: RestApiService, private modalDialogService: ModalDialogService
   ) { }
 
-  ngOnInit(): void {
-    console.log(this.data);
-
-  }
-
-  onAction(event: RowActionEventModel) {
-    console.info(event)
-  }
-
 }

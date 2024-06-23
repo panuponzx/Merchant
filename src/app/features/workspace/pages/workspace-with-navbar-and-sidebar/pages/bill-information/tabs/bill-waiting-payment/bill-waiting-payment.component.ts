@@ -28,10 +28,6 @@ export class BillWaitingPaymentComponent {
   constructor(
     private restApiService: RestApiService, private modalDialogService: ModalDialogService) { }
 
-  ngOnInit(): void {
-    console.log(this.data);
-
-  }
 
   loadBillDetail(event: RowActionEventModel) {
     const billId = event.row.id;
@@ -39,7 +35,6 @@ export class BillWaitingPaymentComponent {
     const payload = {
       billId: billId,
     };
-    console.log("loadBillDetail", payload);
 
     return this.restApiService
       .postBackOffice('bill/get/detail', payload)
@@ -49,8 +44,6 @@ export class BillWaitingPaymentComponent {
       ).subscribe({
         next: (res) => {
           this.modalDialogService.hideLoading();
-          console.log(res.data);
-
           this.printPDF(res.data);
         },
         error: (err) => {
