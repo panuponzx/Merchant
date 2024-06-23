@@ -17,19 +17,19 @@ import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dia
 })
 export class BillInformationComponent {
   customerId: string | null;
-  initAllWallet: IWalletInfoModel = {
-    totalBalance: 0,
-    statusName: '',
-    totalPointBalance: 0,
-    id: 0,
-    name: 'ทุกกระเป๋า',
-    statusId: 0,
-    typeId: 0,
-    typeName: 'ทุกกระเป๋า',
-    creditBalance: 0,
-    lastUse: new Date(),
-    totalPoint: 0
-  }
+  // initAllWallet: IWalletInfoModel = {
+  //   totalBalance: 0,
+  //   statusName: '',
+  //   totalPointBalance: 0,
+  //   id: 0,
+  //   name: 'ทุกกระเป๋า',
+  //   statusId: 0,
+  //   typeId: 0,
+  //   typeName: 'ทุกกระเป๋า',
+  //   creditBalance: 0,
+  //   lastUse: new Date(),
+  //   totalPoint: 0
+  // }
   today = new Date();
   public minDate: Date = moment(this.today).subtract(1, 'years').toDate();
   public maxDate: Date = this.today;
@@ -39,7 +39,8 @@ export class BillInformationComponent {
   public form: FormGroup = new FormGroup({
     startDate: new FormControl(this.minDate, [Validators.required]),
     endDate: new FormControl(this.maxDate, [Validators.required]),
-    walletId: new FormControl(this.initAllWallet.id, [Validators.required])
+    // walletId: new FormControl(this.initAllWallet.id, [Validators.required])
+    walletId: new FormControl(undefined, [Validators.required])
   });
   public wallets: IWalletInfoModel[] = [];
   public bills: IBill[] = [];
@@ -76,7 +77,8 @@ export class BillInformationComponent {
               return [WalletTypeEnum.CORPORATE_POSTPAID_BILLIING,
               WalletTypeEnum.INDIVIDUAL_POSTPAID_BILLING].includes(x.typeId)
             })
-            this.wallets = [this.initAllWallet,].concat(wallet)
+            // this.wallets = [this.initAllWallet,].concat(wallet)
+            this.wallets = wallet
 
             // todo: wallet == 0 show no data
           }
