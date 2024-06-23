@@ -45,7 +45,7 @@ export class BillWaitingPaymentComponent {
         next: (res) => {
           this.modalDialogService.hideLoading();
           console.log(res.data);
-          this.printPDF(res.data);
+          this.printBill(res.data);
         },
         error: (err) => {
           this.modalDialogService.hideLoading();
@@ -56,7 +56,7 @@ export class BillWaitingPaymentComponent {
 
   }
 
-  printPDF(billDetail: IBillDetail) {
+  printBill(billDetail: IBillDetail) {
 
     let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
     const header = `<div class="bill-header">
