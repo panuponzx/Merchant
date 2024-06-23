@@ -159,7 +159,6 @@ export class BillInformationComponent {
   }
 
   onSearch() {
-    console.log(this.form.value);
     if(this.activeTab === 'waiting-payment') {
       this.loadBillWaitingPayment(this.form.value.walletId, this.form.value.startDate, this.form.value.endDate);
     }else if(this.activeTab === 'paid-payment') {
@@ -172,7 +171,6 @@ export class BillInformationComponent {
   }
 
   onChangeNav(event: NgbNavChangeEvent) {
-    console.log(event);
     const url = 'work-space/bill-information/' + event.nextId + '/' + this.customerId
     this.router.navigate([url], { replaceUrl: true });
   }
