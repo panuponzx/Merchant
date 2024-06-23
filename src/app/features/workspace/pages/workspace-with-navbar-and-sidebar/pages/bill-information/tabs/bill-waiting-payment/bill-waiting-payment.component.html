@@ -1,9 +1,12 @@
 <div class="device-header-wrapper mt-3">
   <div class="navs-container">
-    <datatable [columns]="getBillWaitingPaymentColumns" [collectionSize]="getBillWaitingPaymentRows.length"
-      [id]="'billWaitingPaymentTable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
-      [rows]="getBillWaitingPaymentRows" emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePage($event)"
-      (onRowActionEvent)="onAction($event)">
+    <datatable 
+    [columns]="getBillWaitingPaymentColumns" 
+      [id]="'billWaitingPaymentTable'" 
+      [isLoading]="isLoading" 
+      [rows]="data" 
+      emptyMessage="ไม่มีข้อมูล" 
+      (onRowActionEvent)="loadBillDetail($event)">
     </datatable>
   </div>
 </div>

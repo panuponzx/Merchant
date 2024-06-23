@@ -1,57 +1,22 @@
-<div
-  class="datatable-container"
-  [ngClass]="customDatatableContainerClass ? customDatatableContainerClass : null"
->
+<div class="datatable-container" [ngClass]="customDatatableContainerClass ? customDatatableContainerClass : null">
   <ng-container *ngIf="rows && rows.length > 0; else emptyEl; ">
-    <div
-      class="datatable-content"
-      [ngClass]="customDatatableContentClass ? customDatatableContentClass : null"
-    >
-      <ngx-datatable
-        #datatable
-        ngx-datatable-resize-watcher
-        [id]="id"
-        [attr.data-testid]="id"
-        class="material"
+    <div class="datatable-content" [ngClass]="customDatatableContentClass ? customDatatableContentClass : null">
+      <ngx-datatable #datatable ngx-datatable-resize-watcher [id]="id" [attr.data-testid]="id" class="material"
         [ngClass]="customDatatableClass ? customDatatableClass : 'default-datatable'"
-        [limit]="pageSize ? pageSize : undefined"
-        [rows]="rows"
-        [rowHeight]="rowHeight"
-        [offset]="page - 1"
-        [externalPaging]="externalPaging"
-        [count]="collectionSize"
-        [columnMode]="columnMode.force"
-        [headerHeight]="headerHeight ? headerHeight : $any('auto')"
-        [scrollbarH]="true"
-        [scrollbarV]="false"
-        [messages]="{ emptyMessage: emptyMessage }"
-      >
-        <ngx-datatable-column
-          *ngFor="let column of columns"
-          [prop]="column.prop"
-          [name]="column.name"
-          [sortable]="column.sortable"
-          [resizeable]="column.resizeable"
-          [width]="column.width"
-          [minWidth]="column.minWidth"
-          [headerClass]="column.headerClass ? column.headerClass : ''"
-          [cellClass]="column.cellClass ? column.cellClass : ''"
-        >
+        [limit]="pageSize ? pageSize : undefined" [rows]="rows" [rowHeight]="rowHeight" [offset]="page - 1"
+        [externalPaging]="externalPaging" [count]="collectionSize" [columnMode]="columnMode.force"
+        [headerHeight]="headerHeight ? headerHeight : $any('auto')" [scrollbarH]="true" [scrollbarV]="false"
+        [messages]="{ emptyMessage: emptyMessage }">
+        <ngx-datatable-column *ngFor="let column of columns" [prop]="column.prop" [name]="column.name"
+          [sortable]="column.sortable" [resizeable]="column.resizeable" [width]="column.width"
+          [minWidth]="column.minWidth" [headerClass]="column.headerClass ? column.headerClass : ''"
+          [cellClass]="column.cellClass ? column.cellClass : ''">
           <ng-template ngx-datatable-header-template let-value="value">
-            <span
-              [id]="column.id + 'Column'"
-              [attr.data-testid]="column.id + 'Column'"
-              class="datatable-header-text"
-              >{{ column.label }}</span
-            >
+            <span [id]="column.id + 'Column'" [attr.data-testid]="column.id + 'Column'" class="datatable-header-text">{{
+              column.label }}</span>
           </ng-template>
 
-          <ng-template
-            ngx-datatable-cell-template
-            let-row="row"
-            let-value="value"
-            let-rowIndex="rowIndex"
-          >
+          <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
             <ng-container *ngIf="column.type === 'no'">
               {{ (page - 1) * pageSize + rowIndex + 1 }}
             </ng-container>
@@ -63,12 +28,15 @@
             </ng-container>
             <ng-container *ngIf="column.type === 'text-with-boolean'">
               <ng-container *ngIf="value; else textFalseEl;">
-                <span [ngClass]="column.textWithBoolean?.classCondition1 ? column.textWithBoolean?.classCondition1 : null">
+                <span
+                  [ngClass]="column.textWithBoolean?.classCondition1 ? column.textWithBoolean?.classCondition1 : null">
                   {{ column.textWithBoolean?.textCondition1 }}
                 </span>
               </ng-container>
               <ng-template #textFalseEl>
-                <span [ngClass]="column.textWithBoolean?.classCondition2 ? column.textWithBoolean?.classCondition2 : null">{{ column.textWithBoolean?.textCondition2 }}</span>
+                <span
+                  [ngClass]="column.textWithBoolean?.classCondition2 ? column.textWithBoolean?.classCondition2 : null">{{
+                  column.textWithBoolean?.textCondition2 }}</span>
               </ng-template>
             </ng-container>
             <ng-container *ngIf="column.type === 'date'">
@@ -77,70 +45,40 @@
             <ng-container *ngIf="column.type === 'number'">
               {{ value ? (value | number : column.numberFormat) : "-" }}
             </ng-container>
+            <ng-container *ngIf="column.type === 'currency'">
+              {{ value | currency: column.currency?.currencyCode: column.currency?.display: column.currency?.digitsInfo: column.currency?.locale }}
+            </ng-container>
             <ng-container *ngIf="column.type === 'check-uncheck'">
               <ng-container>
-                <icon-svg
-                  size="17px"
-                  [color]="'#2255CE'"
-                  [path]="'check' | icon"
-                />
+                <icon-svg size="17px" [color]="'#2255CE'" [path]="'check' | icon" />
               </ng-container>
             </ng-container>
 
             <ng-container *ngIf="column.type === 'cancel'">
               <ng-container>
-                <button
-                  [attr.data-testid]="column.id + rowIndex + 'btn-cancel'"
-                  class="custome-btn btn-icon"
-                  [id]="column.id + rowIndex + 'btn-cancel'"
-                  type="button"
-                  [disabled]="row.isCancelled"
+                <button [attr.data-testid]="column.id + rowIndex + 'btn-cancel'" class="custome-btn btn-icon"
+                  [id]="column.id + rowIndex + 'btn-cancel'" type="button" [disabled]="row.isCancelled"
                   [title]="column.label"
-                  (click)="onCancel({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })"
-                >
-                  <icon-svg
-                    *ngIf="row.isCancelled"
-                    size="17px"
-                    [color]="'#a1a1a1'"
-                    [path]="'close' | icon"
-                  />
-                  <icon-svg
-                    *ngIf="!row.isCancelled"
-                    size="17px"
-                    [color]="'#D63226'"
-                    [path]="'close' | icon"
-                  />
+                  (click)="onCancel({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })">
+                  <icon-svg *ngIf="row.isCancelled" size="17px" [color]="'#a1a1a1'" [path]="'close' | icon" />
+                  <icon-svg *ngIf="!row.isCancelled" size="17px" [color]="'#D63226'" [path]="'close' | icon" />
                 </button>
               </ng-container>
             </ng-container>
 
             <ng-container *ngIf="column.type === 'action'">
               <ng-container *ngIf="column.actionIcon; else textActionEl;">
-                <button
-                  [attr.data-testid]="column.id + rowIndex + 'Button'"
-                  class="custome-btn btn-icon"
-                  [id]="column.id + rowIndex + 'Button'"
-                  type="button"
-                  [title]="column.label"
-                  (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })"
-                >
-                  <icon-svg
-                    size="l"
-                    [color]="'#2255CE'"
-                    [path]="column.actionIcon.iconName | icon"
-                  />
+                <button [attr.data-testid]="column.id + rowIndex + 'Button'" class="custome-btn btn-icon"
+                  [id]="column.id + rowIndex + 'Button'" type="button" [title]="column.label"
+                  (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })">
+                  <icon-svg size="l" [color]="'#2255CE'" [path]="column.actionIcon.iconName | icon" />
                 </button>
               </ng-container>
               <ng-template #textActionEl>
-                <button
-                  [attr.data-testid]="column.id + rowIndex + 'Button'"
-                  class="custome-btn btn-type-4 red"
-                  [id]="column.id + rowIndex + 'Button'"
-                  type="button"
-                  [title]="column.label"
-                  (click)="onAction({ index: rowIndex, type: column.type, row: row })"
-                >
-                 {{ column.label }}
+                <button [attr.data-testid]="column.id + rowIndex + 'Button'" class="custome-btn btn-type-4 red"
+                  [id]="column.id + rowIndex + 'Button'" type="button" [title]="column.label"
+                  (click)="onAction({ index: rowIndex, type: column.type, row: row })">
+                  {{ column.label }}
                 </button>
               </ng-template>
             </ng-container>
@@ -152,31 +90,18 @@
     </div>
 
     <ng-container *ngIf="footer">
-      <div
-        class="datatable-footer"
-        [ngClass]="customDatatableFooterClass ? customDatatableFooterClass : null"
-      >
+      <div class="datatable-footer" [ngClass]="customDatatableFooterClass ? customDatatableFooterClass : null">
         <div class="datatable-total">
           total {{ collectionSize }}
         </div>
         <div class="datatable-pagination-wrapper">
-          <div
-            *ngIf="footerOptions && footerOptions.info && pageSize"
-            id="datatableInfo"
-            data-testid="datatableInfo"
-            class="datatable-info"
-          >Page {{ page }} of  {{ collectionSize | getTotalPage: pageSize  }}
+          <div *ngIf="footerOptions && footerOptions.info && pageSize" id="datatableInfo" data-testid="datatableInfo"
+            class="datatable-info">Page {{ page }} of {{ collectionSize | getTotalPage: pageSize }}
           </div>
           <div>
-            <ngb-pagination
-              class="datatable-pagination"
-              id="datatablePagination"
-              data-testid="datatablePagination"
-              [collectionSize]="collectionSize"
-              [(page)]="page"
-              [pageSize]="pageSize"
-              (pageChange)="onChangePage($event)"
-            >
+            <ngb-pagination class="datatable-pagination" id="datatablePagination" data-testid="datatablePagination"
+              [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+              (pageChange)="onChangePage($event)">
               <ng-template ngbPaginationPages let-page let-pages="pages"></ng-template>
             </ngb-pagination>
           </div>
@@ -193,4 +118,3 @@
   </ng-template>
 
 </div>
-

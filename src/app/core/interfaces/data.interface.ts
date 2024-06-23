@@ -288,3 +288,35 @@ export interface IWalletInfoModel {
   totalPoint: number
   lastUse: Date
 }
+
+export interface IBill {
+  id: string
+  walletId?: string
+  issueDate: string
+  dueDate: string
+  amount: number
+  status?: string
+  statusId?: number
+  paidDate?: Date
+  createDate?: Date
+  updateDate?: Date
+}
+export interface IBillPayment {
+  ref1: string
+  ref2: string
+  barCodeCrossBank: string
+}
+
+export interface IBillTransection {
+  billId: string
+  transactionAmount: number
+  transactionDate: string
+  transactionId: string
+  updateDate: string
+  createDate: string
+}
+export interface IBillDetail {
+  header: IBill,
+  transactions: IBillTransection[],
+  payment: IBillPayment
+}
