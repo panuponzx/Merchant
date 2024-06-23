@@ -1,1 +1,8 @@
-<p>bill-paid-payment works!</p>
+<div class="device-header-wrapper mt-3">
+  <div class="navs-container">
+    <datatable [columns]="getPaidPaymentColumns" 
+    [rows]="data"
+    [id]="'billPaidPaymentTable'" [isLoading]="isLoading"
+      emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onAction($event)" />
+  </div>
+</div>

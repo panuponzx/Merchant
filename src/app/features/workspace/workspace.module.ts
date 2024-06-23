@@ -85,6 +85,7 @@ import { BillPaidPaymentComponent } from './pages/workspace-with-navbar-and-side
 import { CancelObuModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/cancel-obu-modal/cancel-obu-modal.component';
 
 
+
 @NgModule({
   declarations: [
     SearchUserComponent,

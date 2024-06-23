@@ -29,18 +29,22 @@
             <label class="label-input text-nowrap" for="startDateDatepicker">
               วันที่ (จาก)
             </label>
-            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="startDate"
+            <date-picker class="datepicker-input" [minMode]="'month'" [minDate]="minDate"
+              [clearable]="true" format="MMMM YYYY" formControlName="startDate"
               [id]="'startDateDatePicker'" [invalid]="form.controls['startDate'].errors ? true : false"
-              locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+              [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
           </div>
           <div class="col-12 col-sm-4">
             <label class="label-input text-nowrap" for="endDateDatepicker">
               วันที่ (ถึง)
             </label>
-            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="endDate"
-              [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value"
+            <date-picker class="datepicker-input" [minMode]="'month'" 
+              [minDate]="minDate" [maxDate]="minDate"
+              [clearable]="true" format="MMMM YYYY" formControlName="endDate"
+              [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value" 
               [invalid]="form.controls['endDate'].errors ? true : false" locale="th"
               [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+              
           </div>
           <div class="col-12 col-sm-4">
             <label class="label-input text-nowrap" for="walletSelect">
@@ -69,13 +73,13 @@
           <li [ngbNavItem]="'waiting-payment'">
             <button ngbNavLink>รอชำระเงิน</button>
             <ng-template ngbNavContent>
-              <bill-waiting-payment></bill-waiting-payment>
+              <bill-waiting-payment [data]="bills" [isLoading]="dataIsLoading"></bill-waiting-payment>
             </ng-template>
           </li>
           <li [ngbNavItem]="'paid-payment'">
             <button ngbNavLink>ชำระแล้ว</button>
             <ng-template ngbNavContent>
-              <bill-paid-payment></bill-paid-payment>
+              <bill-paid-payment [data]="bills" [isLoading]="dataIsLoading"></bill-paid-payment>
             </ng-template>
           </li>
         </ul>

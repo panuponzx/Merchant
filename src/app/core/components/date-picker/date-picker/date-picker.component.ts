@@ -1,6 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR  } from '@angular/forms';
-import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerConfig, BsDatepickerViewMode, BsLocaleService } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'date-picker',
@@ -19,7 +19,6 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   @Input() public minDate: Date | undefined;
   @Input() public maxDate: Date | undefined;
   @Input() public id: string = 'datePicker';
-
   @Input() public isDisabled: boolean = false;
   @Input() public placement: 'top' | 'bottom' | 'left' | 'right' = 'left';
   @Input() public outsideClick: boolean = true;
@@ -29,6 +28,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   @Input() public invalid: boolean = false
   @Input() public format: string | undefined;
   @Input() public timePicker: boolean = false;
+  @Input() minMode: BsDatepickerViewMode = 'day';
 
   @Output() onChangeDate: EventEmitter<Date | undefined> =  new EventEmitter<Date | undefined>();
   private onTouched!: Function;
@@ -38,8 +38,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
 
   constructor(
     private bsLocaleService: BsLocaleService
-  ) {
-  }
+  ) {} 
 
   ngOnChanges(changes: SimpleChanges): void {
     const localeChange = changes['locale'];

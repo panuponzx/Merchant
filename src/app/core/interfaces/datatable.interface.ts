@@ -17,7 +17,7 @@ export interface CustomColumnModel {
   minWidth: number,
   headerClass?: string,
   cellClass?: string,
-  type: 'no' | 'number' | 'text' | 'date' | 'action' | 'check-uncheck' | 'text-with-boolean' | 'approve-status' | 'cancel',
+  type: 'no' | 'number' | 'text' | 'date' | 'action' | 'check-uncheck' | 'text-with-boolean' | 'approve-status' | 'cancel' | 'currency',
   actionIcon?: {
     actionName: string,
     iconName: string,
@@ -34,5 +34,11 @@ export interface CustomColumnModel {
   date?: {
     format?: string,
     locale?: 'en' | 'th'
+  }
+  currency?: {
+    currencyCode?: string,
+    display?: string
+    digitsInfo?: string,
+    locale?: string
   }
 }

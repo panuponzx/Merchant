@@ -1,1 +1,12 @@
-<p>bill-waiting-payment works!</p>
+<div class="device-header-wrapper mt-3">
+  <div class="navs-container">
+    <datatable 
+    [columns]="getBillWaitingPaymentColumns" 
+      [id]="'billWaitingPaymentTable'" 
+      [isLoading]="isLoading" 
+      [rows]="data" 
+      emptyMessage="ไม่มีข้อมูล" 
+      (onRowActionEvent)="loadBillDetail($event)">
+    </datatable>
+  </div>
+</div>

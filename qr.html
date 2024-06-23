@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>QR Code</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+</head>
+
+<body>
+    <svg id="barcode1"></svg>
+    <br>
+    <div id="qrcode"></div>
+
+    <script type="text/javascript">
+        JsBarcode("#barcode1", "123456789012", {
+            format: "CODE128",
+            displayValue: true,
+            fontSize: 20,
+            textMargin: 0,
+            fontOptions: "bold"
+        });
+        new QRCode(document.getElementById("qrcode"), {
+            text: "123456789012",
+            width: 128,
+            height: 128
+        });
+    </script>
+
+</body>
+
+
+
+</html>
