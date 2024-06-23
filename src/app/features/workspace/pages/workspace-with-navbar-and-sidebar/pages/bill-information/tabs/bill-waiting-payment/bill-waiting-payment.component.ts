@@ -44,6 +44,7 @@ export class BillWaitingPaymentComponent {
       ).subscribe({
         next: (res) => {
           this.modalDialogService.hideLoading();
+          console.log(res.data);
           this.printPDF(res.data);
         },
         error: (err) => {
@@ -58,16 +59,6 @@ export class BillWaitingPaymentComponent {
   printPDF(billDetail: IBillDetail) {
 
     let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
-    // const data = `<div class="bill-details">
-    //            <div class="bill-details">
-    //           <h2>Detail</h2>
-    //           <p>วันที่ และ เวลา: ${rowData.date}</p>
-    //           <p>กระเป๋าเงิน: ${rowData.getBag}</p>
-    //           <p>สถานะ: ${rowData.status}</p>
-    //           <p>รอบการชำระเงิน: ${rowData.payRound}</p>
-    //           <p>จำนวนเงิน: ${rowData.moneyAmout}</p>
-    //           </div>
-    // `
     const header = `<div class="bill-header">
     <h2>Header</h2>
     <p>วันที่ และ เวลา: ${billDetail.header.issueDate}</p>
@@ -137,9 +128,11 @@ export class BillWaitingPaymentComponent {
     mywindow?.document.write(html)
     mywindow?.document.close(); // necessary for IE >= 10
     mywindow?.focus(); // necessary for IE >= 10*/
-    mywindow?.print();
-    mywindow?.close();
-  };
+    setTimeout(() => {
+      mywindow?.print();
+      mywindow?.close();
+    }, 100, mywindow);
+  }
 
 }
 
