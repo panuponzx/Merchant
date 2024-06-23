@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddWalletModalComponent } from '../../../../modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from '../../../../modals/edit-car-modal/edit-car-modal.component';
 import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
+import { CancelObuModalComponent } from '../../../../modals/cancel-obu-modal/cancel-obu-modal.component';
 
 @Component({
   selector: 'wallet-info',
@@ -52,6 +53,24 @@ export class WalletInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.setWallet(this.wallets);
+
+    // const modalRef = this.ngbModal.open(CancelObuModalComponent, {
+    //   windowClass: 'cancel-car-modal',
+    //   centered: true,
+    //   size: 'md',
+    //   scrollable: true,
+    //   keyboard: false,
+    // });
+    // modalRef.result.then(
+    //   (result) => {
+    //     if (result) {
+    //       console.log('[showTableModal] result => ', result);
+    //     }
+    //   },
+    //   (reason) => {
+    //     console.log('[showTableModal] reason => ', reason);
+    //   }
+    // );
   }
 
   onChangeSearch() {

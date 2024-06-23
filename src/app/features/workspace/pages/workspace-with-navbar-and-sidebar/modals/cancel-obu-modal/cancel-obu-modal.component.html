@@ -1,0 +1,117 @@
+<div class="modal-header">
+    <div class="header-label">
+        <h2>ยืนยันการยกเลิกอุปกรณ์</h2>
+        <h3 class="mb-3">กรุณาตรวจสอบ และระบุรายละเอียด</h3>
+    </div>
+</div>
+<div class="modal-body">
+    <div [ngSwitch]="step">
+        <section *ngSwitchCase="1">
+            <form *ngIf="firstForm" [formGroup]="firstForm">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="dateInput">
+                            วันที่
+                        </label>
+                        <input class="form-control" placeholder="กรุณาระบุ" id="dateInput" formControlName="date"
+                            data-testid="dateInput" type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="fullnameWalletOwnerInput">
+                            ชื่อเจ้าของ eWallet
+                        </label>
+                        <input class="form-control" placeholder="กรุณาระบุ" id="fullnameWalletOwnerInput"
+                            formControlName="fullnameWalletOwner" data-testid="fullnameWalletOwnerInput" type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <h3 class="mb-3">รายละเอียดผู้ดำเนินงาน</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
+                                (change)="onChangeOperator($event)" [value]="true" name="isOwnerOperator"
+                                id="operatorOwnerRadio">
+                            <label class="label-input" for="operatorOwnerRadio">
+                                ดำเนินการด้วยตนเอง
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
+                                (change)="onChangeOperator($event)" [value]="false" name="isOwnerOperator"
+                                id="operatorBehalfOwnerRadio">
+                            <label class="label-input" for="operatorBehalfOwnerRadio">
+                                ดำเนินการแทนเจ้าของ
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="citizenIdInput">
+                            เลขบัตรประชาชน
+                        </label>
+                        <input class="form-control" placeholder="กรุณาระบุ" id="citizenIdInput"
+                            formControlName="citizenId" data-testid="citizenIdInput" type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="firstNameOperatorInput">
+                            ชื่อ ผู้มาดำเนินงานแทน
+                        </label>
+                        <input class="form-control" placeholder="กรุณาระบุ" id="firstNameOperatorInput"
+                            formControlName="firstNameOperator" data-testid="firstNameOperatorInput" type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="lastNameOperatorInput">
+                            นามสกุล ผู้มาดำเนินงานแทน
+                        </label>
+                        <input class="form-control" placeholder="กรุณาระบุ" id="lastNameOperatorInput"
+                            formControlName="lastNameOperator" data-testid="lastNameOperatorInput" type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="mobilePhoneOperatorInput">
+                            เบอร์ติดต่อ ผู้มาดำเนินงานแทน
+                        </label>
+                        <input class="form-control" placeholder="กรุณาระบุ" id="mobilePhoneOperatorInput"
+                            formControlName="mobilePhoneOperator" data-testid="mobilePhoneOperatorInput" type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="positionPhoneOperatorInput">
+                            ตำแหน่ง ผู้มาดำเนินงานแทน
+                        </label>
+                        <input class="form-control" placeholder="กรุณาระบุ" id="positionPhoneOperatorInput"
+                            formControlName="positionPhoneOperator" data-testid="positionPhoneOperatorInput"
+                            type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" formControlName="isAgree"
+                                id="isAgreeCheckbox">
+                            <label class="form-check-label" for="isAgreeCheckbox">
+                                ลูกค้ายินยอมให้แสดงข้อมูลและใช้ข้อมูล เพื่อสำหรับยกเลิกการใช้งานอุปกรณ์
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <section *ngSwitchCase="2">
+            <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
+            <div class="d-flex justify-content-between mb-3">
+                <p class="payment-detail">(ไม่มี) OBU มาคืน</p>
+                <p class="payment-detail-price">300 บาท</p>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+                <p class="payment-detail">(ไม่มี) Smart Card มาคืน</p>
+                <p class="payment-detail-price">30 บาท</p>
+            </div>
+            <hr class="hr-custom mb-3" />
+            <div class="d-flex justify-content-between mb-3">
+                <p class="payment-detail">รวมจำนวนเงินที่ต้องชำระ</p>
+                <p class="payment-detail-price">330 บาท</p>
+            </div>
+        </section>
+    </div>
+    <div class="d-flex justify-content-end">
+        <div class="right d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-type-1 outline" (click)="onPreviousStep()">ยกเลิก</button>
+            <button class="custom-btn btn-type-1" (click)="onNextStep()"
+                [disabled]="firstForm.invalid"><span>ถัดไป</span></button>
+        </div>
+    </div>
+</div>

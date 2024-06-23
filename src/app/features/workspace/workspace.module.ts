@@ -82,6 +82,7 @@ import { NgOtpInputModule } from 'ng-otp-input';
 import { BillInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/bill-information.component';
 import { BillWaitingPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/tabs/bill-waiting-payment/bill-waiting-payment.component';
 import { BillPaidPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/tabs/bill-paid-payment/bill-paid-payment.component';
+import { CancelObuModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/cancel-obu-modal/cancel-obu-modal.component';
 
 
 
@@ -152,8 +153,8 @@ import { BillPaidPaymentComponent } from './pages/workspace-with-navbar-and-side
     RedeemExchangeComponent,
     BillInformationComponent,
     BillWaitingPaymentComponent,
-    BillPaidPaymentComponent
-    
+    BillPaidPaymentComponent,
+    CancelObuModalComponent
   ],
   imports: [
     CommonModule,
