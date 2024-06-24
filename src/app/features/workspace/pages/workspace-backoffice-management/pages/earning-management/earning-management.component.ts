@@ -117,6 +117,8 @@ export class EarningManagementComponent implements OnInit {
     }
     catch (error) {
       console.log(error);
+      this.isLoading = false;
+      this.modalDialogService.hideLoading();
     }
   }
 
