@@ -83,9 +83,9 @@ import { BillInformationComponent } from './pages/workspace-with-navbar-and-side
 import { BillWaitingPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/tabs/bill-waiting-payment/bill-waiting-payment.component';
 import { BillPaidPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/tabs/bill-paid-payment/bill-paid-payment.component';
 import { CancelObuModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/cancel-obu-modal/cancel-obu-modal.component';
-import { WriteOffDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-debt/write-off-debt/write-off-debt.component';
 import { OutstandingBillComponent } from './pages/workspace-backoffice-management/pages/outstanding-bill/outstanding-bill.component';
-
+import { WriteOffBadDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-bad-debt/write-off-bad-debt.component';
+import { ActivityFaremediaComponent } from './pages/workspace-backoffice-management/pages/activity-faremedia/activity-faremedia.component';
 
 
 
@@ -158,8 +158,9 @@ import { OutstandingBillComponent } from './pages/workspace-backoffice-managemen
     BillWaitingPaymentComponent,
     BillPaidPaymentComponent,
     CancelObuModalComponent,
-    WriteOffDebtComponent,
-    OutstandingBillComponent
+    OutstandingBillComponent,
+    WriteOffBadDebtComponent,
+    ActivityFaremediaComponent
   ],
   imports: [
     CommonModule,

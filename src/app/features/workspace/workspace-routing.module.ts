@@ -29,8 +29,9 @@ import { TransferInformationComponent } from './pages/workspace-with-navbar-and-
 import { EarningManagementComponent } from './pages/workspace-backoffice-management/pages/earning-management/earning-management.component';
 import { RedeemManagementComponent } from './pages/workspace-backoffice-management/pages/redeem-management/redeem-management.component';
 import { BillInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/bill-information.component';
-import { WriteOffDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-debt/write-off-debt/write-off-debt.component';
 import { OutstandingBillComponent } from './pages/workspace-backoffice-management/pages/outstanding-bill/outstanding-bill.component';
+import { WriteOffBadDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-bad-debt/write-off-bad-debt.component';
+import { ActivityFaremediaComponent } from './pages/workspace-backoffice-management/pages/activity-faremedia/activity-faremedia.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -240,16 +241,16 @@ export const routesConfig: CustomRoutesModel = [
           },
           {
             id: 'writeOffDebtRoute',
-            path: 'write-off-debt/:tab',
-            component: WriteOffDebtComponent,
+            path: 'write-off-debt',
+            component: WriteOffBadDebtComponent,
             data: {
               is_sidebar: true,
               label: 'ระบบตัดหนี้สูญ',
               // request_id: true,
-              default_path: 'write-off-debt',
+              default_path: 'write-off-bad-debt',
               // allowed_tabs: ['write-oof-debt']
             },
-            canActivate: [TabGuard]
+            // canActivate: [TabGuard]
           },
           {
             id: 'outStandingBillRoute',
@@ -276,6 +277,17 @@ export const routesConfig: CustomRoutesModel = [
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
             canActivate: [ TabGuard ]
+          },
+          {
+            id: 'ActivityFaremediaComponent',
+            path: 'activity-fare-media',
+            component: ActivityFaremediaComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ประวัติอุปกรณ์',
+              default_path: 'activity-fare-media',
+            },
+            canActivate: [TabGuard]
           },
         ],
 

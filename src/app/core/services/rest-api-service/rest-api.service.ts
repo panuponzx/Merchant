@@ -87,6 +87,11 @@ export class RestApiService {
     return this.httpClient.get(baseURL, { observe: 'response', responseType: 'blob' });
   }
 
+  getPostFile(url: string, body: any) {
+    const baseURL = environment.api + '/' + url;
+    return this.httpClient.post(baseURL, body, { observe: 'response', responseType: 'blob' });
+  }
+
   get(url: string): Observable<ResponseMessageModel> {
     const baseURL = environment.api + '/' + url;
     return this.httpClient.get<ResponseMessageModel>(baseURL);
