@@ -30,6 +30,7 @@ import { EarningManagementComponent } from './pages/workspace-backoffice-managem
 import { RedeemManagementComponent } from './pages/workspace-backoffice-management/pages/redeem-management/redeem-management.component';
 import { BillInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/bill-information.component';
 import { WriteOffDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-debt/write-off-debt/write-off-debt.component';
+import { OutstandingBillComponent } from './pages/workspace-backoffice-management/pages/outstanding-bill/outstanding-bill/outstanding-bill.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -246,6 +247,19 @@ export const routesConfig: CustomRoutesModel = [
               label: 'ระบบตัดหนี้สูญ',
               // request_id: true,
               default_path: 'write-off-debt',
+              // allowed_tabs: ['write-oof-debt']
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'outStandingBillRoute',
+            path: 'outstanding-bill',
+            component: OutstandingBillComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ประวัติยอดบิลค้างชำระ',
+              // request_id: true,
+              default_path: 'outstanding-bill',
               // allowed_tabs: ['write-oof-debt']
             },
             canActivate: [TabGuard]

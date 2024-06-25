@@ -68,6 +68,15 @@ export class RestApiService {
     return this.httpClient.post<ResponseMessageModel>(url, body)
   }
 
+  postBackOfficeFile(endpoint: string, body: any): Observable<Blob> {
+    const requestParam = this.generateRequestParam();
+    body['requestParam'] = requestParam;
+    const url = environment.apiBackOffice + '/' + endpoint;
+
+    // Set responseType to 'blob' for binary data
+    return this.httpClient.post(url, body, { responseType: 'blob' });
+  }
+
   getBackOffice(url: string): Observable<ResponseMessageModel> {
     const baseURL = environment.apiBackOffice + '/' + url;
     return this.httpClient.get<ResponseMessageModel>(baseURL);

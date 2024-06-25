@@ -84,6 +84,7 @@ import { BillWaitingPaymentComponent } from './pages/workspace-with-navbar-and-s
 import { BillPaidPaymentComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/tabs/bill-paid-payment/bill-paid-payment.component';
 import { CancelObuModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/cancel-obu-modal/cancel-obu-modal.component';
 import { WriteOffDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-debt/write-off-debt/write-off-debt.component';
+import { OutstandingBillComponent } from './pages/workspace-backoffice-management/pages/outstanding-bill/outstanding-bill/outstanding-bill.component';
 
 
 
@@ -157,7 +158,8 @@ import { WriteOffDebtComponent } from './pages/workspace-backoffice-management/p
     BillWaitingPaymentComponent,
     BillPaidPaymentComponent,
     CancelObuModalComponent,
-    WriteOffDebtComponent
+    WriteOffDebtComponent,
+    OutstandingBillComponent
   ],
   imports: [
     CommonModule,
