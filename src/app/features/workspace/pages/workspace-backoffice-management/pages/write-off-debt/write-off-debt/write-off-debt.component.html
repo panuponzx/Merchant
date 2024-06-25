@@ -1,0 +1,45 @@
+<div class="content-container container-xl p-0">
+    <div class="content-container-header">
+      <div class="content-container-header-item">
+        <h1 class="content-title"></h1>
+      </div>
+    </div>
+    <hr class="hr-custom" />
+    <div class="content-container-body">
+      <form [formGroup]="form" class="d-flex d-sm-flex gap-3 align-items-end justify-content-between mb-3">
+        <div class="row g-2 g-sm-3 form-wrapper">
+          <div class="col-12 col-sm-4" style="width: max-content;">
+            <label class="label-input text-nowrap" for="startDateDatepicker">
+              Billing (เดือน)
+            </label>
+            <date-picker class="datepicker-input" [minMode]="'month'" 
+              [clearable]="true" format="MMMM YYYY" formControlName="startDate"
+              [id]="'startDateDatePicker'" [invalid]="form.controls['startDate'].errors ? true : false" locale="th"
+              [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+          </div>
+          
+        </div>
+        <div class="button-wrapper">
+          <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา" type="submit"
+            [disabled]="form.invalid" (click)="onSearch()">
+            <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
+          </button>
+        </div>
+      </form>
+      <ng-container >
+        <div class="navs-container pt-5">
+            <div class="device-header-wrapper mt-3">
+                <div class="navs-container">
+                  <datatable 
+                  [columns]="getDebtColumns" 
+                    [id]="'getDebtTable'" 
+                    [isLoading]="isLoading" 
+                    [rows]="data"
+                    emptyMessage="ไม่มีข้อมูล" 
+                    >
+                  </datatable>
+                </div>
+              </div>
+        </div>
+      </ng-container>
+  </div>

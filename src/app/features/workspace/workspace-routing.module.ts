@@ -29,6 +29,7 @@ import { TransferInformationComponent } from './pages/workspace-with-navbar-and-
 import { EarningManagementComponent } from './pages/workspace-backoffice-management/pages/earning-management/earning-management.component';
 import { RedeemManagementComponent } from './pages/workspace-backoffice-management/pages/redeem-management/redeem-management.component';
 import { BillInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/bill-information.component';
+import { WriteOffDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-debt/write-off-debt/write-off-debt.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -235,6 +236,19 @@ export const routesConfig: CustomRoutesModel = [
               // allowed_tabs: ['Exchange-products', 'coupon', 'toll']
             },
             // canActivate: [ TabGuard ]
+          },
+          {
+            id: 'writeOffDebtRoute',
+            path: 'write-off-debt/:tab',
+            component: WriteOffDebtComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ระบบตัดหนี้สูญ',
+              // request_id: true,
+              default_path: 'write-off-debt',
+              // allowed_tabs: ['write-oof-debt']
+            },
+            canActivate: [TabGuard]
           },
           {
             id: 'approvalManagementRoute',
