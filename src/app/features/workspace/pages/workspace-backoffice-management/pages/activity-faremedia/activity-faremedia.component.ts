@@ -39,8 +39,10 @@ export class ActivityFaremediaComponent {
     this.isLoading = true;
     let startDate = this.transformDatePipe.transform(this.form.get('startDate')?.value, 'YYYY-MM-DD');
     let endDate = this.transformDatePipe.transform(this.form.get('endDate')?.value, 'YYYY-MM-DD');
+    let payload: any = {};
+    payload['requestParam'] = this.restApiService.generateRequestParam();
 
-    this.restApiService.getPostFile(`action-log/get/from/${startDate}/to/${endDate}/file`, null).subscribe({
+    this.restApiService.getPostFile(`action-log/get/from/${startDate}/to/${endDate}/file`, payload).subscribe({
       next: (res: any) => {
         // console.log("[onDownloadAttachment] res => ", res);
         this.modalDialogService.hideLoading();

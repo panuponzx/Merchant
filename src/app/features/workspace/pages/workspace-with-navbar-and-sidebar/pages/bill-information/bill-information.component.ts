@@ -134,7 +134,7 @@ export class BillInformationComponent {
       ).subscribe({
         next: (res) => {
           this.bills = res.data;
-          this.collectionSize = res.data?.length || 0;
+          this.collectionSize = res.data?.length | 0;
           this.modalDialogService.hideLoading();
           this.dataIsLoading = false;
         },
@@ -165,7 +165,7 @@ export class BillInformationComponent {
       ).subscribe({
         next: (res) => {
           this.bills = res.data;
-          this.collectionSize = res.data?.length || 0;
+          this.collectionSize = res.data?.length | 0;
           this.modalDialogService.hideLoading();
           this.dataIsLoading = false;
         },

@@ -31,6 +31,7 @@ import { RedeemManagementComponent } from './pages/workspace-backoffice-manageme
 import { BillInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/bill-information.component';
 import { WriteOffBadDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-bad-debt/write-off-bad-debt.component';
 import { ActivityFaremediaComponent } from './pages/workspace-backoffice-management/pages/activity-faremedia/activity-faremedia.component';
+import { ExpiredFaremediaListComponent } from './pages/workspace-backoffice-management/pages/expired-faremedia-list/expired-faremedia-list.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -272,6 +273,17 @@ export const routesConfig: CustomRoutesModel = [
               is_sidebar: true,
               label: 'ประวัติอุปกรณ์',
               default_path: 'activity-fare-media',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'ExpiredFaremediaListComponent',
+            path: 'expired-fare-media',
+            component: ExpiredFaremediaListComponent,
+            data: {
+              is_sidebar: true,
+              label: 'รายการอุปกรณ์หมดอายุ',
+              default_path: 'expired-fare-media',
             },
             canActivate: [TabGuard]
           },
