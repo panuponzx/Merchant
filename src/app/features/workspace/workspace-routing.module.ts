@@ -29,6 +29,7 @@ import { TransferInformationComponent } from './pages/workspace-with-navbar-and-
 import { EarningManagementComponent } from './pages/workspace-backoffice-management/pages/earning-management/earning-management.component';
 import { RedeemManagementComponent } from './pages/workspace-backoffice-management/pages/redeem-management/redeem-management.component';
 import { BillInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/bill-information.component';
+import { OutstandingBillComponent } from './pages/workspace-backoffice-management/pages/outstanding-bill/outstanding-bill.component';
 import { WriteOffBadDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-bad-debt/write-off-bad-debt.component';
 import { ActivityFaremediaComponent } from './pages/workspace-backoffice-management/pages/activity-faremedia/activity-faremedia.component';
 
@@ -250,6 +251,19 @@ export const routesConfig: CustomRoutesModel = [
               // allowed_tabs: ['write-oof-debt']
             },
             // canActivate: [TabGuard]
+          },
+          {
+            id: 'outStandingBillRoute',
+            path: 'outstanding-bill',
+            component: OutstandingBillComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ประวัติยอดบิลค้างชำระ',
+              // request_id: true,
+              default_path: 'outstanding-bill',
+              // allowed_tabs: ['write-oof-debt']
+            },
+            canActivate: [TabGuard]
           },
           {
             id: 'approvalManagementRoute',

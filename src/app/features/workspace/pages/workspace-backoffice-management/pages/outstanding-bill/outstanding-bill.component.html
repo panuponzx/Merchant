@@ -1,0 +1,30 @@
+<div class="content-container container-xl p-0">
+    <div class="content-container-header">
+      <div class="content-container-header-item">
+        <h1 class="content-title">ประวัติยอดบิลค้างชำระ</h1>
+      </div>
+    </div>
+    <hr class="hr-custom" />
+    <div class="content-container-body">
+      <form [formGroup]="form" class="d-flex d-sm-flex gap-3 align-items-end justify-content-between mb-3">
+        <div class="row g-2 g-sm-3 form-wrapper">
+          <div class="col-12 col-sm-4" style="width: max-content;">
+            <label class="label-input text-nowrap" for="startDateDatepicker">
+              ยอดบิลค้างชำระ (เดือน)
+            </label>
+           <input type="number" class="form-control d-block col-6" [min]="1"
+            [id]="'numberInput'" placeholder="กรุณาระบุ" formControlName="numberInput"
+            (invalid)="form.controls['numberInput'].errors?.['required']" >
+          </div>
+          
+        </div>
+      </form>
+  
+        <div>
+            <button style="width: 100%; margin-bottom: 10px;" class="custom-btn btn-type-3" data-testid="downloadButton"
+            id="downloadButton" title="ดาวโหลดเอกสาร" (click)="getOutstandingReport()" [disabled]="form.invalid || isLoading">
+            <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/download.svg'" />
+            ดาวโหลดเอกสาร
+        </button>
+        </div>
+  </div>
