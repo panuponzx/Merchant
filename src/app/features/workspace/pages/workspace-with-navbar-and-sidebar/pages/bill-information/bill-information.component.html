@@ -57,7 +57,7 @@
         </div>
         <div class="button-wrapper">
           <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา" type="submit"
-            [disabled]="form.invalid" (click)="onSearch()">
+            [disabled]="form.invalid" (click)="onSearch(activeTab)">
             <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
           </button>
         </div>

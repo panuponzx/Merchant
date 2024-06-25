@@ -51,12 +51,17 @@ export class BillInformationComponent {
     private restApiService: RestApiService,
     private modalDialogService: ModalDialogService,
     private activatedRoute: ActivatedRoute) {
-    this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
+    this.activeTab = this.activatedRoute.snapshot.paramMap?.get('tab');
     this.customerId = this.activatedRoute.snapshot.paramMap.get('id');
     this.title = (this.activatedRoute as CustomeActivatedRouteModel).routeConfig.data?.label;
   }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(routeParams => {
+      if (this.form.valid) {
+        this.onSearch(routeParams['tab']);
+      }
+    });
     this.onInitData();
   }
 
@@ -111,6 +116,7 @@ export class BillInformationComponent {
   }
 
   loadBillWaitingPayment(walletId: number, startDate: Date, endDate: Date) {
+    this.bills = [];
     this.dataIsLoading = true;
     const payload = {
       walletId: walletId,
@@ -136,6 +142,7 @@ export class BillInformationComponent {
   }
 
   loadBillPaidPayment(walletId: number, startDate: Date, endDate: Date) {
+    this.bills = [];
     this.dataIsLoading = true;
     const payload = {
       walletId: walletId,
@@ -160,10 +167,10 @@ export class BillInformationComponent {
       });
   }
 
-  onSearch() {
-    if(this.activeTab === 'waiting-payment') {
+  onSearch(tab: string | null) {
+    if (tab === 'waiting-payment') {
       this.loadBillWaitingPayment(this.form.value.walletId, this.form.value.startDate, this.form.value.endDate);
-    }else if(this.activeTab === 'paid-payment') {
+    } else if (tab === 'paid-payment') {
       this.loadBillPaidPayment(this.form.value.walletId, this.form.value.startDate, this.form.value.endDate);
     }
   }
