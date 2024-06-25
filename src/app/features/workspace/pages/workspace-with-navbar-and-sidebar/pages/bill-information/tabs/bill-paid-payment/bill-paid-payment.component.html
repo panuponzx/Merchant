@@ -1,7 +1,9 @@
 <div class="device-header-wrapper mt-3">
   <div class="navs-container">
-    <datatable [columns]="getPaidPaymentColumns" 
+    <datatable [columns]="getPaidPaymentColumns"
     [rows]="data"
+    [collectionSize]="collectionSize"
+    [isPagination]="false"
     [id]="'billPaidPaymentTable'" [isLoading]="isLoading"
       emptyMessage="ไม่มีข้อมูล"/>
   </div>

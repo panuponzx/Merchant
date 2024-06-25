@@ -31,6 +31,7 @@ export class DatatableComponent {
   @Input() public isLoading: boolean = false;
   @Input() public footer: boolean = true;
   @Input() public externalPaging: boolean = false;
+  @Input() public isPagination: boolean = true;
 
   @Input() public footerOptions: { info: boolean } = {
     info: true

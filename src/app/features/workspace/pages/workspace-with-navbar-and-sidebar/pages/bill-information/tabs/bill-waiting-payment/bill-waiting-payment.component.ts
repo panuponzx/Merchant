@@ -15,6 +15,7 @@ import moment from 'moment';
 export class BillWaitingPaymentComponent {
   @Input() public isLoading: boolean = false;
   @Input() public data: IBill[] = [];
+  @Input() public collectionSize: number = 0;
 
   public getBillWaitingPaymentColumns: CustomColumnModel[] = [
     { id: 'issueDate', name: 'issueDate', label: 'วันที่ และ เวลา', prop: 'issueDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },

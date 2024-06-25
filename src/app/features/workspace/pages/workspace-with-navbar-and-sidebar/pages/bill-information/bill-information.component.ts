@@ -44,6 +44,7 @@ export class BillInformationComponent {
   });
   public wallets: IWalletInfoModel[] = [];
   public bills: IBill[] = [];
+  public collectionSize: number = 0;
   public activeTab: 'waiting-payment' | 'paid-payment' | string | null;
 
   constructor(
@@ -117,6 +118,8 @@ export class BillInformationComponent {
 
   loadBillWaitingPayment(walletId: number, startDate: Date, endDate: Date) {
     this.bills = [];
+    this.collectionSize = 0;
+    this.modalDialogService.loading();
     this.dataIsLoading = true;
     const payload = {
       walletId: walletId,
@@ -131,9 +134,12 @@ export class BillInformationComponent {
       ).subscribe({
         next: (res) => {
           this.bills = res.data;
+          this.collectionSize = res.data?.length || 0;
+          this.modalDialogService.hideLoading();
           this.dataIsLoading = false;
         },
         error: (err) => {
+          this.modalDialogService.hideLoading();
           this.dataIsLoading = false;
           console.error(err);
           this.modalDialogService.handleError(err);
@@ -143,6 +149,8 @@ export class BillInformationComponent {
 
   loadBillPaidPayment(walletId: number, startDate: Date, endDate: Date) {
     this.bills = [];
+    this.collectionSize = 0;
+    this.modalDialogService.loading();
     this.dataIsLoading = true;
     const payload = {
       walletId: walletId,
@@ -157,9 +165,12 @@ export class BillInformationComponent {
       ).subscribe({
         next: (res) => {
           this.bills = res.data;
+          this.collectionSize = res.data?.length || 0;
+          this.modalDialogService.hideLoading();
           this.dataIsLoading = false;
         },
         error: (err) => {
+          this.modalDialogService.hideLoading();
           this.dataIsLoading = false;
           console.error(err);
           this.modalDialogService.handleError(err);

@@ -94,7 +94,7 @@
         <div class="datatable-total">
           total {{ collectionSize }}
         </div>
-        <div class="datatable-pagination-wrapper">
+        <div class="datatable-pagination-wrapper" *ngIf="isPagination">
           <div *ngIf="footerOptions && footerOptions.info && pageSize" id="datatableInfo" data-testid="datatableInfo"
             class="datatable-info">Page {{ page }} of {{ collectionSize | getTotalPage: pageSize }}
           </div>
