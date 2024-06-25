@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { first, map } from 'rxjs';
-import { IBill, ResponseModel, RowActionEventModel  } from 'src/app/core/interfaces';
+import { first, firstValueFrom, map } from 'rxjs';
+import { IBill, IResponseTransferModel, ResponseModel, RowActionEventModel  } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 import moment from 'moment';
+import Swal from 'sweetalert2';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'write-off-debt',
@@ -107,5 +109,60 @@ export class WriteOffDebtComponent {
     this.isHiddenFillter = value;
   }
 
+  onSentDebt() {
+    Swal.fire ({
+      title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการแก้ไข</h2>',
+      html: '<label>กรุณายืนยัน</label>',
+      icon: "question",
+      showCancelButton: true,
+      customClass: {
+        confirmButton: "custom-btn btn-type-1 blue ms-2",
+        cancelButton: "custom-btn btn-type-1 outline"
+      },
+      buttonsStyling: false,
+      showLoaderOnConfirm: true,
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "กลับ",
+      reverseButtons: true,
+      preConfirm: async() => {
+        try {
+          const payload = {
+            billId: 'BLL101',
+            requestParam: {
+              reqId: "xxxxxx-xxxxx-xxxx",
+              channelId: 1
+            }
+          }
+          console.log('table payload : ', payload);
+
+          const res = await firstValueFrom(this.restApiService.postBackOffice('bill/bad-debt',payload).pipe(first()))
+          console.log('response', res);
+        }
+        catch (error : any ) {
+          console.log(error);
+
+          if (error instanceof HttpResponse) {
+            Swal.showValidationMessage(`
+              failed: ${error.body?.errorCode}, ${error.body?.errorMessage}
+            `);
+          } else {
+            Swal.showValidationMessage(`Something failed`);
+          }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการแก้ไข</h2>',
+          html: '<label>แก้ไขเรียบร้อยแล้ว</label>',
+          icon: "success",
+          customClass: {
+            confirmButton: "custom-btn custom-btn-type1 blue ms-2"
+          },
+        })
+      }
+    })
+  }
 
 }

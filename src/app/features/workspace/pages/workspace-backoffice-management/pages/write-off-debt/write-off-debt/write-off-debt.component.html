@@ -36,10 +36,11 @@
                     [id]="'getDebtTable'" 
                     [isLoading]="isLoading" 
                     [rows]="data"
-                    emptyMessage="ไม่มีข้อมูล" 
+                    emptyMessage="ไม่มีข้อมูล"
+                    (onRowActionEvent)="onSentDebt()"
                     >
                   </datatable>
-                </div>
+                </div>            
               </div>
         </div>
       </ng-container>
