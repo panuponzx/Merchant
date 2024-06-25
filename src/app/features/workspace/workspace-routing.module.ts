@@ -30,7 +30,7 @@ import { EarningManagementComponent } from './pages/workspace-backoffice-managem
 import { RedeemManagementComponent } from './pages/workspace-backoffice-management/pages/redeem-management/redeem-management.component';
 import { BillInformationComponent } from './pages/workspace-with-navbar-and-sidebar/pages/bill-information/bill-information.component';
 import { WriteOffDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-debt/write-off-debt/write-off-debt.component';
-import { OutstandingBillComponent } from './pages/workspace-backoffice-management/pages/outstanding-bill/outstanding-bill/outstanding-bill.component';
+import { OutstandingBillComponent } from './pages/workspace-backoffice-management/pages/outstanding-bill/outstanding-bill.component';
 
 export const routesConfig: CustomRoutesModel = [
   {

@@ -10,7 +10,7 @@
         <div class="row g-2 g-sm-3 form-wrapper">
           <div class="col-12 col-sm-4" style="width: max-content;">
             <label class="label-input text-nowrap" for="startDateDatepicker">
-              Billing (เดือน)
+              ยอดบิลค้างชำระ (เดือน)
             </label>
            <input type="number" class="form-control d-block col-6" [min]="1"
             [id]="'numberInput'" placeholder="กรุณาระบุ" formControlName="numberInput"
@@ -18,20 +18,13 @@
           </div>
           
         </div>
-        <div class="button-wrapper">
-          <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา" type="submit"
-            [disabled]="form.invalid" (click)="onSearch()">
-            <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
-          </button>
-        </div>
       </form>
-      <ng-container *ngIf="this.showButton">
+  
         <div>
             <button style="width: 100%; margin-bottom: 10px;" class="custom-btn btn-type-3" data-testid="downloadButton"
-            id="downloadButton" title="ดาวโหลดเอกสาร" (click)="downloadData()" >
+            id="downloadButton" title="ดาวโหลดเอกสาร" (click)="getOutstandingReport()" [disabled]="form.invalid || isLoading">
             <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/download.svg'" />
             ดาวโหลดเอกสาร
         </button>
         </div>
-      </ng-container>
   </div>
