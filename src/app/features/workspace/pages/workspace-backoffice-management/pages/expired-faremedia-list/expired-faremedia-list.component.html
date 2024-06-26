@@ -14,33 +14,36 @@
   </div>
   <hr class="hr-custom" />
   <div class="content-container-body">
-    <form [formGroup]="form" class="d-block d-sm-flex gap-3 align-items-end mb-3">
-      <div class="row g-2 g-sm-3 form-wrapper">
-        <div class="col-12 col-sm-6">
-          <label class="label-input text-nowrap" for="startDateDatepicker">
-            วันที่ (จาก)
-          </label>
-          <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="startDate"
-            [id]="'startDateDatePicker'" [invalid]="submitted && form.controls['startDate'].errors ? true : false"
-            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+    <div style="display: flex; justify-content: space-between;">
+      <form [formGroup]="form" class="d-block d-sm-flex gap-3 align-items-end mb-3">
+        <div class="row g-2 g-sm-3 form-wrapper">
+          <div class="col-12 col-sm-6">
+            <label class="label-input text-nowrap" for="startDateDatepicker">
+              วันที่ (จาก)
+            </label>
+            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="startDate"
+              [id]="'startDateDatePicker'" [invalid]="submitted && form.controls['startDate'].errors ? true : false"
+              locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label class="label-input text-nowrap" for="endDateDatepicker">
+              วันที่ (ถึง)
+            </label>
+            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="endDate"
+              [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value"
+              [invalid]="submitted && form.controls['endDate'].errors ? true : false" locale="th"
+              [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+          </div>
         </div>
-        <div class="col-12 col-sm-6">
-          <label class="label-input text-nowrap" for="endDateDatepicker">
-            วันที่ (ถึง)
-          </label>
-          <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="endDate"
-            [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value"
-            [invalid]="submitted && form.controls['endDate'].errors ? true : false" locale="th"
-            [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+        <div class="button-wrapper">
+          <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา" type="submit"
+            [disabled]="form.invalid" (click)="onSearchExpiredFareMedia()">
+            <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
+          </button>
         </div>
-      </div>
-      <div class="button-wrapper">
-        <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา" type="submit"
-          [disabled]="form.invalid" (click)="onSearchExpiredFareMedia()">
-          <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
-        </button>
-      </div>
-      <div class="button-wrapper">
+
+      </form>
+      <div class="d-block d-sm-flex gap-3 align-items-end mb-3">
         <button style="width: 100%" class="custom-btn btn-type-3" data-testid="downloadImageButton"
           id="downloadImageButton" title="ดาวน์โหลด" [disabled]="form.invalid || isLoading"
           (click)="onDownloadAttachment()">
@@ -48,7 +51,8 @@
           ดาวน์โหลดเอกสาร
         </button>
       </div>
-    </form>
+    </div>
+
     <ng-container>
       <div class="col-12 mb-3">
         <h3>รายการข้อมูล</h3>

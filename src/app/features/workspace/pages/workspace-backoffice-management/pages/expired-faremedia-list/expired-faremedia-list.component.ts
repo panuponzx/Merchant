@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CustomeActivatedRouteModel, CustomColumnModel } from '../../../../../../core/interfaces';
+import { CustomeActivatedRouteModel, CustomColumnModel, IResponseFaremediaModel } from '../../../../../../core/interfaces';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { first, map } from 'rxjs';
 
@@ -25,13 +25,17 @@ export class ExpiredFaremediaListComponent {
   public pages: number = 1;
 
   public expiredColumns: CustomColumnModel[] = [
+    { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
+    { id: 'customerName', name: 'ชื่อลูกค้า', label: 'ชื่อลูกค้า', prop: 'customerName', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'walletName', name: 'ชื่อกระเป๋าเงิน', label: 'ชื่อกระเป๋าเงิน', prop: 'walletName', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carBrand', name: 'ยี้ห้อรถ', label: 'ยี้ห้อรถ', prop: 'carBrand', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'carLicensePlate', name: 'ป้ายทะเบียน', label: 'ป้ายทะเบียน', prop: 'carLicensePlate', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carModel', name: 'รุ่นรถ', label: 'รุ่นรถ', prop: 'carModel', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'carLicensePlate', name: 'หมายเลขทะเบียน', label: 'หมายเลขทะเบียน', prop: 'carLicensePlate', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carYearRegistration', name: 'ปีที่จดทะเบียน', label: 'ปีที่จดทะเบียน', prop: 'carYearRegistration', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'obuNo', name: 'หมายเลข OBU', label: 'หมายเลข OBU', prop: 'obuNo', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm', locale: 'th' } },
-    { id: 'smartCardNo', name: 'หมายเลข Smart Card', label: 'หมายเลข Smart Card', prop: 'smartCardNo', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm', locale: 'th' } },
-    { id: 'walletName', name: 'ชื่อกระเป๋าเงิน', label: 'ชื่อกระเป๋าเงิน', prop: 'walletName', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm', locale: 'th' } },
+    { id: 'obuNo', name: 'หมายเลข OBU', label: 'หมายเลข OBU', prop: 'obuNo', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'smartCardNo', name: 'หมายเลข Smart Card', label: 'หมายเลข Smart Card', prop: 'smartCardNo', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'faremediaTypeId', name: 'ประเภทอุปกรณ์', label: 'ประเภทอุปกรณ์', prop: 'faremediaTypeId', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'expired', name: 'วันที่หมดอายุ', label: 'วันที่หมดอายุ', prop: 'expired', sortable: false, resizeable: true, width: 120, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm', locale: 'th' } },
   ];
 
 
@@ -57,7 +61,7 @@ export class ExpiredFaremediaListComponent {
       .post(`faremedia/get/expired/from/${startDate}/to/${endDate}`, payload)
       .pipe(
         first(),
-        map(res => res as any)
+        map(res => res as IResponseFaremediaModel)
       ).subscribe({
         next: (res) => {
           console.log(res.data);

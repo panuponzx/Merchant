@@ -280,17 +280,6 @@ export const routesConfig: CustomRoutesModel = [
             canActivate: [ TabGuard ]
           },
           {
-            id: 'ActivityFaremediaComponent',
-            path: 'activity-fare-media',
-            component: ActivityFaremediaComponent,
-            data: {
-              is_sidebar: true,
-              label: 'ประวัติอุปกรณ์',
-              default_path: 'activity-fare-media',
-            },
-            canActivate: [TabGuard]
-          },
-          {
             id: 'ExpiredFaremediaListComponent',
             path: 'expired-fare-media',
             component: ExpiredFaremediaListComponent,
@@ -298,6 +287,17 @@ export const routesConfig: CustomRoutesModel = [
               is_sidebar: true,
               label: 'รายการอุปกรณ์หมดอายุ',
               default_path: 'expired-fare-media',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'ActivityFaremediaComponent',
+            path: 'activity-fare-media',
+            component: ActivityFaremediaComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ประวัติอุปกรณ์',
+              default_path: 'activity-fare-media',
             },
             canActivate: [TabGuard]
           },
