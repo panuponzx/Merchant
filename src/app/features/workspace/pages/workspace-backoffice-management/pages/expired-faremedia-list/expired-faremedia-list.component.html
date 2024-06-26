@@ -57,7 +57,7 @@
       <div class="col-12 mb-3">
         <h3>รายการข้อมูล</h3>
         <datatable [columns]="expiredColumns" [collectionSize]="collectionSize" [id]="'userDatatable'"
-          [isLoading]="isLoading" [page]="pages" [rows]="data" emptyMessage="ไม่มีข้อมูล"
+          [isLoading]="isLoading" [page]="pages" [pageSize]="10" [rows]="data" emptyMessage="ไม่มีข้อมูล"
           (onChangePageEvent)="onChangePageSpecial($event)">
         </datatable>
       </div>
