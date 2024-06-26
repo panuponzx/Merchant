@@ -133,14 +133,6 @@ export class EarningManagementComponent implements OnInit {
       ).subscribe({
         next: (res) => {
           let data: any[] = [];
-          // let toll: any[] = res.data['tollStations'];
-          // toll = toll.map(item => {
-          //   item = this.expressBuildingTemp.find(toll => toll.id == item);
-          //   console.log(item);
-          //   console.log(item?.tollName);
-          //   return item;
-          // });
-          // console.log(toll);
           res.data['campaignType'] = 'base'
           let carTypesTextTemp = this.CarType.filter(car =>
             !!res.data['carTypes']?.find((carEvent: any) => car.key == carEvent)
@@ -227,73 +219,95 @@ export class EarningManagementComponent implements OnInit {
 
   async loadCarType(): Promise<any[]> {
     return new Promise((resolve) => {
-      this.restApiService.getBackOffice('master-data/car-types').subscribe(
-        (Response: any) => {
+      this.restApiService.getBackOffice('master-data/car-types').subscribe({
+        next: (Response: any) => {
           if (Array.isArray(Response.data)) {
             this.CarType = Response.data;
             this.CarType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
           }
           resolve(this.CarType);
-        });
+        },
+        error: (err) => {
+          console.error(err);
+          resolve(err);
+        }
+      });
       setTimeout(resolve, 10000)
     });
   }
 
   async loadCustomerType(): Promise<any[]> {
     return new Promise((resolve) => {
-      this.restApiService.getBackOffice('master-data/customer-types').subscribe(
-        (Response: any) => {
+      this.restApiService.getBackOffice('master-data/customer-types').subscribe({
+        next: (Response: any) => {
           if (Array.isArray(Response.data)) {
             this.UserType = Response.data;
             // this.UserType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
           }
           resolve(this.UserType);
-        });
+        },
+        error: (err) => {
+          console.error(err);
+          resolve(err);
+        }
+      });
       setTimeout(resolve, 10000)
     });
   }
 
   async loadTollStation(): Promise<any[]> {
     return new Promise((resolve) => {
-
-      this.restApiService.getBackOffice('master-data/toll-stations').subscribe(
-        (Response: any) => {
+      this.restApiService.getBackOffice('master-data/toll-stations').subscribe({
+        next: (Response: any) => {
           if (Array.isArray(Response.data)) {
             this.route = Response.data;
             this.route?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
           }
           resolve(this.route);
-        });
+        },
+        error: (err) => {
+          console.error(err);
+          resolve(err);
+        }
+      });
       setTimeout(resolve, 10000)
     });
   }
 
   async loadSubTollStation(): Promise<any[]> {
     return new Promise((resolve) => {
-
-      this.restApiService.getBackOffice('master-data/all-toll-stations').subscribe(
-        (Response: any) => {
+      this.restApiService.getBackOffice('master-data/all-toll-stations').subscribe({
+        next: (Response: any) => {
           if (Array.isArray(Response.data)) {
             this.expressBuildingTemp = Response.data;
             // this.expressBuildingTemp?.sort((a: any, b: any) => a.expresswayId.localeCompare(b.expresswayId) || a.tollName - b.tollName);
           }
           resolve(this.expressBuildingTemp);
-        });
+        },
+        error: (err) => {
+          console.error(err);
+          resolve(err);
+        }
+      });
       setTimeout(resolve, 10000)
     });
   }
 
   async loadCampaignOperation(): Promise<any[]> {
     return new Promise((resolve) => {
-
-      this.restApiService.getBackOffice('master-data/campaign-cal-operations').subscribe(
-        (Response: any) => {
+      this.restApiService.getBackOffice('master-data/campaign-cal-operations').subscribe({
+        next: (Response: any) => {
           if (Array.isArray(Response.data)) {
             this.CalculatedVariables = Response.data;
             this.CalculatedVariables?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
           }
           resolve(this.CalculatedVariables);
-        });
+        },
+        error: (err) => {
+          console.error(err);
+          resolve(err);
+        }
+      });
       setTimeout(resolve, 10000)
     });
   }
