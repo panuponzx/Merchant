@@ -59,7 +59,6 @@ export class BillWaitingPaymentComponent {
 
   printBill(billDetail: IBillDetail) {
 
-    let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
     const header = `<div class="bill-header">
     <h2>Header</h2>
     <p>วันที่ และ เวลา: ${billDetail.header.issueDate}</p>
@@ -125,14 +124,14 @@ export class BillWaitingPaymentComponent {
             </script>
         </body>
         </html>`
-
+    let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
     mywindow?.document.write(html)
     mywindow?.document.close(); // necessary for IE >= 10
     mywindow?.focus(); // necessary for IE >= 10*/
     setTimeout(() => {
       mywindow?.print();
       mywindow?.close();
-    }, 100, mywindow);
+    }, 1000, mywindow);
   }
 
 }
