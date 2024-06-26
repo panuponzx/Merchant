@@ -1,12 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { CustomColumnModel, ObuInfoModel, ReponseWalletSummaryModel, RowActionEventModel, WalletSummaryModel, CustomerModel, IResponseFaremediaModel, IFaremediaModel, IWalletInfoModel } from 'src/app/core/interfaces';
-import { first, map } from 'rxjs';
+import { first, map, firstValueFrom } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddWalletModalComponent } from '../../../../modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from '../../../../modals/edit-car-modal/edit-car-modal.component';
 import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { CancelObuModalComponent } from '../../../../modals/cancel-obu-modal/cancel-obu-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'wallet-info',
@@ -190,7 +192,7 @@ export class WalletInfoComponent implements OnInit {
     this.pages = event;
   }
 
-  onAction(event: RowActionEventModel, walletId?: any) {
+  onAction(event: RowActionEventModel, walletId?: number) {
     console.info("onAction edit car", event);
     const modalRef = this.ngbModal.open(EditCarModalComponent, {
       centered: true,
@@ -214,6 +216,53 @@ export class WalletInfoComponent implements OnInit {
         console.log('[showTableModal] reason => ', reason);
       }
     );
+  }
+
+  onSuspendWallet(walletId: number) {
+    console.log("[onSuspendWallet] walletId => ", walletId);
+  }
+
+  onBlacklistWallet(walletId: number) {
+    console.log("[onBlacklistWallet] walletId => ", walletId);
+    Swal.fire({
+      title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการปิดกระเป๋า</h2>',
+      html: '<label>กรุณายืนยัน</label>',
+      showCancelButton: true,
+      customClass: {
+        confirmButton: "custom-btn btn-type-1 red ms-2",
+        cancelButton: "custom-btn btn-type-1 outline"
+      },
+      buttonsStyling: false,
+      showLoaderOnConfirm: true,
+      confirmButtonText: "ปิดกระเป๋า",
+      cancelButtonText: "กลับ",
+      reverseButtons: true,
+      preConfirm: async () => {
+        try {
+          const payload = {
+            wallet: {
+              id: walletId,
+            },
+          };
+          await firstValueFrom(this.restApiService.post('wallet/blacklist', payload).pipe(first()))
+        } catch (error: any) {
+          console.error(error);
+          if (error instanceof HttpResponse) {
+            Swal.showValidationMessage(`
+            Request failed: ${error.body?.errorMessage}
+          `);
+          }
+          else {
+            Swal.showValidationMessage(`Some thing failed`);
+          }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.reload();
+      }
+    });
   }
 
 }

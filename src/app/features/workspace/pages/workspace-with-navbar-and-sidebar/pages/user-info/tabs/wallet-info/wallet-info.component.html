@@ -91,8 +91,8 @@
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
                         หากยังมีอุปกรณ์ที่ผูกอยู่</p>
                     <div class="col-md-12 col-lg-6 mb-3 d-flex justify-content-md-start justify-content-lg-end gap-3">
-                        <button class="custom-btn btn-type-1 red-outline">อายัดชั่วคราว</button>
-                        <button class="custom-btn btn-type-1 red">ปิดกระเป๋า</button>
+                        <button class="custom-btn btn-type-1 red-outline" (click)="onSuspendWallet(row?.walletId)" [disabled]="row?.walletStatus == 2 || row?.walletStatus == 4">อายัดชั่วคราว</button>
+                        <button class="custom-btn btn-type-1 red" (click)="onBlacklistWallet(row?.walletId)" [disabled]="row?.walletStatus == 4">ปิดกระเป๋า</button>
                     </div>
                 </div>
             </div>
@@ -172,8 +172,8 @@
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
                         หากยังมีอุปกรณ์ที่ผูกอยู่</p>
                     <div class="col-md-12 col-lg-6 mb-3 d-flex justify-content-md-start justify-content-lg-end gap-3">
-                        <button class="custom-btn btn-type-1 red-outline">อายัดชั่วคราว</button>
-                        <button class="custom-btn btn-type-1 red">ปิดกระเป๋า</button>
+                        <button class="custom-btn btn-type-1 red-outline" (click)="onSuspendWallet(row?.walletId)" [disabled]="row?.walletStatus == 2 || row?.walletStatus == 4">อายัดชั่วคราว</button>
+                        <button class="custom-btn btn-type-1 red" (click)="onBlacklistWallet(row?.walletId)" [disabled]="row?.walletStatus == 4">ปิดกระเป๋า</button>
                     </div>
                 </div>
             </div>
@@ -262,8 +262,8 @@
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
                         หากยังมีอุปกรณ์ที่ผูกอยู่</p>
                     <div class="col-md-12 col-lg-6 mb-3 d-flex justify-content-md-start justify-content-lg-end gap-3">
-                        <button class="custom-btn btn-type-1 red-outline">อายัดชั่วคราว</button>
-                        <button class="custom-btn btn-type-1 red">ปิดกระเป๋า</button>
+                        <button class="custom-btn btn-type-1 red-outline" (click)="onSuspendWallet(row?.walletId)" [disabled]="row?.walletStatus == 2 || row?.walletStatus == 4">อายัดชั่วคราว</button>
+                        <button class="custom-btn btn-type-1 red" (click)="onBlacklistWallet(row?.walletId)" [disabled]="row?.walletStatus == 4">ปิดกระเป๋า</button>
                     </div>
                 </div>
             </div>
@@ -343,8 +343,8 @@
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
                         หากยังมีอุปกรณ์ที่ผูกอยู่</p>
                     <div class="col-md-12 col-lg-6 mb-3 d-flex justify-content-md-start justify-content-lg-end gap-3">
-                        <button class="custom-btn btn-type-1 red-outline">อายัดชั่วคราว</button>
-                        <button class="custom-btn btn-type-1 red">ปิดกระเป๋า</button>
+                        <button class="custom-btn btn-type-1 red-outline" (click)="onSuspendWallet(row?.walletId)" [disabled]="row?.walletStatus == 2 || row?.walletStatus == 4">อายัดชั่วคราว</button>
+                        <button class="custom-btn btn-type-1 red" (click)="onBlacklistWallet(row?.walletId)" [disabled]="row?.walletStatus == 4">ปิดกระเป๋า</button>
                     </div>
                 </div>
             </div>
