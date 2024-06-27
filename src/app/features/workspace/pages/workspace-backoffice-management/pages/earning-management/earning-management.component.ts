@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CustomColumnModel, RowActionEventModel, CustomerModel } from '../../../../../../core/interfaces';
+import { CustomColumnModel, RowActionEventModel, ResponseModel, ICampaignTableModel, ICampaignModel, ICampaignTollModel } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { first, map } from 'rxjs';
@@ -14,14 +14,14 @@ import { TransformDatePipe } from '../../../../../../core/pipes';
 })
 export class EarningManagementComponent implements OnInit {
 
-  public basicRatingRows: any[] = [];
-  public specialRatingRows: any[] = [];
-  public CalculatedVariables: any[] = [];
-  public CarType: any[] = [];
-  public UserType: any[] = [];
-  public route: any[] = [];
-  public expressBuilding: any[] = [];
-  public expressBuildingTemp: any[] = [];
+  public basicRatingRows: ICampaignTableModel[] = [];
+  public specialRatingRows: ICampaignTableModel[] = [];
+  public CalculatedVariables: ICampaignModel[] = [];
+  public CarType: ICampaignModel[] = [];
+  public UserType: ICampaignModel[] = [];
+  public route: ICampaignModel[] = [];
+  public expressBuilding: ICampaignTollModel[] = [];
+  public expressBuildingTemp: ICampaignTollModel[] = [];
 
   public basicRatingColumns: CustomColumnModel[] = [
     // { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
@@ -131,10 +131,10 @@ export class EarningManagementComponent implements OnInit {
       .getBackOffice(`campaign/base`)
       .pipe(
         first(),
-        map(res => res as any)
+        map(res => res as ResponseModel<ICampaignTableModel>)
       ).subscribe({
         next: (res) => {
-          let data: any[] = [];
+          let data: ICampaignTableModel[] = [];
           res.data['campaignType'] = 'base'
           let carTypesTextTemp = this.CarType.filter(car =>
             !!res.data['carTypes']?.find((carEvent: any) => car.key == carEvent)
@@ -219,10 +219,13 @@ export class EarningManagementComponent implements OnInit {
     this.loadCampaignSpecial();
   }
 
-  async loadCarType(): Promise<any[]> {
+  async loadCarType(): Promise<ICampaignModel[]> {
     return new Promise((resolve) => {
-      this.restApiService.getBackOffice('master-data/car-types').subscribe({
-        next: (Response: any) => {
+      this.restApiService.getBackOffice('master-data/car-types').pipe(
+        first(),
+        map(res => res as ResponseModel<ICampaignModel[]>)
+      ).subscribe({
+        next: (Response) => {
           if (Array.isArray(Response.data)) {
             this.CarType = Response.data;
             this.CarType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
@@ -238,10 +241,13 @@ export class EarningManagementComponent implements OnInit {
     });
   }
 
-  async loadCustomerType(): Promise<any[]> {
+  async loadCustomerType(): Promise<ICampaignModel[]> {
     return new Promise((resolve) => {
-      this.restApiService.getBackOffice('master-data/customer-types').subscribe({
-        next: (Response: any) => {
+      this.restApiService.getBackOffice('master-data/customer-types').pipe(
+        first(),
+        map(res => res as ResponseModel<ICampaignModel[]>)
+      ).subscribe({
+        next: (Response) => {
           if (Array.isArray(Response.data)) {
             this.UserType = Response.data;
             // this.UserType?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
@@ -257,10 +263,13 @@ export class EarningManagementComponent implements OnInit {
     });
   }
 
-  async loadTollStation(): Promise<any[]> {
+  async loadTollStation(): Promise<ICampaignModel[]> {
     return new Promise((resolve) => {
-      this.restApiService.getBackOffice('master-data/toll-stations').subscribe({
-        next: (Response: any) => {
+      this.restApiService.getBackOffice('master-data/toll-stations').pipe(
+        first(),
+        map(res => res as ResponseModel<ICampaignModel[]>)
+      ).subscribe({
+        next: (Response) => {
           if (Array.isArray(Response.data)) {
             this.route = Response.data;
             this.route?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
@@ -276,10 +285,13 @@ export class EarningManagementComponent implements OnInit {
     });
   }
 
-  async loadSubTollStation(): Promise<any[]> {
+  async loadSubTollStation(): Promise<ICampaignTollModel[]> {
     return new Promise((resolve) => {
-      this.restApiService.getBackOffice('master-data/all-toll-stations').subscribe({
-        next: (Response: any) => {
+      this.restApiService.getBackOffice('master-data/all-toll-stations').pipe(
+        first(),
+        map(res => res as ResponseModel<ICampaignTollModel[]>)
+      ).subscribe({
+        next: (Response) => {
           if (Array.isArray(Response.data)) {
             this.expressBuildingTemp = Response.data;
             // this.expressBuildingTemp?.sort((a: any, b: any) => a.expresswayId.localeCompare(b.expresswayId) || a.tollName - b.tollName);
@@ -295,10 +307,13 @@ export class EarningManagementComponent implements OnInit {
     });
   }
 
-  async loadCampaignOperation(): Promise<any[]> {
+  async loadCampaignOperation(): Promise<ICampaignModel[]> {
     return new Promise((resolve) => {
-      this.restApiService.getBackOffice('master-data/campaign-cal-operations').subscribe({
-        next: (Response: any) => {
+      this.restApiService.getBackOffice('master-data/campaign-cal-operations').pipe(
+        first(),
+        map(res => res as ResponseModel<ICampaignModel[]>)
+      ).subscribe({
+        next: (Response) => {
           if (Array.isArray(Response.data)) {
             this.CalculatedVariables = Response.data;
             this.CalculatedVariables?.sort((a: any, b: any) => a.name.localeCompare(b.name) || a.id - b.id);
@@ -314,15 +329,15 @@ export class EarningManagementComponent implements OnInit {
     });
   }
 
-  onSelectRoute(item: any, pages?: any) {
+  onSelectRoute(item: ICampaignModel[], pages?: string) {
     console.log("[onSelectRoute] item => ", item);
     if (!item || item?.length === 0) {
       this.form?.get('expressBuilding')?.setValue(undefined);
     }
     this.expressBuilding = [];
     if (item?.length > 0) {
-      let routeSelect: any[] = this.expressBuildingTemp.filter(route =>
-        !!item?.find((routeEvent: any) => route.expresswayId == routeEvent.key)
+      let routeSelect: ICampaignTollModel[] = this.expressBuildingTemp.filter(route =>
+        !!item?.find((routeEvent: ICampaignModel) => route.expresswayId == routeEvent.key)
       );
       this.expressBuilding = routeSelect;
       if (pages != 'edit') {
@@ -483,7 +498,7 @@ export class EarningManagementComponent implements OnInit {
     // }
   }
 
-  setFormValue(event: any) {
+  setFormValue(event: ICampaignTableModel) {
     this.form?.get('id')?.setValue(event?.id);
     this.form?.get('campaignName')?.setValue(event?.campaignName);
     if (event?.operation) this.form?.get('conditionPoint')?.setValue(String(event?.operation));
@@ -502,13 +517,13 @@ export class EarningManagementComponent implements OnInit {
     this.form?.get('timeEnd')?.setValue(event?.toPeriod);
   }
 
-  selectToll(tollStations: any) {
+  selectToll(tollStations: string[]) {
     if (tollStations && tollStations.length > 0) {
-      let TollSelect: any[] = this.expressBuildingTemp.filter(route =>
+      let TollSelect: ICampaignTollModel[] = this.expressBuildingTemp.filter(route =>
         !!tollStations?.find((routeEvent: any) => route.tollCode == routeEvent)
       );
-      let routeSelect: any[] = this.route.filter(route =>
-        !!TollSelect?.find((routeEvent: any) => route.key == routeEvent.expresswayId)
+      let routeSelect: ICampaignModel[] = this.route.filter(route =>
+        !!TollSelect?.find((routeEvent: ICampaignTollModel) => route.key == routeEvent.expresswayId)
       );
       this.form?.get('route')?.setValue(routeSelect);
       this.onSelectRoute(routeSelect, 'edit');

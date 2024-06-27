@@ -320,3 +320,40 @@ export interface IBillDetail {
   transactions: IBillTransection[],
   payment: IBillPayment
 }
+
+export interface ICampaignTableModel {
+  id: string
+  campaignName?: string
+  operation?: string
+  calculateValue?: string
+  customerTypes?: string[]
+  carTypes?: string[]
+  fromDate?: Date
+  toDate?: Date
+  publish?: boolean
+  everyThaiBath?: number
+  takePoint?: number
+  fromPeriod?: string
+  toPeriod?: string
+  campaignType?: string
+  carTypesText?: string | string[]
+  carTypesList?: string | string[]
+  isAllCarType?: boolean
+  tollStations: string[]
+  tollStationsText?: string | string[]
+  tollStationsList?: string | string[]
+  isAllTollStation?: boolean
+}
+
+export interface ICampaignModel {
+  key: string
+  name?: string
+  nameEn?: string
+}
+
+export interface ICampaignTollModel {
+  id: string
+  tollCode?: string
+  expresswayId?: string
+  tollName?: string
+}
