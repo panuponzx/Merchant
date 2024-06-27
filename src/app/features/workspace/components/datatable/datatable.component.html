@@ -17,8 +17,11 @@
           </ng-template>
 
           <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
-            <ng-container *ngIf="column.type === 'no'">
+            <ng-container *ngIf="column.type === 'paging-no'">
               {{ (page - 1) * pageSize + rowIndex + 1 }}
+            </ng-container>
+            <ng-container *ngIf="column.type === 'no'">
+              {{ rowIndex + 1 }}
             </ng-container>
             <ng-container *ngIf="column.type === 'text'">
               {{ value ? value : '-' }}
