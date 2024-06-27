@@ -248,7 +248,8 @@ export const routesConfig: CustomRoutesModel = [
               is_sidebar: true,
               label: 'ระบบตัดหนี้สูญ',
               // request_id: true,
-              default_path: 'write-off-bad-debt',
+              // default_path: 'write-off-bad-debt',
+              default_path: 'write-off-debt',
               // allowed_tabs: ['write-oof-debt']
             },
             // canActivate: [TabGuard]
