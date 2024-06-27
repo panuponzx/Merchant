@@ -4,15 +4,16 @@
     <div class="content-container-header-item">
       <h1 class="content-title">{{ title }}</h1>
     </div>
-    <!-- <div class="content-container-header-item">
+    <div class="content-container-header-item">
       <button class="custom-btn btn-type-3" data-testid="clearButton" id="clearButton" title="ล้างการค้นหา"
         (click)="onClear()">
         ล้างการค้นหา
       </button>
-    </div> -->
+    </div>
   </div>
   <hr class="hr-custom" />
   <div class="content-container-body">
+    <div style="display: flex; justify-content: space-between; gap: 1rem !important;">
     <form [formGroup]="form" class="d-block d-sm-flex gap-3 align-items-end mb-3">
       <div class="row g-2 g-sm-3 form-wrapper">
         <div class="col-12 col-sm-6">
@@ -40,18 +41,35 @@
         </button>
       </div> -->
     </form>
+    <div class="d-block d-sm-flex gap-3 align-items-end mb-3">
+        <button style="width: 100%" class="custom-btn btn-type-3" data-testid="downloadImageButton"
+          id="downloadImageButton" title="ดาวน์โหลด" [disabled]="form.invalid || isLoading"
+          (click)="onDownloadAttachment()">
+          <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'download' | icon" />
+          ดาวน์โหลดเอกสาร
+        </button>
+      </div>
+    </div>
+
     <ng-container>
-      <div class="col-12 mb-3">
+      <!-- <div class="col-12 mb-3">
+        <datatable [columns]="activityColumns" [collectionSize]="collectionSize"
+          [isLoading]="isLoading" [page]="pages" [pageSize]="10" [rows]="data" emptyMessage="ไม่มีข้อมูล"
+          (onChangePageEvent)="onChangePageSpecial($event)">
+        </datatable>
+      </div> -->
+      <!-- <div class="col-12 mb-3">
         <h3>เอกสารแนบ</h3>
         <label class="label-input">
           ประวัติอุปกรณ์
         </label>
         <button style="width: 100%" class="custom-btn btn-type-3" data-testid="downloadImageButton"
-          id="downloadImageButton" title="ดาวน์โหลด" [disabled]="form.invalid || isLoading" (click)="onDownloadAttachment()">
+          id="downloadImageButton" title="ดาวน์โหลด" [disabled]="form.invalid || isLoading"
+          (click)="onDownloadAttachment()">
           <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'download' | icon" />
           ดาวน์โหลดเอกสาร
         </button>
-      </div>
+      </div> -->
     </ng-container>
   </div>
 </div>

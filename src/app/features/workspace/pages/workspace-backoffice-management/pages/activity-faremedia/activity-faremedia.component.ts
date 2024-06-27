@@ -3,8 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CustomeActivatedRouteModel } from '../../../../../../core/interfaces';
+import { CustomeActivatedRouteModel, CustomColumnModel, IResponseFaremediaModel } from '../../../../../../core/interfaces';
 import { TransformDatePipe } from '../../../../../../core/pipes';
+import { first, map } from 'rxjs';
 
 @Component({
   selector: 'app-activity-faremedia',
@@ -20,6 +21,15 @@ export class ActivityFaremediaComponent {
   });
   public isLoading: boolean = false;
   public submitted: boolean = false;
+  public collectionSize: number = 0;
+  public data: any[] = [];
+  public pages: number = 1;
+
+  public activityColumns: CustomColumnModel[] = [
+    { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
+    { id: 'name', name: 'ชื่อ', label: 'ชื่อ', prop: 'name', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    ///...
+  ];
 
   constructor(
     private restApiService: RestApiService,
@@ -30,11 +40,49 @@ export class ActivityFaremediaComponent {
     this.title = (this.activatedRoute as CustomeActivatedRouteModel).routeConfig.data?.label;
   }
 
+  onSearch() {
+    this.onReset();
+    this.submitted = true;
+    this.modalDialogService.loading();
+    this.isLoading = true;
+    let startDate = this.transformDatePipe.transform(this.form.get('startDate')?.value, 'YYYY-MM-DD');
+    let endDate = this.transformDatePipe.transform(this.form.get('endDate')?.value, 'YYYY-MM-DD');
+
+    let payload: any = {};
+    payload['requestParam'] = this.restApiService.generateRequestParam();
+
+    // this.restApiService
+    //   .post(`action-log/get/from/${startDate}/to/${endDate}`, payload)
+    //   .pipe(
+    //     first(),
+    //     map(res => res as IResponseFaremediaModel)
+    //   ).subscribe({
+    //     next: (res) => {
+    //       console.log(res.data);
+    //       this.data = res.data;
+    //       this.collectionSize = res.data?.length | 0;
+    //       this.modalDialogService.hideLoading();
+    //       this.isLoading = false;
+    //     },
+    //     error: (err) => {
+    //       this.modalDialogService.hideLoading();
+    //       this.isLoading = false;
+    //       console.error(err.message);
+    //       this.modalDialogService.handleError(err);
+    //     }
+    //   });
+  }
+
+  onChangePageSpecial(event: number) {
+    // console.log(event);
+    this.pages = event;
+  }
+
   onDownloadAttachment() {
     this.submitted = true;
-    if (this.form.invalid) {
-      return;
-    }
+    // if (this.form.invalid) {
+    //   return;
+    // }
     this.modalDialogService.loading();
     this.isLoading = true;
     let startDate = this.transformDatePipe.transform(this.form.get('startDate')?.value, 'YYYY-MM-DD');
@@ -69,8 +117,16 @@ export class ActivityFaremediaComponent {
     });
   }
 
-  // onClear() {
-  //   this.form.reset();
-  // }
+  onClear() {
+    this.form.reset();
+    this.onReset();
+  }
+
+  onReset() {
+    this.data = [];
+    this.collectionSize = 0;
+    this.pages = 1;
+    this.submitted = false;
+  }
 
 }

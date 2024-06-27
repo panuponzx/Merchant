@@ -49,6 +49,8 @@ export class ExpiredFaremediaListComponent {
   }
 
   onSearchExpiredFareMedia() {
+    this.onReset();
+    this.submitted = true;
     this.modalDialogService.loading();
     this.isLoading = true;
     let startDate = this.transformDatePipe.transform(this.form.get('startDate')?.value, 'YYYY-MM-DD');
@@ -86,9 +88,9 @@ export class ExpiredFaremediaListComponent {
 
   onDownloadAttachment() {
     this.submitted = true;
-    if (this.form.invalid) {
-      return;
-    }
+    // if (this.form.invalid) {
+    //   return;
+    // }
     this.modalDialogService.loading();
     this.isLoading = true;
     let startDate = this.transformDatePipe.transform(this.form.get('startDate')?.value, 'YYYY-MM-DD');
@@ -122,9 +124,16 @@ export class ExpiredFaremediaListComponent {
     });
   }
 
-
   onClear() {
     this.form.reset();
+    this.onReset();
+  }
+
+  onReset() {
+    this.data = [];
+    this.collectionSize = 0;
+    this.pages = 1;
+    this.submitted = false;
   }
 
 }
