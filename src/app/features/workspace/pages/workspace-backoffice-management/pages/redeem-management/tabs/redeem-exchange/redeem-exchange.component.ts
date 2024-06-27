@@ -18,16 +18,17 @@ export class RedeemExchangeComponent {
     { id: "7", activityName: '7', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
     { id: "8", activityName: '8', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
     { id: "9", activityName: '9', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
-    { id: "10", activityName: '9', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
-    { id: "11", activityName: '9', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
-    { id: "12", activityName: '9', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
-    { id: "13", activityName: '9', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
-    { id: "14", activityName: '9', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
+    { id: "10", activityName: '10', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
+    { id: "11", activityName: '11', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
+    { id: "12", activityName: '12', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
+    { id: "13", activityName: '13', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
+    { id: "14", activityName: '14', addOrMultiply: 'ชื่อสินค้า', pointAmount: 'สินค้า', vehicleType: '100', activityDuration: '1 มีนาคม 2567', publishing: '1 เมษายน 2567' , createdBy: 'นายทดสอบ ทดสอบ' },
 
   ];
 
   public columns1: CustomColumnModel [] = [
-    { id: 'activityName', name: 'อันดับ', label: 'อันดับ', prop: 'activityName', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
+    // { id: 'activityName', name: 'กิจกรรม', label: 'กิจกรรม', prop: 'activityName', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'addOrMultiply', name: 'ชื่อสินค้า', label: 'ชื่อสินค้า', prop: 'addOrMultiply', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'pointAmount', name: 'ประเภท', label: 'ประเภท', prop: 'pointAmount', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'vehicleType', name: 'คะแนนที่ใช้แลก', label: 'คะแนนที่ใช้แลก', prop: 'vehicleType', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
