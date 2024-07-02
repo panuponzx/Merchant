@@ -33,6 +33,7 @@ import { OutstandingBillComponent } from './pages/workspace-backoffice-managemen
 import { WriteOffBadDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-bad-debt/write-off-bad-debt.component';
 import { ActivityFaremediaComponent } from './pages/workspace-backoffice-management/pages/activity-faremedia/activity-faremedia.component';
 import { ExpiredFaremediaListComponent } from './pages/workspace-backoffice-management/pages/expired-faremedia-list/expired-faremedia-list.component';
+import { ExceptionTransactionComponent } from './pages/workspace-backoffice-management/pages/exception-transaction/exception-transaction.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -299,6 +300,17 @@ export const routesConfig: CustomRoutesModel = [
               is_sidebar: true,
               label: 'ประวัติอุปกรณ์',
               default_path: 'activity-fare-media',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'ExceptionTransactionComponent',
+            path: 'exception-transaction-list',
+            component: ExceptionTransactionComponent,
+            data: {
+              is_sidebar: true,
+              label: 'รายการธุรกรรมยกเว้น',
+              default_path: 'exception-transaction-list',
             },
             canActivate: [TabGuard]
           },

@@ -90,7 +90,7 @@ import { ExpiredFaremediaListComponent } from './pages/workspace-backoffice-mana
 import { InputIdentityTypeComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-identity-type/input-identity-type.component';
 import { InputTermCoditionComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-term-codition/input-term-codition.component';
 import { InputEtaxAddressComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-etax-address/input-etax-address.component';
-
+import { ExceptionTransactionComponent } from './pages/workspace-backoffice-management/pages/exception-transaction/exception-transaction.component';
 
 
 @NgModule({
@@ -168,7 +168,8 @@ import { InputEtaxAddressComponent } from './pages/workspace-with-navbar/pages/a
     ExpiredFaremediaListComponent,
     InputIdentityTypeComponent,
     InputTermCoditionComponent,
-    InputEtaxAddressComponent
+    InputEtaxAddressComponent,
+    ExceptionTransactionComponent
   ],
   imports: [
     CommonModule,
