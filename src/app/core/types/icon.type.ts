@@ -1,1 +1,1 @@
-export type IconModel = 'customer-type-1' | 'customer-type-2' | 'customer-type-3' | 'list' | 'arrow-left' | 'arrow-right' | 'copy' | 'search' | 'calendar' | 'check' | 'buildings' | 'unlink' | 'delete' | 'exat-logo' | 'success' | 'warning' | 'download' | 'close' | 'setting'
+export type IconModel = 'customer-type-1' | 'customer-type-2' | 'customer-type-3' | 'list' | 'arrow-left' | 'arrow-right' | 'copy' | 'search' | 'calendar' | 'check' | 'buildings' | 'unlink' | 'delete' | 'exat-logo' | 'success' | 'warning' | 'download' | 'close' | 'setting' | 'id-card' | 'passport';

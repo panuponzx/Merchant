@@ -9,6 +9,10 @@
 .label-input {
   color: #777777;
   margin-bottom: 0.75rem;
+
+  &.back {
+    color: #333333 !important;
+  }
 }
 
 .form-control:focus {

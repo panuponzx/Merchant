@@ -4,11 +4,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IdCardDirective } from './id-card.directive';
+import { AutofocusDirective } from './autofocus.directive';
 
 
 @NgModule({
   declarations: [
-    IdCardDirective
+    IdCardDirective,
+    AutofocusDirective
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { IdCardDirective } from './id-card.directive';
     NgbModule
   ],
   exports: [
-    IdCardDirective
+    IdCardDirective,
+    AutofocusDirective
   ]
 })
 export class DirectivesModule {}

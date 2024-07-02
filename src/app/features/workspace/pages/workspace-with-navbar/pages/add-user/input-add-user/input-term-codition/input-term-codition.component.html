@@ -1,0 +1,29 @@
+<div class="content-container h-100">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">เพิ่มผู้ใช้งาน - ข้อกำหนดและเงื่อนไข</h1>
+        </div>
+    </div>
+    <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
+        <hr class="hr-custom mb-5" />
+        <div class="body-wrapper">
+            <form [formGroup]="form">
+                <h3>ข้อกำหนด และเงื่อนไขในการใช้งาน 1</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut dolores sunt, dignissimos magnam illum eum saepe eaque ipsa at corporis! Recusandae minima beatae laudantium et. Tempora impedit est consequuntur qui?</p>
+            </form>
+        </div>
+    </div>
+    <div #footer class="footer">
+        <hr class="hr-custom mb-3" />
+        <div class="btn-footer d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton"
+                title="ย้อนกลับ" (click)="onBack()">
+                ย้อนกลับ
+            </button>
+            <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton"
+                title="ถัดไป" [disabled]="form.invalid" (click)="onNext()">
+                ถัดไป
+            </button>
+        </div>
+    </div>
+</div>

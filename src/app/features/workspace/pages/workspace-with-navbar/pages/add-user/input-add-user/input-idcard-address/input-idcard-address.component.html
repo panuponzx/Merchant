@@ -42,15 +42,15 @@
                             <label class="label-input" for="villageNoInput">
                                 หมูที่
                             </label>
-                            <input class="form-control" data-testid="villageNoInput" formControlName="villageNo" id="villageNoInput"
-                                type="text">
+                            <input class="form-control" data-testid="villageNoInput" formControlName="villageNo"
+                                id="villageNoInput" type="text">
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="villageInput">
                                 หมู่บ้าน
                             </label>
-                            <input class="form-control" data-testid="villageInput" formControlName="village" id="villageInput"
-                                type="text">
+                            <input class="form-control" data-testid="villageInput" formControlName="village"
+                                id="villageInput" type="text">
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="alleyInput">
@@ -70,8 +70,8 @@
                             <label class="label-input" for="streetInput">
                                 ถนน
                             </label>
-                            <input class="form-control" data-testid="streetInput" formControlName="street" id="streetInput"
-                                type="text">
+                            <input class="form-control" data-testid="streetInput" formControlName="street"
+                                id="streetInput" type="text">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 mb-3">
@@ -81,9 +81,9 @@
                             </label>
                             <input [ngClass]="{
                                 'is-invalid': form.get('postalCode').errors?.['required'] && form.get('postalCode').touched
-                              }" class="form-control" data-testid="postalCodeInput" (keyup)="onKeyUpPostalCode($event)" mask="00000" formControlName="postalCode"
-                                id="postalCodeInput" type="text">
-                                <!-- <small *ngIf="form.get('postalCode').errors?.['required'] && form.get('postalCode').touched"
+                              }" class="form-control" data-testid="postalCodeInput" (keyup)="onKeyUpPostalCode($event)"
+                                mask="00000" formControlName="postalCode" id="postalCodeInput" type="text">
+                            <!-- <small *ngIf="form.get('postalCode').errors?.['required'] && form.get('postalCode').touched"
                                 class="req-text">*โปรดระบุรหัสไปรษณีย์</small> -->
                         </div>
                         <div class="col-12 mb-3">
@@ -92,15 +92,9 @@
                             </label>
                             <ng-select [ngClass]="{
                                 'is-invalid': form.get('subDistrict').errors?.['required'] && form.get('subDistrict').touched
-                              }"
-                                class="form-control"
-                                [clearable]="false"
-                                bindLabel="subdistrict.name"
-                                id="subDistrictInput"
-                                data-testid="subDistrictInput"
-                                formControlName="subDistrict"
-                                (change)="onChangeSubDistrict($event)"
-                                [items]="postalCodeList">
+                              }" class="form-control" [clearable]="false" bindLabel="subdistrict.name"
+                                id="subDistrictInput" data-testid="subDistrictInput" formControlName="subDistrict"
+                                (change)="onChangeSubDistrict($event)" [items]="postalCodeList">
                             </ng-select>
                             <!-- <small *ngIf="form.get('subDistrict').errors?.['required'] && form.get('subDistrict').touched"
                                 class="req-text">*โปรดระบุ แขวง/ตำบล</small> -->
@@ -111,14 +105,8 @@
                             </label>
                             <ng-select [ngClass]="{
                                 'is-invalid': form.get('district').errors?.['required'] && form.get('district').touched
-                              }"
-                                class="form-control"
-                                [clearable]="false"
-                                bindLabel="name"
-                                data-testid="districtInput"
-                                formControlName="district"
-                                id="districtInput"
-                                [items]="districtList">
+                              }" class="form-control" [clearable]="false" bindLabel="name" data-testid="districtInput"
+                                formControlName="district" id="districtInput" [items]="districtList">
                             </ng-select>
                             <!-- <small *ngIf="form.get('district').errors?.['required'] && form.get('district').touched"
                                 class="req-text">*โปรดระบุ เขต/อำเภอ</small> -->
@@ -129,14 +117,8 @@
                             </label>
                             <ng-select [ngClass]="{
                                 'is-invalid': form.get('province').errors?.['required'] && form.get('province').touched
-                              }"
-                                class="form-control"
-                                [clearable]="false"
-                                bindLabel="name"
-                                data-testid="provinceInput"
-                                formControlName="province"
-                                id="provinceInput"
-                                [items]="provinceList">
+                              }" class="form-control" [clearable]="false" bindLabel="name" data-testid="provinceInput"
+                                formControlName="province" id="provinceInput" [items]="provinceList">
                             </ng-select>
                             <!-- <small *ngIf="form.get('province').errors?.['required'] && form.get('province').touched"
                                 class="req-text">*โปรดระบุ จังหวัด</small> -->
@@ -145,16 +127,18 @@
                 </div>
             </form>
         </div>
-        <hr class="hr-custom mb-3" />
     </div>
-    <div #footer class="footer d-flex justify-content-center gap-3">
-        <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
-            (click)="onBack()">
-            ย้อนกลับ
-        </button>
-        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-            [disabled]="form.invalid || !form.controls['subDistrict'].value" (click)="onNext()">
-            ถัดไป
-        </button>
+    <div #footer class="footer">
+        <hr class="hr-custom mb-3" />
+        <div class="btn-footer d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton"
+                title="ย้อนกลับ" (click)="onBack()">
+                ย้อนกลับ
+            </button>
+            <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton"
+                title="ถัดไป" [disabled]="form.invalid || !form.controls['subDistrict'].value" (click)="onNext()">
+                ถัดไป
+            </button>
+        </div>
     </div>
 </div>

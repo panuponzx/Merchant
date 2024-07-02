@@ -13,25 +13,27 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6 mb-3">
                         <div class="col-12 mb-3">
-                          <label class="label-input required-field" for="taxRequiredStatus">
-                            ตัวเลือกหมายเลขผู้เสียภาษี
-                          </label>
-                          <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="value" id="taxRequiredStatus"
-                              data-testid="taxRequiredStatus" formControlName="taxRequiredStatus" placeholder="กรุณาระบุ" (change)="onChangeTaxRequired($event)"
-                              [items]="taxRequired"></ng-select>
+                            <label class="label-input required-field" for="taxRequiredStatus">
+                                ตัวเลือกหมายเลขผู้เสียภาษี
+                            </label>
+                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="value"
+                                id="taxRequiredStatus" data-testid="taxRequiredStatus"
+                                formControlName="taxRequiredStatus" placeholder="กรุณาระบุ"
+                                (change)="onChangeTaxRequired($event)" [items]="taxRequired"></ng-select>
                         </div>
                         <div class="col-12 mb-3">
-                            <label *ngIf="form.value.taxRequiredStatus" class="label-input required-field" for="taxIdInput">
-                              หมายเลขผู้เสียภาษี
+                            <label *ngIf="form.value.taxRequiredStatus" class="label-input required-field"
+                                for="taxIdInput">
+                                หมายเลขผู้เสียภาษี
                             </label>
                             <label *ngIf="!form.value.taxRequiredStatus" class="label-input" for="taxIdInput">
-                              หมายเลขผู้เสียภาษี
+                                หมายเลขผู้เสียภาษี
                             </label>
                             <input [ngClass]="{
                                 'is-invalid':  form.get('taxId').errors?.['required'] && form.get('taxId').touched
-                              }" class="form-control" data-testid="taxIdInput" formControlName="taxId"
-                                id="taxIdInput" type="text" mask="0 0000 00000 00 0">
-                                <!-- <small *ngIf="form.get('taxId').errors?.['required'] && form.get('taxId').touched " class="req-text">
+                              }" class="form-control" data-testid="taxIdInput" formControlName="taxId" id="taxIdInput"
+                                type="text" mask="0 0000 00000 00 0">
+                            <!-- <small *ngIf="form.get('taxId').errors?.['required'] && form.get('taxId').touched " class="req-text">
                                     *โปรดระบุหมายเลขผู้เสียภาษี</small> -->
                         </div>
                         <div class="col-12 mb-3">
@@ -42,7 +44,7 @@
                                 'is-invalid':  form.get('companyName').errors?.['required'] && form.get('companyName').touched
                               }" class="form-control" data-testid="companyNameInput" formControlName="companyName"
                                 id="companyNameInput" type="text">
-                                <!-- <small *ngIf="form.get('companyName').errors?.['required'] && form.get('companyName').touched " class="req-text">
+                            <!-- <small *ngIf="form.get('companyName').errors?.['required'] && form.get('companyName').touched " class="req-text">
                                     *โปรดระบุชื่อบริษัท</small> -->
                         </div>
                     </div>
@@ -52,8 +54,8 @@
                                 สาขา
                             </label>
                             <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
-                                data-testid="branchSelect" formControlName="branch" placeholder="กรุณาระบุ" (change)="onChangeBranch($event)" id="branchSelect"
-                                [items]="branchList"></ng-select>
+                                data-testid="branchSelect" formControlName="branch" placeholder="กรุณาระบุ"
+                                (change)="onChangeBranch($event)" id="branchSelect" [items]="branchList"></ng-select>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="branchNameInput">
@@ -63,7 +65,7 @@
                                 'is-invalid':  form.get('branchName').errors?.['required'] && form.get('branchName').touched
                               }" class="form-control" data-testid="branchNameInput" formControlName="branchName"
                                 id="branchNameInput" type="text">
-                                <!-- <small *ngIf="form.get('branchName').errors?.['required'] && form.get('branchName').touched " class="req-text">
+                            <!-- <small *ngIf="form.get('branchName').errors?.['required'] && form.get('branchName').touched " class="req-text">
                                     *โปรดระบุชื่อสาขา</small> -->
                         </div>
                         <div class="col-12 mb-3">
@@ -72,9 +74,9 @@
                             </label>
                             <input [ngClass]="{
                                 'is-invalid':  form.get('branchNo').errors?.['required'] && form.get('branchNo').touched
-                              }" class="form-control" data-testid="branchNoInput" formControlName="branchNo" id="branchNoInput"
-                                type="text" maxlength="5">
-                                <!-- <small *ngIf="form.get('branchNo').errors?.['required'] && form.get('branchNo').touched " class="req-text">
+                              }" class="form-control" data-testid="branchNoInput" formControlName="branchNo"
+                                id="branchNoInput" type="text" maxlength="5">
+                            <!-- <small *ngIf="form.get('branchNo').errors?.['required'] && form.get('branchNo').touched " class="req-text">
                                     *โปรดระบุหมายเลขสาขาย่อย</small> -->
                         </div>
                         <!-- <div class="col-12 mb-3">
@@ -88,16 +90,18 @@
                 </div>
             </form>
         </div>
-        <hr class="hr-custom mb-3" />
     </div>
-    <div #footer class="footer d-flex justify-content-center gap-3">
-        <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
-            (click)="onBack()">
-            ย้อนกลับ
-        </button>
-        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-        [disabled]="form.invalid" (click)="onNext()">
-            ถัดไป
-        </button>
+    <div #footer class="footer">
+        <hr class="hr-custom mb-3" />
+        <div class="btn-footer d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton"
+                title="ย้อนกลับ" (click)="onBack()">
+                ย้อนกลับ
+            </button>
+            <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton"
+                title="ถัดไป" [disabled]="form.invalid" (click)="onNext()">
+                ถัดไป
+            </button>
+        </div>
     </div>
 </div>

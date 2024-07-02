@@ -4,14 +4,18 @@
 }
 
 .body-wrapper {
-  padding: 1rem 5rem 1rem 5rem;
+    padding: 1rem 5rem 1rem 5rem;
 }
 
-.content-container h2, h3 {
-    color: var(--color-blue-exat);
-  }
+.container-header {
+    padding: 1.5rem 0rem;
+}
 
-  .footer {
+.content-container h2 {
+    color: var(--color-blue-exat);
+}
+
+.footer {
     background-color: #FFF;
     position: fixed;
     left: 0;
@@ -21,9 +25,4 @@
     padding-bottom: 1rem;
     padding-left: 4.5rem;
     padding-right: 4.5rem;
-}
-
-.req-text{
-  color: red;
-  font-size: small;
 }

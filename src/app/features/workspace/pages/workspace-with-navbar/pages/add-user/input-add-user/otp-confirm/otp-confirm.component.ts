@@ -16,7 +16,8 @@ export class OtpConfirmComponent implements AfterContentInit {
   @ViewChild('footer', { static: true }) footerRef: ElementRef | undefined;
 
   @Input() public form: FormGroup | any;
-  @Input() public otpFrom: FormGroup | any;
+  @Input() public step: number = 0;
+  @Input() public otpFrom!: FormGroup;
   @Input() public customerType: number = 0;
   @Input() public mobileNumber: number | null = null;
 
@@ -46,7 +47,10 @@ export class OtpConfirmComponent implements AfterContentInit {
 
 
   ngOnInit(): void {
-    this.sendOTP();
+    this.form.reset();
+    if (this.step === 5) {
+      this.sendOTP();
+    }
   }
 
   sendOTP() {
@@ -86,17 +90,20 @@ export class OtpConfirmComponent implements AfterContentInit {
         .subscribe({
           next: (response: any) => {
             this.modalDialogService.hideLoading();
+            this.digit_1El?.nativeElement.focus();
             this.isLoading = false;
             this.startCooldown(response.cooldownTime);
           },
           error: (error: any) => {
             this.modalDialogService.hideLoading();
+            this.digit_1El?.nativeElement.focus();
             this.isLoading = false;
             console.error(error);
             this.err = error;
           },
           complete: () => {
             this.modalDialogService.hideLoading();
+            this.digit_1El?.nativeElement.focus();
             this.isLoading = false;
           }
         });
@@ -145,7 +152,7 @@ export class OtpConfirmComponent implements AfterContentInit {
   }
 
   formatMobilePhone() {
-    let cleaned = ('' + this.mobileNumber).replace(/\D/g, '');
+    let cleaned = ('' + this.otpFrom.get('mobilePhone')?.value).replace(/\D/g, '');
     let match = cleaned.match(/^(0|)(\d{2})(\d{3})(\d{4})$/);
     if (match) {
       this.mobilePhone = '+66 ' + match[2] + ' ••• ' + match[4];
@@ -288,31 +295,37 @@ export class OtpConfirmComponent implements AfterContentInit {
         otpCode: otpCode,
         refCode: refCode,
       }
-      this.isLoading = true;
-      this.modalDialogService.loading();
-      this.restApiService.postBackOffice('notification/sms-otp-verify', verifyData)
-        .subscribe({
-          next: (response: any) => {
-            this.isLoading = false;
-            this.modalDialogService.hideLoading();
-            if (response && response.data && response.data.verified === true) {
-              this.submit.emit(true);
-              this.invalidOTP = false;
-              this.verify = response.verified;
-              this.err = 'Success';
-            } else {
+      if (this.step === 3) {
+        this.nextStep.emit('otp-confirm');
+        console.log("[onNext] 333");
+      } else if (this.step === 5) {
+        this.isLoading = true;
+        this.modalDialogService.loading();
+        this.restApiService.postBackOffice('notification/sms-otp-verify', verifyData)
+          .subscribe({
+            next: (response: any) => {
+              this.isLoading = false;
+              this.modalDialogService.hideLoading();
+              if (response && response.data && response.data.verified === true) {
+                // this.submit.emit(true);
+                this.nextStep.emit('otp-confirm');
+                this.invalidOTP = false;
+                this.verify = response.verified;
+                this.err = 'Success';
+              } else {
+                this.err = 'Invalid OTP';
+                this.invalidOTP = true;
+              }
+            },
+            error: (error: any) => {
+              this.isLoading = false;
+              this.modalDialogService.hideLoading();
+              console.error('Error:', error);
               this.err = 'Invalid OTP';
               this.invalidOTP = true;
             }
-          },
-          error: (error: any) => {
-            this.isLoading = false;
-            this.modalDialogService.hideLoading();
-            console.error('Error:', error);
-            this.err = 'Invalid OTP';
-            this.invalidOTP = true;
-          }
-        });
+          });
+      }
     } else {
       console.log('Form is invalid');
       this.err = 'Form is invalid.';

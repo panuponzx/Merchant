@@ -87,6 +87,9 @@ import { OutstandingBillComponent } from './pages/workspace-backoffice-managemen
 import { WriteOffBadDebtComponent } from './pages/workspace-backoffice-management/pages/write-off-bad-debt/write-off-bad-debt.component';
 import { ActivityFaremediaComponent } from './pages/workspace-backoffice-management/pages/activity-faremedia/activity-faremedia.component';
 import { ExpiredFaremediaListComponent } from './pages/workspace-backoffice-management/pages/expired-faremedia-list/expired-faremedia-list.component';
+import { InputIdentityTypeComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-identity-type/input-identity-type.component';
+import { InputTermCoditionComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-term-codition/input-term-codition.component';
+import { InputEtaxAddressComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-etax-address/input-etax-address.component';
 
 
 
@@ -162,7 +165,10 @@ import { ExpiredFaremediaListComponent } from './pages/workspace-backoffice-mana
     OutstandingBillComponent,
     WriteOffBadDebtComponent,
     ActivityFaremediaComponent,
-    ExpiredFaremediaListComponent
+    ExpiredFaremediaListComponent,
+    InputIdentityTypeComponent,
+    InputTermCoditionComponent,
+    InputEtaxAddressComponent
   ],
   imports: [
     CommonModule,

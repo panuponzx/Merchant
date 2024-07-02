@@ -1,5 +1,163 @@
+<!-- <p>step: {{ step }}</p>
+<p>customerType: {{ customerType }}</p> -->
 <div [ngSwitch]="step">
+    <input-term-codition
+        *ngSwitchCase="1"
+        [form]="termCoditionForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-term-codition>
+    <otp-request
+        *ngSwitchCase="2"
+        [step]="step"
+        [form]="otpRequestForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </otp-request>
+    <otp-confirm
+        *ngSwitchCase="3"
+        [step]="step"
+        [form]="otpConfirmForm"
+        [otpFrom]="otpRequestForm"
+        [customerType]="customerType"
+        [mobileNumber]="otpRequestForm.get('mobilePhone')?.value"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </otp-confirm>
+    <otp-request
+        *ngSwitchCase="4"
+        [step]="step"
+        [form]="otpRequestForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </otp-request>
+    <otp-confirm
+        *ngSwitchCase="5"
+        [step]="step"
+        [form]="otpConfirmForm"
+        [otpFrom]="otpRequestForm"
+        [customerType]="customerType"
+        [mobileNumber]="otpRequestForm.get('mobilePhone')?.value"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </otp-confirm>
+    <input-identity-type
+        *ngIf="customerType === 1 && step === 6"
+        [form]="identityTypeForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-identity-type>
     <input-user-info
+        *ngIf="customerType === 1 && step === 7 || customerType === 2 && step === 6"
+        [form]="userInfoForm"
+        [customerType]="customerType"
+        [identityTypeForm]="identityTypeForm"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-user-info>
+    <input-juristic-info
+        *ngIf="customerType === 2 && step === 7"
+        [form]="juristicInfoForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-juristic-info>
+    <input-idcard-address
+        *ngIf="customerType === 2 && step === 8"
+        [form]="addressInfoForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-idcard-address>
+    <input-idcard-address
+        *ngIf="customerType === 1 && step === 8"
+        [form]="addressInfoForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-idcard-address>
+    <input-current-address
+        *ngIf="customerType === 1 && step === 9"
+        [form]="addressCurrentInfoForm"
+        [addressIdCardInfoForm]="addressInfoForm"
+        [identityType]="this.identityTypeForm.get('identityType')?.value"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-current-address>
+    <occupation-detail
+        *ngIf="customerType === 1 && step === 10"
+        [form]="occupationDetailForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </occupation-detail>
+    <input-etax-address
+        *ngIf="customerType === 1 && step === 11 || customerType === 2 && step === 9"
+        [form]="addressEtaxForm"
+        [addressIdCardInfoForm]="addressInfoForm"
+        [addressCurrentInfoForm]="addressCurrentInfoForm"
+        [addressWorkInfoForm]="occupationDetailForm"
+        [customerType]="customerType"
+        (nextStep)="onSubmit()"
+        (previousStep)="onPreviousStep($event)"
+    > </input-etax-address>
+    <!-- <input-identity-type
+        *ngSwitchCase="1"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-identity-type> -->
+    <!-- <input-user-info
+        *ngSwitchCase="1"
+        [form]="userInfoForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-user-info> -->
+    <!-- <input-idcard-address
+        *ngIf="customerType === 1 && step === 2"
+        [form]="addressInfoForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-idcard-address>
+    <input-juristic-info
+        *ngIf="customerType === 2 && step === 2"
+        [form]="juristicInfoForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-juristic-info>
+    <input-current-address
+        *ngIf="customerType === 1 && step === 3"
+        [form]="addressCurrentInfoForm"
+        [addressIdCardInfoForm]="addressInfoForm"
+        [identityType]="this.userInfoForm.get('identityType')?.value"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-current-address>
+    <input-idcard-address
+        *ngIf="customerType === 2 && step === 3"
+        [form]="addressInfoForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </input-idcard-address>
+    <occupation-detail
+        *ngIf="customerType === 1 && step === 4"
+        [form]="occupationDetailForm"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+    > </occupation-detail> -->
+    
+    <!-- <input-user-info
         *ngSwitchCase="1"
         [form]="userInfoForm"
         [customerType]="customerType"
@@ -43,13 +201,6 @@
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"
     > </occupation-detail>
-    <!-- <input-juristic-attach-document
-        *ngIf="customerType === 2 && step === 4"
-        [form]="juristicAttachDocument"
-        [customerType]="customerType"
-        (nextStep)="onNextStep($event)"
-        (previousStep)="onPreviousStep($event)"
-    > </input-juristic-attach-document> -->
     <otp-request
         *ngIf="(customerType === 1 && step === 5)||(customerType === 2 && step === 4)"
         [form]="otpRequestForm"
@@ -66,5 +217,5 @@
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"
         (submit)="onSubmit($event)"
-    > </otp-confirm>
+    > </otp-confirm> -->
 </div>

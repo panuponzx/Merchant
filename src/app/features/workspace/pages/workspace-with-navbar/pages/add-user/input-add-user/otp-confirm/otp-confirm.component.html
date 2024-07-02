@@ -9,17 +9,18 @@
     <hr class="hr-custom" />
     <div class="body-wrapper">
       <h3 class="mb-3 text-center">กรุณายืนยันรหัส OTP</h3>
-      <form [formGroup]="form">
-        <div class="row otp-container"  >
-            <p class="text-center mb-0" style="color: #777777"  >
+      <form [formGroup]="form" (ngSubmit)="onNext()">
+        <div class="row otp-container">
+          <p class="text-center mb-0" style="color: #777777">
             รหัสยืนยัน OTP <br>
-            ได้ถูกส่งไปที่หมายเลขโทรศัพท์ {{mobilePhone}} <br>
-             refCode : {{  this.refCode }}
+            <span *ngIf="step === 3">ได้ถูกส่งไปที่อีเมล {{ otpFrom.get('email')?.value }}</span>
+            <span *ngIf="step === 5">ได้ถูกส่งไปที่หมายเลขโทรศัพท์ {{mobilePhone}}</span> <br>
+            refCode : {{ this.refCode }}
           </p>
           <div class="col-sm-12 col-md-8 col-lg-5 col-xl-4 otp-form-wrapper d-flex justify-content-around">
             <input #digit_1 formControlName="digit_1" class="form-control otp-input" type="number" pattern="[0-9]*"
               maxlength="1" minlength="0" spellcheck="false" autocapitalize="off" autocomplete="off" inputmode="numeric"
-              [ngClass]="{
+              [autofocus]="true" [ngClass]="{
                       'is-invalid': submitted && form.get('digit_1')?.errors
                     }" (keyup)="
                       onChangeDigit(
@@ -113,9 +114,10 @@
           <div class="col-12">
             <div
               class="otp-resend d-flex justify-content-center gap-2 my-3 mt-sm-3 text-center flex-column flex-sm-row">
-              <p (click)="onAgain()" [ngStyle]="{ 'color': cooldownActive ? '#cccccc' : 'var(--color-blue-exat)', 'pointer-events': cooldownActive ? 'none' : 'auto'}" 
-              class="d-flex align-items-center m-0 justify-content-center mouse"  >ส่งอีกครั้ง
-                 ({{ display }}s)</p>
+              <p (click)="onAgain()"
+                [ngStyle]="{ 'color': cooldownActive ? '#cccccc' : 'var(--color-blue-exat)', 'pointer-events': cooldownActive ? 'none' : 'auto'}"
+                class="d-flex align-items-center m-0 justify-content-center mouse">ส่งอีกครั้ง
+                ({{ display }}s)</p>
               <!-- <button
                       type="button"
                       id="signInWithUser"
@@ -153,16 +155,18 @@
               </div> -->
       </form>
     </div>
-    <hr class="hr-custom mb-3" />
   </div>
-  <div #footer class="footer d-flex justify-content-center gap-3">
-    <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
-      (click)="onBack()">
-      ย้อนกลับ
-    </button>
-    <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-      (click)="onNext()" [disabled]="form.invalid">
-      ถัดไป
-    </button>
+  <div #footer class="footer">
+    <hr class="hr-custom mb-3" />
+    <div class="btn-footer d-flex justify-content-center gap-3">
+      <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
+        (click)="onBack()">
+        ย้อนกลับ
+      </button>
+      <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
+        [disabled]="form.invalid" (click)="onNext()">
+        ถัดไป
+      </button>
+    </div>
   </div>
 </div>

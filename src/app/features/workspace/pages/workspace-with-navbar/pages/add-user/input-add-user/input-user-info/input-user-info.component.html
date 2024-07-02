@@ -11,29 +11,23 @@
             <h3 class="mb-3">ข้อมูลรายละเอียด</h3>
             <form [formGroup]="form">
                 <div class="row d-flex justify-content-center">
-                    <div class="col-sm-12 col-md-6 mb-3" *ngIf="customerType === 1">
-                        <div *ngIf="customerType === 1" class="col-12 mb-3">
-                            <label class="label-input required-field" for="identityType">
-                                ประเภทการยืนยันตัวตน
-                            </label>
-                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
-                                data-testid="identityType" formControlName="identityType" id="identityType"
-                                [items]="identityTypeList"></ng-select>
-                        </div>
+                    <div class="col-sm-12 col-md-6 mb-3">
                         <div class="col-12 mb-3">
-                            <label *ngIf="form.get('identityType').value === 1" class="label-input required-field"
-                                for="identificationInput">
+                            <label *ngIf="identityTypeForm.get('identityType')?.value === 1 || customerType === 2"
+                                class="label-input required-field" for="identificationInput">
                                 หมายเลขบัตรประชาชน
                             </label>
-                            <label *ngIf="form.get('identityType').value === 3" class="label-input required-field"
-                                for="identificationInput">
+                            <label *ngIf="identityTypeForm.get('identityType')?.value === 3"
+                                class="label-input required-field" for="identificationInput">
                                 หมายเลขหนังสือเดินทาง
                             </label>
-                            <input *ngIf="form.get('identityType').value === 1" class="form-control" [ngClass]="{
-                                'is-invalid': submitted && form.get('citizenId')!.errors || form.get('citizenId').errors?.['required'] && form.get('citizenId').touched
+                            <input *ngIf="identityTypeForm.get('identityType')?.value === 1 || customerType === 2"
+                                class="form-control" [ngClass]="{
+                                'is-invalid': submitted && form.get('citizenId')?.errors || form.get('citizenId')?.errors?.['required'] && form.get('citizenId').touched
                               }" data-testid="identificationInput" formControlName="citizenId" id="identificationInput"
-                                type="text" mask="0 0000 00000 00 0" >
-                            <input *ngIf="form.get('identityType').value === 3" class="form-control" [ngClass]="{
+                                type="text" mask="0 0000 00000 00 0">
+                            <input *ngIf="identityTypeForm.get('identityType')?.value === 3" class="form-control"
+                                [ngClass]="{
                                     'is-invalid': submitted && form.get('citizenId')!.errors || form.get('citizenId').errors?.['required'] && form.get('citizenId').touched
                                 }" data-testid="identificationInput" formControlName="citizenId"
                                 id="identificationInput" type="text">
@@ -43,11 +37,11 @@
                                 class="req-text">*โปรดระบุหมายหนังสือเดินทาง</small> -->
                         </div>
 
-                        <div class="col-12 mb-3">
+                        <div class="col-12 mb-3" *ngIf="customerType === 1">
                             <label class="label-input required-field" for="expiredDateDatePicker">
-                                <span *ngIf="this.form.get('identityType')?.value === 1">วันหมดอายุบัตร
+                                <span *ngIf="identityTypeForm.get('identityType')?.value === 1">วันหมดอายุบัตร
                                     (วัน/เดือน/ปี)</span>
-                                <span *ngIf="this.form.get('identityType')?.value === 3">วันหมดอายุหนังสือเดินทาง
+                                <span *ngIf="identityTypeForm.get('identityType')?.value === 3">วันหมดอายุหนังสือเดินทาง
                                     (วัน/เดือน/ปี)</span>
                             </label>
                             <date-picker class="datepicker-input"
@@ -77,7 +71,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 mb-3">
-                        <div class="col-12 mb-3" *ngIf="customerType === 2">
+                        <!-- <div class="col-12 mb-3">
                           <label class="label-input required-field" for="gender">
                               เพศ
                           </label>
@@ -91,7 +85,7 @@
                                   <label for="female">หญิง</label>
                               </div>
                           </div>
-                        </div>
+                        </div> -->
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="firstName">
                                 ชื่อ
@@ -111,7 +105,7 @@
                             <input class="form-control" [ngClass]="{
                                 'is-invalid':submitted && form.get('lastName')!.errors || form.get('lastName').errors?.['required'] && form.get('lastName').touched
                               }" data-testid="lastName" formControlName="lastName" id="lastName" type="text">
-                              <!-- <small *ngIf="form.get('lastName').errors?.['required'] && form.get('lastName').touched " class="req-text">
+                            <!-- <small *ngIf="form.get('lastName').errors?.['required'] && form.get('lastName').touched " class="req-text">
                                 *โปรดระบุนามสกุล
                             </small> -->
                         </div>
@@ -127,7 +121,7 @@
                             </small> -->
 
                         </div>
-                        <div class="col-12 mb-3">
+                        <!-- <div class="col-12 mb-3">
                             <label class="label-input required-field" for="phone">
                                 เบอร์ติดต่อ
                             </label>
@@ -135,25 +129,26 @@
                                 'is-invalid':submitted && form.get('phone')!.errors || form.get('phone').errors?.['required'] && form.get('phone').touched
                               }" data-testid="phone" formControlName="phone" id="phone" type="text"
                                 mask="000 000 0000">
-                            <!-- <small *ngIf="form.get('phone').errors?.['required'] && form.get('phone').touched " class="req-text">
+                            <small *ngIf="form.get('phone').errors?.['required'] && form.get('phone').touched " class="req-text">
                                 *โปรดระบุเบอร์โทรศัพท์
-                            </small> -->
-                        </div>
+                            </small>
+                        </div> -->
                     </div>
                 </div>
             </form>
         </div>
-        <hr class="hr-custom mb-3" />
     </div>
-
-    <div #footer class="footer d-flex justify-content-center gap-3">
-        <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton" title="ย้อนกลับ"
-            (click)="onBack()">
-            ย้อนกลับ
-        </button>
-        <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป"
-            [disabled]="form.invalid" (click)="onNext()">
-            ถัดไป
-        </button>
+    <div #footer class="footer">
+        <hr class="hr-custom mb-3" />
+        <div class="btn-footer d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-fixed-size-1 btn-type-3" data-testid="backButton" id="backButton"
+                title="ย้อนกลับ" (click)="onBack()">
+                ย้อนกลับ
+            </button>
+            <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton"
+                title="ถัดไป" [disabled]="form.invalid" (click)="onNext()">
+                ถัดไป
+            </button>
+        </div>
     </div>
 </div>

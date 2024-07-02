@@ -12,6 +12,7 @@ export class InputUserInfoComponent implements AfterContentInit {
 
   @Input() public form: FormGroup | any;
   @Input() public customerType: number = 0;
+  @Input() public identityTypeForm!: FormGroup;
 
   @Output() nextStep: EventEmitter<string> = new EventEmitter<string>();
   @Output() previousStep: EventEmitter<string> = new EventEmitter<string>();
@@ -36,7 +37,7 @@ export class InputUserInfoComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     const element = this.footerRef?.nativeElement as HTMLElement;
     this.footerHeight = element.offsetHeight;
-    console.log('Height of the element:', this.footerHeight);
+    console.log('Height of the element:', this.identityTypeForm.get('identityType')?.value);
   }
 
   onBack() {

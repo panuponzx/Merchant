@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RestApiService } from '../../../../../../../core/services';
+import { CustomRegEx, RestApiService } from '../../../../../../../core/services';
 import { first, map } from 'rxjs';
 import { TransformDatePipe } from '../../../../../../../core/pipes';
 import { ModalDialogService } from '../../../../../../../core/services/modal-dialog/modal-dialog.service';
@@ -21,10 +21,13 @@ export class InputAddUserComponent {
   public addressInfoForm: FormGroup;
   public addressCurrentInfoForm: FormGroup;
   public occupationDetailForm: FormGroup;
+  public addressEtaxForm: FormGroup;
   public juristicInfoForm: FormGroup;
   public juristicAttachDocument: FormGroup;
+  public termCoditionForm: FormGroup;
   public otpRequestForm: FormGroup;
   public otpConfirmForm: FormGroup;
+  public identityTypeForm: FormGroup;
   nextStep: any;
 
   constructor(
@@ -39,11 +42,11 @@ export class InputAddUserComponent {
     if (customerTypeStr === 'personal-info') {
       this.customerType = 1;
       this.userInfoForm = this.formBuilder.group({
-        identityType: new FormControl(1, Validators.required),
+        // identityType: new FormControl(1, Validators.required),
         firstName: new FormControl(undefined, Validators.required),
         lastName: new FormControl(undefined, Validators.required),
         birthDate: new FormControl(undefined, Validators.required),
-        phone: new FormControl(undefined, Validators.required),
+        // phone: new FormControl(undefined, Validators.required),
         citizenId: new FormControl(undefined, Validators.required),
         cardExpDate: new FormControl(undefined, Validators.required),
         gender: new FormControl('M', Validators.required),
@@ -51,12 +54,12 @@ export class InputAddUserComponent {
     } else if (customerTypeStr === 'juristic-info') {
       this.customerType = 2;
       this.userInfoForm = this.formBuilder.group({
-        identityType: new FormControl(1, Validators.required),
+        // identityType: new FormControl(1, Validators.required),
         firstName: new FormControl(undefined, Validators.required),
         lastName: new FormControl(undefined, Validators.required),
         birthDate: new FormControl(undefined, Validators.required),
-        phone: new FormControl(undefined, Validators.required),
-        // citizenId: new FormControl(undefined, Validators.required),
+        // phone: new FormControl(undefined, Validators.required),
+        citizenId: new FormControl(undefined, Validators.required),
         // cardExpDate: new FormControl(undefined, Validators.required),
         gender: new FormControl('M', Validators.required),
       });
@@ -127,6 +130,9 @@ export class InputAddUserComponent {
     //   addressNo: new FormControl('499', Validators.required),
     //   building: new FormControl('Benchachinda'),
     //   floor: new FormControl('LL'),
+    //   villageNo: new FormControl(undefined),
+    //   village: new FormControl(undefined),
+    //   alley: new FormControl(undefined),
     //   soi: new FormControl(undefined),
     //   street: new FormControl('กำแพงเพชร6'),
     //   postalCode: new FormControl('10900', Validators.required),
@@ -134,6 +140,23 @@ export class InputAddUserComponent {
     //   district: new FormControl({value: undefined, disabled: true}, Validators.required),
     //   province: new FormControl({value: undefined, disabled: true}, Validators.required),
     // });
+
+    this.addressEtaxForm = this.formBuilder.group({
+      isEtaxAddressSame: new FormControl("4"),
+      isSameWorkAddress: new FormControl(undefined),
+      addressNo: new FormControl(undefined, Validators.required),
+      building: new FormControl(undefined),
+      floor: new FormControl(undefined),
+      villageNo: new FormControl(undefined),
+      village: new FormControl(undefined),
+      alley: new FormControl(undefined),
+      soi: new FormControl(undefined),
+      street: new FormControl(undefined),
+      postalCode: new FormControl(undefined, Validators.required),
+      subDistrict: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      district: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      province: new FormControl({ value: undefined, disabled: true }, Validators.required),
+    });
 
     this.juristicInfoForm = this.formBuilder.group({
       taxId: new FormControl(undefined, Validators.required),
@@ -148,7 +171,12 @@ export class InputAddUserComponent {
       attachDocument: new FormControl(undefined),
     });
 
+    this.termCoditionForm = this.formBuilder.group({
+
+    });
+
     this.otpRequestForm = this.formBuilder.group({
+      email: new FormControl(undefined, [Validators.required, Validators.pattern(CustomRegEx.RegExEmail)]),
       mobilePhone: new FormControl(undefined, [Validators.required, Validators.minLength(10)])
     });
 
@@ -161,32 +189,34 @@ export class InputAddUserComponent {
       digit_6: [, Validators.required],
     });
 
+    this.identityTypeForm = this.formBuilder.group({
+      identityType: new FormControl(undefined, Validators.required),
+    });
+
   }
 
   onPreviousStep(step: string) {
-    // console.log("[onPreviousStep] step => ", step);
-    console.log("[onPreviousStep] step => ", this.step);
+    console.log("[onPreviousStep] befor step => ", this.step);
     this.step--;
     if (this.step === 0) {
       this.router.navigate(['work-space/add-user']);
     }
-    if (this.step === 2 && this.userInfoForm.get('identityType')?.value === 3) {
-      this.step = 1;
+    console.log("[onPreviousStep] after step => ", this.step);
+    if (this.customerType === 1 && this.step === 8 && this.identityTypeForm.get('identityType')?.value === 3) {
+      this.step = 7;
     }
   }
 
   onNextStep(step: string) {
-    console.log("[onNextStep] step => ", step);
-    console.log("[onNext] form => ", this.addressInfoForm.value);
-    if (this.step === 1 && this.userInfoForm.get('identityType')?.value === 3) {
-      this.step = 3;
-    } else {
-      this.step++;
+    console.log("[onNextStep] befor step => ", this.step);
+    this.step++;
+    console.log("[onNextStep] after step => ", this.step);
+    if (this.customerType === 1 && this.step === 8 && this.identityTypeForm.get('identityType')?.value === 3) {
+      this.step = 9;
     }
   }
 
-  onSubmit(event: boolean) {
-    console.log("[onSubmit] event => ", event);
+  onSubmit() {
     console.log("[onSubmit] addressCurrentInfoForm => ", this.addressCurrentInfoForm.value);
     const currentAddressProvince = this.addressCurrentInfoForm.get('province')?.value;
     const currentAddressDistrict = this.addressCurrentInfoForm.get('district')?.value;
@@ -197,6 +227,9 @@ export class InputAddUserComponent {
     const companyAddressProvince = this.occupationDetailForm.get('province')?.value;
     const companyAddressDistrict = this.occupationDetailForm.get('district')?.value;
     const companyAddressSubDistrict = this.occupationDetailForm.get('subDistrict')?.value;
+    const etaxAddressProvince = this.addressEtaxForm.get('province')?.value;
+    const etaxAddressDistrict = this.addressEtaxForm.get('district')?.value;
+    const etaxAddressSubDistrict = this.addressEtaxForm.get('subDistrict')?.value;
     const cardExpDateFormat = this.transformDatePipe.transform(this.userInfoForm.get('cardExpDate')?.value, 'YYYY-MM-DD');
     const birthDateFormat = this.transformDatePipe.transform(this.userInfoForm.get('birthDate')?.value, 'YYYY-MM-DD');
     if (this.customerType === 1) {
@@ -206,9 +239,9 @@ export class InputAddUserComponent {
           title: 'นาย',
           firstName: this.userInfoForm.get('firstName')?.value,
           lastName: this.userInfoForm.get('lastName')?.value,
-          mobilePhone: this.userInfoForm.get('phone')?.value,
-          // email: 'atiiwwat2@gmail.com',
-          citizenDocId: this.userInfoForm.get('identityType')?.value,
+          mobilePhone: this.otpRequestForm.get('mobilePhone')?.value,
+          email: this.otpRequestForm.get('email')?.value,
+          citizenDocId: this.identityTypeForm.get('identityType')?.value,
           citizenId: this.userInfoForm.get('citizenId')?.value,
           cardExpDate: cardExpDateFormat,
           birthdate: birthDateFormat,
@@ -217,7 +250,7 @@ export class InputAddUserComponent {
           taxId: ''
         }, addresses: [
           ...(
-            this.userInfoForm.get('identityType')?.value !== 3 ? [{
+            this.identityTypeForm.get('identityType')?.value !== 3 ? [{
               typeId: "1",
               addressNo: this.addressInfoForm.get('addressNo')?.value,
               building: this.addressInfoForm.get('building')?.value,
@@ -272,6 +305,21 @@ export class InputAddUserComponent {
             // subdistrictCode: "99",
             zipcode: this.occupationDetailForm.get('postalCode')?.value,
           },
+          {
+            typeId: "4",
+            addressNo: this.addressEtaxForm.get('addressNo')?.value,
+            building: this.addressEtaxForm.get('building')?.value,
+            floor: this.addressEtaxForm.get('floor')?.value,
+            villageNo: this.addressEtaxForm.get('villageNo')?.value,
+            village: this.addressEtaxForm.get('village')?.value,
+            alley: this.addressEtaxForm.get('alley')?.value,
+            soi: this.addressEtaxForm.get('soi')?.value,
+            street: this.addressEtaxForm.get('street')?.value,
+            provinceCode: etaxAddressProvince.id,
+            districtCode: etaxAddressDistrict.id,
+            subdistrictCode: etaxAddressSubDistrict.subdistrict.id,
+            zipcode: this.addressEtaxForm.get('postalCode')?.value,
+          },
         ]
 
       }
@@ -308,12 +356,12 @@ export class InputAddUserComponent {
           title: 'นาย',
           firstName: this.userInfoForm.get('firstName')?.value,
           lastName: this.userInfoForm.get('lastName')?.value,
-          mobilePhone: this.userInfoForm.get('phone')?.value,
-          // email: 'atiiwwat2@gmail.com',
+          mobilePhone: this.otpRequestForm.get('mobilePhone')?.value,
+          email: this.otpRequestForm.get('email')?.value,
           // citizenDocId: this.userInfoForm.get('identityType')?.value,
           citizenDocId: 4,
-          // citizenId: this.userInfoForm.get('citizenId')?.value,
-          citizenId: this.juristicInfoForm.get('taxId')?.value,
+          citizenId: this.userInfoForm.get('citizenId')?.value,
+          // citizenId: this.juristicInfoForm.get('taxId')?.value,
           // cardExpDate: cardExpDateFormat,
           birthdate: birthDateFormat,
           // occupation: this.occupationDetailForm.get('occupation')?.value,
@@ -344,6 +392,21 @@ export class InputAddUserComponent {
             // districtCode: "04",
             // subdistrictCode: "99",
             zipcode: this.addressInfoForm.get('postalCode')?.value,
+          },
+          {
+            typeId: "4",
+            addressNo: this.addressEtaxForm.get('addressNo')?.value,
+            building: this.addressEtaxForm.get('building')?.value,
+            floor: this.addressEtaxForm.get('floor')?.value,
+            villageNo: this.addressEtaxForm.get('villageNo')?.value,
+            village: this.addressEtaxForm.get('village')?.value,
+            alley: this.addressEtaxForm.get('alley')?.value,
+            soi: this.addressEtaxForm.get('soi')?.value,
+            street: this.addressEtaxForm.get('street')?.value,
+            provinceCode: etaxAddressProvince.id,
+            districtCode: etaxAddressDistrict.id,
+            subdistrictCode: etaxAddressSubDistrict.subdistrict.id,
+            zipcode: this.addressEtaxForm.get('postalCode')?.value,
           },
         ]
 

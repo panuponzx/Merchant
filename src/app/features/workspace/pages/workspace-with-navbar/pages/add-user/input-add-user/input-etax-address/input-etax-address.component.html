@@ -8,17 +8,48 @@
     <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
         <hr class="hr-custom" />
         <div class="body-wrapper">
-            <h3 class="mb-3">ข้อมูลที่ปัจจุบัน</h3>
+            <h3 class="mb-3">ข้อมูลที่อยู่สำหรับการขอใบกำกับภาษี</h3>
             <form [formGroup]="form">
-                <div *ngIf="identityType !== 3" class="row">
+                <div *ngIf="customerType === 1" class="row">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="isEtaxAddressSame"
+                            id="sameIdCardAddressRadio" formControlName="isEtaxAddressSame" value="1"
+                            (change)="onChangeSameAddress($event)">
+                        <label class="label-input" for="sameIdCardAddressRadio">
+                            เหมือนที่อยู่ตามบัตรประชาชน
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="isEtaxAddressSame"
+                            id="sameCurrentAddressRadio" formControlName="isEtaxAddressSame" value="2"
+                            (change)="onChangeSameAddress($event)">
+                        <label class="label-input" for="sameCurrentAddressRadio">
+                            เหมือนที่อยู่ปัจจุบัน
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="isEtaxAddressSame" id="sameWorkAddressRadio"
+                            formControlName="isEtaxAddressSame" value="3" (change)="onChangeSameAddress($event)">
+                        <label class="label-input" for="sameWorkAddressRadio">
+                            เหมือนที่อยู่ที่ทำงาน
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="isEtaxAddressSame" id="customAddressRadio"
+                            formControlName="isEtaxAddressSame" value="4" (change)="onChangeSameAddress($event)">
+                        <label class="label-input" for="customAddressRadio">
+                            กำหนดเอง
+                        </label>
+                    </div>
+                </div>
+                <div *ngIf="customerType === 2" class="row">
                     <div class="col-sm-12 col-md-6 mb-3">
                         <div class="form-check">
-                            <label class="form-check-label" for="isCurrentAddressSameIdcardCheckbox">
-                                เหมือนตามที่อยู่ตามบัตรประชาชน
-                            </label>
-                            <input class="form-check-input" type="checkbox" (change)="onChangeSameAddress($event)"
-                                id="isCurrentAddressSameIdcardCheckbox" formControlName="isCurrentAddressSameIdcard">
-                        </div>
+                            <label class="form-check-label" for="sameWorkAddressRadio">
+                                เหมือนที่อยู่บริษัท
+                              </label>
+                            <input class="form-check-input" type="checkbox" (change)="onChangeSameWorkAddress($event)" id="sameWorkAddressRadio" formControlName="isSameWorkAddress">
+                          </div>
                     </div>
                 </div>
                 <div class="row">
@@ -28,11 +59,9 @@
                                 เลขที่
                             </label>
                             <input [ngClass]="{
-                                'is-invalid':  form.get('addressNo').errors?.['required'] && form.get('addressNo').touched
+                                'is-invalid':  form.get('addressNo')?.errors?.['required'] && form.get('addressNo')?.touched
                               }" class="form-control" data-testid="addressNoInput" formControlName="addressNo"
                                 id="addressNoInput" type="text">
-                            <!-- <small *ngIf="form.get('addressNo').errors?.['required'] && form.get('addressNo').touched"
-                                class="req-text">*โปรดระบุเลขที่</small> -->
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="buildingInput">
@@ -90,48 +119,40 @@
                                 รหัสไปรษณีย์
                             </label>
                             <input [ngClass]="{
-                                'is-invalid':  form.get('postalCode').errors?.['required'] && form.get('postalCode').touched
+                                'is-invalid':  form.get('postalCode')?.errors?.['required'] && form.get('postalCode')?.touched
                               }" class="form-control" data-testid="postalCodeInput" (keyup)="onKeyUpPostalCode($event)"
                                 mask="00000" formControlName="postalCode" id="postalCodeInput" type="text">
-                            <!-- <small *ngIf="form.get('postalCode').errors?.['required'] && form.get('postalCode').touched"
-                                class="req-text">*โปรดระบุรหัสไปรษณีย์</small> -->
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="subDistrictInput">
                                 แขวง/ตำบล
                             </label>
                             <ng-select [ngClass]="{
-                                'is-invalid':  form.get('subDistrict').errors?.['required'] && form.get('subDistrict').touched
+                                'is-invalid':  form.get('subDistrict')?.errors?.['required'] && form.get('subDistrict')?.touched
                               }" class="form-control" [clearable]="false" bindLabel="subdistrict.name"
                                 id="subDistrictInput" data-testid="subDistrictInput" formControlName="subDistrict"
                                 (change)="onChangeSubDistrict($event)" [items]="postalCodeList">
                             </ng-select>
-                            <!-- <small *ngIf="form.get('subDistrict').errors?.['required'] && form.get('subdistrict').touched"
-                                class="req-text">*โปรดระบุ แขวง/ตำบล</small> -->
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="districtInput">
                                 เขต/อำเภอ
                             </label>
                             <ng-select [ngClass]="{
-                                'is-invalid':  form.get('district').errors?.['required'] && form.get('district').touched
+                                'is-invalid':  form.get('district')?.errors?.['required'] && form.get('district')?.touched
                               }" class="form-control" [clearable]="false" bindLabel="name" data-testid="districtInput"
                                 formControlName="district" id="districtInput" [items]="districtList">
                             </ng-select>
-                            <!-- <small *ngIf="form.get('district').errors?.['required'] && form.get('district').touched"
-                                class="req-text">*โปรดระบุ เขต/อำเภอ</small> -->
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="provinceInput">
                                 จังหวัด
                             </label>
                             <ng-select [ngClass]="{
-                                'is-invalid':  form.get('province').errors?.['required'] && form.get('province').touched
+                                'is-invalid':  form.get('province')?.errors?.['required'] && form.get('province')?.touched
                               }" class="form-control" [clearable]="false" bindLabel="name" data-testid="provinceInput"
                                 formControlName="province" id="provinceInput" [items]="provinceList">
                             </ng-select>
-                            <!-- <small *ngIf="form.get('province').errors?.['required'] && form.get('province').touched"
-                                class="req-text">*โปรดระบุ จังหวัด</small> -->
                         </div>
                     </div>
                 </div>
