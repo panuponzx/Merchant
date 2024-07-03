@@ -84,7 +84,8 @@
                         </label>
                         <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
                             formControlName="startDate" [id]="'dateDatePicker'" [invalid]="submitted ? true : false"
-                            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"
+                            [minDate]="today" [maxDate]="form.get('endDate')?.value"></date-picker>
                     </div>
                     <div class="col-12 mb-3">
                         <label class="label-input required-field" for="dateDatePicker">
@@ -92,7 +93,8 @@
                         </label>
                         <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
                             formControlName="endDate" [id]="'dateDatePicker'" [invalid]="submitted ? true : false"
-                            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"
+                            [minDate]="form.get('startDate')?.value || today"></date-picker>
                     </div>
                     <div class="col-12 mb-3">
                         <label class="label-input required-field" for="identificationInput">

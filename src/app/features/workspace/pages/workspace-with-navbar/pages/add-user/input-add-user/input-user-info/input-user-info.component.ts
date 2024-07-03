@@ -29,7 +29,7 @@ export class InputUserInfoComponent implements AfterContentInit {
       id: 3
     }
   ];
-  public minDate: Date = new Date();
+  public today: Date = new Date();
 
   constructor() {
   }

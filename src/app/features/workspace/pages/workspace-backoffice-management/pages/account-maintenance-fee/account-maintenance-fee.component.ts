@@ -18,7 +18,9 @@ export class AccountMaintenanceFeeComponent {
   public form: FormGroup;
 
   public isHiddenFillter: boolean = false;
-  
+
+  public today: Date = new Date();
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -43,5 +45,5 @@ export class AccountMaintenanceFeeComponent {
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
   }
-  
+
 }

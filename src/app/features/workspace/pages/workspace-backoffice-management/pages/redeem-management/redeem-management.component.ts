@@ -25,7 +25,7 @@ export class RedeemManagementComponent {
 
   public isLoading = false;
 
-
+  public today: Date = new Date();
 
   constructor(
     private formBuilder: FormBuilder,

@@ -29,7 +29,8 @@
             <label class="label-input text-nowrap" for="startDateDatepicker">
               วันที่ (จาก)
             </label>
-            <date-picker class="datepicker-input" [minMode]="'month'" [minDate]="minDate" [maxDate]="maxDate"
+            <date-picker class="datepicker-input" [minMode]="'month'" [minDate]="minDate"
+              [maxDate]="form.get('endDate')?.value || maxDate"
               [clearable]="true" format="MMMM YYYY" formControlName="startDate"
               [id]="'startDateDatePicker'" [invalid]="form.controls['startDate'].errors ? true : false"
               [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
@@ -39,9 +40,9 @@
               วันที่ (ถึง)
             </label>
             <date-picker class="datepicker-input" [minMode]="'month'"
-              [minDate]="minDate" [maxDate]="maxDate"
+              [minDate]="form.get('startDate')?.value || minDate" [maxDate]="maxDate"
               [clearable]="true" format="MMMM YYYY" formControlName="endDate"
-              [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value"
+              [id]="'endDateDatePicker'"
               [invalid]="form.controls['endDate'].errors ? true : false" locale="th"
               [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
 

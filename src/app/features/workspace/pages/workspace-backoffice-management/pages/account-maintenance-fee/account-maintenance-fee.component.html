@@ -15,7 +15,7 @@
                     <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
                         formControlName="date" [id]="'dateDatePicker'"
                         [invalid]="submitted && form.controls['date'].errors ? true : false" locale="th"
-                        [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                        [placeholder]="'กรุณาระบุ'" [placement]="'bottom'" [maxDate]="today"></date-picker>
                 </div>
                 <div class="col-12 col-md-4">
                     <label class="label-input text-nowrap" for="walletSelect">

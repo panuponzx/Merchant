@@ -45,6 +45,8 @@ export class PassageInfoComponent implements OnInit {
 
   public columnMode = ColumnMode;
 
+  public maxDate: Date = new Date();
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,

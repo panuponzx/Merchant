@@ -16,12 +16,12 @@
                             <label class="label-input required-field" for="subDistrictInput">
                                 หน่วยงาน
                             </label>
-                            <ng-select 
+                            <ng-select
                                 class="form-control"
-                                [clearable]="false" 
+                                [clearable]="false"
                                 bindLabel="name"
                                 id="subDistrictInput"
-                                data-testid="subDistrictInput" 
+                                data-testid="subDistrictInput"
                                 formControlName="company"
                                 [items]="[]">
                             </ng-select>
@@ -40,7 +40,8 @@
                             </label>
                             <date-picker class="datepicker-input" [clearable]="false" format="DD/MM/YYYY"
                                 formControlName="cardExpDate" [id]="'expiredDateDatePicker'" locale="th"
-                                [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" ></date-picker>
+                                [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"
+                                [minDate]="today"></date-picker>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input" for="gender">
@@ -63,12 +64,12 @@
                             <label class="label-input required-field" for="postalCodeInput">
                                 แผนก
                             </label>
-                            <ng-select 
+                            <ng-select
                                 class="form-control"
-                                [clearable]="false" 
+                                [clearable]="false"
                                 bindLabel="name"
                                 id="subDistrictInput"
-                                data-testid="subDistrictInput" 
+                                data-testid="subDistrictInput"
                                 formControlName="department"
                                 [items]="[]">
                             </ng-select>
@@ -94,7 +95,8 @@
                             </label>
                             <date-picker class="datepicker-input" [clearable]="false" format="DD/MM/YYYY"
                                 formControlName="birthDate" [id]="'birthDateDatePicker'" locale="th"
-                                [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                                [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"
+                                [maxDate]="today"></date-picker>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="phone">

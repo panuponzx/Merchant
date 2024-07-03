@@ -48,7 +48,7 @@
                                 [invalid]="submitted && form.get('cardExpDate')!.errors" [clearable]="false"
                                 format="DD/MM/YYYY" formControlName="cardExpDate" [id]="'expiredDateDatePicker'"
                                 locale="th" [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"
-                                [minDate]="minDate"></date-picker>
+                                [minDate]="today"></date-picker>
                             <!-- <small class="req-text" *ngif="form.get('identityType')?.value === 1 && form.get('cardExpDate').errors?.['required'] && form.get('cardExpDate').touched ">
                                 *โปรดใส่วันหมดอายุบัตร</small>
                             <small class="req-text" *ngif="form.get('identityType')?.value === 3 && form.get('cardExpDate').errors?.['required'] && form.get('cardExpDate').touched ">
@@ -116,7 +116,7 @@
                             <date-picker class="datepicker-input" [invalid]="submitted && form.get('birthDate')!.errors"
                                 [clearable]="false" format="DD/MM/YYYY" formControlName="birthDate"
                                 [id]="'birthDateDatePicker'" locale="th" [placeholder]="'วันที่ เดือน ปี'"
-                                [placement]="'bottom'"></date-picker>
+                                [placement]="'bottom'" [maxDate]="today"></date-picker>
                             <!-- <small class="req-text" *ngif="form.get('birthDate').errors?.['required'] && form.get('birthDate').touched ">
                             </small> -->
 

@@ -251,7 +251,7 @@
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY, HH:mm"
                             formControlName="startdate" [id]="'birthDateDatePicke'" locale="th"
                             [placeholder]="'วันที่ เดือน ปี เวลา'" [placement]="'bottom'" [isDisabled]="isBaseCampaign"
-                            [minDate]="today" [timePicker]="true"></date-picker>
+                            [minDate]="today" [maxDate]="form.value.enddate" [timePicker]="true"></date-picker>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 mb-3">

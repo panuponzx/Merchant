@@ -52,6 +52,7 @@
               locale="th"
               [placeholder]="'กรุณาระบุ'"
               [placement]="'bottom'"
+              [maxDate]="form.get('endDate')?.value || maxDate"
             ></date-picker>
           </div>
           <div class="col-12 col-sm-4">
@@ -68,6 +69,7 @@
               formControlName="endDate"
               [id]="'endDateDatePicker'"
               [minDate]="form.get('startDate')?.value"
+              [maxDate]="maxDate"
               [invalid]="submitted && form.controls['endDate'].errors ? true : false"
               locale="th"
               [placeholder]="'กรุณาระบุ'"
@@ -81,14 +83,14 @@
             >
               กระเป๋าเงิน
             </label>
-            <ng-select 
-            class="form-control" 
-            [clearable]="false" 
-            bindLabel="name" 
+            <ng-select
+            class="form-control"
+            [clearable]="false"
+            bindLabel="name"
             bindValue="id"
-            data-testid="walletSelect" 
-            formControlName="walletId" 
-            [placeholder]="'กรุณาระบุ'" 
+            data-testid="walletSelect"
+            formControlName="walletId"
+            [placeholder]="'กรุณาระบุ'"
             id="walletSelect"
             [items]="wallets"
             ></ng-select>
@@ -124,4 +126,3 @@
       </ng-container>
     </div>
   </div>
-  

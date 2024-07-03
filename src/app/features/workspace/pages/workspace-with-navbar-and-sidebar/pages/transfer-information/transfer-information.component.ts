@@ -50,6 +50,8 @@ export class TransferInformationComponent implements OnInit {
   public isLoading: boolean = false;
   public isLoadingSearch: boolean = false;
 
+  public maxDate: Date = new Date();
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,

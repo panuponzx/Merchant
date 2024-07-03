@@ -19,6 +19,8 @@ export class ApprovalCancelDeviceComponent {
 
   public isHiddenFillter: boolean = false;
 
+  public maxDate: Date = new Date();
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -43,5 +45,5 @@ export class ApprovalCancelDeviceComponent {
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
   }
-  
+
 }

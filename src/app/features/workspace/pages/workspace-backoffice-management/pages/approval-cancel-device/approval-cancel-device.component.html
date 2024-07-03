@@ -15,14 +15,16 @@
                     <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
                         formControlName="startDate" [id]="'startDateDatePicker'"
                         [invalid]="submitted && form.controls['startDate'].errors ? true : false" locale="th"
-                        [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                        [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"
+                        [maxDate]="form.get('endDate')?.value || maxDate"></date-picker>
                 </div>
                 <div class="col-12 col-md-4">
                     <label class="label-input text-nowrap" for="endDateDatepicker">
                         วันที่ (ถึง)
                     </label>
                     <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
-                        formControlName="endDate" [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value"
+                        formControlName="endDate" [id]="'endDateDatePicker'"
+                        [minDate]="form.get('startDate')?.value" [maxDate]="maxDate"
                         [invalid]="submitted && form.controls['endDate'].errors ? true : false" locale="th"
                         [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
                 </div>

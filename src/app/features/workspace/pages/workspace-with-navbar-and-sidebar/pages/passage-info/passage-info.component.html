@@ -31,7 +31,8 @@
           </label>
           <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="startDate"
             [id]="'startDateDatePicker'" [invalid]="submitted && form.controls['startDate'].errors ? true : false"
-            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"
+            [maxDate]="form.get('endDate')?.value || maxDate"></date-picker>
         </div>
         <div class="col-12 col-sm-4">
           <label class="label-input text-nowrap" for="endDateDatepicker">
@@ -39,7 +40,8 @@
           </label>
           <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="endDate"
             [id]="'endDateDatePicker'" [invalid]="submitted && form.controls['endDate'].errors ? true : false"
-            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"
+            [minDate]="form.get('startDate')?.value" [maxDate]="maxDate"></date-picker>
         </div>
         <div class="col-12 col-sm-4">
           <label class="label-input text-nowrap" for="walletSelect">

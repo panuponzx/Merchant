@@ -23,6 +23,7 @@ export class ExpiredFaremediaListComponent {
   public collectionSize: number = 0;
   public data: any[] = [];
   public pages: number = 1;
+  public maxDate: Date = new Date();
 
   public expiredColumns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },

@@ -15,6 +15,8 @@ export class InputUserInfoType9Component {
   @Output() nextStep: EventEmitter<string> = new EventEmitter<string>();
   @Output() previousStep: EventEmitter<string> = new EventEmitter<string>();
 
+  today: Date = new Date();
+
   footerHeight: number = 0;
 
   onBack() {

@@ -28,7 +28,7 @@ export class GeneralInfoComponent {
     'ยังไม่เปิดการใช้งาน'
   ];
 
-  public minDate: Date = new Date();
+  public today: Date = new Date();
 
   public branchTypeList: { id: number, name: string }[] = [
     { id: 1, name: 'สาขาหลัก' },

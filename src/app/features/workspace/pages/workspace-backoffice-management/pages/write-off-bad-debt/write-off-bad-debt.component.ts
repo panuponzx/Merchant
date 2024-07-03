@@ -31,6 +31,8 @@ export class WriteOffBadDebtComponent {
   ];
   public data: IBill[] = [];
 
+  public maxDate: Date = new Date();
+
   constructor(
     private restApiService: RestApiService,
     private modalDialogService: ModalDialogService,

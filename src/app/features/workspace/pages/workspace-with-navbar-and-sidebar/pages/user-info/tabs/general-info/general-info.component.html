@@ -93,8 +93,8 @@
                   หมายเลขบัตรประชาชน
                 </label>
                 <input [ngClass]="{
-                  'is-invalid': this.form.get('citizenId')?.hasError('pattern') && this.form.get('citizenId')?.touched || 
-                  this.form.get('citizenId')?.errors?.['required'] && this.form.get('citizenId')?.touched 
+                  'is-invalid': this.form.get('citizenId')?.hasError('pattern') && this.form.get('citizenId')?.touched ||
+                  this.form.get('citizenId')?.errors?.['required'] && this.form.get('citizenId')?.touched
                 }" mask="0 0000 00000 00 0" class="form-control" data-testid="identificationInput"
                   formControlName="citizenId" id="identificationInput" type="text">
               </div>
@@ -106,7 +106,7 @@
                 <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                   formControlName="cardExpDate" [id]="'expiredDateDatePicker'"
                   [invalid]="submitted && form.controls['cardExpDate'].errors ? true : false" locale="th"
-                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [minDate]="minDate"></date-picker>
+                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [minDate]="today"></date-picker>
               </div>
 
               <div class="form-group">
@@ -150,7 +150,7 @@
                 <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                   formControlName="birthdate" [id]="'birthDateDatePicke'"
                   [invalid]="submitted && form.controls['birthdate'].errors ? true : false" locale="th"
-                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [maxDate]="today"></date-picker>
               </div>
 
               <div class="form-group">
@@ -190,7 +190,7 @@
                 <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                   formControlName="cardExpDate" [id]="'expiredDateDatePicker'"
                   [invalid]="submitted && form.controls['cardExpDate'].errors ? true : false" locale="th"
-                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [minDate]="minDate"></date-picker>
+                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [minDate]="today"></date-picker>
               </div>
 
               <div class="form-group">
@@ -234,7 +234,7 @@
                 <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                   formControlName="birthdate" [id]="'birthDateDatePicke'"
                   [invalid]="submitted && form.controls['birthdate'].errors ? true : false" locale="th"
-                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                  [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [maxDate]="today"></date-picker>
               </div>
 
               <div class="form-group">
@@ -361,7 +361,7 @@
                           locale="th"
                           [placeholder]="'วันที่ เดือน ปี'"
                           [placement]="'bottom'"
-                          [minDate]="minDate"
+                          [minDate]="today"
                         ></date-picker>
                       </div> -->
 
@@ -406,7 +406,7 @@
                         <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
                           formControlName="birthdate" [id]="'birthDateDatePicke'"
                           [invalid]="submitted && form.controls['birthdate'].errors ? true : false" locale="th"
-                          [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
+                          [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [maxDate]="today"></date-picker>
                       </div>
 
                       <div class="form-group">
