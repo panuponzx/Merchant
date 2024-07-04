@@ -29,7 +29,7 @@
     <h2 class="mb-5">ข้อมูลทั่วไป</h2>
     <form [formGroup]="form">
         <div class="row">
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-lg-4">
                 <h3 class="mb-3">ข้อมูลรายละเอียด</h3>
                 <div class="general-info-wrapper">
                     <div class="navs-container">
@@ -166,9 +166,32 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-4">
-                <h3 class="mb-3">ข้อมูลที่อยู่บริษัท</h3>
-                <div class="col-12 mb-3">
+            <div class="col-sm-12 col-lg-8">
+                <h3 class="mb-3">ข้อมูลที่อยู่</h3>
+                <div class="navs-container">
+                    <ul ngbNav #navAddress="ngbNav" [(activeId)]="activeAddressTab" class="nav-tabs nav-tabs-content mb-3">
+                      <ng-container>
+                        <li [ngbNavItem]="'work-address'">
+                          <button ngbNavLink>ที่อยู่ที่ทำงาน</button>
+                          <ng-template ngbNavContent>
+                            <address [form]="form.controls['work_address'] | formControlToFormGroup">
+                            </address>
+                          </ng-template>
+                        </li>
+                      </ng-container>
+                      <ng-container>
+                        <li [ngbNavItem]="'etax-address'">
+                          <button ngbNavLink>ที่อยู่ใบกำกับภาษี</button>
+                          <ng-template ngbNavContent>
+                            <address [form]="form.controls['etax_address'] | formControlToFormGroup">
+                            </address>
+                          </ng-template>
+                        </li>
+                      </ng-container>
+                    </ul>
+                    <div [ngbNavOutlet]="navAddress" class="navs-content-container"></div>
+                </div>
+                <!-- <div class="col-12 mb-3">
                     <label class="label-input required-field" for="addressNoInput">
                         เลขที่
                     </label>
@@ -224,11 +247,11 @@
                         type="text">
                 </div>
                 <div class="col-12 mb-3">
-                    <label class="label-input required-field" for="postalCodeInput">
+                    <label class="label-input required-field" for="zipcodeInput">
                         รหัสไปรษณีย์
                     </label>
-                    <input class="form-control" data-testid="postalCodeInput" (keyup)="onKeyUpPostalCode($event)"
-                        mask="00000" formControlName="postalCode" id="postalCodeInput" type="text">
+                    <input class="form-control" data-testid="zipcodeInput" (keyup)="onKeyUpzipcode($event)"
+                        mask="00000" formControlName="zipcode" id="zipcodeInput" type="text">
                 </div>
                 <div class="col-12 mb-3">
                     <label class="label-input required-field" for="subDistrictInput">
@@ -236,7 +259,7 @@
                     </label>
                     <ng-select class="form-control" [clearable]="false" bindLabel="subdistrict.name"
                         id="subDistrictInput" data-testid="subDistrictInput" formControlName="subDistrict"
-                        (change)="onChangeSubDistrict($event)" [items]="postalCodeList">
+                        (change)="onChangeSubDistrict($event)" [items]="zipcodeList">
                     </ng-select>
                 </div>
                 <div class="col-12 mb-3">
@@ -254,7 +277,7 @@
                     <ng-select class="form-control" [clearable]="false" bindLabel="name" data-testid="provinceInput"
                         formControlName="province" id="provinceInput" [items]="provinceList">
                     </ng-select>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="d-flex justify-content-center">

@@ -404,8 +404,11 @@ export class InputAddUserComponent {
             soi: this.addressEtaxForm.get('soi')?.value,
             street: this.addressEtaxForm.get('street')?.value,
             provinceCode: etaxAddressProvince.id,
+            provinceName: etaxAddressProvince?.name,
             districtCode: etaxAddressDistrict.id,
+            districtName: etaxAddressDistrict?.name,
             subdistrictCode: etaxAddressSubDistrict.subdistrict.id,
+            subdistrictName: etaxAddressSubDistrict?.subdistrict.name,
             zipcode: this.addressEtaxForm.get('postalCode')?.value,
           },
         ]

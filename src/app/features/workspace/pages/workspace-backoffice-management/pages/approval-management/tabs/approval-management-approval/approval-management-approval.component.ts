@@ -52,13 +52,9 @@ export class ApprovalManagementApprovalComponent {
   public rowDescription: any = {};
 
   public detailInformationTab: string | 'information-company' | 'information-visitor' = 'information-visitor';
-  public minDate: Date = new Date();
+  public activeAddressTab: string | undefined;
 
-  public postalCodeChanged = new Subject<string>();
-  public postalCodeList: any = [];
-  public subDistrictList: any = [];
-  public districtList: any = [];
-  public provinceList: any = [];
+  public minDate: Date = new Date();
 
   public pendingRequest: IPendingRequest = {
     type: 0,
@@ -94,39 +90,7 @@ export class ApprovalManagementApprovalComponent {
     private modalDialogService: ModalDialogService,
     private ngbModal: NgbModal
   ) {
-    this.postalCodeChanged.pipe(switchMap((searchText: any) => {
-      console.log("[subscribe] res => ", searchText);
-      if (searchText.length === 5) {
-        return this.restApiService.get(`zip-code/code/${searchText}`);
-      } else {
-        return of([]);
-      }
-    })).subscribe(async (res: any) => {
-      console.log("[subscribe] res => ", res);
-      this.postalCodeList = await res.zipCodes;
-      console.log("[subscribe] res => ", this.postalCodeList);
-      // debugger;
-      if (this.postalCodeList && this.postalCodeList.length === 0 || res && Object.keys(res).length === 0) {
-        // this.form.get('subDistrict')?.disable();
-        this.form.get('subDistrict')?.setValue(undefined);
-        this.form.get('district')?.setValue(undefined);
-        this.form.get('province')?.setValue(undefined);
-      } else {
-        // this.form.get('subDistrict')?.enable();
-        const district: string = this.form.get('district')?.value;
-        const subDistrict: string = this.form.get('subDistrict')?.value;
-        if (this.form.get('subDistrict')?.value) {
-          const dd = this.postalCodeList.find((res: any) => res.districtId === Number(district) && res.subdistrict.id === Number(subDistrict));
-          console.log("[subscribe] dd => ", dd);
-          this.form.get('subDistrict')?.setValue(dd);
-          this.districtList = [dd.subdistrict.district];
-          this.provinceList = [dd.subdistrict.district.province];
-          this.form.get('district')?.setValue(dd.subdistrict.district);
-          this.form.get('province')?.setValue(dd.subdistrict.district.province);
-        }
-      };
-    });
-
+    
     this.form = this.formBuilder.group({
       id: new FormControl({ value: undefined, disabled: true }, Validators.required),
       citizenDocId: new FormControl({ value: undefined, disabled: true }, Validators.required),
@@ -144,18 +108,43 @@ export class ApprovalManagementApprovalComponent {
       branchName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       branchNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
       companyNumber: new FormControl({ value: undefined, disabled: true }, Validators.required),
-      addressNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
-      building: new FormControl({ value: undefined, disabled: true }),
-      floor: new FormControl({ value: undefined, disabled: true }),
-      villageNo: new FormControl({ value: undefined, disabled: true }),
-      village: new FormControl({ value: undefined, disabled: true }),
-      alley: new FormControl({ value: undefined, disabled: true }),
-      soi: new FormControl({ value: undefined, disabled: true }),
-      street: new FormControl({ value: undefined, disabled: true }),
-      postalCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
-      subDistrict: new FormControl({ value: undefined, disabled: true }, Validators.required),
-      district: new FormControl({ value: undefined, disabled: true }, Validators.required),
-      province: new FormControl({ value: undefined, disabled: true }, Validators.required),
+
+      work_address: new FormGroup({
+        typeId: new FormControl(undefined),
+        addressNo: new FormControl({ value: undefined, disabled: true }, [Validators.required]),
+        building: new FormControl({ value: undefined, disabled: true }),
+        floor: new FormControl({ value: undefined, disabled: true }),
+        villageNo: new FormControl({ value: undefined, disabled: true }),
+        village: new FormControl({ value: undefined, disabled: true }),
+        alley: new FormControl({ value: undefined, disabled: true }),
+        soi: new FormControl({ value: undefined, disabled: true }),
+        street: new FormControl({ value: undefined, disabled: true }),
+        zipcode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        subdistrictCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        subdistrictName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        districtCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        districtName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        provinceCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        provinceName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      }),
+      etax_address: new FormGroup({
+        typeId: new FormControl(undefined),
+        addressNo: new FormControl({ value: undefined, disabled: true }, [Validators.required]),
+        building: new FormControl({ value: undefined, disabled: true }),
+        floor: new FormControl({ value: undefined, disabled: true }),
+        villageNo: new FormControl({ value: undefined, disabled: true }),
+        village: new FormControl({ value: undefined, disabled: true }),
+        alley: new FormControl({ value: undefined, disabled: true }),
+        soi: new FormControl({ value: undefined, disabled: true }),
+        street: new FormControl({ value: undefined, disabled: true }),
+        zipcode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        subdistrictCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        subdistrictName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        districtCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        districtName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        provinceCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        provinceName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      }),
     });
     // this.tempRows = this.rows;
     // this.collectionSize = this.rows.length;
@@ -200,18 +189,6 @@ export class ApprovalManagementApprovalComponent {
 
   }
 
-  onKeyUpPostalCode(event: any) {
-    this.postalCodeChanged.next(event.target.value);
-  }
-
-  onChangeSubDistrict(even: any) {
-    console.log("[onChangeSubDistrict] even => ", even);
-    this.districtList = [even.subdistrict.district];
-    this.provinceList = [even.subdistrict.district.province];
-    this.form.get('district')?.setValue(this.districtList[0]);
-    this.form.get('province')?.setValue(this.provinceList[0]);
-  }
-
   onChangePage(event: number) {
     this.pages = event;
     // console.log("[onChangePage] event => ", event);
@@ -241,7 +218,6 @@ export class ApprovalManagementApprovalComponent {
   onAction(event: RowActionEventModel) {
     console.info(event);
     console.log("[onAction] form => ", this.form.value);
-    this.isShowDescription = true;
     this.form.get('id')?.setValue(event.row.id);
     this.form.get('citizenDocId')?.setValue(event.row.eventValue.customer.citizenDocId);
     this.form.get('pictures')?.setValue(event.row.eventValue.customer.pictures);
@@ -260,30 +236,53 @@ export class ApprovalManagementApprovalComponent {
     this.setDisableBranch(event.row.eventValue.customer.branchTypeId);
     event.row.eventValue.addresses.forEach((x: any) => {
       if (Number(x.typeId) === 3) {
-        this.form.get('addressNo')?.setValue(x.addressNo);
-        this.form.get('building')?.setValue(x.building);
-        this.form.get('floor')?.setValue(x.floor);
-        this.form.get('villageNo')?.setValue(x.villageNo);
-        this.form.get('village')?.setValue(x.village);
-        this.form.get('alley')?.setValue(x.alley);
-        this.form.get('soi')?.setValue(x.soi);
-        this.form.get('street')?.setValue(x.street);
-        this.form.get('postalCode')?.setValue(x.zipcode);
-        this.form.get('subDistrict')?.setValue(x.subdistrictCode);
-        this.form.get('district')?.setValue(x.districtCode);
-        this.form.get('province')?.setValue(x.provinceCode);
-        console.log("[onAction] zipcode => ", x.zipcode);
-        this.postalCodeChanged.next(x.zipcode);
+        // this.zipcodeChanged.next(x.zipcode);
+        this.form.get('work_address')?.get('typeId')?.setValue(x.typeId);
+        this.form.get('work_address')?.get('addressNo')?.setValue(x.addressNo);
+        this.form.get('work_address')?.get('building')?.setValue(x.building);
+        this.form.get('work_address')?.get('floor')?.setValue(x.floor);
+        this.form.get('work_address')?.get('villageNo')?.setValue(x.villageNo);
+        this.form.get('work_address')?.get('village')?.setValue(x.village);
+        this.form.get('work_address')?.get('alley')?.setValue(x.alley);
+        this.form.get('work_address')?.get('soi')?.setValue(x.soi);
+        this.form.get('work_address')?.get('street')?.setValue(x.street);
+        this.form.get('work_address')?.get('zipcode')?.setValue(x.zipcode);
+        this.form.get('work_address')?.get('subdistrictCode')?.setValue(Number(x.subdistrictCode));
+        // this.form.get('work_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
+        this.form.get('work_address')?.get('districtCode')?.setValue(Number(x.districtCode));
+        // this.form.get('work_address')?.get('districtName')?.setValue(x.districtCode);
+        this.form.get('work_address')?.get('provinceCode')?.setValue(Number(x.provinceCode));
+        // this.form.get('work_address')?.get('provinceName')?.setValue(x.provinceCode);
+      }
+      if(Number(x.typeId) === 4) {
+        this.form.get('etax_address')?.get('typeId')?.setValue(x.typeId);
+        this.form.get('etax_address')?.get('addressNo')?.setValue(x.addressNo);
+        this.form.get('etax_address')?.get('building')?.setValue(x.building);
+        this.form.get('etax_address')?.get('floor')?.setValue(x.floor);
+        this.form.get('etax_address')?.get('villageNo')?.setValue(x.villageNo);
+        this.form.get('etax_address')?.get('village')?.setValue(x.village);
+        this.form.get('etax_address')?.get('alley')?.setValue(x.alley);
+        this.form.get('etax_address')?.get('soi')?.setValue(x.soi);
+        this.form.get('etax_address')?.get('street')?.setValue(x.street);
+        this.form.get('etax_address')?.get('zipcode')?.setValue(x.zipcode);
+        this.form.get('etax_address')?.get('subdistrictCode')?.setValue(Number(x.subdistrictCode));
+        // this.form.get('etax_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
+        this.form.get('etax_address')?.get('districtCode')?.setValue(Number(x.districtCode));
+        // this.form.get('etax_address')?.get('districtName')?.setValue(x.districtCode);
+        this.form.get('etax_address')?.get('provinceCode')?.setValue(Number(x.provinceCode));
+        // this.form.get('etax_address')?.get('provinceName')?.setValue(x.provinceCode);
+        // this.zipcodeChanged.next(x.zipcode);
       }
     });
     // this.form.get('cardExpDate')?.setValue(event.row.eventValue.customer.cardExpDate);
     // console.log("[onAction] form => ", this.form.value);
     this.rowDescription = event.row;
     this.hiddenFillterMenu.emit(true);
+    this.isShowDescription = true;
   }
 
   onBack() {
-    // this.postalCodeChanged.unsubscribe();
+    // this.zipcodeChanged.unsubscribe();
     this.form.reset();
     this.isShowDescription = false;
     this.hiddenFillterMenu.emit(false);
@@ -292,9 +291,9 @@ export class ApprovalManagementApprovalComponent {
   onApprove() {
     // const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
     const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
-    const addressProvince = this.form.get('province')?.value;
-    const addressDistrict = this.form.get('district')?.value;
-    const addressSubDistrict = this.form.get('subDistrict')?.value;
+    // const addressProvince = this.form.get('province')?.value;
+    // const addressDistrict = this.form.get('district')?.value;
+    // const addressSubDistrict = this.form.get('subDistrict')?.value;
     const eventValue = {
       customer: {
         customerTypeId: 2,
@@ -318,21 +317,39 @@ export class ApprovalManagementApprovalComponent {
       addresses: [
         {
           typeId: "3",
-          addressNo: this.form.get('addressNo')?.value,
-          building: this.form.get('building')?.value,
-          floor: this.form.get('floor')?.value,
-          villageNo: this.form.get('villageNo')?.value,
-          village: this.form.get('village')?.value,
-          alley: this.form.get('alley')?.value,
-          soi: this.form.get('soi')?.value,
-          street: this.form.get('street')?.value,
-          provinceCode: addressProvince?.id,
-          provinceName: addressProvince?.name,
-          districtCode: addressDistrict?.id,
-          districtName: addressDistrict?.name,
-          subdistrictCode: addressSubDistrict?.subdistrict.id,
-          subdistrictName: addressSubDistrict?.subdistrict.name,
-          zipcode: this.form.get('postalCode')?.value,
+          addressNo: this.form.get('work_address')?.get('addressNo')?.value,
+          building: this.form.get('work_address')?.get('building')?.value,
+          floor: this.form.get('work_address')?.get('floor')?.value,
+          villageNo: this.form.get('work_address')?.get('villageNo')?.value,
+          village: this.form.get('work_address')?.get('village')?.value,
+          alley: this.form.get('work_address')?.get('alley')?.value,
+          soi: this.form.get('work_address')?.get('soi')?.value,
+          street: this.form.get('work_address')?.get('street')?.value,
+          provinceCode: this.form.get('work_address')?.get('provinceCode')?.value,
+          provinceName: this.form.get('work_address')?.get('provinceName')?.value,
+          districtCode: this.form.get('work_address')?.get('districtCode')?.value,
+          districtName: this.form.get('work_address')?.get('districtName')?.value,
+          subdistrictCode: this.form.get('work_address')?.get('subdistrictCode')?.value,
+          subdistrictName: this.form.get('work_address')?.get('subdistrictName')?.value,
+          zipcode: this.form.get('work_address')?.get('zipcode')?.value,
+        },
+        {
+          typeId: "4",
+          addressNo: this.form.get('etax_address')?.get('addressNo')?.value,
+          building: this.form.get('etax_address')?.get('building')?.value,
+          floor: this.form.get('etax_address')?.get('floor')?.value,
+          villageNo: this.form.get('etax_address')?.get('villageNo')?.value,
+          village: this.form.get('etax_address')?.get('village')?.value,
+          alley: this.form.get('etax_address')?.get('alley')?.value,
+          soi: this.form.get('etax_address')?.get('soi')?.value,
+          street: this.form.get('etax_address')?.get('street')?.value,
+          provinceCode: this.form.get('etax_address')?.get('provinceCode')?.value,
+          provinceName: this.form.get('etax_address')?.get('provinceName')?.value,
+          districtCode: this.form.get('etax_address')?.get('districtCode')?.value,
+          districtName: this.form.get('etax_address')?.get('districtName')?.value,
+          subdistrictCode: this.form.get('etax_address')?.get('subdistrictCode')?.value,
+          subdistrictName: this.form.get('etax_address')?.get('subdistrictName')?.value,
+          zipcode: this.form.get('etax_address')?.get('zipcode')?.value,
         }
       ]
     };
@@ -404,21 +421,39 @@ export class ApprovalManagementApprovalComponent {
       addresses: [
         {
           typeId: "3",
-          addressNo: this.form.get('addressNo')?.value,
-          building: this.form.get('building')?.value,
-          floor: this.form.get('floor')?.value,
-          villageNo: this.form.get('villageNo')?.value,
-          village: this.form.get('village')?.value,
-          alley: this.form.get('alley')?.value,
-          soi: this.form.get('soi')?.value,
-          street: this.form.get('street')?.value,
-          provinceCode: addressProvince?.id,
-          provinceName: addressProvince?.name,
-          districtCode: addressDistrict?.id,
-          districtName: addressDistrict?.name,
-          subdistrictCode: addressSubDistrict?.subdistrict.id,
-          subdistrictName: addressSubDistrict?.subdistrict.name,
-          zipcode: this.form.get('postalCode')?.value,
+          addressNo: this.form.get('work_address')?.get('addressNo')?.value,
+          building: this.form.get('work_address')?.get('building')?.value,
+          floor: this.form.get('work_address')?.get('floor')?.value,
+          villageNo: this.form.get('work_address')?.get('villageNo')?.value,
+          village: this.form.get('work_address')?.get('village')?.value,
+          alley: this.form.get('work_address')?.get('alley')?.value,
+          soi: this.form.get('work_address')?.get('soi')?.value,
+          street: this.form.get('work_address')?.get('street')?.value,
+          provinceCode: this.form.get('work_address')?.get('provinceCode')?.value,
+          provinceName: this.form.get('work_address')?.get('provinceName')?.value,
+          districtCode: this.form.get('work_address')?.get('districtCode')?.value,
+          districtName: this.form.get('work_address')?.get('districtName')?.value,
+          subdistrictCode: this.form.get('work_address')?.get('subdistrictCode')?.value,
+          subdistrictName: this.form.get('work_address')?.get('subdistrictName')?.value,
+          zipcode: this.form.get('work_address')?.get('zipcode')?.value,
+        },
+        {
+          typeId: "4",
+          addressNo: this.form.get('etax_address')?.get('addressNo')?.value,
+          building: this.form.get('etax_address')?.get('building')?.value,
+          floor: this.form.get('etax_address')?.get('floor')?.value,
+          villageNo: this.form.get('etax_address')?.get('villageNo')?.value,
+          village: this.form.get('etax_address')?.get('village')?.value,
+          alley: this.form.get('etax_address')?.get('alley')?.value,
+          soi: this.form.get('etax_address')?.get('soi')?.value,
+          street: this.form.get('etax_address')?.get('street')?.value,
+          provinceCode: this.form.get('etax_address')?.get('provinceCode')?.value,
+          provinceName: this.form.get('etax_address')?.get('provinceName')?.value,
+          districtCode: this.form.get('etax_address')?.get('districtCode')?.value,
+          districtName: this.form.get('etax_address')?.get('districtName')?.value,
+          subdistrictCode: this.form.get('etax_address')?.get('subdistrictCode')?.value,
+          subdistrictName: this.form.get('etax_address')?.get('subdistrictName')?.value,
+          zipcode: this.form.get('etax_address')?.get('zipcode')?.value,
         }
       ]
     };
