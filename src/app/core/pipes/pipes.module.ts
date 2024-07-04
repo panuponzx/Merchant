@@ -12,6 +12,7 @@ import { TransformDatePipe } from './transform-date.pipe';
 import { WalletStatusPipe } from './wallet-status.pipe';
 import { ApproveStatusPipe } from './approve-status.pipe';
 import { FairmediaStatusPipe } from './fairmedia-status.pipe';
+import { BuddhistDate } from './buddhist-date.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FairmediaStatusPipe } from './fairmedia-status.pipe';
     TransformDatePipe,
     WalletStatusPipe,
     ApproveStatusPipe,
-    FairmediaStatusPipe
+    FairmediaStatusPipe,
+    BuddhistDate
   ],
   imports: [
     CommonModule
@@ -41,7 +43,8 @@ import { FairmediaStatusPipe } from './fairmedia-status.pipe';
     TransformDatePipe,
     WalletStatusPipe,
     ApproveStatusPipe,
-    FairmediaStatusPipe
+    FairmediaStatusPipe,
+    BuddhistDate
   ],
   providers: [
     GetRoutePathPipe,
@@ -54,7 +57,8 @@ import { FairmediaStatusPipe } from './fairmedia-status.pipe';
     TransformDatePipe,
     WalletStatusPipe,
     ApproveStatusPipe,
-    FairmediaStatusPipe
+    FairmediaStatusPipe,
+    BuddhistDate
   ]
 })
 export class PipesModule {

@@ -118,6 +118,7 @@ export class MaintenanceCostsComponent {
       firstName: "ทดสอบจำนวนตัวอักษร",
       lastName: "ตัวหนังสือที่ยาวมาก",
       mobilePhone: "0098998098",
+      updateDate: "2024-04-01 12:58:22",
       citizenId: "5432178998791",
       channelId: 100,
       gender: "M",

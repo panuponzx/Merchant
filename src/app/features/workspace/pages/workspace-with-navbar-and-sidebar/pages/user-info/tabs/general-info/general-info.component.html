@@ -2,76 +2,6 @@
   <h2 class="mb-3">ข้อมูลทั่วไป</h2>
   <form [formGroup]="form">
     <div class="row g-4">
-      <!-- <div class="col-12 col-sm-4">
-        <h3 class="mb-3">รายละเอียดผู้ใช้งาน</h3>
-        <div class="general-info-wrapper">
-
-          <div class="user-image-wrapper">
-            <img src="assets/images/icons/user_image.svg" alt="User Image">
-          </div>
-
-          <div class="upload-image-wrapper">
-            <button
-              class="custom-btn btn-type-3"
-              data-testid="uploadImageButton"
-              id="uploadImageButton"
-              title="อัพโหลด"
-              (click)="onUpload()"
-            >
-              <icon-svg
-                [color]="'#2255CE'"
-                [size]="'m'"
-                [path]="'assets/images/icons/upload.svg'"
-              />
-              Browse - Upload
-            </button>
-          </div>
-
-          <h3 class="mb-3">ข้อมูลการรับใบกำกับภาษีแบบอัตโนมัติ</h3>
-
-          <div class="form-group">
-            <label class="label-input" for="emailInput">
-              อีเมลที่ต้องการรับใบกำกับภาษี
-            </label>
-            <input
-              class="form-control"
-              data-testid="emailInput"
-              formControlName="email"
-              id="emailInput"
-              type="text"
-              [readonly]="true"
-            >
-          </div>
-
-          <div class="form-group">
-            <button
-              class="custom-btn btn-type-4"
-              data-testid="changeEmailButton"
-              id="changeEmailButton"
-              title="เพิ่ม / เปลี่ยน อีเมลรับใบกำกับภาษี"
-              (click)="onChangeEmail()"
-            >
-              เพิ่ม / เปลี่ยน อีเมลรับใบกำกับภาษี
-            </button>
-          </div>
-
-          <div class="form-group">
-            <label class="label-input required-field" for="autoSelect">
-              การรับเอกสารใบกำกับภาษีอัตโนมัติ
-            </label>
-            <ng-select
-              class="form-control"
-              [clearable]="false"
-              data-testid="autoSelect"
-              id="autoSelect"
-              [items]="settingEmailList"
-              [searchable]="false"
-              [readonly]="!form.controls['email'].value"
-            ></ng-select>
-          </div>
-
-        </div>
-      </div> -->
       <div class="col-sm-12 col-lg-4">
         <ng-container [ngSwitch]="customerTypeId">
           <ng-container *ngSwitchCase="'1'">
@@ -87,7 +17,7 @@
         <div class="general-info-wrapper">
           <ng-container [ngSwitch]="customerTypeId">
             <ng-container *ngSwitchCase="'1'">
-
+              <label class="label-input">แก้ไขล่าสุดเมื่อ {{customer?.updateDate | buddhistDate: 'dd/MM/yyyy HH:mm:ss'}}</label>
               <div class="form-group">
                 <label class="label-input required-field" for="identificationInput">
                   หมายเลขบัตรประชาชน

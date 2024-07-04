@@ -183,6 +183,7 @@ export class CancelDeviceWaitingForApprovalComponent {
       occupation: "พนักงานบริษัท",
       status: 1,
       createDate: "2024-02-27T01:07:16.062+00:00",
+      updateDate: "2024-04-01 12:58:22",
       citizenDocId: 1,
       taxId: "1234567890123",
       branchTypeId: 0,
