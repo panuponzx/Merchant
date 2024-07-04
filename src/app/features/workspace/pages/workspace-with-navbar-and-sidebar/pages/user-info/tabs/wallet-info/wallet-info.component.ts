@@ -75,20 +75,8 @@ export class WalletInfoComponent implements OnInit {
     // );
   }
 
-  onChangeSearch() {
-    if (this.search) {
-      this.walletList = [...this.defaultWalletList]
-        .filter(y => {
-          if (y && y.row) {
-            const isMatch = y.row.findIndex((x: any) => x.obuPan.match(this.search) || x.smartcardNo.match(this.search)) !== -1;
-            if (isMatch) {
-              return y;
-            }
-          }
-        });
-    } else {
-      this.walletList = [...this.defaultWalletList];
-    }
+  onChangeSearch(event: any) {
+    this.walletList = this.defaultWalletList.filter((x: any) => x.walletId.toString().includes(event) || x.walletName.toLowerCase().includes(event.toLowerCase()));
   }
 
   setWallet(lstSummary: IWalletInfoModel[]) {

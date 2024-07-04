@@ -176,6 +176,7 @@ export class CancelDeviceApprovalComponent {
       lastName: "ตัวหนังสือที่ยาวมาก",
       mobilePhone: "0098998098",
       citizenId: "5432178998791",
+      updateDate: "2024-04-01 12:58:22",
       channelId: 100,
       gender: "M",
       cardExpDate: "2024-03-30",
