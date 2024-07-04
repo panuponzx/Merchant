@@ -128,6 +128,28 @@ export class GeneralInfoComponent {
       village: new FormControl(undefined),
       villageNo: new FormControl(undefined),
       zipcode: new FormControl(undefined, [Validators.required]),
+    }),
+    etax_address: new FormGroup({
+      addressNo: new FormControl(undefined, [Validators.required]),
+      building: new FormControl(undefined),
+      createDate: new FormControl(undefined),
+      customerId: new FormControl(undefined),
+      districtCode: new FormControl(undefined, [Validators.required]),
+      districtName: new FormControl(undefined, [Validators.required]),
+      floor: new FormControl(undefined),
+      provinceCode: new FormControl(undefined, [Validators.required]),
+      provinceName: new FormControl(undefined, [Validators.required]),
+      remark: new FormControl(undefined),
+      soi: new FormControl(undefined),
+      street: new FormControl(undefined),
+      subdistrictCode: new FormControl(undefined, [Validators.required]),
+      subdistrictName: new FormControl(undefined, [Validators.required]),
+      typeId: new FormControl(undefined),
+      typeName: new FormControl(undefined),
+      alley: new FormControl(undefined),
+      village: new FormControl(undefined),
+      villageNo: new FormControl(undefined),
+      zipcode: new FormControl(undefined, [Validators.required]),
     })
   });
 
@@ -284,6 +306,21 @@ export class GeneralInfoComponent {
             villageNo: this.form.getRawValue().work_address.villageNo,
             zipcode: this.form.getRawValue().work_address.zipcode,
           },
+          {
+            addressNo: this.form.getRawValue().etax_address.addressNo,
+            alley: this.form.getRawValue().etax_address.alley,
+            building: this.form.getRawValue().etax_address.building,
+            districtCode: this.form.getRawValue().etax_address.districtCode,
+            floor: this.form.getRawValue().etax_address.floor,
+            provinceCode: this.form.getRawValue().etax_address.provinceCode,
+            soi: this.form.getRawValue().etax_address.soi,
+            street: this.form.getRawValue().etax_address.street,
+            subdistrictCode: this.form.getRawValue().etax_address.subdistrictCode,
+            typeId: this.form.getRawValue().etax_address.typeId,
+            village: this.form.getRawValue().etax_address.village,
+            villageNo: this.form.getRawValue().etax_address.villageNo,
+            zipcode: this.form.getRawValue().etax_address.zipcode,
+          },
         ]
       };
       this.modalDialogService.loading();
@@ -336,7 +373,27 @@ export class GeneralInfoComponent {
               village: this.form.getRawValue().work_address.village,
               villageNo: this.form.getRawValue().work_address.villageNo,
               zipcode: this.form.getRawValue().work_address.zipcode,
-            }
+            },
+            {
+              customerId: this.form.getRawValue().etax_address.customerId,
+              addressNo: this.form.getRawValue().etax_address.addressNo,
+              alley: this.form.getRawValue().etax_address.alley,
+              building: this.form.getRawValue().etax_address.building,
+              districtCode: this.form.getRawValue().etax_address.districtCode,
+              districtName: this.form.getRawValue().etax_address.districtName,
+              floor: this.form.getRawValue().etax_address.floor,
+              provinceCode: this.form.getRawValue().etax_address.provinceCode,
+              provinceName: this.form.getRawValue().etax_address.provinceName,
+              soi: this.form.getRawValue().etax_address.soi,
+              street: this.form.getRawValue().etax_address.street,
+              subdistrictCode: this.form.getRawValue().etax_address.subdistrictCode,
+              subdistrictName: this.form.getRawValue().etax_address.subdistrictName,
+              typeId: 4,
+              typeName: this.form.getRawValue().etax_address.typeName,
+              village: this.form.getRawValue().etax_address.village,
+              villageNo: this.form.getRawValue().etax_address.villageNo,
+              zipcode: this.form.getRawValue().etax_address.zipcode,
+            },
           ],
           customer: {
             id: this.customerId,
@@ -487,6 +544,9 @@ export class GeneralInfoComponent {
       if (x.typeId === 3) {
         formControl['work_address'] = newFormGroup;
       }
+      if (x.typeId === 4) {
+        formControl['etax_address'] = newFormGroup;
+      }
     });
     console.log("[setFormValue] => ", this.form.value);
     this.form.valueChanges.subscribe(x => {
@@ -496,6 +556,7 @@ export class GeneralInfoComponent {
     const currentAddressFormGroup = this.form.get('current_address') as FormGroup;
     const registrationAddressFormGroup = this.form.get('registration_address') as FormGroup;
     const workAddressFormGroup = this.form.get('work_address') as FormGroup;
+    const etaxAddressFormGroup = this.form.get('etax_address') as FormGroup;
     currentAddressFormGroup.valueChanges.subscribe(changes => {
       console.log('Current Address changes:', changes);
       this.isUpdated = true;
@@ -506,6 +567,9 @@ export class GeneralInfoComponent {
     });
     workAddressFormGroup.valueChanges.subscribe(changes => {
       console.log('Work Address changes:', changes);
+      this.isUpdated = true;
+    });
+    etaxAddressFormGroup.valueChanges.subscribe(changes => {
       this.isUpdated = true;
     });
 

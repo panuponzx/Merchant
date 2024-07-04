@@ -72,7 +72,7 @@
 
         </div>
       </div> -->
-      <div class="col-sm-12 col-lg-6">
+      <div class="col-sm-12 col-lg-4">
         <ng-container [ngSwitch]="customerTypeId">
           <ng-container *ngSwitchCase="'1'">
             <h3 class="mb-3">ข้อมูลตามบัตรประชาชน</h3>
@@ -436,7 +436,7 @@
 
         </div>
       </div>
-      <div class="col-sm-12 col-lg-6">
+      <div class="col-sm-12 col-lg-8">
         <ng-container [ngSwitch]="customerTypeId">
           <ng-container *ngSwitchCase="'3'">
             <h3 class="mb-3">ข้อมูลที่อยู่บริษัท</h3>
@@ -473,6 +473,15 @@
                     <button ngbNavLink>ที่อยู่ที่ทำงาน</button>
                     <ng-template ngbNavContent>
                       <address [form]="form.controls['work_address'] | formControlToFormGroup" [submitted]="submitted">
+                      </address>
+                    </ng-template>
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="customerTypeId === '1' || customerTypeId === '2' || customerTypeId === '3'">
+                  <li [ngbNavItem]="'etax-address'">
+                    <button ngbNavLink>ที่อยู่ใบกำกับภาษี</button>
+                    <ng-template ngbNavContent>
+                      <address [form]="form.controls['etax_address'] | formControlToFormGroup" [submitted]="submitted">
                       </address>
                     </ng-template>
                   </li>
