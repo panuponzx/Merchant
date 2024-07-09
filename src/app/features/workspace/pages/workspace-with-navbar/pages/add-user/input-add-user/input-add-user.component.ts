@@ -374,7 +374,7 @@ export class InputAddUserComponent {
           branchId: this.juristicInfoForm.get('branchNo')?.value,
         }, addresses: [
           {
-            typeId: AddressTypeEnum.REGISTRATION,
+            typeId: AddressTypeEnum.COMPANY,
             addressNo: this.addressInfoForm.get('addressNo')?.value,
             building: this.addressInfoForm.get('building')?.value,
             floor: this.addressInfoForm.get('floor')?.value,
