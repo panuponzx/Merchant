@@ -7,6 +7,7 @@ import { TransformDatePipe } from '../../../../../../../../core/pipes';
 import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RejectPendingRequestModalComponent } from '../../modals/reject-pending-request-modal/reject-pending-request-modal.component';
+import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
 
 export const PendingRequestEventType = {
   addJuristic: 1,
@@ -235,7 +236,7 @@ export class ApprovalManagementApprovalComponent {
     this.form.get('phone')?.setValue(event.row.eventValue.customer.mobilePhone);
     this.setDisableBranch(event.row.eventValue.customer.branchTypeId);
     event.row.eventValue.addresses.forEach((x: any) => {
-      if (Number(x.typeId) === 3) {
+      if (Number(x.typeId) === AddressTypeEnum.COMPANY) {
         // this.zipcodeChanged.next(x.zipcode);
         this.form.get('work_address')?.get('typeId')?.setValue(x.typeId);
         this.form.get('work_address')?.get('addressNo')?.setValue(x.addressNo);
@@ -254,7 +255,7 @@ export class ApprovalManagementApprovalComponent {
         this.form.get('work_address')?.get('provinceCode')?.setValue(Number(x.provinceCode));
         // this.form.get('work_address')?.get('provinceName')?.setValue(x.provinceCode);
       }
-      if(Number(x.typeId) === 4) {
+      if(Number(x.typeId) === AddressTypeEnum.ETAX) {
         this.form.get('etax_address')?.get('typeId')?.setValue(x.typeId);
         this.form.get('etax_address')?.get('addressNo')?.setValue(x.addressNo);
         this.form.get('etax_address')?.get('building')?.setValue(x.building);
@@ -316,7 +317,7 @@ export class ApprovalManagementApprovalComponent {
       },
       addresses: [
         {
-          typeId: "3",
+          typeId: AddressTypeEnum.COMPANY,
           addressNo: this.form.get('work_address')?.get('addressNo')?.value,
           building: this.form.get('work_address')?.get('building')?.value,
           floor: this.form.get('work_address')?.get('floor')?.value,
@@ -334,7 +335,7 @@ export class ApprovalManagementApprovalComponent {
           zipcode: this.form.get('work_address')?.get('zipcode')?.value,
         },
         {
-          typeId: "4",
+          typeId: AddressTypeEnum.ETAX,
           addressNo: this.form.get('etax_address')?.get('addressNo')?.value,
           building: this.form.get('etax_address')?.get('building')?.value,
           floor: this.form.get('etax_address')?.get('floor')?.value,
@@ -420,7 +421,7 @@ export class ApprovalManagementApprovalComponent {
       },
       addresses: [
         {
-          typeId: "3",
+          typeId: AddressTypeEnum.COMPANY,
           addressNo: this.form.get('work_address')?.get('addressNo')?.value,
           building: this.form.get('work_address')?.get('building')?.value,
           floor: this.form.get('work_address')?.get('floor')?.value,
@@ -438,7 +439,7 @@ export class ApprovalManagementApprovalComponent {
           zipcode: this.form.get('work_address')?.get('zipcode')?.value,
         },
         {
-          typeId: "4",
+          typeId:AddressTypeEnum.ETAX,
           addressNo: this.form.get('etax_address')?.get('addressNo')?.value,
           building: this.form.get('etax_address')?.get('building')?.value,
           floor: this.form.get('etax_address')?.get('floor')?.value,

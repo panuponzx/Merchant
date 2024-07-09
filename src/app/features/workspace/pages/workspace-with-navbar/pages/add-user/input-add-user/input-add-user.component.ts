@@ -5,6 +5,7 @@ import { CustomRegEx, RestApiService } from '../../../../../../../core/services'
 import { first, map } from 'rxjs';
 import { TransformDatePipe } from '../../../../../../../core/pipes';
 import { ModalDialogService } from '../../../../../../../core/services/modal-dialog/modal-dialog.service';
+import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
 
 @Component({
   selector: 'app-input-add-user',
@@ -251,7 +252,7 @@ export class InputAddUserComponent {
         }, addresses: [
           ...(
             this.identityTypeForm.get('identityType')?.value !== 3 ? [{
-              typeId: "1",
+              typeId: AddressTypeEnum.REGISTRATION,
               addressNo: this.addressInfoForm.get('addressNo')?.value,
               building: this.addressInfoForm.get('building')?.value,
               floor: this.addressInfoForm.get('floor')?.value,
@@ -270,7 +271,7 @@ export class InputAddUserComponent {
             }] : []
           ),
           {
-            typeId: "2",
+            typeId: AddressTypeEnum.CURRENT,
             addressNo: this.addressCurrentInfoForm.get('addressNo')?.value,
             building: this.addressCurrentInfoForm.get('building')?.value,
             floor: this.addressCurrentInfoForm.get('floor')?.value,
@@ -288,7 +289,7 @@ export class InputAddUserComponent {
             zipcode: this.addressCurrentInfoForm.get('postalCode')?.value,
           },
           {
-            typeId: "3",
+            typeId: AddressTypeEnum.COMPANY,
             addressNo: this.occupationDetailForm.get('addressNo')?.value,
             building: this.occupationDetailForm.get('building')?.value,
             floor: this.occupationDetailForm.get('floor')?.value,
@@ -306,7 +307,7 @@ export class InputAddUserComponent {
             zipcode: this.occupationDetailForm.get('postalCode')?.value,
           },
           {
-            typeId: "4",
+            typeId: AddressTypeEnum.ETAX,
             addressNo: this.addressEtaxForm.get('addressNo')?.value,
             building: this.addressEtaxForm.get('building')?.value,
             floor: this.addressEtaxForm.get('floor')?.value,
@@ -373,7 +374,7 @@ export class InputAddUserComponent {
           branchId: this.juristicInfoForm.get('branchNo')?.value,
         }, addresses: [
           {
-            typeId: "3",
+            typeId: AddressTypeEnum.REGISTRATION,
             addressNo: this.addressInfoForm.get('addressNo')?.value,
             building: this.addressInfoForm.get('building')?.value,
             floor: this.addressInfoForm.get('floor')?.value,
@@ -394,7 +395,7 @@ export class InputAddUserComponent {
             zipcode: this.addressInfoForm.get('postalCode')?.value,
           },
           {
-            typeId: "4",
+            typeId: AddressTypeEnum.ETAX,
             addressNo: this.addressEtaxForm.get('addressNo')?.value,
             building: this.addressEtaxForm.get('building')?.value,
             floor: this.addressEtaxForm.get('floor')?.value,

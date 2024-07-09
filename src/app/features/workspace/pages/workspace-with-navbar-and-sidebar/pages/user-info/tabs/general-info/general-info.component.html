@@ -367,19 +367,19 @@
         </div>
       </div>
       <div class="col-sm-12 col-lg-8">
-        <ng-container [ngSwitch]="customerTypeId">
+        <!-- <ng-container [ngSwitch]="customerTypeId">
           <ng-container *ngSwitchCase="'3'">
             <h3 class="mb-3">ข้อมูลที่อยู่บริษัท</h3>
           </ng-container>
           <ng-container *ngSwitchDefault>
             <h3 class="mb-3">ข้อมูลที่อยู่</h3>
           </ng-container>
-        </ng-container>
+        </ng-container> -->
+        <h3 class="mb-3">ข้อมูลที่อยู่</h3>
         <ng-container *ngIf="activeAddressTab">
           <div class="general-info-wrapper">
             <div class="navs-container">
-              <ul ngbNav #nav="ngbNav" [(activeId)]="activeAddressTab" class="nav-tabs nav-tabs-content mb-3"
-                [ngClass]="customerTypeId === '3' ? 'd-none' : null">
+              <ul ngbNav #nav="ngbNav" [(activeId)]="activeAddressTab" class="nav-tabs nav-tabs-content mb-3">
                 <ng-container *ngIf="customerTypeId === '1'">
                   <li [ngbNavItem]="'address-on-the-card'">
                     <button ngbNavLink>ที่อยู่ตามบัตร</button>

@@ -5,6 +5,7 @@ import { AddressModel, CustomerModel, ReponseCustomerModel } from '../../../../.
 import { RestApiService, UtilitiesService } from '../../../../../../../../core/services';
 import { TransformDatePipe } from '../../../../../../../../core/pipes';
 import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
+import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
 
 type AddressTabsType = 'address-on-the-card' | 'current-address' | 'work-address';
 type DetailTabsType = 'company-detail' | 'contact-detail';
@@ -44,7 +45,7 @@ export class GeneralInfoComponent {
     cardExpDate: new FormControl(undefined, Validators.required),
     channelId: new FormControl(undefined, Validators.required),
     citizenDocId: new FormControl(undefined, Validators.required),
-    citizenId: new FormControl(undefined, [Validators.required,Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
+    citizenId: new FormControl(undefined, [Validators.required, Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
     createDate: new FormControl(undefined, Validators.required),
     customerTypeId: new FormControl(undefined, Validators.required),
     customerTypeName: new FormControl(undefined, Validators.required),
@@ -252,24 +253,27 @@ export class GeneralInfoComponent {
             channelId: this.requestParam.channelId,
           }
         }, addresses: [
-          {
-            addressNo: this.form.getRawValue().registration_address.addressNo,
-            alley: this.form.getRawValue().registration_address.alley,
-            building: this.form.getRawValue().registration_address.building,
-            // createDate: this.transformDatePipe.transform(this.form.getRawValue().registration_address.createDate, 'YYYY-MM-DD'),
-            // customerId: this.form.getRawValue().registration_address.customerId,
-            districtCode: this.form.getRawValue().registration_address.districtCode,
-            floor: this.form.getRawValue().registration_address.floor,
-            provinceCode: this.form.getRawValue().registration_address.provinceCode,
-            soi: this.form.getRawValue().registration_address.soi,
-            street: this.form.getRawValue().registration_address.street,
-            subdistrictCode: this.form.getRawValue().registration_address.subdistrictCode,
-            typeId: this.form.getRawValue().registration_address.typeId,
-            // typeName: this.form.getRawValue().registration_address.typeName,
-            village: this.form.getRawValue().registration_address.village,
-            villageNo: this.form.getRawValue().registration_address.villageNo,
-            zipcode: this.form.getRawValue().registration_address.zipcode,
-          },
+          ...(
+            this.customerTypeId === '1' ? [{
+              addressNo: this.form.getRawValue().registration_address.addressNo,
+              alley: this.form.getRawValue().registration_address.alley,
+              building: this.form.getRawValue().registration_address.building,
+              // createDate: this.transformDatePipe.transform(this.form.getRawValue().registration_address.createDate, 'YYYY-MM-DD'),
+              // customerId: this.form.getRawValue().registration_address.customerId,
+              districtCode: this.form.getRawValue().registration_address.districtCode,
+              floor: this.form.getRawValue().registration_address.floor,
+              provinceCode: this.form.getRawValue().registration_address.provinceCode,
+              soi: this.form.getRawValue().registration_address.soi,
+              street: this.form.getRawValue().registration_address.street,
+              subdistrictCode: this.form.getRawValue().registration_address.subdistrictCode,
+              // typeId: this.form.getRawValue().registration_address.typeId,
+              typeId: 2,
+              // typeName: this.form.getRawValue().registration_address.typeName,
+              village: this.form.getRawValue().registration_address.village,
+              villageNo: this.form.getRawValue().registration_address.villageNo,
+              zipcode: this.form.getRawValue().registration_address.zipcode,
+            }] : []
+          ),
           {
             addressNo: this.form.getRawValue().current_address.addressNo,
             alley: this.form.getRawValue().current_address.alley,
@@ -282,7 +286,8 @@ export class GeneralInfoComponent {
             soi: this.form.getRawValue().current_address.soi,
             street: this.form.getRawValue().current_address.street,
             subdistrictCode: this.form.getRawValue().current_address.subdistrictCode,
-            typeId: this.form.getRawValue().current_address.typeId,
+            // typeId: this.form.getRawValue().current_address.typeId,
+            typeId: AddressTypeEnum.CURRENT,
             // typeName: this.form.getRawValue().current_address.typeName,
             village: this.form.getRawValue().current_address.village,
             villageNo: this.form.getRawValue().current_address.villageNo,
@@ -300,7 +305,8 @@ export class GeneralInfoComponent {
             soi: this.form.getRawValue().work_address.soi,
             street: this.form.getRawValue().work_address.street,
             subdistrictCode: this.form.getRawValue().work_address.subdistrictCode,
-            typeId: this.form.getRawValue().work_address.typeId,
+            // typeId: this.form.getRawValue().work_address.typeId,
+            typeId: AddressTypeEnum.COMPANY,
             // typeName: this.form.getRawValue().work_address.typeName,
             village: this.form.getRawValue().work_address.village,
             villageNo: this.form.getRawValue().work_address.villageNo,
@@ -316,7 +322,8 @@ export class GeneralInfoComponent {
             soi: this.form.getRawValue().etax_address.soi,
             street: this.form.getRawValue().etax_address.street,
             subdistrictCode: this.form.getRawValue().etax_address.subdistrictCode,
-            typeId: this.form.getRawValue().etax_address.typeId,
+            // typeId: this.form.getRawValue().etax_address.typeId,
+            typeId: AddressTypeEnum.ETAX,
             village: this.form.getRawValue().etax_address.village,
             villageNo: this.form.getRawValue().etax_address.villageNo,
             zipcode: this.form.getRawValue().etax_address.zipcode,
@@ -368,7 +375,7 @@ export class GeneralInfoComponent {
               street: this.form.getRawValue().work_address.street,
               subdistrictCode: this.form.getRawValue().work_address.subdistrictCode,
               subdistrictName: this.form.getRawValue().work_address.subdistrictName,
-              typeId: 3,
+              typeId: AddressTypeEnum.COMPANY,
               typeName: this.form.getRawValue().work_address.typeName,
               village: this.form.getRawValue().work_address.village,
               villageNo: this.form.getRawValue().work_address.villageNo,
@@ -388,7 +395,7 @@ export class GeneralInfoComponent {
               street: this.form.getRawValue().etax_address.street,
               subdistrictCode: this.form.getRawValue().etax_address.subdistrictCode,
               subdistrictName: this.form.getRawValue().etax_address.subdistrictName,
-              typeId: 4,
+              typeId: AddressTypeEnum.ETAX,
               typeName: this.form.getRawValue().etax_address.typeName,
               village: this.form.getRawValue().etax_address.village,
               villageNo: this.form.getRawValue().etax_address.villageNo,
