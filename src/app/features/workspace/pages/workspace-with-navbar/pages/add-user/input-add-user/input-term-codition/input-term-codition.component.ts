@@ -17,6 +17,8 @@ export class InputTermCoditionComponent implements AfterContentInit {
 
   footerHeight: number = 0;
 
+  public isCollapsed: boolean = false;
+
   ngAfterContentInit(): void {
     const footerElement = this.footerRef?.nativeElement as HTMLElement;
     this.footerHeight = footerElement.offsetHeight;

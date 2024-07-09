@@ -536,10 +536,10 @@ export class GeneralInfoComponent {
       });
       console.log('setFormValue typeId => ', x.typeId);
       if (x.typeId === 1) {
-        formControl['registration_address'] = newFormGroup;
+        formControl['current_address'] = newFormGroup;
       }
       if (x.typeId === 2) {
-        formControl['current_address'] = newFormGroup;
+        formControl['registration_address'] = newFormGroup;
       }
       if (x.typeId === 3) {
         formControl['work_address'] = newFormGroup;

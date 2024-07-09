@@ -1,6 +1,6 @@
 <div class="search-container search-user-container h-100 "
-  [ngClass]="tempSearch ? null : 'd-flex align-items-center justify-content-center'" >
-  <div class="search-user-content-wrapper " [ngClass]="tempSearch ? 'mb-5' : null" >
+  [ngClass]="tempSearch ? null : 'd-flex align-items-center justify-content-center'">
+  <div class="search-user-content-wrapper " [ngClass]="tempSearch ? 'mb-5' : null">
     <ng-container *ngIf="tempSearch">
       <div class="mb-4">
         <button class="custom-btn btn-type-3" data-testid="backButton" id="backButton" title="กลับ" type="button"
@@ -10,45 +10,54 @@
       </div>
     </ng-container>
 
-    <h2 class="mb-4" [@fadeInseach] *ngIf="!tempSearch">ค้นหาข้อมูลผู้ใช้งาน</h2 >
-    <h2 class="mb-4"  *ngIf="tempSearch" >
+    <h2 class="mb-4" [@fadeInseach] *ngIf="!tempSearch">ค้นหาข้อมูลผู้ใช้งาน</h2>
+    <h2 class="mb-4" *ngIf="tempSearch">
       ค้นหาข้อมูลผู้ใช้งาน
       {{ form.get('searchType')?.value === 'personal' ? ' - บุคคลธรรมดา' : '' }}
       {{ form.get('searchType')?.value === 'corporate' ? ' - นิติบุคคล / องค์กร' : '' }}
       {{ form.get('searchType')?.value === 'international' ? ' - ชาวต่างชาติ' : '' }}
       {{ form.get('deviceType')?.value === 'obu' ? ' - หมายเลขอุปกรณ์' : '' }}
       {{ form.get('deviceType')?.value === 'smartCard' ? ' - หมายเลขบัตร Smart Card' : '' }}
+      {{ form.get('searchType')?.value === 'licensePlate' ? ' - หมายเลขทะเบียนรถ' : '' }}
     </h2>
 
     <form [formGroup]="form" class="form-wrapper" (ngSubmit)="onSearch()" *ngIf="!tempSearch" [@fadeInseach]>
       <div class="form-check mb-4" [@fadeInOutseach]>
         <input class="form-check-input" id="personalRadio" formControlName="searchType" type="radio" value="personal">
-        <h3 class="form-check-label" for="personal">
+        <label class="form-check-label" for="personalRadio">
           บุคคลธรรมดา
-        </h3>
+        </label>
       </div>
 
       <div class="form-check mb-4" [@fadeInOutseach]>
         <input class="form-check-input" data-testid="corporateRadio" id="corporateRadio" formControlName="searchType"
           type="radio" value="corporate">
-        <h3 class="form-check-label" for="corporateRadio">
+        <label class="form-check-label" for="corporateRadio">
           นิติบุคคล / องค์กร
-        </h3>
+        </label>
       </div>
 
       <div class="form-check mb-4" [@fadeInOutseach]>
         <input class="form-check-input" data-testid="internationalRadio" id="internationalRadio"
           formControlName="searchType" type="radio" value="international">
-        <h3 class="form-check-label" for="internationalRadio">
+        <label class="form-check-label" for="internationalRadio">
           ชาวต่างชาติ
-        </h3>
+        </label>
       </div>
 
       <div class="form-check mb-4" [@fadeInOutseach]>
-        <input class="form-check-input" id="deviceGroup" formControlName="searchType" type="radio" value="device">
-        <h3 class="form-check-label" for="deviceGroup">
+        <input class="form-check-input" id="deviceRadio" formControlName="searchType" type="radio" value="device">
+        <label class="form-check-label" for="deviceRadio">
           หมายเลขอุปกรณ์ / หมายเลขบัตร Smart Card
-        </h3>
+        </label>
+      </div>
+
+      <div class="form-check mb-4" [@fadeInOutseach]>
+        <input class="form-check-input" id="licensePlateRadio" formControlName="searchType" type="radio"
+          value="licensePlate">
+        <label class="form-check-label" for="licensePlateRadio">
+          หมายเลขทะเบียนรถ
+        </label>
       </div>
 
       <div class="ms-3" *ngIf="form.value.searchType === 'device' ">
@@ -70,6 +79,21 @@
 
       </div>
 
+      <div class="mb-3" *ngIf="form.value.searchType === 'licensePlate'" [@fadeInseach]>
+        <label class="label-input">หมายเลขทะเบียน</label>
+        <div class="input-with-icon-wrapper">
+          <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
+          <input id="licensePlate" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
+            formControlName="licensePlate" minlength="2">
+        </div>
+        <div class="d-flex justify-content-end">
+          <span style="font-size: 14px; font-weight: 400;">ระบุหมายเลขทะเบียนรถ เช่น กก1234</span>
+        </div>
+        <div *ngIf="form.get('licensePlate')?.errors?.['required'] && form.get('licensePlate')?.touched">
+          <span class="req-text">*โปรดระบุชื่อ</span>
+        </div>
+      </div>
+
 
       <div class="mb-3" [@fadeInseach]
         *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'corporate' || form.value.searchType === 'international'">
@@ -78,42 +102,50 @@
         <label class="label-input" *ngIf="form.value.searchType === 'international'">หมายเลขหนังสือเดินทาง</label>
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
-          <input *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'corporate'" id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
-            formControlName="identificationId" mask="0 0000 00000 00 0" id="identificationIdInput" type="text" placeholder="กรุณาระบุ">
+          <input *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'corporate'"
+            id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
+            formControlName="identificationId" mask="0 0000 00000 00 0" id="identificationIdInput" type="text"
+            placeholder="กรุณาระบุ">
           <!-- <input *ngIf="form.value.searchType === 'corporate'" id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
             formControlName="identificationId" mask="A AAAA AAAAA AA A" id="identificationIdInput" type="text" placeholder="กรุณาระบุ"> -->
-          <input *ngIf="form.value.searchType === 'international'" id="identificationId" class="form-control input-with-icon-right" data-testid="identificationIdInput"
-            formControlName="identificationId" minlength="7" id="identificationIdInput" type="text" placeholder="กรุณาระบุ">
+          <input *ngIf="form.value.searchType === 'international'" id="identificationId"
+            class="form-control input-with-icon-right" data-testid="identificationIdInput"
+            formControlName="identificationId" minlength="7" id="identificationIdInput" type="text"
+            placeholder="กรุณาระบุ">
         </div>
-        <div *ngIf="form.value.searchType === 'personal' && form.get('identificationId')?.hasError('pattern') && form.get('identificationId')?.touched || form.value.searchType === 'corporate' && form.get('identificationId')?.hasError('pattern') && form.get('identificationId')?.touched ">
+        <div
+          *ngIf="form.value.searchType === 'personal' && form.get('identificationId')?.hasError('pattern') && form.get('identificationId')?.touched || form.value.searchType === 'corporate' && form.get('identificationId')?.hasError('pattern') && form.get('identificationId')?.touched ">
           <span class="req-text">*โปรดระบุ หมายเลขบัตร 13 หลัก</span>
         </div>
-        <div *ngIf="form.value.searchType === 'international' && form.get('identificationId')?.hasError('pattern') && form.get('identificationId')?.touched " >
-          <span class="req-text" >*โปรดระบุ หมายเลขหนังสือเดินทาง Ex*AA00000</span>
+        <div
+          *ngIf="form.value.searchType === 'international' && form.get('identificationId')?.hasError('pattern') && form.get('identificationId')?.touched ">
+          <span class="req-text">*โปรดระบุ หมายเลขหนังสือเดินทาง Ex*AA00000</span>
         </div>
       </div>
 
-      <div class="mb-3" *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'international'" [@fadeInseach]>
+      <div class="mb-3" *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'international'"
+        [@fadeInseach]>
         <label class="label-input">ชื่อ</label>
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="firstName" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
-            formControlName="firstName" minlength="2" >
+            formControlName="firstName" minlength="2">
         </div>
         <div *ngIf="form.get('firstName')?.hasError('minlength') && form.get('firstName')?.touched">
-          <span class="req-text" >*โปรดระบุชื่อ</span>
+          <span class="req-text">*โปรดระบุชื่อ</span>
         </div>
       </div>
 
-      <div class="mb-3" *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'international'" [@fadeInseach]>
+      <div class="mb-3" *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'international'"
+        [@fadeInseach]>
         <label class="label-input">นามสกุล</label>
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="lastName" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
-            formControlName="lastName" minlength="2" >
+            formControlName="lastName" minlength="2">
         </div>
         <div *ngIf="form.get('lastName')?.hasError('minlength') && form.get('lastName')?.touched">
-          <span class="req-text" >*โปรดระบุนามสกุล</span>
+          <span class="req-text">*โปรดระบุนามสกุล</span>
         </div>
       </div>
 
@@ -121,21 +153,22 @@
         <label class="label-input">ชื่อบริษัท / องค์กร</label>
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
-          <input id="corporateName" class="form-control input-with-icon-right" type="text"
-            placeholder="กรุณาระบุ" formControlName="corporateName" minlength="2">
+          <input id="corporateName" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
+            formControlName="corporateName" minlength="2">
         </div>
         <div *ngIf="form.get('corporateName')?.hasError('minlength') && form.get('corporateName')?.touched">
-          <span class="req-text" >*โปรดระบุชื่อบริษัท / องค์กร</span>
+          <span class="req-text">*โปรดระบุชื่อบริษัท / องค์กร</span>
         </div>
       </div>
 
       <div class="mb-3"
-        *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'corporate' || form.value.searchType === 'international'" [@fadeInseach]>
+        *ngIf="form.value.searchType === 'personal' || form.value.searchType === 'corporate' || form.value.searchType === 'international'"
+        [@fadeInseach]>
         <label class="label-input">เบอร์ติดต่อ</label>
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="mobilePhone" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
-            formControlName="mobilePhone" mask="000 000 0000" >
+            formControlName="mobilePhone" mask="000 000 0000">
         </div>
         <div *ngIf="form.get('mobilePhone')?.hasError('minlength') && form.get('mobilePhone')?.touched">
           <span class="req-text">*โปรดระบุหมายเลขโทรศัพท์ 10 หลัก</span>
@@ -146,8 +179,8 @@
         <label class="label-input">กรุณาระบุ</label>
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
-          <input id="faremediaValue" class="form-control input-with-icon-right" type="text"
-            placeholder="กรุณาระบุ" minlength="10" formControlName="faremediaValue">
+          <input id="faremediaValue" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
+            minlength="10" formControlName="faremediaValue">
         </div>
         <div *ngIf="form.get('faremediaValue')?.hasError('minlength') && form.get('faremediaValue')?.touched">
           <span class="req-text">*ระบุหมายเลข 10 หลัก</span>
@@ -162,8 +195,7 @@
             ค้นหา
           </button> -->
           <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton" id="searchButton" title="ค้นหา"
-          [disabled]="isLoading || form.invalid || (!this.form.value.identificationId && !this.form.value.firstName && !this.form.value.lastName && !this.form.value.mobilePhone && !this.form.value.corporateName && !this.form.value.faremediaValue )"
-          id="searchButton"
+            [disabled]="isLoading || form.invalid || (!this.form.value.identificationId && !this.form.value.firstName && !this.form.value.lastName && !this.form.value.mobilePhone && !this.form.value.corporateName && !this.form.value.faremediaValue && !this.form.value.licensePlate)" id="searchButton"
             type="submit" (click)="onSearch()">
             ค้นหา
           </button>
@@ -181,19 +213,10 @@
   <ng-container *ngIf="tempSearch && !isLoading">
     <hr class="hr-custom light mb-5" />
     <div class="search-user-datatable-wrapper" [@fadeInOutTable]>
-      <datatable
-        [columns]="columns"
-        [collectionSize]="collectionSize"
-        [customDatatableFooterClass]="'datatable-info-white'"
-        [externalPaging]="true"
-        [id]="'userDatatable'"
-        [isLoading]="isLoading"
-        [pageSize]="pageSize"
-        [page]="page"
-        [rows]="rows"
-        emptyMessage="ไม่มีข้อมูล"
-        (onChangePageEvent)="onChangePage($event)"
-        (onRowActionEvent)="onAction($event)" />
+      <datatable [columns]="columns" [collectionSize]="collectionSize"
+        [customDatatableFooterClass]="'datatable-info-white'" [externalPaging]="true" [id]="'userDatatable'"
+        [isLoading]="isLoading" [pageSize]="pageSize" [page]="page" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+        (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
     </div>
   </ng-container>
 

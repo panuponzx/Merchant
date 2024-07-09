@@ -93,6 +93,7 @@ export class SearchUserComponent implements OnInit {
     mobilePhone: new FormControl(undefined, [Validators.minLength(10)]),
     corporateName: new FormControl(undefined, [Validators.minLength(2)]),
     faremediaValue: new FormControl(undefined, [Validators.minLength(10)]),
+    licensePlate: new FormControl(undefined),
   });
 
   public tempSearch: boolean = false;
@@ -120,6 +121,7 @@ export class SearchUserComponent implements OnInit {
       this.form.controls['mobilePhone'].reset();
       this.form.controls['corporateName'].reset();
       this.form.controls['faremediaValue'].reset();
+      this.form.controls['licensePlate'].reset();
     });
   }
   ngOnInit(): void {
@@ -154,7 +156,11 @@ export class SearchUserComponent implements OnInit {
       if (this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
       if (this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
       this.searchByFaremedia(payload);
-
+    } else if (searchType === 'licensePlate') {
+      console.log("[onSearch] ", this.form.get('licensePlate')?.value);
+      // if (this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
+      // if (this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
+      // this.searchByFaremedia(payload);
     }
 
   }
