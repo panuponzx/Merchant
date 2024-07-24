@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { first, map } from 'rxjs';
-import { AddressModel, CustomerModel, ReponseCustomerModel } from '../../../../../../../../core/interfaces';
+import { first, map, Observable, of } from 'rxjs';
+import { AddressModel, CustomerModel, IPrefixModel, ReponseCustomerModel } from '../../../../../../../../core/interfaces';
 import { RestApiService, UtilitiesService } from '../../../../../../../../core/services';
 import { TransformDatePipe } from '../../../../../../../../core/pipes';
 import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
+import prefixData from 'src/assets/data/prefix.json';
 
 type AddressTabsType = 'address-on-the-card' | 'current-address' | 'work-address';
 type DetailTabsType = 'company-detail' | 'contact-detail';
@@ -36,7 +37,8 @@ export class GeneralInfoComponent {
     { id: 2, name: 'สาขาย่อย' },
   ];
 
-
+  public prefixList: IPrefixModel[] = prefixData;
+  prefixList$: Observable<IPrefixModel[]> = of([]);
 
   public submitted: boolean = false;
   public form: FormGroup = new FormGroup({
@@ -480,6 +482,8 @@ export class GeneralInfoComponent {
     if (customer.cardExpDate) {
       formControl['cardExpDate'].setValue(new Date(customer.cardExpDate));
     }
+    this.onCheckPrefix(customer.title);
+    this.prefixList$ = of(this.prefixList);
     formControl['branchTypeId'].setValue(customer.branchTypeId);
     formControl['channelId'].setValue(customer.channelId);
     formControl['citizenDocId'].setValue(customer.citizenDocId);
@@ -580,6 +584,26 @@ export class GeneralInfoComponent {
       this.isUpdated = true;
     });
 
+  }
+
+  addTagPrefixPromise(name: string) {
+    return new Promise((resolve) => {
+      resolve({
+        label: name,
+        value: name
+      })
+    });
+  }
+
+  onCheckPrefix(prefix: string | null | undefined) {
+    if (!prefix) return;
+    const foundPrefix = this.prefixList.find((element) => element.value === prefix);
+    if (!foundPrefix) {
+      this.prefixList.push({
+        label: prefix,
+        value: prefix
+      });
+    }
   }
 
 }

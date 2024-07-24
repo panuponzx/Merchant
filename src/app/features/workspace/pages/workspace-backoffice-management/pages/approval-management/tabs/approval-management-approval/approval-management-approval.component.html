@@ -14,12 +14,16 @@
             <tr class="header">
                 <th>วันที่ และ เวลา ที่สร้าง</th>
                 <th>ชื่อผู้ใช้งาน</th>
+                <th>ชื่อสาขา</th>
+                <th>หมายเลขสาขาย่อย</th>
                 <th>สถานะ</th>
                 <th>ชื่อพนักงานทำรายการ</th>
             </tr>
             <tr>
                 <td>{{ rowDescription?.createDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</td>
                 <td>{{ rowDescription?.eventValue?.customer?.corporateName }}</td>
+                <td>{{ rowDescription?.eventValue?.customer?.corporateBranch }}</td>
+                <td>{{ rowDescription?.eventValue?.customer?.branchId }}</td>
                 <td>{{ rowDescription?.status | approveStatus }}</td>
                 <td>{{ rowDescription?.eventValue?.customer?.fullName }}</td>
             </tr>
@@ -118,6 +122,21 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="prefixInput">
+                                          คำนำหน้า
+                                      </label>
+                                      <ng-select
+                                          class="form-control"
+                                          [items]="prefixList$ | async" 
+                                          [addTag]="addTagPrefixPromise"
+                                          id="prefixInput"
+                                          data-testid="prefixInput"
+                                          bindLabel="label" 
+                                          bindValue="value"
+                                          formControlName="prefix">
+                                      </ng-select>
+                                      </div>
                                     <div class="col-12 mb-3">
                                         <label class="label-input required-field" for="firstName">
                                             ชื่อ

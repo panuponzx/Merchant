@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { CustomColumnModel, CustomerModel, RowActionEventModel } from '../../../../../../../../core/interfaces';
-import { Subject, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { CustomColumnModel, CustomerModel, IPrefixModel, RowActionEventModel } from '../../../../../../../../core/interfaces';
+import { Observable, Subject, distinctUntilChanged, of, switchMap } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
 import { TransformDatePipe } from '../../../../../../../../core/pipes';
 import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RejectPendingRequestModalComponent } from '../../modals/reject-pending-request-modal/reject-pending-request-modal.component';
 import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
+import prefixData from 'src/assets/data/prefix.json';
 
 export const PendingRequestEventType = {
   addJuristic: 1,
@@ -37,6 +38,8 @@ export class ApprovalManagementApprovalComponent {
     { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'paging-no' },
     { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา ที่สร้าง', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/YYYY HH:mm:ss', locale: 'th' } },
     { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'eventValue.customer.corporateName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'corporateBranch', name: 'CorporateBranch', label: 'ชื่อสาขา', prop: 'eventValue.customer.corporateBranch', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'branchId', name: 'BranchId', label: 'หมายเลขสาขาย่อย', prop: 'eventValue.customer.branchId', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'status', name: 'Status', label: 'สถานะ', prop: 'status', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'approve-status' },
     { id: 'nameEmpTransaction', name: 'Name Emp Transaction', label: 'ชื่อพนักงานทำรายการ', prop: 'eventValue.customer.fullName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
@@ -73,6 +76,9 @@ export class ApprovalManagementApprovalComponent {
     },
   ];
 
+  public prefixList: IPrefixModel[] = prefixData;
+  prefixList$: Observable<IPrefixModel[]> = of([]);
+
   @Input() set setPendingStatus(data: IPendingRequest) {
     console.log("[setPendingStatus] event => ", data);
     this.pendingRequest = {
@@ -99,6 +105,7 @@ export class ApprovalManagementApprovalComponent {
       citizenId: new FormControl({ value: undefined, disabled: true }, Validators.required),
       cardExpDate: new FormControl({ value: undefined, disabled: true }, Validators.required),
       gender: new FormControl({ value: 'M', disabled: true }, Validators.required),
+      prefix: new FormControl({ value: undefined, disabled: true }, Validators.required),
       firstName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       lastName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       birthdate: new FormControl({ value: undefined, disabled: true }, Validators.required),
@@ -219,6 +226,8 @@ export class ApprovalManagementApprovalComponent {
   onAction(event: RowActionEventModel) {
     console.info(event);
     console.log("[onAction] form => ", this.form.value);
+    this.onCheckPrefix(event.row.eventValue.customer.title);
+    this.prefixList$ = of(this.prefixList);
     this.form.get('id')?.setValue(event.row.id);
     this.form.get('citizenDocId')?.setValue(event.row.eventValue.customer.citizenDocId);
     this.form.get('pictures')?.setValue(event.row.eventValue.customer.pictures);
@@ -230,6 +239,7 @@ export class ApprovalManagementApprovalComponent {
     this.form.get('citizenId')?.setValue(event.row.eventValue.customer.citizenId);
     // this.form.get('cardExpDate')?.setValue(new Date(event.row.eventValue.customer.cardExpDate));
     this.form.get('gender')?.setValue(event.row.eventValue.customer.gender);
+    this.form.get('prefix')?.setValue(event.row.eventValue.customer.title);
     this.form.get('firstName')?.setValue(event.row.eventValue.customer.firstName);
     this.form.get('lastName')?.setValue(event.row.eventValue.customer.lastName);
     this.form.get('birthdate')?.setValue(new Date(event.row.eventValue.customer.birthdate));
@@ -513,6 +523,26 @@ export class ApprovalManagementApprovalComponent {
         // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     })
+  }
+
+  addTagPrefixPromise(name: string) {
+    return new Promise((resolve) => {
+      resolve({
+        label: name,
+        value: name
+      })
+    });
+  }
+
+  onCheckPrefix(prefix: string | null | undefined) {
+    if (!prefix) return;
+    const foundPrefix = this.prefixList.find((element) => element.value === prefix);
+    if (!foundPrefix) {
+      this.prefixList.push({
+        label: prefix,
+        value: prefix
+      });
+    }
   }
 
 }

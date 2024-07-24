@@ -358,3 +358,8 @@ export interface ICampaignTollModel {
   expresswayId?: string
   tollName?: string
 }
+
+export interface IPrefixModel {
+  label: string;
+  value: string;
+}

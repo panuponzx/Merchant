@@ -1,0 +1,26 @@
+[
+    {
+        "label": "นาย",
+        "value": "นาย"
+    },
+    {
+        "label": "นาง",
+        "value": "นาง"
+    },
+    {
+        "label": "นางสาว",
+        "value": "นางสาว"
+    },
+    {
+        "label": "Mr.",
+        "value": "Mr."
+    },
+    {
+        "label": "Miss",
+        "value": "Miss"
+    },
+    {
+        "label": "Mrs",
+        "value": "Mrs"
+    }
+]

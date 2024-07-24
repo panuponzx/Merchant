@@ -44,6 +44,7 @@ export class InputAddUserComponent {
       this.customerType = 1;
       this.userInfoForm = this.formBuilder.group({
         // identityType: new FormControl(1, Validators.required),
+        prefix: new FormControl(undefined, Validators.required),
         firstName: new FormControl(undefined, Validators.required),
         lastName: new FormControl(undefined, Validators.required),
         birthDate: new FormControl(undefined, Validators.required),
@@ -56,6 +57,7 @@ export class InputAddUserComponent {
       this.customerType = 2;
       this.userInfoForm = this.formBuilder.group({
         // identityType: new FormControl(1, Validators.required),
+        prefix: new FormControl(undefined, Validators.required),
         firstName: new FormControl(undefined, Validators.required),
         lastName: new FormControl(undefined, Validators.required),
         birthDate: new FormControl(undefined, Validators.required),
@@ -237,7 +239,7 @@ export class InputAddUserComponent {
       const data = {
         customer: {
           customerTypeId: this.customerType,
-          title: 'นาย',
+          title: this.userInfoForm.get('prefix')?.value,
           firstName: this.userInfoForm.get('firstName')?.value,
           lastName: this.userInfoForm.get('lastName')?.value,
           mobilePhone: this.otpRequestForm.get('mobilePhone')?.value,
@@ -354,7 +356,7 @@ export class InputAddUserComponent {
       const data = {
         customer: {
           customerTypeId: this.customerType,
-          title: 'นาย',
+          title: this.userInfoForm.get('prefix')?.value,
           firstName: this.userInfoForm.get('firstName')?.value,
           lastName: this.userInfoForm.get('lastName')?.value,
           mobilePhone: this.otpRequestForm.get('mobilePhone')?.value,
