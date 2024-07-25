@@ -1,0 +1,49 @@
+<div class="content-container container-xl p-0">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">ระบบระงับการทำธุรกรรม</h1>
+        </div>
+    </div>
+    <hr class="hr-custom mb-3" />
+    <form [formGroup]="form" class="d-flex align-items-end gap-3 mb-5">
+        <div class="form-group">
+            <label class="label-input text-nowrap" for="searchInput">
+                ข้อมูลผู้ใช้งาน (หมายเลขประจำตัวผู้เสียภาษี / หนังสือเดินทาง)
+            </label>
+            <div class="input-with-icon-wrapper">
+                <input
+                  class="form-control input-icon-right"
+                  id="searchInput"
+                  data-testid="searchInput"
+                  formControlName="search"
+                  placeholder="กรุณาระบุข้อมูล"
+                  type="text"
+                />
+                <icon-svg class="svg-search-icon" [color]="'#2255CE'" [path]="'assets/images/icons/search.svg'" [size]="'l'" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="button-wrapper">
+                <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา"
+                    type="submit" [disabled]="form.invalid" (click)="onSearch()">
+                    <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="datatable-container">
+        <datatable
+          [columns]="columns"
+          [collectionSize]="collectionSize"
+          [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
+          [externalPaging]="true"
+          [id]="'transactionDatatable'"
+          [isLoading]="isLoading"
+          [pageSize]="limitRow"
+          [page]="pages"
+          [rows]="rows"
+          emptyMessage="ไม่มีข้อมูล"
+          (onRowTextBooleanEvent)="onClickBlacklist($event)"
+        ></datatable>
+      </div>
+</div>

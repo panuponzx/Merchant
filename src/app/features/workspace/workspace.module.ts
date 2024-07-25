@@ -91,6 +91,8 @@ import { InputIdentityTypeComponent } from './pages/workspace-with-navbar/pages/
 import { InputTermCoditionComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-term-codition/input-term-codition.component';
 import { InputEtaxAddressComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-etax-address/input-etax-address.component';
 import { ExceptionTransactionComponent } from './pages/workspace-backoffice-management/pages/exception-transaction/exception-transaction.component';
+import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
+import { TransactionSuspensionModalComponent } from './pages/workspace-backoffice-management/modals/transaction-suspension-modal/transaction-suspension-modal.component';
 
 
 @NgModule({
@@ -169,7 +171,9 @@ import { ExceptionTransactionComponent } from './pages/workspace-backoffice-mana
     InputIdentityTypeComponent,
     InputTermCoditionComponent,
     InputEtaxAddressComponent,
-    ExceptionTransactionComponent
+    ExceptionTransactionComponent,
+    TransactionSuspensionManagementComponent,
+    TransactionSuspensionModalComponent
   ],
   imports: [
     CommonModule,

@@ -86,3 +86,26 @@ export interface IProvinceModal extends ResponseMessageModel {
 export interface IResponseProvinceModal extends ResponseMessageModel {
   data: IProvinceModal[]
 }
+
+export interface IResponseTransactionSuspensionModal extends ResponseMessageModel {
+  data: ITransactionSuspensionDataModal
+}
+
+export interface ITransactionSuspensionDataModal {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: ITransactionSuspensionElementModal[]
+}
+
+export interface ITransactionSuspensionElementModal {
+  customerId: string
+  date: string
+  name: string
+  status: number
+  statusName: string
+  empName: string
+  isBlacklist: boolean
+  customerType: number
+}

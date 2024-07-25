@@ -44,6 +44,7 @@ export class DatatableComponent {
 
   @Output() onRowActionEvent = new EventEmitter<RowActionEventModel>();
   @Output() onRowCancelEvent = new EventEmitter<RowActionEventModel>();
+  @Output() onRowTextBooleanEvent = new EventEmitter<RowActionEventModel>();
 
   constructor(
   ) { }
@@ -70,6 +71,10 @@ export class DatatableComponent {
 
   onCancel(event: RowActionEventModel) {
     this.onRowCancelEvent.emit(event);
+  }
+
+  onClickTextBoolean(event: RowActionEventModel) {
+    this.onRowTextBooleanEvent.emit(event);
   }
 
 }

@@ -1,0 +1,21 @@
+<div class="modal-body">
+    <div class="header-label text-center">
+        <h2 *ngIf="!row.isBlacklist">ยืนยันการระงับการใช้งาน</h2>
+        <h2 *ngIf="row.isBlacklist">ยืนยันการยกเลิกการระงับการใช้งาน</h2>
+        <h3 class="mb-3">กรุณายืนยัน</h3>
+    </div>
+    <form [formGroup]="form">
+        <div class="col-12 mb-3">
+            <label class="label-input required-field" for="remark">
+                หมายเหตุ
+            </label>
+            <input class="form-control" formControlName="remark" data-testid="remark"
+                id="remark" placeholder="กรุณาระบุ" type="text">
+        </div>
+        <div class="d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-type-1 outline" (click)="onClose()">กลับ</button>
+            <button class="custom-btn btn-type-1 red" *ngIf="!row.isBlacklist" (click)="onBlacklist()" [disabled]="form.invalid">ระงับการใช้งาน</button>
+            <button class="custom-btn btn-type-1 red" *ngIf="row.isBlacklist" (click)="onBlacklist()" [disabled]="form.invalid">ยกเลิกการระงับ</button>
+        </div>
+    </form>
+</div>

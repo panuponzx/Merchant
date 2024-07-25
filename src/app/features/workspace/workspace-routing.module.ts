@@ -34,6 +34,7 @@ import { WriteOffBadDebtComponent } from './pages/workspace-backoffice-managemen
 import { ActivityFaremediaComponent } from './pages/workspace-backoffice-management/pages/activity-faremedia/activity-faremedia.component';
 import { ExpiredFaremediaListComponent } from './pages/workspace-backoffice-management/pages/expired-faremedia-list/expired-faremedia-list.component';
 import { ExceptionTransactionComponent } from './pages/workspace-backoffice-management/pages/exception-transaction/exception-transaction.component';
+import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -311,6 +312,17 @@ export const routesConfig: CustomRoutesModel = [
               is_sidebar: true,
               label: 'รายการธุรกรรมยกเว้น',
               default_path: 'exception-transaction-list',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'TransactionSuspensionManagementComponent',
+            path: 'transaction-suspension-management',
+            component: TransactionSuspensionManagementComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ระบบระงับการทำธุรกรรม',
+              default_path: 'transaction-suspension-management',
             },
             canActivate: [TabGuard]
           },

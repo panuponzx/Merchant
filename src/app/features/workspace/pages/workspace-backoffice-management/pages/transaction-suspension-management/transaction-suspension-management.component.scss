@@ -1,0 +1,19 @@
+.input-with-icon-wrapper {
+    color: black !important;
+  }
+  
+  .input-with-icon-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+
+  .input-icon-right {
+    padding-right: 40px
+  }
+
+  .svg-search-icon {
+    position: absolute;
+    padding: 0rem 0.75rem;
+  }

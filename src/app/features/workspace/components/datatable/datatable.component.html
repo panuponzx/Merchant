@@ -42,6 +42,23 @@
                   column.textWithBoolean?.textCondition2 }}</span>
               </ng-template>
             </ng-container>
+            <ng-container *ngIf="column.type === 'text-with-boolean-click'">
+              <ng-container *ngIf="value; else textWithBooleanCclickFalseEl;">
+                <span
+                  style="cursor: pointer;"
+                  (click)="onClickTextBoolean({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })"
+                  [ngClass]="column.textWithBoolean?.classCondition1 ? column.textWithBoolean?.classCondition1 : null">
+                  {{ column.textWithBoolean?.textCondition1 }}
+                </span>
+              </ng-container>
+              <ng-template #textWithBooleanCclickFalseEl>
+                <span
+                  style="cursor: pointer;"
+                  (click)="onClickTextBoolean({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })"
+                  [ngClass]="column.textWithBoolean?.classCondition2 ? column.textWithBoolean?.classCondition2 : null">{{
+                  column.textWithBoolean?.textCondition2 }}</span>
+              </ng-template>
+            </ng-container>
             <ng-container *ngIf="column.type === 'date'">
               {{ value ? (value | transformDate : column.date?.format : column.date?.locale) : "-" }}
             </ng-container>
