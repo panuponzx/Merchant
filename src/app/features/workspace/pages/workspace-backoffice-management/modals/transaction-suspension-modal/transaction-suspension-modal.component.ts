@@ -42,7 +42,10 @@ export class TransactionSuspensionModalComponent {
   onIsBlacklist(id: string, url: string, successMessage: string): void {
     this.modalDialogService.loading();
     const data = {
-      id: id,
+      content: {
+        customerId: id,
+        statusRemark: this.form.get('remark')?.value,
+      }
     }
     this.restApiService
       .postBackOffice(url, data)
@@ -53,7 +56,9 @@ export class TransactionSuspensionModalComponent {
         next: (res) => {
           this.modalDialogService.hideLoading();
           if (res.errorMessage === "Success") {
-            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', successMessage);
+            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', successMessage).then((res: boolean) => {
+              if(res) this.ngbActiveModal.close(true);
+            })
           } else {
             this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
           }

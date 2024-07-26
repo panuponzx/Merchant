@@ -15,7 +15,7 @@
         <div class="d-flex justify-content-center gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">กลับ</button>
             <button class="custom-btn btn-type-1 red" *ngIf="!row.isBlacklist" (click)="onBlacklist()" [disabled]="form.invalid">ระงับการใช้งาน</button>
-            <button class="custom-btn btn-type-1 red" *ngIf="row.isBlacklist" (click)="onBlacklist()" [disabled]="form.invalid">ยกเลิกการระงับ</button>
+            <button class="custom-btn btn-type-1" *ngIf="row.isBlacklist" (click)="onBlacklist()" [disabled]="form.invalid">ยกเลิกการระงับ</button>
         </div>
     </form>
 </div>
