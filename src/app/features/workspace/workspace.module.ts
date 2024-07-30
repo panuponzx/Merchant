@@ -173,7 +173,7 @@ import { TransactionSuspensionModalComponent } from './pages/workspace-backoffic
     InputEtaxAddressComponent,
     ExceptionTransactionComponent,
     TransactionSuspensionManagementComponent,
-    TransactionSuspensionModalComponent
+    TransactionSuspensionModalComponent,
   ],
   imports: [
     CommonModule,

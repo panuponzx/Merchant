@@ -43,11 +43,11 @@
                                 <button ngbNavLink>รายละเอียดบริษัท</button>
                                 <ng-template ngbNavContent>
                                     <div class="col-12 mb-3">
-                                        <label class="label-input required-field" for="citizenId">
+                                        <label class="label-input required-field" for="taxIdInput">
                                             หมายเลขผู้เสียภาษี
                                         </label>
-                                        <input class="form-control" data-testid="citizenId" formControlName="citizenId"
-                                            id="citizenId" type="text" mask="0 0000 00000 00 0">
+                                        <input class="form-control" data-testid="taxIdInput" formControlName="taxId"
+                                            id="taxIdInput" type="text" mask="0 0000 00000 00 0">
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label class="label-input required-field" for="companyNameInput">
@@ -78,19 +78,26 @@
                                         <input class="form-control" data-testid="branchNoInput" maxlength="5"
                                             formControlName="branchNo" id="branchNoInput" type="text">
                                     </div>
-                                    <!-- <div class="col-12 mb-3">
-                                        <label class="label-input required-field" for="companyNumberInput">
-                                            เบอร์ติดต่อบริษัท
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="phoneInput">
+                                          เบอร์ติดต่อ
                                         </label>
-                                        <input class="form-control" data-testid="companyNumberInput" formControlName="companyNumber" id="companyNumberInput"
-                                            type="text">
-                                    </div> -->
+                                        <input class="form-control" data-testid="phoneInput" formControlName="mobilePhone" id="phoneInput"
+                                            mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
+                                      </div>
+                                      <div class="col-12 mb-3">
+                                        <label class="label-input" for="emailInput">
+                                          อีเมล
+                                        </label>
+                                        <input class="form-control" data-testid="emailInput" formControlName="email"
+                                          placeholder="example@mail.com" id="emailInput" type="text">
+                                      </div>
                                 </ng-template>
                             </li>
                             <li [ngbNavItem]="'information-visitor'">
                                 <button ngbNavLink>รายละเอียดผู้มาติดต่อ</button>
                                 <ng-template ngbNavContent>
-                                    <!-- <div class="col-12 mb-3">
+                                    <div class="col-12 mb-3">
                                         <label class="label-input required-field" for="identificationInput">
                                             หมายเลขบัตรประชาชน
                                         </label>
@@ -98,7 +105,7 @@
                                             formControlName="citizenId" id="identificationInput" type="text"
                                             mask="0 0000 00000 00 0">
                                     </div>
-                                    <div class="col-12 mb-3">
+                                    <!-- <div class="col-12 mb-3">
                                         <label class="label-input required-field" for="expiredDateDatePicker">
                                             วันหมดอายุบัตร
                                         </label>
@@ -158,13 +165,6 @@
                                         <date-picker class="datepicker-input" [clearable]="false" format="DD/MM/YYYY"
                                             formControlName="birthdate" [id]="'birthdateDatePicker'" locale="th"
                                             [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="true" ></date-picker>
-                                    </div>
-                                    <div class="col-12 mb-5">
-                                        <label class="label-input required-field" for="phone">
-                                            เบอร์ติดต่อ
-                                        </label>
-                                        <input class="form-control" data-testid="phone" formControlName="phone"
-                                            id="phone" type="text" mask="000 000 0000">
                                     </div>
                                     <!-- <div class="col-12 mb-3">
                                         <h3>เอกสารแนบ</h3>

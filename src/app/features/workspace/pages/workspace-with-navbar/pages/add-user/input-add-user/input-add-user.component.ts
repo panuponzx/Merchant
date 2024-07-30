@@ -61,10 +61,10 @@ export class InputAddUserComponent {
         firstName: new FormControl(undefined, Validators.required),
         lastName: new FormControl(undefined, Validators.required),
         birthDate: new FormControl(undefined, Validators.required),
-        // phone: new FormControl(undefined, Validators.required),
         citizenId: new FormControl(undefined, Validators.required),
         // cardExpDate: new FormControl(undefined, Validators.required),
         gender: new FormControl('M', Validators.required),
+        phone: new FormControl(undefined, Validators.required),
       });
     }
     console.log("[AddUserInfo] customerType => ", this.customerType);
@@ -374,7 +374,17 @@ export class InputAddUserComponent {
           branchTypeId: this.juristicInfoForm.get('branch')?.value,
           corporateBranch: this.juristicInfoForm.get('branchName')?.value,
           branchId: this.juristicInfoForm.get('branchNo')?.value,
-        }, addresses: [
+        },
+        customerContact: {
+          citizenId: this.userInfoForm.get('citizenId')?.value,
+          dateOfBirth: birthDateFormat,
+          title: this.userInfoForm.get('prefix')?.value,
+          firstName: this.userInfoForm.get('firstName')?.value,
+          lastName: this.userInfoForm.get('lastName')?.value,
+          gender: this.userInfoForm.get('gender')?.value,
+          phone: this.userInfoForm.get('phone')?.value,
+        },
+        addresses: [
           {
             typeId: AddressTypeEnum.COMPANY,
             addressNo: this.addressInfoForm.get('addressNo')?.value,

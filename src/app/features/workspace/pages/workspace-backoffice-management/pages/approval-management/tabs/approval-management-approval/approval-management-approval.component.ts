@@ -109,14 +109,14 @@ export class ApprovalManagementApprovalComponent {
       firstName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       lastName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       birthdate: new FormControl({ value: undefined, disabled: true }, Validators.required),
-      phone: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      mobilePhone: new FormControl({ value: undefined, disabled: true }, Validators.required),
       taxId: new FormControl({ value: undefined, disabled: true }, Validators.required),
       companyName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       branch: new FormControl({ value: undefined, disabled: true }, Validators.required),
       branchName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       branchNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
-      companyNumber: new FormControl({ value: undefined, disabled: true }, Validators.required),
-
+      phone: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      email: new FormControl({ value: undefined, disabled: true }, Validators.required),
       work_address: new FormGroup({
         typeId: new FormControl(undefined),
         addressNo: new FormControl({ value: undefined, disabled: true }, [Validators.required]),
@@ -243,7 +243,10 @@ export class ApprovalManagementApprovalComponent {
     this.form.get('firstName')?.setValue(event.row.eventValue.customer.firstName);
     this.form.get('lastName')?.setValue(event.row.eventValue.customer.lastName);
     this.form.get('birthdate')?.setValue(new Date(event.row.eventValue.customer.birthdate));
-    this.form.get('phone')?.setValue(event.row.eventValue.customer.mobilePhone);
+    this.form.get('mobilePhone')?.setValue(event.row.eventValue.customer.mobilePhone);
+    // TODO
+    // this.form.get('phone')?.setValue(event.row.eventValue.customer.phone);
+    this.form.get('email')?.setValue(event.row.eventValue.customer.email);
     this.setDisableBranch(event.row.eventValue.customer.branchTypeId);
     event.row.eventValue.addresses.forEach((x: any) => {
       if (Number(x.typeId) === AddressTypeEnum.COMPANY) {
@@ -311,7 +314,7 @@ export class ApprovalManagementApprovalComponent {
         title: 'นาย',
         firstName: this.form.get('firstName')?.value,
         lastName: this.form.get('lastName')?.value,
-        mobilePhone: this.form.get('phone')?.value,
+        mobilePhone: this.form.get('mobilePhone')?.value,
         citizenDocId: this.form.get('citizenDocId')?.value,
         citizenId: this.form.get('citizenId')?.value,
         // cardExpDate: cardExpDateFormat,
@@ -415,7 +418,7 @@ export class ApprovalManagementApprovalComponent {
         title: 'นาย',
         firstName: this.form.get('firstName')?.value,
         lastName: this.form.get('lastName')?.value,
-        mobilePhone: this.form.get('phone')?.value,
+        mobilePhone: this.form.get('mobilePhone')?.value,
         citizenDocId: this.form.get('citizenDocId')?.value,
         citizenId: this.form.get('citizenId')?.value,
         // cardExpDate: cardExpDateFormat,

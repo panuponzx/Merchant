@@ -90,14 +90,8 @@
                             <label class="label-input required-field" for="prefixInput">
                                 คำนำหน้า
                             </label>
-                            <ng-select
-                                class="form-control"
-                                [items]="prefixList" 
-                                [addTag]="addTagPrefixPromise"
-                                id="prefixInput"
-                                data-testid="prefixInput"
-                                bindLabel="label" 
-                                bindValue="value"
+                            <ng-select class="form-control" [items]="prefixList" [addTag]="addTagPrefixPromise"
+                                id="prefixInput" data-testid="prefixInput" bindLabel="label" bindValue="value"
                                 formControlName="prefix">
                             </ng-select>
                         </div>
@@ -136,7 +130,7 @@
                             </small> -->
 
                         </div>
-                        <!-- <div class="col-12 mb-3">
+                        <div class="col-12 mb-3" *ngIf="customerType === 2">
                             <label class="label-input required-field" for="phone">
                                 เบอร์ติดต่อ
                             </label>
@@ -144,10 +138,11 @@
                                 'is-invalid':submitted && form.get('phone')!.errors || form.get('phone').errors?.['required'] && form.get('phone').touched
                               }" data-testid="phone" formControlName="phone" id="phone" type="text"
                                 mask="000 000 0000">
-                            <small *ngIf="form.get('phone').errors?.['required'] && form.get('phone').touched " class="req-text">
+                            <small *ngIf="form.get('phone').errors?.['required'] && form.get('phone').touched "
+                                class="req-text">
                                 *โปรดระบุเบอร์โทรศัพท์
                             </small>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </form>

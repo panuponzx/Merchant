@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { first, map } from 'rxjs';
@@ -12,6 +12,7 @@ import { first, map } from 'rxjs';
 })
 export class AddWalletModalComponent {
 
+  public step: number = 1;
   public form: FormGroup;
   public walletType: number | undefined;
   public walletTypeList = [
@@ -23,10 +24,10 @@ export class AddWalletModalComponent {
       lable: 'non-toll (shop)',
       id: 7
     },
-    // {
-    //   lable: 'Postpaid (Billing)',
-    //   id: 2
-    // },
+    {
+      lable: 'Postpaid (Billing)',
+      id: 2
+    },
     // {
     //   lable: 'Direct credit card',
     //   id: 3
@@ -40,12 +41,25 @@ export class AddWalletModalComponent {
     public ngbActiveModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private restApiService: RestApiService,
-    private modalDialogService: ModalDialogService
+    private modalDialogService: ModalDialogService,
+    private ngbModal: NgbModal
   ) {
     this.form = this.formBuilder.group({
       walletType: new FormControl(1, Validators.required),
       walletName: new FormControl('', Validators.required),
     });
+  }
+
+  setWalletNameRequiredForm() {
+    if (this.form.get('walletType')?.value && this.form.get('walletType')?.value === 2) {
+      this.form?.get('walletName')?.clearValidators();
+      this.form?.get('walletName')?.setValue(undefined);
+      this.form?.get('walletName')?.updateValueAndValidity();
+    }else {
+      this.form?.get('walletName')?.setValidators([Validators.required]);
+      this.form?.get('walletName')?.setValue(undefined);
+      this.form?.get('walletName')?.updateValueAndValidity();
+    }
   }
 
   onAddWallet() {
@@ -89,6 +103,23 @@ export class AddWalletModalComponent {
           // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
         }
       })
+  }
+
+  onNext() {
+    this.step++;
+  }
+
+  onBack() {
+    this.step--;
+  }
+
+  onConnectVisa() {
+
+  }
+
+  onChangeWalletType(event: any) {
+    console.log("[onChangeWalletType] event => ", event);
+    this.setWalletNameRequiredForm();
   }
 
   onClose() {
