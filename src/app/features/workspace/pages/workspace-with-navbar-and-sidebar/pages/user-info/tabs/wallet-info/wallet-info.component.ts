@@ -41,7 +41,7 @@ export class WalletInfoComponent implements OnInit {
   public isLoading: boolean = false;
   public search: string | undefined;
 
-  public limitRow: number = 5;
+  public pageSize: number = 5;
   public pages: number = 1;
   public collectionSize: number = 0;
 
@@ -109,7 +109,7 @@ export class WalletInfoComponent implements OnInit {
       const mockupData = {
         walletId: row.walletId,
         page: this.pages,
-        limit: this.limitRow
+        limit: this.pageSize
       };
       this.restApiService
         .postBackOffice('faremedia/get/wallet-id', mockupData)
@@ -118,7 +118,7 @@ export class WalletInfoComponent implements OnInit {
           map(res => res as any)
         ).subscribe({
           next: (res) => {
-            console.log("[loadFareMediaDataTable] res => ", res);
+            this.collectionSize = res.data.totalElements;
             this.setFareMedia(res.data.elements, row.walletId);
             this.modalDialogService.hideLoading();
             this.isLoading = false;
@@ -175,9 +175,11 @@ export class WalletInfoComponent implements OnInit {
     );
   }
 
-  onChangePage(event: number) {
+  onChangePage(event: number, row: any) {
     console.log("[onChangePage] event => ", event);
     this.pages = event;
+    row.isCollapsed = false;
+    this.loadFareMediaDataTable(row);
   }
 
   onAction(event: RowActionEventModel, walletId?: number) {

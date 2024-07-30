@@ -82,11 +82,10 @@
                     </div>
                 </div>
 
-                <datatable [columns]="activeUsedColumns" [collectionSize]="fareMediaList[row?.walletId]?.length"
-                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="collectionSize"
+                    [externalPaging]="true" [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="pageSize" [page]="pages"
                     [rows]="fareMediaList[row?.walletId]" emptyMessage="ไม่มีข้อมูล"
-                    (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event, row?.walletId)" />
-
+                    (onChangePageEvent)="onChangePage($event, row)" (onRowActionEvent)="onAction($event, row?.walletId)" />
                 <div class="row">
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
                         หากยังมีอุปกรณ์ที่ผูกอยู่</p>
@@ -163,10 +162,10 @@
                             [value]="row.walletStatus | walletStatus" readonly />
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="fareMediaList[row?.walletId]?.length"
-                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="collectionSize"
+                    [externalPaging]="true" [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="pageSize" [page]="pages"
                     [rows]="fareMediaList[row?.walletId]" emptyMessage="ไม่มีข้อมูล"
-                    (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event, row?.walletId)" />
+                    (onChangePageEvent)="onChangePage($event, row)" (onRowActionEvent)="onAction($event, row?.walletId)" />
 
                 <div class="row">
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
@@ -253,10 +252,10 @@
                             [value]="'**** **** **** 4123'" readonly>
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="fareMediaList[row?.walletId]?.length"
-                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="collectionSize"
+                    [externalPaging]="true" [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="pageSize" [page]="pages"
                     [rows]="fareMediaList[row?.walletId]" emptyMessage="ไม่มีข้อมูล"
-                    (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event, row?.walletId)" />
+                    (onChangePageEvent)="onChangePage($event, row)" (onRowActionEvent)="onAction($event, row?.walletId)" />
 
                 <div class="row">
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
@@ -334,10 +333,10 @@
                             [value]="row.walletStatus | walletStatus" readonly />
                     </div>
                 </div>
-                <datatable [columns]="activeUsedColumns" [collectionSize]="fareMediaList[row?.walletId]?.length"
-                    [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
+                <datatable [columns]="activeUsedColumns" [collectionSize]="collectionSize"
+                    [externalPaging]="true" [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="pageSize" [page]="pages"
                     [rows]="fareMediaList[row?.walletId]" emptyMessage="ไม่มีข้อมูล"
-                    (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event, row?.walletId)" />
+                    (onChangePageEvent)="onChangePage($event, row)" (onRowActionEvent)="onAction($event, row?.walletId)" />
 
                 <div class="row">
                     <p class="red-note-text col-md-12 col-lg-6 mb-3">หมายเหตุ: eWallet จะไม่สามารถถูกยกเลิกได้
