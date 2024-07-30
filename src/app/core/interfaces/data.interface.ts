@@ -111,6 +111,20 @@ export interface CustomerModel {
   corporatePhone?: string
 }
 
+export interface CustomerContact {
+  id: string
+  citizenId: string
+  customerId: string
+  dateOfBirth: any
+  firstName: string
+  gender: string
+  lastName: string
+  phone: string
+  createBy: any
+  createDate: string
+  updateDate: any
+}
+
 export interface TransactionModel {
   amount: number,
   createDate: string,

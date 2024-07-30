@@ -1,4 +1,4 @@
-import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel } from "./data.interface"
+import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel, CustomerContact } from "./data.interface"
 
 export interface ResponseMessageModel {
   token: any
@@ -25,7 +25,8 @@ export interface ReponseWalletSummaryModel extends ResponseMessageModel {
 
 export interface ReponseCustomerModel extends ResponseMessageModel {
   addresses: AddressModel[],
-  customer: CustomerModel
+  customer: CustomerModel,
+  customerContact: CustomerContact
 }
 
 export interface ReponseCustomerObuModel extends ResponseMessageModel {
