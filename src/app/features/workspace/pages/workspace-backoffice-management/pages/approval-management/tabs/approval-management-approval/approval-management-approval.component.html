@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label class="label-input required-field" for="phoneInput">
-                                          เบอร์ติดต่อ
+                                            เบอร์ติดต่อบริษัท
                                         </label>
                                         <input class="form-control" data-testid="phoneInput" formControlName="mobilePhone" id="phoneInput"
                                             mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
@@ -166,6 +166,13 @@
                                             formControlName="birthdate" [id]="'birthdateDatePicker'" locale="th"
                                             [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="true" ></date-picker>
                                     </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="label-input required-field" for="contactPhoneInput">
+                                            เบอร์ติดต่อ
+                                        </label>
+                                        <input class="form-control" data-testid="contactPhoneInput" formControlName="contactPhone" id="contactPhoneInput"
+                                            mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
+                                      </div>
                                     <!-- <div class="col-12 mb-3">
                                         <h3>เอกสารแนบ</h3>
                                         <label class="label-input">

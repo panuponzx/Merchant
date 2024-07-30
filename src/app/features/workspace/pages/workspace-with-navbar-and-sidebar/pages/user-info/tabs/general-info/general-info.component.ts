@@ -62,7 +62,8 @@ export class GeneralInfoComponent {
     taxId: new FormControl(undefined, Validators.required),
     title: new FormControl(undefined, Validators.required),
     corporateName: new FormControl(undefined, Validators.required),
-    corporatePhone: new FormControl(undefined),
+    contactPhone: new FormControl(undefined, Validators.required),
+    // corporatePhone: new FormControl(undefined),
     branchType: new FormControl(undefined, Validators.required),
     branchCode: new FormControl(undefined, Validators.required),
     branchName: new FormControl(undefined, Validators.required),
@@ -506,6 +507,8 @@ export class GeneralInfoComponent {
       formControl['branchType'].setValue(customer.branchTypeId);
       formControl['branchName'].setValue(customer.corporateBranch);
       formControl['branchCode'].setValue(customer.branchId);
+      // TODO
+      // formControl['contactPhone'].setValue(customer.branchId);
       // formControl['corporateName'].addValidators([Validators.required]);
       // formControl['corporateName'].updateValueAndValidity();
       // formControl['corporatePhone'].setValue(customer.corporatePhone);

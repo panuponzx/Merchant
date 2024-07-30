@@ -110,6 +110,7 @@ export class ApprovalManagementApprovalComponent {
       lastName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       birthdate: new FormControl({ value: undefined, disabled: true }, Validators.required),
       mobilePhone: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      contactPhone: new FormControl({ value: undefined, disabled: true }, Validators.required),
       taxId: new FormControl({ value: undefined, disabled: true }, Validators.required),
       companyName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       branch: new FormControl({ value: undefined, disabled: true }, Validators.required),
@@ -244,8 +245,7 @@ export class ApprovalManagementApprovalComponent {
     this.form.get('lastName')?.setValue(event.row.eventValue.customer.lastName);
     this.form.get('birthdate')?.setValue(new Date(event.row.eventValue.customer.birthdate));
     this.form.get('mobilePhone')?.setValue(event.row.eventValue.customer.mobilePhone);
-    // TODO
-    // this.form.get('phone')?.setValue(event.row.eventValue.customer.phone);
+    this.form.get('contactPhone')?.setValue(event.row.eventValue.customerContact.phone);
     this.form.get('email')?.setValue(event.row.eventValue.customer.email);
     this.setDisableBranch(event.row.eventValue.customer.branchTypeId);
     event.row.eventValue.addresses.forEach((x: any) => {

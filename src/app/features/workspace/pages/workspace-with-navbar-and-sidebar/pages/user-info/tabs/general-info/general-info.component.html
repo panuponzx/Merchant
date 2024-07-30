@@ -248,7 +248,7 @@
                       </div>
                       <div class="form-group">
                         <label class="label-input required-field" for="phoneInput">
-                          เบอร์ติดต่อ
+                          เบอร์ติดต่อบริษัท
                         </label>
                         <input [ngClass]="{
                           'is-invalid': this.form.get('mobilePhone')?.errors?.['required'] && this.form.get('mobilePhone')?.touched
@@ -355,6 +355,15 @@
                           formControlName="birthdate" [id]="'birthDateDatePicke'"
                           [invalid]="submitted && form.controls['birthdate'].errors ? true : false" locale="th"
                           [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [maxDate]="today"></date-picker>
+                      </div>
+                      <div class="form-group">
+                        <label class="label-input required-field" for="phoneInput">
+                          เบอร์ติดต่อ
+                        </label>
+                        <input [ngClass]="{
+                          'is-invalid': this.form.get('mobilePhone')?.errors?.['required'] && this.form.get('mobilePhone')?.touched
+                        }" class="form-control" data-testid="phoneInput" formControlName="mobilePhone" id="phoneInput"
+                        mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
                       </div>
                     </ng-template>
                   </li>
