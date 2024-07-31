@@ -64,6 +64,7 @@ export class GeneralInfoComponent {
     title: new FormControl(undefined, Validators.required),
     corporateName: new FormControl(undefined, Validators.required),
     contactPhone: new FormControl(undefined, Validators.required),
+    customerContactId: new FormControl(undefined, Validators.required),
     // corporatePhone: new FormControl(undefined),
     branchType: new FormControl(undefined, Validators.required),
     branchCode: new FormControl(undefined, Validators.required),
@@ -414,7 +415,7 @@ export class GeneralInfoComponent {
             mobilePhone: this.form.getRawValue().mobilePhone,
             email: this.form.getRawValue().email,
             citizenDocId: this.form.getRawValue().citizenDocId,
-            citizenId: this.form.getRawValue().citizenId,
+            citizenId: this.form.getRawValue().taxId,
             corporateName: this.form.getRawValue().corporateName,
             branchTypeId: this.form.getRawValue().branchType,
             corporateBranch: this.form.getRawValue().branchName,
@@ -423,8 +424,18 @@ export class GeneralInfoComponent {
             birthdate: birthDateFormat,
             // occupation: this.form.getRawValue().occupation,
             gender: this.form.getRawValue().gender,
-            taxId: this.form.getRawValue().taxId,
-          }
+            // taxId: this.form.getRawValue().taxId,
+          },
+          customerContact: {
+            id: this.form.get('customerContactId')?.value,
+            citizenId: this.form.get('citizenId')?.value,
+            dateOfBirth: birthDateFormat,
+            title: this.form.get('title')?.value,
+            firstName: this.form.get('firstName')?.value,
+            lastName: this.form.get('lastName')?.value,
+            gender: this.form.get('gender')?.value,
+            phone: this.form.get('contactPhone')?.value,
+          },
         }
       };
       this.modalDialogService.loading();
@@ -501,6 +512,10 @@ export class GeneralInfoComponent {
     formControl['taxId'].setValue(res.customer.taxId);
     formControl['title'].setValue(res.customer.title);
     if (this.customerTypeId === '3') {
+      formControl['customerContactId'].setValue(res.customerContact.id);
+      formControl['citizenId'].setValue(res.customerContact.citizenId);
+      formControl['taxId'].setValue(res.customer.citizenId);
+      formControl['contactPhone'].setValue(res?.customerContact?.phone);
       formControl['corporateName'].setValue(res.customer.corporateName);
       formControl['branchType'].setValue(res.customer.branchTypeId);
       formControl['branchName'].setValue(res.customer.corporateBranch);
@@ -527,17 +542,17 @@ export class GeneralInfoComponent {
         createDate: new FormControl(x.createDate),
         customerId: new FormControl(x.customerId),
         districtCode: new FormControl(Number(x.districtCode), [Validators.required]),
-        districtName: new FormControl(undefined, [Validators.required]),
+        districtName: new FormControl(x.districtName, [Validators.required]),
         // districtCode: new FormControl('1036', [ Validators.required ]), // Demo
         floor: new FormControl(x.floor),
         provinceCode: new FormControl(Number(x.provinceCode), [Validators.required]),
-        provinceName: new FormControl(undefined, [Validators.required]),
+        provinceName: new FormControl(x.provinceName, [Validators.required]),
         // provinceCode: new FormControl('19', [ Validators.required ]), // Demo
         remark: new FormControl(x.remark),
         soi: new FormControl(x.soi),
         street: new FormControl(x.street),
         subdistrictCode: new FormControl(Number(x.subdistrictCode), [Validators.required]),
-        subdistrictName: new FormControl(undefined, [Validators.required]),
+        subdistrictName: new FormControl(x.subdistrictName, [Validators.required]),
         // subdistrictCode: new FormControl('103602'), // Demo
         typeId: new FormControl(x.typeId),
         typeName: new FormControl(x.typeName),

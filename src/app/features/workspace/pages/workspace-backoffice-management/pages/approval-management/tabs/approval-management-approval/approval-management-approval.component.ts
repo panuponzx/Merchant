@@ -232,12 +232,12 @@ export class ApprovalManagementApprovalComponent {
     this.form.get('id')?.setValue(event.row.id);
     this.form.get('citizenDocId')?.setValue(event.row.eventValue.customer.citizenDocId);
     this.form.get('pictures')?.setValue(event.row.eventValue.customer.pictures);
-    this.form.get('taxId')?.setValue(event.row.eventValue.customer.taxId);
+    this.form.get('citizenId')?.setValue(event.row.eventValue.customerContact.citizenId);
     this.form.get('companyName')?.setValue(event.row.eventValue.customer.corporateName);
     this.form.get('branch')?.setValue(event.row.eventValue.customer.branchTypeId);
     this.form.get('branchName')?.setValue(event.row.eventValue.customer.corporateBranch);
     this.form.get('branchNo')?.setValue(event.row.eventValue.customer.branchId);
-    this.form.get('citizenId')?.setValue(event.row.eventValue.customer.citizenId);
+    this.form.get('taxId')?.setValue(event.row.eventValue.customer.citizenId);
     // this.form.get('cardExpDate')?.setValue(new Date(event.row.eventValue.customer.cardExpDate));
     this.form.get('gender')?.setValue(event.row.eventValue.customer.gender);
     this.form.get('prefix')?.setValue(event.row.eventValue.customer.title);
