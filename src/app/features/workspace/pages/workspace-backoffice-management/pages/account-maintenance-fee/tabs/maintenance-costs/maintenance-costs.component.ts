@@ -12,7 +12,7 @@ import { first, map } from 'rxjs';
 })
 export class MaintenanceCostsComponent implements OnInit {
   @Input() public tempSearch: any | undefined;
-  public pageSize: number = 1;
+  public pageSize: number = 10;
   public pages: number = 1;
   public collectionSize: number = 0;
   public columns: CustomColumnModel[] = [
@@ -143,44 +143,6 @@ export class MaintenanceCostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rows = [
-      {
-        "customerName": "string",
-        "displayLastTransactionDate": "string",
-        "dormantDay": 0,
-        "faremediaValue": "string",
-        "feePerMonth": 0,
-        "isCancelled": true,
-        "lastTransactionDate": "2024-07-31T15:18:59.244Z"
-      },
-      {
-        "customerName": "string",
-        "displayLastTransactionDate": "string",
-        "dormantDay": 0,
-        "faremediaValue": "string",
-        "feePerMonth": 0,
-        "isCancelled": true,
-        "lastTransactionDate": "2024-07-31T15:18:59.244Z"
-      },
-      {
-        "customerName": "string",
-        "displayLastTransactionDate": "string",
-        "dormantDay": 0,
-        "faremediaValue": "string",
-        "feePerMonth": 0,
-        "isCancelled": false,
-        "lastTransactionDate": "2024-07-31T15:18:59.244Z"
-      },
-      {
-        "customerName": "string",
-        "displayLastTransactionDate": "string",
-        "dormantDay": 0,
-        "faremediaValue": "string",
-        "feePerMonth": 0,
-        "isCancelled": true,
-        "lastTransactionDate": "2024-07-31T15:18:59.244Z"
-      },
-    ];
     this.loadMaintenanceCosts();
   }
 
@@ -201,7 +163,6 @@ export class MaintenanceCostsComponent implements OnInit {
           console.log("[loadMaintenanceCosts] res => ", res);
           this.collectionSize = res.totalData;
           this.rows = res.data;
-          // this.setFareMedia(res.data.elements, row.walletId);
           this.modalDialogService.hideLoading();
           this.isLoading = false;
         },
@@ -215,6 +176,7 @@ export class MaintenanceCostsComponent implements OnInit {
 
   onChangePage(event: number) {
     this.pages = event;
+    this.loadMaintenanceCosts();
   }
 
   onAction(event: RowActionEventModel) {
