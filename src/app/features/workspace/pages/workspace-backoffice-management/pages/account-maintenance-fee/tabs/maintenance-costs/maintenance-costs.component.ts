@@ -1,25 +1,30 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CustomColumnModel, CustomerModel, RowActionEventModel } from '../../../../../../../../core/interfaces';
+import { RestApiService } from 'src/app/core/services';
+import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
+import { first, map } from 'rxjs';
 
 @Component({
   selector: 'maintenance-costs',
   templateUrl: './maintenance-costs.component.html',
   styleUrl: './maintenance-costs.component.scss'
 })
-export class MaintenanceCostsComponent {
+export class MaintenanceCostsComponent implements OnInit {
   @Input() public tempSearch: any | undefined;
-  public limitRow: number = 10;
+  public pageSize: number = 1;
   public pages: number = 1;
   public collectionSize: number = 0;
   public columns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
-    { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'userName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'period', name: 'Period', label: 'ระยะเวลาที่ไม่มีการเคลือนไหว', prop: 'period', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'deviceId', name: 'Device Id', label: 'หมายเลขอุปกรณ์', prop: 'deviceId', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'amountBilledMonth', name: 'Amount Billed Month', label: 'จำนวนเงินเรียกเก็บต่อเดือน', prop: 'amountBilledMonth', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
-    { id: 'movement', name: 'Movement', label: 'เคลื่อนไหวล่าสุด', prop: 'movement', sortable: false, resizeable: true, width: 250, minWidth: 250, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'cancelCharge', name: 'Cancel Charge', label: 'ยกเลิกการเรียกเก็บ', prop: 'cancelCharge', sortable: false, resizeable: true, width: 250, minWidth: 250, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'customerName', name: 'customerName', label: 'ชื่อผู้ใช้', prop: 'customerName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'displayLastTransactionDate', name: 'displayLastTransactionDate', label: 'ระยะเวลาที่ไม่มีการเคลือนไหว', prop: 'displayLastTransactionDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'faremediaValue', name: 'faremediaValue', label: 'หมายเลขอุปกรณ์', prop: 'faremediaValue', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'feePerMonth', name: 'feePerMonth', label: 'จำนวนเงินเรียกเก็บต่อเดือน', prop: 'feePerMonth', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'lastTransactionDate', name: 'lastTransactionDate', label: 'เคลื่อนไหวล่าสุด', prop: 'lastTransactionDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    // { id: 'lastTransactionDate', name: 'lastTransactionDate', label: 'เคลื่อนไหวล่าสุด', prop: 'lastTransactionDate', sortable: false, resizeable: true, width: 250, minWidth: 250, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    // { id: 'isCancelled', name: 'isCancelled', label: 'ยกเลิกการเรียกเก็บ', prop: 'isCancelled', sortable: false, resizeable: true, width: 250, minWidth: 250, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'isCancelled', name: 'isCancelled', label: 'ยกเลิกการเรียกเก็บ', prop: 'isCancelled', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red', textCondition1: 'ยกเลิกแล้ว', classCondition2: 'text-primary text-underline', textCondition2: 'ยกเลิกการเรียกเก็บ' } },
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
@@ -35,11 +40,13 @@ export class MaintenanceCostsComponent {
   @Output() hiddenFillterMenu: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private restApiService: RestApiService,
+    private modalDialogService: ModalDialogService
   ) {
     this.form = this.formBuilder.group({
-      date: new FormControl({value: undefined, disabled: true}, Validators.required),
-      deviceOwnerName: new FormControl({value: undefined, disabled: true}, Validators.required),
+      date: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      deviceOwnerName: new FormControl({ value: undefined, disabled: true }, Validators.required),
     });
     this.rows = [
       {
@@ -135,13 +142,84 @@ export class MaintenanceCostsComponent {
     }
   }
 
+  ngOnInit(): void {
+    this.rows = [
+      {
+        "customerName": "string",
+        "displayLastTransactionDate": "string",
+        "dormantDay": 0,
+        "faremediaValue": "string",
+        "feePerMonth": 0,
+        "isCancelled": true,
+        "lastTransactionDate": "2024-07-31T15:18:59.244Z"
+      },
+      {
+        "customerName": "string",
+        "displayLastTransactionDate": "string",
+        "dormantDay": 0,
+        "faremediaValue": "string",
+        "feePerMonth": 0,
+        "isCancelled": true,
+        "lastTransactionDate": "2024-07-31T15:18:59.244Z"
+      },
+      {
+        "customerName": "string",
+        "displayLastTransactionDate": "string",
+        "dormantDay": 0,
+        "faremediaValue": "string",
+        "feePerMonth": 0,
+        "isCancelled": false,
+        "lastTransactionDate": "2024-07-31T15:18:59.244Z"
+      },
+      {
+        "customerName": "string",
+        "displayLastTransactionDate": "string",
+        "dormantDay": 0,
+        "faremediaValue": "string",
+        "feePerMonth": 0,
+        "isCancelled": true,
+        "lastTransactionDate": "2024-07-31T15:18:59.244Z"
+      },
+    ];
+    this.loadMaintenanceCosts();
+  }
+
+  loadMaintenanceCosts() {
+    this.modalDialogService.loading();
+    const mockupData = {
+      // content: '',
+      page: this.pages,
+      pageSize: this.pageSize
+    };
+    this.restApiService
+      .postBackOffice('report/get/faremedia/dormant', mockupData)
+      .pipe(
+        first(),
+        map(res => res as any)
+      ).subscribe({
+        next: (res) => {
+          console.log("[loadMaintenanceCosts] res => ", res);
+          this.collectionSize = res.totalData;
+          this.rows = res.data;
+          // this.setFareMedia(res.data.elements, row.walletId);
+          this.modalDialogService.hideLoading();
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.modalDialogService.hideLoading();
+          console.error(error);
+          this.modalDialogService.handleError(error);
+        }
+      });
+  }
+
   onChangePage(event: number) {
     this.pages = event;
   }
 
   onAction(event: RowActionEventModel) {
     console.info(event);
-    this.isShowDescription = true;
+    // this.isShowDescription = true;
     this.hiddenFillterMenu.emit(true);
   }
 
