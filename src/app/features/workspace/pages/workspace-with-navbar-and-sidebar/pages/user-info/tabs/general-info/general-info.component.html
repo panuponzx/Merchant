@@ -151,6 +151,21 @@
                 </div>
               </div>
               <div class="form-group">
+                <label class="label-input required-field" for="prefixInput">
+                  คำนำหน้า
+              </label>
+              <ng-select
+                  class="form-control"
+                  [items]="prefixList$ | async" 
+                  [addTag]="addTagPrefixPromise"
+                  id="prefixInput"
+                  data-testid="prefixInput"
+                  bindLabel="label" 
+                  bindValue="value"
+                  formControlName="title">
+              </ng-select>
+              </div>
+              <div class="form-group">
                 <label class="label-input required-field" for="firstNameInput">
                   ชื่อ
                 </label>
