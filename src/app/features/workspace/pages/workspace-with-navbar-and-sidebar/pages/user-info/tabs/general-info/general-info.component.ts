@@ -486,43 +486,43 @@ export class GeneralInfoComponent {
     this.isUpdated = false;
     const formControl = this.form.controls;
     // console.log("[setFormValue] dd", this.transformDatePipe.transform(customer.birthdate, null));
-    if (res.customer.birthdate) {
+    if (res.customer?.birthdate) {
       formControl['birthdate'].setValue(new Date(res.customer.birthdate));
     }
-    if (res.customer.cardExpDate) {
+    if (res.customer?.cardExpDate) {
       formControl['cardExpDate'].setValue(new Date(res.customer.cardExpDate));
     }
-    this.onCheckPrefix(res.customer.title);
+    this.onCheckPrefix(res.customer?.title);
     this.prefixList$ = of(this.prefixList);
-    formControl['branchTypeId'].setValue(res.customer.branchTypeId);
-    formControl['channelId'].setValue(res.customer.channelId);
-    formControl['citizenDocId'].setValue(res.customer.citizenDocId);
-    formControl['citizenId'].setValue(this.utilitiesService.formatIdCard(res.customer.citizenId));
-    formControl['createDate'].setValue(res.customer.createDate);
-    formControl['customerTypeId'].setValue(res.customer.customerTypeId);
-    formControl['customerTypeName'].setValue(res.customer.customerTypeName);
-    formControl['firstName'].setValue(res.customer.firstName);
-    formControl['gender'].setValue(res.customer.gender);
-    formControl['id'].setValue(res.customer.id);
-    formControl['lastName'].setValue(res.customer.lastName);
-    formControl['mobilePhone'].setValue(res.customer.mobilePhone);
-    formControl['email'].setValue(res.customer.email);
-    formControl['occupation'].setValue(res.customer.occupation);
-    formControl['status'].setValue(res.customer.status);
-    formControl['taxId'].setValue(res.customer.taxId);
-    formControl['title'].setValue(res.customer.title);
+    formControl['branchTypeId'].setValue(res.customer?.branchTypeId);
+    formControl['channelId'].setValue(res.customer?.channelId);
+    formControl['citizenDocId'].setValue(res.customer?.citizenDocId);
+    formControl['citizenId'].setValue(this.utilitiesService.formatIdCard(res.customer?.citizenId));
+    formControl['createDate'].setValue(res.customer?.createDate);
+    formControl['customerTypeId'].setValue(res.customer?.customerTypeId);
+    formControl['customerTypeName'].setValue(res.customer?.customerTypeName);
+    formControl['firstName'].setValue(res.customer?.firstName);
+    formControl['gender'].setValue(res.customer?.gender);
+    formControl['id'].setValue(res.customer?.id);
+    formControl['lastName'].setValue(res.customer?.lastName);
+    formControl['mobilePhone'].setValue(res.customer?.mobilePhone);
+    formControl['email'].setValue(res.customer?.email);
+    formControl['occupation'].setValue(res.customer?.occupation);
+    formControl['status'].setValue(res.customer?.status);
+    formControl['taxId'].setValue(res.customer?.taxId);
+    formControl['title'].setValue(res.customer?.title);
     if (this.customerTypeId === '3') {
-      formControl['customerContactId'].setValue(res.customerContact.id);
-      formControl['citizenId'].setValue(res.customerContact.citizenId);
-      formControl['taxId'].setValue(res.customer.citizenId);
-      formControl['contactPhone'].setValue(res?.customerContact?.phone);
-      formControl['corporateName'].setValue(res.customer.corporateName);
-      formControl['branchType'].setValue(res.customer.branchTypeId);
-      formControl['branchName'].setValue(res.customer.corporateBranch);
-      formControl['branchCode'].setValue(res.customer.branchId);
-      formControl['branchCode'].setValue(res.customer.branchId);
-      formControl['contactPhone'].setValue(res?.customerContact?.phone);
-      this.onChangeBranch(res.customer.branchTypeId);
+      formControl['customerContactId'].setValue(res.customerContact?.id);
+      formControl['citizenId'].setValue(res.customerContact?.citizenId);
+      formControl['taxId'].setValue(res.customer?.citizenId);
+      formControl['contactPhone'].setValue(res.customerContact?.phone);
+      formControl['corporateName'].setValue(res.customer?.corporateName);
+      formControl['branchType'].setValue(res.customer?.branchTypeId);
+      formControl['branchName'].setValue(res.customer?.corporateBranch);
+      formControl['branchCode'].setValue(res.customer?.branchId);
+      formControl['branchCode'].setValue(res.customer?.branchId);
+      formControl['contactPhone'].setValue(res.customerContact?.phone);
+      this.onChangeBranch(res.customer?.branchTypeId);
       // formControl['corporateName'].addValidators([Validators.required]);
       // formControl['corporateName'].updateValueAndValidity();
       // formControl['corporatePhone'].setValue(customer.corporatePhone);
