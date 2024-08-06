@@ -93,6 +93,7 @@ import { InputEtaxAddressComponent } from './pages/workspace-with-navbar/pages/a
 import { ExceptionTransactionComponent } from './pages/workspace-backoffice-management/pages/exception-transaction/exception-transaction.component';
 import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
 import { TransactionSuspensionModalComponent } from './pages/workspace-backoffice-management/modals/transaction-suspension-modal/transaction-suspension-modal.component';
+import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
 
 
 @NgModule({
@@ -174,6 +175,7 @@ import { TransactionSuspensionModalComponent } from './pages/workspace-backoffic
     ExceptionTransactionComponent,
     TransactionSuspensionManagementComponent,
     TransactionSuspensionModalComponent,
+    UserInfoAllComponent,
   ],
   imports: [
     CommonModule,

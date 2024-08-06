@@ -35,6 +35,7 @@ import { ActivityFaremediaComponent } from './pages/workspace-backoffice-managem
 import { ExpiredFaremediaListComponent } from './pages/workspace-backoffice-management/pages/expired-faremedia-list/expired-faremedia-list.component';
 import { ExceptionTransactionComponent } from './pages/workspace-backoffice-management/pages/exception-transaction/exception-transaction.component';
 import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
+import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -156,6 +157,17 @@ export const routesConfig: CustomRoutesModel = [
               label: 'ข้อมูลการโอนเงิน',
               request_id: true,
               default_path: 'transfer-information'
+            }
+          },
+          {
+            id: 'user-info-all',
+            path: 'aaa/:id',
+            component: UserInfoAllComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ข้อมูลผู้ใช้ทั้งหมด',
+              request_id: true,
+              default_path: 'aaa'
             }
           },
         ],

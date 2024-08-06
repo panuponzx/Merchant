@@ -1,0 +1,220 @@
+<div class="content-container container-xl p-0">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">ข้อมูลผู้ใช้งาน</h1>
+        </div>
+        <!-- <div class="content-container-header-item">
+            <button class="custom-btn btn-type-3" data-testid="clearButton" id="clearButton" title="ล้างการค้นหา"
+                (click)="onClear()">
+                ล้างการค้นหา
+            </button>
+        </div> -->
+    </div>
+    <hr class="hr-custom" />
+    <div class="content-container-body">
+        <ng-container *ngIf="!isLoading && customer && customerTypeId && customerId">
+            <div class="user-type-container">
+                <icon-svg [size]="'57.14px'" [color]="customer | customerType: 'color-code'"
+                    [path]="(customer | customerType: 'icon') | icon" />
+                <div class="user-type-info-wrapper">
+                    <h3 [style.color]="customer | customerType: 'color-code'">{{ customer.title + ' ' +
+                        customer.firstName + ' '
+                        + customer.lastName }}</h3>
+                    <div class="d-flex">
+                        <span class="custom-badge customer-badge"
+                            [style.color]="customer | customerType: 'color-code'">{{ customer
+                            | customerType: 'name' }}</span>
+                        <!-- <span class="ms-2 my-auto label-input">วันที่สร้าง {{customer.createDate | buddhistDate:
+                            'dd/MM/yyyy HH:mm:ss'}}</span> -->
+                    </div>
+                </div>
+            </div>
+            <form [formGroup]="form">
+                <div class="user-container">
+                    <h3 class="mb-3">ข้อมูลตามบัตรประชาชน</h3>
+
+                    <div class="row">
+                        <!-- <div class="col-sm-12 col-md-6 mb-3"></div> -->
+                        <div class="col-md-12 col-lg-6 mb-3">
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="prefixInput">
+                                    คำนำหน้า
+                                </label>
+                                <input class="form-control" data-testid="prefixInput" formControlName="prefix"
+                                    id="prefixInput" type="text">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="firstNameInput">
+                                    ชื่อ
+                                </label>
+                                <input class="form-control" data-testid="firstNameInput" formControlName="firstName"
+                                    id="firstNameInput" type="text">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="lastNameInput">
+                                    นามสกุล
+                                </label>
+                                <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                    id="lastNameInput" type="text">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="lastNameInput">
+                                    วันเกิด
+                                </label>
+                                <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                    id="lastNameInput" type="text">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="lastNameInput">
+                                    ประเภทลูกค้า
+                                </label>
+                                <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                    id="lastNameInput" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6 mb-3">
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="prefixInput">
+                                    คำนำหน้า (EN)
+                                </label>
+                                <input class="form-control" data-testid="prefixInput" formControlName="prefix"
+                                    id="prefixInput" type="text">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="firstNameInput">
+                                    ชื่อ (EN)
+                                </label>
+                                <input class="form-control" data-testid="firstNameInput" formControlName="firstName"
+                                    id="firstNameInput" type="text">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="lastNameInput">
+                                    นามสกุล (EN)
+                                </label>
+                                <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                    id="lastNameInput" type="text">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="lastNameInput">
+                                    เพศ
+                                </label>
+                                <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                    id="lastNameInput" type="text">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="lastNameInput">
+                                    บัตรประชาชน
+                                </label>
+                                <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                    id="lastNameInput" type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="label-input" for="lastNameInput">
+                                    ที่อยู่
+                                </label>
+                                <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                    id="lastNameInput" type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-lg-6 mb-3">
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="lastNameInput">
+                                        อำเภอ / เขต
+                                    </label>
+                                    <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                        id="lastNameInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="lastNameInput">
+                                        มือถือ
+                                    </label>
+                                    <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                        id="lastNameInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="lastNameInput">
+                                        โทรศัพท์ที่ทำงาน
+                                    </label>
+                                    <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                        id="lastNameInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="lastNameInput">
+                                        อีเมล
+                                    </label>
+                                    <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                        id="lastNameInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="lastNameInput">
+                                        หมายเหตุ
+                                    </label>
+                                    <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                        id="lastNameInput" type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-6 mb-3">
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="lastNameInput">
+                                        จังหวัด
+                                    </label>
+                                    <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                        id="lastNameInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="lastNameInput">
+                                        รหัสไปรษณีย์
+                                    </label>
+                                    <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                        id="lastNameInput" type="text">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="label-input" for="lastNameInput">
+                                        โทรศัพท์บ้าน
+                                    </label>
+                                    <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                        id="lastNameInput" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="wallet-container">
+                    <h3 class="mb-3">รายการ TAG(E-Wallet)</h3>
+                    <div class="waller-description d-flex justify-content-between align-items-end mb-3">
+                        <div>
+                            <ng-select class="form-control" [clearable]="false" bindLabel="id" bindValue="id"
+                                data-testid="walletSelect" formControlName="walletId" [placeholder]="'กรุณาระบุ'"
+                                id="walletSelect" [items]="walletsList"
+                                (ngModelChange)="onChangeWallet($event)"></ng-select>
+                        </div>
+                        <h3>Wallet ID: {{ 1234567890 }}</h3>
+                    </div>
+                    <div class="datatable-container">
+                        <datatable [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
+                            [columns]="columnsWallet" [collectionSize]="collectionWalletSize" [id]="'walletDatatable'"
+                            [isLoading]="isWalletLoading" [pageSize]="pageWalletSize" [page]="pagesWallet"
+                            [rows]="fareMediaList[this.form.get('walletId')?.value]" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangeWalletPage($event)"
+                            (onRowActionEvent)="onWalletAction($event)" />
+                    </div>
+                </div>
+                <div class="return-faremedia-container">
+                    <h3 class="mb-3">รายการ คือบัตร</h3>
+                    <div class="datatable-container">
+                        <datatable [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
+                            [columns]="columnsWallet" [collectionSize]="collectionWalletSize" [id]="'walletDatatable'"
+                            [isLoading]="isWalletLoading" [pageSize]="pageWalletSize" [page]="pagesWallet"
+                            [rows]="fareMediaList[this.form.get('walletId')?.value]" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangeWalletPage($event)"
+                            (onRowActionEvent)="onWalletAction($event)" />
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+</div>
