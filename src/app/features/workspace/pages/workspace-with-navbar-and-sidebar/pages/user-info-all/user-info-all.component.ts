@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, Observable } from 'rxjs';
-import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, IWalletInfoModel, ReponseCustomerModel, ResponseModel, RowActionEventModel } from 'src/app/core/interfaces';
+import { filter, first, map, Observable } from 'rxjs';
+import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, DistrictModel, IWalletInfoModel, ProvinceModel, ReponseCustomerModel, ReponseZipcodeModel, ResponseModel, RowActionEventModel, SubdistrictModel, ZipcodeModel } from 'src/app/core/interfaces';
 import { CustomerTypePipe } from 'src/app/core/pipes';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
@@ -54,12 +54,12 @@ export class UserInfoAllComponent implements OnInit {
   public collectionReturnSize: number = 0;
   public isReturnLoading: boolean = false;
   public columnsReturn: CustomColumnModel[] = [
-    { id: 'obuSerialNo', name: 'OBU serial no.', label: 'เลขบัญชี', prop: 'faremediaValue', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลข OBU.', prop: 'walletSmartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
-    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลขสมาร์ทการ์ด', prop: 'walletSmartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
-    { id: 'status', name: 'Status', label: 'สถานะบัตร', prop: 'faremediaStatus', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'licensePlate', name: 'licensePlate', label: 'ทะเบียนรถ', prop: 'plateNo', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'licensePlate', name: 'licensePlate', label: 'จังหวัด', prop: 'plateNo', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    // { id: 'obuSerialNo', name: 'OBU serial no.', label: 'เลขบัญชี', prop: 'faremediaValue', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลข OBU.', prop: 'obuNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลขสมาร์ทการ์ด', prop: 'smartCardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    // { id: 'status', name: 'Status', label: 'สถานะบัตร', prop: 'faremediaStatus', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'carLicensePlate', name: 'carLicensePlate', label: 'ทะเบียนรถ', prop: 'carLicensePlate', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'carLicensePlateProvince', name: 'carLicensePlateProvince', label: 'จังหวัด', prop: 'carLicensePlateProvince', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'registerDate', name: 'registerDate', label: 'วันที่สมัครบัตร', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D/MM/BBBB', locale: 'th' } },
   ];
   public returnList: any[] = [];
@@ -74,10 +74,16 @@ export class UserInfoAllComponent implements OnInit {
     { id: 'newObu', name: 'newObu', label: 'หมายเลข OBU. ใหม่', prop: 'newObu', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'oldSmartCard', name: 'oldSmartCard', label: 'หมายเลขสมาร์ทการ์ดเก่า', prop: 'oldSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'newSmartCard', name: 'newSmartCard', label: 'หมายเลขสมาร์ทการ์ดใหม่', prop: 'newSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
-    { id: 'balance', name: 'balance', label: 'Balance', prop: 'balance', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'balance', name: 'balance', label: 'Balance', prop: 'displayBalance', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'faremediaCreateDate', name: 'faremediaCreateDate', label: 'วันที่สมัครบัตร', prop: 'faremediaCreateDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D/MM/BBBB', locale: 'th' } },
   ];
   public changeList: any[] = [];
+
+  public districts: DistrictModel[] = [];
+  public subdistricts: SubdistrictModel[] = [];
+  public provinces: ProvinceModel[] = [];
+
+  public zipcode: ZipcodeModel[] = [];
 
   constructor(
     private restApiService: RestApiService,
@@ -90,9 +96,27 @@ export class UserInfoAllComponent implements OnInit {
     this.customerId = this.activatedRoute.snapshot.paramMap.get('id');
     this.title = (this.activatedRoute as CustomeActivatedRouteModel).routeConfig.data?.label;
     this.form = this.formBuilder.group({
-      prefix: new FormControl(undefined, Validators.required),
-      firstName: new FormControl(undefined, Validators.required),
-      lastName: new FormControl(undefined, Validators.required),
+      prefix: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      firstName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      lastName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      birthdate: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      customerType: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      prefixEng: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      firstNameEng: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      lastNameEng: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      gender: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      citizenId: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      address: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      subdistrictCode: new FormControl(undefined, Validators.required),
+      subdistrictName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      provinceCode: new FormControl(undefined, Validators.required),
+      provinceName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      zipcode: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      mobilePhone: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      corporatePhone: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      homePhone: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      email: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      remark: new FormControl({ value: undefined, disabled: true }, Validators.required),
       walletId: new FormControl(undefined, Validators.required),
       walletBalance: new FormControl(undefined, Validators.required),
     });
@@ -120,7 +144,7 @@ export class UserInfoAllComponent implements OnInit {
         console.log("[loadCustomer res => ", res);
         this.customer = res.customer;
         this.customerTypeId = this.customerTypePipe.transform(this.customer, 'id');
-
+        this.setFormValue(res);
       },
       error: (err) => {
 
@@ -222,6 +246,8 @@ export class UserInfoAllComponent implements OnInit {
     (this.restApiService.postBackOffice(`faremedia/get/returned/customer/${this.customerId}`, payload) as Observable<any>).subscribe(({
       next: (res) => {
         console.log("[loadReturnFaremedia] res => ", res);
+        this.collectionReturnSize = res.data.length;
+        this.returnList = res.data;
       },
       error: (err) => {
 
@@ -233,14 +259,40 @@ export class UserInfoAllComponent implements OnInit {
     const payload = {
       content: {}
     };
-    (this.restApiService.post(`action-log/get/changing/faremedia/customer/${this.customerId}`, payload) as Observable<any>).subscribe(({
+    (this.restApiService.postBackOffice(`action-log/get/changing/faremedia/customer/${this.customerId}`, payload) as Observable<any>).subscribe(({
       next: (res) => {
         console.log("[loadChangeFaremedia] res => ", res);
+        this.collectionChangeSize = res.data.length;
+        this.changeList = res.data;
       },
       error: (err) => {
 
       }
     }))
+  }
+
+  setFormValue(res: ReponseCustomerModel) {
+    this.form.get('prefix')?.setValue(res.customer.title);
+    this.form.get('firstName')?.setValue(res.customer.firstName);
+    this.form.get('lastName')?.setValue(res.customer.lastName);
+    this.form.get('prefixEng')?.setValue(res.customer.titleEng);
+    this.form.get('firstNameEng')?.setValue(res.customer.firstNameEng);
+    this.form.get('lastNameEng')?.setValue(res.customer.lastNameEng);
+    this.form.get('birthdate')?.setValue(res.customer.birthdate);
+
+    this.form.get('gender')?.setValue(res.customer.gender);
+    this.form.get('customerType')?.setValue(res.customer.customerTypeName);
+    this.form.get('citizenId')?.setValue(res.customer.citizenId);
+    const address = `${res.addresses[0].addressNo} ${res.addresses[0].soi} ${res.addresses[0].street} `;
+    this.form.get('address')?.setValue(address);
+    this.form.get('subdistrictCode')?.setValue(Number(res.addresses[0].subdistrictCode));
+    this.form.get('provinceCode')?.setValue(Number(res.addresses[0].provinceCode));
+    this.form.get('zipcode')?.setValue(res.addresses[0].zipcode);
+    this.form.get('mobilePhone')?.setValue(res.customer.mobilePhone);
+    // this.form.get('corporatePhone')?.setValue(res.customer.mobilePhone);
+    // this.form.get('homePhone')?.setValue(res.customer.mobilePhone);
+    this.form.get('email')?.setValue(res.customer.email);
+    this.loadZipcode();
   }
 
   onChangeWallet(walletId: number) {
@@ -251,6 +303,93 @@ export class UserInfoAllComponent implements OnInit {
   onChangeWalletPage(event: number) {
     this.pagesWallet = event;
     this.getFaremediaByWalletId(this.form.get('walletId')?.value);
+  }
+
+  loadZipcode() {
+    const zipcode = this.form.get('zipcode')?.value;
+    if (zipcode && zipcode.length === 5) {
+      this.restApiService
+        .get('zip-code/code/' + zipcode)
+        .pipe(
+          first(),
+          map(res => res as ReponseZipcodeModel)
+        )
+        .subscribe({
+          next: (res) => {
+            this.zipcode = [...res.zipCodes];
+            this.subdistricts = this.getSubdistrict(zipcode);
+            this.districts = this.getDistrict(this.form.get('subdistrictCode')?.value);
+            this.provinces = this.getProvince(this.form.get('districtCode')?.value);
+            console.log("[loadZipcode] subdistricts => ", this.subdistricts);
+            console.log("[loadZipcode] districts => ", this.districts);
+            console.log("[loadZipcode] provinces => ", this.provinces);
+
+            this.form?.get('subdistrictName')?.setValue(this.getSubdistrictName(this.form.get('subdistrictCode')?.value));
+            this.form?.get('districtName')?.setValue(this.getDistrictName(this.form.get('subdistrictCode')?.value));
+            this.form?.get('provinceName')?.setValue(this.getDistrict(this.form.get('subdistrictCode')?.value)[0].province.name);
+          },
+          error: (err) => {
+            console.error(err);
+            this.modalDialogService.handleError(err);
+          }
+        });
+    }
+  }
+  
+  getSubdistrict(zipcode: string | undefined | null): SubdistrictModel[] {
+    if (zipcode) {
+      const subdistricts = this.zipcode.map(x => x.subdistrict);
+      return subdistricts;
+    } else {
+      return [];
+    }
+  }
+
+  getSubdistrictName(subdistrictId: number): string | null {
+    if (subdistrictId) {
+      const subdistrictsName = this.subdistricts.filter(x => x.id === subdistrictId);
+      console.log("[getSubdistrictName] subdistrictsName => ", subdistrictsName);
+      return subdistrictsName[0].name;
+    } else {
+      return null;
+    }
+  }
+
+  getDistrict(subdistrictCode: number | undefined | null): DistrictModel[] {
+    if (subdistrictCode) {
+      const districts = this.subdistricts.filter(x => x.id === subdistrictCode).map(x => x.district);
+      return districts;
+    } else {
+      return [];
+    }
+  }
+
+  getDistrictName(subdistrictCode: number): string | null {
+    if (subdistrictCode) {
+      const districts = this.subdistricts.filter(x => x.id === subdistrictCode).map(x => x.district);
+      return districts[0].name;
+    } else {
+      return null;
+    }
+  }
+
+  
+  getProvince(districtCode: number | undefined | null): ProvinceModel[] {
+    if (districtCode) {
+      const provinces = this.districts.filter(x => x.id === districtCode).map(x => x.province);
+      return provinces;
+    } else {
+      return [];
+    }
+  }
+
+  getProvinceName(districtCode: number): string | null {
+    if (districtCode) {
+      const provinces = this.districts.filter(x => x.id === districtCode).map(x => x.province);
+      return provinces[0].name;
+    } else {
+      return null;
+    }
   }
 
   onWalletAction(event: RowActionEventModel) {

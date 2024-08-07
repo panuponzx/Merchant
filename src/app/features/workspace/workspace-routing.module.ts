@@ -101,6 +101,17 @@ export const routesConfig: CustomRoutesModel = [
             canActivate: [TabGuard]
           },
           {
+            id: 'overall-information',
+            path: 'overall-information/:id',
+            component: UserInfoAllComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ข้อมูลโดยรวม',
+              request_id: true,
+              default_path: 'overall-information'
+            }
+          },
+          {
             id: 'passageInfoRoute',
             path: 'passage-info/:id',
             component: PassageInfoComponent,
@@ -157,17 +168,6 @@ export const routesConfig: CustomRoutesModel = [
               label: 'ข้อมูลการโอนเงิน',
               request_id: true,
               default_path: 'transfer-information'
-            }
-          },
-          {
-            id: 'user-info-all',
-            path: 'aaa/:id',
-            component: UserInfoAllComponent,
-            data: {
-              is_sidebar: true,
-              label: 'ข้อมูลผู้ใช้ทั้งหมด',
-              request_id: true,
-              default_path: 'aaa'
             }
           },
         ],
