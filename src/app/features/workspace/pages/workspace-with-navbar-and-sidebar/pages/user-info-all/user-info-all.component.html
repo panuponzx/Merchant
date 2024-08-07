@@ -207,11 +207,22 @@
                     <h3 class="mb-3">รายการ คือบัตร</h3>
                     <div class="datatable-container">
                         <datatable [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
-                            [columns]="columnsWallet" [collectionSize]="collectionWalletSize" [id]="'walletDatatable'"
-                            [isLoading]="isWalletLoading" [pageSize]="pageWalletSize" [page]="pagesWallet"
-                            [rows]="fareMediaList[this.form.get('walletId')?.value]" emptyMessage="ไม่มีข้อมูล"
-                            (onChangePageEvent)="onChangeWalletPage($event)"
-                            (onRowActionEvent)="onWalletAction($event)" />
+                            [columns]="columnsReturn" [collectionSize]="collectionReturnSize" [id]="'returnDatatable'"
+                            [isLoading]="isReturnLoading" [pageSize]="pageReturnSize" [page]="pagesReturn"
+                            [rows]="returnList" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangeReturnPage($event)"
+                            (onRowActionEvent)="onReturnAction($event)" />
+                    </div>
+                </div>
+                <div class="change-faremedia-container">
+                    <h3 class="mb-3">รายการ คือบัตร</h3>
+                    <div class="datatable-container">
+                        <datatable [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
+                            [columns]="columnsChange" [collectionSize]="collectionChangeSize" [id]="'changeDatatable'"
+                            [isLoading]="isChangeLoading" [pageSize]="pageChangeSize" [page]="pagesChange"
+                            [rows]="changeList" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangeFaremediaChangePage($event)"
+                            (onRowActionEvent)="onFaremediaChangeAction($event)" />
                     </div>
                 </div>
             </form>

@@ -49,6 +49,36 @@ export class UserInfoAllComponent implements OnInit {
   ];
   public rowsWallet: any[] = [];
 
+  public pageReturnSize: number = 5;
+  public pagesReturn: number = 1;
+  public collectionReturnSize: number = 0;
+  public isReturnLoading: boolean = false;
+  public columnsReturn: CustomColumnModel[] = [
+    { id: 'obuSerialNo', name: 'OBU serial no.', label: 'เลขบัญชี', prop: 'faremediaValue', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลข OBU.', prop: 'walletSmartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลขสมาร์ทการ์ด', prop: 'walletSmartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'status', name: 'Status', label: 'สถานะบัตร', prop: 'faremediaStatus', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'licensePlate', name: 'licensePlate', label: 'ทะเบียนรถ', prop: 'plateNo', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'licensePlate', name: 'licensePlate', label: 'จังหวัด', prop: 'plateNo', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'registerDate', name: 'registerDate', label: 'วันที่สมัครบัตร', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D/MM/BBBB', locale: 'th' } },
+  ];
+  public returnList: any[] = [];
+
+  public pageChangeSize: number = 5;
+  public pagesChange: number = 1;
+  public collectionChangeSize: number = 0;
+  public isChangeLoading: boolean = false;
+  public columnsChange: CustomColumnModel[] = [
+    // { id: 'obuSerialNo', name: 'OBU serial no.', label: 'เลขบัญชี', prop: 'faremediaValue', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'oldObu', name: 'oldObu', label: 'หมายเลข OBU. เก่า', prop: 'oldObu', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'newObu', name: 'newObu', label: 'หมายเลข OBU. ใหม่', prop: 'newObu', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'oldSmartCard', name: 'oldSmartCard', label: 'หมายเลขสมาร์ทการ์ดเก่า', prop: 'oldSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'newSmartCard', name: 'newSmartCard', label: 'หมายเลขสมาร์ทการ์ดใหม่', prop: 'newSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'balance', name: 'balance', label: 'Balance', prop: 'balance', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'faremediaCreateDate', name: 'faremediaCreateDate', label: 'วันที่สมัครบัตร', prop: 'faremediaCreateDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D/MM/BBBB', locale: 'th' } },
+  ];
+  public changeList: any[] = [];
+
   constructor(
     private restApiService: RestApiService,
     private activatedRoute: ActivatedRoute,
@@ -73,6 +103,7 @@ export class UserInfoAllComponent implements OnInit {
       this.loadCustomer();
       this.loadWalletInfo();
       this.loadReturnFaremedia();
+      this.loadChangeFaremedia();
     }
   }
 
@@ -198,6 +229,20 @@ export class UserInfoAllComponent implements OnInit {
     }))
   }
 
+  loadChangeFaremedia() {
+    const payload = {
+      content: {}
+    };
+    (this.restApiService.post(`action-log/get/changing/faremedia/customer/${this.customerId}`, payload) as Observable<any>).subscribe(({
+      next: (res) => {
+        console.log("[loadChangeFaremedia] res => ", res);
+      },
+      error: (err) => {
+
+      }
+    }))
+  }
+
   onChangeWallet(walletId: number) {
     // this.form.get('walletBalance')?.setValue(this.walletsList[0].totalBalance);
     this.getFaremediaByWalletId(walletId);
@@ -209,6 +254,22 @@ export class UserInfoAllComponent implements OnInit {
   }
 
   onWalletAction(event: RowActionEventModel) {
+
+  }
+
+  onChangeReturnPage(event: number) {
+    this.pagesReturn = event;
+  }
+
+  onReturnAction(event: RowActionEventModel) {
+
+  }
+
+  onChangeFaremediaChangePage(event: number) {
+    this.pagesChange = event;
+  }
+
+  onFaremediaChangeAction(event: RowActionEventModel) {
 
   }
 
