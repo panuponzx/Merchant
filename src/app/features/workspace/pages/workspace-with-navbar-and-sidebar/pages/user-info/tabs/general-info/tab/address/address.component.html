@@ -20,17 +20,17 @@
             type="text" placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label class="label-input" for="villageInput">
             หมู่บ้าน
           </label>
           <input class="form-control" formControlName="village" id="villageInput" data-testid="villageInput" type="text"
             placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
-        </div>
+        </div> -->
 
         <div class="form-group">
           <label class="label-input" for="buildingInput">
-            อาคาร/คอนโด
+            หมู่บ้าน/อาคาร/คอนโด
           </label>
           <input class="form-control" formControlName="building" id="buildingInput" data-testid="buildingInput"
             type="text" placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
@@ -50,8 +50,7 @@
           <input class="form-control" formControlName="alley" id="alleyInput" data-testid="alleyInput" type="text"
             placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
-      </div>
-      <div class="col-sm-12 col-md-6">
+
         <div class="form-group">
           <label class="label-input" for="soiInput">
             ซอย
@@ -59,7 +58,8 @@
           <input class="form-control" formControlName="soi" id="soiInput" data-testid="soiInput" type="text"
             placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
-
+      </div>
+      <div class="col-sm-12 col-md-6">
         <div class="form-group">
           <label class="label-input" for="streetInput">
             ถนน
