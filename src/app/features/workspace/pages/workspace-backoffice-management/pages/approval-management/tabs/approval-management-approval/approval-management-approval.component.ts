@@ -97,7 +97,7 @@ export class ApprovalManagementApprovalComponent {
     private modalDialogService: ModalDialogService,
     private ngbModal: NgbModal
   ) {
-    
+
     this.form = this.formBuilder.group({
       id: new FormControl({ value: undefined, disabled: true }, Validators.required),
       citizenDocId: new FormControl({ value: undefined, disabled: true }, Validators.required),
@@ -128,13 +128,13 @@ export class ApprovalManagementApprovalComponent {
         alley: new FormControl({ value: undefined, disabled: true }),
         soi: new FormControl({ value: undefined, disabled: true }),
         street: new FormControl({ value: undefined, disabled: true }),
+        province: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        provinceName: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
+        district: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        districtName: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
+        subdistrict: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        subdistrictName: new FormControl({ value: undefined, disabled: false }, Validators.required),
         zipcode: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        subdistrictCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        subdistrictName: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        districtCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        districtName: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        provinceCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        provinceName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       }),
       etax_address: new FormGroup({
         typeId: new FormControl(undefined),
@@ -146,13 +146,13 @@ export class ApprovalManagementApprovalComponent {
         alley: new FormControl({ value: undefined, disabled: true }),
         soi: new FormControl({ value: undefined, disabled: true }),
         street: new FormControl({ value: undefined, disabled: true }),
+        province: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        provinceName: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
+        district: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        districtName: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
+        subdistrict: new FormControl({ value: undefined, disabled: true }, Validators.required),
+        subdistrictName: new FormControl({ value: undefined, disabled: false }, Validators.required),
         zipcode: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        subdistrictCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        subdistrictName: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        districtCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        districtName: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        provinceCode: new FormControl({ value: undefined, disabled: true }, Validators.required),
-        provinceName: new FormControl({ value: undefined, disabled: true }, Validators.required),
       }),
     });
     // this.tempRows = this.rows;
@@ -260,15 +260,15 @@ export class ApprovalManagementApprovalComponent {
         this.form.get('work_address')?.get('alley')?.setValue(x.alley);
         this.form.get('work_address')?.get('soi')?.setValue(x.soi);
         this.form.get('work_address')?.get('street')?.setValue(x.street);
-        this.form.get('work_address')?.get('zipcode')?.setValue(x.zipcode);
-        this.form.get('work_address')?.get('subdistrictCode')?.setValue(Number(x.subdistrictCode));
-        // this.form.get('work_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
-        this.form.get('work_address')?.get('districtCode')?.setValue(Number(x.districtCode));
-        // this.form.get('work_address')?.get('districtName')?.setValue(x.districtCode);
-        this.form.get('work_address')?.get('provinceCode')?.setValue(Number(x.provinceCode));
+        this.form.get('work_address')?.get('province')?.setValue(Number(x.provinceCode));
         // this.form.get('work_address')?.get('provinceName')?.setValue(x.provinceCode);
+        this.form.get('work_address')?.get('district')?.setValue(Number(x.districtCode));
+        // this.form.get('work_address')?.get('districtName')?.setValue(x.districtCode);
+        this.form.get('work_address')?.get('subdistrict')?.setValue(Number(x.subdistrictCode));
+        // this.form.get('work_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
+        this.form.get('work_address')?.get('zipcode')?.setValue(x.zipcode);
       }
-      if(Number(x.typeId) === AddressTypeEnum.ETAX) {
+      if (Number(x.typeId) === AddressTypeEnum.ETAX) {
         this.form.get('etax_address')?.get('typeId')?.setValue(x.typeId);
         this.form.get('etax_address')?.get('addressNo')?.setValue(x.addressNo);
         this.form.get('etax_address')?.get('building')?.setValue(x.building);
@@ -278,13 +278,13 @@ export class ApprovalManagementApprovalComponent {
         this.form.get('etax_address')?.get('alley')?.setValue(x.alley);
         this.form.get('etax_address')?.get('soi')?.setValue(x.soi);
         this.form.get('etax_address')?.get('street')?.setValue(x.street);
-        this.form.get('etax_address')?.get('zipcode')?.setValue(x.zipcode);
-        this.form.get('etax_address')?.get('subdistrictCode')?.setValue(Number(x.subdistrictCode));
-        // this.form.get('etax_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
-        this.form.get('etax_address')?.get('districtCode')?.setValue(Number(x.districtCode));
-        // this.form.get('etax_address')?.get('districtName')?.setValue(x.districtCode);
-        this.form.get('etax_address')?.get('provinceCode')?.setValue(Number(x.provinceCode));
+        this.form.get('etax_address')?.get('province')?.setValue(Number(x.provinceCode));
         // this.form.get('etax_address')?.get('provinceName')?.setValue(x.provinceCode);
+        this.form.get('etax_address')?.get('district')?.setValue(Number(x.districtCode));
+        // this.form.get('etax_address')?.get('districtName')?.setValue(x.districtCode);
+        this.form.get('etax_address')?.get('subdistrict')?.setValue(Number(x.subdistrictCode));
+        // this.form.get('etax_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
+        this.form.get('etax_address')?.get('zipcode')?.setValue(x.zipcode);
         // this.zipcodeChanged.next(x.zipcode);
       }
     });
@@ -339,13 +339,13 @@ export class ApprovalManagementApprovalComponent {
           alley: this.form.get('work_address')?.get('alley')?.value,
           soi: this.form.get('work_address')?.get('soi')?.value,
           street: this.form.get('work_address')?.get('street')?.value,
-          provinceCode: this.form.get('work_address')?.get('provinceCode')?.value,
-          provinceName: this.form.get('work_address')?.get('provinceName')?.value,
-          districtCode: this.form.get('work_address')?.get('districtCode')?.value,
-          districtName: this.form.get('work_address')?.get('districtName')?.value,
-          subdistrictCode: this.form.get('work_address')?.get('subdistrictCode')?.value,
-          subdistrictName: this.form.get('work_address')?.get('subdistrictName')?.value,
-          zipcode: this.form.get('work_address')?.get('zipcode')?.value,
+          provinceCode: this.form.get('work_address')?.get('province')?.getRawValue(),
+          provinceName: this.form.get('work_address')?.get('provinceName')?.getRawValue(),
+          districtCode: this.form.get('work_address')?.get('district')?.getRawValue(),
+          districtName: this.form.get('work_address')?.get('districtName')?.getRawValue(),
+          subdistrictCode: this.form.get('work_address')?.get('subdistrict')?.getRawValue(),
+          subdistrictName: this.form.get('work_address')?.get('subdistrictName')?.getRawValue(),
+          zipcode: this.form.get('work_address')?.get('zipcode')?.getRawValue(),
         },
         {
           typeId: AddressTypeEnum.ETAX,
@@ -357,11 +357,11 @@ export class ApprovalManagementApprovalComponent {
           alley: this.form.get('etax_address')?.get('alley')?.value,
           soi: this.form.get('etax_address')?.get('soi')?.value,
           street: this.form.get('etax_address')?.get('street')?.value,
-          provinceCode: this.form.get('etax_address')?.get('provinceCode')?.value,
+          provinceCode: this.form.get('etax_address')?.get('province')?.value,
           provinceName: this.form.get('etax_address')?.get('provinceName')?.value,
-          districtCode: this.form.get('etax_address')?.get('districtCode')?.value,
+          districtCode: this.form.get('etax_address')?.get('district')?.value,
           districtName: this.form.get('etax_address')?.get('districtName')?.value,
-          subdistrictCode: this.form.get('etax_address')?.get('subdistrictCode')?.value,
+          subdistrictCode: this.form.get('etax_address')?.get('subdistrict')?.value,
           subdistrictName: this.form.get('etax_address')?.get('subdistrictName')?.value,
           zipcode: this.form.get('etax_address')?.get('zipcode')?.value,
         }
@@ -371,12 +371,12 @@ export class ApprovalManagementApprovalComponent {
       content: {
         id: this.form.get('id')?.value,
         eventType: PendingRequestEventType.addJuristic,
-        eventValue: JSON.stringify(eventValue),
+        // eventValue: JSON.stringify(eventValue),
         status: PendingRequestStatus.waiting,
         channel_id: 4
       }
     };
-    console.log("[onApprove] eventValue => ", eventValue);
+    // console.log("[onApprove] eventValue => ", eventValue);
     console.log("[onApprove] data => ", data);
     this.modalDialogService.loading();
     this.restApiService.postBackOffice('pending-request/approve', data).subscribe({
@@ -409,9 +409,6 @@ export class ApprovalManagementApprovalComponent {
   onReject() {
     // const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
     const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
-    const addressProvince = this.form.get('province')?.value;
-    const addressDistrict = this.form.get('district')?.value;
-    const addressSubDistrict = this.form.get('subDistrict')?.value;
     const eventValue = {
       customer: {
         customerTypeId: 2,
@@ -443,16 +440,16 @@ export class ApprovalManagementApprovalComponent {
           alley: this.form.get('work_address')?.get('alley')?.value,
           soi: this.form.get('work_address')?.get('soi')?.value,
           street: this.form.get('work_address')?.get('street')?.value,
-          provinceCode: this.form.get('work_address')?.get('provinceCode')?.value,
+          provinceCode: this.form.get('work_address')?.get('province')?.value,
           provinceName: this.form.get('work_address')?.get('provinceName')?.value,
-          districtCode: this.form.get('work_address')?.get('districtCode')?.value,
+          districtCode: this.form.get('work_address')?.get('district')?.value,
           districtName: this.form.get('work_address')?.get('districtName')?.value,
-          subdistrictCode: this.form.get('work_address')?.get('subdistrictCode')?.value,
+          subdistrictCode: this.form.get('work_address')?.get('subdistrict')?.value,
           subdistrictName: this.form.get('work_address')?.get('subdistrictName')?.value,
           zipcode: this.form.get('work_address')?.get('zipcode')?.value,
         },
         {
-          typeId:AddressTypeEnum.ETAX,
+          typeId: AddressTypeEnum.ETAX,
           addressNo: this.form.get('etax_address')?.get('addressNo')?.value,
           building: this.form.get('etax_address')?.get('building')?.value,
           floor: this.form.get('etax_address')?.get('floor')?.value,
@@ -461,11 +458,11 @@ export class ApprovalManagementApprovalComponent {
           alley: this.form.get('etax_address')?.get('alley')?.value,
           soi: this.form.get('etax_address')?.get('soi')?.value,
           street: this.form.get('etax_address')?.get('street')?.value,
-          provinceCode: this.form.get('etax_address')?.get('provinceCode')?.value,
+          provinceCode: this.form.get('etax_address')?.get('province')?.value,
           provinceName: this.form.get('etax_address')?.get('provinceName')?.value,
-          districtCode: this.form.get('etax_address')?.get('districtCode')?.value,
+          districtCode: this.form.get('etax_address')?.get('district')?.value,
           districtName: this.form.get('etax_address')?.get('districtName')?.value,
-          subdistrictCode: this.form.get('etax_address')?.get('subdistrictCode')?.value,
+          subdistrictCode: this.form.get('etax_address')?.get('subdistrict')?.value,
           subdistrictName: this.form.get('etax_address')?.get('subdistrictName')?.value,
           zipcode: this.form.get('etax_address')?.get('zipcode')?.value,
         }
@@ -475,12 +472,12 @@ export class ApprovalManagementApprovalComponent {
       content: {
         id: this.form.get('id')?.value,
         eventType: PendingRequestEventType.addJuristic,
-        eventValue: JSON.stringify(eventValue),
+        // eventValue: JSON.stringify(eventValue),
         status: PendingRequestStatus.waiting,
         channel_id: 4
       }
     };
-    console.log("[onReject] eventValue => ", eventValue);
+    // console.log("[onReject] eventValue => ", eventValue);
     console.log("[onReject] data => ", data);
     const modalRef = this.ngbModal.open(RejectPendingRequestModalComponent, {
       centered: true,

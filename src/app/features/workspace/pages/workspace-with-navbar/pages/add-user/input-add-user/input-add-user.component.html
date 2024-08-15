@@ -1,5 +1,8 @@
 <!-- <p>step: {{ step }}</p>
 <p>customerType: {{ customerType }}</p> -->
+<div style="position: absolute; top: 70px; left: 0;">
+    <p>step: {{ step }}</p>
+</div>
 <div [ngSwitch]="step">
     <input-term-codition
         *ngSwitchCase="1"

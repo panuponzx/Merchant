@@ -5,12 +5,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IdCardDirective } from './id-card.directive';
 import { AutofocusDirective } from './autofocus.directive';
+import { RestrictInputDirective } from './restrict-input.directive';
 
 
 @NgModule({
   declarations: [
     IdCardDirective,
-    AutofocusDirective
+    AutofocusDirective,
+    RestrictInputDirective
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { AutofocusDirective } from './autofocus.directive';
   ],
   exports: [
     IdCardDirective,
-    AutofocusDirective
+    AutofocusDirective,
+    RestrictInputDirective
   ]
 })
 export class DirectivesModule {}

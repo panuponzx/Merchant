@@ -1,7 +1,5 @@
 import { AfterContentInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Subject, distinctUntilChanged, switchMap, of } from 'rxjs';
-import { RestApiService } from 'src/app/core/services';
 
 @Component({
   selector: 'input-etax-address',
@@ -23,33 +21,6 @@ export class InputEtaxAddressComponent implements AfterContentInit, OnInit {
   @Output() previousStep: EventEmitter<string> = new EventEmitter<string>();
 
   public footerHeight: number = 0;
-  public postalCodeChanged = new Subject<string>();
-  public postalCodeList: any = [];
-  public subDistrictList: any = [];
-  public districtList: any = [];
-  public provinceList: any = [];
-
-  constructor(private restApiService: RestApiService) {
-    this.postalCodeChanged.pipe(distinctUntilChanged(), switchMap((searchText: any) => {
-      if (searchText.length === 5) {
-        return this.restApiService.get(`zip-code/code/${searchText}`);
-      } else {
-        return of([]);
-      }
-    })).subscribe(async (res: any) => {
-      console.log("[subscribe] res => ", res);
-      this.postalCodeList = await res.zipCodes;
-      console.log("[subscribe] res => ", this.postalCodeList);
-      if (this.postalCodeList && this.postalCodeList.length === 0 || res && Object.keys(res).length === 0) {
-        this.form.get('subDistrict')?.disable();
-        this.form.get('subDistrict')?.setValue(undefined);
-        this.form.get('district')?.setValue(undefined);
-        this.form.get('province')?.setValue(undefined);
-      } else {
-        this.form.get('subDistrict')?.enable();
-      };
-    });
-  }
 
   ngAfterContentInit(): void {
     const element = this.footerRef?.nativeElement as HTMLElement;
@@ -57,23 +28,9 @@ export class InputEtaxAddressComponent implements AfterContentInit, OnInit {
   }
 
   ngOnInit(): void {
-    if (this.form?.value.postalCode && this.form?.value.postalCode.length === 5) {
-      this.postalCodeChanged.next(this.form?.value.postalCode);
-    }
     if(this.form.get('isSameWorkAddress')?.value) {
       this.patchValueAddressSameIdcard(this.addressIdCardInfoForm);
     }
-  }
-
-  onKeyUpPostalCode(event: any) {
-    this.postalCodeChanged.next(event.target.value);
-  }
-
-  onChangeSubDistrict(even: any) {
-    this.districtList = [even.subdistrict.district];
-    this.provinceList = [even.subdistrict.district.province];
-    this.form.get('district')?.setValue(this.districtList[0]);
-    this.form.get('province')?.setValue(this.provinceList[0]);
   }
 
   onChangeSameAddress(event: any) {
@@ -100,7 +57,7 @@ export class InputEtaxAddressComponent implements AfterContentInit, OnInit {
         this.form.get('alley')?.enable();
         this.form.get('soi')?.enable();
         this.form.get('street')?.enable();
-        this.form.get('postalCode')?.enable();
+        this.form.get('province')?.enable();
         break;
       default:
         break;
@@ -121,7 +78,7 @@ export class InputEtaxAddressComponent implements AfterContentInit, OnInit {
       this.form.get('alley')?.enable();
       this.form.get('soi')?.enable();
       this.form.get('street')?.enable();
-      this.form.get('postalCode')?.enable();
+      this.form.get('province')?.enable();
     }
   }
 
@@ -135,10 +92,13 @@ export class InputEtaxAddressComponent implements AfterContentInit, OnInit {
       alley: sameForm.get('alley')?.value,
       soi: sameForm.get('soi')?.value,
       street: sameForm.get('street')?.value,
-      postalCode: sameForm.get('postalCode')?.value,
-      subDistrict: sameForm.get('subDistrict')?.value,
-      district: sameForm.get('district')?.value,
       province: sameForm.get('province')?.value,
+      provinceName: sameForm.get('provinceName')?.value,
+      district: sameForm.get('district')?.value,
+      districtName: sameForm.get('districtName')?.value,
+      subdistrict: sameForm.get('subdistrict')?.value,
+      subdistrictName: sameForm.get('subdistrictName')?.value,
+      zipcode: sameForm.get('zipcode')?.value,
     });
     this.form.get('addressNo')?.disable();
     this.form.get('building')?.disable();
@@ -148,10 +108,10 @@ export class InputEtaxAddressComponent implements AfterContentInit, OnInit {
     this.form.get('alley')?.disable();
     this.form.get('soi')?.disable();
     this.form.get('street')?.disable();
-    this.form.get('postalCode')?.disable();
-    this.form.get('subDistrict')?.disable();
-    // this.form.get('district').disable();
-    // this.form.get('province').disable();
+    this.form.get('province')?.disable();
+    this.form.get('district')?.disable();
+    this.form.get('subdistrict')?.disable();
+    this.form.get('zipcode')?.disable();
   }
 
   onBack() {

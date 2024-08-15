@@ -17,15 +17,15 @@
             หมู่ที่
           </label>
           <input class="form-control" formControlName="villageNo" id="villageNoInput" data-testid="villageNoInput"
-            type="text" />
+            type="text" placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
 
         <div class="form-group">
           <label class="label-input" for="villageInput">
             หมู่บ้าน
           </label>
-          <input class="form-control" formControlName="village" id="villageInput" data-testid="villageInput"
-            type="text" />
+          <input class="form-control" formControlName="village" id="villageInput" data-testid="villageInput" type="text"
+            placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
 
         <div class="form-group">
@@ -33,20 +33,22 @@
             อาคาร/คอนโด
           </label>
           <input class="form-control" formControlName="building" id="buildingInput" data-testid="buildingInput"
-            type="text" />
+            type="text" placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
 
         <div class="form-group">
           <label class="label-input" for="floorInput">
             ชั้น
           </label>
-          <input class="form-control" formControlName="floor" id="floorInput" data-testid="floorInput" type="text" />
+          <input class="form-control" formControlName="floor" id="floorInput" data-testid="floorInput" type="text"
+            placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
         <div class="form-group">
           <label class="label-input" for="alleyInput">
             ตรอก
           </label>
-          <input class="form-control" formControlName="alley" id="alleyInput" data-testid="alleyInput" type="text" />
+          <input class="form-control" formControlName="alley" id="alleyInput" data-testid="alleyInput" type="text"
+            placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
       </div>
       <div class="col-sm-12 col-md-6">
@@ -54,44 +56,16 @@
           <label class="label-input" for="soiInput">
             ซอย
           </label>
-          <input class="form-control" formControlName="soi" id="soiInput" data-testid="soiInput" type="text" />
+          <input class="form-control" formControlName="soi" id="soiInput" data-testid="soiInput" type="text"
+            placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
 
         <div class="form-group">
           <label class="label-input" for="streetInput">
             ถนน
           </label>
-          <input class="form-control" formControlName="street" id="streetInput" data-testid="streetInput" type="text" />
-        </div>
-
-        <div class="form-group">
-          <label class="label-input required-field" for="zipcode">
-            รหัสไปรษณีย์
-          </label>
-          <input [ngClass]="{
-            'is-invalid': this.form.get('zipcode')?.errors?.['required'] && this.form.get('zipcode')?.touched 
-          }" class="form-control" formControlName="zipcode" id="zipcodeInput" data-testid="zipcodeInput" type="text"
-            (ngModelChange)="onChangeZipcode($event)" />
-        </div>
-
-        <div class="form-group">
-          <label class="label-input required-field" for="subdistrictSelect">
-            แขวง/ตำบล
-          </label>
-          <ng-select bindLabel="name" bindValue="id" class="form-control" [clearable]="false"
-            data-testid="subdistrictSelect" formControlName="subdistrictCode" id="subdistrictSelect"
-            [items]="subdistricts" [loading]="isLoading"
-            [readonly]="!form.controls['zipcode'].value || subdistricts.length === 0 || isLoading"
-            (ngModelChange)="onChangeSubdistrict($event)"></ng-select>
-        </div>
-
-        <div class="form-group">
-          <label class="label-input required-field" for="districtSelect">
-            เขต/อำเภอ
-          </label>
-          <ng-select bindLabel="name" bindValue="id" class="form-control" [clearable]="false"
-            data-testid="districtSelect" formControlName="districtCode" id="districtSelect" [items]="districts"
-            [loading]="isLoading" [readonly]="true"></ng-select>
+          <input class="form-control" formControlName="street" id="streetInput" data-testid="streetInput" type="text"
+            placeholder="ถ้ามี" [restrictInput]="['*', '-']" />
         </div>
 
         <div class="form-group">
@@ -99,9 +73,40 @@
             จังหวัด
           </label>
           <ng-select bindLabel="name" bindValue="id" class="form-control" [clearable]="false"
-            data-testid="provinceSelect" formControlName="provinceCode" id="provinceSelect" [items]="provinces"
-            [loading]="isLoading" [readonly]="true"></ng-select>
+            data-testid="provinceSelect" formControlName="province" id="provinceSelect" [items]="provinceList"
+            [loading]="isLoading" (ngModelChange)="onChangeProvince($event)"></ng-select>
         </div>
+
+        <div class="form-group">
+          <label class="label-input required-field" for="districtSelect">
+            เขต/อำเภอ
+          </label>
+          <ng-select bindLabel="name" bindValue="id" class="form-control" [clearable]="false"
+            data-testid="districtSelect" formControlName="district" id="districtSelect" [items]="districtList"
+            [loading]="isLoading" (ngModelChange)="onChangeDistrict($event)"></ng-select>
+        </div>
+
+        <div class="form-group">
+          <label class="label-input required-field" for="subdistrictSelect">
+            แขวง/ตำบล
+          </label>
+          <ng-select bindLabel="name" bindValue="id" class="form-control" [clearable]="false"
+            data-testid="subdistrictSelect" formControlName="subdistrict" id="subdistrictSelect"
+            [items]="subDistrictsList" [loading]="isLoading" (ngModelChange)="onChangeSubdistrict($event)"></ng-select>
+        </div>
+
+        <div class="form-group">
+          <label class="label-input required-field" for="zipcode">
+            รหัสไปรษณีย์
+          </label>
+          <ng-select bindLabel="code" bindValue="code" class="form-control" [clearable]="false" data-testid="zipcode"
+            formControlName="zipcode" id="zipcode" [items]="zipCodeList" [loading]="isLoading"></ng-select>
+          <!-- <input [ngClass]="{
+            'is-invalid': this.form.get('zipcode')?.errors?.['required'] && this.form.get('zipcode')?.touched 
+          }" class="form-control" formControlName="zipcode" id="zipcodeInput" data-testid="zipcodeInput" type="text"
+            (ngModelChange)="onChangeZipcode($event)" /> -->
+        </div>
+
       </div>
     </div>
   </form>

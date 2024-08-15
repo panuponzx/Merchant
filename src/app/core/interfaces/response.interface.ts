@@ -1,5 +1,44 @@
 import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel, CustomerContact } from "./data.interface"
 
+export interface IResponseModel<T> {
+  data: T
+  errorCode: string
+  errorMessage: string
+  throwableMessage: string
+}
+
+export interface IProvinceModel {
+  id: number
+  code: string
+  name: string
+  nameEn: string
+}
+
+export interface IDistrictModel {
+  id: number
+  code: string
+  name: string
+  nameEn: string
+  provinceId: number
+}
+
+export interface ISubDistrictModel {
+  id: number
+  code: string
+  name: string
+  nameEn: string
+  districtId: number
+  provinceId: number
+}
+
+export interface IZipcodeModel {
+  id: number
+  code: string
+  districtId: number
+  provinceId: number
+  subdistrictCode: string
+}
+
 export interface ResponseMessageModel {
   token: any
   errorCode: string,

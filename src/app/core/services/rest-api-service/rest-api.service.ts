@@ -2,7 +2,7 @@ import { HttpClient, } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { ResponseMessageModel, ResponseModel } from '../../interfaces';
+import { IResponseModel, ResponseMessageModel, ResponseModel } from '../../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +95,11 @@ export class RestApiService {
   get(url: string): Observable<ResponseMessageModel> {
     const baseURL = environment.api + '/' + url;
     return this.httpClient.get<ResponseMessageModel>(baseURL);
+  }
+
+  getWithModel<res>(url: string): Observable<IResponseModel<res>> {
+    const baseURL = environment.api + '/' + url;
+    return this.httpClient.get<IResponseModel<res>>(baseURL);
   }
 
 }
