@@ -74,7 +74,7 @@ export const routesConfig: CustomRoutesModel = [
           {
             id: 'personalInfo',
             path: 'add-user/:customerType',
-            component: InputAddUserComponent,
+            component: InputAddUserComponent, 
           },
           {
             id: 'addCarType9Route',

@@ -28,6 +28,7 @@ export class InputIdcardAddressComponent implements AfterContentInit, OnInit {
 
   constructor(private restApiService: RestApiService) {
     this.postalCodeChanged.pipe(distinctUntilChanged(), switchMap((searchText: any) => {
+      console.log(searchText);
       if (searchText.length === 5) {
         return this.restApiService.get(`zip-code/code/${searchText}`);
       } else {

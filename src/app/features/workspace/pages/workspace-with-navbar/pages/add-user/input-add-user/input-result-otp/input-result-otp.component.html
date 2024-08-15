@@ -1,0 +1,25 @@
+<div class="content-container h-100">
+  <div class="content-container-header">
+    <div class="content-container-header-item">
+      <h1 *ngIf="customerType === 1" class="content-title">เพิ่มผู้ใช้งาน - บุคคลทั่วไป</h1>
+      <h1 *ngIf="customerType === 2" class="content-title">เพิ่มผู้ใช้งาน - นิติบุคคล / องค์กร</h1>
+    </div>
+  </div>
+  <div class="content-wrapper" [style.margin-bottom.px]="footerHeight">
+    <hr class="hr-custom" />
+    <div class="result-otp">
+      <form [formGroup]="contactForm">
+        <strong>ช่องทางการรับผล การเพิ่มผู้ใช้งานบัญชีนิติบุคคล</strong>
+        <p>
+        <div>
+          <input type="radio" id="email" formControlName="contactMethod" value="email">
+          <label for="email">อีเมล ({{email}})</label>
+        </div>
+        <div> 
+          <input type="radio" id="sms" formControlName="contactMethod" value="sms">
+          <label for="sms">เบอร์โทรศัพท์ ({{phone}})</label>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>

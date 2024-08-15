@@ -96,6 +96,12 @@
         (nextStep)="onNextStep($event)"
         (previousStep)="onPreviousStep($event)"
     > </occupation-detail>
+    <app-input-result-otp
+        *ngIf="customerType === 2 && step === 10"
+        [customerType]="customerType"
+        (nextStep)="onNextStep($event)"
+        (previousStep)="onPreviousStep($event)"
+  ></app-input-result-otp>
     <input-etax-address
         *ngIf="customerType === 1 && step === 11 || customerType === 2 && step === 9"
         [form]="addressEtaxForm"

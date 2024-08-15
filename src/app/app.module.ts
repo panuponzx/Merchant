@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { ShareModule } from './core/share.module';
 
 import { RequestInterceptor, ErrorInterceptor } from './core/interceptors';
-
+import { NgxsModule } from '@ngxs/store';
 import {
   AccountComponent,
   AccountModule,
@@ -18,7 +18,8 @@ import {
   PageNotFoundComponent
 } from './features';
 import { NgOtpInputModule } from 'ng-otp-input';
-
+import { StoreModule } from '@ngrx/store';
+import { environment } from 'src/environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,8 @@ import { NgOtpInputModule } from 'ng-otp-input';
     NgbModule,
     NgOtpInputModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },

@@ -1,0 +1,44 @@
+.content-container {
+  background-color: #FFF;
+  padding: 1rem 4.5rem 1rem 4.5rem;
+
+}
+
+.content-container h2,
+h3 {
+  color: var(--color-blue-exat);
+}
+
+.body-wrapper {
+  padding: 1rem 5rem 1rem 5rem;
+}
+
+.content-container h2,
+h3 {
+  color: var(--color-blue-exat);
+}
+
+.result-otp {
+  display: flex;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px auto;
+  justify-content: center;
+}
+
+.result-otp strong {
+  margin-bottom: 20px;
+  font-size: 17px;
+  color: var(--color-blue-exat)
+}
+
+.result-otp div {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.result-otp input[type="radio"] {
+  transform: scale(1.5);
+  margin-right: 10px;
+}

@@ -34,13 +34,10 @@ export class EmailVerificationModalComponent {
   public otpDelayInterval: any | undefined;
   public errorMessage: string | undefined;
 
-
-
   constructor(private formBuilder: FormBuilder,
     private restApiService: RestApiService,
     public ngbActiveModal: NgbActiveModal,
     private modalDialogService: ModalDialogService) {
-
   }
 
   ngOnDestroy() {

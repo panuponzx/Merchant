@@ -14,7 +14,7 @@ import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
 })
 export class InputAddUserComponent {
 
-  public step: number = 1;
+  public step: number = 9;
   public customerType: number = 0;
   public refCode: string | undefined;
 
@@ -195,7 +195,6 @@ export class InputAddUserComponent {
     this.identityTypeForm = this.formBuilder.group({
       identityType: new FormControl(undefined, Validators.required),
     });
-
   }
 
   onPreviousStep(step: string) {
@@ -220,13 +219,16 @@ export class InputAddUserComponent {
   }
 
   onSubmit() {
+    if (this.step === 9) {
+      this.step++;
+    }
     console.log("[onSubmit] addressCurrentInfoForm => ", this.addressCurrentInfoForm.value);
     const currentAddressProvince = this.addressCurrentInfoForm.get('province')?.value;
     const currentAddressDistrict = this.addressCurrentInfoForm.get('district')?.value;
     const currentAddressSubDistrict = this.addressCurrentInfoForm.get('subDistrict')?.value;
-    const registrationAddressProvince = this.addressInfoForm.get('province')?.value;
-    const registrationAddressDistrict = this.addressInfoForm.get('district')?.value;
-    const registrationAddressSubDistrict = this.addressInfoForm.get('subDistrict')?.value;
+    const registrationAddressProvince = this.addressInfoForm.get('province')?.value ?? "";
+    const registrationAddressDistrict = this.addressInfoForm.get('district')?.value ?? "";
+    const registrationAddressSubDistrict = this.addressInfoForm.get('subDistrict')?.value ?? "";
     const companyAddressProvince = this.occupationDetailForm.get('province')?.value;
     const companyAddressDistrict = this.occupationDetailForm.get('district')?.value;
     const companyAddressSubDistrict = this.occupationDetailForm.get('subDistrict')?.value;

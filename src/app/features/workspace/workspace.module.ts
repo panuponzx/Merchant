@@ -94,6 +94,7 @@ import { ExceptionTransactionComponent } from './pages/workspace-backoffice-mana
 import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
 import { TransactionSuspensionModalComponent } from './pages/workspace-backoffice-management/modals/transaction-suspension-modal/transaction-suspension-modal.component';
 import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
+import { InputResultOtpComponent } from './pages/workspace-with-navbar/pages/add-user/input-add-user/input-result-otp/input-result-otp.component';
 
 
 @NgModule({
@@ -176,6 +177,7 @@ import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/
     TransactionSuspensionManagementComponent,
     TransactionSuspensionModalComponent,
     UserInfoAllComponent,
+    InputResultOtpComponent,
   ],
   imports: [
     CommonModule,
