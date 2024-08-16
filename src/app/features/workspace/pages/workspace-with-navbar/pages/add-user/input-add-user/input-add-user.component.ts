@@ -14,7 +14,7 @@ import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
 })
 export class InputAddUserComponent {
 
-  public step: number = 9;
+  public step: number = 10;
   public customerType: number = 0;
   public refCode: string | undefined;
 
