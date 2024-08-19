@@ -511,18 +511,17 @@ export class GeneralInfoComponent {
     formControl['status'].setValue(res.customer?.status);
     formControl['taxId'].setValue(res.customer?.taxId);
     formControl['title'].setValue(res.customer?.title);
-    if (this.customerTypeId === '3') {
+    if (res.customer.customerTypeId === 2) {
       formControl['customerContactId'].setValue(res.customerContact?.id);
       formControl['citizenId'].setValue(res.customerContact?.citizenId);
       formControl['taxId'].setValue(res.customer?.citizenId);
       formControl['contactPhone'].setValue(res.customerContact?.phone);
       formControl['corporateName'].setValue(res.customer?.corporateName);
       formControl['branchType'].setValue(res.customer?.branchTypeId);
-      formControl['branchName'].setValue(res.customer?.corporateBranch);
-      formControl['branchCode'].setValue(res.customer?.branchId);
-      formControl['branchCode'].setValue(res.customer?.branchId);
       formControl['contactPhone'].setValue(res.customerContact?.phone);
       this.onChangeBranch(res.customer?.branchTypeId);
+      formControl['branchName'].setValue(res.customer?.corporateBranch);
+      formControl['branchCode'].setValue(res.customer?.branchId);
       // formControl['corporateName'].addValidators([Validators.required]);
       // formControl['corporateName'].updateValueAndValidity();
       // formControl['corporatePhone'].setValue(customer.corporatePhone);
