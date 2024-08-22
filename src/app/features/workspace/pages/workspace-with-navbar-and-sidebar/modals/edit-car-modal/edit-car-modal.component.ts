@@ -188,7 +188,7 @@ export class EditCarModalComponent {
       inputValidator: (remark) => {
         return new Promise((resolve) => {
           if (remark) {
-            resolve();
+            resolve("");
           } else {
             resolve("กรุณาระบุหมายเหตุ");
           }
@@ -252,7 +252,7 @@ export class EditCarModalComponent {
       inputValidator: (remark) => {
         return new Promise((resolve) => {
           if (remark) {
-            resolve();
+            resolve("");
           } else {
             resolve("กรุณาระบุหมายเหตุ");
           }
