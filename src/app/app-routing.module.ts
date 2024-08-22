@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: 'work-space',
     loadChildren: () => import('./features/workspace/workspace.module').then(m => m.WorkspaceModule),
-    canActivate: [ AuthenticationGuard ]
+    // canActivate: [ AuthenticationGuard ]
   },
   {
     path: 'account',
