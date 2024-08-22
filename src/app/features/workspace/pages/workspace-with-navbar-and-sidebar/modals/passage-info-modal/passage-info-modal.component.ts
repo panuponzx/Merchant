@@ -68,6 +68,7 @@ export class PassageInfoModalComponent implements OnInit {
       (result) => {
         if (result) {
           console.log('[onAction] result => ', result);
+          this.ngbActiveModal.close(true);
         }
       },
       (reason) => {
