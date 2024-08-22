@@ -1,6 +1,6 @@
 <div class="modal-body">
     <div class="header-label">
-        <h2>ยืนยันการยกค่าผ่านทาง</h2>
+        <h2>ยืนยันการยกเลิกค่าผ่านทาง</h2>
         <h3 class="mb-3">กรุณาตรวจสอบรายละเอียด</h3>
     </div>
     <form [formGroup]="form">
@@ -54,7 +54,7 @@
         </div>
         <div class="d-flex justify-content-end gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
-            <button class="custom-btn btn-type-1 red text" [disabled]="row.isCancelled" (click)="onCancelPassage()">ยกเลิกค่าผ่านทาง</button>
+            <button class="custom-btn btn-type-1 red text" [disabled]="row.isCancelled" (click)="onAction()">ยกเลิกค่าผ่านทาง</button>
         </div>
     </form>
 </div>

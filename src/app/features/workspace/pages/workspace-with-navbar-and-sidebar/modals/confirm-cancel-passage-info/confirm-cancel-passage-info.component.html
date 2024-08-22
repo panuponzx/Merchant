@@ -1,0 +1,24 @@
+<div class="modal-body smail">
+    <div class="header-label">
+        <h2>ยืนยันการยกเลิก</h2>
+    </div>
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-sm-12 mb-3">
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="username">
+                        ยกเลิกค่าผ่านทาง โดย Username (Employee ID)
+                    </label>
+                    <input class="form-control" formControlName="username" data-testid="username"
+                        id="username" type="text" readonly>
+                </div>
+                <input hidden class="form-control"  formControlName="transactionId" data-testid="transactionId" id="transactionId" type="text" readonly>
+                <input hidden class="form-control" formControlName="amount" data-testid="amount" id="amount" type="text" readonly>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
+            <button class="custom-btn btn-type-1 red text" [disabled]="row.isCancelled" (click)="onCancelPassage()">ยกเลิกค่าผ่านทาง</button>
+        </div>
+    </form>
+</div>

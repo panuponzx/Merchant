@@ -94,6 +94,7 @@ import { ExceptionTransactionComponent } from './pages/workspace-backoffice-mana
 import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
 import { TransactionSuspensionModalComponent } from './pages/workspace-backoffice-management/modals/transaction-suspension-modal/transaction-suspension-modal.component';
 import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
+import { ConfirmCancelPassageInfoComponent } from './pages/workspace-with-navbar-and-sidebar/modals/confirm-cancel-passage-info/confirm-cancel-passage-info.component';
 
 
 @NgModule({
@@ -176,6 +177,7 @@ import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/
     TransactionSuspensionManagementComponent,
     TransactionSuspensionModalComponent,
     UserInfoAllComponent,
+    ConfirmCancelPassageInfoComponent,
   ],
   imports: [
     CommonModule,
