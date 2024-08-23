@@ -90,6 +90,7 @@ export class SearchUserComponent implements OnInit {
     identificationId: new FormControl(undefined, [Validators.minLength(7)]),
     firstName: new FormControl(undefined, [Validators.minLength(2)]),
     lastName: new FormControl(undefined, [Validators.minLength(2)]),
+    branchId: new FormControl(undefined, [Validators.minLength(5)]),
     mobilePhone: new FormControl(undefined, [Validators.minLength(10)]),
     corporateName: new FormControl(undefined, [Validators.minLength(2)]),
     faremediaValue: new FormControl(undefined, [Validators.minLength(10)]),
@@ -116,6 +117,7 @@ export class SearchUserComponent implements OnInit {
       console.log("[valueChanges] x => ", x);
       this.form.controls['deviceType'].reset();
       this.form.controls['identificationId'].reset();
+      this.form.controls['branchId'].reset();
       this.form.controls['firstName'].reset();
       this.form.controls['lastName'].reset();
       this.form.controls['mobilePhone'].reset();
@@ -144,6 +146,7 @@ export class SearchUserComponent implements OnInit {
     if (searchType === 'corporate') {
       if (this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
       if (this.form.value.corporateName) payload.corporateName = this.form.value.corporateName;
+      if (this.form.value.branchId) payload.branchId = this.form.value.branchId;
       if (this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
       this.searchByCoporate(payload);
     } else if (searchType === 'personal' || searchType === 'international') {

@@ -148,7 +148,18 @@
           <span class="req-text">*โปรดระบุนามสกุล</span>
         </div>
       </div>
-
+      <div class="mb-3" *ngIf="form.value.searchType === 'corporate'" [@fadeInseach]>
+        <label class="label-input">เลขสาขา</label>
+        <div class="input-with-icon-wrapper">
+          <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
+          <input id="branchId" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
+            [disabled]="form.get('identificationId')?.value.length < 13" formControlName="branchId" minlength="5" maxlength="5"
+            mask="00000">
+        </div>
+        <div *ngIf="form.get('branchId')?.hasError('minlength') && form.get('branchId')?.touched">
+          <span class="req-text">*โปรดระบุเลขสาขาให้ครบ 5 หลัก</span>
+        </div>
+      </div>
       <div class="mb-3" *ngIf="form.value.searchType === 'corporate'" [@fadeInseach]>
         <label class="label-input">ชื่อบริษัท / องค์กร</label>
         <div class="input-with-icon-wrapper">
@@ -195,8 +206,8 @@
             ค้นหา
           </button> -->
           <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton" id="searchButton" title="ค้นหา"
-            [disabled]="isLoading || form.invalid || (!this.form.value.identificationId && !this.form.value.firstName && !this.form.value.lastName && !this.form.value.mobilePhone && !this.form.value.corporateName && !this.form.value.faremediaValue && !this.form.value.licensePlate)" id="searchButton"
-            type="submit" (click)="onSearch()">
+            [disabled]="isLoading || form.invalid || (!this.form.value.identificationId && !this.form.value.firstName && !this.form.value.lastName && !this.form.value.mobilePhone && !this.form.value.corporateName && !this.form.value.faremediaValue && !this.form.value.licensePlate)"
+            id="searchButton" type="submit" (click)="onSearch()">
             ค้นหา
           </button>
           <button class="custom-btn btn-back" data-testid="backButton" id="backButton" title="ย้อนกลับ"
