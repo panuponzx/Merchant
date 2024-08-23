@@ -6,7 +6,8 @@ import { TransformDatePipe } from '../../../../../../core/pipes';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { first, map } from 'rxjs';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmCancelPassageInfoComponent } from '../confirm-cancel-passage-info/confirm-cancel-passage-info.component';
 @Component({
   selector: 'app-passage-info-modal',
   templateUrl: './passage-info-modal.component.html',
@@ -22,7 +23,8 @@ export class PassageInfoModalComponent implements OnInit {
     public ngbActiveModal: NgbActiveModal,
     private transformDatePipe: TransformDatePipe,
     private restApiService: RestApiService,
-    private modalDialogService: ModalDialogService
+    private modalDialogService: ModalDialogService,
+    private ngbModal: NgbModal
   ) {
     this.form = this.formBuilder.group({
       transactionId: new FormControl({ value: undefined, disabled: true }, Validators.required),
@@ -49,41 +51,30 @@ export class PassageInfoModalComponent implements OnInit {
     }
   }
 
-  onCancelPassage() {
-    const data = {
-      transactionId: this.form.get('transactionId')?.value,
-      amount: this.form.get('amount')?.value,
-    }
-    this.modalDialogService.loading();
-    this.restApiService
-      .postBackOffice('transaction-balance/void-toll', data)
-      .pipe(
-        first(),
-        map(res => res as any)
-      )
-      .subscribe({
-        next: (res) => {
-          console.log(res)
-          this.modalDialogService.hideLoading();
-          if (res.errorMessage === "Success") {
-            this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การยกเลิกค่าผ่านทางสำเร็จ').then((res: boolean) => {
-              if (res) this.ngbActiveModal.close(true);
-            })
-          } else {
-            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.modalDialogService.handleError(err);
-          // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
-          this.modalDialogService.hideLoading();
-        }
-      })
-  }
-
+  
   onClose() {
     this.ngbActiveModal.dismiss(true);
+  }
+
+  onAction() {
+    const modalRef = this.ngbModal.open(ConfirmCancelPassageInfoComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'm',
+      keyboard: false,
+    });
+    modalRef.componentInstance.row = this.row;
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          console.log('[onAction] result => ', result);
+          this.ngbActiveModal.close(true);
+        }
+      },
+      (reason) => {
+        console.log('[onAction] reason => ', reason);
+      }
+    );
   }
 
 }
