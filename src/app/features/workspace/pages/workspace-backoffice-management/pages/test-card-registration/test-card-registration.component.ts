@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CustomColumnModel } from 'src/app/core/interfaces';
+import { CustomColumnModel, RowActionEventModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
@@ -29,14 +29,14 @@ export class TestCardRegistrationComponent {
 
   public maxDate: Date = new Date();
   public columns: CustomColumnModel[] = [
-    { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'paging-no' },
-    { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา ที่สร้าง', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/YYYY HH:mm:ss', locale: 'th' } },
-    { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'eventValue.customer.corporateName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'corporateBranch', name: 'CorporateBranch', label: 'ชื่อสาขา', prop: 'eventValue.customer.corporateBranch', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'branchId', name: 'BranchId', label: 'หมายเลขสาขาย่อย', prop: 'eventValue.customer.branchId', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'status', name: 'Status', label: 'สถานะ', prop: 'status', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'approve-status' },
-    { id: 'nameEmpTransaction', name: 'Name Emp Transaction', label: 'ชื่อพนักงานทำรายการ', prop: 'eventValue.customer.fullName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
+    { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
+    { id: 'faremediaValue', name: 'faremediaValue', label: 'หมายเลขอุปกรณ์', prop: 'faremediaValue', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'isActive', name: 'isActive', label: 'สถานะ', prop: 'isActive', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-primary', textCondition1: 'Active', classCondition2: ' text-red', textCondition2: 'In Active' } },
+    { id: 'reservationStatusd', name: 'reservationStatusd', label: 'สถานะการจอง', prop: 'reservationStatusd', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red', textCondition1: 'จอง', classCondition2: 'text-primary ', textCondition2: 'ว่าง' } },
+    { id: 'withdrawOrBorrow', name: 'withdrawOrBorrow', label: 'เบิก / ยืม', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'เบิก/ยืม' } },
+    { id: 'returnObu', name: 'returnObu', label: 'คืน OBU', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'คืน' } },
+    { id: 'detail', name: 'detail', label: 'รายงานการเบิกยืมคืน', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'รายงาน' } },
+
   ];
 
   constructor(
@@ -46,14 +46,31 @@ export class TestCardRegistrationComponent {
     private ngbModal: NgbModal,
     private router: Router,
     private activatedRoute: ActivatedRoute
-    ) {
+  ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
-      startDate: new FormControl(undefined, [ Validators.required ]),
-      endDate: new FormControl(undefined, [ Validators.required ]),
-      checkpoint: new FormControl(undefined, [ Validators.required ]),
+      startDate: new FormControl(undefined, [Validators.required]),
+      endDate: new FormControl(undefined, [Validators.required]),
+      checkpoint: new FormControl(undefined, [Validators.required]),
       search: new FormControl(undefined, [Validators.required])
     });
+    this.rows = [
+      {
+        faremediaValue: 'C123456',
+        isActive: true,
+        reservationStatusd: true,
+      },
+      {
+        faremediaValue: 'C123457',
+        isActive: true,
+        reservationStatusd: false,
+      },
+      {
+        faremediaValue: 'C123456',
+        isActive: false,
+        reservationStatusd: false,
+      }
+    ];
   }
 
   onChangeNav(event: NgbNavChangeEvent) {
@@ -65,7 +82,7 @@ export class TestCardRegistrationComponent {
     this.load();
   }
 
-  load(){
+  load() {
     this.modalDialogService.loading();
     this.isLoading = true;
     const data = {
@@ -78,6 +95,8 @@ export class TestCardRegistrationComponent {
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
   }
-
+  onActive(event: RowActionEventModel) {
+    console.log(event.row);
+  }
 }
 

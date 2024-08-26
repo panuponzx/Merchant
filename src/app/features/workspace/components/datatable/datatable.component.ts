@@ -76,5 +76,9 @@ export class DatatableComponent {
   onClickTextBoolean(event: RowActionEventModel) {
     this.onRowTextBooleanEvent.emit(event);
   }
-
+  logLabel(t :string){
+    console.log(t);
+    console.log("onRowActionEvent : ",this.onRowActionEvent);
+    this.onRowActionEvent.emit();
+  }
 }
