@@ -6,6 +6,12 @@ export interface RowActionEventModel {
   index: number
 }
 
+export interface OBUColumModel  {
+  id: string,
+  status: string,
+  Borrow:string,
+}
+
 export interface CustomColumnModel {
   id: string,
   prop: string,

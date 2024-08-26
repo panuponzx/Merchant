@@ -70,35 +70,20 @@
                 </div>
             </div>
         </form>
-        
-        <div class="navs-container">
-            <div class="d-flex justify-content-between" [style.display]="!isHiddenFillter ? 'flex' : 'none !important'">
-                <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
-                class="nav-tabs nav-tabs-header">
-                <li [ngbNavItem]="'waiting-for-approval'">
-                    <button >กำลังรอ</button>
-                    <ng-template ngbNavContent>
-                        <cancel-device-waiting-for-approval (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></cancel-device-waiting-for-approval>
-                    </ng-template>
-                </li>
-                <li [ngbNavItem]="'approval'">
-                    <button >อนุมัติ</button>
-                    <ng-template ngbNavContent>
-                        <cancel-device-approval (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></cancel-device-approval>
-                    </ng-template>
-                </li>
-                <li [ngbNavItem]="'reject'">
-                    <button >ปฏิเสธ</button>
-                    <ng-template ngbNavContent>
-                        <cancel-device-reject></cancel-device-reject>
-                    </ng-template>
-                </li>
-            </ul>
-            <button class="custom-btn btn-type-1" type="submit" title="Login">
-                ลงทะเบียนบัตรทดสอบ
-            </button>
+        <button class="custom-btn btn-type-1" type="submit" title="Login">
+            Export to excel
+        </button>
+        <ng-container >
+            <div class="datatable-container">
+                <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
+                    [pageSize]="limitRow" [page]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+                    />
             </div>
-            <div [ngbNavOutlet]="nav" class="navs-content-container" [style.padding-top]="!isHiddenFillter ? '2rem' : '0'"></div>
-        </div>
+            <!-- <div class="datatable-container">
+                <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
+                    [pageSize]="limitRow" [page]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+                    (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
+            </div> -->
+        </ng-container>
     </div>
 </div>
