@@ -28,3 +28,19 @@ export interface IVerifyOtpRequest {
   otp: string
   ref: string
 }
+
+export interface IVerifyOtpRequest {
+  otp: string
+  ref: string
+}
+
+export interface ISaveContactPersonRequest {
+  citizenId: string
+  firstName: string
+  lastName: string
+  gender: string
+  phoneNo: string
+  citizenCardIdentify: boolean
+  passportIdentify: boolean
+  birthdate: string
+}
