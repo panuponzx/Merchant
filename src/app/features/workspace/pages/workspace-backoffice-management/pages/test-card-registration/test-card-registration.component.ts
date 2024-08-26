@@ -29,6 +29,7 @@ export class TestCardRegistrationComponent {
     private ngbModal: NgbModal,
     private router: Router,
     private activatedRoute: ActivatedRoute
+    
     ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({

@@ -3,7 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingModalComponent } from '../../modals/loading-modal/loading-modal.component';
 import { InfoModalComponent } from '../../modals/info-modal/info-modal.component';
 import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
-
+import { RegisterCardComponent } from '../../modals/register-card/register-card.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -92,4 +92,14 @@ export class ModalDialogService {
     return modalRef.result;
   }
 
+  // เพิ่มฟังก์ชันสำหรับการเปิดฟอร์มโมดัล
+  public RegisterFormModal(data: any): Promise<any> {
+    const modalRef = this.ngbModal.open(RegisterCardComponent, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    modalRef.componentInstance.data = data; // ส่งข้อมูลไปยังโมดัลฟอร์ม
+    return modalRef.result;
+  }
 }
