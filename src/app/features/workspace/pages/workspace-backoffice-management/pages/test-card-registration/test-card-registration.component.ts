@@ -8,7 +8,7 @@ import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dia
 @Component({
   selector: 'app-test-card-registration',
   templateUrl: './test-card-registration.component.html',
-  styleUrl: './test-card-registration.component.scss'
+  styleUrls: ['./test-card-registration.component.scss']
 })
 export class TestCardRegistrationComponent {
   public approval: number = 1;
@@ -29,8 +29,7 @@ export class TestCardRegistrationComponent {
     private ngbModal: NgbModal,
     private router: Router,
     private activatedRoute: ActivatedRoute
-    
-    ) {
+  ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
       startDate: new FormControl(undefined, [ Validators.required ]),
@@ -40,7 +39,6 @@ export class TestCardRegistrationComponent {
     });
   }
   
-
   onChangeNav(event: NgbNavChangeEvent) {
     const url = 'work-space/approval-cancel-device/' + event.nextId;
     this.router.navigate([url], { replaceUrl: true });
@@ -50,10 +48,26 @@ export class TestCardRegistrationComponent {
     console.log("[onSearch]");
   }
   
-
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
   }
 
+  // เพิ่มฟังก์ชัน openFormModal
+  RegisterFormModal() {
+    const initialData = {
+      name: 'John Doe',
+      email: 'john.doe@example.com'
+    };
+    this.modalDialogService.RegisterFormModal(initialData).then(
+      (result) => {
+        if (result) {
+          console.log('Form submitted with:', result);
+          
+        }
+      },
+      (reason) => {
+        console.log('Modal dismissed:', reason);
+      }
+    );
+  }
 }
-
