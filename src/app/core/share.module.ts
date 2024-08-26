@@ -9,6 +9,7 @@ import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 import { LoadingModalComponent } from './modals/loading-modal/loading-modal.component';
 import { PipesModule } from './pipes';
 import { BorrowingModalComponent } from './modals/borrowing-modal/borrowing-modal.component';
+import { RegisterCardComponent } from './modals/register-card/register-card.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +17,16 @@ import { BorrowingModalComponent } from './modals/borrowing-modal/borrowing-moda
     InfoModalComponent,
        LoadingModalComponent,
        ConfirmModalComponent,
-       BorrowingModalComponent
+       BorrowingModalComponent,
+       RegisterCardComponent
   ],
   imports: [
     CommonModule,
     ShareComponentModule,
     PipesModule,
     DirectivesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
   exports: [
     ShareComponentModule,

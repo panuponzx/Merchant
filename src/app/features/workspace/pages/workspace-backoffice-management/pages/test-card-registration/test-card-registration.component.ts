@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CustomColumnModel, RowActionEventModel } from 'src/app/core/interfaces';
+import { BorrowingModalComponent } from 'src/app/core/modals/borrowing-modal/borrowing-modal.component';
 import { RegisterCardComponent } from 'src/app/core/modals/register-card/register-card.component';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
@@ -109,7 +110,7 @@ export class TestCardRegistrationComponent {
       }
     ];
   }
-  
+
   onChangeNav(event: NgbNavChangeEvent) {
     const url = 'work-space/approval-cancel-device/' + event.nextId;
     this.router.navigate([url], { replaceUrl: true });
@@ -123,10 +124,57 @@ export class TestCardRegistrationComponent {
       this.detailRows = this.detailRows.map((item: any, index: number) => {
         return {
           ...item,
-          faremediaValue: row.faremediaValue,
+          faremediaValue: /* In the provided TypeScript code, the `row` variable is being used in the
+          `onActive` method of the `TestCardRegistrationComponent` class. It is a
+          parameter of type `RowActionEventModel` that represents the row data
+          associated with the action being performed on a specific row in a table. */
+          row.faremediaValue,
         }
       });
-      console.log('this.detailRows: ', this.detailRows);
+    }else if (event.action === "withdrawOrBorrow") {
+
+        const modalRef = this.ngbModal.open(BorrowingModalComponent, {
+          centered: true,
+          backdrop: 'static',
+          keyboard: false,
+        });
+        modalRef.componentInstance.actionType ="borrow";
+        modalRef.componentInstance.title = "การยืม OBU";
+        modalRef.result.then(
+          (result) => {
+            console.log('result: ', result);
+            modalRef.close();
+            row.reservationStatusd = true;
+            // this.rows = this.rows.map((item: any) => {
+            //   if (item.faremediaValue === row.faremediaValue) {
+            //     return {
+            //       ...item,
+            //       isActive: true,
+            //       reservationStatusd: false,
+            //     }
+            //   }
+            // });
+          },
+          (reason) => {
+          }
+        );
+    }else if (event.action === "returnObu") {
+      const modalRef = this.ngbModal.open(BorrowingModalComponent, {
+        centered: true,
+        backdrop: 'static',
+        keyboard: false,
+      });
+      modalRef.componentInstance.title = "การคืน OBU";
+      modalRef.componentInstance.actionType ="1234";
+      modalRef.result.then(
+        (result) => {
+          console.log('result: ', result);
+          modalRef.close();
+          row.reservationStatusd = false;
+        },
+        (reason) => {
+        }
+      );
     }
   }
   RegisterFormModal() {

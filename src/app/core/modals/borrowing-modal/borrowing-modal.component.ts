@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-borrowing-modal',
@@ -14,22 +15,32 @@ export class BorrowingModalComponent {
   // ประกาศตัวแปร form เป็น FormGroup
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    public ngbActiveModal: NgbActiveModal
+  ) {
+    let today = new Date();
+    let tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     this.form = this.fb.group({
-      name: ['', Validators.required],
-      position: ['', Validators.required],
-      date: ['', Validators.required],
-      returnDate: ['', Validators.required]
+      name: new FormControl({ value: undefined, disabled: false }, Validators.required),
+      position: new FormControl({ value: undefined, disabled: false }, Validators.required),
+      date: new FormControl({ value: this.formatDate(today), disabled: true }, Validators.required),
+      returnDate: new FormControl({ value: this.formatDate(tomorrow), disabled: true }, Validators.required),
     });
   }
+  formatDate(date: Date): string {
+    let d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
 
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
   onSubmit() {
-    if (this.form.valid) {
-      console.log('Form submitted:', this.form.value);
-      this.formSubmit.emit({
-        type: this.actionType,
-        data: this.form.value
-      });
-    }
+    this.ngbActiveModal.close(this.form.value);
   }
 }
