@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CustomColumnModel, RowActionEventModel } from 'src/app/core/interfaces';
+import { RegisterCardComponent } from 'src/app/core/modals/register-card/register-card.component';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
@@ -26,10 +27,10 @@ export class TestCardRegistrationComponent {
   public isHiddenFillter: boolean = false;
   public rows: any = [];
   public tempRows: any = [];
-
+  public isOpenDetail: boolean = false;
   public maxDate: Date = new Date();
   public columns: CustomColumnModel[] = [
-    { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
+    { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
     { id: 'faremediaValue', name: 'faremediaValue', label: 'หมายเลขอุปกรณ์', prop: 'faremediaValue', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'isActive', name: 'isActive', label: 'สถานะ', prop: 'isActive', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-primary', textCondition1: 'Active', classCondition2: ' text-red', textCondition2: 'In Active' } },
     { id: 'reservationStatusd', name: 'reservationStatusd', label: 'สถานะการจอง', prop: 'reservationStatusd', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red', textCondition1: 'จอง', classCondition2: 'text-primary ', textCondition2: 'ว่าง' } },
@@ -38,14 +39,21 @@ export class TestCardRegistrationComponent {
     { id: 'detail', name: 'detail', label: 'รายงานการเบิกยืมคืน', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'รายงาน' } },
 
   ];
-
+  public columnsDetail: CustomColumnModel[] = [
+    { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
+    { id: 'faremediaValue', name: 'faremediaValue', label: 'หมายเลขอุปกรณ์', prop: 'faremediaValue', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'name', name: 'name', label: 'ชื่อ-นามสกุล', prop: 'name', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'institute', name: 'institute', label: 'หน่วยงาน', prop: 'institute', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'withdrawOrBorrowDate', name: 'withdrawOrBorrowDate', label: 'วันที่ทำการเบิก/ยืม', prop: 'withdrawOrBorrowDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'ExpectedReturnDate', name: 'ExpectedReturnDate', label: 'วันที่ทำการคาดว่าจะคืน', prop: 'ExpectedReturnDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'ReturnDate', name: 'ReturnDate', label: 'วันที่ทำการคืน', prop: 'ReturnDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'remark', name: 'remark', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+  ];
+  public detailRows: any = [];
   constructor(
-    private formBuilder: FormBuilder,
-    private modalDialogService: ModalDialogService,
-    private restApiService: RestApiService,
-    private ngbModal: NgbModal,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private ngbModal: NgbModal
   ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
@@ -66,9 +74,38 @@ export class TestCardRegistrationComponent {
         reservationStatusd: false,
       },
       {
-        faremediaValue: 'C123456',
+        faremediaValue: 'C123458',
         isActive: false,
         reservationStatusd: false,
+      }
+    ];
+    this.detailRows = [
+      {
+        faremediaValue: 'C123456',
+        name: 'นาย สมชาย ใจดี',
+        institute: 'สำนักงานปลัดกระทรวงคมนาคม',
+        withdrawOrBorrowDate: new Date("2021-07-01 10:31:21"),
+        ExpectedReturnDate: new Date("2021-07-10 5:12:33"),
+        ReturnDate: new Date("2021-07-10 10:31:21"),
+        remark: 'ไม่มี'
+      },
+      {
+        faremediaValue: 'C123456',
+        name: 'นาย มานะ ใจดี',
+        institute: 'สำนักงานปลัดกระทรวงคมนาคม',
+        withdrawOrBorrowDate: new Date("2021-08-01 10:31:21"),
+        ExpectedReturnDate: new Date("2021-08-10 11:31:21"),
+        ReturnDate: new Date("2021-08-10 7:31:21"),
+        remark: 'ไม่มี'
+      },
+      {
+        faremediaValue: 'C123456',
+        name: 'นาย สมชาย ใจดี',
+        institute: 'สำนักงานปลัดกระทรวงคมนาคม',
+        withdrawOrBorrowDate: new Date("2021-09-01 10:31:21"),
+        ExpectedReturnDate: new Date("2021-09-10 9:31:21"),
+        ReturnDate: new Date("2021-09-10 11:31:21"),
+        remark: 'ไม่มี'
       }
     ];
   }
@@ -78,39 +115,42 @@ export class TestCardRegistrationComponent {
     this.router.navigate([url], { replaceUrl: true });
   }
 
-  onSearch() {
-    this.load();
-  }
-
-  load() {
-    this.modalDialogService.loading();
-    this.isLoading = true;
-    const data = {
-      limit: 5,
-      page: 1,
-      identificationId: this.form.get('search')?.value
+  onActive(event: RowActionEventModel) {
+    var row = event.row;
+    console.log('action: ', event.action);
+    if (event.action ==="detail"){
+      this.isOpenDetail = true;
+      this.detailRows = this.detailRows.map((item: any, index: number) => {
+        return {
+          ...item,
+          faremediaValue: row.faremediaValue,
+        }
+      });
+      console.log('this.detailRows: ', this.detailRows);
     }
   }
-  
-  handleHiddenFillterMenu(value: boolean) {
-    this.isHiddenFillter = value;
-  }
-
   RegisterFormModal() {
-    const initialData = {
-      name: 'John Doe',
-      email: 'john.doe@example.com'
-    };
-    this.modalDialogService.RegisterFormModal(initialData).then(
+    const modalRef = this.ngbModal.open(RegisterCardComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'm',
+      keyboard: false,
+    });
+    modalRef.result.then(
       (result) => {
-        if (result) {
-          console.log('Form submitted with:', result);
-          
+        var faremedia = {
+          "faremediaValue": result,
+          "isActive": true,
+          "reservationStatusd": false,
         }
+        this.rows = [...this.rows, faremedia];
+        console.log('this.rows: ', this.rows);
       },
       (reason) => {
-        console.log('Modal dismissed:', reason);
       }
     );
+  }
+  backToMain(){
+    this.isOpenDetail = false;
   }
 }

@@ -1,6 +1,7 @@
 import { Component, Input, } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TransformDatePipe } from '../../pipes';
 
 @Component({
   selector: 'app-register-card',
@@ -8,23 +9,23 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './register-card.component.scss'
 })
 export class RegisterCardComponent {
-  @Input() data: any; 
-  form: FormGroup;
+  public row = {} as any;
+  public form: FormGroup;
 
-  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder) {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+  constructor(
+    private formBuilder: FormBuilder,
+    public ngbActiveModal: NgbActiveModal,
+    private transformDatePipe: TransformDatePipe,
+    private ngbModal: NgbModal
+  ) {
+    this.form = this.formBuilder.group({
+      faremediaValue: new FormControl({ value: undefined, disabled: false }, Validators.required),
     });
   }
-
-  submitForm() {
-    if (this.form.valid) {
-      this.activeModal.close(this.form.value); 
-    }
+  onClose() {
+    this.ngbActiveModal.close(null);
   }
-
-  cancel() {
-    this.activeModal.dismiss('cancel');
+  onSummit(){
+    this.ngbActiveModal.close(this.form.value.faremediaValue);
   }
 }

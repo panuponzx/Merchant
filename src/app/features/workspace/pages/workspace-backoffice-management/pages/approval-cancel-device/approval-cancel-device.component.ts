@@ -48,22 +48,4 @@ export class ApprovalCancelDeviceComponent {
     this.isHiddenFillter = value;
   }
 
-  RegisterFormModal() {
-    const initialData = {
-      name: 'John Doe',
-      email: 'john.doe@example.com'
-    };
-    this.modalDialogService.RegisterFormModal(initialData).then(
-      (result) => {
-        if (result) {
-          console.log('Form submitted with:', result);
-          
-        }
-      },
-      (reason) => {
-        console.log('Modal dismissed:', reason);
-      }
-    );
-  }
-
 }

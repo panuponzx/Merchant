@@ -7,15 +7,23 @@
     <hr class="hr-custom" />
     <div class="content-container-body" [style.padding-top]="!isHiddenFillter ? '1.5rem' : '0'">
         <div class="d-flex justify-content-end align-items-center">
-            <button class="custom-btn btn-type-1" type="submit" title="Login">
+            <button class="custom-btn btn-type-1" type="submit" (click)="RegisterFormModal()">
                 ลงทะเบียนบัตรทดสอบ
             </button>
         </div>
         <ng-container>
-            <div class="datatable-container">
+            <div class="datatable-container" *ngIf="!isOpenDetail">
                 <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'"
-                    [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="rows" (onRowActionEvent)="onActive($event)"
-                    emptyMessage="ไม่มีข้อมูล" />
+                    [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="rows"
+                    (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล" />
+            </div>
+            <div class="datatable-container" *ngIf="isOpenDetail">
+                <button class="custom-btn btn-type-1" type="submit" (click)="backToMain()">
+                    กลับ
+                </button>
+                <datatable [columns]="columnsDetail" [collectionSize]="collectionSize" [id]="'userDatatable'"
+                    [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="detailRows"
+                    (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล" />
             </div>
             <!-- <div class="datatable-container">
                 <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
