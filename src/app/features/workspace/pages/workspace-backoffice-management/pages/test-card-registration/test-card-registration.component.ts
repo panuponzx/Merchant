@@ -24,7 +24,7 @@ export class TestCardRegistrationComponent {
   public isLoading: boolean = false;
   public collectionSize: number = 0;
   public limitRow: number = 10;
-
+  public isSearch: boolean = false;
   public isHiddenFillter: boolean = false;
   public rows: any = [];
   public tempRows: any = [];
@@ -50,34 +50,44 @@ export class TestCardRegistrationComponent {
     { id: 'ReturnDate', name: 'ReturnDate', label: 'วันที่ทำการคืน', prop: 'ReturnDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'remark', name: 'remark', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
   ];
+  public columnsSearch: CustomColumnModel[] = [
+    { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
+    { id: 'faremediaValue', name: 'faremediaValue', label: 'หมายเลขอุปกรณ์', prop: 'faremediaValue', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'walletId', name: 'walletId', label: 'walletId', prop: 'walletId', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'isActive', name: 'isActive', label: 'เป็นบัตรทดสอบ', prop: 'isActive', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'checkbox' },
+  ];
+
   public detailRows: any = [];
+  public filterSearchRows: any = [];
+  public changeStatus: any = [];
   constructor(
+    private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private ngbModal: NgbModal
   ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
-      startDate: new FormControl(undefined, [Validators.required]),
-      endDate: new FormControl(undefined, [Validators.required]),
-      checkpoint: new FormControl(undefined, [Validators.required]),
-      search: new FormControl(undefined, [Validators.required])
+      search: new FormControl({ value: undefined, disabled: false }, [Validators.required])
     });
     this.rows = [
       {
         faremediaValue: 'C123456',
         isActive: true,
         reservationStatusd: true,
+        walletId: "198374198374198374",
       },
       {
         faremediaValue: 'C123457',
         isActive: true,
         reservationStatusd: false,
+        walletId: "9876543210987654321",
       },
       {
         faremediaValue: 'C123458',
         isActive: false,
         reservationStatusd: false,
+        walletId: "1234567890123456789",
       }
     ];
     this.detailRows = [
@@ -88,7 +98,8 @@ export class TestCardRegistrationComponent {
         withdrawOrBorrowDate: new Date("2021-07-01 10:31:21"),
         ExpectedReturnDate: new Date("2021-07-10 5:12:33"),
         ReturnDate: new Date("2021-07-10 10:31:21"),
-        remark: 'ไม่มี'
+        remark: 'ไม่มี',
+
       },
       {
         faremediaValue: 'C123456',
@@ -97,7 +108,8 @@ export class TestCardRegistrationComponent {
         withdrawOrBorrowDate: new Date("2021-08-01 10:31:21"),
         ExpectedReturnDate: new Date("2021-08-10 11:31:21"),
         ReturnDate: new Date("2021-08-10 7:31:21"),
-        remark: 'ไม่มี'
+        remark: 'ไม่มี',
+
       },
       {
         faremediaValue: 'C123456',
@@ -106,10 +118,13 @@ export class TestCardRegistrationComponent {
         withdrawOrBorrowDate: new Date("2021-09-01 10:31:21"),
         ExpectedReturnDate: new Date("2021-09-10 9:31:21"),
         ReturnDate: new Date("2021-09-10 11:31:21"),
-        remark: 'ไม่มี'
+        remark: 'ไม่มี',
+
       }
     ];
+
   }
+
 
   onChangeNav(event: NgbNavChangeEvent) {
     const url = 'work-space/approval-cancel-device/' + event.nextId;
@@ -119,7 +134,7 @@ export class TestCardRegistrationComponent {
   onActive(event: RowActionEventModel) {
     var row = event.row;
     console.log('action: ', event.action);
-    if (event.action ==="detail"){
+    if (event.action === "detail") {
       this.isOpenDetail = true;
       this.detailRows = this.detailRows.map((item: any, index: number) => {
         return {
@@ -128,44 +143,35 @@ export class TestCardRegistrationComponent {
           `onActive` method of the `TestCardRegistrationComponent` class. It is a
           parameter of type `RowActionEventModel` that represents the row data
           associated with the action being performed on a specific row in a table. */
-          row.faremediaValue,
+            row.faremediaValue,
         }
       });
-    }else if (event.action === "withdrawOrBorrow") {
+    } else if (event.action === "withdrawOrBorrow") {
 
-        const modalRef = this.ngbModal.open(BorrowingModalComponent, {
-          centered: true,
-          backdrop: 'static',
-          keyboard: false,
-        });
-        modalRef.componentInstance.actionType ="borrow";
-        modalRef.componentInstance.title = "การยืม OBU";
-        modalRef.result.then(
-          (result) => {
-            console.log('result: ', result);
-            modalRef.close();
-            row.reservationStatusd = true;
-            // this.rows = this.rows.map((item: any) => {
-            //   if (item.faremediaValue === row.faremediaValue) {
-            //     return {
-            //       ...item,
-            //       isActive: true,
-            //       reservationStatusd: false,
-            //     }
-            //   }
-            // });
-          },
-          (reason) => {
-          }
-        );
-    }else if (event.action === "returnObu") {
+      const modalRef = this.ngbModal.open(BorrowingModalComponent, {
+        centered: true,
+        backdrop: 'static',
+        keyboard: false,
+      });
+      modalRef.componentInstance.actionType = "borrow";
+      modalRef.componentInstance.title = "การยืม OBU";
+      modalRef.result.then(
+        (result) => {
+          console.log('result: ', result);
+          modalRef.close();
+          row.reservationStatusd = true;
+        },
+        (reason) => {
+        }
+      );
+    } else if (event.action === "returnObu") {
       const modalRef = this.ngbModal.open(BorrowingModalComponent, {
         centered: true,
         backdrop: 'static',
         keyboard: false,
       });
       modalRef.componentInstance.title = "การคืน OBU";
-      modalRef.componentInstance.actionType ="1234";
+      modalRef.componentInstance.actionType = "1234";
       modalRef.result.then(
         (result) => {
           console.log('result: ', result);
@@ -175,7 +181,24 @@ export class TestCardRegistrationComponent {
         (reason) => {
         }
       );
+    } else if (event.action === "isActive") {
+      const index = this.changeStatus.findIndex((existingRow: { faremediaValue: any; }) => existingRow.faremediaValue === row.faremediaValue);
+
+      if (index === -1) {
+        this.changeStatus.push(row);
+      } else {
+        this.changeStatus.splice(index, 1);
+      }
+      console.log(this.changeStatus)
     }
+  }
+  onChangeStatus(){
+    this.changeStatus.forEach((item: { faremediaValue: any; }) => {
+      const index = this.rows.findIndex((existingRow: { faremediaValue: any;})=>existingRow.faremediaValue === item.faremediaValue);
+      this.rows[index].isActive = !this.rows[index].isActive;
+    });
+    this.changeStatus = [];
+    this.clearSearch();
   }
   RegisterFormModal() {
     const modalRef = this.ngbModal.open(RegisterCardComponent, {
@@ -198,7 +221,15 @@ export class TestCardRegistrationComponent {
       }
     );
   }
-  backToMain(){
+  backToMain() {
     this.isOpenDetail = false;
+  }
+  onSearch() {
+    this.isSearch = true;
+    this.filterSearchRows = this.rows.filter((row: { faremediaValue: string; }) => row.faremediaValue.startsWith(this.form.value.search));
+  }
+  clearSearch() {
+    this.form.patchValue({ search: '' });
+    this.isSearch = false;
   }
 }

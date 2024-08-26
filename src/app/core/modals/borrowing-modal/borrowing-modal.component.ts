@@ -43,4 +43,7 @@ export class BorrowingModalComponent {
   onSubmit() {
     this.ngbActiveModal.close(this.form.value);
   }
+  onClose(){
+    this.ngbActiveModal.close(null);
+  }
 }

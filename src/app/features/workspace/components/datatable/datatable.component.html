@@ -72,7 +72,12 @@
                 <icon-svg size="17px" [color]="'#2255CE'" [path]="'check' | icon" />
               </ng-container>
             </ng-container>
-
+            <ng-container *ngIf="column.type === 'checkbox'">
+              <ng-container>
+                <input class="form-check-input" type="checkbox" [checked]="value"
+                  (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column.name })">
+              </ng-container>
+            </ng-container>
             <ng-container *ngIf="column.type === 'cancel'">
               <ng-container>
                 <button [attr.data-testid]="column.id + rowIndex + 'btn-cancel'" class="custome-btn btn-icon"
