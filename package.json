@@ -1,5 +1,5 @@
 {
-  "name": "exat-ewallet-fe",
+  "name": "q",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -53,5 +53,9 @@
   },
   "engines": {
     "node": ">=20.0.0"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
