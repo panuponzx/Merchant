@@ -52,7 +52,6 @@ export class TestCardRegistrationComponent {
     this.isHiddenFillter = value;
   }
 
-  // เพิ่มฟังก์ชัน openFormModal
   RegisterFormModal() {
     const initialData = {
       name: 'John Doe',

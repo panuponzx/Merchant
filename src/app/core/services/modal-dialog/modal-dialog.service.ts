@@ -92,14 +92,14 @@ export class ModalDialogService {
     return modalRef.result;
   }
 
-  // เพิ่มฟังก์ชันสำหรับการเปิดฟอร์มโมดัล
+ 
   public RegisterFormModal(data: any): Promise<any> {
     const modalRef = this.ngbModal.open(RegisterCardComponent, {
       centered: true,
       backdrop: 'static',
       keyboard: false,
     });
-    modalRef.componentInstance.data = data; // ส่งข้อมูลไปยังโมดัลฟอร์ม
+    modalRef.componentInstance.data = data; 
     return modalRef.result;
   }
 }
