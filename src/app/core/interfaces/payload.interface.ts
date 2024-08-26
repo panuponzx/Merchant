@@ -18,3 +18,13 @@ export interface TopupPayloadModel {
   to?: Date | string | undefined | null,
   page: number
 }
+
+export interface IAcceptConsentRequest {
+  consentId: string,
+  isAccepted: boolean
+}
+
+export interface IVerifyOtpRequest {
+  otp: string
+  ref: string
+}

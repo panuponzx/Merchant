@@ -1,0 +1,30 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="main-container">
+        <div class="header-container">
+            <h3 class="content-title">เพิ่มผู้ใช้งาน - ข้อกำหนดและเงื่อนไข</h3>
+            <hr class="hr-grey">
+        </div>
+        <div class="body-container">
+            <p class="text-center">กรุณาระบุหมายเลขโทรศัพท์มือถือ สำหรับการขอรับรหัสผ่าน OTP</p>
+            <div class="d-flex justify-content-center">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+                    <label class="label-input back required-field" for="mobileInput">
+                        เบอร์โทรศัพท์
+                    </label>
+                    <input class="form-control" data-testid="mobileInput" mask="000 000 0000" placeholder="081 000 0000"
+                        formControlName="mobile" id="mobileInput" type="text" [autofocus]="true">
+                    <span style="color: #777777">ระบุหมายเลขโทรศัพท์ 10 หลัก</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-container">
+            <hr class="hr-grey mb-3">
+            <div class="btn-footer d-flex justify-content-center gap-3">
+                <button type="button" class="custom-btn btn-fixed-size-1 btn-type-3"
+                    (click)="onBack()">ย้อนกลับ</button>
+                <button type="submit" class="custom-btn btn-fixed-size-1 btn-type-1"
+                    [disabled]="form.invalid">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+</form>

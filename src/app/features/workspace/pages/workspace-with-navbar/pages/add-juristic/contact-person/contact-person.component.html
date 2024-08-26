@@ -1,0 +1,93 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="main-container">
+        <div class="header-container">
+            <h3 class="content-title">เพิ่มผู้ใช้งาน - ข้อกำหนดและเงื่อนไข</h3>
+            <hr class="hr-grey">
+        </div>
+        <div class="body-container">
+            <h3 class="mb-3">ข้อมูลตามบัตรประชาชน</h3>
+            <div class="row d-flex justify-content-center">
+                <div class="col-sm-12 col-md-6 mb-3">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="identificationInput">
+                            หมายเลขบัตรประชาชน
+                        </label>
+                        <input class="form-control" data-testid="identificationInput" formControlName="citizenId"
+                            id="identificationInput" type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="gender">
+                            เพศ
+                        </label>
+                        <div class="gender-selector">
+                            <div class="gender-wrapper">
+                                <input type="radio" formControlName="gender" id="male" value="M">
+                                <label for="male">ชาย</label>
+                            </div>
+                            <div class="gender-wrapper">
+                                <input type="radio" formControlName="gender" id="female" value="F">
+                                <label for="female">หญิง</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 mb-3">
+                    <div class="col-sm-12 mb-3">
+                        <label class="label-input required-field" for="prefixInput">
+                            คำนำหน้า
+                        </label>
+                        <ng-select class="form-control" [items]="prefixList" [addTag]="addTagPrefixPromise"
+                            id="prefixInput" data-testid="prefixInput" bindLabel="label" bindValue="value"
+                            formControlName="prefix">
+                        </ng-select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="firstName">
+                            ชื่อ
+                        </label>
+                        <input class="form-control" data-testid="firstName" formControlName="firstName" id="firstName"
+                            type="text">
+                        <!-- <small *ngIf="form.get('firstName').errors?.['required'] && (submitted || form.get('firstName').touched) " class="req-text">
+                            *โปรดระบุชื่อ
+                        </small> -->
+
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="lastName">
+                            นามสกุล
+                        </label>
+                        <input class="form-control" data-testid="lastName" formControlName="lastName" id="lastName"
+                            type="text">
+                        <!-- <small *ngIf="form.get('lastName').errors?.['required'] && form.get('lastName').touched " class="req-text">
+                            *โปรดระบุนามสกุล
+                        </small> -->
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="birthDateDatePicker">
+                            วันเกิด (วัน/เดือน/ปี)
+                        </label>
+                        <date-picker class="datepicker-input" [clearable]="false" format="DD/MM/YYYY"
+                            formControlName="birthDate" [id]="'birthDateDatePicker'" locale="th"
+                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [maxDate]="today"></date-picker>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="phone">
+                            เบอร์ติดต่อ
+                        </label>
+                        <input class="form-control" data-testid="phone" formControlName="phone" id="phone" type="text"
+                            mask="000 000 0000">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-container">
+            <hr class="hr-grey mb-3">
+            <div class="btn-footer d-flex justify-content-center gap-3">
+                <button type="button" class="custom-btn btn-fixed-size-1 btn-type-3"
+                    (click)="onBack()">ย้อนกลับ</button>
+                <button type="submit" class="custom-btn btn-fixed-size-1 btn-type-1"
+                    [disabled]="form.invalid">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+</form>

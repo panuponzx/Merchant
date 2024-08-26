@@ -1,0 +1,23 @@
+<div style="position: absolute; top: 70px; left: 0;">
+    <p>step: {{ step }}</p>
+</div>
+<div *ngIf="transactionId" [ngSwitch]="step">
+    <term-condition *ngSwitchCase="1" [transactionId]="transactionId" (nextStep)="onNextStep()"
+        (backStep)="onBackStep()">
+    </term-condition>
+    <email-otp-request *ngSwitchCase="2" [transactionId]="transactionId" (nextStep)="onNextRequestOtpEmailStep($event)"
+        (backStep)="onBackStep()">
+    </email-otp-request>
+    <confirm-otp *ngSwitchCase="3" [transactionId]="transactionId" [verifyOtpType]="'email'"
+        [verifyOtpRequest]="otpEmailResponse" (nextStep)="onNextStep()" (backStep)="onBackStep()">
+    </confirm-otp>
+    <mobile-otp-request *ngSwitchCase="4" [transactionId]="transactionId" (nextStep)="onNextRequestOtpEmailStep($event)"
+        (backStep)="onBackStep()">
+    </mobile-otp-request>
+    <confirm-otp *ngSwitchCase="5" [transactionId]="transactionId" [verifyOtpType]="'mobile'"
+        [verifyOtpRequest]="otpEmailResponse" (nextStep)="onNextStep()" (backStep)="onBackStep()">
+    </confirm-otp>
+    <contact-person *ngSwitchCase="6">
+
+    </contact-person>
+</div>

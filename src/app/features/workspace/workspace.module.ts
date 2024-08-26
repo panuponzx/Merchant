@@ -94,6 +94,12 @@ import { ExceptionTransactionComponent } from './pages/workspace-backoffice-mana
 import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
 import { TransactionSuspensionModalComponent } from './pages/workspace-backoffice-management/modals/transaction-suspension-modal/transaction-suspension-modal.component';
 import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
+import { AddJuristicComponent } from './pages/workspace-with-navbar/pages/add-juristic/add-juristic.component';
+import { TermConditionComponent } from './pages/workspace-with-navbar/pages/add-juristic/term-condition/term-condition.component';
+import { EmailOtpRequestComponent } from './pages/workspace-with-navbar/pages/add-juristic/email-otp-request/email-otp-request.component';
+import { MobileOtpRequestComponent } from './pages/workspace-with-navbar/pages/add-juristic/mobile-otp-request/mobile-otp-request.component';
+import { ConfirmOtpComponent } from './pages/workspace-with-navbar/pages/add-juristic/confirm-otp/confirm-otp.component';
+import { ContactPersonComponent } from './pages/workspace-with-navbar/pages/add-juristic/contact-person/contact-person.component';
 
 
 @NgModule({
@@ -176,6 +182,12 @@ import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/
     TransactionSuspensionManagementComponent,
     TransactionSuspensionModalComponent,
     UserInfoAllComponent,
+    AddJuristicComponent,
+    TermConditionComponent,
+    EmailOtpRequestComponent,
+    MobileOtpRequestComponent,
+    ConfirmOtpComponent,
+    ContactPersonComponent,
   ],
   imports: [
     CommonModule,

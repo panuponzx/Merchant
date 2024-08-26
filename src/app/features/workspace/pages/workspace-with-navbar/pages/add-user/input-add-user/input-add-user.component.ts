@@ -15,7 +15,7 @@ import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
 export class InputAddUserComponent {
 
   public step: number = 1;
-  public customerType: number = 0;
+  public customerType: number = 1;
   public refCode: string | undefined;
 
   public userInfoForm!: FormGroup;
@@ -41,7 +41,7 @@ export class InputAddUserComponent {
   ) {
     const customerTypeStr = this.activatedRoute.snapshot.paramMap.get('customerType');
     if (customerTypeStr === 'personal-info') {
-      this.customerType = 1;
+      // this.customerType = 1;
       this.userInfoForm = this.formBuilder.group({
         // identityType: new FormControl(1, Validators.required),
         prefix: new FormControl(undefined, Validators.required),
@@ -54,7 +54,7 @@ export class InputAddUserComponent {
         gender: new FormControl('M', Validators.required),
       });
     } else if (customerTypeStr === 'juristic-info') {
-      this.customerType = 2;
+      // this.customerType = 2;
       this.userInfoForm = this.formBuilder.group({
         // identityType: new FormControl(1, Validators.required),
         prefix: new FormControl(undefined, Validators.required),

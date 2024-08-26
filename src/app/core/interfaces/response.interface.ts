@@ -149,3 +149,26 @@ export interface ITransactionSuspensionElementModal {
   isBlacklist: boolean
   customerType: number
 }
+
+export interface IBeginResponse {
+  txnId: string
+  exp: string
+}
+export interface IConsentResponse {
+  consentId: string
+  seq: number
+  code: string
+  version: number
+  title: string
+  isRequired: boolean
+  content: string
+  contentShort: string
+  contentType: string
+  lang: string
+}
+
+export interface IOtpEmailResponse {
+  ref: string
+  sendTo: string
+  timeoutInSec: number
+}

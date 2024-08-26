@@ -14,11 +14,11 @@ export class AddUserComponent {
   }
 
   onAddPersonalUser() {
-    this.router.navigate(['work-space/add-user/personal-info']);
+    this.router.navigate(['work-space/add-user/personal']);
   }
 
   onAddJuristicUser() {
-    this.router.navigate(['work-space/add-user/juristic-info']);
+    this.router.navigate(['work-space/add-user/juristic']);
   }
 
   onBackToHome() {

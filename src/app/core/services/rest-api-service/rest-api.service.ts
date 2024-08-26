@@ -102,4 +102,14 @@ export class RestApiService {
     return this.httpClient.get<IResponseModel<res>>(baseURL);
   }
 
+  getBackOfficeWithModel<res>(url: string): Observable<IResponseModel<res>> {
+    const baseURL = `${environment.apiBackOffice}/${url}`;
+    return this.httpClient.get<IResponseModel<res>>(baseURL);
+  }
+
+  postBackOfficeWithModel<Req, Res>(endpoint: string, body: Req | null): Observable<IResponseModel<Res>> {
+    const url = `${environment.apiBackOffice}/${endpoint}`;
+    return this.httpClient.post<IResponseModel<Res>>(url, body);
+  }
+
 }

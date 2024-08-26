@@ -1,0 +1,32 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="main-container">
+        <div class="header-container">
+            <h3 class="content-title">เพิ่มผู้ใช้งาน - ข้อกำหนดและเงื่อนไข</h3>
+            <hr class="hr-grey">
+        </div>
+        <div class="body-container">
+            <ul class="term-condition-list" *ngFor="let item of form.controls['termAndCondition'] | formArrayToFormGroup; let i = index;">
+                <li class="term-condition-item">
+                    <form [formGroup]="item">
+                        <div [innerHTML]="item.get('title')?.value"></div>
+                        <div [innerHTML]="item.get('contentShort')?.value"></div>
+                        <div class="form-check" >
+                            <input class="form-check-input" type="checkbox" value="true" formControlName="isAccepted" id="consentCheck{{i}}">
+                            <label class="form-check-label" for="consentCheck{{i}}">
+                                ฉันได้อ่าน และยอมรับ ข้อกำหนดและเงื่อนไขการใช้งาน <span *ngIf="item.get('isRequired')?.value">(จำเป็น)</span>
+                            </label>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-container">
+            <hr class="hr-grey mb-3">
+            <div class="btn-footer d-flex justify-content-center gap-3">
+                <button type="button" class="custom-btn btn-fixed-size-1 btn-type-3"
+                    (click)="onBack()">ย้อนกลับ</button>
+                <button type="submit" class="custom-btn btn-fixed-size-1 btn-type-1" [disabled]="form.invalid">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+</form>

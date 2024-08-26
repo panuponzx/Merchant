@@ -36,6 +36,7 @@ import { ExpiredFaremediaListComponent } from './pages/workspace-backoffice-mana
 import { ExceptionTransactionComponent } from './pages/workspace-backoffice-management/pages/exception-transaction/exception-transaction.component';
 import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
 import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
+import { AddJuristicComponent } from './pages/workspace-with-navbar/pages/add-juristic/add-juristic.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -73,8 +74,13 @@ export const routesConfig: CustomRoutesModel = [
           },
           {
             id: 'personalInfo',
-            path: 'add-user/:customerType',
+            path: 'add-user/personal',
             component: InputAddUserComponent,
+          },
+          {
+            id: 'addJuristic',
+            path: 'add-user/juristic',
+            component: AddJuristicComponent,
           },
           {
             id: 'addCarType9Route',

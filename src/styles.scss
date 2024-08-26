@@ -117,3 +117,18 @@ html body {
 .datatable-icon-down-custom::before {
   content: url('assets/images/icons/down.svg') !important;
 }
+
+.custom-input-otp {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 8px !important;
+  border: solid 1px #CCCCCC !important;
+
+  &:hover,
+  &:focus,
+  &:active {
+      border: solid 1px #CCCCCC !important;
+      box-shadow: none !important;
+      outline: none !important;
+  }
+}
