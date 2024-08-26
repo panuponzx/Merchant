@@ -47,6 +47,5 @@ export class ApprovalCancelDeviceComponent {
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
   }
-
-
+  
 }

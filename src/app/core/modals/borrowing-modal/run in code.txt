@@ -1,4 +1,14 @@
-  public onBorrowing(data: any,title:string): Promise<any> {
+ onBorrowing(){
+    //api request and '' to payload
+    this.borrowingModal('', 'การยืม / เบิก บัตรทดสอบ ')
+  }
+
+  onReturn(){
+    //api request and '' to payload
+    this.borrowingModal('', 'คืน บัตรทดสอบ ')
+  }
+
+  public borrowingModal(data: any,title:string): Promise<any> {
     const modalRef = this.ngbModal.open(BorrowingModalComponent, {
       centered: true,
       backdrop: 'static',
@@ -11,4 +21,6 @@
 
 
    ปรับใช้
-   <button class="custom-btn btn-type-1" (click)="onBorrowing('','dxxfxdfd')" type="submit" title="Login">git
+  <button class="custom-btn btn-type-1" (click)="onBorrowing()"  type="submit" title="Login"> คือ การยืม / เบิก บัตรทดสอบ
+
+  <button class="custom-btn btn-type-1" (click)="onReturn()"  type="submit" title="Login"> คือ คืน บัตรทดสอบ
