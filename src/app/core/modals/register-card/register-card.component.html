@@ -1,0 +1,24 @@
+<div class="modal-body">
+  <div class="header-label">
+    <h2>ลงทะเบียนบัตรทดสอบ</h2>
+    <h3 class="mb-3">กรุณากรอกข้อมูลบัตรทดสอบ</h3>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="form" >
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <label for="faremediaValue">หมายเลขอุปกรณ์</label>
+          <input id="faremediaValue" class="form-control" formControlName="faremediaValue">
+          <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
+            จำเป็นต้องกรอกหมายเลขอุปกรณ์
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end gap-3">
+        <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
+        <button class="custom-btn btn-type-1 text" [disabled]="row.isCancelled" (click)="onSummit()">ลงทะเบียน</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -34,7 +34,8 @@ export class TransactionSuspensionManagementComponent {
     private modalDialogService: ModalDialogService,
     private restApiService: RestApiService,
     private ngbModal: NgbModal
-  ) {
+  ) 
+  {
     this.form = this.formBuilder.group({
       search: new FormControl(undefined, [Validators.required])
     });

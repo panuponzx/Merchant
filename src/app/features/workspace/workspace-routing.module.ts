@@ -37,6 +37,7 @@ import { ExceptionTransactionComponent } from './pages/workspace-backoffice-mana
 import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
 import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
 import { AddJuristicComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/add-juristic.component';
+import { TestCardRegistrationComponent } from './pages/workspace-backoffice-management/pages/test-card-registration/test-card-registration.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -341,6 +342,17 @@ export const routesConfig: CustomRoutesModel = [
               is_sidebar: true,
               label: 'ระบบระงับการทำธุรกรรม',
               default_path: 'transaction-suspension-management',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'TestCardRegistrationComponent',
+            path: 'test-card-registration',
+            component: TestCardRegistrationComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ทะเบียนบัตรทดสอบ',
+              default_path: 'test-card-registration',
             },
             canActivate: [TabGuard]
           },
