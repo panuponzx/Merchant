@@ -107,6 +107,18 @@
                   </ng-container>
                 </ng-template>
               </ngx-datatable-column>
+              <ngx-datatable-column prop="createDate" [sortable]="false" [headerClass]="'text-break text-center'"
+              [cellClass]="'text-break text-center'">
+              <ng-template ngx-datatable-header-template>
+                <span>วันที่ และ เวลา ที่ชำระเงินจริง</span>
+              </ng-template>
+              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                <ng-container>
+                  {{ row.createDate ? ( row.createDate | transformDate : 'DD/MM/BBBB HH:mm:ss' : 'th') : "-"
+                  }}
+                </ng-container>
+              </ng-template>
+            </ngx-datatable-column>
               <ngx-datatable-column name="สายทางเข้า" prop="entryHq" [sortable]="false" [headerClass]="'text-break text-center'"
               [cellClass]="'text-break text-center'"></ngx-datatable-column>
               <ngx-datatable-column name="สายทางออก" prop="exitHq" [sortable]="false" [headerClass]="'text-break text-center'"

@@ -100,6 +100,7 @@ import { EmailOtpRequestComponent } from './pages/workspace-with-navbar/pages/ad
 import { MobileOtpRequestComponent } from './pages/workspace-with-navbar/pages/add-juristic/mobile-otp-request/mobile-otp-request.component';
 import { ConfirmOtpComponent } from './pages/workspace-with-navbar/pages/add-juristic/confirm-otp/confirm-otp.component';
 import { ContactPersonComponent } from './pages/workspace-with-navbar/pages/add-juristic/contact-person/contact-person.component';
+import { ConfirmCancelPassageInfoComponent } from './pages/workspace-with-navbar-and-sidebar/modals/confirm-cancel-passage-info/confirm-cancel-passage-info.component';
 
 
 @NgModule({
@@ -188,6 +189,7 @@ import { ContactPersonComponent } from './pages/workspace-with-navbar/pages/add-
     MobileOtpRequestComponent,
     ConfirmOtpComponent,
     ContactPersonComponent,
+    ConfirmCancelPassageInfoComponent,
   ],
   imports: [
     CommonModule,
