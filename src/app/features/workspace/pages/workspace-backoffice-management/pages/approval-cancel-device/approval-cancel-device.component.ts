@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { BorrowingModalComponent } from 'src/app/core/modals/borrowing-modal/borrowing-modal.component';
 
 @Component({
   selector: 'app-approval-cancel-device',
@@ -25,7 +25,7 @@ export class ApprovalCancelDeviceComponent {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private modalDialogService: ModalDialogService,
+    private ngbModal: NgbModal
     ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
@@ -47,5 +47,5 @@ export class ApprovalCancelDeviceComponent {
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
   }
-
+  
 }

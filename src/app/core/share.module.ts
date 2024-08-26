@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import { ReactiveFormsModule } from '@angular/forms';
 import { ShareComponentModule } from './components/share-component.module';
-import { PipesModule } from './pipes';
 import { DirectivesModule } from './directives';
+import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
 import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 import { LoadingModalComponent } from './modals/loading-modal/loading-modal.component';
-import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
-import { RegisterCardComponent } from './modals/register-card/register-card.component'; 
-import { ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from './pipes';
+import { BorrowingModalComponent } from './modals/borrowing-modal/borrowing-modal.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     InfoModalComponent,
        LoadingModalComponent,
        ConfirmModalComponent,
-       RegisterCardComponent,
+       BorrowingModalComponent
   ],
   imports: [
     CommonModule,
