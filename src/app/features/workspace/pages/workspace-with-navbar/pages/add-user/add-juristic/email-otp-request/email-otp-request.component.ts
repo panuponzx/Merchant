@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { IOtpEmailResponse } from 'src/app/core/interfaces';
-import { CustomRegEx, RestApiService } from 'src/app/core/services';
+import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
 @Component({
@@ -11,22 +11,16 @@ import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dia
 })
 export class EmailOtpRequestComponent {
 
+  @Input() form!: FormGroup;
   @Input() transactionId!: string;
 
   @Output() nextStep = new EventEmitter<IOtpEmailResponse>();
   @Output() backStep = new EventEmitter<void>();
-
-  form: FormGroup;
   
   constructor(
-    private formBuilder: FormBuilder,
     private modalDialogService: ModalDialogService,
     private restApiService: RestApiService
-  ) {
-    this.form = this.formBuilder.group({
-      email: new FormControl(undefined, [Validators.required, Validators.pattern(CustomRegEx.RegExEmail)]),
-    });
-  }
+  ) { }
 
   onSubmit() {
     this.postRequestOtpEmail();

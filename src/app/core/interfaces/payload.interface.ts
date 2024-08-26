@@ -26,12 +26,7 @@ export interface IAcceptConsentRequest {
 
 export interface IVerifyOtpRequest {
   otp: string
-  ref: string
-}
-
-export interface IVerifyOtpRequest {
-  otp: string
-  ref: string
+  sysReference: string
 }
 
 export interface ISaveContactPersonRequest {
@@ -43,4 +38,31 @@ export interface ISaveContactPersonRequest {
   citizenCardIdentify: boolean
   passportIdentify: boolean
   birthdate: string
+}
+
+export interface ISaveJuristicInfoRequest {
+  houseNo: string
+  building: string
+  floor: string
+  village: string
+  moo: string
+  street: string
+  soi: string
+  alley: string
+  subDistrictCode: string
+  districtCode: string
+  provinceCode: string
+  postcode: string
+  corporateRegistrationNo: string
+  corporateName: string
+  branchTypeCode: string
+  branchCode: string
+  branchName: string
+}
+
+export interface IJuristicDocumentRequest {
+  file: File
+  docName: string
+  docTypeCode: string
+  docType: string
 }

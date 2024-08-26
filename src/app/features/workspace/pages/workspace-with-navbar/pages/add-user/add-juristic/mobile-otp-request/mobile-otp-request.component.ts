@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { IOtpEmailResponse } from 'src/app/core/interfaces';
-import { RestApiService, CustomRegEx } from 'src/app/core/services';
+import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
 @Component({
@@ -10,22 +10,17 @@ import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dia
   styleUrl: './mobile-otp-request.component.scss'
 })
 export class MobileOtpRequestComponent {
+
+  @Input() form!: FormGroup;
   @Input() transactionId!: string;
 
   @Output() nextStep = new EventEmitter<IOtpEmailResponse>();
   @Output() backStep = new EventEmitter<void>();
 
-  form: FormGroup;
-
   constructor(
-    private formBuilder: FormBuilder,
     private modalDialogService: ModalDialogService,
     private restApiService: RestApiService
-  ) {
-    this.form = this.formBuilder.group({
-      mobile: new FormControl(undefined, [Validators.required]),
-    });
-  }
+  ) { }
 
   onSubmit() {
     this.postRequestOtpEmail();

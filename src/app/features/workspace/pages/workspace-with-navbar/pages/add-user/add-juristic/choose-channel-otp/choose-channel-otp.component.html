@@ -5,18 +5,16 @@
             <hr class="hr-grey">
         </div>
         <div class="body-container">
-            <p>กรุณายืนยันรหัส OTP</p>
-            <label class="text-center mb-3" for="emailInput">
-                รหัสยืนยัน OTP<br>
-                <span>ได้ถูกส่งไปที่<span *ngIf="verifyOtpType === 'email'">อีเมล </span><span *ngIf="verifyOtpType === 'mobile'">หมายเลขโทรศัพท์ </span>{{ verifyOtpRequest.sendTo }}</span>
-            </label>
-            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-                <div class="otp-input mb-3">
-                    <ng-otp-input class="d-flex justify-content-center" #ngOtpInput [config]="ngOtpConfig"
-                        [formCtrl]="otpControl"></ng-otp-input>
-                </div>
+            <h3 class="mb-3 text-center">ช่องทางการรับผล การเพิ่มผู้ใช้งานบัญชีนิติบุคคล</h3>
+            <div class="form-check text-center">
+                <input type="radio" id="email" formControlName="channelOtp" value="email">
+                <label class="ps-2" for="email">อีเมล ({{ emailOtpRequest.get('email')?.value }})</label>
             </div>
-            <p class="text-center mb-5">ส่งอีกครั้ง (30s)</p>
+            <div class="form-check text-center">
+                <input type="radio" id="sms" formControlName="channelOtp" value="sms">
+                <label class="ps-2" for="sms">เบอร์โทรศัพท์ ({{ emailOtpRequest.get('mobile')?.value }})</label>
+            </div>
+
         </div>
         <div class="footer-container">
             <hr class="hr-grey mb-3">

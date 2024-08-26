@@ -55,7 +55,7 @@ export class ConfirmOtpComponent {
   postVerifyEmail() {
     const paylaod = {
       otp: this.form.get('otp')?.value,
-      ref: this.verifyOtpRequest.ref
+      sysReference: this.verifyOtpRequest.sysReference
     }
     this.modalDialogService.loading();
     this.restApiService.postBackOfficeWithModel<IVerifyOtpRequest, any>(`onboarding/${this.transactionId}/otp/email/verify`, paylaod).subscribe({

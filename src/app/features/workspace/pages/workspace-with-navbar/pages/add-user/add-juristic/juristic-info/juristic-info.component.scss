@@ -1,0 +1,87 @@
+.hr-grey {
+    border-top: 5px solid #F6F6F6;
+    border-radius: 5px;
+}
+
+.main-container {
+    padding: 1rem 5rem 1rem 5rem;
+    height: calc(100vh - var(--navbar-height));
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        'header'
+        'main'
+        'footer';
+}
+
+.header-container {
+    grid-area: header;
+
+    h3 {
+        font-weight: 600;
+    }
+
+    // display: flex;
+    // flex-direction: column;
+}
+
+.body-container {
+    grid-area: main;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .term-condition-list {
+        list-style: none;
+        padding: 0;
+
+        // .term-condition-item {
+        //     .detail {
+        //         color: #000;
+        //         background-color: #FFFFFF;
+        //         padding: 0.5rem 0.25rem;
+        //     }
+        // }
+    }
+}
+
+.footer-container {
+    grid-area: footer;
+    padding: 1rem;
+}
+
+// Gender
+.gender-selector {
+    display: flex;
+    min-height: 45px;
+    background-color: var(--color-blue-2);
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.gender-wrapper {
+    flex: 0 0 auto;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gender-selector label {
+    border-radius: 8px;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gender-selector input[type="radio"] {
+    display: none;
+}
+
+.gender-selector input[type="radio"]:checked+label {
+    background-color: var(--color-blue-exat);
+    color: white;
+}

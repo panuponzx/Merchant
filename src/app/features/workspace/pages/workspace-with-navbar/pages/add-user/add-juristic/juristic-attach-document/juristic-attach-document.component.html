@@ -1,0 +1,103 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="main-container">
+        <div class="header-container">
+            <h3 class="content-title">เพิ่มข้อมูลบริษัท - นิติบุคคล / องค์กร</h3>
+            <hr class="hr-grey">
+        </div>
+        <div class="body-container">
+            <h3 class="mb-3">เอกสารสำคัญ</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 mb-3">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="documentNameInput">
+                            ชื่อเอกสาร
+                        </label>
+                        <input class="form-control" data-testid="documentNameInput" placeholder="กรุณาระบุ"
+                            formControlName="documentName" id="documentNameInput" type="text">
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <input #inputFile id="inputImportSignature" class="d-none" type="file"
+                            (change)="fileTypeValidation($event)" />
+                        <button class="custom-btn btn-type-3 btn-fixed-size-100" data-testid="uploadImageButton"
+                            id="uploadImageButton" title="อัพโหลด" (click)="inputFile.click()">
+                            <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
+                            อัปโหลดเอกสาร
+                        </button>
+                        <span *ngIf="form.get('file')?.value?.name">{{ form.get('file')?.value?.name }}</span>&nbsp;
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 mb-3">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="documentTypeInput">
+                            ประเภทเอกสาร
+                        </label>
+                        <ng-select class="form-control" [items]="documentTypeList" id="documentTypeInput"
+                            data-testid="documentTypeInput" bindLabel="name" placeholder="กรุณาระบุ"
+                            formControlName="documentType">
+                        </ng-select>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <button type="button" class="custom-btn btn-fixed-size-1 btn-type-1" [disabled]="form.invalid"
+                            (click)="onUploadDocument()">อัปโหลด</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <datatable [columns]="juristicDocumentColumns" [collectionSize]="collectionSize"
+                    [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
+                    [id]="'juristicDocumentDatatable'" [pageSize]="limitRow" [page]="pages"
+                    [rows]="juristicDocumentList" emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onAction($event)"
+                    (onChangePageEvent)="onChangePage($event)">
+                </datatable>
+                <!-- <div class="datatable-container datatable-no-box-shadow datatable-border-solid">
+                    <div class="datatable-content datatable-no-box-shadow datatable-border-solid">
+                        <ngx-datatable class="mt-3 material default-datatable" [limit]="rowLimit" [rows]="juristicDocumentList"
+                        [columnMode]="'force'" [headerHeight]="$any('auto')" rowHeight="auto">
+    
+                        <ngx-datatable-column prop="createdDate">
+                            <ng-template ngx-datatable-header-template>
+                                <span>วันที่ และ เวลา</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column prop="docName">
+                            <ng-template ngx-datatable-header-template>
+                                <span>ชื่อเอกสาร</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column prop="docType">
+                            <ng-template ngx-datatable-header-template>
+                                <span>ประเภทเอกสาร</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column prop="fileName">
+                            <ng-template ngx-datatable-header-template>
+                                <span>ไฟล์เอกสาร</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+    
+                        <ngx-datatable-column>
+                            <ng-template ngx-datatable-header-template>
+                                <span>ยกเลิก</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="footer-container">
+            <hr class="hr-grey mb-3">
+            <div class="btn-footer d-flex justify-content-center gap-3">
+                <button type="button" class="custom-btn btn-fixed-size-1 btn-type-3"
+                    (click)="onBack()">ย้อนกลับ</button>
+                <button type="submit" class="custom-btn btn-fixed-size-1 btn-type-1"
+                    [disabled]="form.invalid">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="main-container">
+        <div class="header-container">
+            <h3 class="content-title">เพิ่มข้อมูลบริษัท - นิติบุคคล / องค์กร</h3>
+            <hr class="hr-grey">
+        </div>
+        <div class="body-container">
+            <h3 class="mb-3">ข้อมูลบริษัท</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 mb-3">
+                    <div class="col-12 mb-3">
+                        <label *ngIf="form.value.taxRequiredStatus" class="label-input required-field"
+                            for="taxIdInput">
+                            หมายเลขผู้เสียภาษี
+                        </label>
+                        <label *ngIf="!form.value.taxRequiredStatus" class="label-input" for="taxIdInput">
+                            หมายเลขผู้เสียภาษี
+                        </label>
+                        <input class="form-control" data-testid="taxIdInput" formControlName="taxId" id="taxIdInput"
+                            type="text" mask="0 0000 00000 00 0">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="companyNameInput">
+                            ชื่อบริษัท
+                        </label>
+                        <input class="form-control" data-testid="companyNameInput" formControlName="companyName"
+                            id="companyNameInput" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 mb-3">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="branchSelect">
+                            สาขา
+                        </label>
+                        <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                            data-testid="branchSelect" formControlName="branch" placeholder="กรุณาระบุ"
+                            (change)="onChangeBranch($event)" id="branchSelect" [items]="branchList"></ng-select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="branchNameInput">
+                            ชื่อสาขา
+                        </label>
+                        <input class="form-control" data-testid="branchNameInput" formControlName="branchName"
+                            id="branchNameInput" type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="branchNoInput">
+                            หมายเลขสาขาย่อย
+                        </label>
+                        <input class="form-control" data-testid="branchNoInput" formControlName="branchNo"
+                            id="branchNoInput" type="text" maxlength="5">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-container">
+            <hr class="hr-grey mb-3">
+            <div class="btn-footer d-flex justify-content-center gap-3">
+                <button type="button" class="custom-btn btn-fixed-size-1 btn-type-3"
+                    (click)="onBack()">ย้อนกลับ</button>
+                <button type="submit" class="custom-btn btn-fixed-size-1 btn-type-1"
+                    [disabled]="form.invalid">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+</form>

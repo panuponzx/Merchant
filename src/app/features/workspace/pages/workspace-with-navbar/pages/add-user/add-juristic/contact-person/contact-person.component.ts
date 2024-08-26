@@ -14,7 +14,7 @@ export class ContactPersonComponent implements OnInit {
 
   @Input() transactionId!: string;
 
-  @Output() nextStep = new EventEmitter<IOtpEmailResponse>();
+  @Output() nextStep = new EventEmitter<void>();
   @Output() backStep = new EventEmitter<void>();
 
   form: FormGroup;
@@ -28,17 +28,28 @@ export class ContactPersonComponent implements OnInit {
     private modalDialogService: ModalDialogService,
     private restApiService: RestApiService
   ) {
+    // this.form = this.formBuilder.group({
+    //   citizenId: new FormControl(undefined, Validators.required),
+    //   laserCode: new FormControl(undefined, Validators.required),
+    //   gender: new FormControl('M', Validators.required),
+    //   cardExpDate: new FormControl(undefined, Validators.required),
+    //   prefix: new FormControl(undefined, Validators.required),
+    //   firstName: new FormControl(undefined, Validators.required),
+    //   lastName: new FormControl(undefined, Validators.required),
+    //   birthDate: new FormControl(undefined, Validators.required),
+    //   phone: new FormControl(undefined, Validators.required),
+    // });
+
     this.form = this.formBuilder.group({
-      // identityType: new FormControl(1, Validators.required),
-      citizenId: new FormControl(undefined, Validators.required),
-      laserCode: new FormControl(undefined, Validators.required),
+      citizenId: new FormControl('1459900715114', Validators.required),
+      laserCode: new FormControl('ME2139451593', Validators.required),
       gender: new FormControl('M', Validators.required),
       cardExpDate: new FormControl(undefined, Validators.required),
       prefix: new FormControl(undefined, Validators.required),
-      firstName: new FormControl(undefined, Validators.required),
-      lastName: new FormControl(undefined, Validators.required),
+      firstName: new FormControl('อธิวัฒน์', Validators.required),
+      lastName: new FormControl('ทองมาก', Validators.required),
       birthDate: new FormControl(undefined, Validators.required),
-      phone: new FormControl(undefined, Validators.required),
+      phone: new FormControl('0943485992', Validators.required),
     });
   }
 
@@ -88,11 +99,28 @@ export class ContactPersonComponent implements OnInit {
       birthdate: this.form.get('birthDate')?.value,
     }
     this.modalDialogService.loading();
-    this.restApiService.postBackOfficeWithModel<ISaveContactPersonRequest, IOtpEmailResponse>(`onboarding/${this.transactionId}/contact-person/save`, paylaod).subscribe({
+    this.restApiService.postBackOfficeWithModel<ISaveContactPersonRequest, any>(`onboarding/${this.transactionId}/contact-person/save`, paylaod).subscribe({
       next: (res) => {
         this.modalDialogService.hideLoading();
         if(res.errorMessage === "Success") {
-          // this.nextStep.emit(res.data);
+          // this.nextStep.emit();
+          this.postCheckDopa();
+        }
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  postCheckDopa() {
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<null, any>(`onboarding/${this.transactionId}/dopa`, null).subscribe({
+      next: (res) => {
+        this.modalDialogService.hideLoading();
+        if(res.errorMessage === "Success") {
+          this.nextStep.emit();
         }
       },
       error: (error) => {
