@@ -1,0 +1,14 @@
+  public onBorrowing(data: any,title:string): Promise<any> {
+    const modalRef = this.ngbModal.open(BorrowingModalComponent, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    modalRef.componentInstance.data = data; 
+    modalRef.componentInstance.title = title;
+    return modalRef.result;
+  }
+
+
+   ปรับใช้
+   <button class="custom-btn btn-type-1" (click)="onBorrowing('','dxxfxdfd')" type="submit" title="Login">git
