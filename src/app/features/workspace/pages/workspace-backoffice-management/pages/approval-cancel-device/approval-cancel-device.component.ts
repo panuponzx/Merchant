@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
+import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-approval-cancel-device',
@@ -23,7 +24,8 @@ export class ApprovalCancelDeviceComponent {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalDialogService: ModalDialogService,
     ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
@@ -44,6 +46,24 @@ export class ApprovalCancelDeviceComponent {
 
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
+  }
+
+  RegisterFormModal() {
+    const initialData = {
+      name: 'John Doe',
+      email: 'john.doe@example.com'
+    };
+    this.modalDialogService.RegisterFormModal(initialData).then(
+      (result) => {
+        if (result) {
+          console.log('Form submitted with:', result);
+          
+        }
+      },
+      (reason) => {
+        console.log('Modal dismissed:', reason);
+      }
+    );
   }
 
 }

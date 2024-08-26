@@ -7,6 +7,8 @@ import { DirectivesModule } from './directives';
 import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 import { LoadingModalComponent } from './modals/loading-modal/loading-modal.component';
 import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
+import { RegisterCardComponent } from './modals/register-card/register-card.component'; 
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,12 +16,14 @@ import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.comp
     InfoModalComponent,
        LoadingModalComponent,
        ConfirmModalComponent,
+       RegisterCardComponent,
   ],
   imports: [
     CommonModule,
     ShareComponentModule,
     PipesModule,
     DirectivesModule,
+    ReactiveFormsModule
   ],
   exports: [
     ShareComponentModule,
