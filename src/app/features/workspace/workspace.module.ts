@@ -101,12 +101,12 @@ import { MobileOtpRequestComponent } from './pages/workspace-with-navbar/pages/a
 import { ConfirmOtpComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/confirm-otp/confirm-otp.component';
 import { ContactPersonComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/contact-person/contact-person.component';
 import { ConfirmCancelPassageInfoComponent } from './pages/workspace-with-navbar-and-sidebar/modals/confirm-cancel-passage-info/confirm-cancel-passage-info.component';
+import { TestCardRegistrationComponent } from './pages/workspace-backoffice-management/pages/test-card-registration/test-card-registration.component';
 import { JuristicInfoComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/juristic-info/juristic-info.component';
 import { CompanyAddressComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/company-address/company-address.component';
 import { EtaxAddressComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/etax-address/etax-address.component';
 import { JuristicAttachDocumentComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/juristic-attach-document/juristic-attach-document.component';
 import { ChooseChannelOtpComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/choose-channel-otp/choose-channel-otp.component';
-
 
 @NgModule({
   declarations: [
@@ -195,11 +195,12 @@ import { ChooseChannelOtpComponent } from './pages/workspace-with-navbar/pages/a
     ConfirmOtpComponent,
     ContactPersonComponent,
     ConfirmCancelPassageInfoComponent,
+    TestCardRegistrationComponent,
     JuristicInfoComponent,
     CompanyAddressComponent,
     EtaxAddressComponent,
     JuristicAttachDocumentComponent,
-    ChooseChannelOtpComponent,
+    ChooseChannelOtpComponent
   ],
   imports: [
     CommonModule,
