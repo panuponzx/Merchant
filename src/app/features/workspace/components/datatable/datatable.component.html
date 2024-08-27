@@ -44,16 +44,14 @@
             </ng-container>
             <ng-container *ngIf="column.type === 'text-with-boolean-click'">
               <ng-container *ngIf="value; else textWithBooleanCclickFalseEl;">
-                <span
-                  style="cursor: pointer;"
+                <span style="cursor: pointer;"
                   (click)="onClickTextBoolean({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })"
                   [ngClass]="column.textWithBoolean?.classCondition1 ? column.textWithBoolean?.classCondition1 : null">
                   {{ column.textWithBoolean?.textCondition1 }}
                 </span>
               </ng-container>
               <ng-template #textWithBooleanCclickFalseEl>
-                <span
-                  style="cursor: pointer;"
+                <span style="cursor: pointer;"
                   (click)="onClickTextBoolean({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })"
                   [ngClass]="column.textWithBoolean?.classCondition2 ? column.textWithBoolean?.classCondition2 : null">{{
                   column.textWithBoolean?.textCondition2 }}</span>
@@ -66,14 +64,20 @@
               {{ value ? (value | number : column.numberFormat) : "-" }}
             </ng-container>
             <ng-container *ngIf="column.type === 'currency'">
-              {{ value | currency: column.currency?.currencyCode: column.currency?.display: column.currency?.digitsInfo: column.currency?.locale }}
+              {{ value | currency: column.currency?.currencyCode: column.currency?.display: column.currency?.digitsInfo:
+              column.currency?.locale }}
             </ng-container>
             <ng-container *ngIf="column.type === 'check-uncheck'">
               <ng-container>
                 <icon-svg size="17px" [color]="'#2255CE'" [path]="'check' | icon" />
               </ng-container>
             </ng-container>
-
+            <ng-container *ngIf="column.type === 'checkbox'">
+              <ng-container>
+                <input class="form-check-input" type="checkbox" [checked]="value"
+                  (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column.name })">
+              </ng-container>
+            </ng-container>
             <ng-container *ngIf="column.type === 'cancel'">
               <ng-container>
                 <button [attr.data-testid]="column.id + rowIndex + 'btn-cancel'" class="custome-btn btn-icon"
@@ -85,7 +89,14 @@
                 </button>
               </ng-container>
             </ng-container>
-
+            <ng-container *ngIf="column.type === 'button'">
+              <button class="btn btn-primary d-inline w-100" style="font-size: 0.8rem;white-space: nowrap;"
+                [attr.data-testid]="column.id + rowIndex + 'Button'"
+                (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column.name })"
+                [disabled]="(column.id === 'withdrawOrBorrow' &&(row.reservationStatusd ||!row.isActive))||(column.id === 'returnObu' &&( !row.reservationStatusd||!row.isActive))">
+                {{ column.button? column.button.label : column.label }}
+              </button>
+            </ng-container>
             <ng-container *ngIf="column.type === 'action'">
               <ng-container *ngIf="column.actionIcon; else textActionEl;">
                 <button [attr.data-testid]="column.id + rowIndex + 'Button'" class="custome-btn btn-icon"

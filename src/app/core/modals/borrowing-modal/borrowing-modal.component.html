@@ -1,0 +1,27 @@
+<div class="modal-overlay">
+  <div class="modal-content">
+    <h2>{{ title }}</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="name">ชื่อ นามสกุล</label>
+        <input type="text" id="name" formControlName="name" required>
+      </div>
+      <div>
+        <label for="position">หน่วยงาน</label>
+        <input type="text" id="position" formControlName="position" required>
+      </div>
+      <div>
+        <label for="date">{{ actionType === 'borrow' ? 'วันที่ยืม/เบิก' : 'วันที่คืน' }}</label>
+        <input type="date" id="date" formControlName="date" required>
+      </div>
+      <div *ngIf="actionType === 'borrow'">
+        <label for="returnDate">วันที่คาดว่าจะคืน</label>
+        <input type="date" id="returnDate" formControlName="returnDate" required>
+      </div>
+      <div class="d-flex justify-content-end gap-3">
+        <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
+        <button class="custom-btn btn-type-1 text" [disabled]="!form.valid">ตกลง</button>
+      </div>
+    </form>
+  </div>
+</div>
