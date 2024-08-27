@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { IJuristicConfirmRequest } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
@@ -31,11 +32,32 @@ export class ChooseChannelOtpComponent {
   
 
   onSubmit() {
-    this.nextStep.emit();
+    this.postConfirmJuristic();
   }
 
   onBack() {
     this.backStep.emit();
+  }
+
+  postConfirmJuristic() {
+    const channelOtp = this.form.get('channelOtp')?.value
+    const paylaod: IJuristicConfirmRequest = {
+      useEmailApplicationResult: channelOtp === 'email' ? true : false,
+      useMobileApplicationResult: channelOtp === 'sms' ? true : false,
+    }
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<IJuristicConfirmRequest, any>(`onboarding/${this.transactionId}/confirm`, paylaod).subscribe({
+      next: (res) => {
+        this.modalDialogService.hideLoading();
+        if (res.errorMessage === "Success") {
+          this.nextStep.emit();
+        }
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
   }
   
 }

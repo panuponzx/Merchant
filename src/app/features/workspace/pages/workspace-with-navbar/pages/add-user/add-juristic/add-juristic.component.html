@@ -5,34 +5,34 @@
     <term-condition *ngSwitchCase="1" [transactionId]="transactionId" (nextStep)="onNextStep()"
         (backStep)="onBackStep()">
     </term-condition>
-    <email-otp-request *ngSwitchCase="2" [transactionId]="transactionId" [form]="emailOtpRequest"
+    <email-otp-request *ngSwitchCase="2" [transactionId]="transactionId" [form]="emailOtpRequestForm"
         (nextStep)="onNextRequestOtpEmailStep($event)" (backStep)="onBackStep()">
     </email-otp-request>
     <confirm-otp *ngSwitchCase="3" [transactionId]="transactionId" [verifyOtpType]="'email'"
         [verifyOtpRequest]="otpEmailResponse" (nextStep)="onNextStep()" (backStep)="onBackStep()">
     </confirm-otp>
-    <mobile-otp-request *ngSwitchCase="4" [transactionId]="transactionId" [form]="mobileOtpRequest" (nextStep)="onNextRequestOtpEmailStep($event)"
-        (backStep)="onBackStep()">
+    <mobile-otp-request *ngSwitchCase="4" [transactionId]="transactionId" [form]="mobileOtpRequestForm"
+        (nextStep)="onNextRequestOtpEmailStep($event)" (backStep)="onBackStep()">
     </mobile-otp-request>
     <confirm-otp *ngSwitchCase="5" [transactionId]="transactionId" [verifyOtpType]="'mobile'"
         [verifyOtpRequest]="otpEmailResponse" (nextStep)="onNextStep()" (backStep)="onBackStep()">
     </confirm-otp>
-    <contact-person *ngSwitchCase="6" [transactionId]="transactionId" (nextStep)="onNextStep()"
-        (backStep)="onBackStep()">
+    <contact-person *ngSwitchCase="6" [transactionId]="transactionId" [form]="contactPersonForm"
+        (nextStep)="onNextStep()" (backStep)="onBackStep()">
     </contact-person>
-    <juristic-info *ngSwitchCase="7" [transactionId]="transactionId" (nextStep)="onNextJuristicInfo($event)"
-        (backStep)="onBackStep()">
+    <juristic-info *ngSwitchCase="7" [transactionId]="transactionId" [form]="juristicInfoForm"
+        (nextStep)="onNextJuristicInfo($event)" (backStep)="onBackStep()">
     </juristic-info>
-    <company-address *ngSwitchCase="8" [transactionId]="transactionId" [form]="companyAddressform"
-        [juristicInfo]="juristicInfo" (nextStep)="onNextStep()" (backStep)="onBackStep()">
+    <company-address *ngSwitchCase="8" [transactionId]="transactionId" [form]="companyAddressForm"
+        [juristicInfoForm]="juristicInfoForm" (nextStep)="onNextStep()" (backStep)="onBackStep()">
     </company-address>
-    <etax-address *ngSwitchCase="9" [transactionId]="transactionId" [form]="etaxAddressform"
-        [companyAddressForm]="companyAddressform" (nextStep)="onNextStep()" (backStep)="onBackStep()">
+    <etax-address *ngSwitchCase="9" [transactionId]="transactionId" [form]="etaxAddressForm"
+        [companyAddressForm]="companyAddressForm" (nextStep)="onNextStep()" (backStep)="onBackStep()">
     </etax-address>
     <juristic-attach-document *ngSwitchCase="10" [transactionId]="transactionId" (nextStep)="onNextStep()"
         (backStep)="onBackStep()">
     </juristic-attach-document>
-    <choose-channel-otp *ngSwitchCase="11" [transactionId]="transactionId" [emailOtpRequest]="emailOtpRequest" [mobileOtpRequest]="mobileOtpRequest" (nextStep)="onNextStep()"
-        (backStep)="onBackStep()">
+    <choose-channel-otp *ngSwitchCase="11" [transactionId]="transactionId" [emailOtpRequest]="emailOtpRequestForm"
+        [mobileOtpRequest]="mobileOtpRequestForm" (nextStep)="onNextStep()" (backStep)="onBackStep()">
     </choose-channel-otp>
 </div>

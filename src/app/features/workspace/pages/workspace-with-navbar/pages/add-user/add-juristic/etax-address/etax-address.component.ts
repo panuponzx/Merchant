@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ISaveBillingAddressRequest } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
@@ -30,7 +31,7 @@ export class EtaxAddressComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.postSaveJuristicInfo();
+    this.postSaveBillingAddressInfo();
   }
 
   onBack() {
@@ -105,6 +106,37 @@ export class EtaxAddressComponent implements OnInit {
     this.form.get('district')?.disable();
     this.form.get('subdistrict')?.disable();
     this.form.get('zipcode')?.disable();
+  }
+
+  postSaveBillingAddressInfo() {
+    const paylaod: ISaveBillingAddressRequest = {
+      houseNo: this.form.get('addressNo')?.value,
+      building: this.form.get('building')?.value,
+      floor: this.form.get('floor')?.value,
+      village: this.form.get('village')?.value,
+      moo: this.form.get('villageNo')?.value,
+      soi: this.form.get('soi')?.value,
+      street: this.form.get('street')?.value,
+      alley: this.form.get('alley')?.value,
+      subDistrictCode: this.form.get('subdistrict')?.value,
+      districtCode: this.form.get('district')?.value,
+      provinceCode: this.form.get('province')?.value,
+      postcode: this.form.get('zipcode')?.value,
+      sameCompanyAddress: this.form.get('isCurrentAddressSameIdcard')?.value
+    }
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<ISaveBillingAddressRequest, any>(`onboarding/${this.transactionId}/billing-address/save`, paylaod).subscribe({
+      next: (res) => {
+        this.modalDialogService.hideLoading();
+        if (res.errorMessage === "Success") {
+          this.nextStep.emit();
+        }
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
   }
 
 }

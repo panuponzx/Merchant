@@ -31,104 +31,7 @@ export class JuristicAttachDocumentComponent implements OnInit {
   ];
   public collectionSize: number = 0;
 
-  juristicDocumentList: IJuristicDocumentResponse[] = [
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-    {
-      "fileName": "หลังบัตรประชาชน.svg",
-      "docName": "dsada",
-      "docType": "บัตรประชาชน",
-      "docTypeCode": "001",
-      "reference": "c982b0b7293a40c9b5c7c74a4ad0e276",
-      "createdDate": "2024-08-27 01:50:03"
-    },
-  ];
+  juristicDocumentList: IJuristicDocumentResponse[] = [];
   public limitRow: number = 5;
   public pages: number = 1;
   rowLimit: number = 5;
@@ -147,7 +50,6 @@ export class JuristicAttachDocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.collectionSize = this.juristicDocumentList.length;
     this.getDocumentTypes();
   }
 
@@ -164,7 +66,7 @@ export class JuristicAttachDocumentComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.postSaveJuristicInfo();
+    this.nextStep.emit();
   }
 
   onBack() {
@@ -206,6 +108,7 @@ export class JuristicAttachDocumentComponent implements OnInit {
         this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
           this.juristicDocumentList = res.data;
+          this.collectionSize = this.juristicDocumentList.length;
         }
       },
       error: (error) => {

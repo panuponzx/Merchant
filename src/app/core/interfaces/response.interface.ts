@@ -189,3 +189,7 @@ export interface IJuristicDocumentResponse {
   reference: string
   createdDate: string
 }
+
+export interface IJuristicDopaResponse {
+  isValid: boolean
+}

@@ -31,13 +31,14 @@ export interface IVerifyOtpRequest {
 
 export interface ISaveContactPersonRequest {
   citizenId: string
+  laserCode: string
+  gender: string
+  titleName: string
   firstName: string
   lastName: string
-  gender: string
   phoneNo: string
-  citizenCardIdentify: boolean
-  passportIdentify: boolean
-  birthdate: string
+  birthDate: string
+  cardExpDate: string
 }
 
 export interface ISaveJuristicInfoRequest {
@@ -65,4 +66,25 @@ export interface IJuristicDocumentRequest {
   docName: string
   docTypeCode: string
   docType: string
+}
+
+export interface ISaveBillingAddressRequest {
+  houseNo: string
+  building: string
+  floor: string
+  village: string
+  moo: string
+  street: string
+  soi: string
+  alley: string
+  subDistrictCode: string
+  districtCode: string
+  provinceCode: string
+  postcode: string
+  sameCompanyAddress: boolean
+}
+
+export interface IJuristicConfirmRequest {
+  useEmailApplicationResult: boolean
+  useMobileApplicationResult: boolean
 }
