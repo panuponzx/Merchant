@@ -103,7 +103,7 @@ export const routesConfig: CustomRoutesModel = [
               label: 'ข้อมูลผู้ใช้',
               request_id: true,
               default_path: 'user-info',
-              allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list','e-tax']
+              allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list', 'e-tax']
             },
             canActivate: [TabGuard]
           },
@@ -233,7 +233,7 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'manage-redeem',
               allowed_tabs: ['exchange', 'coupon', 'toll']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'add-edit',
@@ -299,7 +299,7 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'approval-management',
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'ExpiredFaremediaListComponent',
@@ -351,8 +351,8 @@ export const routesConfig: CustomRoutesModel = [
             component: TestCardRegistrationComponent,
             data: {
               is_sidebar: true,
-              label: 'ทะเบียนบัตรทดสอบ',
-              default_path: 'test-card-registration',
+              label: 'ลงทะเบียนบัตรทดสอบ',
+              default_path: 'transaction-suspension-management',
             },
             canActivate: [TabGuard]
           },

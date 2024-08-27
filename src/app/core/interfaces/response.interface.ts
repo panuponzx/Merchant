@@ -201,3 +201,52 @@ export interface IJuristicInquiryResponse {
   pageSize: number
   elements: IJuristicElementModel[]
 }
+export interface ITestFaremediaInfoResponseModel extends ResponseMessageModel {
+  data: ITestFaremediaInfoModel
+}
+export interface ITestFaremediaInfoModel {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: ITestFaremediaInfoModel[]
+}
+export interface ITestFaremediaInfoModel {
+  faremediaValue: string,
+  status: boolean,
+  isReserved: boolean,
+  update_date: string,
+  create_date: string,
+}
+export interface IReponseRegisterTestFaremediaModel extends ResponseMessageModel {
+  data: ITestFaremediaRegisterModel
+}
+export interface ITestFaremediaRegisterModel {
+  faremediaValue: string,
+  status: boolean,
+  isReserved: boolean,
+}
+export interface IReturnTestFaremediaResponseModel extends ResponseMessageModel {
+  data: IReturnTestFaremediaModel
+}
+export interface IReturnTestFaremediaModel {
+  id: string,
+  faremediaValue: string,
+  name: string,
+  institute: string,
+  remark: string
+}
+export interface ITestFaremediaInfoListResponseModel extends ResponseMessageModel {
+  data: ITestFaremediaInfoListModel
+}
+export interface ITestFaremediaInfoListModel {
+  id: string,
+  faremediaValue: string,
+  name: string,
+  institute: string,
+  expectedReturnDate: string,
+  returnDate: string,
+  createdDate: string,
+  updatedDate: string,
+  remark: string
+}

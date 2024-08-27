@@ -96,7 +96,7 @@ export class SearchUserComponent implements OnInit {
     faremediaValue: new FormControl(undefined, [Validators.minLength(10)]),
     licensePlate: new FormControl(undefined),
   });
-
+  
   public tempSearch: boolean = false;
 
   public isLoading = false;

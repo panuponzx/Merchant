@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, zip } from 'rxjs';
 import { CustomColumnModel, RowActionEventModel } from 'src/app/core/interfaces';
+import { ITestFaremediaInfoResponseModel } from 'src/app/core/interfaces/response.interface';
 import { BorrowingModalComponent } from 'src/app/core/modals/borrowing-modal/borrowing-modal.component';
 import { RegisterCardComponent } from 'src/app/core/modals/register-card/register-card.component';
 import { RestApiService } from 'src/app/core/services';
@@ -18,7 +20,8 @@ export class TestCardRegistrationComponent {
   public pages: number = 1;
 
   public activeTab: 'waiting-for-approval' | 'approval' | 'reject' | string | null = 'waiting-for-approval';
-
+  public pageFaremediaInfo: number = 1;
+  public pageFaremediaInfoList: number = 1;
   public submitted: boolean = false;
   public form: FormGroup;
   public isLoading: boolean = false;
@@ -33,11 +36,11 @@ export class TestCardRegistrationComponent {
   public columns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
     { id: 'faremediaValue', name: 'faremediaValue', label: 'หมายเลขอุปกรณ์', prop: 'faremediaValue', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'isActive', name: 'isActive', label: 'สถานะ', prop: 'isActive', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-primary', textCondition1: 'Active', classCondition2: ' text-red', textCondition2: 'In Active' } },
-    { id: 'reservationStatusd', name: 'reservationStatusd', label: 'สถานะการจอง', prop: 'reservationStatusd', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red', textCondition1: 'จอง', classCondition2: 'text-primary ', textCondition2: 'ว่าง' } },
-    { id: 'withdrawOrBorrow', name: 'withdrawOrBorrow', label: 'เบิก / ยืม', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'เบิก/ยืม' } },
-    { id: 'returnObu', name: 'returnObu', label: 'คืน OBU', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'คืน' } },
-    { id: 'detail', name: 'detail', label: 'รายงานการเบิกยืมคืน', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'รายงาน' } },
+    { id: 'status', name: 'status', label: 'สถานะ', prop: 'status', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-primary', textCondition1: 'Active', classCondition2: ' text-red', textCondition2: 'In Active' } },
+    { id: 'isReserved', name: 'isReserved', label: 'สถานะการจอง', prop: 'isReserved', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red', textCondition1: 'จอง', classCondition2: 'text-primary ', textCondition2: 'ว่าง' } },
+    { id: 'withdrawOrBorrow', name: 'withdrawOrBorrow', label: 'เบิก / ยืม', prop: 'isReserved', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'เบิก/ยืม', conditionDisable: true, mainCondition: false, mainProperty: "status" } },
+    { id: 'returnObu', name: 'returnObu', label: 'คืน OBU', prop: 'isReserved', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'คืน', conditionDisable: false, mainCondition: false, mainProperty: "status", class: 'btn-success' } },
+    { id: 'detail', name: 'detail', label: 'รายงานการเบิกยืมคืน', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'รายงาน', class: 'btn-link' } },
 
   ];
   public columnsDetail: CustomColumnModel[] = [
@@ -45,9 +48,9 @@ export class TestCardRegistrationComponent {
     { id: 'faremediaValue', name: 'faremediaValue', label: 'หมายเลขอุปกรณ์', prop: 'faremediaValue', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'name', name: 'name', label: 'ชื่อ-นามสกุล', prop: 'name', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'institute', name: 'institute', label: 'หน่วยงาน', prop: 'institute', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'withdrawOrBorrowDate', name: 'withdrawOrBorrowDate', label: 'วันที่ทำการเบิก/ยืม', prop: 'withdrawOrBorrowDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
-    { id: 'ExpectedReturnDate', name: 'ExpectedReturnDate', label: 'วันที่ทำการคาดว่าจะคืน', prop: 'ExpectedReturnDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
-    { id: 'ReturnDate', name: 'ReturnDate', label: 'วันที่ทำการคืน', prop: 'ReturnDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'withdrawOrBorrowDate', name: 'withdrawOrBorrowDate', label: 'วันที่ทำการเบิก/ยืม', prop: 'createdDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'ExpectedReturnDate', name: 'ExpectedReturnDate', label: 'วันที่ทำการคาดว่าจะคืน', prop: 'expectedReturnDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'ReturnDate', name: 'ReturnDate', label: 'วันที่ทำการคืน', prop: 'returnDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'remark', name: 'remark', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
   ];
   public columnsSearch: CustomColumnModel[] = [
@@ -64,64 +67,17 @@ export class TestCardRegistrationComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private restApiService: RestApiService,
+    private modalDialogService: ModalDialogService,
     private ngbModal: NgbModal
   ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
       search: new FormControl({ value: undefined, disabled: false }, [Validators.required])
     });
-    this.rows = [
-      {
-        faremediaValue: 'C123456',
-        isActive: true,
-        reservationStatusd: true,
-        walletId: "198374198374198374",
-      },
-      {
-        faremediaValue: 'C123457',
-        isActive: true,
-        reservationStatusd: false,
-        walletId: "9876543210987654321",
-      },
-      {
-        faremediaValue: 'C123458',
-        isActive: false,
-        reservationStatusd: false,
-        walletId: "1234567890123456789",
-      }
-    ];
-    this.detailRows = [
-      {
-        faremediaValue: 'C123456',
-        name: 'นาย สมชาย ใจดี',
-        institute: 'สำนักงานปลัดกระทรวงคมนาคม',
-        withdrawOrBorrowDate: new Date("2021-07-01 10:31:21"),
-        ExpectedReturnDate: new Date("2021-07-10 5:12:33"),
-        ReturnDate: new Date("2021-07-10 10:31:21"),
-        remark: 'ไม่มี',
-
-      },
-      {
-        faremediaValue: 'C123456',
-        name: 'นาย มานะ ใจดี',
-        institute: 'สำนักงานปลัดกระทรวงคมนาคม',
-        withdrawOrBorrowDate: new Date("2021-08-01 10:31:21"),
-        ExpectedReturnDate: new Date("2021-08-10 11:31:21"),
-        ReturnDate: new Date("2021-08-10 7:31:21"),
-        remark: 'ไม่มี',
-
-      },
-      {
-        faremediaValue: 'C123456',
-        name: 'นาย สมชาย ใจดี',
-        institute: 'สำนักงานปลัดกระทรวงคมนาคม',
-        withdrawOrBorrowDate: new Date("2021-09-01 10:31:21"),
-        ExpectedReturnDate: new Date("2021-09-10 9:31:21"),
-        ReturnDate: new Date("2021-09-10 11:31:21"),
-        remark: 'ไม่มี',
-
-      }
-    ];
+  }
+  ngOnInit(): void {
+    this.loadTestFaremediaInfo();
 
   }
 
@@ -131,19 +87,23 @@ export class TestCardRegistrationComponent {
     this.router.navigate([url], { replaceUrl: true });
   }
 
-  onActive(event: RowActionEventModel) {
+  async onActive(event: RowActionEventModel) {
     var row = event.row;
     console.log('action: ', event.action);
     if (event.action === "detail") {
       this.isOpenDetail = true;
-      this.detailRows = this.detailRows.map((item: any, index: number) => {
-        return {
-          ...item,
-          faremediaValue: /* In the provided TypeScript code, the `row` variable is being used in the
-          `onActive` method of the `TestCardRegistrationComponent` class. It is a
-          parameter of type `RowActionEventModel` that represents the row data
-          associated with the action being performed on a specific row in a table. */
-            row.faremediaValue,
+      zip(
+        await this.loadTestFaremediaInfoList(row.faremediaValue)
+      ).pipe().subscribe({
+        next: (info) => {
+          console.log('info: ', info);
+          if (info[0].data) {
+            this.detailRows = info[0].data.elements;
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.modalDialogService.handleError(err);
         }
       });
     } else if (event.action === "withdrawOrBorrow") {
@@ -155,13 +115,17 @@ export class TestCardRegistrationComponent {
       });
       modalRef.componentInstance.actionType = "borrow";
       modalRef.componentInstance.title = "การยืม OBU";
+      modalRef.componentInstance.faremediaValue = row.faremediaValue
       modalRef.result.then(
-        (result) => {
-          console.log('result: ', result);
+        async (result) => {
           modalRef.close();
-          row.reservationStatusd = true;
+          console.log('result: ', result);
+          if (result !== null) {
+            await this.loadTestFaremediaInfo();
+          }
         },
-        (reason) => {
+        async (reason) => {
+          await this.loadTestFaremediaInfo();
         }
       );
     } else if (event.action === "returnObu") {
@@ -171,19 +135,21 @@ export class TestCardRegistrationComponent {
         keyboard: false,
       });
       modalRef.componentInstance.title = "การคืน OBU";
-      modalRef.componentInstance.actionType = "1234";
+      modalRef.componentInstance.actionType = "return";
+      modalRef.componentInstance.faremediaValue = row.faremediaValue
       modalRef.result.then(
-        (result) => {
-          console.log('result: ', result);
+        async (result) => {
           modalRef.close();
-          row.reservationStatusd = false;
+          if (result !== null) {
+            await this.loadTestFaremediaInfo();
+          }
         },
-        (reason) => {
+        async (reason) => {
+          await this.loadTestFaremediaInfo();
         }
       );
     } else if (event.action === "isActive") {
       const index = this.changeStatus.findIndex((existingRow: { faremediaValue: any; }) => existingRow.faremediaValue === row.faremediaValue);
-
       if (index === -1) {
         this.changeStatus.push(row);
       } else {
@@ -192,15 +158,15 @@ export class TestCardRegistrationComponent {
       console.log(this.changeStatus)
     }
   }
-  onChangeStatus(){
+  onChangeStatus() {
     this.changeStatus.forEach((item: { faremediaValue: any; }) => {
-      const index = this.rows.findIndex((existingRow: { faremediaValue: any;})=>existingRow.faremediaValue === item.faremediaValue);
+      const index = this.rows.findIndex((existingRow: { faremediaValue: any; }) => existingRow.faremediaValue === item.faremediaValue);
       this.rows[index].isActive = !this.rows[index].isActive;
     });
     this.changeStatus = [];
     this.clearSearch();
   }
-  RegisterFormModal() {
+  async RegisterFormModal() {
     const modalRef = this.ngbModal.open(RegisterCardComponent, {
       centered: true,
       backdrop: 'static',
@@ -208,16 +174,11 @@ export class TestCardRegistrationComponent {
       keyboard: false,
     });
     modalRef.result.then(
-      (result) => {
-        var faremedia = {
-          "faremediaValue": result,
-          "isActive": true,
-          "reservationStatusd": false,
-        }
-        this.rows = [...this.rows, faremedia];
-        console.log('this.rows: ', this.rows);
+      async (result) => {
+         this.loadTestFaremediaInfo();
       },
-      (reason) => {
+      async (reason) => {
+        await this.loadTestFaremediaInfo();
       }
     );
   }
@@ -231,5 +192,58 @@ export class TestCardRegistrationComponent {
   clearSearch() {
     this.form.patchValue({ search: '' });
     this.isSearch = false;
+  }
+  async loadTestFaremediaInfo() {
+    console.log("[loadCustomerInfo]");
+    this.isLoading = true;
+    this.modalDialogService.loading();
+    zip(
+      await this.loadTestFaremidia()
+    )
+      .pipe()
+      .subscribe(
+        {
+          next: (info) => {
+            console.log("[loadCustomerInfo] hideLoading");
+            console.log('info: ', info);
+            if (info[0].data) {
+              this.rows = info[0].data.elements;
+              this.collectionSize = info[0].data.totalElements;
+            }
+            this.modalDialogService.hideLoading();
+            this.isLoading = false;
+          },
+          error: (err) => {
+            this.modalDialogService.hideLoading();
+            console.error(err);
+            this.modalDialogService.handleError(err);
+          }
+        }
+      )
+  }
+  loadTestFaremidia() {
+    const mockupData = {
+      page: this.pageFaremediaInfo,
+      limit: 10
+    };
+    return this.restApiService.postBackOffice('faremedia/get/test-obu', mockupData) as Observable<ITestFaremediaInfoResponseModel>;
+  }
+  loadTestFaremediaInfoList(faremediaValue: string) {
+    const mockupData = {
+      faremediaValue: faremediaValue,
+      page: 1,
+      limit: 10
+    };
+    return this.restApiService.postBackOffice('faremedia/get-faremedia-test-histories', mockupData) as Observable<ITestFaremediaInfoResponseModel>;
+  }
+  async onChangePageInfo(page: number) {
+    this.pageFaremediaInfo = page;
+    console.log('page: ', page);
+    await this.loadTestFaremediaInfo();
+  }
+  async onChagePageFaremediaInfoList(page: number) {
+    this.pageFaremediaInfoList = page;
+    console.log('page: ', page);
+    await this.loadTestFaremediaInfoList(this.detailRows[0].faremediaValue);
   }
 }

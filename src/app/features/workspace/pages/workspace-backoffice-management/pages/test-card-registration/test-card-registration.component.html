@@ -59,9 +59,9 @@
             ลงทะเบียนบัตรทดสอบ
           </button>
         </div>
-        <datatable [columns]="columns" [collectionSize]="rows.length" [id]="'userDatatable'" [isLoading]="isLoading"
+        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
           [pageSize]="limitRow" [page]="pages" [rows]="rows" (onRowActionEvent)="onActive($event)"
-          emptyMessage="ไม่มีข้อมูล" />
+          emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePageInfo($event)" />
       </ng-template>
 
       <ng-container *ngIf="!isOpenDetail && !isSearch">
