@@ -18,17 +18,6 @@ export class CompanyAddressComponent {
   @Output() nextStep = new EventEmitter<void>();
   @Output() backStep = new EventEmitter<void>();
 
-  public branchList: any[] = [
-    {
-      label: 'สาขาใหญ่',
-      id: 1
-    },
-    {
-      label: 'สาขาย่อย',
-      id: 2
-    },
-  ];
-
   constructor(
     private modalDialogService: ModalDialogService,
     private restApiService: RestApiService
