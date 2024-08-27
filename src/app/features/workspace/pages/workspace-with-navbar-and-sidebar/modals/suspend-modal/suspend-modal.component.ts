@@ -18,11 +18,15 @@ export class SuspendModalComponent {
   @Input() public customer: CustomerModel | undefined;
   @Input() public carInfo: CarInfoModel | any = {} as CarInfoModel;
   public step: number = 1;
+  currentDate: any;
+  currentNumber: number;
 
   constructor(
     private formBuilder: FormBuilder,
     private ngbActiveModal: NgbActiveModal
   ) {
+    this.currentNumber = this.generateCurrentNumber();
+    this.currentDate = new Date().toISOString().split('T')[0];
     this.firstForm = this.formBuilder.group({
       date: new FormControl({ value: undefined, disabled: true }, Validators.required),
       fullnameWalletOwner: new FormControl({ value: undefined, disabled: true }, Validators.required),
@@ -58,6 +62,12 @@ export class SuspendModalComponent {
     this.fifthForm = this.formBuilder.group({
 
     });
+  }
+
+  request: any = {};
+
+  generateCurrentNumber(): number {
+    return Math.floor(Math.random() * 1000); 
   }
 
   onChangeOperator(event: any) {
@@ -140,6 +150,11 @@ export class SuspendModalComponent {
 
   onNext() {
 
+  }
+  onSubmit() {
+   
+    console.log('Form submitted', this.request);
+    
   }
 
 }

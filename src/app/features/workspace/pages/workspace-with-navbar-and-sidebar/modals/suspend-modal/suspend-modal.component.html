@@ -1,337 +1,82 @@
 <div class="modal-header">
     <div class="header-label">
-        <h2>ยืนยันการอายัดอุปกรณ์</h2>
-        <h3 class="mb-3">กรุณาตรวจสอบ และระบุรายละเอียด</h3>
+        <strong>รายละเอียดงาน อายัต/ถอนอายัต บัตร</strong>
     </div>
 </div>
-<div class="modal-body">
-    <div [ngSwitch]="step">
-        <section *ngSwitchCase="1">
-            <form [formGroup]="firstForm">
-                <div class="row">
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="dateInput">
-                            วันที่
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="dateInput" formControlName="date"
-                            data-testid="dateInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="fullnameWalletOwnerInput">
-                            ชื่อเจ้าของ eWallet
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="fullnameWalletOwnerInput"
-                            formControlName="fullnameWalletOwner" data-testid="fullnameWalletOwnerInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <h3 class="mb-3">รายละเอียดผู้ดำเนินงาน</h3>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
-                                (change)="onChangeOperator($event)" [value]="true" name="isOwnerOperator"
-                                id="operatorOwnerRadio">
-                            <label class="label-input" for="operatorOwnerRadio">
-                                ดำเนินการด้วยตนเอง
-                            </label>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
-                                (change)="onChangeOperator($event)" [value]="false" name="isOwnerOperator"
-                                id="operatorBehalfOwnerRadio">
-                            <label class="label-input" for="operatorBehalfOwnerRadio">
-                                ดำเนินการแทนเจ้าของ
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="citizenIdInput">
-                            เลขบัตรประชาชน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="citizenIdInput"
-                            formControlName="citizenId" data-testid="citizenIdInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="firstNameOperatorInput">
-                            ชื่อ ผู้มาดำเนินงานแทน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="firstNameOperatorInput"
-                            formControlName="firstNameOperator" data-testid="firstNameOperatorInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="lastNameOperatorInput">
-                            นามสกุล ผู้มาดำเนินงานแทน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="lastNameOperatorInput"
-                            formControlName="lastNameOperator" data-testid="lastNameOperatorInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="mobilePhoneOperatorInput">
-                            เบอร์ติดต่อ ผู้มาดำเนินงานแทน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="mobilePhoneOperatorInput"
-                            formControlName="mobilePhoneOperator" data-testid="mobilePhoneOperatorInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="positionPhoneOperatorInput">
-                            ตำแหน่ง ผู้มาดำเนินงานแทน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="positionPhoneOperatorInput"
-                            formControlName="positionPhoneOperator" data-testid="positionPhoneOperatorInput"
-                            type="text">
-                    </div>
-                    <div class="col-12 mb-5">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" formControlName="isAgree"
-                                id="isAgreeCheckbox">
-                            <label class="form-check-label" for="isAgreeCheckbox">
-                                ลูกค้ายินยอมให้แสดงข้อมูลและใช้ข้อมูล เพื่อสำหรับยกเลิกการใช้งานอุปกรณ์
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </section>
-        <section *ngSwitchCase="2">
-            <form [formGroup]="secondForm">
-                <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">
-                        <span *ngIf="secondForm.get('obuPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('obuPayment')?.value > 0)">(มี)</span>
-                        OBU มาคืน
-                    </p>
-                    <p [ngClass]="secondForm.get('obuPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value }} บาท</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p class="payment-detail">
-                        <span *ngIf="secondForm.get('smartCardPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('smartCardPayment')?.value > 0)">(มี)</span>
-                        Smart Card มาคืน
-                    </p>
-                    <p
-                        [ngClass]="secondForm.get('smartCardPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('smartCardPayment')?.value }} บาท</p>
-                </div>
-                <hr class="hr-custom mb-3" />
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">รวมจำนวนเงินที่ต้องชำระ</p>
-                    <p
-                        [ngClass]="(secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value) > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value }} บาท</p>
-                </div>
-                <h3 class="mb-3 fw-bold">รายละเอียดอุปกรณ์ที่แจ้งคืน</h3>
-                <input class="form-check-input" type="checkbox" (change)="onCheckIsObu($event)" id="isObuCheckbox"
-                    formControlName="isObu">
-                <div class="col-12 mb-3">
-                    <label class="label-input required-field" for="obuInput">
-                        OBU Serial number
-                    </label>
-                    <input class="form-control" placeholder="กรุณาระบุ" id="obuInput" formControlName="obu"
-                        data-testid="obuInput" type="text">
-                </div>
-                <input class="form-check-input" type="checkbox" (change)="onCheckIsSmartCard($event)"
-                    id="isSmartCardCheckbox" formControlName="isSmartCard">
-                <div class="col-12 mb-5">
-                    <label class="label-input required-field" for="smartCardInput">
-                        Smart Card Serial number
-                    </label>
-                    <input class="form-control" placeholder="กรุณาระบุ" id="smartCardInput" formControlName="smartCard"
-                        data-testid="smartCardInput" type="text">
-                </div>
-            </form>
-        </section>
-        <section *ngSwitchCase="3">
-            <form [formGroup]="thirdForm">
-                <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">
-                        <span *ngIf="secondForm.get('obuPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('obuPayment')?.value > 0)">(มี)</span>
-                        OBU มาคืน
-                    </p>
-                    <p [ngClass]="secondForm.get('obuPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value }} บาท</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p class="payment-detail">
-                        <span *ngIf="secondForm.get('smartCardPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('smartCardPayment')?.value > 0)">(มี)</span>
-                        Smart Card มาคืน
-                    </p>
-                    <p
-                        [ngClass]="secondForm.get('smartCardPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('smartCardPayment')?.value }} บาท</p>
-                </div>
-                <hr class="hr-custom mb-3" />
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">รวมจำนวนเงินที่ต้องชำระ</p>
-                    <p
-                        [ngClass]="(secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value) > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value }} บาท</p>
-                </div>
-                <h3 class="mb-3">การหักเงินในกระเป๋า</h3>
-                <div class="d-flex justify-content-between mb-3">
-                    <div>
-                        <p class="payment-detail mb-0">ยอดเงินคงเหลือในกระเป๋า</p>
-                        <p class="payment-detail">EWL2023062100000001</p>
-                    </div>
-                    <p class="payment-detail">{{ thirdForm.get('walletBalance')?.value }} บาท</p>
-                </div>
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">หักจากกระเป๋า</p>
-                    <p class="payment-detail">{{ amountPaymentFromWallet() }} บาท</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p class="payment-detail">ยอดเงินคงเหลือในกระเป๋าหลังจากหักแล้ว</p>
-                    <p class="payment-detail">{{ thirdForm.get('walletBalanceAfterCut')?.value }} บาท</p>
-                </div>
-                <hr class="hr-custom mb-3" />
-                <div class="d-flex justify-content-between mb-5">
-                    <p class="payment-detail">รวมจำนวนเงินค่าทั้งหมดที่ต้องชำระ</p>
-                    <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value }} บาท</p>
-                </div>
-            </form>
-        </section>
-        <section *ngSwitchCase="4">
-            <form [formGroup]="fourthForm">
-                <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">
-                        <span *ngIf="secondForm.get('obuPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('obuPayment')?.value > 0)">(มี)</span>
-                        OBU มาคืน
-                    </p>
-                    <p [ngClass]="secondForm.get('obuPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value }} บาท</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p class="payment-detail">
-                        <span *ngIf="secondForm.get('smartCardPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('smartCardPayment')?.value > 0)">(มี)</span>
-                        Smart Card มาคืน
-                    </p>
-                    <p
-                        [ngClass]="secondForm.get('smartCardPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('smartCardPayment')?.value }} บาท</p>
-                </div>
-                <hr class="hr-custom mb-3" />
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">รวมจำนวนเงินที่ต้องชำระ</p>
-                    <p
-                        [ngClass]="(secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value) > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value }} บาท</p>
-                </div>
-                <hr class="hr-custom mb-3" />
-                <h3 class="mb-3">การหักเงินในกระเป๋า</h3>
-                <div class="d-flex justify-content-between mb-3">
-                    <div>
-                        <p class="payment-detail mb-0">หักจากกระเป๋า</p>
-                        <p class="payment-detail">EWL2023062100000001</p>
-                    </div>
-                    <p class="payment-detail">{{ amountPaymentFromWallet() }} บาท</p>
-                </div>
-                <hr class="hr-custom mb-3" />
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">รวมจำนวนเงินค่าทั้งหมดที่ต้องชำระ</p>
-                    <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value }} บาท</p>
-                </div>
-                <div class="col-12 mb-3">
-                    <h3 class="mb-3">วิธีการชำระ</h3>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" formControlName="isCash" [value]="true"
-                            name="isCash" id="operatorOwnerRadio">
-                        <label class="label-input" for="operatorOwnerRadio">
-                            เงินสด
-                        </label>
-                    </div>
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" formControlName="isCash" [value]="false"
-                            name="isCash" id="operatorBehalfOwnerRadio">
-                        <label class="label-input" for="operatorBehalfOwnerRadio">
-                            โอนเข้าบัญชี
-                        </label>
-                    </div>
-                    <ng-container *ngIf="!fourthForm.get('isCash')?.value">
-                        <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="obuInput">
-                                วันที่ที่โอน
-                            </label>
-                            <input class="form-control" placeholder="กรุณาระบุ" id="obuInput" formControlName="obu"
-                                data-testid="obuInput" type="text">
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="obuInput">
-                                เวลาที่โอน
-                            </label>
-                            <input class="form-control" placeholder="กรุณาระบุ" id="obuInput" formControlName="obu"
-                                data-testid="obuInput" type="text">
-                        </div>
-                    </ng-container>
-                </div>
-            </form>
-        </section>
-        <section *ngSwitchCase="5">
-            <form [formGroup]="fifthForm">
-                <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">
-                        <span *ngIf="secondForm.get('obuPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('obuPayment')?.value > 0)">(มี)</span>
-                        OBU มาคืน
-                    </p>
-                    <p [ngClass]="secondForm.get('obuPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value }} บาท</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p class="payment-detail">
-                        <span *ngIf="secondForm.get('smartCardPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('smartCardPayment')?.value > 0)">(มี)</span>
-                        Smart Card มาคืน
-                    </p>
-                    <p
-                        [ngClass]="secondForm.get('smartCardPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('smartCardPayment')?.value }} บาท</p>
-                </div>
-                <hr class="hr-custom mb-3" />
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="payment-detail">รวมจำนวนเงินที่ต้องชำระ</p>
-                    <p
-                        [ngClass]="(secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value) > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value }} บาท</p>
-                </div>
-                <hr class="hr-custom mb-3" />
-                <h3 class="mb-3">การหักเงินในกระเป๋า</h3>
-                <div class="d-flex justify-content-between mb-3">
-                    <div>
-                        <p class="payment-detail mb-0">หักจากกระเป๋า</p>
-                        <p class="payment-detail">EWL2023062100000001</p>
-                    </div>
-                    <p class="payment-detail">{{ amountPaymentFromWallet() }} บาท</p>
-                </div>
-                <hr class="hr-custom mb-3" />
-                <div class="d-flex justify-content-between mb-5">
-                    <p class="payment-detail">รวมจำนวนเงินค่าทั้งหมดที่ต้องชำระ</p>
-                    <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value }} บาท</p>
-                </div>
-            </form>
-        </section>
-        <section *ngSwitchCase="6">
-            66666
-        </section>
-    </div>
-    <div *ngIf="step != 5" class="d-flex justify-content-end">
-        <div class="right d-flex justify-content-center gap-3">
-            <button class="custom-btn btn-type-1 outline" (click)="onPreviousStep()">ยกเลิก</button>
-            <button class="custom-btn btn-type-1" (click)="onNextStep()"
-                [disabled]="firstForm.invalid"><span>ถัดไป</span></button>
+<div class="suspend-form">
+    <form (ngSubmit)="onSubmit()" #leaveForm="ngForm">
+        <div class="suspend-form-date">
+            <div>
+                <label for="transactionDate">เลขที่รายการ:</label>
+                <span id="transactionDate">{{ currentDate }}</span>
+              </div>
+
+              <div>
+                <label for="transactionNumber">วันที่สร้างรายการ:</label>
+                <span id="transactionNumber">{{ currentNumber }}</span>
+              </div>
         </div>
-    </div>
-    <div *ngIf="step === 5" class="d-flex flex-column justify-content-center gap-3">
-        <button style="width: 100%;" class="custom-btn btn-type-3" data-testid="uploadImageButton"
-            id="uploadImageButton" title="อัพโหลด">
-            <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
-            แนบเอกสาร
-        </button>
-        <button class="custom-btn btn-type-1">เสร็จสิ้น</button>
-    </div>
+
+        <div class="option-suspend">
+            <div>
+                <label for="reason">Reason:</label>
+                <select style="width: 250px;" id="reason" [(ngModel)]="request.reason" name="reason">
+                    <option value="บัตรที่สูญหายหรือถูกทำลาย">บัตรที่สูญหายหรือถูกทำลาย</option>
+                    //option
+                </select>
+            </div>
+
+            <div>
+                <label for="requestType">ประเภทการตั้งค่า:</label>
+                <select style=" width: 250px;" id="requestType" [(ngModel)]="request.requestType" name="requestType">
+                    <option value="อายัด">อายัด</option>
+                    //option
+                </select>
+            </div>
+        </div>
+        <div>
+            <label for="details">รายละเอียด:</label>
+            <textarea id="details" [(ngModel)]="request.details" name="details"></textarea>
+        </div>
+
+        <div class="input-checkbox" style="display: flex; justify-content: space-between;">
+            <div>
+                <label>
+                    <input type="checkbox" [(ngModel)]="request.cancelOnBehalf" name="cancelOnBehalf">
+                    กรณีแจ้งยกเลิกแทนผู้อื่น
+                </label>
+            </div>
+
+            <div style="margin-right: 20px;">
+                <label>
+                    <input type="checkbox" [(ngModel)]="request.notifyViaSystem" name="notifyViaSystem">
+                    ผู้แจ้งยินยอมให้ระบบเก็บข้อมูล
+                </label>
+            </div>
+        </div>
+        <div class="input-form">
+            <div>
+                <label for="fullName">ชื่อ-สกุล:</label>
+                <input id="fullName" [(ngModel)]="request.fullName" name="fullName">
+            </div>
+
+            <div>
+                <label for="position">ตำแหน่ง:</label>
+                <input id="position" [(ngModel)]="request.position" name="position">
+            </div>
+
+            <div>
+                <label for="relationship">ความสัมพันธ์:</label>
+                <input id="relationship" [(ngModel)]="request.relationship" name="relationship">
+            </div>
+
+            <div>
+                <label for="idNumber">เลขบัตรประชาชน:</label>
+                <input id="idNumber" [(ngModel)]="request.idNumber" name="idNumber">
+            </div>
+
+            <button type="submit">ยืนยันรายการ</button>
+            <button type="button" (click)="onClose()">ยกเลิก</button>
+        </div>
+    </form>
 </div>
