@@ -166,79 +166,79 @@ export class EditCarModalComponent {
     //   }
     // });
   }
-  onSuspend() {
-    const modalRef = this.ngbModal.open(SuspendModalComponent, {
-      centered: true,
-      backdrop: 'static',
-      size: 'm',
-      keyboard: false,
-    });
-    modalRef.componentInstance.carInfo = this.carInfo;
-    modalRef.componentInstance.customer = this.customer;
-  }
   // onSuspend() {
-  //   Swal.fire({
-  //     input: "text",
-  //     inputAttributes: {
-  //       autocapitalize: "off"
-  //     },
-  //     inputPlaceholder: "กรุณาระบุ",
-  //     title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการอายัดอุปกรณ์</h2>',
-  //     html: '<label>กรุณายืนยัน</label><br><label class="required-field" style="text-align: left;width: 100%;">หมายเหตุ</label>',
-  //     showCancelButton: true,
-  //     customClass: {
-  //       confirmButton: "custom-btn btn-type-1 red ms-2",
-  //       cancelButton: "custom-btn btn-type-1 outline"
-  //     },
-  //     buttonsStyling: false,
-  //     showLoaderOnConfirm: true,
-  //     confirmButtonText: "อายัดชั่วคราว",
-  //     cancelButtonText: "กลับ",
-  //     reverseButtons: true,
-  //     inputValidator: (remark) => {
-  //       return new Promise((resolve) => {
-  //         if (remark) {
-  //           resolve("");
-  //         } else {
-  //           resolve("กรุณาระบุหมายเหตุ");
-  //         }
-  //       });
-  //     },
-  //     preConfirm: async (remark) => {
-  //       try {
-  //         const payload = {
-  //           obu: {
-  //             obuPan: this.form.get('obuPan')?.value,
-  //             smartcardNo: this.form.get('smartcardNo')?.value,
-  //             obuStatusRemark: remark
-  //           },
-  //           wallet: {
-  //             id: this.form.get('walletId')?.value,
-  //           },
-  //         };
-  //         await firstValueFrom(this.restApiService.postBackOffice('faremedia/suspend-obu-by-staff', payload).pipe(first()))
-  //         // return response.json();
-  //       } catch (error: any) {
-  //         console.error(error);
-  //         if (error instanceof HttpResponse) {
-  //           Swal.showValidationMessage(`
-  //           Request failed: ${error.body?.errorCode}, ${error.body?.errorMessage}
-  //         `);
-  //         }
-  //         else {
-  //           Swal.showValidationMessage(`Some thing failed`);
-  //         }
-  //       }
-  //     },
-  //     allowOutsideClick: () => !Swal.isLoading()
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       this.ngbActiveModal.close(true);
-  //     }
+  //   const modalRef = this.ngbModal.open(SuspendModalComponent, {
+  //     centered: true,
+  //     backdrop: 'static',
+  //     size: 'm',
+  //     keyboard: false,
   //   });
-
-
+  //   modalRef.componentInstance.carInfo = this.carInfo;
+  //   modalRef.componentInstance.customer = this.customer;
   // }
+  onSuspend() {
+    Swal.fire({
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      inputPlaceholder: "กรุณาระบุ",
+      title: '<h2 style="color: var(--color-blue-exat)">ยืนยันการอายัดอุปกรณ์</h2>',
+      html: '<label>กรุณายืนยัน</label><br><label class="required-field" style="text-align: left;width: 100%;">หมายเหตุ</label>',
+      showCancelButton: true,
+      customClass: {
+        confirmButton: "custom-btn btn-type-1 red ms-2",
+        cancelButton: "custom-btn btn-type-1 outline"
+      },
+      buttonsStyling: false,
+      showLoaderOnConfirm: true,
+      confirmButtonText: "อายัดชั่วคราว",
+      cancelButtonText: "กลับ",
+      reverseButtons: true,
+      inputValidator: (remark) => {
+        return new Promise((resolve) => {
+          if (remark) {
+            resolve("");
+          } else {
+            resolve("กรุณาระบุหมายเหตุ");
+          }
+        });
+      },
+      preConfirm: async (remark) => {
+        try {
+          const payload = {
+            obu: {
+              obuPan: this.form.get('obuPan')?.value,
+              smartcardNo: this.form.get('smartcardNo')?.value,
+              obuStatusRemark: remark
+            },
+            wallet: {
+              id: this.form.get('walletId')?.value,
+            },
+          };
+          await firstValueFrom(this.restApiService.postBackOffice('faremedia/suspend-obu-by-staff', payload).pipe(first()))
+          // return response.json();
+        } catch (error: any) {
+          console.error(error);
+          if (error instanceof HttpResponse) {
+            Swal.showValidationMessage(`
+            Request failed: ${error.body?.errorCode}, ${error.body?.errorMessage}
+          `);
+          }
+          else {
+            Swal.showValidationMessage(`Some thing failed`);
+          }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ngbActiveModal.close(true);
+      }
+    });
+
+
+  }
 
   onActive() {
     Swal.fire({
