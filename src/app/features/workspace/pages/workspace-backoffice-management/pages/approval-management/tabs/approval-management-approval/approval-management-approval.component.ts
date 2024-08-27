@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { CustomColumnModel, CustomerModel, IPrefixModel, RowActionEventModel } from '../../../../../../../../core/interfaces';
+import { CustomColumnModel, CustomerModel, IJuristicElementModel, IJuristicInquiryResponse, IPrefixModel, RowActionEventModel } from '../../../../../../../../core/interfaces';
 import { Observable, Subject, distinctUntilChanged, of, switchMap } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
 import { TransformDatePipe } from '../../../../../../../../core/pipes';
@@ -9,20 +9,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RejectPendingRequestModalComponent } from '../../modals/reject-pending-request-modal/reject-pending-request-modal.component';
 import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
 import prefixData from 'src/assets/data/prefix.json';
+import { PendingRequestStatus } from 'src/app/core/types/onboarding-status';
 
 export const PendingRequestEventType = {
   addJuristic: 1,
 }
 
-export const PendingRequestStatus = {
-  waiting: 0,
-  approve: 1,
-  reject: 2,
-}
-
 export interface IPendingRequest {
   type: number,
-  status: number,
+  status: PendingRequestStatus,
 }
 @Component({
   selector: 'approval-management-approval',
@@ -31,17 +26,19 @@ export interface IPendingRequest {
 })
 export class ApprovalManagementApprovalComponent {
   @Input() public tempSearch: any | undefined;
+
   public limitRow: number = 10;
   public pages: number = 1;
   public collectionSize: number = 0;
+
   public columns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'paging-no' },
-    { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา ที่สร้าง', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/YYYY HH:mm:ss', locale: 'th' } },
-    { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'eventValue.customer.corporateName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'corporateBranch', name: 'CorporateBranch', label: 'ชื่อสาขา', prop: 'eventValue.customer.corporateBranch', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'branchId', name: 'BranchId', label: 'หมายเลขสาขาย่อย', prop: 'eventValue.customer.branchId', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'createdDate', name: 'createdDate', label: 'วันที่ และ เวลา ที่สร้าง', prop: 'createdDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/YYYY HH:mm:ss', locale: 'th' } },
+    { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'JuristicInfo.corporateName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'corporateBranch', name: 'CorporateBranch', label: 'ชื่อสาขา', prop: 'JuristicInfo.branchCode', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'branchId', name: 'BranchId', label: 'หมายเลขสาขาย่อย', prop: 'JuristicInfo.branchName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'status', name: 'Status', label: 'สถานะ', prop: 'status', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'approve-status' },
-    { id: 'nameEmpTransaction', name: 'Name Emp Transaction', label: 'ชื่อพนักงานทำรายการ', prop: 'eventValue.customer.fullName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'nameEmpTransaction', name: 'Name Emp Transaction', label: 'ชื่อพนักงานทำรายการ', prop: 'contactPerson.fullName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
@@ -62,7 +59,7 @@ export class ApprovalManagementApprovalComponent {
 
   public pendingRequest: IPendingRequest = {
     type: 0,
-    status: 0
+    status: 'PENDING'
   };
 
   public branchList: any[] = [
@@ -85,7 +82,7 @@ export class ApprovalManagementApprovalComponent {
       type: data.type,
       status: data.status,
     };
-    this.loadPendingRequest(data.type, data.status);
+    this.loadPendingRequest(data.status, 1);
   };
 
   @Output() hiddenFillterMenu: EventEmitter<boolean> = new EventEmitter<boolean>(false);
@@ -99,7 +96,7 @@ export class ApprovalManagementApprovalComponent {
   ) {
 
     this.form = this.formBuilder.group({
-      id: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      txnId: new FormControl({ value: undefined, disabled: false }, Validators.required),
       citizenDocId: new FormControl({ value: undefined, disabled: true }, Validators.required),
       pictures: new FormControl({ value: undefined, disabled: true }, Validators.required),
       citizenId: new FormControl({ value: undefined, disabled: true }, Validators.required),
@@ -159,28 +156,19 @@ export class ApprovalManagementApprovalComponent {
     // this.collectionSize = this.rows.length;
   }
 
-  loadPendingRequest(type: number, status: number, page: number = 1) {
-    const data = {
-      // page: 1,
-      page: page,
-      content: {
-        eventType: type,
-        status: status,
-      }
-    };
+  loadPendingRequest(status: PendingRequestStatus, page: number) {
     this.isLoading = true;
     this.modalDialogService.loading();
-    this.restApiService.postBackOffice('pending-request/get', data).subscribe({
-      next: (res: any) => {
-        console.log("[onSubmit] res => ", res);
+    this.restApiService.getBackOfficeWithModel<IJuristicInquiryResponse>(`pending-request/inquiry?status=${status}&limit=${this.limitRow}&offset=${(this.pages * this.limitRow) - this.limitRow}`).subscribe({
+      next: (res) => {
         if (res.errorMessage === "Success") {
           console.log("[onSubmit] res => ", res);
-          for (let i = 0; i < res.data.length; i++) {
-            res.data[i].eventValue.customer.fullName = res.data[i].eventValue.customer.firstName + ' ' + res.data[i].eventValue.customer.lastName;
+          for (let i = 0; i < res.data.elements.length; i++) {
+            res.data.elements[i].contactPerson.fullName = `${res.data.elements[i].contactPerson.firstName} ${res.data.elements[i].contactPerson.lastName}`
           }
-          this.rows = res.data,
-            this.tempRows = this.rows;
-          this.collectionSize = res.totalData;
+          this.rows = res.data.elements;
+          this.tempRows = this.rows;
+          this.collectionSize = res.data.totalElements;
         } else {
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
         }
@@ -201,7 +189,7 @@ export class ApprovalManagementApprovalComponent {
   onChangePage(event: number) {
     this.pages = event;
     // console.log("[onChangePage] event => ", event);
-    this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status, event);
+    this.loadPendingRequest(this.pendingRequest.status, event);
   }
 
   onChangeBranch(event: any) {
@@ -225,13 +213,14 @@ export class ApprovalManagementApprovalComponent {
 
 
   onAction(event: RowActionEventModel) {
+    const row: IJuristicElementModel = event.row;
     console.info(event);
     console.log("[onAction] form => ", this.form.value);
-    this.onCheckPrefix(event.row.eventValue.customer.title);
+    this.onCheckPrefix(row.contactPerson.titleName);
     this.prefixList$ = of(this.prefixList);
-    this.form.get('id')?.setValue(event.row.id);
+    this.form.get('txnId')?.setValue(row.txnId);
     this.form.get('citizenDocId')?.setValue(event.row.eventValue.customer.citizenDocId);
-    this.form.get('pictures')?.setValue(event.row.eventValue.customer.pictures);
+    // this.form.get('pictures')?.setValue(event.row.eventValue.customer.pictures);
     this.form.get('citizenId')?.setValue(event.row.eventValue.customerContact.citizenId);
     this.form.get('companyName')?.setValue(event.row.eventValue.customer.corporateName);
     this.form.get('branch')?.setValue(event.row.eventValue.customer.branchTypeId);
@@ -367,43 +356,43 @@ export class ApprovalManagementApprovalComponent {
         }
       ]
     };
-    const data = {
-      content: {
-        id: this.form.get('id')?.value,
-        eventType: PendingRequestEventType.addJuristic,
-        // eventValue: JSON.stringify(eventValue),
-        status: PendingRequestStatus.waiting,
-        channel_id: 4
-      }
-    };
+    // const data = {
+    //   content: {
+    //     id: this.form.get('id')?.value,
+    //     eventType: PendingRequestEventType.addJuristic,
+    //     // eventValue: JSON.stringify(eventValue),
+    //     status: PendingRequestStatus,
+    //     channel_id: 4
+    //   }
+    // };
     // console.log("[onApprove] eventValue => ", eventValue);
-    console.log("[onApprove] data => ", data);
-    this.modalDialogService.loading();
-    this.restApiService.postBackOffice('pending-request/approve', data).subscribe({
-      next: (res: any) => {
-        console.log("[onApprove] res => ", res);
-        this.modalDialogService.hideLoading();
-        if (res.errorMessage === "Success") {
-          console.log("[onApprove] res => ", res);
-          this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การอนุมัติสำเร็จ');
-          this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
-          this.onBack();
-        } else {
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
-        }
+    // console.log("[onApprove] data => ", data);
+    // this.modalDialogService.loading();
+    // this.restApiService.postBackOffice('pending-request/approve', data).subscribe({
+    //   next: (res: any) => {
+    //     console.log("[onApprove] res => ", res);
+    //     this.modalDialogService.hideLoading();
+    //     if (res.errorMessage === "Success") {
+    //       console.log("[onApprove] res => ", res);
+    //       this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การอนุมัติสำเร็จ');
+    //       this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
+    //       this.onBack();
+    //     } else {
+    //       this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+    //     }
 
-      },
-      error: (err) => {
-        this.modalDialogService.hideLoading();
-        console.error(err);
-        this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
-        if (err.body?.throwableMessage?.toLowerCase().includes('failed to update')) {
-          this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
-          this.onBack();
-        }
-      }
-    })
+    //   },
+    //   error: (err) => {
+    //     this.modalDialogService.hideLoading();
+    //     console.error(err);
+    //     this.modalDialogService.handleError(err);
+    //     // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+    //     if (err.body?.throwableMessage?.toLowerCase().includes('failed to update')) {
+    //       this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
+    //       this.onBack();
+    //     }
+    //   }
+    // })
   }
 
   onReject() {
@@ -473,7 +462,7 @@ export class ApprovalManagementApprovalComponent {
         id: this.form.get('id')?.value,
         eventType: PendingRequestEventType.addJuristic,
         // eventValue: JSON.stringify(eventValue),
-        status: PendingRequestStatus.waiting,
+        // status: PendingRequestStatus.waiting,
         channel_id: 4
       }
     };
@@ -488,7 +477,7 @@ export class ApprovalManagementApprovalComponent {
     modalRef.result.then(
       (result) => {
         if (result) {
-          this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
+          this.loadPendingRequest(this.pendingRequest.status, 1);
           this.onBack();
         }
       }

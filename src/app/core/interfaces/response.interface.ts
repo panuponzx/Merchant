@@ -1,4 +1,4 @@
-import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel, CustomerContact } from "./data.interface"
+import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel, CustomerContact, IJuristicElementModel } from "./data.interface"
 
 export interface IResponseModel<T> {
   data: T
@@ -192,4 +192,12 @@ export interface IJuristicDocumentResponse {
 
 export interface IJuristicDopaResponse {
   isValid: boolean
+}
+
+export interface IJuristicInquiryResponse {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: IJuristicElementModel[]
 }

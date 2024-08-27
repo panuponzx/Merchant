@@ -82,16 +82,17 @@
                                         <label class="label-input required-field" for="phoneInput">
                                             เบอร์ติดต่อบริษัท
                                         </label>
-                                        <input class="form-control" data-testid="phoneInput" formControlName="mobilePhone" id="phoneInput"
-                                            mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
-                                      </div>
-                                      <div class="col-12 mb-3">
+                                        <input class="form-control" data-testid="phoneInput"
+                                            formControlName="mobilePhone" id="phoneInput" mask="000 000 0000"
+                                            placeholder="XXX XXX XXXX" type="text">
+                                    </div>
+                                    <div class="col-12 mb-3">
                                         <label class="label-input" for="emailInput">
-                                          อีเมล
+                                            อีเมล
                                         </label>
                                         <input class="form-control" data-testid="emailInput" formControlName="email"
-                                          placeholder="example@mail.com" id="emailInput" type="text">
-                                      </div>
+                                            placeholder="example@mail.com" id="emailInput" type="text">
+                                    </div>
                                 </ng-template>
                             </li>
                             <li [ngbNavItem]="'information-visitor'">
@@ -131,19 +132,13 @@
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label class="label-input required-field" for="prefixInput">
-                                          คำนำหน้า
-                                      </label>
-                                      <ng-select
-                                          class="form-control"
-                                          [items]="prefixList$ | async" 
-                                          [addTag]="addTagPrefixPromise"
-                                          id="prefixInput"
-                                          data-testid="prefixInput"
-                                          bindLabel="label" 
-                                          bindValue="value"
-                                          formControlName="prefix">
-                                      </ng-select>
-                                      </div>
+                                            คำนำหน้า
+                                        </label>
+                                        <ng-select class="form-control" [items]="prefixList$ | async"
+                                            [addTag]="addTagPrefixPromise" id="prefixInput" data-testid="prefixInput"
+                                            bindLabel="label" bindValue="value" formControlName="prefix">
+                                        </ng-select>
+                                    </div>
                                     <div class="col-12 mb-3">
                                         <label class="label-input required-field" for="firstName">
                                             ชื่อ
@@ -164,15 +159,17 @@
                                         </label>
                                         <date-picker class="datepicker-input" [clearable]="false" format="DD/MM/YYYY"
                                             formControlName="birthdate" [id]="'birthdateDatePicker'" locale="th"
-                                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'" [isDisabled]="true" ></date-picker>
+                                            [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"
+                                            [isDisabled]="true"></date-picker>
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label class="label-input required-field" for="contactPhoneInput">
                                             เบอร์ติดต่อ
                                         </label>
-                                        <input class="form-control" data-testid="contactPhoneInput" formControlName="contactPhone" id="contactPhoneInput"
-                                            mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
-                                      </div>
+                                        <input class="form-control" data-testid="contactPhoneInput"
+                                            formControlName="contactPhone" id="contactPhoneInput" mask="000 000 0000"
+                                            placeholder="XXX XXX XXXX" type="text">
+                                    </div>
                                     <!-- <div class="col-12 mb-3">
                                         <h3>เอกสารแนบ</h3>
                                         <label class="label-input">
@@ -195,25 +192,26 @@
             <div class="col-sm-12 col-lg-8">
                 <h3 class="mb-3">ข้อมูลที่อยู่</h3>
                 <div class="navs-container">
-                    <ul ngbNav #navAddress="ngbNav" [(activeId)]="activeAddressTab" class="nav-tabs nav-tabs-content mb-3">
-                      <ng-container>
-                        <li [ngbNavItem]="'work-address'">
-                          <button ngbNavLink>ที่อยู่ที่ทำงาน</button>
-                          <ng-template ngbNavContent>
-                            <address [form]="form.controls['work_address'] | formControlToFormGroup">
-                            </address>
-                          </ng-template>
-                        </li>
-                      </ng-container>
-                      <ng-container>
-                        <li [ngbNavItem]="'etax-address'">
-                          <button ngbNavLink>ที่อยู่ใบกำกับภาษี</button>
-                          <ng-template ngbNavContent>
-                            <address [form]="form.controls['etax_address'] | formControlToFormGroup">
-                            </address>
-                          </ng-template>
-                        </li>
-                      </ng-container>
+                    <ul ngbNav #navAddress="ngbNav" [(activeId)]="activeAddressTab"
+                        class="nav-tabs nav-tabs-content mb-3">
+                        <ng-container>
+                            <li [ngbNavItem]="'work-address'">
+                                <button ngbNavLink>ที่อยู่ที่ทำงาน</button>
+                                <ng-template ngbNavContent>
+                                    <address [form]="form.controls['work_address'] | formControlToFormGroup">
+                                    </address>
+                                </ng-template>
+                            </li>
+                        </ng-container>
+                        <ng-container>
+                            <li [ngbNavItem]="'etax-address'">
+                                <button ngbNavLink>ที่อยู่ใบกำกับภาษี</button>
+                                <ng-template ngbNavContent>
+                                    <address [form]="form.controls['etax_address'] | formControlToFormGroup">
+                                    </address>
+                                </ng-template>
+                            </li>
+                        </ng-container>
                     </ul>
                     <div [ngbNavOutlet]="navAddress" class="navs-content-container"></div>
                 </div>
@@ -307,20 +305,23 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <p style="color:rgba(34, 85, 206, 1)" *ngIf="pendingRequest.status === 1">รายการนี้ถูกอนุมัติไปแล้ว
+            <p style="color:rgba(34, 85, 206, 1)" *ngIf="pendingRequest.status === 'APPROVED'">รายการนี้ถูกอนุมัติไปแล้ว
                 เมื่อวันที่
                 {{ rowDescription.updateDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</p>
-            <p style="color:rgba(214, 50, 38, 1);" *ngIf="pendingRequest.status === 2">รายการนี้ถูกปฏิเสธไปแล้ว
+            <p style="color:rgba(214, 50, 38, 1);" *ngIf="pendingRequest.status === 'REJECTED'">รายการนี้ถูกปฏิเสธไปแล้ว
                 เมื่อวันที่ {{ rowDescription.updateDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</p>
         </div>
         <hr class="hr-custom mb-3" />
         <div class="footer d-flex justify-content-center gap-3">
             <button class="custom-btn btn-fixed-size-1 btn-type-3 red" (click)="onReject()" data-testid="backButton"
-                id="backButton" [disabled]="pendingRequest.status === 1 || pendingRequest.status === 2" title="ปฏิเสธ">
+                id="backButton"
+                [disabled]="pendingRequest.status === 'APPROVED' || pendingRequest.status === 'REJECTED'"
+                title="ปฏิเสธ">
                 ปฏิเสธ
             </button>
             <button class="custom-btn btn-fixed-size-1 btn-type-1" (click)="onApprove()" data-testid="nextButton"
-                id="nextButton" [disabled]="pendingRequest.status === 1 || pendingRequest.status === 2" title="ถัดไป">
+                id="nextButton"
+                [disabled]="pendingRequest.status === 'APPROVED' || pendingRequest.status === 'REJECTED'" title="ถัดไป">
                 อนุมัติ
             </button>
         </div>
