@@ -169,6 +169,27 @@ export interface IConsentResponse {
 
 export interface IOtpEmailResponse {
   ref: string
+  sysReference: string
   sendTo: string
   timeoutInSec: number
+  exp: string
+}
+
+export interface IDocumentTypeResponse {
+  key: string
+  name: string
+  nameEN: string
+}
+
+export interface IJuristicDocumentResponse {
+  fileName: string
+  docName: string
+  docType: string
+  docTypeCode: string
+  reference: string
+  createdDate: string
+}
+
+export interface IJuristicDopaResponse {
+  isValid: boolean
 }

@@ -98,13 +98,10 @@ export class TermConditionComponent implements OnInit {
   }
 
   postSubmitTermAndCondition() {
-    // console.log("[postSubmitTermAndCondition] transactionId => ", this.transactionId);
-    const paylaod = {
-      "consentId": "string",
-      "isAccepted": true
-    }
+    console.log("[postSubmitTermAndCondition] transactionId => ", this.transactionId);
+    console.log("[postSubmitTermAndCondition] form => ", this.form.get('termAndCondition')?.value);
     this.modalDialogService.loading();
-    this.restApiService.postBackOfficeWithModel<IAcceptConsentRequest, any>(`consent/juristic-onboard/${this.transactionId}/accept`, paylaod).subscribe({
+    this.restApiService.postBackOfficeWithModel<IAcceptConsentRequest, any>(`consent/juristic-onboard/${this.transactionId}/accept`, this.form.get('termAndCondition')?.value).subscribe({
       next: (res) => {
         this.modalDialogService.hideLoading();
         if(res.errorMessage === "Success") {

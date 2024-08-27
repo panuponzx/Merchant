@@ -380,3 +380,11 @@ export interface IPrefixModel {
   label: string;
   value: string;
 }
+
+export interface IJuristicModel {
+  corporateRegistrationNo: string
+  corporateName: string
+  branchTypeCode: string
+  branchCode: string
+  branchName: string
+}

@@ -112,4 +112,26 @@ export class RestApiService {
     return this.httpClient.post<IResponseModel<Res>>(url, body);
   }
 
+  postBackOfficeFileFormDataWithModel<Req, Res>(endpoint: string, formData: FormData): Observable<IResponseModel<Res>> {
+    const url = `${environment.apiBackOffice}/${endpoint}`;
+    // const formData: FormData = new FormData();
+    // for (const key in paylaod) {
+    //   if (Object.prototype.hasOwnProperty.call(paylaod, key)) {
+    //     formData.append(key, paylaod[key]);
+    //   }
+    // }
+
+    // for (let i = 0; i < Object.keys(paylaod).length; i++) {
+    //   const element: any = Object.keys(documentsMyDocumentTotalReq)[i];
+    //   if (documentsMyDocumentTotalReq[element as keyof IDocumentsMyDocumentTotalReq]) {
+    //     queryParams = queryParams.append(
+    //       element,
+    //       documentsMyDocumentTotalReq[element as keyof IDocumentsMyDocumentTotalReq]!
+    //     );
+    //   }
+    // }
+
+    return this.httpClient.post<IResponseModel<Res>>(url, formData);
+  }
+
 }

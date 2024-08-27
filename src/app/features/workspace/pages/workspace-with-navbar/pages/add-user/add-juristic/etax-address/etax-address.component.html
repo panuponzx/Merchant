@@ -5,18 +5,15 @@
             <hr class="hr-grey">
         </div>
         <div class="body-container">
-            <p>กรุณายืนยันรหัส OTP</p>
-            <label class="text-center mb-3" for="emailInput">
-                รหัสยืนยัน OTP<br>
-                <span>ได้ถูกส่งไปที่<span *ngIf="verifyOtpType === 'email'">อีเมล </span><span *ngIf="verifyOtpType === 'mobile'">หมายเลขโทรศัพท์ </span>{{ verifyOtpRequest.sendTo }}</span>
-            </label>
-            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-                <div class="otp-input mb-3">
-                    <ng-otp-input class="d-flex justify-content-center" #ngOtpInput [config]="ngOtpConfig"
-                        [formCtrl]="otpControl"></ng-otp-input>
-                </div>
+            <h3 class="mb-3">ข้อมูลที่อยู่บริษัท</h3>
+            <div class="form-check">
+                <label class="form-check-label" for="isCurrentAddressSameIdcardCheckbox">
+                    เหมือนตามที่อยู่ตามบัตรประชาชน
+                </label>
+                <input class="form-check-input" type="checkbox" (change)="onChangeSameAddress($event)"
+                    id="isCurrentAddressSameIdcardCheckbox" formControlName="isCurrentAddressSameIdcard">
             </div>
-            <p class="text-center mb-5">ส่งอีกครั้ง (30s)</p>
+            <address [form]="form"></address>
         </div>
         <div class="footer-container">
             <hr class="hr-grey mb-3">
