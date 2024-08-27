@@ -49,19 +49,19 @@
                 <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
                 class="nav-tabs nav-tabs-header">
                 <li [ngbNavItem]="'waiting-for-approval'">
-                    <button >กำลังรอ</button>
+                    <button ngbNavLink>กำลังรอ</button>
                     <ng-template ngbNavContent>
                         <cancel-device-waiting-for-approval (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></cancel-device-waiting-for-approval>
                     </ng-template>
                 </li>
                 <li [ngbNavItem]="'approval'">
-                    <button >อนุมัติ</button>
+                    <button ngbNavLink>อนุมัติ</button>
                     <ng-template ngbNavContent>
                         <cancel-device-approval (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></cancel-device-approval>
                     </ng-template>
                 </li>
                 <li [ngbNavItem]="'reject'">
-                    <button >ปฏิเสธ</button>
+                    <button ngbNavLink>ปฏิเสธ</button>
                     <ng-template ngbNavContent>
                         <cancel-device-reject></cancel-device-reject>
                     </ng-template>

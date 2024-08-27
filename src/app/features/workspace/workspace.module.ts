@@ -106,6 +106,7 @@ import { CompanyAddressComponent } from './pages/workspace-with-navbar/pages/add
 import { EtaxAddressComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/etax-address/etax-address.component';
 import { JuristicAttachDocumentComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/juristic-attach-document/juristic-attach-document.component';
 import { ChooseChannelOtpComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/choose-channel-otp/choose-channel-otp.component';
+import { SuspendModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/suspend-modal/suspend-modal.component';
 
 
 @NgModule({
@@ -200,6 +201,7 @@ import { ChooseChannelOtpComponent } from './pages/workspace-with-navbar/pages/a
     EtaxAddressComponent,
     JuristicAttachDocumentComponent,
     ChooseChannelOtpComponent,
+    SuspendModalComponent,
   ],
   imports: [
     CommonModule,
