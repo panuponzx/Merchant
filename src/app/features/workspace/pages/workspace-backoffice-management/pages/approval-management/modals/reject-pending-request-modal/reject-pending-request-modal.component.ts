@@ -27,32 +27,28 @@ export class RejectPendingRequestModalComponent {
 
   onReject() {
     if (this.form.valid) {
-      this.data.content.remark = this.form.get('remark')?.value;
-      console.log("[onReject] data => ", this.data);
+      const paylaod = {
+        reason: this.form.get('remark')?.value,
+        remark: this.form.get('remark')?.value,
+      }
       this.modalDialogService.loading();
-      this.restApiService.postBackOffice('pending-request/reject', this.data).subscribe({
-        next: (res: any) => {
-          console.log("[onReject] res => ", res);
+      this.restApiService.postBackOfficeWithModel<any, any>(`pending-request/${this.data}/reject`, paylaod).subscribe({
+        next: (res) => {
+          this.modalDialogService.hideLoading();
           if (res.errorMessage === "Success") {
-            console.log("[onReject] res => ", res);
             this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การปฏิเสธสำเร็จ').then((res: boolean) => {
               if(res) this.ngbActiveModal.close(true);
             })
-          } else {
+          }else {
             this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
           }
-          this.modalDialogService.hideLoading();
         },
-        error: (err) => {
+        error: (error) => {
           this.modalDialogService.hideLoading();
-          console.error(err);
-          this.modalDialogService.handleError(err);
-          if (err.body?.throwableMessage?.toLowerCase().includes('failed to update')) {
-            this.ngbActiveModal.close(true);
-          }
-          // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
-        }
+          this.modalDialogService.handleError(error);
+        },
       })
+
     }
   }
 

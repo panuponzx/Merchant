@@ -1,3 +1,5 @@
+import { PendingRequestStatus } from "../types/onboarding-status"
+
 export interface WalletSummaryModel {
   totalBalance: number,
   totalPoint: number,
@@ -393,7 +395,7 @@ export interface IJuristicElementModel {
   txnId: string
   identityType: string
   identityId: any
-  status: string
+  status: PendingRequestStatus
   exp: string
   reason: any
   remark: any
