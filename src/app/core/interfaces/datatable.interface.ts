@@ -48,6 +48,10 @@ export interface CustomColumnModel {
     locale?: string
   }
   button?: {
-    label: string
+    label: string,
+    conditionDisable?: boolean,
+    mainCondition?: boolean,
+    mainProperty?: string,
+    class?: string,
   }
 }

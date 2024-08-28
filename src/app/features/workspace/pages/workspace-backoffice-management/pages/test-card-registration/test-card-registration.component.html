@@ -19,7 +19,7 @@
     <div class="form-group">
       <div class="button-wrapper">
         <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา" type="submit"
-          [disabled]="form.invalid||isOpenDetail" (click)="onSearch()">
+          [disabled]="form.invalid||isOpenDetail" (click)="onSearchFaremediaWithWalletId()">
           <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
         </button>
       </div>
@@ -34,9 +34,9 @@
     <ng-container>
 
       <div class="datatable-container d-flex" *ngIf="!isOpenDetail && isSearch" style="flex-direction: column;;">
-        <datatable [columns]="columnsSearch" [collectionSize]="filterSearchRows.length" [id]="'userDatatable'"
+        <datatable [columns]="columnsSearch" [collectionSize]="collectionSizeSearch" [id]="'userDatatable'"
           [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="filterSearchRows"
-          (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล" />
+          (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePageSearch($event)" />
         <div class="d-flex justify-content-end">
           <button class="custom-btn btn-type-1" type="submit" style="max-width: 300px;" [disabled]="changeStatus.length === 0" (click)="onChangeStatus()">
             บันทึก
@@ -48,9 +48,9 @@
         <button class="custom-btn btn-type-1" type="submit" (click)="backToMain()">
           กลับ
         </button>
-        <datatable [columns]="columnsDetail" [collectionSize]="detailRows.length" [id]="'userDatatable'"
+        <datatable [columns]="columnsDetail" [collectionSize]="collectionSizeDetail" [id]="'userDatatable'"
           [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="detailRows"
-          (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล" />
+          (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChagePageFaremediaInfoList($event)"/>
       </div>
 
       <ng-template #defaultTemplate>
@@ -59,9 +59,9 @@
             ลงทะเบียนบัตรทดสอบ
           </button>
         </div>
-        <datatable [columns]="columns" [collectionSize]="rows.length" [id]="'userDatatable'" [isLoading]="isLoading"
+        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
           [pageSize]="limitRow" [page]="pages" [rows]="rows" (onRowActionEvent)="onActive($event)"
-          emptyMessage="ไม่มีข้อมูล" />
+          emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePageInfo($event)" />
       </ng-template>
 
       <ng-container *ngIf="!isOpenDetail && !isSearch">

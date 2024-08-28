@@ -90,11 +90,16 @@
               </ng-container>
             </ng-container>
             <ng-container *ngIf="column.type === 'button'">
-              <button class="btn btn-primary d-inline w-100" style="font-size: 0.8rem;white-space: nowrap;"
-                [attr.data-testid]="column.id + rowIndex + 'Button'"
-                (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column.name })"
-                [disabled]="(column.id === 'withdrawOrBorrow' &&(row.reservationStatusd ||!row.isActive))||(column.id === 'returnObu' &&( !row.reservationStatusd||!row.isActive))">
-                {{ column.button? column.button.label : column.label }}
+              <button class="btn d-inline w-100" [ngClass]="column.button?.class ? column.button?.class : 'btn-primary'"
+                style="font-size: 0.8rem; white-space: nowrap;" [attr.data-testid]="column.id + rowIndex + 'Button'"
+                (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column.name })" 
+                [disabled]="(column.button?.mainProperty && column.button?.conditionDisable !== null) 
+                            ? (getColumnValue(column.button?.mainProperty??'', row) == column.button?.mainCondition) || column.button?.conditionDisable === value 
+                            : (column.button?.mainProperty 
+                                ? getColumnValue(column.button?.mainProperty??'', row) == column.button?.mainCondition 
+                                : false)">
+                                
+                {{ column.button ? column.button.label : column.label }}
               </button>
             </ng-container>
             <ng-container *ngIf="column.type === 'action'">
