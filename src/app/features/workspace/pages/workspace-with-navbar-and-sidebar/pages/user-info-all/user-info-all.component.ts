@@ -35,7 +35,7 @@ export class UserInfoAllComponent implements OnInit {
     { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลขสมาร์ทการ์ด', prop: 'walletSmartcardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'status', name: 'Status', label: 'สถานะ', prop: 'faremediaStatus', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'licensePlate', name: 'licensePlate', label: 'ทะเบียนรถ', prop: 'plateNo', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'registerDate', name: 'registerDate', label: 'วันที่สมัคร', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D/MM/BBBB', locale: 'th' } },
+    { id: 'registerDate', name: 'registerDate', label: 'วันที่สมัคร', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/BBBB HH:mm:ss', locale: 'th' } },
     // { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
     // { id: 'carModel', name: 'carModel', label: 'ยี่ห้อ', prop: 'carModel', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     // { id: 'model', name: 'Model', label: 'รุ่น', prop: 'carSubmodel', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
@@ -60,7 +60,7 @@ export class UserInfoAllComponent implements OnInit {
     // { id: 'status', name: 'Status', label: 'สถานะบัตร', prop: 'faremediaStatus', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carLicensePlate', name: 'carLicensePlate', label: 'ทะเบียนรถ', prop: 'carPlate', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carLicensePlateProvince', name: 'carLicensePlateProvince', label: 'จังหวัด', prop: 'carPlateProvince', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'registerDate', name: 'registerDate', label: 'วันที่ดำเนินการ', prop: 'displayCreateDateTime', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'createDate', name: 'createDate', label: 'วันที่ดำเนินการ', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/BBBB HH:mm:ss', locale: 'th' } },
   ];
   public returnList: IFaremediaReturnedResponse[] = [];
 
@@ -75,7 +75,7 @@ export class UserInfoAllComponent implements OnInit {
     { id: 'oldSmartCard', name: 'oldSmartCard', label: 'หมายเลขสมาร์ทการ์ดเก่า', prop: 'oldSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'newSmartCard', name: 'newSmartCard', label: 'หมายเลขสมาร์ทการ์ดใหม่', prop: 'newSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'balance', name: 'balance', label: 'Balance', prop: 'displayBalance', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'faremediaCreateDate', name: 'faremediaCreateDate', label: 'วันที่ดำเนินการ', prop: 'faremediaCreateDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D/MM/BBBB', locale: 'th' } },
+    { id: 'createDate', name: 'createDate', label: 'วันที่ดำเนินการ', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/BBBB HH:mm:ss', locale: 'th' } },
   ];
   public changeList: any[] = [];
 
