@@ -1,6 +1,6 @@
-<div style="position: absolute; top: 70px; left: 0;">
+<!-- <div style="position: absolute; top: 70px; left: 0;">
     <p>step: {{ step }}</p>
-</div>
+</div> -->
 <div *ngIf="transactionId" [ngSwitch]="step">
     <term-condition *ngSwitchCase="1" [transactionId]="transactionId" (nextStep)="onNextStep()"
         (backStep)="onBackStep()">
