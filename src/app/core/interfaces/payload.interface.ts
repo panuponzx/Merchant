@@ -88,3 +88,12 @@ export interface IJuristicConfirmRequest {
   useEmailApplicationResult: boolean
   useMobileApplicationResult: boolean
 }
+
+export interface ISearchJuristicRequest {
+  identificationId?: string
+  firstName?: string
+  lastName?: string
+  mobilePhone?: string
+  limit: number
+  page: number
+}

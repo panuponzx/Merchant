@@ -267,3 +267,20 @@ export interface ISearcnTestFaremediaWithWalletIdModel {
   isReserved: boolean
   create_date: string
 }
+
+export interface ISearcnCustomerResponse {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: ISearcnElementCustomerModel[]
+}
+
+export interface ISearcnElementCustomerModel {
+  id: string
+  identification: string
+  name: string
+  mobilePhone: string
+  branchCode: any
+  branchName: any
+}

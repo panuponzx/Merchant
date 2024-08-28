@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, map } from 'rxjs';
-import { CustomColumnModel, CustomerModel, ICustomerSearchModel, IPaginationModel, ResponseMessageModel, ResponseModel, RowActionEventModel } from '../../../../../../core/interfaces';
+import { CustomColumnModel, CustomerModel, ICustomerSearchModel, IPaginationModel, ISearchJuristicRequest, ISearcnCustomerResponse, ResponseMessageModel, ResponseModel, RowActionEventModel } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
@@ -96,7 +96,7 @@ export class SearchUserComponent implements OnInit {
     faremediaValue: new FormControl(undefined, [Validators.minLength(10)]),
     licensePlate: new FormControl(undefined),
   });
-  
+
   public tempSearch: boolean = false;
 
   public isLoading = false;
@@ -149,12 +149,40 @@ export class SearchUserComponent implements OnInit {
       if (this.form.value.branchId) payload.branchId = this.form.value.branchId;
       if (this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
       this.searchByCoporate(payload);
-    } else if (searchType === 'personal' || searchType === 'international') {
+    } else if (searchType === 'personal') {
       if (this.form.value.identificationId) payload.identificationId = this.form.value.identificationId;
       if (this.form.value.firstName) payload.firstName = this.form.value.firstName;
       if (this.form.value.lastName) payload.lastName = this.form.value.lastName;
       if (this.form.value.mobilePhone) payload.mobilePhone = this.form.value.mobilePhone;
       this.searchByPersonal(payload);
+    } else if (searchType === 'international') {
+      const payload: ISearchJuristicRequest = {
+        ...(
+          this.form.value.identificationId ? {
+            identificationId: this.form.value.identificationId
+          } : {}
+        ),
+        ...(
+          this.form.value.firstName ? {
+            firstName: this.form.value.firstName
+          } : {}
+        ),
+        ...(
+          this.form.value.lastName ? {
+            lastName: this.form.value.lastName
+          } : {}
+        ),
+        ...(
+          this.form.value.mobilePhone ? {
+            mobilePhone: this.form.value.mobilePhone
+          } : {}
+        ),
+        limit: this.pageSize,
+        page: this.page
+      };
+      console.log(payload);
+
+      this.searchByJuristic(payload);
     } else if (searchType === 'device') {
       if (this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
       if (this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
@@ -177,6 +205,26 @@ export class SearchUserComponent implements OnInit {
         // this.totalPages = response.data.totalPages;
         this.collectionSize = response.data.totalElements;
         console.log("[searchByPersonal] collectionSize => ", this.collectionSize);
+        this.isLoading = false;
+        this.tempSearch = true;
+        this.modalDialogService.hideLoading();
+      },
+      error: (err) => {
+        this.modalDialogService.hideLoading();
+        console.error(err);
+        this.isLoading = false;
+        this.modalDialogService.handleError(err);
+        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
+      }
+    });
+  }
+
+  searchByJuristic(payload: ISearchJuristicRequest) {
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<ISearchJuristicRequest, ISearcnCustomerResponse>('customer/search/foreigner', payload).pipe(first()).subscribe({
+      next: (res) => {
+        this.rows = res.data.elements;
+        this.collectionSize = res.data.totalElements;
         this.isLoading = false;
         this.tempSearch = true;
         this.modalDialogService.hideLoading();

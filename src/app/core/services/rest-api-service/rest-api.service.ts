@@ -108,8 +108,16 @@ export class RestApiService {
   }
 
   postBackOfficeWithModel<Req, Res>(endpoint: string, body: Req | null): Observable<IResponseModel<Res>> {
+    const requestParam = {
+      reqId: this.generateUUID(),
+      channelId: this.requestParamChannelId
+    };
+    const payload = {
+      requestParam,
+      ...body
+    };
     const url = `${environment.apiBackOffice}/${endpoint}`;
-    return this.httpClient.post<IResponseModel<Res>>(url, body);
+    return this.httpClient.post<IResponseModel<Res>>(url, payload);
   }
 
   postBackOfficeFileFormDataWithModel<Req, Res>(endpoint: string, formData: FormData): Observable<IResponseModel<Res>> {
