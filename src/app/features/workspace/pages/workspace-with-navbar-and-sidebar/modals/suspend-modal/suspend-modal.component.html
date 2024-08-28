@@ -6,37 +6,39 @@
 <div class="suspend-form">
     <form (ngSubmit)="onSubmit()" #leaveForm="ngForm">
         <div class="suspend-form-date">
-            <div>
+            <div class="suspend-current">
                 <label for="transactionDate">เลขที่รายการ:</label>
-                <span id="transactionDate">{{ currentDate }}</span>
-              </div>
+                <span id="transactionDate">{{ currentNumber }}</span>
+            </div>
 
-              <div>
+            <div class="suspend-current">
                 <label for="transactionNumber">วันที่สร้างรายการ:</label>
-                <span id="transactionNumber">{{ currentNumber }}</span>
-              </div>
+                <span id="transactionNumber">{{ currentDate }}</span>
+            </div>
         </div>
 
         <div class="option-suspend">
-            <div>
-                <label for="reason">Reason:</label>
-                <select style="width: 250px;" id="reason" [(ngModel)]="request.reason" name="reason">
+            <div class="option-title">
+                <label for="reason">Reason</label>
+                <select id="reason" [(ngModel)]="request.reason" name="reason">
                     <option value="บัตรที่สูญหายหรือถูกทำลาย">บัตรที่สูญหายหรือถูกทำลาย</option>
                     //option
                 </select>
             </div>
 
-            <div>
-                <label for="requestType">ประเภทการตั้งค่า:</label>
+            <div class="option-title">
+                <label for="requestType">ประเภทการตั้งค่า</label>
                 <select style=" width: 250px;" id="requestType" [(ngModel)]="request.requestType" name="requestType">
                     <option value="อายัด">อายัด</option>
                     //option
                 </select>
+
             </div>
         </div>
-        <div>
-            <label for="details">รายละเอียด:</label>
-            <textarea id="details" [(ngModel)]="request.details" name="details"></textarea>
+        <div class="suspend-details">
+            <label for="details">รายละเอียด
+                <textarea id="details" [(ngModel)]="request.details" name="details"></textarea>
+            </label>
         </div>
 
         <div class="input-checkbox" style="display: flex; justify-content: space-between;">
@@ -55,28 +57,27 @@
             </div>
         </div>
         <div class="input-form">
-            <div>
-                <label for="fullName">ชื่อ-สกุล:</label>
+            <div >
+                <label for="fullName">ชื่อ-สกุล</label>
                 <input id="fullName" [(ngModel)]="request.fullName" name="fullName">
             </div>
 
             <div>
-                <label for="position">ตำแหน่ง:</label>
+                <label for="position">ตำแหน่ง</label>
                 <input id="position" [(ngModel)]="request.position" name="position">
             </div>
 
             <div>
-                <label for="relationship">ความสัมพันธ์:</label>
+                <label for="relationship">ความสัมพันธ์</label>
                 <input id="relationship" [(ngModel)]="request.relationship" name="relationship">
             </div>
 
             <div>
-                <label for="idNumber">เลขบัตรประชาชน:</label>
+                <label for="idNumber">เลขบัตรประชาชน</label>
                 <input id="idNumber" [(ngModel)]="request.idNumber" name="idNumber">
             </div>
-
-            <button type="submit">ยืนยันรายการ</button>
-            <button type="button" (click)="onClose()">ยกเลิก</button>
         </div>
+        <button type="submit">ยืนยันรายการ</button>
+        <button type="button" (click)="onClose()">ยกเลิก</button>
     </form>
 </div>

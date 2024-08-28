@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CarInfoModel, CustomerModel } from 'src/app/core/interfaces';
 
 @Component({
@@ -23,7 +23,8 @@ export class SuspendModalComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private ngbActiveModal: NgbActiveModal
+    private ngbActiveModal: NgbActiveModal,
+    private ngbModal: NgbModal
   ) {
     this.currentNumber = this.generateCurrentNumber();
     this.currentDate = new Date().toISOString().split('T')[0];
@@ -66,56 +67,19 @@ export class SuspendModalComponent {
 
   request: any = {};
 
+  // onSuspend() {
+  //   const modalRef = this.ngbModal.open(SuspendModalComponent, {
+  //     centered: true,
+  //     backdrop: 'static',
+  //     size: 'lg-plus',
+  //     keyboard: true
+  //   });
+  //   modalRef.componentInstance.carInfo = this.carInfo;
+  //   modalRef.componentInstance.customer = this.customer;
+  // }
+
   generateCurrentNumber(): number {
     return Math.floor(Math.random() * 1000); 
-  }
-
-  onChangeOperator(event: any) {
-    console.log("[onChangeOperator] event => ", event.target.value);
-
-  }
-
-
-  onCheckIsObu(event: any) {
-    console.log("[onCheckIsObu] event => ", event.target.checked);
-    if (event.target.checked) {
-      this.secondForm.get('obu')?.enable();
-      this.secondForm.get('obuPayment')?.setValue(300);
-    } else {
-      this.secondForm.get('obu')?.disable();
-      this.secondForm.get('obuPayment')?.setValue(0);
-    }
-  }
-
-  onCheckIsSmartCard(event: any) {
-    if (event.target.checked) {
-      this.secondForm.get('smartCard')?.enable();
-      this.secondForm.get('smartCardPayment')?.setValue(30);
-    } else {
-      this.secondForm.get('smartCard')?.disable();
-      this.secondForm.get('smartCardPayment')?.setValue(0);
-    }
-  }
-
-  amountPaymentFromWallet(): number {
-    const walletBalance = this.thirdForm.get('walletBalance')?.value;
-    const totalAmount = this.secondForm.get('obuPayment')?.value + this.secondForm.get('smartCardPayment')?.value;
-    if (walletBalance >= totalAmount) {
-      this.thirdForm.get('walletBalanceAfterCut')?.setValue(walletBalance);
-      if (walletBalance > 0 && totalAmount > 0) {
-        this.thirdForm.get('cutMoneyWallet')?.setValue(-totalAmount);
-        const totalBalance = walletBalance - totalAmount;
-        this.thirdForm.get('walletBalanceAfterCut')?.setValue(totalBalance);
-      }
-      this.thirdForm.get('totalAmountPaid')?.setValue(0);
-    } else {
-      this.thirdForm.get('cutMoneyWallet')?.setValue(-walletBalance);
-      this.thirdForm.get('walletBalanceAfterCut')?.setValue(0);
-      console.log(walletBalance - totalAmount);
-      const totalAmountPaid: number = walletBalance - totalAmount;
-      this.thirdForm.get('totalAmountPaid')?.setValue(Math.abs(totalAmountPaid));
-    }
-    return this.thirdForm.get('cutMoneyWallet')?.value
   }
 
   onPreviousStep() {

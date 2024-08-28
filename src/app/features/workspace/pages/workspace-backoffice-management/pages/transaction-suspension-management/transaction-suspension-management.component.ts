@@ -49,7 +49,6 @@ export class TransactionSuspensionManagementComponent {
     this.load();
   }
 
-
   load() {
     this.modalDialogService.loading();
     this.isLoading = true;
@@ -79,7 +78,6 @@ export class TransactionSuspensionManagementComponent {
       });
   }
 
-  
   onClickBlacklist(event: RowActionEventModel): void {
     console.log("[onClickBlacklist] event => ", event);
     const modalRef = this.ngbModal.open(TransactionSuspensionModalComponent, {
@@ -112,7 +110,7 @@ export class TransactionSuspensionManagementComponent {
       centered: true,
       backdrop: 'static',
       size: 'lg',
-      keyboard: false,
+      keyboard: true
     });
     modalRef.componentInstance.carInfo = this.carInfo;
     modalRef.componentInstance.customer = this.customer;

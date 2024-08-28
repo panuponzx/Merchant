@@ -7,6 +7,7 @@ import { DirectivesModule } from './directives';
 import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 import { LoadingModalComponent } from './modals/loading-modal/loading-modal.component';
 import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
+import { SuspendModalComponent } from '../features/workspace/pages/workspace-with-navbar-and-sidebar/modals/suspend-modal/suspend-modal.component';
 
 @NgModule({
   declarations: [
