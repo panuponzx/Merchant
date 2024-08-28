@@ -104,7 +104,6 @@ export class TransactionSuspensionManagementComponent {
       }
     );
   }
-
    
     // modalRef.componentInstance.customer = customer;
     // modalRef.componentInstance.carInfo = carInfo;
