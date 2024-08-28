@@ -107,7 +107,7 @@ export class RestApiService {
     return this.httpClient.get<IResponseModel<res>>(baseURL);
   }
 
-  postBackOfficeWithModel<Req, Res>(endpoint: string, body: Req | null): Observable<IResponseModel<Res>> {
+  postBackOfficeWithModelWithRequestParam<Req, Res>(endpoint: string, body: Req | null): Observable<IResponseModel<Res>> {
     const requestParam = {
       reqId: this.generateUUID(),
       channelId: this.requestParamChannelId
@@ -118,6 +118,11 @@ export class RestApiService {
     };
     const url = `${environment.apiBackOffice}/${endpoint}`;
     return this.httpClient.post<IResponseModel<Res>>(url, payload);
+  }
+
+  postBackOfficeWithModel<Req, Res>(endpoint: string, body: Req | null): Observable<IResponseModel<Res>> {
+    const url = `${environment.apiBackOffice}/${endpoint}`;
+    return this.httpClient.post<IResponseModel<Res>>(url, body);
   }
 
   postBackOfficeFileFormDataWithModel<Req, Res>(endpoint: string, formData: FormData): Observable<IResponseModel<Res>> {

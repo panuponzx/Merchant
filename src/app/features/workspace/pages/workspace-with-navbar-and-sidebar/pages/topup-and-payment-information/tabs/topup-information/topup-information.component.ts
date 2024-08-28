@@ -20,7 +20,7 @@ export class TopupInformationComponent implements OnInit {
   public pages: number = 1;
   public collectionSize: number = 0;
   public columns: CustomColumnModel[] = [
-    { id: 'transactionDate', name: 'Transaction Date', label: 'วันที่เติมเงิน', prop: 'transactionDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB HH:mm:ss', locale: 'th' } },
+    { id: 'transactionDate', name: 'Transaction Date', label: 'วันที่เติมเงิน', prop: 'transactionDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/BBBB', locale: 'th' } },
     { id: 'walletID', name: 'Wallet ID', label: 'หมายเลขกระเป่าเงิน', prop: 'walletId', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'paymentMethod', name: 'Payment Method', label: 'ช่องทางการชำระ', prop: 'transactionChannelName', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'type', name: 'Type', label: 'ประเภท', prop: 'txnSubTypeName', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },

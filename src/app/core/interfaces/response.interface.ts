@@ -284,3 +284,17 @@ export interface ISearcnElementCustomerModel {
   branchCode: any
   branchName: any
 }
+export interface IFaremediaReturnedResponse {
+  balance: number
+  carPlate: string
+  carPlateProvince: string
+  createDate: string
+  displayBalance: string
+  displayCreateDateTime: string
+  displayFaremediaCreateDate: string
+  faremediaCreateDate: string
+  newObu: string
+  newSmartCard: string
+  oldObu: string
+  oldSmartCard: string
+}

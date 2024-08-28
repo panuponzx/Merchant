@@ -221,7 +221,7 @@ export class SearchUserComponent implements OnInit {
 
   searchByJuristic(payload: ISearchJuristicRequest) {
     this.modalDialogService.loading();
-    this.restApiService.postBackOfficeWithModel<ISearchJuristicRequest, ISearcnCustomerResponse>('customer/search/foreigner', payload).pipe(first()).subscribe({
+    this.restApiService.postBackOfficeWithModelWithRequestParam<ISearchJuristicRequest, ISearcnCustomerResponse>('customer/search/foreigner', payload).pipe(first()).subscribe({
       next: (res) => {
         this.rows = res.data.elements;
         this.collectionSize = res.data.totalElements;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, first, map, Observable } from 'rxjs';
-import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, DistrictModel, IWalletInfoModel, ProvinceModel, ReponseCustomerModel, ReponseZipcodeModel, ResponseModel, RowActionEventModel, SubdistrictModel, ZipcodeModel } from 'src/app/core/interfaces';
+import { CustomColumnModel, CustomeActivatedRouteModel, CustomerModel, DistrictModel, IFaremediaReturnedResponse, IWalletInfoModel, ProvinceModel, ReponseCustomerModel, ReponseZipcodeModel, ResponseModel, RowActionEventModel, SubdistrictModel, ZipcodeModel } from 'src/app/core/interfaces';
 import { CustomerTypePipe } from 'src/app/core/pipes';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
@@ -55,14 +55,14 @@ export class UserInfoAllComponent implements OnInit {
   public isReturnLoading: boolean = false;
   public columnsReturn: CustomColumnModel[] = [
     // { id: 'obuSerialNo', name: 'OBU serial no.', label: 'เลขบัญชี', prop: 'faremediaValue', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลข OBU.', prop: 'obuNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
-    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลขสมาร์ทการ์ด', prop: 'smartCardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลข OBU.', prop: 'newObu', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
+    { id: 'smartCardSerialNo', name: 'Smart card serial no.', label: 'หมายเลขสมาร์ทการ์ด', prop: 'newSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     // { id: 'status', name: 'Status', label: 'สถานะบัตร', prop: 'faremediaStatus', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'carLicensePlate', name: 'carLicensePlate', label: 'ทะเบียนรถ', prop: 'carLicensePlate', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'carLicensePlateProvince', name: 'carLicensePlateProvince', label: 'จังหวัด', prop: 'carLicensePlateProvince', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'registerDate', name: 'registerDate', label: 'วันที่สมัครบัตร', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D/MM/BBBB', locale: 'th' } },
+    { id: 'carLicensePlate', name: 'carLicensePlate', label: 'ทะเบียนรถ', prop: 'carPlate', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'carLicensePlateProvince', name: 'carLicensePlateProvince', label: 'จังหวัด', prop: 'carPlateProvince', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'registerDate', name: 'registerDate', label: 'วันที่ดำเนินการ', prop: 'displayCreateDateTime', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
   ];
-  public returnList: any[] = [];
+  public returnList: IFaremediaReturnedResponse[] = [];
 
   public pageChangeSize: number = 5;
   public pagesChange: number = 1;
@@ -75,7 +75,7 @@ export class UserInfoAllComponent implements OnInit {
     { id: 'oldSmartCard', name: 'oldSmartCard', label: 'หมายเลขสมาร์ทการ์ดเก่า', prop: 'oldSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'newSmartCard', name: 'newSmartCard', label: 'หมายเลขสมาร์ทการ์ดใหม่', prop: 'newSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'balance', name: 'balance', label: 'Balance', prop: 'displayBalance', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'faremediaCreateDate', name: 'faremediaCreateDate', label: 'วันที่สมัครบัตร', prop: 'faremediaCreateDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D/MM/BBBB', locale: 'th' } },
+    { id: 'faremediaCreateDate', name: 'faremediaCreateDate', label: 'วันที่ดำเนินการ', prop: 'faremediaCreateDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D/MM/BBBB', locale: 'th' } },
   ];
   public changeList: any[] = [];
 
@@ -240,12 +240,8 @@ export class UserInfoAllComponent implements OnInit {
   }
 
   loadReturnFaremedia() {
-    const payload = {
-      content: {}
-    };
-    (this.restApiService.postBackOffice(`faremedia/get/returned/customer/${this.customerId}`, payload) as Observable<any>).subscribe(({
+    this.restApiService.postBackOfficeWithModelWithRequestParam<null, IFaremediaReturnedResponse[]>(`action-log/get/returned/faremedia/customer/${this.customerId}`, null).subscribe(({
       next: (res) => {
-        console.log("[loadReturnFaremedia] res => ", res);
         this.collectionReturnSize = res.data.length;
         this.returnList = res.data;
       },
@@ -256,10 +252,7 @@ export class UserInfoAllComponent implements OnInit {
   }
 
   loadChangeFaremedia() {
-    const payload = {
-      content: {}
-    };
-    (this.restApiService.postBackOffice(`action-log/get/changing/faremedia/customer/${this.customerId}`, payload) as Observable<any>).subscribe(({
+    (this.restApiService.postBackOfficeWithModelWithRequestParam(`action-log/get/changed/faremedia/customer/${this.customerId}`, null) as Observable<any>).subscribe(({
       next: (res) => {
         console.log("[loadChangeFaremedia] res => ", res);
         this.collectionChangeSize = res.data.length;
@@ -335,7 +328,7 @@ export class UserInfoAllComponent implements OnInit {
         });
     }
   }
-  
+
   getSubdistrict(zipcode: string | undefined | null): SubdistrictModel[] {
     if (zipcode) {
       const subdistricts = this.zipcode.map(x => x.subdistrict);
@@ -373,7 +366,7 @@ export class UserInfoAllComponent implements OnInit {
     }
   }
 
-  
+
   getProvince(districtCode: number | undefined | null): ProvinceModel[] {
     if (districtCode) {
       const provinces = this.districts.filter(x => x.id === districtCode).map(x => x.province);
