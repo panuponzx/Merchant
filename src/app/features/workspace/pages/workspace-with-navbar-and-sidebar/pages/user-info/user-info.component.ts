@@ -64,6 +64,8 @@ export class UserInfoComponent implements OnInit {
           // this.customer.customerTypeId = 2; //Demo
           // this.customer.citizenDocId = 4; // Demo
           this.customerTypeId = this.customerTypePipe.transform(this.customer, 'id');
+          console.log(this.customerTypeId);
+          
         }
         if (info[1].data) {
           this.walletsList = info[1].data;
