@@ -76,9 +76,15 @@ export class DatatableComponent {
   onClickTextBoolean(event: RowActionEventModel) {
     this.onRowTextBooleanEvent.emit(event);
   }
-  logLabel(t :string){
+  logLabel(t: string) {
     console.log(t);
-    console.log("onRowActionEvent : ",this.onRowActionEvent);
+    console.log("onRowActionEvent : ", this.onRowActionEvent);
     this.onRowActionEvent.emit();
+  }
+  getType(value: any) {
+    return typeof value;
+  }
+  getColumnValue(key: string, row: any): boolean {
+    return row[key] || '';
   }
 }
