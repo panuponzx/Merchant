@@ -1,0 +1,141 @@
+.header-label{
+    font-size: large;
+    color: #2255ce;
+}
+
+.suspend-form{
+    margin: auto;
+    padding: 20px;
+}
+
+.suspend-form-date{
+    display: flex;
+    gap: 250px;
+}
+
+.option-suspend {
+  display: flex; 
+  gap: 70px; 
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.option-title {
+  display: flex;
+  flex-direction: row;
+  gap: 5px; 
+}
+
+.option-title select {
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  width: 250px; 
+  padding: 8px;
+  box-sizing: border-box; 
+}
+
+.input-checkbox{
+    display: flex;
+    margin-top: 20px;
+    gap: 40%;
+    font-weight: 700;
+}
+
+.suspend-current{
+    display: flex;
+    gap: 20px;
+}
+
+.option-title{
+  display: flex;
+  gap: 10px;
+}
+
+.suspend-details {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+
+.suspend-details label {
+  gap: 20px;
+  display: flex;
+}
+
+.suspend-details textarea {
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  width: 85%; 
+  padding: 8px;
+  box-sizing: border-box; 
+  resize: vertical; 
+} 
+  
+  .suspend-btn button[type="submit"] {
+    padding: 10px 20px;
+    background-color: var(--color-blue-exat);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: 20px;
+  }
+
+  .suspend-btn button:hover {
+    opacity: 0.8;
+  }
+
+  .suspend-btn button[type="button"] {
+    padding: 10px 20px;
+    background-color: aliceblue;
+    color: rgb(0, 0, 0);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: 20px;
+  }
+ 
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+  }
+  
+  .checkbox-container input[type="checkbox"] {
+    margin-right: 10px;
+  }
+
+  .input-form {
+    border-radius: 10px; 
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column; 
+    gap: 16px; 
+    padding: 16px;
+  }
+  
+  .input-section {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px; 
+  }
+  
+  .input-section label {
+    width: 150px;
+    text-align: left;
+    margin-right: 16px;
+  }
+  
+  .input-section input {
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    padding:4px 8px; 
+    box-sizing: border-box; 
+  }
+
+  
+  
