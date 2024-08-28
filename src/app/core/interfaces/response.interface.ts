@@ -250,3 +250,20 @@ export interface ITestFaremediaInfoListModel {
   updatedDate: string,
   remark: string
 }
+export interface ISearchTestFaremediaInfoResponseModel extends ResponseMessageModel {
+  data: ISearchTestFaremediaInfoModel
+}
+export interface ISearchTestFaremediaInfoModel {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: ISearcnTestFaremediaWithWalletIdModel[]
+}
+export interface ISearcnTestFaremediaWithWalletIdModel {
+  walletId: string
+  faremediaValue: string
+  status: boolean
+  isReserved: boolean
+  create_date: string
+}

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, zip } from 'rxjs';
 import { CustomColumnModel, RowActionEventModel } from 'src/app/core/interfaces';
-import { ITestFaremediaInfoResponseModel } from 'src/app/core/interfaces/response.interface';
+import { ISearchTestFaremediaInfoResponseModel, ITestFaremediaInfoResponseModel } from 'src/app/core/interfaces/response.interface';
 import { BorrowingModalComponent } from 'src/app/core/modals/borrowing-modal/borrowing-modal.component';
 import { RegisterCardComponent } from 'src/app/core/modals/register-card/register-card.component';
 import { RestApiService } from 'src/app/core/services';
@@ -57,11 +57,14 @@ export class TestCardRegistrationComponent {
     { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
     { id: 'faremediaValue', name: 'faremediaValue', label: 'หมายเลขอุปกรณ์', prop: 'faremediaValue', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'walletId', name: 'walletId', label: 'walletId', prop: 'walletId', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'isActive', name: 'isActive', label: 'เป็นบัตรทดสอบ', prop: 'isActive', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'checkbox' },
+    { id: 'isActive', name: 'isActive', label: 'เป็นบัตรทดสอบ', prop: 'status', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'checkbox' },
   ];
 
   public detailRows: any = [];
+  public collectionSizeDetail: number = 0;
   public filterSearchRows: any = [];
+  public collectionSizeSearch: number = 0;
+  public pagefilterSearchRows: number = 1;
   public changeStatus: any = [];
   constructor(
     private formBuilder: FormBuilder,
@@ -92,20 +95,8 @@ export class TestCardRegistrationComponent {
     console.log('action: ', event.action);
     if (event.action === "detail") {
       this.isOpenDetail = true;
-      zip(
-        await this.loadTestFaremediaInfoList(row.faremediaValue)
-      ).pipe().subscribe({
-        next: (info) => {
-          console.log('info: ', info);
-          if (info[0].data) {
-            this.detailRows = info[0].data.elements;
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.modalDialogService.handleError(err);
-        }
-      });
+      await this.loadTestFaremediaInfoList(row.faremediaValue)
+
     } else if (event.action === "withdrawOrBorrow") {
 
       const modalRef = this.ngbModal.open(BorrowingModalComponent, {
@@ -158,13 +149,33 @@ export class TestCardRegistrationComponent {
       console.log(this.changeStatus)
     }
   }
-  onChangeStatus() {
-    this.changeStatus.forEach((item: { faremediaValue: any; }) => {
-      const index = this.rows.findIndex((existingRow: { faremediaValue: any; }) => existingRow.faremediaValue === item.faremediaValue);
-      this.rows[index].isActive = !this.rows[index].isActive;
-    });
-    this.changeStatus = [];
-    this.clearSearch();
+  async onChangeStatus() {
+    if (this.changeStatus.length > 0) {
+      this.isLoading = true;
+      this.modalDialogService.loading();
+      zip(
+        await this.changeStatusTestFaremedia()
+      ).pipe().subscribe(
+        async (response) => {
+          this.isLoading = false;
+          this.modalDialogService.hideLoading();
+          await this.loadSearchTestFaremediaWithWalletId();
+          this.changeStatus = [];
+          this.modalDialogService.info("success", "#2255CE", "เปลี่ยนสถานะสำเร็จ");
+
+        },
+        (error) => {
+          this.isLoading = false;
+          this.modalDialogService.handleError(error);
+          this.modalDialogService.hideLoading();
+        });
+    }
+  }
+  changeStatusTestFaremedia() {
+    const mockupData = {
+      faremediaValues: this.changeStatus.map((row: any) => row.faremediaValue)
+    };
+    return this.restApiService.postBackOffice('faremedia/change-status-test-faremedia', mockupData) as Observable<any>;
   }
   async RegisterFormModal() {
     const modalRef = this.ngbModal.open(RegisterCardComponent, {
@@ -175,7 +186,7 @@ export class TestCardRegistrationComponent {
     });
     modalRef.result.then(
       async (result) => {
-         this.loadTestFaremediaInfo();
+        await this.loadTestFaremediaInfo();
       },
       async (reason) => {
         await this.loadTestFaremediaInfo();
@@ -184,17 +195,17 @@ export class TestCardRegistrationComponent {
   }
   backToMain() {
     this.isOpenDetail = false;
-  }
-  onSearch() {
-    this.isSearch = true;
-    this.filterSearchRows = this.rows.filter((row: { faremediaValue: string; }) => row.faremediaValue.startsWith(this.form.value.search));
+    this.pageFaremediaInfoList = 1;
   }
   clearSearch() {
     this.form.patchValue({ search: '' });
     this.isSearch = false;
+    this.filterSearchRows = [];
+    this.collectionSizeSearch = 0;
+    this.pagefilterSearchRows = 1;
   }
   async loadTestFaremediaInfo() {
-    console.log("[loadCustomerInfo]");
+    console.log("[loadTestFaremediaInfo]");
     this.isLoading = true;
     this.modalDialogService.loading();
     zip(
@@ -204,11 +215,67 @@ export class TestCardRegistrationComponent {
       .subscribe(
         {
           next: (info) => {
-            console.log("[loadCustomerInfo] hideLoading");
+            console.log("[loadTestFaremediaInfo] hideLoading");
             console.log('info: ', info);
             if (info[0].data) {
               this.rows = info[0].data.elements;
               this.collectionSize = info[0].data.totalElements;
+            }
+            this.modalDialogService.hideLoading();
+            this.isLoading = false;
+          },
+          error: (err) => {
+            this.modalDialogService.hideLoading();
+            console.error(err);
+            this.modalDialogService.handleError(err);
+          }
+        }
+      )
+  }
+  async loadTestFaremediaInfoList(faremediaValue: string) {
+    console.log("[loadTestFaremediaInfoList]");
+    this.isLoading = true;
+    this.modalDialogService.loading();
+    zip(
+      await this.loadTestFaremediaList(faremediaValue)
+    )
+      .pipe()
+      .subscribe(
+        {
+          next: (info) => {
+            console.log("[loadTestFaremediaInfoList] hideLoading");
+            console.log('info: ', info);
+            if (info[0].data) {
+              this.detailRows = info[0].data.elements;
+              this.collectionSizeDetail = info[0].data.totalElements;
+            }
+            this.modalDialogService.hideLoading();
+            this.isLoading = false;
+          },
+          error: (err) => {
+            this.modalDialogService.hideLoading();
+            console.error(err);
+            this.modalDialogService.handleError(err);
+          }
+        }
+      )
+  }
+  async onSearchFaremediaWithWalletId() {
+    this.isLoading = true;
+    this.isSearch = true;
+    this.modalDialogService.loading();
+    zip(
+      await this.loadSearchTestFaremediaWithWalletId()
+    )
+      .pipe()
+      .subscribe(
+        {
+          next: (info) => {
+            console.log("[onSearchFaremediaWithWalletId] hideLoading");
+            console.log('info: ', info);
+            if (info[0].data) {
+              this.filterSearchRows = info[0].data.elements;
+              this.collectionSizeSearch = info[0].data.totalElements;
             }
             this.modalDialogService.hideLoading();
             this.isLoading = false;
@@ -228,11 +295,11 @@ export class TestCardRegistrationComponent {
     };
     return this.restApiService.postBackOffice('faremedia/get/test-obu', mockupData) as Observable<ITestFaremediaInfoResponseModel>;
   }
-  loadTestFaremediaInfoList(faremediaValue: string) {
+  loadTestFaremediaList(faremediaValue: string) {
     const mockupData = {
       faremediaValue: faremediaValue,
-      page: 1,
-      limit: 10
+      page: this.pageFaremediaInfoList,
+      limit: 20
     };
     return this.restApiService.postBackOffice('faremedia/get-faremedia-test-histories', mockupData) as Observable<ITestFaremediaInfoResponseModel>;
   }
@@ -245,5 +312,17 @@ export class TestCardRegistrationComponent {
     this.pageFaremediaInfoList = page;
     console.log('page: ', page);
     await this.loadTestFaremediaInfoList(this.detailRows[0].faremediaValue);
+  }
+  async onChangePageSearch(page: number) {
+    this.pagefilterSearchRows = page;
+    await this.loadSearchTestFaremediaWithWalletId();
+  }
+  loadSearchTestFaremediaWithWalletId() {
+    const mockupData = {
+      faremediaValue: this.form.value.search,
+      page: this.pagefilterSearchRows,
+      limit: 10
+    };
+    return this.restApiService.postBackOffice('faremedia/search-faremedia-test-with-wallet-id', mockupData) as Observable<ISearchTestFaremediaInfoResponseModel>;
   }
 }

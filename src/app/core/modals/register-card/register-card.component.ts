@@ -42,6 +42,7 @@ export class RegisterCardComponent {
       },
       (error) => {
         this.isLoading = false;
+        this.modalDialogService.handleError(error);
         this.modalDialogService.hideLoading();
       });
     this.ngbActiveModal.close();
@@ -52,5 +53,12 @@ export class RegisterCardComponent {
     };
     return this.restApiService.postBackOffice('faremedia/create/test-obu', mockupData) as Observable<IReponseRegisterTestFaremediaModel>;
 
+  }
+
+  async searchFaremediaWithWalletId(){
+    const mockupData = {
+      faremediaValue: this.form.value.faremediaValue,
+    };
+    return this.restApiService.postBackOffice('faremedia/create/test-obu', mockupData) as Observable<IReponseRegisterTestFaremediaModel>;
   }
 }
