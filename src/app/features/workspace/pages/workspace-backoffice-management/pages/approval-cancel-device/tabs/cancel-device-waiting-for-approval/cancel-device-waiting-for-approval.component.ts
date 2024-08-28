@@ -179,6 +179,7 @@ export class CancelDeviceWaitingForApprovalComponent {
       channelId: 100,
       gender: "M",
       cardExpDate: "2024-03-30",
+      displayCreateDateTime: "",
       birthdate: "2023-10-09",
       occupation: "พนักงานบริษัท",
       status: 1,

@@ -179,6 +179,7 @@ export class CancelDeviceApprovalComponent {
       updateDate: "2024-04-01 12:58:22",
       channelId: 100,
       gender: "M",
+      displayCreateDateTime: "",
       cardExpDate: "2024-03-30",
       birthdate: "2023-10-09",
       occupation: "พนักงานบริษัท",

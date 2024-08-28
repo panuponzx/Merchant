@@ -126,6 +126,7 @@ export class MaintenanceCostsComponent implements OnInit {
       lastName: "ตัวหนังสือที่ยาวมาก",
       mobilePhone: "0098998098",
       updateDate: "2024-04-01 12:58:22",
+      displayCreateDateTime: '',
       citizenId: "5432178998791",
       channelId: 100,
       gender: "M",
