@@ -34,19 +34,19 @@
           <li [ngbNavItem]="'waiting-for-approval'">
             <button ngbNavLink>รอการอนุมัติ</button>
             <ng-template ngbNavContent>
-              <approval-management-approval [setPendingStatus]="{type: approval, status: pendingStatus}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
+              <approval-management-approval [setPendingStatus]="{type: approval, status: 'WAITING'}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
             </ng-template>
           </li>
           <li [ngbNavItem]="'approval'">
             <button ngbNavLink>อนุมัติ</button>
             <ng-template ngbNavContent>
-              <approval-management-approval [setPendingStatus]="{type: approval, status: pendingStatus}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
+              <approval-management-approval [setPendingStatus]="{type: approval, status: 'APPROVED'}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
             </ng-template>
           </li>
           <li [ngbNavItem]="'reject'">
             <button ngbNavLink>ปฏิเสธ</button>
             <ng-template ngbNavContent>
-              <approval-management-approval [setPendingStatus]="{type: approval, status: pendingStatus}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
+              <approval-management-approval [setPendingStatus]="{type: approval, status: 'REJECTED'}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
             </ng-template>
           </li>
         </ul>

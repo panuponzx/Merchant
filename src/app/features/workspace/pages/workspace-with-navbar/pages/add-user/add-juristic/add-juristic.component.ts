@@ -15,10 +15,12 @@ export class AddJuristicComponent implements OnInit {
   public step: number = 1;
   public transactionId: string = '';
 
-  public emailOtpRequest: FormGroup;
-  public mobileOtpRequest: FormGroup;
-  public companyAddressform: FormGroup;
-  public etaxAddressform: FormGroup;
+  public emailOtpRequestForm: FormGroup;
+  public mobileOtpRequestForm: FormGroup;
+  public contactPersonForm: FormGroup;
+  public juristicInfoForm: FormGroup
+  public companyAddressForm: FormGroup;
+  public etaxAddressForm: FormGroup;
 
   // public verifyEmailOtpRequest = {} as IVerifyOtpRequest;
   // public verifyMobileOtpRequest = {} as IVerifyOtpRequest;
@@ -33,15 +35,47 @@ export class AddJuristicComponent implements OnInit {
     private formBuilder: FormBuilder,
   ) {
 
-    this.emailOtpRequest = this.formBuilder.group({
+    this.emailOtpRequestForm = this.formBuilder.group({
       email: new FormControl(undefined, [Validators.required, Validators.pattern(CustomRegEx.RegExEmail)]),
     });
 
-    this.mobileOtpRequest = this.formBuilder.group({
+    this.mobileOtpRequestForm = this.formBuilder.group({
       mobile: new FormControl(undefined, [Validators.required]),
     });
 
-    this.companyAddressform = this.formBuilder.group({
+    this.contactPersonForm = this.formBuilder.group({
+      citizenId: new FormControl(undefined, Validators.required),
+      laserCode: new FormControl(undefined, Validators.required),
+      gender: new FormControl('M', Validators.required),
+      cardExpDate: new FormControl(undefined, Validators.required),
+      prefix: new FormControl(undefined, Validators.required),
+      firstName: new FormControl(undefined, Validators.required),
+      lastName: new FormControl(undefined, Validators.required),
+      birthDate: new FormControl(undefined, Validators.required),
+      phone: new FormControl(undefined, Validators.required),
+    });
+
+    // this.contactPersonForm = this.formBuilder.group({
+    //   citizenId: new FormControl('1459900715114', Validators.required),
+    //   laserCode: new FormControl('ME2139451593999999', Validators.required),
+    //   gender: new FormControl('M', Validators.required),
+    //   cardExpDate: new FormControl(undefined, Validators.required),
+    //   prefix: new FormControl(undefined, Validators.required),
+    //   firstName: new FormControl('อธิวัฒน์', Validators.required),
+    //   lastName: new FormControl('ทองมาก', Validators.required),
+    //   birthDate: new FormControl(undefined, Validators.required),
+    //   phone: new FormControl('0943485992', Validators.required),
+    // });
+
+    this.juristicInfoForm = this.formBuilder.group({
+      taxId: new FormControl(undefined, Validators.required),
+      companyName: new FormControl(undefined, Validators.required),
+      branch: new FormControl(undefined, Validators.required),
+      branchName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      branchNo: new FormControl({ value: undefined, disabled: true }, Validators.required),
+    });
+
+    this.companyAddressForm = this.formBuilder.group({
       addressNo: new FormControl(undefined, Validators.required),
       building: new FormControl(undefined),
       floor: new FormControl(undefined),
@@ -59,7 +93,7 @@ export class AddJuristicComponent implements OnInit {
       zipcode: new FormControl({ value: undefined, disabled: true }, Validators.required),
     });
 
-    this.etaxAddressform = this.formBuilder.group({
+    this.etaxAddressForm = this.formBuilder.group({
       isCurrentAddressSameIdcard: new FormControl(false, Validators.required),
       addressNo: new FormControl(undefined, Validators.required),
       building: new FormControl(undefined),
@@ -85,6 +119,11 @@ export class AddJuristicComponent implements OnInit {
 
   onNextStep() {
     this.step++;
+    if (this.step === 12) {
+      this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การลงทะเบียนสำเร็จ').then((res: boolean) => {
+        if (res) this.router.navigate(['work-space/menu-option']);
+      })
+    }
   }
 
   onNextRequestOtpEmailStep(response: IOtpEmailResponse) {
@@ -111,7 +150,7 @@ export class AddJuristicComponent implements OnInit {
     this.restApiService.postBackOfficeWithModel<any, IBeginResponse>(`onboarding/begin/juristic`, null).subscribe({
       next: (res) => {
         this.modalDialogService.hideLoading();
-        if(res.errorMessage === "Success") {
+        if (res.errorMessage === "Success") {
           this.transactionId = res.data.txnId;
         }
       },

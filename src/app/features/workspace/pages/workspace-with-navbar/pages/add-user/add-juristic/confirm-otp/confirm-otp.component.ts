@@ -19,7 +19,7 @@ export class ConfirmOtpComponent {
   @Output() backStep = new EventEmitter<void>();
 
   form: FormGroup;
-  
+
   public ngOtpConfig = {
     length: 6,
     allowNumbersOnly: true,
@@ -41,10 +41,10 @@ export class ConfirmOtpComponent {
   }
 
   onSubmit() {
-    if(this.verifyOtpType === 'email') {
+    if (this.verifyOtpType === 'email') {
       this.postVerifyEmail();
-    }else if(this.verifyOtpType === 'mobile') {
-
+    } else if (this.verifyOtpType === 'mobile') {
+      this.postVerifyMobile();
     }
   }
 
@@ -61,7 +61,7 @@ export class ConfirmOtpComponent {
     this.restApiService.postBackOfficeWithModel<IVerifyOtpRequest, any>(`onboarding/${this.transactionId}/otp/email/verify`, paylaod).subscribe({
       next: (res) => {
         this.modalDialogService.hideLoading();
-        if(res.errorMessage === "Success") {
+        if (res.errorMessage === "Success") {
           this.nextStep.emit(res.data);
         }
       },
@@ -73,7 +73,23 @@ export class ConfirmOtpComponent {
   }
 
   postVerifyMobile() {
-
+    const paylaod = {
+      otp: this.form.get('otp')?.value,
+      sysReference: this.verifyOtpRequest.sysReference
+    }
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<IVerifyOtpRequest, any>(`onboarding/${this.transactionId}/otp/mobile/verify`, paylaod).subscribe({
+      next: (res) => {
+        this.modalDialogService.hideLoading();
+        if (res.errorMessage === "Success") {
+          this.nextStep.emit(res.data);
+        }
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
   }
-  
+
 }

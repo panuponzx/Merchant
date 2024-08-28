@@ -1,0 +1,34 @@
+<div class="modal-body">
+  <div class="header-label">
+    <h2>{{ title }}</h2>
+    <h3 class="mb-3">กรุณากรอกข้อมูลการ{{actionType === 'borrow'?"เบิก / ยืม":"คืน"}}บัตรทดสอบ</h3>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">ชื่อ นามสกุล</label>
+        <input type="text" id="name" formControlName="name">
+      </div>
+      <div class="form-group">
+        <label for="institution">หน่วยงาน</label>
+        <input type="text" id="institution" formControlName="institution">
+      </div>
+      <div class="form-group">
+        <label for="date">{{ actionType === 'borrow' ? 'วันที่ยืม/เบิก' : 'วันที่คืน' }}</label>
+        <input type="date" id="date" formControlName="date" [min]="minDate">
+      </div>
+      <div *ngIf="actionType === 'borrow'" class="form-group">
+        <label for="returnDate">วันที่คาดว่าจะคืน</label>
+        <input type="date" id="returnDate" formControlName="returnDate"  [min]="minDate">
+      </div>
+      <div *ngIf="actionType === 'return'" class="form-group">
+        <label for="remark">หมายเหตุ</label>
+        <textarea class="form-control" rows="3" id="remark" formControlName="remark" style="resize:none"></textarea>
+      </div>
+      <div class="d-flex justify-content-end gap-3">
+        <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
+        <button class="custom-btn btn-type-1 text" [disabled]="!form.valid">ตกลง</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -153,7 +153,7 @@
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="branchId" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
-            [disabled]="form.get('identificationId')?.value.length < 13" formControlName="branchId" minlength="5" maxlength="5"
+            [readonly]="form.value.identificationId?.length <13" formControlName="branchId" minlength="5" maxlength="5"
             mask="00000">
         </div>
         <div *ngIf="form.get('branchId')?.hasError('minlength') && form.get('branchId')?.touched">

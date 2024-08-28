@@ -1,3 +1,5 @@
+import { PendingRequestStatus } from "../types/onboarding-status"
+
 export interface WalletSummaryModel {
   totalBalance: number,
   totalPoint: number,
@@ -387,4 +389,77 @@ export interface IJuristicModel {
   branchTypeCode: string
   branchCode: string
   branchName: string
+}
+
+export interface IJuristicElementModel {
+  txnId: string
+  identityType: string
+  identityId: any
+  status: PendingRequestStatus
+  exp: string
+  reason: any
+  remark: any
+  createdDate: string
+  createdBy: string
+  JuristicInfo: IJuristicInfoModel
+  billingAddress: IJuristicBillingAddressModel
+  contactPerson: IJuristicContactPersonModel
+  contact: IJuristicContactModel
+}
+export interface IJuristicInfoModel {
+  houseNo?: string
+  building: any
+  floor: any
+  village: any
+  moo: any
+  street: any
+  soi: any
+  alley: any
+  subDistrictCode?: string
+  districtCode?: string
+  provinceCode?: string
+  postcode?: string
+  corporateRegistrationNo?: string
+  corporateName?: string
+  branchTypeCode?: string
+  branchCode?: string
+  branchName?: string
+}
+
+export interface IJuristicBillingAddressModel {
+  houseNo: any
+  building: any
+  floor: any
+  village: any
+  moo: any
+  street: any
+  soi: any
+  alley: any
+  subDistrictCode: any
+  districtCode: any
+  provinceCode: any
+  postcode: any
+  sameCompanyAddress: any
+}
+
+export interface IJuristicContactPersonModel {
+  citizenId?: string
+  laserCode?: string
+  gender?: string
+  titleName?: string
+  firstName?: string
+  lastName?: string
+  fullName?: string
+  phoneNo?: string
+  birthDate?: string
+  cardExpDate?: string
+}
+
+export interface IJuristicContactModel {
+  email: any
+  isVerifyEmail: any
+  mobile: any
+  isVerifyMobile: any
+  useEmailApplicationResult: any
+  useMobileApplicationResult: any
 }

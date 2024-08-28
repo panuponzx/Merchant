@@ -19,7 +19,7 @@
                     <div class="col-12 mb-3">
                         <input #inputFile id="inputImportSignature" class="d-none" type="file"
                             (change)="fileTypeValidation($event)" />
-                        <button class="custom-btn btn-type-3 btn-fixed-size-100" data-testid="uploadImageButton"
+                        <button class="custom-btn btn-type-3 btn-fixed-size-100" type="button" data-testid="uploadImageButton"
                             id="uploadImageButton" title="อัพโหลด" (click)="inputFile.click()">
                             <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
                             อัปโหลดเอกสาร
@@ -96,7 +96,7 @@
                 <button type="button" class="custom-btn btn-fixed-size-1 btn-type-3"
                     (click)="onBack()">ย้อนกลับ</button>
                 <button type="submit" class="custom-btn btn-fixed-size-1 btn-type-1"
-                    [disabled]="form.invalid">ยืนยัน</button>
+                    [disabled]="this.juristicDocumentList.length <= 0">ยืนยัน</button>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { CustomColumnModel, CustomerModel, IPrefixModel, RowActionEventModel } from '../../../../../../../../core/interfaces';
+import { CustomColumnModel, CustomerModel, IJuristicElementModel, IJuristicInquiryResponse, IPrefixModel, RowActionEventModel } from '../../../../../../../../core/interfaces';
 import { Observable, Subject, distinctUntilChanged, of, switchMap } from 'rxjs';
 import { RestApiService } from '../../../../../../../../core/services';
 import { TransformDatePipe } from '../../../../../../../../core/pipes';
@@ -9,20 +9,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RejectPendingRequestModalComponent } from '../../modals/reject-pending-request-modal/reject-pending-request-modal.component';
 import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
 import prefixData from 'src/assets/data/prefix.json';
+import { PendingRequestStatus } from 'src/app/core/types/onboarding-status';
 
 export const PendingRequestEventType = {
   addJuristic: 1,
 }
 
-export const PendingRequestStatus = {
-  waiting: 0,
-  approve: 1,
-  reject: 2,
-}
-
 export interface IPendingRequest {
   type: number,
-  status: number,
+  status: PendingRequestStatus,
 }
 @Component({
   selector: 'approval-management-approval',
@@ -31,17 +26,19 @@ export interface IPendingRequest {
 })
 export class ApprovalManagementApprovalComponent {
   @Input() public tempSearch: any | undefined;
+
   public limitRow: number = 10;
   public pages: number = 1;
   public collectionSize: number = 0;
+
   public columns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'paging-no' },
-    { id: 'createDate', name: 'Create Date', label: 'วันที่ และ เวลา ที่สร้าง', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/YYYY HH:mm:ss', locale: 'th' } },
-    { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'eventValue.customer.corporateName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'corporateBranch', name: 'CorporateBranch', label: 'ชื่อสาขา', prop: 'eventValue.customer.corporateBranch', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'branchId', name: 'BranchId', label: 'หมายเลขสาขาย่อย', prop: 'eventValue.customer.branchId', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'createdDate', name: 'createdDate', label: 'วันที่ และ เวลา ที่สร้าง', prop: 'createdDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/YYYY HH:mm:ss', locale: 'th' } },
+    { id: 'userName', name: 'User Name', label: 'ชื่อผู้ใช้', prop: 'JuristicInfo.corporateName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'corporateBranch', name: 'CorporateBranch', label: 'ชื่อสาขา', prop: 'JuristicInfo.branchCode', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'branchId', name: 'BranchId', label: 'หมายเลขสาขาย่อย', prop: 'JuristicInfo.branchName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'status', name: 'Status', label: 'สถานะ', prop: 'status', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'approve-status' },
-    { id: 'nameEmpTransaction', name: 'Name Emp Transaction', label: 'ชื่อพนักงานทำรายการ', prop: 'eventValue.customer.fullName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'nameEmpTransaction', name: 'Name Emp Transaction', label: 'ชื่อพนักงานทำรายการ', prop: 'contactPerson.fullName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
@@ -53,7 +50,7 @@ export class ApprovalManagementApprovalComponent {
   public customer: CustomerModel | undefined;
   public form!: FormGroup;
   public isShowDescription: boolean = false;
-  public rowDescription: any = {};
+  public rowDescription = {} as IJuristicElementModel;
 
   public detailInformationTab: string | 'information-company' | 'information-visitor' = 'information-visitor';
   public activeAddressTab: string | undefined;
@@ -62,17 +59,17 @@ export class ApprovalManagementApprovalComponent {
 
   public pendingRequest: IPendingRequest = {
     type: 0,
-    status: 0
+    status: 'PENDING'
   };
 
   public branchList: any[] = [
     {
       label: 'สาขาใหญ่',
-      id: 1
+      id: 'M'
     },
     {
       label: 'สาขาย่อย',
-      id: 2
+      id: 'B'
     },
   ];
 
@@ -85,7 +82,7 @@ export class ApprovalManagementApprovalComponent {
       type: data.type,
       status: data.status,
     };
-    this.loadPendingRequest(data.type, data.status);
+    this.loadPendingRequest(data.status, 1);
   };
 
   @Output() hiddenFillterMenu: EventEmitter<boolean> = new EventEmitter<boolean>(false);
@@ -99,7 +96,7 @@ export class ApprovalManagementApprovalComponent {
   ) {
 
     this.form = this.formBuilder.group({
-      id: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      txnId: new FormControl({ value: undefined, disabled: false }, Validators.required),
       citizenDocId: new FormControl({ value: undefined, disabled: true }, Validators.required),
       pictures: new FormControl({ value: undefined, disabled: true }, Validators.required),
       citizenId: new FormControl({ value: undefined, disabled: true }, Validators.required),
@@ -159,28 +156,19 @@ export class ApprovalManagementApprovalComponent {
     // this.collectionSize = this.rows.length;
   }
 
-  loadPendingRequest(type: number, status: number, page: number = 1) {
-    const data = {
-      // page: 1,
-      page: page,
-      content: {
-        eventType: type,
-        status: status,
-      }
-    };
+  loadPendingRequest(status: PendingRequestStatus, page: number) {
     this.isLoading = true;
     this.modalDialogService.loading();
-    this.restApiService.postBackOffice('pending-request/get', data).subscribe({
-      next: (res: any) => {
-        console.log("[onSubmit] res => ", res);
+    this.restApiService.getBackOfficeWithModel<IJuristicInquiryResponse>(`pending-request/inquiry?status=${status}&limit=${this.limitRow}&offset=${(this.pages * this.limitRow) - this.limitRow}`).subscribe({
+      next: (res) => {
         if (res.errorMessage === "Success") {
           console.log("[onSubmit] res => ", res);
-          for (let i = 0; i < res.data.length; i++) {
-            res.data[i].eventValue.customer.fullName = res.data[i].eventValue.customer.firstName + ' ' + res.data[i].eventValue.customer.lastName;
+          for (let i = 0; i < res.data.elements.length; i++) {
+            res.data.elements[i].contactPerson.fullName = `${res.data.elements[i].contactPerson.firstName} ${res.data.elements[i].contactPerson.lastName}`
           }
-          this.rows = res.data,
-            this.tempRows = this.rows;
-          this.collectionSize = res.totalData;
+          this.rows = res.data.elements;
+          this.tempRows = this.rows;
+          this.collectionSize = res.data.totalElements;
         } else {
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
         }
@@ -201,7 +189,7 @@ export class ApprovalManagementApprovalComponent {
   onChangePage(event: number) {
     this.pages = event;
     // console.log("[onChangePage] event => ", event);
-    this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status, event);
+    this.loadPendingRequest(this.pendingRequest.status, event);
   }
 
   onChangeBranch(event: any) {
@@ -209,13 +197,13 @@ export class ApprovalManagementApprovalComponent {
     this.setDisableBranch(event.id);
   }
 
-  setDisableBranch(branchId: number) {
-    if (branchId === 1) {
+  setDisableBranch(branchId: string) {
+    if (branchId === 'M') {
       this.form.get('branchName')?.setValue('สาขาใหญ่');
       this.form.get('branchNo')?.setValue('00000');
       // this.form.get('branchName')?.disable();
       // this.form.get('branchNo')?.disable();
-    } else if (branchId === 2) {
+    } else if (branchId === 'B') {
       // this.form.get('branchName')?.setValue('');
       // this.form.get('branchNo')?.setValue('');
       // this.form.get('branchName')?.enable();
@@ -225,71 +213,64 @@ export class ApprovalManagementApprovalComponent {
 
 
   onAction(event: RowActionEventModel) {
+    const row: IJuristicElementModel = event.row;
     console.info(event);
     console.log("[onAction] form => ", this.form.value);
-    this.onCheckPrefix(event.row.eventValue.customer.title);
+    this.onCheckPrefix(row.contactPerson.titleName);
     this.prefixList$ = of(this.prefixList);
-    this.form.get('id')?.setValue(event.row.id);
-    this.form.get('citizenDocId')?.setValue(event.row.eventValue.customer.citizenDocId);
-    this.form.get('pictures')?.setValue(event.row.eventValue.customer.pictures);
-    this.form.get('citizenId')?.setValue(event.row.eventValue.customerContact.citizenId);
-    this.form.get('companyName')?.setValue(event.row.eventValue.customer.corporateName);
-    this.form.get('branch')?.setValue(event.row.eventValue.customer.branchTypeId);
-    this.form.get('branchName')?.setValue(event.row.eventValue.customer.corporateBranch);
-    this.form.get('branchNo')?.setValue(event.row.eventValue.customer.branchId);
-    this.form.get('taxId')?.setValue(event.row.eventValue.customer.citizenId);
+    this.form.get('txnId')?.setValue(row.txnId);
+    // this.form.get('citizenDocId')?.setValue(event.row.eventValue.customer.citizenDocId);
+    // this.form.get('pictures')?.setValue(event.row.eventValue.customer.pictures);
+    this.form.get('citizenId')?.setValue(row.contactPerson.citizenId);
+    this.form.get('companyName')?.setValue(row.JuristicInfo.corporateName);
+    this.form.get('branch')?.setValue(row.JuristicInfo.branchTypeCode);
+    this.form.get('branchName')?.setValue(row.JuristicInfo.branchCode);
+    this.form.get('branchNo')?.setValue(row.JuristicInfo.branchName);
+    this.form.get('taxId')?.setValue(row.JuristicInfo.corporateRegistrationNo);
     // this.form.get('cardExpDate')?.setValue(new Date(event.row.eventValue.customer.cardExpDate));
-    this.form.get('gender')?.setValue(event.row.eventValue.customer.gender);
-    this.form.get('prefix')?.setValue(event.row.eventValue.customer.title);
-    this.form.get('firstName')?.setValue(event.row.eventValue.customer.firstName);
-    this.form.get('lastName')?.setValue(event.row.eventValue.customer.lastName);
-    this.form.get('birthdate')?.setValue(new Date(event.row.eventValue.customer.birthdate));
-    this.form.get('mobilePhone')?.setValue(event.row.eventValue.customer.mobilePhone);
-    this.form.get('contactPhone')?.setValue(event.row.eventValue.customerContact.phone);
-    this.form.get('email')?.setValue(event.row.eventValue.customer.email);
-    this.setDisableBranch(event.row.eventValue.customer.branchTypeId);
-    event.row.eventValue.addresses.forEach((x: any) => {
-      if (Number(x.typeId) === AddressTypeEnum.COMPANY) {
-        // this.zipcodeChanged.next(x.zipcode);
-        this.form.get('work_address')?.get('typeId')?.setValue(x.typeId);
-        this.form.get('work_address')?.get('addressNo')?.setValue(x.addressNo);
-        this.form.get('work_address')?.get('building')?.setValue(x.building);
-        this.form.get('work_address')?.get('floor')?.setValue(x.floor);
-        this.form.get('work_address')?.get('villageNo')?.setValue(x.villageNo);
-        this.form.get('work_address')?.get('village')?.setValue(x.village);
-        this.form.get('work_address')?.get('alley')?.setValue(x.alley);
-        this.form.get('work_address')?.get('soi')?.setValue(x.soi);
-        this.form.get('work_address')?.get('street')?.setValue(x.street);
-        this.form.get('work_address')?.get('province')?.setValue(Number(x.provinceCode));
-        // this.form.get('work_address')?.get('provinceName')?.setValue(x.provinceCode);
-        this.form.get('work_address')?.get('district')?.setValue(Number(x.districtCode));
-        // this.form.get('work_address')?.get('districtName')?.setValue(x.districtCode);
-        this.form.get('work_address')?.get('subdistrict')?.setValue(Number(x.subdistrictCode));
-        // this.form.get('work_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
-        this.form.get('work_address')?.get('zipcode')?.setValue(x.zipcode);
-      }
-      if (Number(x.typeId) === AddressTypeEnum.ETAX) {
-        this.form.get('etax_address')?.get('typeId')?.setValue(x.typeId);
-        this.form.get('etax_address')?.get('addressNo')?.setValue(x.addressNo);
-        this.form.get('etax_address')?.get('building')?.setValue(x.building);
-        this.form.get('etax_address')?.get('floor')?.setValue(x.floor);
-        this.form.get('etax_address')?.get('villageNo')?.setValue(x.villageNo);
-        this.form.get('etax_address')?.get('village')?.setValue(x.village);
-        this.form.get('etax_address')?.get('alley')?.setValue(x.alley);
-        this.form.get('etax_address')?.get('soi')?.setValue(x.soi);
-        this.form.get('etax_address')?.get('street')?.setValue(x.street);
-        this.form.get('etax_address')?.get('province')?.setValue(Number(x.provinceCode));
-        // this.form.get('etax_address')?.get('provinceName')?.setValue(x.provinceCode);
-        this.form.get('etax_address')?.get('district')?.setValue(Number(x.districtCode));
-        // this.form.get('etax_address')?.get('districtName')?.setValue(x.districtCode);
-        this.form.get('etax_address')?.get('subdistrict')?.setValue(Number(x.subdistrictCode));
-        // this.form.get('etax_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
-        this.form.get('etax_address')?.get('zipcode')?.setValue(x.zipcode);
-        // this.zipcodeChanged.next(x.zipcode);
-      }
-    });
-    // this.form.get('cardExpDate')?.setValue(event.row.eventValue.customer.cardExpDate);
-    // console.log("[onAction] form => ", this.form.value);
+    this.form.get('gender')?.setValue(row.contactPerson.gender);
+    this.form.get('prefix')?.setValue(row.contactPerson.titleName);
+    this.form.get('firstName')?.setValue(row.contactPerson.firstName);
+    this.form.get('lastName')?.setValue(row.contactPerson.lastName);
+    this.form.get('birthdate')?.setValue(new Date(String(row.contactPerson.birthDate)));
+    this.form.get('mobilePhone')?.setValue(row.contactPerson.phoneNo);
+    this.form.get('contactPhone')?.setValue(row.contact.mobile);
+    this.form.get('email')?.setValue(row.contact.email);
+    this.setDisableBranch(row.JuristicInfo.branchTypeCode!);
+    // this.form.get('work_address')?.get('typeId')?.setValue(x.typeId);
+    this.form.get('work_address')?.get('addressNo')?.setValue(row.JuristicInfo.houseNo);
+    this.form.get('work_address')?.get('building')?.setValue(row.JuristicInfo.building);
+    this.form.get('work_address')?.get('floor')?.setValue(row.JuristicInfo.floor);
+    this.form.get('work_address')?.get('villageNo')?.setValue(row.JuristicInfo.moo);
+    this.form.get('work_address')?.get('village')?.setValue(row.JuristicInfo.village);
+    this.form.get('work_address')?.get('alley')?.setValue(row.JuristicInfo.alley);
+    this.form.get('work_address')?.get('soi')?.setValue(row.JuristicInfo.soi);
+    this.form.get('work_address')?.get('street')?.setValue(row.JuristicInfo.street);
+    this.form.get('work_address')?.get('province')?.setValue(Number(row.JuristicInfo.provinceCode));
+    // this.form.get('work_address')?.get('provinceName')?.setValue(x.provinceCode);
+    this.form.get('work_address')?.get('district')?.setValue(Number(row.JuristicInfo.districtCode));
+    // this.form.get('work_address')?.get('districtName')?.setValue(x.districtCode);
+    this.form.get('work_address')?.get('subdistrict')?.setValue(Number(row.JuristicInfo.subDistrictCode));
+    // this.form.get('work_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
+    this.form.get('work_address')?.get('zipcode')?.setValue(row.JuristicInfo.postcode);
+
+    // this.form.get('etax_address')?.get('typeId')?.setValue(x.typeId);
+    this.form.get('etax_address')?.get('addressNo')?.setValue(row.billingAddress.houseNo);
+    this.form.get('etax_address')?.get('building')?.setValue(row.billingAddress.building);
+    this.form.get('etax_address')?.get('floor')?.setValue(row.billingAddress.floor);
+    this.form.get('etax_address')?.get('villageNo')?.setValue(row.billingAddress.moo);
+    this.form.get('etax_address')?.get('village')?.setValue(row.billingAddress.village);
+    this.form.get('etax_address')?.get('alley')?.setValue(row.billingAddress.alley);
+    this.form.get('etax_address')?.get('soi')?.setValue(row.billingAddress.soi);
+    this.form.get('etax_address')?.get('street')?.setValue(row.billingAddress.street);
+    this.form.get('etax_address')?.get('province')?.setValue(Number(row.billingAddress.provinceCode));
+    // this.form.get('etax_address')?.get('provinceName')?.setValue(x.provinceCode);
+    this.form.get('etax_address')?.get('district')?.setValue(Number(row.billingAddress.districtCode));
+    // this.form.get('etax_address')?.get('districtName')?.setValue(x.districtCode);
+    this.form.get('etax_address')?.get('subdistrict')?.setValue(Number(row.billingAddress.subDistrictCode));
+    // this.form.get('etax_address')?.get('subdistrictName')?.setValue(x.subdistrictCode);
+    this.form.get('etax_address')?.get('zipcode')?.setValue(row.billingAddress.postcode);
+    // this.zipcodeChanged.next(x.zipcode);
     this.rowDescription = event.row;
     this.hiddenFillterMenu.emit(true);
     this.isShowDescription = true;
@@ -303,192 +284,41 @@ export class ApprovalManagementApprovalComponent {
   }
 
   onApprove() {
-    // const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
-    const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
-    // const addressProvince = this.form.get('province')?.value;
-    // const addressDistrict = this.form.get('district')?.value;
-    // const addressSubDistrict = this.form.get('subDistrict')?.value;
-    const eventValue = {
-      customer: {
-        customerTypeId: 2,
-        title: 'นาย',
-        firstName: this.form.get('firstName')?.value,
-        lastName: this.form.get('lastName')?.value,
-        mobilePhone: this.form.get('mobilePhone')?.value,
-        citizenDocId: this.form.get('citizenDocId')?.value,
-        citizenId: this.form.get('citizenId')?.value,
-        // cardExpDate: cardExpDateFormat,
-        birthdate: birthDateFormat,
-        // occupation: this.occupationDetailForm.get('occupation')?.value,
-        gender: this.form.get('gender')?.value,
-        taxId: this.form.get('taxId')?.value,
-        corporateName: this.form.get('companyName')?.value,
-        branchTypeId: this.form.get('branch')?.value,
-        corporateBranch: this.form.get('branchName')?.value,
-        branchId: this.form.get('branchNo')?.value,
-        pictures: this.form.get('pictures')?.value,
-      },
-      addresses: [
-        {
-          typeId: AddressTypeEnum.COMPANY,
-          addressNo: this.form.get('work_address')?.get('addressNo')?.value,
-          building: this.form.get('work_address')?.get('building')?.value,
-          floor: this.form.get('work_address')?.get('floor')?.value,
-          villageNo: this.form.get('work_address')?.get('villageNo')?.value,
-          village: this.form.get('work_address')?.get('village')?.value,
-          alley: this.form.get('work_address')?.get('alley')?.value,
-          soi: this.form.get('work_address')?.get('soi')?.value,
-          street: this.form.get('work_address')?.get('street')?.value,
-          provinceCode: this.form.get('work_address')?.get('province')?.getRawValue(),
-          provinceName: this.form.get('work_address')?.get('provinceName')?.getRawValue(),
-          districtCode: this.form.get('work_address')?.get('district')?.getRawValue(),
-          districtName: this.form.get('work_address')?.get('districtName')?.getRawValue(),
-          subdistrictCode: this.form.get('work_address')?.get('subdistrict')?.getRawValue(),
-          subdistrictName: this.form.get('work_address')?.get('subdistrictName')?.getRawValue(),
-          zipcode: this.form.get('work_address')?.get('zipcode')?.getRawValue(),
-        },
-        {
-          typeId: AddressTypeEnum.ETAX,
-          addressNo: this.form.get('etax_address')?.get('addressNo')?.value,
-          building: this.form.get('etax_address')?.get('building')?.value,
-          floor: this.form.get('etax_address')?.get('floor')?.value,
-          villageNo: this.form.get('etax_address')?.get('villageNo')?.value,
-          village: this.form.get('etax_address')?.get('village')?.value,
-          alley: this.form.get('etax_address')?.get('alley')?.value,
-          soi: this.form.get('etax_address')?.get('soi')?.value,
-          street: this.form.get('etax_address')?.get('street')?.value,
-          provinceCode: this.form.get('etax_address')?.get('province')?.value,
-          provinceName: this.form.get('etax_address')?.get('provinceName')?.value,
-          districtCode: this.form.get('etax_address')?.get('district')?.value,
-          districtName: this.form.get('etax_address')?.get('districtName')?.value,
-          subdistrictCode: this.form.get('etax_address')?.get('subdistrict')?.value,
-          subdistrictName: this.form.get('etax_address')?.get('subdistrictName')?.value,
-          zipcode: this.form.get('etax_address')?.get('zipcode')?.value,
-        }
-      ]
-    };
-    const data = {
-      content: {
-        id: this.form.get('id')?.value,
-        eventType: PendingRequestEventType.addJuristic,
-        // eventValue: JSON.stringify(eventValue),
-        status: PendingRequestStatus.waiting,
-        channel_id: 4
-      }
-    };
-    // console.log("[onApprove] eventValue => ", eventValue);
-    console.log("[onApprove] data => ", data);
+    const paylaod = {
+      reason: "",
+      remark: ""
+    }
+    const txnId: string = this.form.get('txnId')?.value;
     this.modalDialogService.loading();
-    this.restApiService.postBackOffice('pending-request/approve', data).subscribe({
-      next: (res: any) => {
-        console.log("[onApprove] res => ", res);
+    this.restApiService.postBackOfficeWithModel<any, any>(`pending-request/${txnId}/approve`, paylaod).subscribe({
+      next: (res) => {
         this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
-          console.log("[onApprove] res => ", res);
-          this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การอนุมัติสำเร็จ');
-          this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
-          this.onBack();
-        } else {
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+          this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การอนุมัติสำเร็จ').then((res: boolean) => {
+            if (res) this.loadPendingRequest(this.pendingRequest.status, 1);
+            this.onBack();
+          })
         }
-
       },
-      error: (err) => {
+      error: (error) => {
         this.modalDialogService.hideLoading();
-        console.error(err);
-        this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
-        if (err.body?.throwableMessage?.toLowerCase().includes('failed to update')) {
-          this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
-          this.onBack();
-        }
-      }
+        this.modalDialogService.handleError(error);
+      },
     })
   }
 
   onReject() {
-    // const cardExpDateFormat = this.transformDatePipe.transform(this.form.get('cardExpDate')?.value, 'YYYY-MM-DD');
-    const birthDateFormat = this.transformDatePipe.transform(this.form.get('birthdate')?.value, 'YYYY-MM-DD');
-    const eventValue = {
-      customer: {
-        customerTypeId: 2,
-        title: 'นาย',
-        firstName: this.form.get('firstName')?.value,
-        lastName: this.form.get('lastName')?.value,
-        mobilePhone: this.form.get('mobilePhone')?.value,
-        citizenDocId: this.form.get('citizenDocId')?.value,
-        citizenId: this.form.get('citizenId')?.value,
-        // cardExpDate: cardExpDateFormat,
-        birthdate: birthDateFormat,
-        // occupation: this.occupationDetailForm.get('occupation')?.value,
-        gender: this.form.get('gender')?.value,
-        taxId: this.form.get('taxId')?.value,
-        corporateName: this.form.get('companyName')?.value,
-        branchTypeId: this.form.get('branch')?.value,
-        corporateBranch: this.form.get('branchName')?.value,
-        branchId: this.form.get('branchNo')?.value,
-        pictures: this.form.get('pictures')?.value,
-      },
-      addresses: [
-        {
-          typeId: AddressTypeEnum.COMPANY,
-          addressNo: this.form.get('work_address')?.get('addressNo')?.value,
-          building: this.form.get('work_address')?.get('building')?.value,
-          floor: this.form.get('work_address')?.get('floor')?.value,
-          villageNo: this.form.get('work_address')?.get('villageNo')?.value,
-          village: this.form.get('work_address')?.get('village')?.value,
-          alley: this.form.get('work_address')?.get('alley')?.value,
-          soi: this.form.get('work_address')?.get('soi')?.value,
-          street: this.form.get('work_address')?.get('street')?.value,
-          provinceCode: this.form.get('work_address')?.get('province')?.value,
-          provinceName: this.form.get('work_address')?.get('provinceName')?.value,
-          districtCode: this.form.get('work_address')?.get('district')?.value,
-          districtName: this.form.get('work_address')?.get('districtName')?.value,
-          subdistrictCode: this.form.get('work_address')?.get('subdistrict')?.value,
-          subdistrictName: this.form.get('work_address')?.get('subdistrictName')?.value,
-          zipcode: this.form.get('work_address')?.get('zipcode')?.value,
-        },
-        {
-          typeId: AddressTypeEnum.ETAX,
-          addressNo: this.form.get('etax_address')?.get('addressNo')?.value,
-          building: this.form.get('etax_address')?.get('building')?.value,
-          floor: this.form.get('etax_address')?.get('floor')?.value,
-          villageNo: this.form.get('etax_address')?.get('villageNo')?.value,
-          village: this.form.get('etax_address')?.get('village')?.value,
-          alley: this.form.get('etax_address')?.get('alley')?.value,
-          soi: this.form.get('etax_address')?.get('soi')?.value,
-          street: this.form.get('etax_address')?.get('street')?.value,
-          provinceCode: this.form.get('etax_address')?.get('province')?.value,
-          provinceName: this.form.get('etax_address')?.get('provinceName')?.value,
-          districtCode: this.form.get('etax_address')?.get('district')?.value,
-          districtName: this.form.get('etax_address')?.get('districtName')?.value,
-          subdistrictCode: this.form.get('etax_address')?.get('subdistrict')?.value,
-          subdistrictName: this.form.get('etax_address')?.get('subdistrictName')?.value,
-          zipcode: this.form.get('etax_address')?.get('zipcode')?.value,
-        }
-      ]
-    };
-    const data = {
-      content: {
-        id: this.form.get('id')?.value,
-        eventType: PendingRequestEventType.addJuristic,
-        // eventValue: JSON.stringify(eventValue),
-        status: PendingRequestStatus.waiting,
-        channel_id: 4
-      }
-    };
-    // console.log("[onReject] eventValue => ", eventValue);
-    console.log("[onReject] data => ", data);
+    const txnId: string = this.form.get('txnId')?.value;
     const modalRef = this.ngbModal.open(RejectPendingRequestModalComponent, {
       centered: true,
       backdrop: 'static',
       keyboard: false,
     });
-    modalRef.componentInstance.data = data;
+    modalRef.componentInstance.data = txnId;
     modalRef.result.then(
       (result) => {
         if (result) {
-          this.loadPendingRequest(this.pendingRequest.type, this.pendingRequest.status);
+          this.loadPendingRequest(this.pendingRequest.status, 1);
           this.onBack();
         }
       }

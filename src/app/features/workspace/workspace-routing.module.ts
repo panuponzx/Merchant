@@ -37,6 +37,7 @@ import { ExceptionTransactionComponent } from './pages/workspace-backoffice-mana
 import { TransactionSuspensionManagementComponent } from './pages/workspace-backoffice-management/pages/transaction-suspension-management/transaction-suspension-management.component';
 import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
 import { AddJuristicComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/add-juristic.component';
+import { TestCardRegistrationComponent } from './pages/workspace-backoffice-management/pages/test-card-registration/test-card-registration.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -102,7 +103,7 @@ export const routesConfig: CustomRoutesModel = [
               label: 'ข้อมูลผู้ใช้',
               request_id: true,
               default_path: 'user-info',
-              allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list','e-tax']
+              allowed_tabs: ['general-info', 'wallet-info', 'loyalty-point-info', 'device-list', 'e-tax']
             },
             canActivate: [TabGuard]
           },
@@ -232,7 +233,7 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'manage-redeem',
               allowed_tabs: ['exchange', 'coupon', 'toll']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'add-edit',
@@ -298,7 +299,7 @@ export const routesConfig: CustomRoutesModel = [
               default_path: 'approval-management',
               allowed_tabs: ['waiting-for-approval', 'approval', 'reject']
             },
-            canActivate: [ TabGuard ]
+            canActivate: [TabGuard]
           },
           {
             id: 'ExpiredFaremediaListComponent',
@@ -340,6 +341,17 @@ export const routesConfig: CustomRoutesModel = [
             data: {
               is_sidebar: true,
               label: 'ระบบระงับการทำธุรกรรม',
+              default_path: 'transaction-suspension-management',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'TestCardRegistrationComponent',
+            path: 'test-card-registration',
+            component: TestCardRegistrationComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ลงทะเบียนบัตรทดสอบ',
               default_path: 'transaction-suspension-management',
             },
             canActivate: [TabGuard]

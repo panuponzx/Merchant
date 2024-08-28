@@ -23,19 +23,19 @@ export class MobileOtpRequestComponent {
   ) { }
 
   onSubmit() {
-    this.postRequestOtpEmail();
+    this.postRequestOtpMobile();
   }
 
   onBack() {
     this.backStep.emit();
   }
 
-  postRequestOtpEmail() {
+  postRequestOtpMobile() {
     const paylaod = {
-      contact: this.form.get('email')?.value
+      contact: this.form.get('mobile')?.value
     }
     this.modalDialogService.loading();
-    this.restApiService.postBackOfficeWithModel<any, IOtpEmailResponse>(`onboarding/${this.transactionId}/otp/email/request`, paylaod).subscribe({
+    this.restApiService.postBackOfficeWithModel<any, IOtpEmailResponse>(`onboarding/${this.transactionId}/otp/mobile/request`, paylaod).subscribe({
       next: (res) => {
         this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {

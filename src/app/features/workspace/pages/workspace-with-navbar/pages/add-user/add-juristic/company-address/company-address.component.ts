@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { IJuristicModel } from 'src/app/core/interfaces';
+import { FormGroup } from '@angular/forms';
+import { ISaveJuristicInfoRequest } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
@@ -11,63 +11,59 @@ import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dia
 })
 export class CompanyAddressComponent {
 
+  @Input() juristicInfoForm!: FormGroup;
   @Input() form!: FormGroup;
   @Input() transactionId!: string;
-  @Input() juristicInfo!: IJuristicModel;
 
   @Output() nextStep = new EventEmitter<void>();
   @Output() backStep = new EventEmitter<void>();
 
-  public branchList: any[] = [
-    {
-      label: 'สาขาใหญ่',
-      id: 1
-    },
-    {
-      label: 'สาขาย่อย',
-      id: 2
-    },
-  ];
-
   constructor(
-    private formBuilder: FormBuilder,
     private modalDialogService: ModalDialogService,
     private restApiService: RestApiService
   ) { }
 
   onSubmit() {
-    this.nextStep.emit();
-    // this.postSaveJuristicInfo();
+    this.postSaveJuristicInfo();
   }
 
   onBack() {
     this.backStep.emit();
   }
 
-  // postSaveJuristicInfo() {
-  //   const paylaod: ISaveJuristicInfoRequest = {
-  //     citizenId: this.form.get('citizenId')?.value,
-  //     firstName: this.form.get('firstName')?.value,
-  //     lastName: this.form.get('lastName')?.value,
-  //     gender: this.form.get('gender')?.value,
-  //     phoneNo: this.form.get('phone')?.value,
-  //     citizenCardIdentify: true,
-  //     passportIdentify: false,
-  //     birthdate: this.form.get('birthDate')?.value,
-  //   }
-  //   this.modalDialogService.loading();
-  //   this.restApiService.postBackOfficeWithModel<ISaveJuristicInfoRequest, IOtpEmailResponse>(`onboarding/${this.transactionId}/juristic-info/save`, paylaod).subscribe({
-  //     next: (res) => {
-  //       this.modalDialogService.hideLoading();
-  //       if(res.errorMessage === "Success") {
-  //         // this.nextStep.emit(res.data);
-  //       }
-  //     },
-  //     error: (error) => {
-  //       this.modalDialogService.hideLoading();
-  //       this.modalDialogService.handleError(error);
-  //     },
-  //   })
-  // }
+  postSaveJuristicInfo() {
+    const paylaod: ISaveJuristicInfoRequest = {
+      houseNo: this.form.get('addressNo')?.value,
+      building: this.form.get('building')?.value,
+      floor: this.form.get('floor')?.value,
+      village: this.form.get('village')?.value,
+      moo: this.form.get('villageNo')?.value,
+      soi: this.form.get('soi')?.value,
+      street: this.form.get('street')?.value,
+      alley: this.form.get('alley')?.value,
+      subDistrictCode: this.form.get('subdistrict')?.value,
+      districtCode: this.form.get('district')?.value,
+      provinceCode: this.form.get('province')?.value,
+      postcode: this.form.get('zipcode')?.value,
+      corporateRegistrationNo: this.juristicInfoForm.get('taxId')?.value,
+      corporateName: this.juristicInfoForm.get('companyName')?.value,
+      branchTypeCode: this.juristicInfoForm.get('branch')?.value,
+      branchCode: this.juristicInfoForm.get('branchName')?.getRawValue(),
+      branchName: this.juristicInfoForm.get('branchNo')?.getRawValue(),
+    }
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<ISaveJuristicInfoRequest, any>(`onboarding/${this.transactionId}/juristic-info/save`, paylaod).subscribe({
+      next: (res) => {
+        this.modalDialogService.hideLoading();
+        if (res.errorMessage === "Success") {
+          this.nextStep.emit();
+        }
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
 
 }
