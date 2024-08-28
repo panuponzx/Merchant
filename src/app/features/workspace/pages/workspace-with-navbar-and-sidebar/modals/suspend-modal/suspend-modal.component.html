@@ -21,27 +21,29 @@
             <div class="option-title">
                 <label for="reason">Reason</label>
                 <select id="reason" [(ngModel)]="request.reason" name="reason">
-                    <option value="บัตรที่สูญหายหรือถูกทำลาย">บัตรที่สูญหายหรือถูกทำลาย</option>
-                    //option
+                    <option *ngFor="let option of reasonOptions" [value]="option.value">
+                        {{ option.label }}
+                    </option>
                 </select>
             </div>
 
             <div class="option-title">
                 <label for="requestType">ประเภทการตั้งค่า</label>
-                <select style=" width: 250px;" id="requestType" [(ngModel)]="request.requestType" name="requestType">
-                    <option value="อายัด">อายัด</option>
-                    //option
+                <select id="requestType" [(ngModel)]="request.requestType" name="requestType">
+                    <option *ngFor="let option of requestTypeOptions" [value]="option.value">
+                        {{ option.label }}
+                    </option>
                 </select>
-
             </div>
         </div>
+
         <div class="suspend-details">
             <label for="details">รายละเอียด
                 <textarea id="details" [(ngModel)]="request.details" name="details"></textarea>
             </label>
         </div>
 
-        <div class="input-checkbox" style="display: flex; justify-content: space-between;">
+        <div class="input-checkbox">
             <div>
                 <label>
                     <input type="checkbox" [(ngModel)]="request.cancelOnBehalf" name="cancelOnBehalf">
@@ -49,35 +51,24 @@
                 </label>
             </div>
 
-            <div style="margin-right: 20px;">
+            <div>
                 <label>
                     <input type="checkbox" [(ngModel)]="request.notifyViaSystem" name="notifyViaSystem">
                     ผู้แจ้งยินยอมให้ระบบเก็บข้อมูล
                 </label>
             </div>
         </div>
+
         <div class="input-form">
-            <div >
-                <label for="fullName">ชื่อ-สกุล</label>
-                <input id="fullName" [(ngModel)]="request.fullName" name="fullName">
-            </div>
-
-            <div>
-                <label for="position">ตำแหน่ง</label>
-                <input id="position" [(ngModel)]="request.position" name="position">
-            </div>
-
-            <div>
-                <label for="relationship">ความสัมพันธ์</label>
-                <input id="relationship" [(ngModel)]="request.relationship" name="relationship">
-            </div>
-
-            <div>
-                <label for="idNumber">เลขบัตรประชาชน</label>
-                <input id="idNumber" [(ngModel)]="request.idNumber" name="idNumber">
+            <div *ngFor="let field of inputFields" class="input-section">
+                <label [for]="field.id">{{ field.label }}</label>
+                <input [id]="field.id" [(ngModel)]="request[field.model]" [name]="field.model"
+                    [disabled]="!request.cancelOnBehalf">
             </div>
         </div>
-        <button type="submit">ยืนยันรายการ</button>
-        <button type="button" (click)="onClose()">ยกเลิก</button>
+        <div class="suspend-btn">
+            <button type="submit">ยืนยันรายการ</button>
+            <button type="button" (click)="onClose()">ยกเลิก</button>
+        </div>
     </form>
 </div>
