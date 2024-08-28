@@ -105,17 +105,7 @@ export class TransactionSuspensionManagementComponent {
     );
   }
 
-  onSuspend() {
-    const modalRef = this.ngbModal.open(SuspendModalComponent, {
-      centered: true,
-      backdrop: 'static',
-      size: 'lg',
-      keyboard: true
-    });
-    modalRef.componentInstance.carInfo = this.carInfo;
-    modalRef.componentInstance.customer = this.customer;
-  }
-    
+   
     // modalRef.componentInstance.customer = customer;
     // modalRef.componentInstance.carInfo = carInfo;
   
