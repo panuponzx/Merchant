@@ -17,8 +17,10 @@
         <icon-svg [size]="'57.14px'" [color]="customer | customerType: 'color-code'"
           [path]="(customer | customerType: 'icon') | icon" />
         <div class="user-type-info-wrapper">
-          <h3 [style.color]="customer | customerType: 'color-code'">{{ customer.title + ' ' + customer.firstName + ' '
+          <h3 *ngIf="customerTypeId != '3'" [style.color]="customer | customerType: 'color-code'">{{ customer.title + ' ' + customer.firstName + ' '
             + customer.lastName }}</h3>
+            <h3 *ngIf="customerTypeId === '3'" [style.color]="customer | customerType: 'color-code'">{{ customer.corporateName + ' ' + customer.corporateBranch + ' '
+            + customer.branchId }}</h3>
           <div class="d-flex">
             <span class="custom-badge customer-badge" [style.color]="customer | customerType: 'color-code'">{{ customer
               | customerType: 'name' }}</span>
