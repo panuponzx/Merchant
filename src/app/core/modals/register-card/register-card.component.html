@@ -6,11 +6,11 @@
 
   <div class="modal-body">
     <form [formGroup]="form" (submit)="onSummit()">
-      <div class="row">
+      <div class="row" style="margin-bottom: 1rem;">
         <div class="col-sm-12 col-md-12">
-          <label for="faremediaValue">หมายเลขอุปกรณ์</label>
+          <label class="label-input required-field" for="faremediaValue">หมายเลขอุปกรณ์</label>
           <input id="faremediaValue" class="form-control" formControlName="faremediaValue">
-          <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
+          <div class="form-control" *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
             จำเป็นต้องกรอกหมายเลขอุปกรณ์
           </div>
         </div>

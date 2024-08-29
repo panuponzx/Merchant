@@ -39,8 +39,7 @@ export class TransactionSuspensionManagementComponent {
     private modalDialogService: ModalDialogService,
     private restApiService: RestApiService,
     private ngbModal: NgbModal
-  ) 
-  {
+  ) {
     this.form = this.formBuilder.group({
       search: new FormControl(undefined, [Validators.required])
     });
@@ -92,9 +91,9 @@ export class TransactionSuspensionManagementComponent {
       (result) => {
         if (result) {
           console.log('[onAction] result => ', result);
-          if(result) {
+          if (result) {
             this.rows = [];
-            if(this.form.get('search')?.value) {
+            if (this.form.get('search')?.value) {
               this.load();
             }
           }
@@ -105,10 +104,10 @@ export class TransactionSuspensionManagementComponent {
       }
     );
   }
-   
-    // modalRef.componentInstance.customer = customer;
-    // modalRef.componentInstance.carInfo = carInfo;
-  
+
+  // modalRef.componentInstance.customer = customer;
+  // modalRef.componentInstance.carInfo = carInfo;
+
   //   modalRef.result.then(
   //     (result) => {
   //       console.log('[openSuspendModal] result => ', result);
@@ -125,7 +124,7 @@ export class TransactionSuspensionManagementComponent {
   // onClickOpenSuspendModal() {
   //   const customer = ('birthdate);
   //   const carInfo = ("service");
-    
+
   //   this.openSuspendModal(customer, carInfo);
   // } 
 
