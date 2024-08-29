@@ -39,36 +39,17 @@ export class InputAddUserComponent {
     private transformDatePipe: TransformDatePipe,
     private modalDialogService: ModalDialogService
   ) {
-    const customerTypeStr = this.activatedRoute.snapshot.paramMap.get('customerType');
-    if (customerTypeStr === 'personal-info') {
-      // this.customerType = 1;
-      this.userInfoForm = this.formBuilder.group({
-        // identityType: new FormControl(1, Validators.required),
-        prefix: new FormControl(undefined, Validators.required),
-        firstName: new FormControl(undefined, Validators.required),
-        lastName: new FormControl(undefined, Validators.required),
-        birthDate: new FormControl(undefined, Validators.required),
-        // phone: new FormControl(undefined, Validators.required),
-        citizenId: new FormControl(undefined, Validators.required),
-        cardExpDate: new FormControl(undefined, Validators.required),
-        gender: new FormControl('M', Validators.required),
-      });
-    } else if (customerTypeStr === 'juristic-info') {
-      // this.customerType = 2;
-      this.userInfoForm = this.formBuilder.group({
-        // identityType: new FormControl(1, Validators.required),
-        prefix: new FormControl(undefined, Validators.required),
-        firstName: new FormControl(undefined, Validators.required),
-        lastName: new FormControl(undefined, Validators.required),
-        birthDate: new FormControl(undefined, Validators.required),
-        citizenId: new FormControl(undefined, Validators.required),
-        // cardExpDate: new FormControl(undefined, Validators.required),
-        gender: new FormControl('M', Validators.required),
-        phone: new FormControl(undefined, Validators.required),
-      });
-    }
-    console.log("[AddUserInfo] customerType => ", this.customerType);
-
+    this.userInfoForm = this.formBuilder.group({
+      // identityType: new FormControl(1, Validators.required),
+      prefix: new FormControl(undefined, Validators.required),
+      firstName: new FormControl(undefined, Validators.required),
+      lastName: new FormControl(undefined, Validators.required),
+      birthDate: new FormControl(undefined, Validators.required),
+      // phone: new FormControl(undefined, Validators.required),
+      citizenId: new FormControl(undefined, Validators.required),
+      cardExpDate: new FormControl(undefined, Validators.required),
+      gender: new FormControl('M', Validators.required),
+    });
     this.addressInfoForm = this.formBuilder.group({
       addressNo: new FormControl(undefined, Validators.required),
       building: new FormControl(undefined),
