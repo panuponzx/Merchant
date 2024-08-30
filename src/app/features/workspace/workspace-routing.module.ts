@@ -38,6 +38,7 @@ import { TransactionSuspensionManagementComponent } from './pages/workspace-back
 import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
 import { AddJuristicComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/add-juristic.component';
 import { TestCardRegistrationComponent } from './pages/workspace-backoffice-management/pages/test-card-registration/test-card-registration.component';
+import { Type9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/type-9-management.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -353,6 +354,19 @@ export const routesConfig: CustomRoutesModel = [
               is_sidebar: true,
               label: 'ลงทะเบียนบัตรทดสอบ',
               default_path: 'transaction-suspension-management',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'Type9ManagementComponent',
+            path: 'type-9-management/:tab',
+            component: Type9ManagementComponent,
+            data: {
+              is_sidebar: true,
+              label: 'ระบบจัดการกระเป๋าเงิน type-9',
+              // request_id: true,
+              default_path: 'type-9-management',
+              allowed_tabs: ['customer-type-9-management', 'wallet-type-9-management']
             },
             canActivate: [TabGuard]
           },

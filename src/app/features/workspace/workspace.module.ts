@@ -107,6 +107,9 @@ import { CompanyAddressComponent } from './pages/workspace-with-navbar/pages/add
 import { EtaxAddressComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/etax-address/etax-address.component';
 import { JuristicAttachDocumentComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/juristic-attach-document/juristic-attach-document.component';
 import { ChooseChannelOtpComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/choose-channel-otp/choose-channel-otp.component';
+import { Type9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/type-9-management.component';
+import { CustomerType9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/customer-type-9-management/customer-type-9-management.component';
+import { WalletType9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/wallet-type-9-management.component';
 
 @NgModule({
   declarations: [
@@ -200,7 +203,10 @@ import { ChooseChannelOtpComponent } from './pages/workspace-with-navbar/pages/a
     CompanyAddressComponent,
     EtaxAddressComponent,
     JuristicAttachDocumentComponent,
-    ChooseChannelOtpComponent
+    ChooseChannelOtpComponent,
+    Type9ManagementComponent,
+    CustomerType9ManagementComponent,
+    WalletType9ManagementComponent
   ],
   imports: [
     CommonModule,
