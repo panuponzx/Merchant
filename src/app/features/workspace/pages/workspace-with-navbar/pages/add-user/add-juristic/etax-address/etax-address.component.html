@@ -1,17 +1,17 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="main-container">
         <div class="header-container">
-            <h3 class="content-title">เพิ่มข้อมูลบริษัท - นิติบุคคล / องค์กร</h3>
+            <h1 class="content-title">เพิ่มข้อมูลบริษัท - นิติบุคคล / องค์กร</h1>
             <hr class="hr-grey">
         </div>
         <div class="body-container">
-            <h3 class="mb-3">ข้อมูลที่อยู่บริษัท</h3>
+            <h3 class="content-title mb-3">ข้อมูลที่อยู่สำหรับการขอใบกำกับภาษี</h3>
             <div class="form-check">
-                <label class="form-check-label" for="isCurrentAddressSameIdcardCheckbox">
-                    เหมือนตามที่อยู่ตามบัตรประชาชน
+                <label class="form-check-label" for="isCurrentAddressSameCompanyCheckbox">
+                    เหมือนที่อยู่บริษัท
                 </label>
                 <input class="form-check-input" type="checkbox" (change)="onChangeSameAddress($event)"
-                    id="isCurrentAddressSameIdcardCheckbox" formControlName="isCurrentAddressSameIdcard">
+                    id="isCurrentAddressSameCompanyCheckbox" formControlName="isCurrentAddressSameIdcard">
             </div>
             <address [form]="form"></address>
         </div>
