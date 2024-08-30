@@ -48,4 +48,25 @@ export class RegisterCustomerType9Component {
   loadMasterInstitution() {
     return this.restApiService.getBackOffice("customer-type-9/master-data-institution-type-9") as Observable<IResponseMasterDataInstitutionType9Model>
   }
+
+  onSubmit() {
+    if (this.form.valid){
+      const payload = {
+        id: this.form.value.institution,
+        remark: this.form.value.remark
+      }
+      this.modalDialogService.loading();
+      this.restApiService.postBackOffice("customer-type-9/register", payload).subscribe({
+        next: (res) => {
+          this.modalDialogService.hideLoading();
+          this.modalDialogService.info("success", "#2255CE", "สำเร็จ", "ลงทะเบียนสำเร็จ");
+          this.ngbActiveModal.close();
+        },
+        error: (err) => {
+          this.modalDialogService.hideLoading();
+          this.modalDialogService.handleError(err);
+        }
+      });
+    }
+  }
 }

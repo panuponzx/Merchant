@@ -3,7 +3,7 @@
         <h2>ลงทะเบียนกระเป๋า Type-9</h2>
         <h3 class="mb-3">กรุณากรอกรายละเอียด</h3>
     </div>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="row">
             <div class="form-group col-12 mb-3">
                 <label class="label-input required-field" for="institution">
