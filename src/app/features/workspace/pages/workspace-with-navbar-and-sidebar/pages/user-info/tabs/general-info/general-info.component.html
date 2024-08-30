@@ -111,7 +111,7 @@
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'2'">
-
+              <label class="label-input">แก้ไขล่าสุดเมื่อ {{customer?.customer?.displayUpdateDateTime }}</label>
               <div class="form-group">
                 <label class="label-input required-field" for="identificationInput">
                   หมายเลขหนังสือเดินทาง
@@ -197,6 +197,7 @@
             </ng-container>
             <ng-container *ngSwitchCase="'3'">
               <div class="navs-container">
+                <label class="label-input">แก้ไขล่าสุดเมื่อ {{customer?.customer?.displayUpdateDateTime }}</label>
                 <ul ngbNav #nav="ngbNav" [(activeId)]="activeDetailTab" class="nav-tabs nav-tabs-content mb-3">
                   <li [ngbNavItem]="'company-detail'">
                     <button ngbNavLink>รายละเอียดบริษัท</button>
