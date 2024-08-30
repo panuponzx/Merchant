@@ -43,7 +43,6 @@ export class WalletInfoComponent implements OnInit {
 
   public pageSize: number = 5;
   public pages: number = 1;
-  public collectionSize: number = 0;
 
   constructor(
     private restApiService: RestApiService,
@@ -103,36 +102,38 @@ export class WalletInfoComponent implements OnInit {
 
   loadFareMediaDataTable(row: any) {
     console.log("[loadFareMediaDataTable] walletList => ", row);
-    this.fareMediaList[row?.walletId] = [];
-    if (row?.walletId && !row?.isCollapsed) {
-      this.modalDialogService.loading();
-      const mockupData = {
-        walletId: row.walletId,
-        page: this.pages,
-        limit: this.pageSize
-      };
-      this.restApiService
-        .postBackOffice('faremedia/get/wallet-id', mockupData)
-        .pipe(
-          first(),
-          map(res => res as any)
-        ).subscribe({
-          next: (res) => {
-            this.collectionSize = res.data.totalElements;
-            this.setFareMedia(res.data.elements, row.walletId);
-            this.modalDialogService.hideLoading();
-            this.isLoading = false;
-          },
-          error: (error) => {
-            this.modalDialogService.hideLoading();
-            console.error(error);
-            this.modalDialogService.handleError(error);
-          }
-        });
+    if (!row.isCollapsed) {
+      this.fareMediaList[row?.walletId] = [];
+      if (row?.walletId && !row?.isCollapsed) {
+        this.modalDialogService.loading();
+        const mockupData = {
+          walletId: row.walletId,
+          page: this.pages,
+          limit: this.pageSize
+        };
+        this.restApiService
+          .postBackOffice('faremedia/get/wallet-id', mockupData)
+          .pipe(
+            first(),
+            map(res => res as any)
+          ).subscribe({
+            next: (res) => {
+              // this.collectionSize = res.data.totalElements;
+              this.setFareMedia(res.data.elements, res.data.totalElements, row.walletId);
+              this.modalDialogService.hideLoading();
+              this.isLoading = false;
+            },
+            error: (error) => {
+              this.modalDialogService.hideLoading();
+              console.error(error);
+              this.modalDialogService.handleError(error);
+            }
+          });
+      }
     }
   }
 
-  setFareMedia(data: any, walletId: any) {
+  setFareMedia(data: any, total: number, walletId: any) {
     let faremedia: any = [];
     for (const index of Object.keys(data)) {
       let faremediaIndex = data[index];
@@ -147,9 +148,11 @@ export class WalletInfoComponent implements OnInit {
           wallet.faremediaType?.toLowerCase().includes("smart card")
         );
         this.fareMediaList[walletId].push({ ...walletOBU[0], ...{ walletSmartcardNo: walletSmartcard[0]?.faremediaValue } });
+        this.fareMediaList[walletId].collectionSize = total;
       });
     }
-    console.log(this.fareMediaList[walletId]);
+    // console.log(this.fareMediaList[walletId]);
+    console.log(this.fareMediaList);
   }
 
   onAddWallet() {
