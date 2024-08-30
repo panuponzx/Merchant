@@ -97,6 +97,7 @@ export interface CustomerModel {
   corporateBranch?: string,
   createDate: string,
   displayCreateDateTime: string,
+  displayUpdateDateTime?: string,
   updateDate: string,
   customerTypeId: number,
   customerTypeName: string,
