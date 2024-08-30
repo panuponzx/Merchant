@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IOtpEmailResponse } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
+import { CountdownService } from 'src/app/core/services/countdown/countdown.service';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
 @Component({
@@ -19,7 +20,8 @@ export class MobileOtpRequestComponent {
 
   constructor(
     private modalDialogService: ModalDialogService,
-    private restApiService: RestApiService
+    private restApiService: RestApiService,
+    private countdownService: CountdownService
   ) { }
 
   onSubmit() {
@@ -39,6 +41,7 @@ export class MobileOtpRequestComponent {
       next: (res) => {
         this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
+          this.countdownService.startCountdown(15);
           this.nextStep.emit(res.data);
         }
       },
