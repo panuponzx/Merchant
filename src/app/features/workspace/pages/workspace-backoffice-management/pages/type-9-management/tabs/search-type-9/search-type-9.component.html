@@ -1,0 +1,29 @@
+<div class="content-container container-xl p-0">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <form [formGroup]="formSearch" class="d-flex align-items-end gap-3">
+            <div class="form-group">
+                <label class="label-input text-nowrap" for="searchInput">
+                    ข้อมูลชื่อหน่วยงาน
+                </label>
+                <div class="input-with-icon-wrapper">
+                    <input class="form-control input-icon-right" id="searchInput" data-testid="searchInput"
+                        formControlName="search" placeholder="กรุณาระบุชื่อหน่วยงาน" type="text" />
+                    <icon-svg class="svg-search-icon" [color]="'#2255CE'" [path]="'assets/images/icons/search.svg'"
+                        [size]="'l'" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="button-wrapper">
+                    <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา"
+                        type="submit">
+                        <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
+                    </button>
+                </div>
+            </div>
+        </form>
+        <button class="custom-btn btn-type-1 register-btn" type="submit" title="register" (click)="onRegister()">
+            ลงทะเบียน
+        </button>
+    </div>
+    <customer-type-9-management></customer-type-9-management>
+</div>

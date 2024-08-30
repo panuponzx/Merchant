@@ -110,6 +110,10 @@ import { ChooseChannelOtpComponent } from './pages/workspace-with-navbar/pages/a
 import { Type9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/type-9-management.component';
 import { CustomerType9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/customer-type-9-management/customer-type-9-management.component';
 import { WalletType9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/wallet-type-9-management.component';
+import { FaremediaManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/customer-type-9-management/faremedia-management/faremedia-management.component';
+import { RegisterCustomerType9Component } from './pages/workspace-backoffice-management/modals/register-customer-type-9/register-customer-type-9.component';
+import { SearchType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/search-type-9/search-type-9.component';
+import { ReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/report-type-9/report-type-9.component';
 
 @NgModule({
   declarations: [
@@ -206,7 +210,11 @@ import { WalletType9ManagementComponent } from './pages/workspace-backoffice-man
     ChooseChannelOtpComponent,
     Type9ManagementComponent,
     CustomerType9ManagementComponent,
-    WalletType9ManagementComponent
+    WalletType9ManagementComponent,
+    FaremediaManagementComponent,
+    RegisterCustomerType9Component,
+    SearchType9Component,
+    ReportType9Component
   ],
   imports: [
     CommonModule,

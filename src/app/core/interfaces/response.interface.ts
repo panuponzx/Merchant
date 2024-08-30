@@ -298,3 +298,11 @@ export interface IFaremediaReturnedResponse {
   oldObu: string
   oldSmartCard: string
 }
+
+export interface IMasterDataInstitutionType9Model {
+  id: string
+  name: string
+}
+export interface IResponseMasterDataInstitutionType9Model extends ResponseMessageModel {
+  data: IMasterDataInstitutionType9Model[]
+}
