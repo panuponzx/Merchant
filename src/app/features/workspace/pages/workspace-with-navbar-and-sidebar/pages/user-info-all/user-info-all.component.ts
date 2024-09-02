@@ -60,7 +60,7 @@ export class UserInfoAllComponent implements OnInit {
     // { id: 'status', name: 'Status', label: 'สถานะบัตร', prop: 'faremediaStatus', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carLicensePlate', name: 'carLicensePlate', label: 'ทะเบียนรถ', prop: 'carPlate', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'carLicensePlateProvince', name: 'carLicensePlateProvince', label: 'จังหวัด', prop: 'carPlateProvince', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'createDate', name: 'createDate', label: 'วันที่ดำเนินการ', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/BBBB HH:mm:ss', locale: 'th' } },
+    { id: 'displayCreateDateTime', name: 'displayCreateDateTime', label: 'วันที่ดำเนินการ', prop: 'displayCreateDateTime', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
   ];
   public returnList: IFaremediaReturnedResponse[] = [];
 
@@ -75,7 +75,7 @@ export class UserInfoAllComponent implements OnInit {
     { id: 'oldSmartCard', name: 'oldSmartCard', label: 'หมายเลขสมาร์ทการ์ดเก่า', prop: 'oldSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'newSmartCard', name: 'newSmartCard', label: 'หมายเลขสมาร์ทการ์ดใหม่', prop: 'newSmartCard', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-center text-break', type: 'text' },
     { id: 'balance', name: 'balance', label: 'Balance', prop: 'displayBalance', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'createDate', name: 'createDate', label: 'วันที่ดำเนินการ', prop: 'createDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'DD/MM/BBBB HH:mm:ss', locale: 'th' } },
+    { id: 'displayCreateDateTime', name: 'displayCreateDateTime', label: 'วันที่ดำเนินการ', prop: 'displayCreateDateTime', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
   ];
   public changeList: any[] = [];
 
