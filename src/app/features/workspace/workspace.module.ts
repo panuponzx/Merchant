@@ -114,6 +114,9 @@ import { FaremediaManagementComponent } from './pages/workspace-backoffice-manag
 import { RegisterCustomerType9Component } from './pages/workspace-backoffice-management/modals/register-customer-type-9/register-customer-type-9.component';
 import { SearchType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/search-type-9/search-type-9.component';
 import { ReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/report-type-9/report-type-9.component';
+import { AddCarModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/add-car-modal/add-car-modal.component';
+import { ChangeObuModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/change-obu-modal/change-obu-modal.component';
+import { EditWalletModalComponent } from './pages/workspace-backoffice-management/modals/edit-wallet-modal/edit-wallet-modal.component';
 
 @NgModule({
   declarations: [
@@ -214,7 +217,10 @@ import { ReportType9Component } from './pages/workspace-backoffice-management/pa
     FaremediaManagementComponent,
     RegisterCustomerType9Component,
     SearchType9Component,
-    ReportType9Component
+    ReportType9Component,
+    AddCarModalComponent,
+    ChangeObuModalComponent,
+    EditWalletModalComponent
   ],
   imports: [
     CommonModule,

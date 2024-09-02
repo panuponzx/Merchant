@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestApiService } from '../../../../../../core/services';
@@ -33,10 +33,11 @@ export class AddWalletModalComponent {
     //   id: 3
     // }
   ];
-  customerId: string | null = null;
-  customerTypeId: string | null = null;
+  @Input() customerId: string | null = null;
+  @Input() customerTypeId: string | null = null;
   isLoading: boolean = false;
-
+  @Input() customWalletType: any;
+  @Input() fixedWalletType: any;
   constructor(
     public ngbActiveModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -49,13 +50,26 @@ export class AddWalletModalComponent {
       walletName: new FormControl('', Validators.required),
     });
   }
+  ngOnInit() {
+    if (this.customWalletType) {
+      console.log("[AddWalletModalComponent] customWalletType => ", this.customWalletType);
+      this.walletTypeList = this.customWalletType;
+    }
+    if (this.fixedWalletType) {
+      console.log("[AddWalletModalComponent] fixedWalletType => ", this.fixedWalletType);
+      this.form = this.formBuilder.group({
+        walletType: new FormControl({ value: this.fixedWalletType, disabled: true }, Validators.required),
+        walletName: new FormControl("", Validators.required),
+      });
+    }
+  }
 
   setWalletNameRequiredForm() {
     if (this.form.get('walletType')?.value && this.form.get('walletType')?.value === 2) {
       this.form?.get('walletName')?.clearValidators();
       this.form?.get('walletName')?.setValue(undefined);
       this.form?.get('walletName')?.updateValueAndValidity();
-    }else {
+    } else {
       this.form?.get('walletName')?.setValidators([Validators.required]);
       this.form?.get('walletName')?.setValue(undefined);
       this.form?.get('walletName')?.updateValueAndValidity();

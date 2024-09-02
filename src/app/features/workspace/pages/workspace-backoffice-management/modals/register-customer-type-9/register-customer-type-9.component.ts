@@ -53,14 +53,14 @@ export class RegisterCustomerType9Component {
     if (this.form.valid){
       const payload = {
         id: this.form.value.institution,
-        remark: this.form.value.remark
+        remark: this.form.value.remark ? this.form.value.remark : ''
       }
       this.modalDialogService.loading();
       this.restApiService.postBackOffice("customer-type-9/register", payload).subscribe({
-        next: (res) => {
+        next: (_) => {
           this.modalDialogService.hideLoading();
           this.modalDialogService.info("success", "#2255CE", "สำเร็จ", "ลงทะเบียนสำเร็จ");
-          this.ngbActiveModal.close();
+          this.ngbActiveModal.close(true);
         },
         error: (err) => {
           this.modalDialogService.hideLoading();

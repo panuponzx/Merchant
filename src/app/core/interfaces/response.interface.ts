@@ -1,4 +1,4 @@
-import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel, CustomerContact, IJuristicElementModel } from "./data.interface"
+import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel, CustomerContact, IJuristicElementModel, IProvinceMasterData, ICarMasterData } from "./data.interface"
 
 export interface IResponseModel<T> {
   data: T
@@ -305,4 +305,87 @@ export interface IMasterDataInstitutionType9Model {
 }
 export interface IResponseMasterDataInstitutionType9Model extends ResponseMessageModel {
   data: IMasterDataInstitutionType9Model[]
+}
+
+export interface ICustomerType9Model {
+  id: string
+  name: string
+  isActive: boolean
+  create_date: string
+  remark: string
+}
+export interface ICustomerTableType9Model {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: ICustomerType9Model[]
+}
+export interface IResponseCustomerType9Model extends ResponseMessageModel {
+  data: ICustomerTableType9Model
+}
+
+export interface IWalletWithFaremediaModel {
+  walletId: string,
+  walletName: string,
+  faremediaValue: string,
+  plateNo: string,
+  carModel: string,
+  carSubModel: string,
+  carColor: string,
+  cardNo: string,
+  plateProvince: string,
+  carYear: string,
+  faremediaStatus: string,
+}
+export interface ICustomerWithWalletModel {
+  customerType9: ICustomerType9Model
+  pagination: IWalletWithFaremediaTableModel
+}
+export interface IWalletWithFaremediaTableModel {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: IWalletWithFaremediaModel[]
+}
+export interface IResponseWalletWithFaremediaModel extends ResponseMessageModel {
+  data: ICustomerWithWalletModel
+}
+
+export interface IInfo4AddObuModel {
+  carModel: ICarMasterData[]
+  province: IProvinceMasterData[]
+}
+
+export interface IResponseInfo4AddObuModel extends ResponseMessageModel {
+  data: IInfo4AddObuModel
+}
+
+export interface IFaremedia {
+  faremediaTypeId: number;
+  faremediaType: string;
+  faremediaStatusId: number;
+  faremediaStatus: string;
+  faremediaValue: string;
+  faremediaGroup: number;
+  isType9: boolean;
+  carClass: string;
+  carModel: string;
+  carSubmodel: string;
+  carColor: string;
+  plateNo: string;
+  plateProvince: string;
+  carYear: string;
+  createDate: string;
+  updateDate: string;
+  cardNo: string;
+}
+export interface IFaremediasInFoResponse extends ResponseMessageModel {
+  data: IFaremedia[]
+}
+export interface IReplaceObuResponse extends ResponseMessageModel {
+  jsonnpc: string,
+  result: {},
+  id: string,
 }

@@ -89,6 +89,32 @@ export const routesConfig: CustomRoutesModel = [
             path: 'add-car-type9',
             component: AddCarType9Component,
           },
+          {
+            id: 'TestCardRegistrationComponent',
+            path: 'test-card-registration',
+            component: TestCardRegistrationComponent,
+          },
+          {
+            id: 'Type9ManagementComponent',
+            path: 'type-9-management/:tab',
+            component: Type9ManagementComponent,
+            data: {
+              default_path: 'type-9-management',
+              allowed_tabs: ['customer-type-9-management', 'wallet-type-9-management']
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'Type9ManagementComponent',
+            path: 'type-9-management/:tab/:id',
+            component: Type9ManagementComponent,
+            data: {
+              default_path: 'type-9-management',
+              allowed_tabs: ['customer-type-9-management', 'wallet-type-9-management']
+            },
+            canActivate: [TabGuard]
+          },
+
         ]
       },
       {
@@ -346,30 +372,7 @@ export const routesConfig: CustomRoutesModel = [
             },
             canActivate: [TabGuard]
           },
-          {
-            id: 'TestCardRegistrationComponent',
-            path: 'test-card-registration',
-            component: TestCardRegistrationComponent,
-            data: {
-              is_sidebar: true,
-              label: 'ลงทะเบียนบัตรทดสอบ',
-              default_path: 'transaction-suspension-management',
-            },
-            canActivate: [TabGuard]
-          },
-          {
-            id: 'Type9ManagementComponent',
-            path: 'type-9-management/:tab',
-            component: Type9ManagementComponent,
-            data: {
-              is_sidebar: true,
-              label: 'ระบบจัดการกระเป๋าเงิน type-9',
-              // request_id: true,
-              default_path: 'type-9-management',
-              allowed_tabs: ['customer-type-9-management', 'wallet-type-9-management']
-            },
-            canActivate: [TabGuard]
-          },
+
         ],
 
         data: {

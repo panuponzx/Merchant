@@ -1,7 +1,8 @@
 <div class="content-container container-xl p-0">
     <ng-container>
         <div *ngIf="selectedCustomerId !==''">
-            <faremedia-management-component></faremedia-management-component>
+            <faremedia-management-component [customerId]="selectedCustomerId"
+                (back)="handleOnBack($event)"></faremedia-management-component>
         </div>
         <ng-template #defaultTemplate>
             <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'customerDatatable'"
@@ -13,5 +14,4 @@
             <ng-container *ngTemplateOutlet="defaultTemplate"></ng-container>
         </ng-container>
     </ng-container>
-
 </div>

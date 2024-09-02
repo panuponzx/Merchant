@@ -1,0 +1,95 @@
+<div class="modal-body">
+    <div class="header-label">
+        <h2>เพิ่มอุปกรณ์</h2>
+        <h3 class="mb-3">กรุณาตรวจสอบ และ ระบุรายละเอียด</h3>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="form-group">
+                    <label class="label-input required-field" for="faremediaValue">
+                        OBU serial no.
+                    </label>
+                    <input class="form-control" data-testid="faremediaValue" formControlName="faremediaValue"
+                        id="faremediaValue" type="text" maxlength="36" minlength="1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="label-input required-field" for="cardNo">
+                        SmartCard no.
+                    </label>
+                    <input class="form-control" data-testid="cardNo" formControlName="cardNo" id="cardNo" type="text"
+                        maxlength="36" minlength="1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="label-input required-field" for="plateNo">
+                        หมายเลขทะเบียนรถยนต์
+                    </label>
+                    <input class="form-control" data-testid="plateNo" formControlName="plateNo" id="plateNo" type="text"
+                        maxlength="36" minlength="1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="label-input required-field" for="palteProvince">
+                        จังหวัด (ทะเบียนรถยนต์)
+                    </label>
+                    <ng-select class="form-control" [clearable]="false" bindLabel="provinceName"
+                        bindValue="provinceName" data-testid="palteProvince" placeholder="กรุณาระบุ" id="palteProvince"
+                        [items]="provinces" formControlName="palteProvince">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="label-input required-field" for="carModel">
+                        ยี่ห้อรถยนต์
+                    </label>
+                    <input class="form-control" data-testid="carModel" formControlName="carModel" id="carModel"
+                        type="text" maxlength="36" minlength="1" list="list-car-model" type="text"
+                        placeholder="กรุณากรอกยี่ห้อรถยนต์">
+                    <datalist id="list-car-model">
+                        <option *ngFor="let car of carModels" [value]="car.brand">
+                            {{ car.brand }}
+                        </option>
+                    </datalist>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="label-input required-field" for="carSubmodel">
+                        รุ่น
+                    </label>
+                    <input class="form-control" data-testid="carSubmodel" formControlName="carSubmodel" id="carSubmodel"
+                        type="text" maxlength="36" minlength="1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="label-input required-field" for="carYear">
+                        ปีจดทะเบียน
+                    </label>
+                    <input class="form-control" data-testid="carYear" formControlName="carYear" id="carYear" type="text"
+                        maxlength="4" pattern="\d{1,4}" title="Please enter up to 4 digits only">
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-3 form-group">
+                    <label class="label-input required-field" for="carColor">
+                        สีรถยนต์
+                    </label>
+                    <input class="form-control" data-testid="carColor" formControlName="carColor" id="carColor"
+                        type="text" maxlength="36" minlength="1">
+                </div>
+            </div>
+            <div class="d-flex justify-content-end gap-3">
+                <button class="custom-btn btn-type-1 outline" (click)="onBack()">ย้อนกลับ</button>
+                <button class="custom-btn btn-type-1" type="submit"
+                    [disabled]="form.invalid || !isFormModified()">ยืนยัน</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CustomColumnModel, RowActionEventModel } from 'src/app/core/interfaces';
+import { CustomColumnModel, ICustomerType9Model, IResponseCustomerType9Model, RowActionEventModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 import { RegisterCustomerType9Component } from '../../../../modals/register-customer-type-9/register-customer-type-9.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'customer-type-9-management',
@@ -14,29 +15,21 @@ import { RegisterCustomerType9Component } from '../../../../modals/register-cust
 })
 export class CustomerType9ManagementComponent {
   formSearch: FormGroup;
+  @Input() refreshTrigger: number = 0;
+  @Output() hiddenSearchMenu: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   public isLoading: boolean = true;
   public limitRow: number = 10;
   public step: number = 0;
   public pages: number = 1;
   public columns: CustomColumnModel[] = [
-    { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 50, minWidth: 50, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
-    { id: 'name', name: 'name', label: 'ชื่อหน่วยงาน', prop: 'name', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
+    { id: 'id', name: 'id', label: 'id', prop: 'id', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'name', name: 'name', label: 'ชื่อหน่วยงาน', prop: 'name', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'remark', name: 'remark', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'create_date', name: 'create_date', label: 'ลงทะเบียนเมื่อ', prop: 'create_date', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'detail', name: 'detail', label: 'การจัดการ', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'จัดการ', class: 'btn-link' } },
   ];
-  public rows: any[] = [
-    {
-      id: '1',
-      name: "ฝ่ายบำรุงรักษาสถานีไฟฟ้าและระบบไฟฟ้า"
-    },
-    {
-      id: '2',
-      name: "ฝ่ายควบคุมงานจราจร"
-    },
-    {
-      id: '3',
-      name: "ฝ่ายจัดการจราจร"
-    }
-  ];
+  public rows: ICustomerType9Model[] = [];
   public collectionSize: number = this.rows.length;
   public selectedCustomerId: string = '';
   constructor(
@@ -49,15 +42,58 @@ export class CustomerType9ManagementComponent {
     this.formSearch = new FormGroup({
       search: new FormControl({ value: undefined, disabled: false }, [Validators.required])
     });
+    this.selectedCustomerId = this.activatedRoute.snapshot.paramMap.get('id')?.toString() || '';
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['refreshTrigger']&& !changes['refreshTrigger'].firstChange) {
+      this.loadCustomerType9();
+    }
   }
 
+  ngOnInit() {
+    if (!this.selectedCustomerId) {
+      this.loadCustomerType9();
+    }else{
+      this.hiddenSearchMenu.emit(true);
+    }
+
+  }
   onActive(event: RowActionEventModel) {
-    console.log(event);
     this.selectedCustomerId = event.row.id;
+    console.log(this.selectedCustomerId);
+    this.router.navigate(['/work-space/type-9-management/customer-type-9-management', this.selectedCustomerId], { relativeTo: this.activatedRoute });
+    this.hiddenSearchMenu.emit(true);
+  }
+  handleOnBack(value: boolean) {
+    this.hiddenSearchMenu.emit(value);
+    this.selectedCustomerId = '';
+    this.router.navigate(['/work-space/type-9-management/customer-type-9-management'], { relativeTo: this.activatedRoute });
+    this.loadCustomerType9();
   }
   onChangePage(page: number) {
     this.pages = page;
-    console.log('page: ', page);
   }
-
+  loadCustomerType9() {
+    this.isLoading = true;
+    this._loadCustomerType9().subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.rows = response.data.elements;
+        this.collectionSize = response.data.totalElements;
+        this.pages = response.data.page;
+        this.limitRow = response.data.pageSize;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    });
+  }
+  _loadCustomerType9() {
+    const payload = {
+      page: this.pages,
+      limit: this.limitRow,
+    };
+    return this.restApiService.postBackOffice("customer-type-9/get-customers", payload) as Observable<IResponseCustomerType9Model>;
+  }
 }

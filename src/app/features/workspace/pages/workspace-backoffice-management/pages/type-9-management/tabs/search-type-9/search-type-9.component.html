@@ -1,5 +1,5 @@
 <div class="content-container container-xl p-0">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4" *ngIf="!hiddenSearchMenu">
         <form [formGroup]="formSearch" class="d-flex align-items-end gap-3">
             <div class="form-group">
                 <label class="label-input text-nowrap" for="searchInput">
@@ -25,5 +25,7 @@
             ลงทะเบียน
         </button>
     </div>
-    <customer-type-9-management></customer-type-9-management>
+    <ng-container *ngIf="!isLoading">
+        <customer-type-9-management [refreshTrigger]="refreshTrigger" (hiddenSearchMenu)="handleHiddenSearchMenu($event)"></customer-type-9-management>
+    </ng-container>
 </div>
