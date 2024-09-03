@@ -432,3 +432,9 @@ export interface IResponseLogModel extends ResponseMessageModel {
 export interface IActionOptionResponse extends ResponseMessageModel {
   data: string[]
 }
+export interface IVerifyOtpResponse {
+  isValid: boolean
+  recipient: string
+  reasonCode: string
+  msg: any
+}

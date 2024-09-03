@@ -17,7 +17,9 @@
         <div class="general-info-wrapper">
           <ng-container [ngSwitch]="customerTypeId">
             <ng-container *ngSwitchCase="'1'">
-              <label class="label-input">แก้ไขล่าสุดเมื่อ {{customer?.customer?.updateDate | buddhistDate: 'dd/MM/yyyy HH:mm:ss'}}</label>
+              <!-- <label class="label-input">แก้ไขล่าสุดเมื่อ {{customer?.customer?.updateDate | transformDate :'DD/MM/BBBB HH:mm:ss' : 'th'}}</label> -->
+              <label class="label-input">แก้ไขล่าสุดเมื่อ {{customer?.customer?.displayUpdateDateTime }}</label>
+
               <div class="form-group">
                 <label class="label-input required-field" for="identificationInput">
                   หมายเลขบัตรประชาชน
@@ -55,17 +57,11 @@
               <div class="form-group">
                 <label class="label-input required-field" for="prefixInput">
                   คำนำหน้า
-              </label>
-              <ng-select
-                  class="form-control"
-                  [items]="prefixList$ | async" 
-                  [addTag]="addTagPrefixPromise"
-                  id="prefixInput"
-                  data-testid="prefixInput"
-                  bindLabel="label" 
-                  bindValue="value"
+                </label>
+                <ng-select class="form-control" [items]="prefixList$ | async" [addTag]="addTagPrefixPromise"
+                  id="prefixInput" data-testid="prefixInput" bindLabel="label" bindValue="value"
                   formControlName="title">
-              </ng-select>
+                </ng-select>
               </div>
               <div class="form-group">
                 <label class="label-input required-field" for="firstNameInput">
@@ -115,7 +111,7 @@
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'2'">
-
+              <label class="label-input">แก้ไขล่าสุดเมื่อ {{customer?.customer?.displayUpdateDateTime }}</label>
               <div class="form-group">
                 <label class="label-input required-field" for="identificationInput">
                   หมายเลขหนังสือเดินทาง
@@ -153,17 +149,11 @@
               <div class="form-group">
                 <label class="label-input required-field" for="prefixInput">
                   คำนำหน้า
-              </label>
-              <ng-select
-                  class="form-control"
-                  [items]="prefixList$ | async" 
-                  [addTag]="addTagPrefixPromise"
-                  id="prefixInput"
-                  data-testid="prefixInput"
-                  bindLabel="label" 
-                  bindValue="value"
+                </label>
+                <ng-select class="form-control" [items]="prefixList$ | async" [addTag]="addTagPrefixPromise"
+                  id="prefixInput" data-testid="prefixInput" bindLabel="label" bindValue="value"
                   formControlName="title">
-              </ng-select>
+                </ng-select>
               </div>
               <div class="form-group">
                 <label class="label-input required-field" for="firstNameInput">
@@ -204,9 +194,18 @@
                 }" class="form-control" data-testid="phoneInput" formControlName="mobilePhone" id="phoneInput"
                   mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
               </div>
+
+              <div class="form-group">
+                <label class="label-input" for="emailInput">
+                  อีเมล
+                </label>
+                <input class="form-control" data-testid="emailInput" formControlName="email"
+                  placeholder="example@mail.com" id="emailInput" type="text">
+              </div>
             </ng-container>
             <ng-container *ngSwitchCase="'3'">
               <div class="navs-container">
+                <label class="label-input">แก้ไขล่าสุดเมื่อ {{customer?.customer?.displayUpdateDateTime }}</label>
                 <ul ngbNav #nav="ngbNav" [(activeId)]="activeDetailTab" class="nav-tabs nav-tabs-content mb-3">
                   <li [ngbNavItem]="'company-detail'">
                     <button ngbNavLink>รายละเอียดบริษัท</button>
@@ -237,7 +236,8 @@
                         'is-invalid': this.form.get('branchTypeSelect')?.errors?.['required'] && this.form.get('branchTypeSelect')?.touched
                       }" bindLabel="name" bindValue="id" class="form-control" [clearable]="false"
                           data-testid="branchTypeSelect" formControlName="branchType" id="branchTypeSelect"
-                          (change)="onChangeBranch($event.id)" [items]="branchTypeList" [searchable]="false"></ng-select>
+                          (change)="onChangeBranch($event.id)" [items]="branchTypeList"
+                          [searchable]="false"></ng-select>
                       </div>
 
                       <div class="form-group">
@@ -266,7 +266,7 @@
                         <input [ngClass]="{
                           'is-invalid': this.form.get('mobilePhone')?.errors?.['required'] && this.form.get('mobilePhone')?.touched
                         }" class="form-control" data-testid="phoneInput" formControlName="mobilePhone" id="phoneInput"
-                        mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
+                          mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
                       </div>
                       <div class="form-group">
                         <label class="label-input" for="emailInput">
@@ -328,17 +328,11 @@
                       <div class="form-group">
                         <label class="label-input required-field" for="prefixInput">
                           คำนำหน้า
-                      </label>
-                      <ng-select
-                          class="form-control"
-                          [items]="prefixList$ | async" 
-                          [addTag]="addTagPrefixPromise"
-                          id="prefixInput"
-                          data-testid="prefixInput"
-                          bindLabel="label" 
-                          bindValue="value"
+                        </label>
+                        <ng-select class="form-control" [items]="prefixList$ | async" [addTag]="addTagPrefixPromise"
+                          id="prefixInput" data-testid="prefixInput" bindLabel="label" bindValue="value"
                           formControlName="title">
-                      </ng-select>
+                        </ng-select>
                       </div>
                       <div class="form-group">
                         <label class="label-input required-field" for="firstNameInput">
@@ -373,8 +367,8 @@
                         <label class="label-input required-field" for="contactPhoneInput">
                           เบอร์ติดต่อ
                         </label>
-                        <input class="form-control" data-testid="contactPhoneInput" formControlName="contactPhone" id="contactPhoneInput"
-                        mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
+                        <input class="form-control" data-testid="contactPhoneInput" formControlName="contactPhone"
+                          id="contactPhoneInput" mask="000 000 0000" placeholder="XXX XXX XXXX" type="text">
                       </div>
                     </ng-template>
                   </li>

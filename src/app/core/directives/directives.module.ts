@@ -6,13 +6,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IdCardDirective } from './id-card.directive';
 import { AutofocusDirective } from './autofocus.directive';
 import { RestrictInputDirective } from './restrict-input.directive';
+import { UppercaseDirective } from './uppercase.directive';
 
 
 @NgModule({
   declarations: [
     IdCardDirective,
     AutofocusDirective,
-    RestrictInputDirective
+    RestrictInputDirective,
+    UppercaseDirective
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { RestrictInputDirective } from './restrict-input.directive';
   exports: [
     IdCardDirective,
     AutofocusDirective,
-    RestrictInputDirective
+    RestrictInputDirective,
+    UppercaseDirective
   ]
 })
 export class DirectivesModule {}

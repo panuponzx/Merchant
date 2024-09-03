@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { IOtpEmailResponse, IVerifyOtpRequest } from 'src/app/core/interfaces';
+import { IOtpEmailResponse, IVerifyOtpRequest, IVerifyOtpResponse } from 'src/app/core/interfaces';
 import { RestApiService, CustomRegEx } from 'src/app/core/services';
+import { CountdownService } from 'src/app/core/services/countdown/countdown.service';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
 @Component({
@@ -29,7 +30,8 @@ export class ConfirmOtpComponent {
   constructor(
     private formBuilder: FormBuilder,
     private modalDialogService: ModalDialogService,
-    private restApiService: RestApiService
+    private restApiService: RestApiService,
+    public countdownService: CountdownService
   ) {
     this.form = this.formBuilder.group({
       otp: new FormControl(undefined, [Validators.required, Validators.minLength(6), Validators.maxLength(6)])
@@ -58,11 +60,16 @@ export class ConfirmOtpComponent {
       sysReference: this.verifyOtpRequest.sysReference
     }
     this.modalDialogService.loading();
-    this.restApiService.postBackOfficeWithModel<IVerifyOtpRequest, any>(`onboarding/${this.transactionId}/otp/email/verify`, paylaod).subscribe({
+    this.restApiService.postBackOfficeWithModel<IVerifyOtpRequest, IVerifyOtpResponse>(`onboarding/${this.transactionId}/otp/email/verify`, paylaod).subscribe({
       next: (res) => {
         this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
-          this.nextStep.emit(res.data);
+          if (res.data.isValid) {
+            this.countdownService.resetStartCountdown();
+            this.nextStep.emit();
+          } else {
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.data.reasonCode);
+          }
         }
       },
       error: (error) => {
@@ -82,7 +89,58 @@ export class ConfirmOtpComponent {
       next: (res) => {
         this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
-          this.nextStep.emit(res.data);
+          if (res.data.isValid) {
+            this.countdownService.resetStartCountdown();
+            this.nextStep.emit();
+          } else {
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.data.reasonCode);
+          }
+        }
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  onResend() {
+    if (this.verifyOtpType === 'email') {
+      this.postRequestOtpEmail();
+    } else if (this.verifyOtpType === 'mobile') {
+      this.postRequestOtpMobile();
+    }
+  }
+
+  postRequestOtpEmail() {
+    const paylaod = {
+      contact: this.verifyOtpRequest.sendTo
+    }
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<any, IOtpEmailResponse>(`onboarding/${this.transactionId}/otp/email/request`, paylaod).subscribe({
+      next: (res) => {
+        this.modalDialogService.hideLoading();
+        if (res.errorMessage === "Success") {
+          this.countdownService.startCountdown(res.data.timeoutInSec);
+        }
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  postRequestOtpMobile() {
+    const paylaod = {
+      contact: this.verifyOtpRequest.sendTo
+    }
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<any, IOtpEmailResponse>(`onboarding/${this.transactionId}/otp/mobile/request`, paylaod).subscribe({
+      next: (res) => {
+        this.modalDialogService.hideLoading();
+        if (res.errorMessage === "Success") {
+          this.countdownService.startCountdown(15);
         }
       },
       error: (error) => {

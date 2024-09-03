@@ -1,14 +1,15 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="main-container">
         <div class="header-container">
-            <h3 class="content-title">เพิ่มข้อมูลบริษัท - นิติบุคคล / องค์กร</h3>
+            <h1 class="content-title">เพิ่มข้อมูลบริษัท - นิติบุคคล / องค์กร</h1>
             <hr class="hr-grey">
         </div>
         <div class="body-container">
-            <p>กรุณายืนยันรหัส OTP</p>
+            <p class="content-title">กรุณายืนยันรหัส OTP</p>
             <label class="text-center mb-3" for="emailInput">
                 รหัสยืนยัน OTP<br>
-                <span>ได้ถูกส่งไปที่<span *ngIf="verifyOtpType === 'email'">อีเมล </span><span *ngIf="verifyOtpType === 'mobile'">หมายเลขโทรศัพท์ </span>{{ verifyOtpRequest.sendTo }}</span>
+                <span>ได้ถูกส่งไปที่<span *ngIf="verifyOtpType === 'email'">อีเมล </span><span
+                        *ngIf="verifyOtpType === 'mobile'">หมายเลขโทรศัพท์ </span>{{ verifyOtpRequest.sendTo }}</span>
             </label>
             <div class="col-12 col-sm-8 col-md-6 col-lg-4">
                 <div class="otp-input mb-3">
@@ -16,7 +17,10 @@
                         [formCtrl]="otpControl"></ng-otp-input>
                 </div>
             </div>
-            <p class="text-center mb-5">ส่งอีกครั้ง (30s)</p>
+            <p style="color: #cccccc" *ngIf="(countdownService.countdown$ | async) !== 0">ส่งอีกครั้ง
+                ({{countdownService.countdown$ | async}}s)</p>
+            <p (click)="onResend()" style="color: var(--color-blue-exat); cursor: pointer;"
+                *ngIf="(countdownService.countdown$ | async) === 0">ส่งอีกครั้ง</p>
         </div>
         <div class="footer-container">
             <hr class="hr-grey mb-3">
