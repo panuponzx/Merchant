@@ -19,12 +19,14 @@
 
                     <div class="col-12 mb-3">
                         <input #inputFile id="inputImportSignature" class="d-none" type="file"
-                            (change)="fileTypeValidation($event)" />
-                        <button class="custom-btn btn-type-3 btn-fixed-size-100" type="button" data-testid="uploadImageButton"
-                            id="uploadImageButton" title="อัพโหลด" (click)="inputFile.click()">
+                            accept="application/pdf, image/jpg" (change)="fileTypeValidation($event)" />
+                        <button class="custom-btn btn-type-3 btn-fixed-size-100" type="button"
+                            data-testid="uploadImageButton" id="uploadImageButton" title="อัพโหลด"
+                            (click)="inputFile.click()">
                             <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
                             อัปโหลดเอกสาร
                         </button>
+                        <p class="label-input mb-0">หมายเหตุ: รองรับไฟล์ PDF</p>
                         <span *ngIf="form.get('file')?.value?.name">{{ form.get('file')?.value?.name }}</span>&nbsp;
                     </div>
                 </div>

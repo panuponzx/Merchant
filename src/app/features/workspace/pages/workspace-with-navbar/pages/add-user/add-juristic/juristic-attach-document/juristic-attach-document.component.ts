@@ -74,8 +74,13 @@ export class JuristicAttachDocumentComponent implements OnInit {
   }
 
   fileTypeValidation(event: any) {
+    console.log(event.target.files[0]);
     let files = event.target.files[0];
-    this.form.get('file')?.setValue(files);
+    if (files.type === 'application/pdf' || files.type === 'image/jpg' || files.type === 'image/jpeg') {
+      this.form.get('file')?.setValue(files);
+    }else {
+      this.form.get('file')?.reset();
+    }
     console.log("[fileTypeValidation] files => ", files);
     console.log("[fileTypeValidation] attachDocument => ", this.form.get('file')?.value);
     this.inputFileEl.nativeElement.value = null;
