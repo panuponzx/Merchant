@@ -34,7 +34,7 @@ export class GeneralInfoComponent {
   public today: Date = new Date();
 
   public branchTypeList: { id: number, name: string }[] = [
-    { id: 1, name: 'สาขาหลัก' },
+    { id: 1, name: 'สาขาใหญ่' },
     { id: 2, name: 'สาขาย่อย' },
   ];
 
