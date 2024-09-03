@@ -2,16 +2,28 @@
   padding-bottom: 1rem;
 }
 
-.device-container h2, h3 {
+.device-container h2,
+h3 {
   color: var(--color-blue-exat);
-}
-
-.device-header-wrapper {
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
 }
 
 .navs-container ul.nav-tabs li {
   width: unset;
+}
+
+.input-with-icon-wrapper {
+  color: black !important;
+  position: relative;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+  .input-icon-right {
+    padding-right: 40px
+  }
+
+  .svg-search-icon {
+    position: absolute;
+    padding: 0rem 0.75rem;
+  }
 }

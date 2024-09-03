@@ -46,6 +46,10 @@ export class DeviceListComponent implements OnInit {
   public activeRows: IFaremediaModel[] = [];
   public inactiveRows: IFaremediaModel[] = [];
 
+  searchInput: string = '';
+  public tempActiveRows: IFaremediaModel[] = [];
+  public tempInactiveRows: IFaremediaModel[] = [];
+
   public isLoading: boolean = false;
 
   constructor(
@@ -68,8 +72,14 @@ export class DeviceListComponent implements OnInit {
         map(res => res as IResponseFaremediaModel)
       ).subscribe({
         next: (data) => {
-          if (tab === 'active') { this.activeRows = data.data; }
-          if (tab === 'inactive') { this.inactiveRows = data.data; }
+          if (tab === 'active') {
+            this.activeRows = data.data;
+            this.tempActiveRows = data.data;
+          }
+          if (tab === 'inactive') {
+            this.inactiveRows = data.data;
+            this.tempInactiveRows = data.data;
+          }
           this.modalDialogService.hideLoading();
           this.isLoading = false;
         },
@@ -122,6 +132,29 @@ export class DeviceListComponent implements OnInit {
   onChangeNav(tab: string) {
     // console.info("onChangeNav: ", event);
     this.pages = 1;
+    this.searchInput = '';
+    this.activeRows = this.tempActiveRows;
+    this.inactiveRows = this.tempInactiveRows;
     // this.loadDevice(tab);
   }
+
+  searchDataTable(event: KeyboardEvent) {
+    const val = (event.target as HTMLInputElement).value.toLowerCase();
+    if (this.activeTab === 'active') {
+      const temp = this.tempActiveRows.filter((item) => {
+        return item?.obuNo?.toString().toLowerCase().indexOf(val) !== -1 ||
+          item?.smartCardNo?.toString().toLowerCase().indexOf(val) !== -1 ||
+          item?.carLicensePlate?.toString().toLowerCase().indexOf(val) !== -1;
+      });
+      this.activeRows = temp;
+    } else if (this.activeTab === 'inactive') {
+      const temp = this.tempInactiveRows.filter((item) => {
+        return item?.obuNo?.toString().toLowerCase().indexOf(val) !== -1 ||
+          item?.smartCardNo?.toString().toLowerCase().indexOf(val) !== -1 ||
+          item?.carLicensePlate?.toString().toLowerCase().indexOf(val) !== -1;
+      });
+      this.inactiveRows = temp;
+    }
+  }
+
 }

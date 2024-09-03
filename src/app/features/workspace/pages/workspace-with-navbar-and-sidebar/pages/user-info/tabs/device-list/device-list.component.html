@@ -1,64 +1,46 @@
 <div class="device-container">
   <ng-container *ngIf="customerTypeId === '3'">
     <div class="mb-4">
-      <button
-        class="custom-btn btn-type-1"
-        data-testid="addDeviceButton"
-        id="addDeviceButton"
-        title="เพิ่มอุปกรณ์ (ประเภท 9)"
-        [disabled]="isLoading"
-        (click)="onAddDevice()"
-      >
+      <button class="custom-btn btn-type-1" data-testid="addDeviceButton" id="addDeviceButton"
+        title="เพิ่มอุปกรณ์ (ประเภท 9)" [disabled]="isLoading" (click)="onAddDevice()">
         เพิ่มอุปกรณ์ (ประเภท 9)
       </button>
     </div>
   </ng-container>
 
   <div class="device-header-wrapper mb-3">
-    <h2>ข้อมูล OBU และ รถยนต์</h2>
-    <div class="navs-container">
-      <ul
-        ngbNav
-        #nav="ngbNav"
-        [(activeId)]="activeTab"
-        (activeIdChange)="onChangeNav($event)"
-        class="nav-tabs mb-3"
-      >
-        <li [ngbNavItem]="'active'">
-          <button ngbNavLink>กำลังเปิดใช้งาน ({{ activeRows.length }})</button>
-          <ng-template ngbNavContent>
-            <datatable
-              [columns]="activeUsedColumns"
-              [collectionSize]="activeRows.length"
-              [id]="'deviceActiveDatatable'"
-              [isLoading]="isLoading"
-              [pageSize]="limitRow"
-              [page]="pages"
-              [rows]="activeRows"
-              emptyMessage="ไม่มีข้อมูล"
-              (onChangePageEvent)="onChangePage($event)"
-              (onRowActionEvent)="onAction($event)"
-            />
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="'inactive'">
-          <button ngbNavLink>ยังไม่ได้เปิดใช้งาน ({{ inactiveRows.length }})</button>
-          <ng-template ngbNavContent>
-            <datatable
-              [columns]="inactiveUsedColumns"
-              [collectionSize]="inactiveRows.length"
-              [id]="'deviceInactiveDatatable'"
-              [isLoading]="isLoading"
-              [pageSize]="limitRow"
-              [page]="pages"
-              [rows]="inactiveRows"
-              emptyMessage="ไม่มีข้อมูล"
-              (onChangePageEvent)="onChangePage($event)"
-              (onRowActionEvent)="onAction($event)"
-            />
-          </ng-template>
-        </li>
-      </ul>
+    <div class="d-flex justify-content-end">
+      <div class="input-with-icon-wrapper mb-3 col-5">
+        <input class="form-control input-icon-right" id="searchInput" data-testid="searchInput"
+          placeholder="กรุณาระบุข้อมูล" type="text" [(ngModel)]="searchInput" (keyup)="searchDataTable($event)" />
+        <icon-svg class="svg-search-icon" [color]="'#2255CE'" [path]="'assets/images/icons/search.svg'" [size]="'l'" />
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <h2>ข้อมูล OBU และ รถยนต์</h2>
+      <div class="navs-container">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (activeIdChange)="onChangeNav($event)" class="nav-tabs mb-3">
+          <li [ngbNavItem]="'active'">
+            <button ngbNavLink>กำลังเปิดใช้งาน ({{ activeRows.length }})</button>
+            <ng-template ngbNavContent>
+              <datatable [columns]="activeUsedColumns" [collectionSize]="activeRows.length"
+                [id]="'deviceActiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
+                [rows]="activeRows" emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePage($event)"
+                (onRowActionEvent)="onAction($event)" />
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="'inactive'">
+            <button ngbNavLink>ยังไม่ได้เปิดใช้งาน ({{ inactiveRows.length }})</button>
+            <ng-template ngbNavContent>
+              <datatable [columns]="inactiveUsedColumns" [collectionSize]="inactiveRows.length"
+                [id]="'deviceInactiveDatatable'" [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages"
+                [rows]="inactiveRows" emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePage($event)"
+                (onRowActionEvent)="onAction($event)" />
+            </ng-template>
+          </li>
+        </ul>
+      </div>
     </div>
 
   </div>
