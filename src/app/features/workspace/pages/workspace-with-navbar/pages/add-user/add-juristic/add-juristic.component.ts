@@ -12,7 +12,7 @@ import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dia
 })
 export class AddJuristicComponent implements OnInit {
 
-  public step: number = 6;
+  public step: number = 1;
   public transactionId: string = '';
 
   public emailOtpRequestForm: FormGroup;
