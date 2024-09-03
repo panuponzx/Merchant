@@ -40,21 +40,20 @@
           </label>
           <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="endDate"
             [id]="'endDateDatePicker'" [invalid]="submitted && form.controls['endDate'].errors ? true : false"
-            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"
-            [minDate]="form.get('startDate')?.value" [maxDate]="maxDate"></date-picker>
+            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'" [minDate]="form.get('startDate')?.value"
+            [maxDate]="maxDate"></date-picker>
         </div>
         <div class="col-12 col-sm-4">
           <label class="label-input text-nowrap" for="walletSelect">
             กระเป๋าเงิน
           </label>
-          <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="id"
-            data-testid="walletSelect" formControlName="walletId" [placeholder]="'กรุณาระบุ'" id="walletSelect"
-            [items]="wallets"></ng-select>
+          <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="id" data-testid="walletSelect"
+            formControlName="walletId" [placeholder]="'กรุณาระบุ'" id="walletSelect" [items]="wallets"></ng-select>
         </div>
       </div>
       <div class="button-wrapper">
-        <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" [disabled]="form.invalid" title="ค้นหา" type="submit"
-          (click)="onSearch()">
+        <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" [disabled]="form.invalid"
+          title="ค้นหา" type="submit" (click)="onSearch()">
           <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
         </button>
       </div>
@@ -108,35 +107,41 @@
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column prop="createDate" [sortable]="false" [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'">
-              <ng-template ngx-datatable-header-template>
-                <span>วันที่ และ เวลา ที่ชำระเงินจริง</span>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-                <ng-container>
-                  {{ row.createDate ? ( row.createDate | transformDate : 'DD/MM/BBBB HH:mm:ss' : 'th') : "-"
-                  }}
-                </ng-container>
-              </ng-template>
-            </ngx-datatable-column>
-              <ngx-datatable-column name="สายทางเข้า" prop="entryHq" [sortable]="false" [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="สายทางออก" prop="exitHq" [sortable]="false" [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="อาคารด่านเข้า" prop="entryPlaza" [sortable]="false" [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="อาคารด่านออก" prop="exitPlaza" [sortable]="false" [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="OBU serial no." prop="obuPan" [sortable]="false" [headerClass]="'text-break text-center'"
-              [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="จำนวนเงิน" prop="amount" [sortable]="false" [headerClass]="'text-break text-center'"
                 [cellClass]="'text-break text-center'">
+                <ng-template ngx-datatable-header-template>
+                  <span>วันที่ และ เวลา ที่ชำระเงินจริง</span>
+                </ng-template>
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  <ng-container>
+                    {{ row.createDate ? ( row.createDate | transformDate : 'DD/MM/BBBB HH:mm:ss' : 'th') : "-"
+                    }}
+                  </ng-container>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="สายทางเข้า" prop="entryHq" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="สายทางออก" prop="exitHq" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="อาคารด่านเข้า" prop="entryPlaza" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="อาคารด่านออก" prop="exitPlaza" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="OBU serial no." prop="obuPan" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
+              <ngx-datatable-column name="จำนวนเงิน" prop="amount" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'">
                 <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
                   <span>{{ value * -1 }}</span>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="สถานะ" prop="isCancelled" [sortable]="false" [headerClass]="'text-break text-center'"
-                [cellClass]="'text-break text-center'">
+              <ngx-datatable-column name="Settlement code" prop="settlementCode" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'">
+              </ngx-datatable-column>
+              <ngx-datatable-column name="สถานะ" prop="tollStatus" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'">
+              </ngx-datatable-column>
+              <!-- <ngx-datatable-column name="สถานะ" prop="isCancelled" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'">
                 <ng-template ngx-datatable-cell-template let-value="value">
                   <ng-container *ngIf="value; else textFalseEl;">
                     <span [ngClass]="'text-red-exat' ? 'text-red-exat' : null">
@@ -147,9 +152,9 @@
                     <span>-</span>
                   </ng-template>
                 </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="รายละเอียด" prop="transactionDate" [sortable]="false" [headerClass]="'text-break text-center'"
-                [cellClass]="'text-break text-center'">
+              </ngx-datatable-column> -->
+              <ngx-datatable-column name="รายละเอียด" prop="transactionDate" [sortable]="false"
+                [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'">
                 <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
                   <button [attr.data-testid]="'description' + rowIndex + 'Button'" class="custome-btn btn-icon"
                     [id]="'description' + rowIndex + 'Button'" type="button" [title]="'รายละเอียด'"
