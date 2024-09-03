@@ -1,7 +1,7 @@
 <div class="content-container container-xl p-0">
     <ng-container>
         <div *ngIf="selectedCustomerId !==''">
-            <faremedia-management-component [customerId]="selectedCustomerId"
+            <faremedia-management-component [customerId]="selectedCustomerId" [searchType]="searchType"
                 (back)="handleOnBack($event)"></faremedia-management-component>
         </div>
         <ng-template #defaultTemplate>

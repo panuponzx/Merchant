@@ -326,6 +326,7 @@ export interface IResponseCustomerType9Model extends ResponseMessageModel {
 }
 
 export interface IWalletWithFaremediaModel {
+  customerId: string,
   walletId: string,
   walletName: string,
   faremediaValue: string,

@@ -83,7 +83,6 @@ export class AddWalletModalComponent {
       customer: {
         id: this.customerId,
         customerTypeId: this.customerTypeId,
-        requestParam: this.restApiService.generateRequestParam(),
       },
       wallet: {
         walletTypeId: this.form.get('walletType')?.value,
@@ -92,7 +91,7 @@ export class AddWalletModalComponent {
     };
     console.log("[onAddWallet] data => ", data);
     this.restApiService
-      .post('add-wallet', data)
+      .postBackOffice('wallet/add-wallet', data)
       .pipe(
         first(),
         map(res => res as any)

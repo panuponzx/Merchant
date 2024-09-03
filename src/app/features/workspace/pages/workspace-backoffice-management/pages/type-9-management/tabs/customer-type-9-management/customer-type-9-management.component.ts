@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomColumnModel, ICustomerType9Model, IResponseCustomerType9Model, RowActionEventModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
-import { RegisterCustomerType9Component } from '../../../../modals/register-customer-type-9/register-customer-type-9.component';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -16,6 +14,7 @@ import { Observable } from 'rxjs';
 export class CustomerType9ManagementComponent {
   formSearch: FormGroup;
   @Input() refreshTrigger: number = 0;
+  @Input() customerName: string = '';
   @Output() hiddenSearchMenu: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   public isLoading: boolean = true;
   public limitRow: number = 10;
@@ -32,12 +31,13 @@ export class CustomerType9ManagementComponent {
   public rows: ICustomerType9Model[] = [];
   public collectionSize: number = this.rows.length;
   public selectedCustomerId: string = '';
+  public searchType: string = '';
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private restApiService: RestApiService,
     private modalDialogService: ModalDialogService,
-    private ngbModal: NgbModal
+    private activeRoute : ActivatedRoute
   ) {
     this.formSearch = new FormGroup({
       search: new FormControl({ value: undefined, disabled: false }, [Validators.required])
@@ -45,7 +45,10 @@ export class CustomerType9ManagementComponent {
     this.selectedCustomerId = this.activatedRoute.snapshot.paramMap.get('id')?.toString() || '';
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['refreshTrigger']&& !changes['refreshTrigger'].firstChange) {
+    this.activeRoute.queryParams.subscribe(params => {
+      this.searchType = params['searchType']; 
+    });
+    if (changes['refreshTrigger'] && !changes['refreshTrigger'].firstChange) {
       this.loadCustomerType9();
     }
   }
@@ -53,14 +56,14 @@ export class CustomerType9ManagementComponent {
   ngOnInit() {
     if (!this.selectedCustomerId) {
       this.loadCustomerType9();
-    }else{
+    } else {
       this.hiddenSearchMenu.emit(true);
     }
 
   }
   onActive(event: RowActionEventModel) {
     this.selectedCustomerId = event.row.id;
-    console.log(this.selectedCustomerId);
+
     this.router.navigate(['/work-space/type-9-management/customer-type-9-management', this.selectedCustomerId], { relativeTo: this.activatedRoute });
     this.hiddenSearchMenu.emit(true);
   }
@@ -75,9 +78,13 @@ export class CustomerType9ManagementComponent {
   }
   loadCustomerType9() {
     this.isLoading = true;
+    if (this.customerName !== '') {
+      this.modalDialogService.loading();
+    }
     this._loadCustomerType9().subscribe({
       next: (response) => {
         this.isLoading = false;
+        this.modalDialogService.hideLoading();
         this.rows = response.data.elements;
         this.collectionSize = response.data.totalElements;
         this.pages = response.data.page;
@@ -85,14 +92,16 @@ export class CustomerType9ManagementComponent {
       },
       error: (error) => {
         this.isLoading = false;
+        this.modalDialogService.hideLoading();
         this.modalDialogService.handleError(error);
       },
     });
   }
   _loadCustomerType9() {
-    const payload = {
+    let payload = {
       page: this.pages,
       limit: this.limitRow,
+      search: this.customerName !== '' ? this.customerName : null
     };
     return this.restApiService.postBackOffice("customer-type-9/get-customers", payload) as Observable<IResponseCustomerType9Model>;
   }

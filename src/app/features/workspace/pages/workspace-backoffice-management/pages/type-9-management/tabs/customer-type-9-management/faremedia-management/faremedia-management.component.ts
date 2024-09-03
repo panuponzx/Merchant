@@ -16,6 +16,7 @@ import { EditWalletModalComponent } from '../../../../../modals/edit-wallet-moda
 })
 export class FaremediaManagementComponent {
   @Input() public customerId: string = "ทดสอบ";
+  @Input() public searchType: string = '';
   @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   public customerName: string = '';
   public isLoading: boolean = false;
@@ -35,8 +36,8 @@ export class FaremediaManagementComponent {
     { id: 'carYear', name: 'carYear', label: 'ปีจดทะเบียน', prop: 'carYear', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'cardNo', name: 'cardNo', label: 'SmartCard no.', prop: 'cardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'detail', name: 'detail', label: 'การจัดการอุปกรณ์', prop: '', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'แก้ไขอุปกรณ์', label2: 'เพิ่มอุปกรณ์', label2Condition: 'faremediaValue', class: 'btn-link' } },
-    { id: 'detailWallet', name: 'detailWallet', label: 'การจัดการกระเป๋า', prop: '', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'แก้ไขกระเป๋า',class: 'btn-link' }},
-  
+    { id: 'detailWallet', name: 'detailWallet', label: 'การจัดการกระเป๋า', prop: '', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'แก้ไขกระเป๋า', class: 'btn-link' } },
+
   ];
   public rows: IWalletWithFaremediaModel[] = [];
   public collectionSize: number = 0;
@@ -59,7 +60,7 @@ export class FaremediaManagementComponent {
     this.pages = page;
   }
   onActive(event: RowActionEventModel) {
-    if (event.action==="detailWallet"){
+    if (event.action === "detailWallet") {
       const modelRef = this.ngbModal.open(EditWalletModalComponent, {
         centered: true,
         backdrop: 'static',
@@ -90,7 +91,7 @@ export class FaremediaManagementComponent {
       modelRef.componentInstance.walletId = event.row.walletId;
       modelRef.componentInstance.customerId = this.customerId;
       modelRef.componentInstance.canEditType = false;
-      var carInfo ={
+      var carInfo = {
         plateNo: event.row.plateNo,
         plateProvince: event.row.plateProvince,
         carModel: event.row.carModel,
@@ -100,9 +101,9 @@ export class FaremediaManagementComponent {
         walletSmartcardNo: event.row.cardNo,
         isType9: true,
         carColor: event.row.carColor,
-        faremediaStatusId:event.row.faremediaStatus
+        faremediaStatusId: event.row.faremediaStatus
       }
-      modelRef.componentInstance.carInfo = carInfo ;
+      modelRef.componentInstance.carInfo = carInfo;
       modelRef.componentInstance.walletIdList = this.rows.map((item) => item.walletId);
       modelRef.componentInstance.customer = {
         title: "",
@@ -172,9 +173,13 @@ export class FaremediaManagementComponent {
   }
   loadWalletWithFaremedia() {
     this.isLoading = true;
+    if (this.searchType !== '') {
+      this.modalDialogService.loading();
+    }
     this._loadingWalletFaremedia().subscribe({
       next: (response) => {
         this.isLoading = false;
+        this.modalDialogService.hideLoading();
         this.rows = response.data.pagination.elements;
         this.collectionSize = response.data.pagination.totalElements;
         this.pages = response.data.pagination.page;
@@ -183,6 +188,7 @@ export class FaremediaManagementComponent {
       },
       error: (error) => {
         this.isLoading = false;
+        this.modalDialogService.hideLoading();
         this.modalDialogService.handleError(error);
       }
     });
@@ -191,7 +197,8 @@ export class FaremediaManagementComponent {
     const payload = {
       search: this.customerId,
       page: this.pages,
-      limit: this.limitRow
+      limit: this.limitRow,
+      searchType: this.searchType !== '' ? this.searchType : null
     };
     return this.restApiService.postBackOffice('customer-type-9/get-wallet-with-faremedia', payload) as Observable<IResponseWalletWithFaremediaModel>;
   }
