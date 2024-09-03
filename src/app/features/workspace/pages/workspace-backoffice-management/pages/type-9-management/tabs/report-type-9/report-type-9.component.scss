@@ -1,0 +1,12 @@
+.input-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon-search {
+    position: absolute;
+    right: 10px; /* Adjust as needed */
+    z-index: 1;
+  }
+  

@@ -10,36 +10,33 @@
                     <label class="label-input required-field" for="walletTypeSelect">
                         ประเภทกระเป๋า
                     </label>
-                    <ng-select
-                        class="form-control"
-                        [clearable]="false"
-                        bindLabel="lable"
-                        bindValue="id"
-                        data-testid="walletTypeSelect"
-                        placeholder="กรุณาระบุ"
-                        formControlName="walletType"
-                        id="walletTypeSelect"
-                        [items]="walletTypeList"
-                        (change)="onChangeWalletType($event)">
+                    <ng-select class="form-control" [clearable]="false" bindLabel="lable" bindValue="id"
+                        data-testid="walletTypeSelect" placeholder="กรุณาระบุ" formControlName="walletType"
+                        id="walletTypeSelect" [items]="walletTypeList" (change)="onChangeWalletType($event)">
                     </ng-select>
                 </div>
-                <div class="mb-3" *ngIf="form.get('walletType')?.value === 1 || form.get('walletType')?.value === 7">
-                  <label class="label-input required-field" for="walletNameInput">
-                      ชื่อกระเป๋า
-                  </label>
-                  <input class="form-control" data-testid="walletNameInput" formControlName="walletName"
-                      id="walletNameInput" type="text" maxlength="36" minlength="1">
+                <div class="mb-3"
+                    *ngIf="form.get('walletType')?.value === 1 || form.get('walletType')?.value === 7 ||form.get('walletType')?.value === 9">
+                    <label class="label-input required-field" for="walletNameInput">
+                        ชื่อกระเป๋า
+                    </label>
+                    <input class="form-control" data-testid="walletNameInput" formControlName="walletName"
+                        id="walletNameInput" type="text" maxlength="36" minlength="1">
                 </div>
                 <div class="d-flex justify-content-end gap-3">
                     <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
-                    <button class="custom-btn btn-type-1" *ngIf="form.get('walletType')?.value === 1 || form.get('walletType')?.value === 7" (click)="onAddWallet()" [disabled]="form.invalid || isLoading">เพิ่มกระเป๋าเงิน</button>
-                    <button class="custom-btn btn-type-1" *ngIf="form.get('walletType')?.value === 2" (click)="onNext()" [disabled]="form.invalid || isLoading">ถัดไป</button>
+                    <button class="custom-btn btn-type-1"
+                        *ngIf="form.get('walletType')?.value === 1 || form.get('walletType')?.value === 7 ||form.get('walletType')?.value === 9"
+                        (click)="onAddWallet()" [disabled]="form.invalid || isLoading">เพิ่มกระเป๋าเงิน</button>
+                    <button class="custom-btn btn-type-1" *ngIf="form.get('walletType')?.value === 2" (click)="onNext()"
+                        [disabled]="form.invalid || isLoading">ถัดไป</button>
                 </div>
             </form>
         </section>
         <section *ngSwitchCase="2">
             <div class="text-center py-3 mb-3">
-                <button class="custom-btn btn-type-1" (click)="onConnectVisa()">ผูกบัญชีด้วย บัตรเดบิต / เครดิต (VISA / MASTER)</button>
+                <button class="custom-btn btn-type-1" (click)="onConnectVisa()">ผูกบัญชีด้วย บัตรเดบิต / เครดิต (VISA /
+                    MASTER)</button>
             </div>
             <div class="d-flex justify-content-end gap-3">
                 <button class="custom-btn btn-type-1 outline" (click)="onBack()">ย้อนกลับ</button>

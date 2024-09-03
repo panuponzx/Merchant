@@ -84,7 +84,7 @@ export class DatatableComponent {
   getType(value: any) {
     return typeof value;
   }
-  getColumnValue(key: string, row: any): boolean {
+  getColumnValue(key: string, row: any): any {
     return row[key] || '';
   }
 }

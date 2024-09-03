@@ -23,7 +23,12 @@ export class MenuOptionSuperAdminComponent {
   searchType9() {
     // this.router.navigate(['work-space/search-user']);
   }
-
+  testCardManagement() {
+    this.router.navigate(['work-space/test-card-registration']);
+  }
+  type9Management() {
+    this.router.navigate(['work-space/type-9-management/wallet-type-9-management']);
+  }
   addCarType9() {
     this.router.navigate(['work-space/add-car-type9']);
   }

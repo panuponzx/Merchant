@@ -38,6 +38,7 @@ import { TransactionSuspensionManagementComponent } from './pages/workspace-back
 import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/pages/user-info-all/user-info-all.component';
 import { AddJuristicComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/add-juristic.component';
 import { TestCardRegistrationComponent } from './pages/workspace-backoffice-management/pages/test-card-registration/test-card-registration.component';
+import { Type9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/type-9-management.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -88,6 +89,32 @@ export const routesConfig: CustomRoutesModel = [
             path: 'add-car-type9',
             component: AddCarType9Component,
           },
+          {
+            id: 'TestCardRegistrationComponent',
+            path: 'test-card-registration',
+            component: TestCardRegistrationComponent,
+          },
+          {
+            id: 'Type9ManagementComponent',
+            path: 'type-9-management/:tab',
+            component: Type9ManagementComponent,
+            data: {
+              default_path: 'type-9-management',
+              allowed_tabs: ['wallet-type-9-management', 'report-type-9-management']
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'Type9ManagementComponent',
+            path: 'type-9-management/:tab/:id',
+            component: Type9ManagementComponent,
+            data: {
+              default_path: 'type-9-management',
+              allowed_tabs: ['wallet-type-9-management', 'report-type-9-management']
+            },
+            canActivate: [TabGuard]
+          },
+
         ]
       },
       {
@@ -345,17 +372,7 @@ export const routesConfig: CustomRoutesModel = [
             },
             canActivate: [TabGuard]
           },
-          {
-            id: 'TestCardRegistrationComponent',
-            path: 'test-card-registration',
-            component: TestCardRegistrationComponent,
-            data: {
-              is_sidebar: true,
-              label: 'ลงทะเบียนบัตรทดสอบ',
-              default_path: 'transaction-suspension-management',
-            },
-            canActivate: [TabGuard]
-          },
+
         ],
 
         data: {

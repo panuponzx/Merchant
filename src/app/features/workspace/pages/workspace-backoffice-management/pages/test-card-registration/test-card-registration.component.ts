@@ -18,8 +18,6 @@ import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dia
 export class TestCardRegistrationComponent {
   public approval: number = 1;
   public pages: number = 1;
-
-  public activeTab: 'waiting-for-approval' | 'approval' | 'reject' | string | null = 'waiting-for-approval';
   public pageFaremediaInfo: number = 1;
   public pageFaremediaInfoList: number = 1;
   public submitted: boolean = false;
@@ -74,7 +72,6 @@ export class TestCardRegistrationComponent {
     private modalDialogService: ModalDialogService,
     private ngbModal: NgbModal
   ) {
-    this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
     this.form = new FormGroup({
       search: new FormControl({ value: undefined, disabled: false }, [Validators.required])
     });

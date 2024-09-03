@@ -107,6 +107,19 @@ import { CompanyAddressComponent } from './pages/workspace-with-navbar/pages/add
 import { EtaxAddressComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/etax-address/etax-address.component';
 import { JuristicAttachDocumentComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/juristic-attach-document/juristic-attach-document.component';
 import { ChooseChannelOtpComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/choose-channel-otp/choose-channel-otp.component';
+import { Type9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/type-9-management.component';
+import { CustomerType9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/customer-type-9-management/customer-type-9-management.component';
+import { WalletType9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/wallet-type-9-management.component';
+import { FaremediaManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/customer-type-9-management/faremedia-management/faremedia-management.component';
+import { RegisterCustomerType9Component } from './pages/workspace-backoffice-management/modals/register-customer-type-9/register-customer-type-9.component';
+import { SearchType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/search-type-9/search-type-9.component';
+import { ReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/report-type-9/report-type-9.component';
+import { AddCarModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/add-car-modal/add-car-modal.component';
+import { ChangeObuModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/change-obu-modal/change-obu-modal.component';
+import { EditWalletModalComponent } from './pages/workspace-backoffice-management/modals/edit-wallet-modal/edit-wallet-modal.component';
+import { CustomerReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/subTabs/customer-report-type9/customer-report-type9.component';
+import { WalletReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/subTabs/wallet-report-type9/wallet-report-type9.component';
+import { FaremediaReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/subTabs/faremedia-report-type9/faremedia-report-type9.component';
 
 @NgModule({
   declarations: [
@@ -200,7 +213,20 @@ import { ChooseChannelOtpComponent } from './pages/workspace-with-navbar/pages/a
     CompanyAddressComponent,
     EtaxAddressComponent,
     JuristicAttachDocumentComponent,
-    ChooseChannelOtpComponent
+    ChooseChannelOtpComponent,
+    Type9ManagementComponent,
+    CustomerType9ManagementComponent,
+    WalletType9ManagementComponent,
+    FaremediaManagementComponent,
+    RegisterCustomerType9Component,
+    SearchType9Component,
+    ReportType9Component,
+    AddCarModalComponent,
+    ChangeObuModalComponent,
+    EditWalletModalComponent,
+    CustomerReportType9Component,
+    WalletReportType9Component,
+    FaremediaReportType9Component
   ],
   imports: [
     CommonModule,

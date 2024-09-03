@@ -1,0 +1,29 @@
+<div class="content-container container-xl p-0 custom-container">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">ระบบจัดการกระเป๋าเงิน Type-9</h1>
+        </div>
+    </div>
+    <hr class="hr-custom mb-3"/>
+    <div class="navs-container">
+        <div class="d-flex justify-content-between">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
+                class="nav-tabs nav-tabs-header">
+                <li [ngbNavItem]="'wallet-type-9-management'">
+                    <button ngbNavLink>ค้นหา</button>
+                    <ng-template ngbNavContent>
+                        <search-type-9></search-type-9>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="'report-type-9-management'">
+                    <button ngbNavLink>รายงาน</button>
+                    <ng-template ngbNavContent>
+                        <wallet-type-9-management></wallet-type-9-management>
+                    </ng-template>
+                </li>
+            </ul>
+        </div>
+        <div [ngbNavOutlet]="nav" class="navs-content-container" [style.padding-top]="!isHiddenFillter ? '2rem' : '0'">
+        </div>
+    </div>
+</div>
