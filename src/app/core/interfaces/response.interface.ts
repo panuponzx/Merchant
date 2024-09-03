@@ -390,3 +390,45 @@ export interface IReplaceObuResponse extends ResponseMessageModel {
   result: {},
   id: string,
 }
+
+export interface IBasePageModel {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+}
+
+export interface ILogModel {
+  CustomerId: string,
+  CustomerName: string,
+  WalletId: string,
+  WalletName: string,
+  faremediaValue: string,
+  plateNo: string,
+  requestId: string,
+  action: string,
+  detail: IJsonField,
+  createdDate: string,
+}
+export interface ILogRowModel {
+  log: ILogModel
+  meaning: string
+}
+
+export interface IJsonField {
+  type: string,
+  value: string,
+  null: boolean
+}
+
+export interface ILogTable extends IBasePageModel {
+  elements: ILogModel[]
+}
+
+export interface IResponseLogModel extends ResponseMessageModel {
+  data: ILogTable
+}
+
+export interface IActionOptionResponse extends ResponseMessageModel {
+  data: string[]
+}

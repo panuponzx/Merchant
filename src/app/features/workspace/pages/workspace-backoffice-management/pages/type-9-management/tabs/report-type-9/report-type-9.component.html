@@ -1,1 +1,64 @@
-<p>report-type-9 works!</p>
+<div class="content-container container-xl p-0">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">reportComponent</h1>
+        </div>
+    </div>
+    <hr class="hr-custom" style="margin: 1rem 0rem;" />
+
+    <div class="user-type-container">
+        <icon-svg [size]="'57.14px'" [color]="'#2255CE'" [path]="'assets/images/icons/user_type_user.svg'"></icon-svg>
+        <div class="user-type-info-wrapper">
+            <h3 [style.color]="'#2255CE'">นาย Test 001</h3>
+            <div class="d-flex">
+                <span class="custom-badge customer-badge" [style.color]="'#2255CE'">ผู้ใช้งาน</span>
+                <span class="ms-2 my-auto label-input">วันที่สร้าง 10/04/2567 11:18:14</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="navs-container">
+        <div class="d-flex justify-content-between align-items-center">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
+                class="nav-tabs nav-tabs-header">
+                <li [ngbNavItem]="'customer-type-9-management'">
+                    <button ngbNavLink>Customer</button>
+                    <ng-template ngbNavContent>
+                        <div class="mt-3">
+                            <datatable *ngIf="currentTable === 'customer'" [columns]="columns"
+                                [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
+                                [pageSize]="limitRow" [page]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+                                (onRowActionEvent)="onActive($event)" (onChangePageEvent)="onChangePageInfo($event)">
+                            </datatable>
+                        </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="'wallet-type-9-management'">
+                    <button ngbNavLink>Fare Mediat</button>
+                    <ng-template ngbNavContent>
+                        <div class="mt-3">
+                            <datatable *ngIf="currentTable === 'customer'" [columns]="columns"
+                                [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
+                                [pageSize]="limitRow" [page]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+                                (onRowActionEvent)="onActive($event)" (onChangePageEvent)="onChangePageInfo($event)">
+                            </datatable>
+                        </div>
+                    </ng-template>
+                </li>
+            </ul>
+            <div class="col-12 col-md-4 d-flex align-items-center justify-content-end">
+                <div class="input-box d-flex align-items-center">
+                    <input class="form-control" id="searchInput" data-testid="searchInput" formControlName="search"
+                        placeholder="กรุณาระบุข้อมูล" type="text" />
+                    <div class="icon-search">
+                        <icon-svg [color]="'#2255CE'" [path]="'assets/images/icons/search.svg'" [size]="'m'" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div [ngbNavOutlet]="nav" class="navs-content-container" [style.padding-top]="!isHiddenFillter ? '2rem' : '0'">
+        <!-- Content goes here -->
+    </div>
+</div>

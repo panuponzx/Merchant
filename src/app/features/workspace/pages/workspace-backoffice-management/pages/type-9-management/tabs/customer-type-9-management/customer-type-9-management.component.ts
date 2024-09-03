@@ -22,7 +22,7 @@ export class CustomerType9ManagementComponent {
   public pages: number = 1;
   public columns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
-    { id: 'id', name: 'id', label: 'id', prop: 'id', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'id', name: 'id', label: 'id', prop: 'CustomerId', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'name', name: 'name', label: 'ชื่อหน่วยงาน', prop: 'name', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'remark', name: 'remark', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'create_date', name: 'create_date', label: 'ลงทะเบียนเมื่อ', prop: 'create_date', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
@@ -64,13 +64,14 @@ export class CustomerType9ManagementComponent {
   onActive(event: RowActionEventModel) {
     this.selectedCustomerId = event.row.id;
 
-    this.router.navigate(['/work-space/type-9-management/customer-type-9-management', this.selectedCustomerId], { relativeTo: this.activatedRoute });
+    this.router.navigate(['/work-space/type-9-management/wallet-type-9-management', this.selectedCustomerId], { relativeTo: this.activatedRoute });
+    console.log("onActive", this.selectedCustomerId);
     this.hiddenSearchMenu.emit(true);
   }
   handleOnBack(value: boolean) {
     this.hiddenSearchMenu.emit(value);
     this.selectedCustomerId = '';
-    this.router.navigate(['/work-space/type-9-management/customer-type-9-management'], { relativeTo: this.activatedRoute });
+    this.router.navigate(['/work-space/type-9-management/wallet-type-9-management'], { relativeTo: this.activatedRoute });
     this.loadCustomerType9();
   }
   onChangePage(page: number) {

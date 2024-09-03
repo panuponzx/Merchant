@@ -9,13 +9,13 @@
         <div class="d-flex justify-content-between">
             <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
                 class="nav-tabs nav-tabs-header">
-                <li [ngbNavItem]="'customer-type-9-management'">
+                <li [ngbNavItem]="'wallet-type-9-management'">
                     <button ngbNavLink>ค้นหา</button>
                     <ng-template ngbNavContent>
                         <search-type-9></search-type-9>
                     </ng-template>
                 </li>
-                <li [ngbNavItem]="'wallet-type-9-management'">
+                <li [ngbNavItem]="'report-type-9-management'">
                     <button ngbNavLink>รายงาน</button>
                     <ng-template ngbNavContent>
                         <wallet-type-9-management></wallet-type-9-management>

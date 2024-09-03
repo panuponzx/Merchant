@@ -117,6 +117,9 @@ import { ReportType9Component } from './pages/workspace-backoffice-management/pa
 import { AddCarModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/add-car-modal/add-car-modal.component';
 import { ChangeObuModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/change-obu-modal/change-obu-modal.component';
 import { EditWalletModalComponent } from './pages/workspace-backoffice-management/modals/edit-wallet-modal/edit-wallet-modal.component';
+import { CustomerReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/subTabs/customer-report-type9/customer-report-type9.component';
+import { WalletReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/subTabs/wallet-report-type9/wallet-report-type9.component';
+import { FaremediaReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/subTabs/faremedia-report-type9/faremedia-report-type9.component';
 
 @NgModule({
   declarations: [
@@ -220,7 +223,10 @@ import { EditWalletModalComponent } from './pages/workspace-backoffice-managemen
     ReportType9Component,
     AddCarModalComponent,
     ChangeObuModalComponent,
-    EditWalletModalComponent
+    EditWalletModalComponent,
+    CustomerReportType9Component,
+    WalletReportType9Component,
+    FaremediaReportType9Component
   ],
   imports: [
     CommonModule,

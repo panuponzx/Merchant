@@ -100,7 +100,7 @@ export const routesConfig: CustomRoutesModel = [
             component: Type9ManagementComponent,
             data: {
               default_path: 'type-9-management',
-              allowed_tabs: ['customer-type-9-management', 'wallet-type-9-management']
+              allowed_tabs: ['wallet-type-9-management', 'report-type-9-management']
             },
             canActivate: [TabGuard]
           },
@@ -110,7 +110,7 @@ export const routesConfig: CustomRoutesModel = [
             component: Type9ManagementComponent,
             data: {
               default_path: 'type-9-management',
-              allowed_tabs: ['customer-type-9-management', 'wallet-type-9-management']
+              allowed_tabs: ['wallet-type-9-management', 'report-type-9-management']
             },
             canActivate: [TabGuard]
           },
