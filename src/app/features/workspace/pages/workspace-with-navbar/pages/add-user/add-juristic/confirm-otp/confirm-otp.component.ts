@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { IOtpEmailResponse, IVerifyOtpRequest } from 'src/app/core/interfaces';
+import { IOtpEmailResponse, IVerifyOtpRequest, IVerifyOtpResponse } from 'src/app/core/interfaces';
 import { RestApiService, CustomRegEx } from 'src/app/core/services';
 import { CountdownService } from 'src/app/core/services/countdown/countdown.service';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
@@ -60,12 +60,16 @@ export class ConfirmOtpComponent {
       sysReference: this.verifyOtpRequest.sysReference
     }
     this.modalDialogService.loading();
-    this.restApiService.postBackOfficeWithModel<IVerifyOtpRequest, any>(`onboarding/${this.transactionId}/otp/email/verify`, paylaod).subscribe({
+    this.restApiService.postBackOfficeWithModel<IVerifyOtpRequest, IVerifyOtpResponse>(`onboarding/${this.transactionId}/otp/email/verify`, paylaod).subscribe({
       next: (res) => {
         this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
-          this.countdownService.resetStartCountdown();
-          this.nextStep.emit(res.data);
+          if (res.data.isValid) {
+            this.countdownService.resetStartCountdown();
+            this.nextStep.emit();
+          } else {
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.data.reasonCode);
+          }
         }
       },
       error: (error) => {
@@ -85,8 +89,12 @@ export class ConfirmOtpComponent {
       next: (res) => {
         this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
-          this.countdownService.resetStartCountdown();
-          this.nextStep.emit(res.data);
+          if (res.data.isValid) {
+            this.countdownService.resetStartCountdown();
+            this.nextStep.emit();
+          } else {
+            this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.data.reasonCode);
+          }
         }
       },
       error: (error) => {
@@ -112,7 +120,7 @@ export class ConfirmOtpComponent {
     this.restApiService.postBackOfficeWithModel<any, IOtpEmailResponse>(`onboarding/${this.transactionId}/otp/email/request`, paylaod).subscribe({
       next: (res) => {
         this.modalDialogService.hideLoading();
-        if(res.errorMessage === "Success") {
+        if (res.errorMessage === "Success") {
           this.countdownService.startCountdown(res.data.timeoutInSec);
         }
       },

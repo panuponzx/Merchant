@@ -298,3 +298,10 @@ export interface IFaremediaReturnedResponse {
   oldObu: string
   oldSmartCard: string
 }
+
+export interface IVerifyOtpResponse {
+  isValid: boolean
+  recipient: string
+  reasonCode: string
+  msg: any
+}
