@@ -1,0 +1,85 @@
+<div class="content-container container-xl p-0">
+    <div class="container mb-4" *ngIf="!hiddenSearchMenu">
+        <div class="column">
+            <!-- ฟอร์มสำหรับ Radio Buttons -->
+            <div class="col-12 col-md-6 mb-3" (change)="onChangeCiteria()">
+                <form [formGroup]="formTypeSearch" class="d-flex flex-wrap gap-2" [@fadeInseach]>
+                    <div class="form-check mb-2 flex-fill" [@fadeInOutseach]>
+                        <input class="form-check-input" id="customerNameRadio" formControlName="searchType" type="radio"
+                            value="customerName">
+                        <label class="form-check-label" for="customerNameRadio">
+                            ชื่อหน่วยงาน
+                        </label>
+                    </div>
+
+                    <div class="form-check mb-2 flex-fill" [@fadeInOutseach]>
+                        <input class="form-check-input" data-testid="walletNameRadio" id="walletNameRadio"
+                            formControlName="searchType" type="radio" value="wallet_name">
+                        <label class="form-check-label" for="walletNameRadio">
+                            หมายเลขข้างรถ (ชื่อกระเป๋า)
+                        </label>
+                    </div>
+
+                    <div class="form-check mb-2 flex-fill" [@fadeInOutseach]>
+                        <input class="form-check-input" data-testid="OBURadio" id="OBURadio"
+                            formControlName="searchType" type="radio" value="faremedia_value">
+                        <label class="form-check-label" for="OBURadio">
+                            หมายเลข OBU
+                        </label>
+                    </div>
+                    <div class="form-check mb-2 flex-fill" [@fadeInOutseach]>
+                        <input class="form-check-input" data-testid="plateNoRadio" id="plateNoRadio"
+                            formControlName="searchType" type="radio" value="plate_no">
+                        <label class="form-check-label" for="plateNoRadio">
+                            หมายเลขทะเบียนรถ
+                        </label>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ฟอร์มสำหรับ Input และปุ่ม -->
+            <div class="col-12 col-md-6">
+                <form [formGroup]="formSearch" class="d-flex align-items-end gap-3" (click)="search()">
+                    <div class="form-group">
+                        <label class="label-input text-nowrap" for="search">
+                            ค้นหาด้วย {{formTypeSearch.value.searchType ==="customerName"?
+                            "ชื่อหน่วยงาน":formTypeSearch.value.searchType ==="walletName" ?"หมายเลขข้างรถ
+                            (ชื่อกระเป๋า)":formTypeSearch.value.searchType ==="OBU"? "หมายเลข OBU":"หมายเลขทะเบียนรถ"}}
+                        </label>
+                        <div class="input-with-icon-wrapper">
+                            <input class="form-control input-icon-right" id="search" data-testid="search"
+                                formControlName="search"
+                                [placeholder]="'กรอก'+(formTypeSearch.value.searchType ==='customerName'?
+                            'ชื่อหน่วยงาน':formTypeSearch.value.searchType ==='walletName' ?'หมายเลขข้างรถ (ชื่อกระเป๋า)':formTypeSearch.value.searchType ==='OBU'?'หมายเลข OBU':'หมายเลขทะเบียนรถ')"
+                                type="text" />
+                            <icon-svg class="svg-search-icon" [color]="'#2255CE'"
+                                [path]="'assets/images/icons/search.svg'" [size]="'l'" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="button-wrapper">
+                            <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton"
+                                [disabled]="formSearch.invalid" title="ค้นหา" type="submit">
+                                <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'"
+                                    [path]="'search' | icon" />
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ปุ่มลงทะเบียน -->
+        <div class="d-flex justify-content-end mt-3">
+            <button class="btn btn-primary custom-btn btn-type-1 register-btn" type="submit" title="register"
+                (click)="onRegister()">
+                ลงทะเบียน
+            </button>
+        </div>
+    </div>
+
+    <ng-container *ngIf="!isLoading">
+        <customer-type-9-management [refreshTrigger]="refreshTrigger" [customerName]="customerName"
+            (hiddenSearchMenu)="handleHiddenSearchMenu($event)"></customer-type-9-management>
+    </ng-container>
+</div>

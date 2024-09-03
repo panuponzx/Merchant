@@ -92,13 +92,23 @@
             <ng-container *ngIf="column.type === 'button'">
               <button class="btn d-inline w-100" [ngClass]="column.button?.class ? column.button?.class : 'btn-primary'"
                 style="font-size: 0.8rem; white-space: nowrap;" [attr.data-testid]="column.id + rowIndex + 'Button'"
-                (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column.name })" 
-                [disabled]="(column.button?.mainProperty && column.button?.conditionDisable !== null) 
+                (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column.name })" [disabled]="(column.button?.mainProperty && column.button?.conditionDisable !== null) 
+                          ? (getColumnValue(column.button?.mainProperty??'', row) == column.button?.mainCondition) || column.button?.conditionDisable === value 
+                          : (column.button?.mainProperty 
+                              ? getColumnValue(column.button?.mainProperty??'', row) == column.button?.mainCondition 
+                              : false)" *ngIf="column.button?.label2">
+
+                {{ getColumnValue(column.button?.label2Condition??'', row) =='' ? column.button?.label2 :
+                column.button?.label }}
+              </button>
+              <button class="btn d-inline w-100" [ngClass]="column.button?.class ? column.button?.class : 'btn-primary'"
+                style="font-size: 0.8rem; white-space: nowrap;" [attr.data-testid]="column.id + rowIndex + 'Button'"
+                (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column.name })" [disabled]="(column.button?.mainProperty && column.button?.conditionDisable !== null) 
                             ? (getColumnValue(column.button?.mainProperty??'', row) == column.button?.mainCondition) || column.button?.conditionDisable === value 
                             : (column.button?.mainProperty 
                                 ? getColumnValue(column.button?.mainProperty??'', row) == column.button?.mainCondition 
-                                : false)">
-                                
+                                : false)" *ngIf="!column.button?.label2">
+
                 {{ column.button ? column.button.label : column.label }}
               </button>
             </ng-container>

@@ -1,0 +1,17 @@
+<div class="content-container container-xl p-0">
+    <ng-container>
+        <div *ngIf="selectedCustomerId !==''">
+            <faremedia-management-component [customerId]="selectedCustomerId" [searchType]="searchType"
+                (back)="handleOnBack($event)"></faremedia-management-component>
+        </div>
+        <ng-template #defaultTemplate>
+            <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'customerDatatable'"
+                [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="rows"
+                (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล"
+                (onChangePageEvent)="onChangePage($event)" />
+        </ng-template>
+        <ng-container *ngIf="selectedCustomerId == ''">
+            <ng-container *ngTemplateOutlet="defaultTemplate"></ng-container>
+        </ng-container>
+    </ng-container>
+</div>

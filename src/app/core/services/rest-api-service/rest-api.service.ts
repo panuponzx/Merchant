@@ -58,6 +58,7 @@ export class RestApiService {
   }
 
   postBackOffice(endpoint: string, body: any): Observable<ResponseMessageModel> {
+    console.log('postBackOffice', endpoint, body)
     const requestParam = {
       // reqId: self.crypto.randomUUID(),
       reqId: this.generateUUID(),
@@ -65,6 +66,7 @@ export class RestApiService {
     }
     body['requestParam'] = requestParam;
     const url = environment.apiBackOffice + '/' + endpoint;
+    console.log(url, body)
     return this.httpClient.post<ResponseMessageModel>(url, body)
   }
 

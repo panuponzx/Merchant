@@ -1,0 +1,3 @@
+<datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'customerDatatable'" [isLoading]="isLoading"
+    [pageSize]="limitRow" [page]="pages" [rows]="rows" (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล"
+    (onChangePageEvent)="onChangePage($event)" />

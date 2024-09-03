@@ -1,0 +1,89 @@
+<div class="content-container container-xl p-0">
+    <div class="content-container-header">
+        <div class="content-container-header-item">
+            <h1 class="content-title">รายงาน</h1>
+        </div>
+    </div>
+    <form [formGroup]="form" class="d-block d-sm-flex gap-3 align-items-end mb-3" (ngSubmit)="handelSummit()">
+        <div class="row g-2 g-sm-3 form-wrapper">
+            <div class="col-12 col-md-4">
+                <label class="label-input text-nowrap" for="startDateDatepicker">
+                    วันที่ (จาก)
+                </label>
+                <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" [maxDate]="yesterday"
+                    formControlName="startDate" [id]="'startDateDatePicker'" locale="th" [placeholder]="'กรุณาระบุ'"
+                    [placement]="'bottom'"></date-picker>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <label class="label-input text-nowrap" for="endDateDatepicker">
+                    วันที่ (ถึง)
+                </label>
+                <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="endDate"
+                    [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value" locale="th" [maxDate]="today"
+                    [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <label class="label-input text-nowrap" for="searchSelect">
+                        {{ this.activeTab === 'customer' ? 'หมายเลขลูกค้า (customer_id)' : this.activeTab === 'wallet' ?
+                        'หมายเลขกระเป๋าเงิน (wallet_id)' : 'หมายเลขอุปกรณ์ (faremedia_value)'}}
+                    </label>
+                    <input class="form-control" data-testid="searchSelect" formControlName="searchSelect"
+                        [placeholder]="'กรุณาระบุ'+(this.activeTab === 'customer' ? 'หมายเลขลูกค้า (customer_id)' : this.activeTab === 'wallet' ? 'หมายเลขกระเป๋าเงิน (wallet_id)' : 'หมายเลขอุปกรณ์ (faremedia_value)')"
+                        id="walletSelect">
+                </div>
+                <div class="col-12 col-md-4 column align-items-end d-flex gap-5">
+                    <button class="btn btn-primary" type="button" (click)="actionBox()">Actions</button>
+                    <div class="col-12 col-md-4 criterion" *ngIf="isActionCheckboxOpen">
+                        <div *ngFor="let option of showOptions" class="form-check">
+                            <input class="form-check-input" type="checkbox" [value]="option"
+                                (change)="onCheckboxChange($event)"
+                                [checked]="form.get('option')?.value.includes(option)" />
+                            <label class="label-input">{{ option }}</label>
+                        </div>
+                    </div>
+                    <div class="button-wrapper mt-3">
+                        <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา"
+                            type="submit" [disabled]="form.invalid">
+                            <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'" [path]="'search' | icon" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div class="navs-container">
+        <div class="d-flex justify-content-between">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
+                class="nav-tabs nav-tabs-header">
+                <li [ngbNavItem]="'customer'">
+                    <button ngbNavLink>หน่วยงาน</button>
+                    <ng-template ngbNavContent>
+                        <customer-report-type9 [refreshTrigger]="refreshTrigger" [actions]="actions"
+                            [customerId]="customerId"></customer-report-type9>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="'wallet'">
+                    <button ngbNavLink>หมายเลขข้างรถ (กระเป๋า)</button>
+                    <ng-template ngbNavContent>
+                        <wallet-report-type9 [refreshTrigger]="refreshTrigger" [actions]="actions"
+                            [walletId]="walletId"></wallet-report-type9>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="'faremedia'">
+                    <button ngbNavLink>อุปกรณ์</button>
+                    <ng-template ngbNavContent>
+                        <faremedia-report-type9 [refreshTrigger]="refreshTrigger" [actions]="actions"
+                            [faremediaValue]="faremediaValue"></faremedia-report-type9>
+                    </ng-template>
+                </li>
+            </ul>
+            <button class="custom-btn btn-type-1" type="submit" title="Export to csv" (click)="loadCsv()">
+                Export to csv
+            </button>
+        </div>
+        <div [ngbNavOutlet]="nav" class="navs-content-container">
+        </div>
+    </div>
+</div>

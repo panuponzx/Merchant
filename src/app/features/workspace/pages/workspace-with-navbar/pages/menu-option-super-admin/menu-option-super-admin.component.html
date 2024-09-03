@@ -1,45 +1,33 @@
 <div class="menu-container d-flex align-items-center justify-content-center h-100">
-    <div class="menu-option-content-wrapper">
-      <h2>การทางพิเศษ (EXAT)</h2>
-      <div class="menu-wrapper">
-        <button
-          class="custom-btn btn-type-2"
-          data-testid="searchType9Button"
-          id="searchType9Button"
-          title="ค้นหา"
-          (click)="searchType9()"
-        >
-          <h4>
-            <icon-svg
-              [color]="'#FFFFFF'"
-              [path]="'assets/images/icons/user-search.svg'"
-              [size]="'m'"
-            />ค้นหา
-          </h4>
-        </button>
-        <button
-          class="custom-btn btn-type-2 mb-5"
-          data-testid="addCarType9Button"
-          id="addCarType9Button"
-          title="ลงทะเบียน รถประเภท 9"
-          (click)="addCarType9()"
-        >
-            <h4>
-              <icon-svg
-                [color]="'#FFFFFF'"
-                [path]="'assets/images/icons/add.svg'"
-                [size]="'m'"
-              />ลงทะเบียน รถประเภท 9
-            </h4>
-        </button>
-        <button
-            class="custom-btn btn-back"
-            data-testid="backButton"
-            id="backButton"
-            title="ย้อนกลับ"
-            (click)="onBackToHome()"
-          >
-            กลับ
-          </button>
-  </div>
-  
+  <div class="menu-option-content-wrapper">
+    <h2>การทางพิเศษ (EXAT)</h2>
+    <div class="menu-wrapper">
+      <button class="custom-btn btn-type-2" data-testid="searchType9Button" id="searchType9Button" title="ค้นหา"
+        (click)="searchType9()">
+        <h4>
+          <icon-svg [color]="'#FFFFFF'" [path]="'assets/images/icons/user-search.svg'" [size]="'m'" />ค้นหา
+        </h4>
+      </button>
+      <button class="custom-btn btn-type-2" data-testid="addCarType9Button" id="addCarType9Button"
+        title="ลงทะเบียน รถประเภท 9" (click)="addCarType9()">
+        <h4>
+          <icon-svg [color]="'#FFFFFF'" [path]="'assets/images/icons/add.svg'" [size]="'m'" />ลงทะเบียน รถประเภท 9
+        </h4>
+      </button>
+      <button class="custom-btn btn-type-2" data-testid="testCardRegister" id="testCardRegister"
+      title="ลงทะเบียน บัตรทดสอบ" (click)="testCardManagement()">
+      <h4>
+        <icon-svg [color]="'#FFFFFF'" [path]="'assets/images/icons/add.svg'" [size]="'m'" />ลงทะเบียน บัตรทดสอบ
+      </h4>
+    </button>
+      <button class="custom-btn btn-type-2 mb-5" data-testid="Type9ManagementButton" id="Type9ManagementButton"
+        title="การจัดการกระเป๋าเงิน ประเภทที่ 9" (click)="type9Management()">
+        <h4>
+          <icon-svg [color]="'#FFFFFF'" [path]="'assets/images/icons/user_type_employee.svg'" [size]="'l'" />การจัดการกระเป๋าเงิน ประเภทที่ 9
+        </h4>
+      </button>
+      <button class="custom-btn btn-back" data-testid="backButton" id="backButton" title="ย้อนกลับ"
+        (click)="onBackToHome()">
+        กลับ
+      </button>
+    </div>

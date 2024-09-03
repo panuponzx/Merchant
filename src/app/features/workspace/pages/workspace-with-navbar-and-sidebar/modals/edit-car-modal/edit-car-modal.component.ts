@@ -8,6 +8,7 @@ import { RestApiService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
 import { CustomerModel } from '../../../../../../core/interfaces';
 import { CancelObuModalComponent } from '../cancel-obu-modal/cancel-obu-modal.component';
+import { ChangeObuModalComponent } from '../change-obu-modal/change-obu-modal.component';
 
 @Component({
   selector: 'app-edit-car-modal',
@@ -20,6 +21,7 @@ export class EditCarModalComponent {
   @Input() public carInfo: CarInfoModel | any = {} as CarInfoModel;
   @Input() public walletIdList: number[] = [];
   @Input() public walletId: any = undefined;
+  @Input() public canEditType: boolean = true;
   public brandList: ICarModal[] = [];
   provinceList: IProvinceModal[] = [];
 
@@ -49,6 +51,7 @@ export class EditCarModalComponent {
   }
 
   ngOnInit() {
+    console.log('carInfo', this.carInfo);
     this.loadBrand();
     this.loadProvince();
     this.form.get('licensePlate')?.setValue(this.carInfo.plateNo);
@@ -63,7 +66,9 @@ export class EditCarModalComponent {
     this.form.get('isType9')?.setValue(this.carInfo.isType9);
     this.form.get('walletId')?.setValue(this.walletId);
     this.form.get('color')?.setValue(this.carInfo.carColor);
-
+    if (!this.canEditType) {
+      this.form.get('isType9')?.disable();
+    }
   }
 
   // brand select dropdown
@@ -165,7 +170,26 @@ export class EditCarModalComponent {
     //   }
     // });
   }
-
+  onChangeOBU() {
+    const modelRef = this.ngbModal.open(ChangeObuModalComponent, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    modelRef.componentInstance.FaremediaValue = this.form.get('obuPan')?.value;
+    modelRef.componentInstance.CardNo = this.form.get('smartcardNo')?.value;
+    modelRef.result.then(
+      (result) => {
+        if (result) {
+          console.log('[onChangeOBU] result => ', result);
+          window.location.reload();
+        }
+      },
+      (reason) => {
+        console.log('[onChangeOBU] reason => ', reason);
+      }
+    );
+  }
   onSuspend() {
     Swal.fire({
       input: "text",
