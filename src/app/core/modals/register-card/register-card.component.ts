@@ -40,7 +40,25 @@ export class RegisterCardComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        this.modalDialogService.handleError(error);
+        let errorText;
+        try{
+          var throwableMessage = error.body.throwableMessage;
+          switch (throwableMessage) {
+            case 'OBU was existed in test':
+              errorText = 'หมายเลขอุปกรณ์ ถูกลงทะเบียนแล้ว';
+              break;
+            case 'OBU was not existed':
+              errorText = 'หมายเลขอุปกรณ์ ไม่มีอยู่ในระบบ';
+              break;
+            case 'Add test obu failed':
+              errorText = 'เพิ่มข้อมูลอุปกรณ์ทดสอบล้มเหลว';
+              break;
+          }
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);;
+        }catch(_){
+          this.modalDialogService.handleError(error)
+        }
+
         this.modalDialogService.hideLoading();
       }
     });

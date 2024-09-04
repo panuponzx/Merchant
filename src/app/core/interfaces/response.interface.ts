@@ -209,14 +209,15 @@ export interface ITestFaremediaInfoModel {
   totalElements: number
   totalPages: number
   pageSize: number
-  elements: ITestFaremediaInfoModel[]
+  elements: ITestFaremediaInfoRowModel[]
 }
-export interface ITestFaremediaInfoModel {
+export interface ITestFaremediaInfoRowModel {
   faremediaValue: string,
   status: boolean,
   isReserved: boolean,
   update_date: string,
   create_date: string,
+  faremediaStatus: number,
 }
 export interface IReponseRegisterTestFaremediaModel extends ResponseMessageModel {
   data: ITestFaremediaRegisterModel
