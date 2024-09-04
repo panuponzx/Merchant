@@ -47,7 +47,7 @@
                             <input class="form-check-input" type="checkbox" [value]="option"
                                 (change)="onCheckboxChange($event)"
                                 [checked]="form.get('option')?.value.includes(option)" />
-                            <label class="label-input">{{ option }}</label>
+                            <label class="label-input">{{ getOptionsText(option) }}</label>
                         </div>
 
                     </div>

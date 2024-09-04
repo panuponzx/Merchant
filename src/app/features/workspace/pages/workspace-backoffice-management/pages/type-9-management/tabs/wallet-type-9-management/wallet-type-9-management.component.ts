@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { IActionOptionResponse } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
+import { getOptionsText } from 'src/app/features/utils/textUtils';
 
 @Component({
   selector: 'wallet-type-9-management',
@@ -124,6 +125,12 @@ export class WalletType9ManagementComponent {
       }
     });
   }
+  
+  getOptionsText(value:string) {
+    return getOptionsText(value)
+    
+  }
+
   _loadActionOption() {
     return this.restApiService.getBackOffice("customer-type-9/get-actions") as Observable<IActionOptionResponse>;
   }

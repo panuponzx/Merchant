@@ -413,8 +413,9 @@ export interface ILogModel {
   createdDate: string,
 }
 export interface ILogRowModel {
-  log: ILogModel
-  meaning: string
+  log: ILogModel,
+  meaning: string,
+  actionMeaning: string,
 }
 
 export interface IJsonField {
