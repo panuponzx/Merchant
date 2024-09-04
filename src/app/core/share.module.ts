@@ -18,7 +18,7 @@ import { PipesModule } from './pipes';
     LoadingModalComponent,
     ConfirmModalComponent,
     BorrowingModalComponent,
-    RegisterCardComponent
+    RegisterCardComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +31,7 @@ import { PipesModule } from './pipes';
   exports: [
     ShareComponentModule,
     PipesModule,
-    DirectivesModule
+    DirectivesModule,
   ],
   providers: []
 })

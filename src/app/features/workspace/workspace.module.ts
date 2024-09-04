@@ -111,7 +111,6 @@ import { EditWalletModalComponent } from './pages/workspace-backoffice-managemen
 import { RegisterCustomerType9Component } from './pages/workspace-backoffice-management/modals/register-customer-type-9/register-customer-type-9.component';
 import { CustomerType9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/customer-type-9-management/customer-type-9-management.component';
 import { FaremediaManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/customer-type-9-management/faremedia-management/faremedia-management.component';
-import { ReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/report-type-9/report-type-9.component';
 import { SearchType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/search-type-9/search-type-9.component';
 import { CustomerReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/subTabs/customer-report-type9/customer-report-type9.component';
 import { FaremediaReportType9Component } from './pages/workspace-backoffice-management/pages/type-9-management/tabs/wallet-type-9-management/subTabs/faremedia-report-type9/faremedia-report-type9.component';
@@ -222,7 +221,6 @@ import { SuspendModalComponent } from './pages/workspace-with-navbar-and-sidebar
     FaremediaManagementComponent,
     RegisterCustomerType9Component,
     SearchType9Component,
-    ReportType9Component,
     AddCarModalComponent,
     ChangeObuModalComponent,
     EditWalletModalComponent,
