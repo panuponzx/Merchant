@@ -20,6 +20,7 @@ export class WalletType9ManagementComponent {
   public isHiddenFillter: boolean = false;
   public today: Date = new Date();
   public yesterday: Date = new Date(this.today);
+  public maxDateEnd: Date = new Date(this.yesterday);
   public refreshTrigger: number = 0;
   public customerId: string = '';
   public walletId: string = '';
@@ -31,8 +32,6 @@ export class WalletType9ManagementComponent {
   public actions: string[] = [];
   public isActionCheckboxOpen: boolean = false;
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     private restApiService: RestApiService,
     private modalDialogService: ModalDialogService,
   ) {
@@ -68,6 +67,9 @@ export class WalletType9ManagementComponent {
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
   }
+  onEndDateChange(event : any){
+    this.maxDateEnd = event;
+  }
   handelSummit() {
     if (this.form.invalid) {
       return;
@@ -90,6 +92,15 @@ export class WalletType9ManagementComponent {
   actionBox() {
     this.isActionCheckboxOpen = !this.isActionCheckboxOpen;
   }
+  clearCriterion(){
+    this.form.get("option")?.setValue([]);
+  }
+  selectAllCriterion(){
+    this.form.get("option")?.setValue(this.showOptions);
+  }
+  closeCriterion(){
+    this.isActionCheckboxOpen = false;
+  }
   onCheckboxChange(event: any) {
     const selectedOption = event.target.value;
     const checked = event.target.checked;
@@ -108,7 +119,6 @@ export class WalletType9ManagementComponent {
       next: (res) => {
         this.options = res.data;
         this.showOptions = this.options;
-        this.form.get('option')?.setValue(this.options);
       },
       error: (err) => {
         console.log(err);

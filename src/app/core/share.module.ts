@@ -7,18 +7,18 @@ import { DirectivesModule } from './directives';
 import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
 import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 import { LoadingModalComponent } from './modals/loading-modal/loading-modal.component';
-import { PipesModule } from './pipes';
 import { BorrowingModalComponent } from './modals/borrowing-modal/borrowing-modal.component';
 import { RegisterCardComponent } from './modals/register-card/register-card.component';
+import { PipesModule } from './pipes';
 
 @NgModule({
   declarations: [
-  
+
     InfoModalComponent,
-       LoadingModalComponent,
-       ConfirmModalComponent,
-       BorrowingModalComponent,
-       RegisterCardComponent
+    LoadingModalComponent,
+    ConfirmModalComponent,
+    BorrowingModalComponent,
+    RegisterCardComponent,
   ],
   imports: [
     CommonModule,
@@ -26,12 +26,12 @@ import { RegisterCardComponent } from './modals/register-card/register-card.comp
     PipesModule,
     DirectivesModule,
     ReactiveFormsModule,
-    
+
   ],
   exports: [
     ShareComponentModule,
     PipesModule,
-    DirectivesModule
+    DirectivesModule,
   ],
   providers: []
 })

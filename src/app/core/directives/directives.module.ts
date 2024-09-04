@@ -7,6 +7,7 @@ import { IdCardDirective } from './id-card.directive';
 import { AutofocusDirective } from './autofocus.directive';
 import { RestrictInputDirective } from './restrict-input.directive';
 import { UppercaseDirective } from './uppercase.directive';
+import { ClickOutsideDirective } from './click-outside.directive';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { UppercaseDirective } from './uppercase.directive';
     IdCardDirective,
     AutofocusDirective,
     RestrictInputDirective,
-    UppercaseDirective
+    UppercaseDirective,
+    ClickOutsideDirective
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { UppercaseDirective } from './uppercase.directive';
     IdCardDirective,
     AutofocusDirective,
     RestrictInputDirective,
-    UppercaseDirective
+    UppercaseDirective,
+    ClickOutsideDirective
   ]
 })
 export class DirectivesModule {}

@@ -111,7 +111,7 @@ export class BorrowingModalComponent {
       mockupData = {
         faremediaValue: this.faremediaValue,
         name: this.form.value.name,
-        institution: this.form.value.institution,
+        institute: this.form.value.institution,
         expectedReturnDate: this.form.value.returnDate,
       };
     } else {

@@ -209,14 +209,15 @@ export interface ITestFaremediaInfoModel {
   totalElements: number
   totalPages: number
   pageSize: number
-  elements: ITestFaremediaInfoModel[]
+  elements: ITestFaremediaInfoRowModel[]
 }
-export interface ITestFaremediaInfoModel {
+export interface ITestFaremediaInfoRowModel {
   faremediaValue: string,
   status: boolean,
   isReserved: boolean,
   update_date: string,
   create_date: string,
+  faremediaStatus: number,
 }
 export interface IReponseRegisterTestFaremediaModel extends ResponseMessageModel {
   data: ITestFaremediaRegisterModel
@@ -338,6 +339,7 @@ export interface IWalletWithFaremediaModel {
   plateProvince: string,
   carYear: string,
   faremediaStatus: string,
+  faremediaStatusName: string,
 }
 export interface ICustomerWithWalletModel {
   customerType9: ICustomerType9Model
@@ -438,4 +440,21 @@ export interface IVerifyOtpResponse {
   recipient: string
   reasonCode: string
   msg: any
+}
+export interface IResonsSuspendResponseModel extends ResponseMessageModel {
+  data: IResonsSuspendModel[]
+}
+export interface IResonsSuspendModel {
+  id: string
+  name: string
+}
+
+export interface IChangeStatusTestFaremediaResponseModel extends ResponseMessageModel {
+  data: IChangeStatusTestFaremediaModel
+}
+export interface IChangeStatusTestFaremediaModel {
+  data: string,
+  errorCode: string,
+  errorMessage: string,
+  throwableMessage: string
 }
