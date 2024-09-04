@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { CustomColumnModel, ICustomerType9Model, IJsonField, ILogModel, ILogRowModel, IResponseLogModel, RowActionEventModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
-
+import { getOptionsText} from 'src/app/features/utils/textUtils'
 @Component({
   selector: 'customer-report-type9',
   templateUrl: './customer-report-type9.component.html',
@@ -25,8 +25,8 @@ export class CustomerReportType9Component {
     { id: 'CustomerName', name: 'CustomerName', label: 'ชื่อหน่วยงาน', prop: 'log.CustomerName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'WalletId', name: 'WalletId', label: 'หมายเลขกระเป๋า', prop: 'log.WalletId', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'faremediaValue', name: 'faremediaValue', label: 'OBU serial no.', prop: 'log.faremediaValue', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'action', name: 'action', label: 'action', prop: 'log.action', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'detail', name: 'detail', label: 'รายละเอียด', prop: 'meaning', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'action', name: 'action', label: 'action', prop: 'actionMeaning', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'detail', name: 'detail', label: 'รายละเอียด', prop: 'meaning', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-start', type: 'p' },
     { id: 'createdDate', name: 'createdDate', label: 'เวลา', prop: 'log.createdDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'requestId', name: 'requestId', label: 'requestId', prop: 'log.requestId', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center long-text', type: 'text' },
   ];
@@ -66,6 +66,7 @@ export class CustomerReportType9Component {
             this.rows.push({
               log: element,
               meaning: this.handleActionDetail(element.action, element),
+              actionMeaning:this.getText(element.action)
             } as ILogRowModel);
           });
           this.collectionSize = res.data.totalElements;
@@ -83,16 +84,17 @@ export class CustomerReportType9Component {
     );
   }
   handleActionDetail(action: string, row: ILogModel) {
+    var value = JSON.parse(row.detail.value);
     if (action === "CUSTOMER:CREATE") {
       return `ลงทะเบียน Customer "${row.CustomerName}"`;
     }
     if (action === "WALLET:CREATE") {
-      var value = JSON.parse(row.detail.value);
+      
       return `สร้าง Wallet "${value.wallet.walletName}"`;
     }
     if (action ==="OBU:CREATE"){
-      var value = JSON.parse(row.detail.value);
-      return `สร้าง OBU \n[\nเลขทะเบียน:"${value.car.licensePlate}"\nจังหวัด:"${value.car.province}"...]`;
+
+      return `สร้าง OBU \nเลขทะเบียน - ${value.car.licensePlate}\nจังหวัด - ${value.car.province}\nยี่ห้อ - ${value.car.brand}\nรุ่น - ${value.car.model}\nสี - ${value.car.color}\nปีที่จดทะเบียน - ${value.car.yearRegistration}\nหมายเลข OBU - ${value.obu.obuPan}\nประเภท OBU - ${value.obu.isType9 ? 'ประเภท 9' : 'ไม่ใช่ประเภท 9'}\nหมายเลขบัตร Smartcard - ${value.obu.smartcardNo}\nหมายเลข Wallet - ${value.obu.walletId}\nหมายเลขลูกค้า - ${value.customer.id}\nช่องทาง - ${value.requestParam.channelId}\n`;
     }
 
     return `ไม่พบข้อมูล`;
@@ -105,5 +107,8 @@ export class CustomerReportType9Component {
       actions: this.actions,
     };
     return this.restApiService.postBackOffice("customer-type-9/get-log-customer", payload) as Observable<IResponseLogModel>;
+  }
+  getText(value: string){
+    return getOptionsText(value)
   }
 }

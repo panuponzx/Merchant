@@ -87,4 +87,7 @@ export class DatatableComponent {
   getColumnValue(key: string, row: any): any {
     return row[key] || '';
   }
+  getFormattedText(value: string): string {
+    return value.replace(/\n/g, '<br>');
+  }
 }
