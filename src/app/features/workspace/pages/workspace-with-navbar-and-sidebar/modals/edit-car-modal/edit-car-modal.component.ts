@@ -203,6 +203,7 @@ export class EditCarModalComponent {
     modalRef.componentInstance.obuNumber = this.carInfo.faremediaValue;
     modalRef.componentInstance.smartCardId = this.carInfo.walletSmartcardNo;
     modalRef.componentInstance.walletId = this.walletId;
+    
     modalRef.result.then(
       (result) => {
         if (result) {

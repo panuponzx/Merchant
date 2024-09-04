@@ -339,6 +339,7 @@ export interface IWalletWithFaremediaModel {
   plateProvince: string,
   carYear: string,
   faremediaStatus: string,
+  faremediaStatusName: string,
 }
 export interface ICustomerWithWalletModel {
   customerType9: ICustomerType9Model

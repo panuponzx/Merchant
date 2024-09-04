@@ -57,7 +57,7 @@ export class SuspendModalComponent {
             this.modalDialogService.handleError(err);
           }
         });
-    }else{
+    } else {
       this.form.patchValue({
         reason: "0",
       })
@@ -113,6 +113,7 @@ export class SuspendModalComponent {
   onSuspend() {
     if (this.form.valid) {
       this.modalDialogService.loading();
+      var idNumber = this.form.get('identificationNumber')?.value;
       const payload = {
         obu: {
           obuPan: this.obuNumber,
@@ -127,7 +128,7 @@ export class SuspendModalComponent {
         requestBy: this.form.get('name')?.value,
         requestPosition: this.form.get('position')?.value,
         requestRelation: this.form.get('relationship')?.value,
-        requestIdNo: this.form.get('identificationNumber')?.value,
+        requestIdNo: idNumber !== undefined && idNumber !== null ? idNumber : "0000000000000"
       }
       this.restApiService.postBackOffice('faremedia/suspend-obu-by-staff', payload).subscribe(
         {
@@ -147,6 +148,7 @@ export class SuspendModalComponent {
   onActive() {
     if (this.form.valid) {
       this.modalDialogService.loading();
+      var idNumber = this.form.get('identificationNumber')?.value;
       const payload = {
         obu: {
           obuPan: this.obuNumber,
@@ -161,7 +163,7 @@ export class SuspendModalComponent {
         requestBy: this.form.get('name')?.value,
         requestPosition: this.form.get('position')?.value,
         requestRelation: this.form.get('relationship')?.value,
-        requestIdNo: this.form.get('identificationNumber')?.value,
+        requestIdNo: idNumber !== undefined && idNumber !== null ? idNumber : "0000000000000"
       }
       this.restApiService.postBackOffice('faremedia/active-obu-by-staff', payload).subscribe(
         {
