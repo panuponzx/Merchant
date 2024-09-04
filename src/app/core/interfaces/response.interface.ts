@@ -438,3 +438,20 @@ export interface IVerifyOtpResponse {
   reasonCode: string
   msg: any
 }
+export interface IResonsSuspendResponseModel extends ResponseMessageModel {
+  data: IResonsSuspendModel[]
+}
+export interface IResonsSuspendModel {
+  id: string
+  name: string
+}
+
+export interface IChangeStatusTestFaremediaResponseModel extends ResponseMessageModel {
+  data: IChangeStatusTestFaremediaModel
+}
+export interface IChangeStatusTestFaremediaModel {
+  data: string,
+  errorCode: string,
+  errorMessage: string,
+  throwableMessage: string
+}

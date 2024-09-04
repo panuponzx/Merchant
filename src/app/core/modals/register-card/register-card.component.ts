@@ -1,7 +1,6 @@
-import { Component, Input, } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TransformDatePipe } from '../../pipes';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestApiService } from '../../services';
 import { Observable, zip } from 'rxjs';
 import { IReponseRegisterTestFaremediaModel } from '../../interfaces';
@@ -27,38 +26,30 @@ export class RegisterCardComponent {
     });
   }
   onClose() {
-    this.ngbActiveModal.dismiss();
+    this.ngbActiveModal.close();
   }
-  async onSummit() {
+  onSummit() {
     this.isLoading = true;
     this.modalDialogService.loading();
-    zip(
-      await this.registerTestFaremedia()
-    ).pipe().subscribe(
-      (response) => {
+    this.registerTestFaremedia().subscribe({
+      next: (_) => {
         this.isLoading = false;
         this.modalDialogService.hideLoading();
-        this.ngbActiveModal.close();
+        this.modalDialogService.info("success", "#2255CE", "ลงทะเบียนบัตรทดสอบสำเร็จ");
+        this.ngbActiveModal.close(true);
       },
-      (error) => {
+      error: (error) => {
         this.isLoading = false;
         this.modalDialogService.handleError(error);
         this.modalDialogService.hideLoading();
-      });
-    this.ngbActiveModal.close();
+      }
+    });
   }
-  async registerTestFaremedia() {
+  registerTestFaremedia() {
     const mockupData = {
       faremediaValue: this.form.value.faremediaValue,
     };
     return this.restApiService.postBackOffice('faremedia/create/test-obu', mockupData) as Observable<IReponseRegisterTestFaremediaModel>;
 
-  }
-
-  async searchFaremediaWithWalletId(){
-    const mockupData = {
-      faremediaValue: this.form.value.faremediaValue,
-    };
-    return this.restApiService.postBackOffice('faremedia/create/test-obu', mockupData) as Observable<IReponseRegisterTestFaremediaModel>;
   }
 }
