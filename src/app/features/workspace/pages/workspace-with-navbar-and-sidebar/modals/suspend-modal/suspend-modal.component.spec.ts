@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReportType9Component } from './report-type-9.component';
+import { SuspendModalComponent } from './suspend-modal.component';
 
-describe('ReportType9Component', () => {
-  let component: ReportType9Component;
-  let fixture: ComponentFixture<ReportType9Component>;
+describe('SuspendModalComponent', () => {
+  let component: SuspendModalComponent;
+  let fixture: ComponentFixture<SuspendModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReportType9Component]
+      declarations: [SuspendModalComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ReportType9Component);
+    fixture = TestBed.createComponent(SuspendModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,7 +1,6 @@
-import { Component, Input, } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TransformDatePipe } from '../../pipes';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestApiService } from '../../services';
 import { Observable, zip } from 'rxjs';
 import { IReponseRegisterTestFaremediaModel } from '../../interfaces';
@@ -27,38 +26,48 @@ export class RegisterCardComponent {
     });
   }
   onClose() {
-    this.ngbActiveModal.dismiss();
-  }
-  async onSummit() {
-    this.isLoading = true;
-    this.modalDialogService.loading();
-    zip(
-      await this.registerTestFaremedia()
-    ).pipe().subscribe(
-      (response) => {
-        this.isLoading = false;
-        this.modalDialogService.hideLoading();
-        this.ngbActiveModal.close();
-      },
-      (error) => {
-        this.isLoading = false;
-        this.modalDialogService.handleError(error);
-        this.modalDialogService.hideLoading();
-      });
     this.ngbActiveModal.close();
   }
-  async registerTestFaremedia() {
-    const mockupData = {
-      faremediaValue: this.form.value.faremediaValue,
-    };
-    return this.restApiService.postBackOffice('faremedia/create/test-obu', mockupData) as Observable<IReponseRegisterTestFaremediaModel>;
+  onSummit() {
+    this.isLoading = true;
+    this.modalDialogService.loading();
+    this.registerTestFaremedia().subscribe({
+      next: (_) => {
+        this.isLoading = false;
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.info("success", "#2255CE", "ลงทะเบียนบัตรทดสอบสำเร็จ");
+        this.ngbActiveModal.close(true);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        let errorText;
+        try{
+          var throwableMessage = error.body.throwableMessage;
+          switch (throwableMessage) {
+            case 'OBU was existed in test':
+              errorText = 'หมายเลขอุปกรณ์ ถูกลงทะเบียนแล้ว';
+              break;
+            case 'OBU was not existed':
+              errorText = 'หมายเลขอุปกรณ์ ไม่มีอยู่ในระบบ';
+              break;
+            case 'Add test obu failed':
+              errorText = 'เพิ่มข้อมูลอุปกรณ์ทดสอบล้มเหลว';
+              break;
+          }
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);;
+        }catch(_){
+          this.modalDialogService.handleError(error)
+        }
 
+        this.modalDialogService.hideLoading();
+      }
+    });
   }
-
-  async searchFaremediaWithWalletId(){
+  registerTestFaremedia() {
     const mockupData = {
       faremediaValue: this.form.value.faremediaValue,
     };
     return this.restApiService.postBackOffice('faremedia/create/test-obu', mockupData) as Observable<IReponseRegisterTestFaremediaModel>;
+
   }
 }

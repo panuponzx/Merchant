@@ -26,7 +26,7 @@ export class RestApiService {
 
   generateRequestParam() {
     return {
-      // reqId: self.crypto.randomUUID(),
+      // reqId: self.crypto.randomUUID(),h
       reqId: this.generateUUID(),
       channelId: this.requestParamChannelId
     }

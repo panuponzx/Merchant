@@ -10,7 +10,7 @@
                 <label class="label-input text-nowrap" for="startDateDatepicker">
                     วันที่ (จาก)
                 </label>
-                <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" [maxDate]="yesterday"
+                <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" [maxDate]="maxDateEnd"
                     formControlName="startDate" [id]="'startDateDatePicker'" locale="th" [placeholder]="'กรุณาระบุ'"
                     [placement]="'bottom'"></date-picker>
             </div>
@@ -19,7 +19,7 @@
                     วันที่ (ถึง)
                 </label>
                 <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="endDate"
-                    [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value" locale="th" [maxDate]="today"
+                    [id]="'endDateDatePicker'" [minDate]="form.get('startDate')?.value" locale="th" [maxDate]="today" (onChangeDate)="onEndDateChange($event)"
                     [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
             </div>
             <div class="row">
@@ -34,13 +34,22 @@
                 </div>
                 <div class="col-12 col-md-4 column align-items-end d-flex gap-5">
                     <button class="btn btn-primary" type="button" (click)="actionBox()">Actions</button>
-                    <div class="col-12 col-md-4 criterion" *ngIf="isActionCheckboxOpen">
+                    <div class="col-12 col-md-4 criterion" *ngIf="isActionCheckboxOpen" ClickOutside (clickOutside)="closeCriterion()">
+                        <div class="row mb-3">
+                            <label class="label-input" for="searchSelect">เลือกเงื่อนไข</label>
+                            <div class="d-flex p-0 gap-3">
+                                <button class="btn btn-light" type="button" (click)="clearCriterion()">clear</button>
+                                <button class="btn btn-primary" type="button" (click)="selectAllCriterion()">select all</button>
+                            </div>
+                        </div>
+                        <hr class="hr-custom mb-3"/>
                         <div *ngFor="let option of showOptions" class="form-check">
                             <input class="form-check-input" type="checkbox" [value]="option"
                                 (change)="onCheckboxChange($event)"
                                 [checked]="form.get('option')?.value.includes(option)" />
-                            <label class="label-input">{{ option }}</label>
+                            <label class="label-input">{{ getOptionsText(option) }}</label>
                         </div>
+
                     </div>
                     <div class="button-wrapper mt-3">
                         <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton" title="ค้นหา"

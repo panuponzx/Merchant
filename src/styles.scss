@@ -72,6 +72,12 @@ html body {
   }
 }
 
+.suspend-modal{
+  .modal-content{
+    width: 300px;
+  }
+}
+
 @keyframes show-modal {
   0% {
     transform: scale(0.7);
