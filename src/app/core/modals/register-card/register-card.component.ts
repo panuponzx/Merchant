@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestApiService } from '../../services';
 import { Observable, zip } from 'rxjs';
-import { IReponseRegisterTestFaremediaModel } from '../../interfaces';
+import { IFaremediaOwnerInfoResponseModel, IReponseRegisterTestFaremediaModel } from '../../interfaces';
 import { ModalDialogService } from '../../services/modal-dialog/modal-dialog.service';
+import { ConfirmCheckComponent } from './confirm-check/confirm-check.component';
 
 @Component({
   selector: 'app-register-card',
@@ -19,7 +20,8 @@ export class RegisterCardComponent {
     private restApiService: RestApiService,
     private formBuilder: FormBuilder,
     public ngbActiveModal: NgbActiveModal,
-    private modalDialogService: ModalDialogService
+    private modalDialogService: ModalDialogService,
+    private modalService: NgbModal,
   ) {
     this.form = this.formBuilder.group({
       faremediaValue: new FormControl({ value: undefined, disabled: false }, Validators.required),
@@ -28,46 +30,58 @@ export class RegisterCardComponent {
   onClose() {
     this.ngbActiveModal.close();
   }
-  onSummit() {
+
+  onSummitConfirmCheck() {
     this.isLoading = true;
     this.modalDialogService.loading();
-    this.registerTestFaremedia().subscribe({
-      next: (_) => {
+    this.ConfirmCheckFaremedia().subscribe({
+      next: (response) => {
         this.isLoading = false;
         this.modalDialogService.hideLoading();
-        this.modalDialogService.info("success", "#2255CE", "ลงทะเบียนบัตรทดสอบสำเร็จ");
-        this.ngbActiveModal.close(true);
+        const modalRef = this.modalService.open(ConfirmCheckComponent, {
+          centered: true,
+          backdrop: 'static',
+          size: 'm',
+          keyboard: false,
+        });
+        modalRef.componentInstance.faremediaInfo = response.data;
+        modalRef.result.then((result) => {
+          if (result === 'confirm') {
+            console.log('User confirmed check for faremediaValue:', response.data.faremediaValue);
+          }
+        }).catch(() => {
+          console.log('Modal dismissed');
+        });
       },
       error: (error) => {
         this.isLoading = false;
         let errorText;
-        try{
+        try {
           var throwableMessage = error.body.throwableMessage;
           switch (throwableMessage) {
-            case 'OBU was existed in test':
+            case 'Faremedia test is existed and active':
               errorText = 'หมายเลขอุปกรณ์ ถูกลงทะเบียนแล้ว';
               break;
-            case 'OBU was not existed':
+            case 'Faremedia is not existed':
               errorText = 'หมายเลขอุปกรณ์ ไม่มีอยู่ในระบบ';
               break;
-            case 'Add test obu failed':
-              errorText = 'เพิ่มข้อมูลอุปกรณ์ทดสอบล้มเหลว';
+            default:
+              errorText = error.body.throwableMessage;
               break;
           }
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);;
-        }catch(_){
-          this.modalDialogService.handleError(error)
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);
+        } catch (_) {
+          this.modalDialogService.handleError(error);
         }
-
         this.modalDialogService.hideLoading();
       }
     });
   }
-  registerTestFaremedia() {
+
+  ConfirmCheckFaremedia() {
     const mockupData = {
       faremediaValue: this.form.value.faremediaValue,
     };
-    return this.restApiService.postBackOffice('faremedia/create/test-obu', mockupData) as Observable<IReponseRegisterTestFaremediaModel>;
-
+    return this.restApiService.postBackOffice('faremedia/test/get-obu-owner ', mockupData) as Observable<IFaremediaOwnerInfoResponseModel>;
   }
 }

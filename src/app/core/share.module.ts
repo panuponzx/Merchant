@@ -10,6 +10,7 @@ import { LoadingModalComponent } from './modals/loading-modal/loading-modal.comp
 import { BorrowingModalComponent } from './modals/borrowing-modal/borrowing-modal.component';
 import { RegisterCardComponent } from './modals/register-card/register-card.component';
 import { PipesModule } from './pipes';
+import { ConfirmCheckComponent } from './modals/register-card/confirm-check/confirm-check.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { PipesModule } from './pipes';
     ConfirmModalComponent,
     BorrowingModalComponent,
     RegisterCardComponent,
+    ConfirmCheckComponent,
   ],
   imports: [
     CommonModule,

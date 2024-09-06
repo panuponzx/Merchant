@@ -218,6 +218,7 @@ export interface ITestFaremediaInfoRowModel {
   update_date: string,
   create_date: string,
   faremediaStatus: number,
+  attachmentNo: string,
 }
 export interface IReponseRegisterTestFaremediaModel extends ResponseMessageModel {
   data: ITestFaremediaRegisterModel
@@ -457,4 +458,24 @@ export interface IChangeStatusTestFaremediaModel {
   errorCode: string,
   errorMessage: string,
   throwableMessage: string
+}
+
+export interface IFaremediaOwnerInfoModel {
+  faremediaValue: string;
+  faremediaStatusId: number;
+  faremediaStatus: string;
+  cardNo: string;
+  walletId: string;
+  walletName: string;
+  customerName: string;
+  customerId: string;
+}
+
+export interface ResponseMessageModel {
+  errorCode: string;
+  errorMessage: string;
+}
+
+export interface IFaremediaOwnerInfoResponseModel extends ResponseMessageModel {
+  data: IFaremediaOwnerInfoModel;
 }

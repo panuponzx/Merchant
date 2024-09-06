@@ -37,7 +37,7 @@ export class WalletType9ManagementComponent {
   ) {
     this.form = new FormGroup({
       searchSelect: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
-      endDate: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
+      endDate: new FormControl({ value: this.today, disabled: false }, [Validators.required]),
       startDate: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
       option: new FormControl([], [Validators.required]),
     });
@@ -119,6 +119,7 @@ export class WalletType9ManagementComponent {
       next: (res) => {
         this.options = res.data;
         this.showOptions = this.options;
+        this.form.get('option')?.setValue(this.showOptions);
       },
       error: (err) => {
         console.log(err);

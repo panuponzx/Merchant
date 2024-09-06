@@ -97,3 +97,16 @@ export interface ISearchJuristicRequest {
   limit: number
   page: number
 }
+
+export interface IBorrowTestFaremediaRequest {
+  reqId: string
+  channelId: string
+  faremediaValue: string
+  name: string
+  institute: string
+  borrowDate: string
+  expectedReturnDate: string
+  remark: string
+  fileNo: string
+  file: File
+}

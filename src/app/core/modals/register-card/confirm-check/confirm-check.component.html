@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h2 class="modal-title">ตรวจสอบหมายเลขอุปกรณ์</h2>
+</div>
+<div class="modal-body" *ngIf="faremediaInfo">
+    <div class="info-container">
+        <div class="info-item">
+            <strong>หมายเลข OBU:</strong>
+            <p>{{ faremediaInfo.faremediaValue }}</p>
+        </div>
+        <div class="info-item">
+            <strong>สถานะ:</strong>
+            <p>{{ faremediaInfo.faremediaStatus }}</p>
+        </div>
+        <div class="info-item">
+            <strong>หมายเลข Smartcard:</strong>
+            <p>{{ faremediaInfo.cardNo }}</p>
+        </div>
+        <div class="info-item">
+            <strong>หมายเลขกระเป๋า:</strong>
+            <p>{{ faremediaInfo.walletId }}</p>
+        </div>
+        <div class="info-item">
+            <strong>ชื่อกระเป๋า:</strong>
+            <p>{{ faremediaInfo.walletName }}</p>
+        </div>
+        <div class="info-item">
+            <strong>ชื่อเจ้าของ:</strong>
+            <p>{{ faremediaInfo.customerName }}</p>
+        </div>
+        <div class="info-item">
+            <strong>หมายเลขลูกค้า:</strong>
+            <p>{{ faremediaInfo.customerId }}</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
+        <button class="custom-btn btn-type-1 text" (click)="onConfirm()">ยืนยัน</button>
+    </div>
+</div>

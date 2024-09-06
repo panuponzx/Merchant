@@ -6,29 +6,57 @@
   <div class="modal-body">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="name">ชื่อ นามสกุล</label>
-        <input type="text" id="name" formControlName="name">
+        <label class="label-input required-field" for="name">ชื่อ นามสกุล</label>
+        <input class="form-control" type="text" id="name" formControlName="name"
+          placeholder="กรุณากรอกชื่อ นามสกุล ทำการรายการ">
       </div>
       <div class="form-group">
-        <label for="institution">หน่วยงาน</label>
-        <input type="text" id="institution" formControlName="institution">
+        <label class="label-input" for="institution">หน่วยงาน</label>
+        <input class="form-control" type="text" id="institution" formControlName="institution"
+          placeholder="กรุณากรอกชื่อหน่วยงาน">
+      </div>
+      <div class="form-group" *ngIf="actionType === 'borrow'">
+        <label class="label-input required-field" for="attachmentNumber">เลขที่หนังสือ</label>
+        <input class="form-control" type="text" id="attachmentNumber" formControlName="attachmentNumber"
+          placeholder="กรุณากรอกเลขหนังสือ">
+      </div>
+      <div class="form-group d-flex flex-column" *ngIf="actionType === 'borrow'">
+        <label class="label-input required-field" for="attachment">แนบเอกสาร</label>
+        <input #inputFile id="attachment" class="d-none" type="file" (change)="fileTypeValidation($event)" />
+        <button style="width: 100%" class="custom-btn btn-type-3" data-testid="attachment" id="file" title="อัพโหลด"
+          (click)="inputFile.click()">
+          <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
+          Browse - Upload
+        </button>
+        <span>{{ form.get('file')?.value?.name }}</span>
+
       </div>
       <div class="form-group">
-        <label for="date">{{ actionType === 'borrow' ? 'วันที่ยืม/เบิก' : 'วันที่คืน' }}</label>
-        <input type="date" id="date" formControlName="date" [min]="minDate">
+        <label class="label-input required-field" for="date">{{ actionType === 'borrow' ? 'วันที่ยืม/เบิก' : 'วันที่คืน'
+          }}</label>
+        <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="date"
+          [id]="'date'" locale="th" [maxDate]="minDate"
+          [placeholder]="'กรุณากรอกวันที่'+(actionType === 'borrow' ? 'วันที่ยืม/เบิก' : 'วันที่คืน')"
+          [placement]="'bottom'"></date-picker>
       </div>
       <div *ngIf="actionType === 'borrow'" class="form-group">
-        <label for="returnDate">วันที่คาดว่าจะคืน</label>
-        <input type="date" id="returnDate" formControlName="returnDate"  [min]="minDate">
+        <label class="label-input required-field" for="returnDate">วันที่คาดว่าจะคืน</label>
+          <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="returnDate"
+          [id]="'date'" locale="th" [minDate]="minDate"
+          [placeholder]="'กรุณากรอกวันที่คาดว่าจะคืน'"
+          [placement]="'bottom'"></date-picker>
       </div>
       <div *ngIf="actionType === 'return'" class="form-group">
-        <label for="remark">หมายเหตุ</label>
-        <textarea class="form-control" rows="3" id="remark" formControlName="remark" style="resize:none"></textarea>
+        <label class="label-input" for="remark">หมายเหตุ</label>
+        <textarea class="form-control" rows="3" id="remark" formControlName="remark" style="resize:none"
+          placeholder="กรุณากรอกหมายเหตุ"></textarea>
       </div>
+
       <div class="d-flex justify-content-end gap-3">
         <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
         <button class="custom-btn btn-type-1 text" [disabled]="!form.valid">ตกลง</button>
       </div>
+
     </form>
   </div>
 </div>

@@ -8,6 +8,7 @@ import { AddCarModalComponent } from 'src/app/features/workspace/pages/workspace
 import { AddWalletModalComponent } from 'src/app/features/workspace/pages/workspace-with-navbar-and-sidebar/modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from 'src/app/features/workspace/pages/workspace-with-navbar-and-sidebar/modals/edit-car-modal/edit-car-modal.component';
 import { EditWalletModalComponent } from '../../../../../modals/edit-wallet-modal/edit-wallet-modal.component';
+import { mode } from 'crypto-js';
 
 @Component({
   selector: 'faremedia-management-component',
@@ -92,6 +93,8 @@ export class FaremediaManagementComponent {
       modelRef.componentInstance.walletId = event.row.walletId;
       modelRef.componentInstance.customerId = this.customerId;
       modelRef.componentInstance.canEditType = false;
+      modelRef.componentInstance.isType9 = true;
+      modelRef.componentInstance.walletName = event.row.walletName;
       var carInfo = {
         plateNo: event.row.plateNo,
         plateProvince: event.row.plateProvince,

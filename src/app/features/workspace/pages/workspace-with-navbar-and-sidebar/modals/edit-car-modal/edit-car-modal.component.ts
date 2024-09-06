@@ -23,6 +23,8 @@ export class EditCarModalComponent {
   @Input() public walletIdList: number[] = [];
   @Input() public walletId: any = undefined;
   @Input() public canEditType: boolean = true;
+  @Input() public walletName: string = '';
+  @Input() public isType9: boolean = false;
   public brandList: ICarModal[] = [];
   provinceList: IProvinceModal[] = [];
 
@@ -39,6 +41,7 @@ export class EditCarModalComponent {
     walletId: new FormControl(undefined, Validators.required),
     province: new FormControl(undefined, Validators.required),
     color: new FormControl(undefined, Validators.required),
+    walletName: new FormControl({ value: undefined, disabled: true }),
   });
 
 
@@ -67,8 +70,12 @@ export class EditCarModalComponent {
     this.form.get('isType9')?.setValue(this.carInfo.isType9);
     this.form.get('walletId')?.setValue(this.walletId);
     this.form.get('color')?.setValue(this.carInfo.carColor);
+    this.form.get("walletName")?.setValue(this.walletName);
     if (!this.canEditType) {
       this.form.get('isType9')?.disable();
+    }
+    if (this.isType9) {
+      this.form.get('walletId')?.disable();
     }
   }
 
@@ -203,7 +210,7 @@ export class EditCarModalComponent {
     modalRef.componentInstance.obuNumber = this.carInfo.faremediaValue;
     modalRef.componentInstance.smartCardId = this.carInfo.walletSmartcardNo;
     modalRef.componentInstance.walletId = this.walletId;
-    
+
     modalRef.result.then(
       (result) => {
         if (result) {
