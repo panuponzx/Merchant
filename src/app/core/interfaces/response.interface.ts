@@ -460,3 +460,22 @@ export interface IChangeStatusTestFaremediaModel {
   throwableMessage: string
 }
 
+export interface IFaremediaOwnerInfoModel {
+  faremediaValue: string;
+  faremediaStatusId: number;
+  faremediaStatus: string;
+  cardNo: string;
+  walletId: string;
+  walletName: string;
+  customerName: string;
+  customerId: string;
+}
+
+export interface ResponseMessageModel {
+  errorCode: string;
+  errorMessage: string;
+}
+
+export interface IFaremediaOwnerInfoResponseModel extends ResponseMessageModel {
+  data: IFaremediaOwnerInfoModel;
+}

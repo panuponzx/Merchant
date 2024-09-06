@@ -3,21 +3,35 @@
     <h2>ลงทะเบียนบัตรทดสอบ</h2>
     <h3 class="mb-3">กรุณากรอกข้อมูลบัตรทดสอบ</h3>
   </div>
-
   <div class="modal-body">
-    <form [formGroup]="form" (submit)="onSummit()">
+    <!-- <form [formGroup]="form" (submit)="onSummit()">
       <div class="row" style="margin-bottom: 1rem;">
         <div class="col-sm-12 col-md-12">
           <label class="label-input required-field" for="faremediaValue">หมายเลขอุปกรณ์</label>
           <input id="faremediaValue" class="form-control" formControlName="faremediaValue">
-          <div class="form-control" *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
+          <div class="form-control" *ngIf="form.get('faremediaValue')?.invalid && form.get('faremediaValue')?.touched" class="text-danger">
             จำเป็นต้องกรอกหมายเลขอุปกรณ์
           </div>
         </div>
       </div>
       <div class="d-flex justify-content-end gap-3">
-        <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
-        <button class="custom-btn btn-type-1 text" [disabled]="form.invalid">ลงทะเบียน</button>
+       <button class="custom-btn btn-type-1 outline" type="button" (click)="onClose()">ย้อนกลับ</button>
+        <button class="custom-btn btn-type-1 text" type="button" [disabled]="form.invalid" (click)="onSummit()">ตรวจสอบ</button>
+      </div>
+    </form> -->
+    <form [formGroup]="form">
+      <div class="row" style="margin-bottom: 1rem;">
+        <div class="col-sm-12 col-md-12">
+          <label class="label-input required-field" for="faremediaValue">หมายเลขอุปกรณ์</label>
+          <input id="faremediaValue" class="form-control" formControlName="faremediaValue">
+          <div class="form-control" *ngIf="form.get('faremediaValue')?.invalid && form.get('faremediaValue')?.touched" class="text-danger">
+            จำเป็นต้องกรอกหมายเลขอุปกรณ์
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end gap-3">
+        <button class="custom-btn btn-type-1 outline" type="button" (click)="onClose()">ย้อนกลับ</button>
+        <button class="custom-btn btn-type-1 text" type="button" [disabled]="form.invalid" (click)="onSummitConfirmCheck()">ตรวจสอบ</button>
       </div>
     </form>
   </div>
