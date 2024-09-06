@@ -16,21 +16,13 @@
                     </div>
                     <div class="col-6 mb-3">
                         <label class="label-input required-field" for="province">
-                          จังหวัด
+                            จังหวัด
                         </label>
-                        <ng-select
-                          class="form-control"
-                          [clearable]="false"
-                          bindLabel="provinceName"
-                          bindValue="provinceName"
-                          data-testid="province"
-                          placeholder="กรุณาระบุ"
-                          id="province"
-                          [items]="provinceList"
-                          formControlName="province"
-                          >
+                        <ng-select class="form-control" [clearable]="false" bindLabel="provinceName"
+                            bindValue="provinceName" data-testid="province" placeholder="กรุณาระบุ" id="province"
+                            [items]="provinceList" formControlName="province">
                         </ng-select>
-                      </div>
+                    </div>
 
                 </div>
                 <div class="col-12 mb-3">
@@ -45,15 +37,8 @@
                         <label class="label-input required-field" for="brandSelect">
                             ยี่ห้อ
                         </label>
-                        <ng-select
-                            class="form-control"
-                            [clearable]="false"
-                            bindLabel="brand"
-                            bindValue="brand"
-                            data-testid="brandSelect"
-                            placeholder="กรุณาระบุ"
-                            id="brandSelect"
-                            formControlName="brand"
+                        <ng-select class="form-control" [clearable]="false" bindLabel="brand" bindValue="brand"
+                            data-testid="brandSelect" placeholder="กรุณาระบุ" id="brandSelect" formControlName="brand"
                             [items]="brandList">
                         </ng-select>
                     </div>
@@ -61,7 +46,8 @@
                         <label class="label-input required-field" for="modelSelect">
                             รุ่น
                         </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="modelSelect" formControlName="model" data-testid="modelSelect" type="text">
+                        <input class="form-control" placeholder="กรุณาระบุ" id="modelSelect" formControlName="model"
+                            data-testid="modelSelect" type="text">
 
                     </div>
                 </div>
@@ -70,14 +56,15 @@
                         <label class="label-input required-field" for="yearRegistrationSelect">
                             ปีจดทะเบียน
                         </label>
-                        <input class="form-control" data-testid="yearRegistrationSelect" formControlName="yearRegistration"
-                            id="yearRegistrationSelect" type="number" min="1900">
+                        <input class="form-control" data-testid="yearRegistrationSelect"
+                            formControlName="yearRegistration" id="yearRegistrationSelect" type="number" min="1900">
                     </div>
                     <div class="col-6 mb-3">
                         <label class="label-input required-field" for="color">
                             สีรถ
                         </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="color" formControlName="color" data-testid="color" type="text">
+                        <input class="form-control" placeholder="กรุณาระบุ" id="color" formControlName="color"
+                            data-testid="color" type="text">
 
                     </div>
                 </div>
@@ -94,8 +81,8 @@
                     <label class="label-input required-field" for="obuPanInput">
                         หมายเลข OBU
                     </label>
-                    <input class="form-control" data-testid="obuPanInput" formControlName="obuPan"
-                        id="obuPanInput" type="text">
+                    <input class="form-control" data-testid="obuPanInput" formControlName="obuPan" id="obuPanInput"
+                        type="text">
                 </div>
                 <div class="col-12 mb-3">
                     <label class="label-input required-field" for="smartcardNoInput">
@@ -104,16 +91,18 @@
                     <input class="form-control" data-testid="smartcardNoInput" formControlName="smartcardNo"
                         id="smartcardNoInput" type="text">
                 </div>
-                <div class="col-12 mb-3">
+                <div class="col-12 mb-3" *ngIf="!isType9">
                     <h3 class="mb-3 required-field">ประเภทรถผู้ใช้งาน</h3>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" formControlName="isType9" [value]="false" name="isType9" id="carNormalRadio">
+                        <input class="form-check-input" type="radio" formControlName="isType9" [value]="false"
+                            name="isType9" id="carNormalRadio">
                         <label class="label-input" for="carNormalRadio">
                             รถบุคคลทั่วไป
                         </label>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" formControlName="isType9" [value]="true" name="isType9" id="carType9Radio">
+                        <input class="form-check-input" type="radio" formControlName="isType9" [value]="true"
+                            name="isType9" id="carType9Radio">
                         <label class="label-input" for="carType9Radio">
                             รถพนักงานการทางพิเศษ (ประเภท 9)
                         </label>
@@ -123,17 +112,17 @@
                     <label class="label-input required-field" for="walletIdSelect">
                         ผูกกระเป๋า
                     </label>
-                    <ng-select
-                        class="form-control"
-                        [clearable]="false"
-                        bindLabel="lable"
-                        bindValue="id"
-                        data-testid="walletIdSelect"
-                        placeholder="กรุณาระบุ"
-                        id="walletIdSelect"
-                        formControlName="walletId"
-                        [items]="walletIdList">
+                    <ng-select class="form-control" [clearable]="false" bindLabel="lable" bindValue="id"
+                        data-testid="walletIdSelect" placeholder="กรุณาระบุ" id="walletIdSelect"
+                        formControlName="walletId" [items]="walletIdList">
                     </ng-select>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input" for="walletName">
+                        หมายเลขข้างรถ (ชื่อกระเป๋า)
+                    </label>
+                    <input class="form-control" data-testid="walletName" formControlName="walletName"
+                        id="walletName" type="text">
                 </div>
                 <!-- <div class="col-12 mb-3">
                     <button style="width: 100%" class="custom-btn btn-type-1 red"><icon-svg [color]="'#FFF'" [path]="'assets/images/icons/unlink.svg'" [size]="'m'" /> ยกเลิกการผูก eWallet</button>
@@ -144,9 +133,12 @@
     <div class="d-flex justify-content-between">
         <div class="left">
             <button class="custom-btn btn-type-1 red-outline" (click)="onDeactivate()">ยกเลิกอุปกรณ์</button>
-            <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onSuspend()" *ngIf="carInfo.faremediaStatusId == 200">อายัดชั่วคราว</button>
-            <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onChangeOBU()" *ngIf="carInfo.faremediaStatusId == 200">เปลี่ยนหมายเลข OBU.</button>
-            <button class="custom-btn btn-type-1 outline ms-2" (click)="onActive()" *ngIf="(carInfo.faremediaStatusId >= 300 && carInfo.faremediaStatusId <= 399) && carInfo.faremediaStatusId !== 304">ยกเลิกการอายัด</button>
+            <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onSuspend()"
+                *ngIf="carInfo.faremediaStatusId == 200">อายัดชั่วคราว</button>
+            <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onChangeOBU()"
+                *ngIf="carInfo.faremediaStatusId == 200">เปลี่ยนหมายเลข OBU.</button>
+            <button class="custom-btn btn-type-1 outline ms-2" (click)="onActive()"
+                *ngIf="(carInfo.faremediaStatusId >= 300 && carInfo.faremediaStatusId <= 399) && carInfo.faremediaStatusId !== 304">ยกเลิกการอายัด</button>
         </div>
         <div class="right d-flex justify-content-center gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ยกเลิก</button>

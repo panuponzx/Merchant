@@ -39,5 +39,8 @@ export class Type9ManagementComponent {
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
   }
+  onBack(){
+    this.router.navigate(['work-space/menu-option-super-admin']);
+  }
 
 }

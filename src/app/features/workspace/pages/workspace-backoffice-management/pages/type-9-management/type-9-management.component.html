@@ -1,10 +1,12 @@
 <div class="content-container container-xl p-0 custom-container">
+
     <div class="content-container-header">
-        <div class="content-container-header-item">
+        <div class="content-container-header-item d-flex gap-3">
+            <button class="btn btn-light" (click)="onBack()">ย้อนกลับ</button>
             <h1 class="content-title">ระบบจัดการกระเป๋าเงิน Type-9</h1>
         </div>
     </div>
-    <hr class="hr-custom mb-3"/>
+    <hr class="hr-custom mb-3" />
     <div class="navs-container">
         <div class="d-flex justify-content-between">
             <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"

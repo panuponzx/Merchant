@@ -53,6 +53,11 @@ export class RegisterCardComponent {
             case 'Add test obu failed':
               errorText = 'เพิ่มข้อมูลอุปกรณ์ทดสอบล้มเหลว';
               break;
+            case 'receive OBU was not OBU type':
+              errorText = 'รหัสอุปกรณ์ไม่ใช่ OBU';
+              break;
+            default:
+              errorText = error.body.throwableMessage;
           }
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);;
         }catch(_){

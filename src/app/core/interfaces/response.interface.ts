@@ -218,6 +218,7 @@ export interface ITestFaremediaInfoRowModel {
   update_date: string,
   create_date: string,
   faremediaStatus: number,
+  attachmentNo: string,
 }
 export interface IReponseRegisterTestFaremediaModel extends ResponseMessageModel {
   data: ITestFaremediaRegisterModel
@@ -458,3 +459,4 @@ export interface IChangeStatusTestFaremediaModel {
   errorMessage: string,
   throwableMessage: string
 }
+
