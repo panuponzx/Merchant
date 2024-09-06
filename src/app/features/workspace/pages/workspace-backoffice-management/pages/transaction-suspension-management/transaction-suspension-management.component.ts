@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { first, map } from 'rxjs';
-import { CustomColumnModel, IResponseTransactionSuspensionModal, ITransactionSuspensionElementModal, RowActionEventModel } from 'src/app/core/interfaces';
+import { CarInfoModel, CustomColumnModel, CustomerModel, IResponseTransactionSuspensionModal, ITransactionSuspensionElementModal, RowActionEventModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 import { TransactionSuspensionModalComponent } from '../../modals/transaction-suspension-modal/transaction-suspension-modal.component';
+import { SuspendModalComponent } from '../../../workspace-with-navbar-and-sidebar/modals/suspend-modal/suspend-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditCarModalComponent } from '../../../workspace-with-navbar-and-sidebar/modals/edit-car-modal/edit-car-modal.component';
 
 @Component({
   selector: 'app-transaction-suspension-management',
@@ -13,6 +15,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './transaction-suspension-management.component.scss'
 })
 export class TransactionSuspensionManagementComponent {
+
+  @Input() public customer: CustomerModel | undefined;
+  @Input() public carInfo: CarInfoModel | any = {} as CarInfoModel;
 
   form: FormGroup;
 
@@ -34,8 +39,7 @@ export class TransactionSuspensionManagementComponent {
     private modalDialogService: ModalDialogService,
     private restApiService: RestApiService,
     private ngbModal: NgbModal
-  ) 
-  {
+  ) {
     this.form = this.formBuilder.group({
       search: new FormControl(undefined, [Validators.required])
     });
@@ -87,9 +91,9 @@ export class TransactionSuspensionManagementComponent {
       (result) => {
         if (result) {
           console.log('[onAction] result => ', result);
-          if(result) {
+          if (result) {
             this.rows = [];
-            if(this.form.get('search')?.value) {
+            if (this.form.get('search')?.value) {
               this.load();
             }
           }
@@ -100,5 +104,28 @@ export class TransactionSuspensionManagementComponent {
       }
     );
   }
+
+  // modalRef.componentInstance.customer = customer;
+  // modalRef.componentInstance.carInfo = carInfo;
+
+  //   modalRef.result.then(
+  //     (result) => {
+  //       console.log('[openSuspendModal] result => ', result);
+  //       if (result) {
+  //         // Action something Modal 
+  //       }
+  //     },
+  //     (reason) => {
+  //       console.log('[openSuspendModal] reason => ', reason);
+  //     }
+  //   );
+  // }
+
+  // onClickOpenSuspendModal() {
+  //   const customer = ('birthdate);
+  //   const carInfo = ("service");
+
+  //   this.openSuspendModal(customer, carInfo);
+  // } 
 
 }

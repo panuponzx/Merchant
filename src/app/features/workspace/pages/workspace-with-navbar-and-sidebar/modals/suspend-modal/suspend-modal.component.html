@@ -1,0 +1,75 @@
+<div class="modal-body">
+
+    <div class="header-label">
+        <h2>รายละเอียดการ{{isSuspend?"":"ยกเลิก"}}อายัดอุปกรณ์</h2>
+        <h3 class="mb-3">กรุณาตรวจสอบรายละเอียด</h3>
+    </div>
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label class="label-input" for="transactionDate">หมายเลข OBU:</label>
+                <span id="transactionDate">{{ obuNumber }}</span>
+            </div>
+        </div>
+        <div class="row" *ngIf="isSuspend">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="reason">เหตุผล</label>
+                <ng-select class="form-control" id="reason" [clearable]="false" bindLabel="name" bindValue="id"
+                    [items]="reasonOptions" formControlName="reason" placeholder="กรุณาระบุเหตุผล" name="reason">
+                </ng-select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label class="label-input" for="identificationInput">
+                    รายละเอียด
+                </label>
+                <textarea data-testid="remark" id="remark" formControlName="remark" placeholder="กรุณาระบุ" rows="3"
+                    class="form-control">
+            </textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-3 d-flex flex-row-reverse" style="justify-content: start;gap:1rem;">
+                <label class="label-input form-check-label" for="isCancelOnBehalfReason">
+                    กรณีแจ้งยกเลิกแทนผู้อื่น
+                </label>
+                <input class="form-check-input" type="checkbox" id="isCancelOnBehalfReason"
+                    formControlName="isCancelOnBehalfReason" (change)="onChangeCancelOnBehalfReason()">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="name">ชื่อ-สกุล</label>
+                <input class="form-control" data-testid="name" formControlName="name" id="name" type="text">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label class="label-input" for="position">ตำแหน่ง</label>
+                <input class="form-control" data-testid="position" formControlName="position" id="position" type="text">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="relationship">ความสัมพันธ์</label>
+                <input class="form-control" data-testid="relationship" formControlName="relationship" id="relationship"
+                    type="text">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="identificationNumber">เลขบัตรประชาชน</label>
+                <input class="form-control" data-testid="identificationNumber" formControlName="identificationNumber"
+                    id="identificationNumber" type="text">
+            </div>
+        </div>
+        <div class="d-flex justify-content-end gap-3">
+            <button class="custom-btn btn-type-1 outline" type="button" (click)="onClose()">ย้อนกลับ</button>
+            <button class="custom-btn btn-type-1 text" type="submit" (click)="onSuspend()" [disabled]="!form.valid"
+                *ngIf="isSuspend">ยืนยันรายการ</button>
+            <button class="custom-btn btn-type-1 text" type="submit" (click)="onActive()" [disabled]="!form.valid"
+                *ngIf="!isSuspend">ยืนยันรายการ</button>
+        </div>
+    </form>
+</div>

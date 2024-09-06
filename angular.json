@@ -49,7 +49,7 @@
           },
           "configurations": {
             "default": {
-              "optimization": false,
+              "optimization": true,
               "outputHashing": "all",
               "sourceMap": true,
               "namedChunks": true,
