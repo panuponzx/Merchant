@@ -120,6 +120,7 @@ import { Type9ManagementComponent } from './pages/workspace-backoffice-managemen
 import { AddCarModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/add-car-modal/add-car-modal.component';
 import { ChangeObuModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/change-obu-modal/change-obu-modal.component';
 import { SuspendModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/suspend-modal/suspend-modal.component';
+import { ConfirmCancelWithEmployeeIdComponent } from './pages/workspace-with-navbar-and-sidebar/modals/confirm-cancel-with-employee-id/confirm-cancel-with-employee-id.component';
 
 @NgModule({
   declarations: [
@@ -226,7 +227,8 @@ import { SuspendModalComponent } from './pages/workspace-with-navbar-and-sidebar
     EditWalletModalComponent,
     CustomerReportType9Component,
     WalletReportType9Component,
-    FaremediaReportType9Component
+    FaremediaReportType9Component,
+    ConfirmCancelWithEmployeeIdComponent
   ],
   imports: [
     CommonModule,

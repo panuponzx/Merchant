@@ -4,6 +4,9 @@ import { CustomColumnModel, ReponseTopupModel, RowActionEventModel, TopupModel }
 import { TopupPayloadModel } from '../../../../../../../../core/interfaces/payload.interface';
 import { RestApiService } from '../../../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PassageInfoModalComponent } from '../../../../modals/passage-info-modal/passage-info-modal.component';
+import { ConfirmCancelWithEmployeeIdComponent } from '../../../../modals/confirm-cancel-with-employee-id/confirm-cancel-with-employee-id.component';
 
 @Component({
   selector: 'topup-information',
@@ -41,7 +44,8 @@ export class TopupInformationComponent implements OnInit {
 
   constructor(
     private restApiService: RestApiService,
-    private modalDialogService: ModalDialogService
+    private modalDialogService: ModalDialogService,
+    private ngbModal: NgbModal
   ) {
   }
 
@@ -107,46 +111,85 @@ export class TopupInformationComponent implements OnInit {
   onCancel(event: RowActionEventModel) {
     console.log("[onCancel] event => ", event);
     const row: TopupModel = event.row;
-    this.modalDialogService.confirm(
-      'ยืนยันการยกเลิกการเติมเงิน',
-      'กรุณายืนยัน',
-      'กลับ',
-      'ยกเลิกการเติมเงิน')
-      .then((res: boolean) => {
-        console.log("[confirm] res => ", res);
-        if (res) {
-          const data = {
-            transactionId: row.transactionId,
-            amount: row.amount,
+    const modalRef = this.ngbModal.open(ConfirmCancelWithEmployeeIdComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'm',
+      keyboard: false,
+    });
+    modalRef.componentInstance.title = 'ยกเลิกการเติมเงิน';
+    modalRef.componentInstance.onSubmitted = () => {
+      const data = {
+        transactionId: row.transactionId,
+        amount: row.amount,
+      }
+      this.modalDialogService.loading();
+      return this.restApiService
+        .postBackOffice('transaction-balance/void-topup', data)
+        .pipe(
+          first(),
+          map(res => res as any)
+        )
+        .subscribe({
+          next: (res) => {
+            console.log(res);
+            this.modalDialogService.hideLoading();
+            if (res.errorMessage === "Success") {
+              this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การยกเลิกการเติมเงินสำเร็จ').then((res: boolean) => {
+                if (res && this.tempSearch) this.loadTopupInformation(this.tempSearch);
+              });
+            } else {
+              this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+            }
+          },
+          error: (err) => {
+            console.error(err);
+            this.modalDialogService.handleError(err);
+            // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
+            this.modalDialogService.hideLoading();
           }
-          this.modalDialogService.loading();
-          this.restApiService
-            .postBackOffice('transaction-balance/void-topup', data)
-            .pipe(
-              first(),
-              map(res => res as any)
-            )
-            .subscribe({
-              next: (res) => {
-                console.log(res);
-                this.modalDialogService.hideLoading();
-                if (res.errorMessage === "Success") {
-                  this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การยกเลิกการเติมเงินสำเร็จ').then((res: boolean) => {
-                    if (res && this.tempSearch) this.loadTopupInformation(this.tempSearch);
-                  });
-                } else {
-                  this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
-                }
-              },
-              error: (err) => {
-                console.error(err);
-                this.modalDialogService.handleError(err);
-                // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
-                this.modalDialogService.hideLoading();
-              }
-            })
-        }
-      })
+        })
+    }
+    // this.modalDialogService.confirm(
+    //   'ยืนยันการยกเลิกการเติมเงิน',
+    //   'กรุณายืนยัน',
+    //   'กลับ',
+    //   'ยกเลิกการเติมเงิน')
+    //   .then((res: boolean) => {
+    //     console.log("[confirm] res => ", res);
+    //     if (res) {
+    //       const data = {
+    //         transactionId: row.transactionId,
+    //         amount: row.amount,
+    //       }
+    //       this.modalDialogService.loading();
+    //       this.restApiService
+    //         .postBackOffice('transaction-balance/void-topup', data)
+    //         .pipe(
+    //           first(),
+    //           map(res => res as any)
+    //         )
+    //         .subscribe({
+    //           next: (res) => {
+    //             console.log(res);
+    //             this.modalDialogService.hideLoading();
+    //             if (res.errorMessage === "Success") {
+    //               this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การยกเลิกการเติมเงินสำเร็จ').then((res: boolean) => {
+    //                 if (res && this.tempSearch) this.loadTopupInformation(this.tempSearch);
+    //               });
+    //             } else {
+    //               this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+    //             }
+    //           },
+    //           error: (err) => {
+    //             console.error(err);
+    //             this.modalDialogService.handleError(err);
+    //             // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body.errorMessage);
+    //             this.modalDialogService.hideLoading();
+    //           }
+    //         })
+    //     }
+    //   })
   }
 
 }
