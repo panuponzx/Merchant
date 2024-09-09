@@ -1,6 +1,6 @@
 <div class="content-container container-xl p-0">
     <div class="content-container-header">
-        <div class="content-container-header-item">
+        <div class="content-container-header-item" *ngIf="searchType == ''">
             <h2 class="content-title">ข้อมูลผู้ใช้งาน</h2>
         </div>
         <div class="content-container-header-item">
@@ -11,7 +11,7 @@
         </div>
     </div>
     <ng-container>
-        <div class="user-type-container mb-5">
+        <div class="user-type-container mb-5" *ngIf="searchType == ''">
             <icon-svg [color]="'#2255CE'" [path]="'assets/images/icons/user_type_user.svg'" [size]="'57.14px'" />
             <div class="user-type-info-wrapper">
                 <h3>{{ customerName }}</h3>
@@ -30,8 +30,14 @@
                 </div>
             </div>
         </div>
-        <ng-container>
+        <ng-container *ngIf="searchType == ''">
             <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'customerDatatable'"
+                [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="rows"
+                (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล"
+                (onChangePageEvent)="onChangePage($event)" />
+        </ng-container>
+        <ng-container *ngIf="searchType != ''">
+            <datatable [columns]="columnsSelectPlateNo" [collectionSize]="collectionSize" [id]="'customerDatatable'"
                 [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="rows"
                 (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล"
                 (onChangePageEvent)="onChangePage($event)" />
