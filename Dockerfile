@@ -14,5 +14,6 @@ ENV GIT_SHORTHASH=$GIT_SHORTHASH
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder --chown=nginx /usr/src/app/dist/exat-ewallet-fe/browser /usr/share/nginx/html
 COPY --from=builder --chown=nginx --chmod=740 /usr/src/app/set_env.sh /tmp/
-RUN sh /tmp/set_env.sh
+# RUN sh /tmp/set_env.sh
+ENTRYPOINT ["/bin/sh", "/tmp/set_env.sh"]
 # RUN nginx -g 'daemon off;'
