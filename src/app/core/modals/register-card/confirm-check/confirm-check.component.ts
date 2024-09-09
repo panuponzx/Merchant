@@ -35,6 +35,7 @@ export class ConfirmCheckComponent {
         this.modalDialogService.hideLoading();
         this.modalDialogService.info("success", "#2255CE", "ลงทะเบียนบัตรทดสอบสำเร็จ");
         this.ngbActiveModal.close(true);
+        window.location.reload();
       },
       error: (error) => {
         let errorText;
@@ -57,10 +58,10 @@ export class ConfirmCheckComponent {
               errorText = error.body.throwableMessage;
           }
           this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);;
+          window.location.reload();
         } catch (_) {
           this.modalDialogService.handleError(error)
         }
-
         this.modalDialogService.hideLoading();
       }
     });
