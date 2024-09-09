@@ -9,6 +9,7 @@ import { AddWalletModalComponent } from 'src/app/features/workspace/pages/worksp
 import { EditCarModalComponent } from 'src/app/features/workspace/pages/workspace-with-navbar-and-sidebar/modals/edit-car-modal/edit-car-modal.component';
 import { EditWalletModalComponent } from '../../../../../modals/edit-wallet-modal/edit-wallet-modal.component';
 import { mode } from 'crypto-js';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'faremedia-management-component',
@@ -39,7 +40,22 @@ export class FaremediaManagementComponent {
     { id: 'cardNo', name: 'cardNo', label: 'SmartCard no.', prop: 'cardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'detail', name: 'detail', label: 'การจัดการอุปกรณ์', prop: '', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'แก้ไขอุปกรณ์', label2: 'เพิ่มอุปกรณ์', label2Condition: 'faremediaValue', class: 'btn-link' } },
     { id: 'detailWallet', name: 'detailWallet', label: 'การจัดการกระเป๋า', prop: '', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'แก้ไขกระเป๋า', class: 'btn-link' } },
-
+  ];
+  public columnsSelectPlateNo: CustomColumnModel[] = [
+    { id: 'select', name: 'select', label: 'เลือกอุปกรณ์', prop: '', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'เลือก', class: 'btn-primary' } },
+    { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
+    { id: 'id', name: 'id', label: 'customerId', prop: 'customerId', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'id', name: 'id', label: 'wallet no.', prop: 'walletId', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'walletName', name: 'walletName', label: 'หมายเลขข้างรถ (ชื่อกระเป๋า)', prop: 'walletName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'faremediaValue', name: 'faremediaValue', label: 'OBU serial no.', prop: 'faremediaValue', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'faremediaStatusName', name: 'faremediaStatusName', label: 'สถานะ', prop: 'faremediaStatusName', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'plateProvince', name: 'plateProvince', label: 'จังหวัด (ทะเบียนรถยนต์)', prop: 'plateProvince', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'plateNo', name: 'plateNo', label: 'หมายเลขทะเบียนรถ', prop: 'plateNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'carModel', name: 'carModel', label: 'ยี่ห้อ', prop: 'carModel', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'carSubModel', name: 'carSubModel', label: 'รุ่น', prop: 'carSubModel', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'carColor', name: 'carColor', label: 'สี', prop: 'carColor', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'carYear', name: 'carYear', label: 'ปีจดทะเบียน', prop: 'carYear', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'cardNo', name: 'cardNo', label: 'SmartCard no.', prop: 'cardNo', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
   ];
   public rows: IWalletWithFaremediaModel[] = [];
   public collectionSize: number = 0;
@@ -47,12 +63,17 @@ export class FaremediaManagementComponent {
   constructor(
     private ngbModal: NgbModal,
     private restApiService: RestApiService,
-    private modalDialogService: ModalDialogService
+    private modalDialogService: ModalDialogService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
 
   }
   ngOnInit() {
     this.loadWalletWithFaremedia();
+    if (this.searchType == undefined){
+      this.searchType = '';
+    }
   }
 
   handleOnBack() {
@@ -62,7 +83,14 @@ export class FaremediaManagementComponent {
     this.pages = page;
   }
   onActive(event: RowActionEventModel) {
-    if (event.action === "detailWallet") {
+    console.log('[onActive] event => ', event.action);
+    console.log('[onActive] event => ', event.row);
+    console.log('[onActive] searchType => ', this.searchType);
+    if (event.action === "select") {
+      this.router.navigate(['/work-space/type-9-management/wallet-type-9-management/', event.row.customerId], { relativeTo: this.activatedRoute,queryParams: { searchType: "" } });
+      this.ngOnInit();
+    }
+    else if (event.action === "detailWallet") {
       const modelRef = this.ngbModal.open(EditWalletModalComponent, {
         centered: true,
         backdrop: 'static',

@@ -91,7 +91,7 @@ export class SearchType9Component {
         this.refreshTrigger++;
       } 
       else {
-        this.router.navigate(['/work-space/type-9-management/customer-type-9-management', this.formSearch.value.search], { relativeTo: this.activatedRoute, queryParams: { searchType: this.formTypeSearch.value.searchType } });
+        this.router.navigate(['/work-space/type-9-management/wallet-type-9-management/', this.formSearch.value.search], { relativeTo: this.activatedRoute, queryParams: { searchType: this.formTypeSearch.value.searchType } });
       }
     }
   }
