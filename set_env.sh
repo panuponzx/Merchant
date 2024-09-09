@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 export RUNNING=$RANDOM
 echo Running: $RUNNING
 envsubst < /usr/share/nginx/html/assets/env.template.js > /usr/share/nginx/html/assets/env.$RUNNING.js
