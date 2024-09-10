@@ -16,6 +16,7 @@
           placeholder="กรุณาระบุหมายเลขอุปกรณ์" type="text" />
         <icon-svg class="svg-search-icon" [color]="'#2255CE'" [path]="'assets/images/icons/search.svg'" [size]="'l'" />
       </div>
+      <small class="form-text text-muted">*จะมีข้อมูลแสดงก็ต่อเมื่อเคยลงทะเบียนเป็นบัตรทดสอบแล้ว</small>
     </div>
     <div class="form-group">
       <div class="button-wrapper">
@@ -37,9 +38,11 @@
       <div class="datatable-container d-flex" *ngIf="!isOpenDetail && isSearch" style="flex-direction: column;;">
         <datatable [columns]="columnsSearch" [collectionSize]="collectionSizeSearch" [id]="'userDatatable'"
           [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="filterSearchRows"
-          (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePageSearch($event)" />
+          (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล"
+          (onChangePageEvent)="onChangePageSearch($event)" />
         <div class="d-flex justify-content-end">
-          <button class="custom-btn btn-type-1" type="submit" style="max-width: 300px;" [disabled]="changeStatus.length === 0" (click)="onChangeStatus()">
+          <button class="custom-btn btn-type-1" type="submit" style="max-width: 300px;"
+            [disabled]="changeStatus.length === 0" (click)="onChangeStatus()" *ngIf="collectionSizeSearch > 0">
             บันทึก
           </button>
         </div>
@@ -51,7 +54,8 @@
         </button>
         <datatable [columns]="columnsDetail" [collectionSize]="collectionSizeDetail" [id]="'userDatatable'"
           [isLoading]="isLoading" [pageSize]="limitRow" [page]="pages" [rows]="detailRows"
-          (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChagePageFaremediaInfoList($event)"/>
+          (onRowActionEvent)="onActive($event)" emptyMessage="ไม่มีข้อมูล"
+          (onChangePageEvent)="onChagePageFaremediaInfoList($event)" />
       </div>
 
       <ng-template #defaultTemplate>

@@ -46,14 +46,12 @@ export class RegisterCardComponent {
         });
         modalRef.componentInstance.faremediaInfo = response.data;
         modalRef.result.then((result) => {
-          if (result === 'confirm') {
-            console.log('User confirmed check for faremediaValue:', response.data.faremediaValue);
+          if (result){
+            this.ngbActiveModal.close(true);
           }
-        }).catch(() => {
-          console.log('Modal dismissed');
         });
       },
-      error: (error) => {
+      error: async (error) => {
         this.isLoading = false;
         let errorText;
         try {
@@ -69,7 +67,8 @@ export class RegisterCardComponent {
               errorText = error.body.throwableMessage;
               break;
           }
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);
+          await this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);
+          window.location.reload();
         } catch (_) {
           this.modalDialogService.handleError(error);
         }
