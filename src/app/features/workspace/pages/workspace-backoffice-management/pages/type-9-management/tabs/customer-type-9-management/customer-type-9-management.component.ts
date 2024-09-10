@@ -75,7 +75,9 @@ export class CustomerType9ManagementComponent {
     this.loadCustomerType9();
   }
   onChangePage(page: number) {
+    this.isLoading = true;
     this.pages = page;
+    this.loadCustomerType9();
   }
   loadCustomerType9() {
     this.isLoading = true;

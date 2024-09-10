@@ -21,7 +21,7 @@
               {{ (page - 1) * pageSize + rowIndex + 1 }}
             </ng-container>
             <ng-container *ngIf="column.type === 'no'">
-              {{ rowIndex + 1 }}
+              {{ (rowIndex+(pageSize*(page-1))) + 1 }}
             </ng-container>
             <ng-container *ngIf="column.type === 'text'">
               {{ value ? value : '-' }}

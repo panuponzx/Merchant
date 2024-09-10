@@ -1,12 +1,8 @@
-import { Token } from '@angular/compiler';
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import {
   CustomColumnModel,
-  ICustomerType9Model,
-  IJsonField,
   ILogModel,
   ILogRowModel,
   IResponseLogModel,
@@ -14,7 +10,7 @@ import {
 } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
-import { getOptionsText, handleActionDetail } from 'src/app/features/utils/textUtils';
+import { formatDate, getOptionsText, handleActionDetail } from 'src/app/features/utils/textUtils';
 @Component({
   selector: 'customer-report-type9',
   templateUrl: './customer-report-type9.component.html',
@@ -24,6 +20,8 @@ export class CustomerReportType9Component {
   @Input() refreshTrigger: number = 0;
   @Input() customerId: string = '';
   @Input() actions: string[] = [];
+  @Input() startDate: Date = new Date();
+  @Input() endDate: Date = new Date();
   public isLoading: boolean = false;
   public limitRow: number = 10;
   public step: number = 0;
@@ -154,7 +152,7 @@ export class CustomerReportType9Component {
     private modalDialogService: ModalDialogService,
     private activeRoute: ActivatedRoute,
     private restApiService: RestApiService
-  ) {}
+  ) { }
   ngOnChanges(changes: SimpleChanges) {
     if (
       changes['refreshTrigger'] &&
@@ -169,9 +167,10 @@ export class CustomerReportType9Component {
       this.onSearch();
     }
   }
-  onActive(event: RowActionEventModel) {}
+  onActive(event: RowActionEventModel) { }
   onChangePage(page: number) {
     this.pages = page;
+    this.onSearch();
   }
   onSearch() {
     this.isLoading = true;
@@ -181,10 +180,12 @@ export class CustomerReportType9Component {
       next: (res) => {
         this.modalDialogService.hideLoading();
         res.data.elements.forEach((element, index) => {
+          var createDate = new Date(element.createdDate);
           this.rows.push({
             log: element,
             meaning: this.handleActionDetail(element.action, element),
             actionMeaning: this.getText(element.action),
+            date: createDate,
           } as ILogRowModel);
         });
         this.collectionSize = res.data.totalElements;
@@ -199,8 +200,8 @@ export class CustomerReportType9Component {
       },
     });
   }
-    handleActionDetail(action: string, row: ILogModel) {
-      return handleActionDetail(action, row);
+  handleActionDetail(action: string, row: ILogModel) {
+    return handleActionDetail(action, row);
   }
   getText(value: string) {
     return getOptionsText(value);
@@ -211,6 +212,8 @@ export class CustomerReportType9Component {
       page: this.pages,
       search: this.customerId,
       actions: this.actions,
+      startDate: formatDate(this.startDate),
+      endDate: formatDate(this.endDate),
     };
     return this.restApiService.postBackOffice(
       'customer-type-9/get-log-customer',
