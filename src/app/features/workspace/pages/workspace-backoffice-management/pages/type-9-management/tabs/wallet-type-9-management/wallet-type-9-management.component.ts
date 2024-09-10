@@ -63,6 +63,10 @@ export class WalletType9ManagementComponent {
     }
     this.showOptions = optionForTab;
     this.form.get('option')?.setValue(optionForTab);
+    this.customerId = '';
+    this.walletId = '';
+    this.faremediaValue = '';
+    this.refreshTrigger++;
   }
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;

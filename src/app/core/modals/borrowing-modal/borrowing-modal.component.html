@@ -4,7 +4,7 @@
     <h3 class="mb-3">กรุณากรอกข้อมูลการ{{actionType === 'borrow'?"เบิก / ยืม":"คืน"}}บัตรทดสอบ</h3>
   </div>
   <div class="modal-body">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form">
       <div class="form-group">
         <label class="label-input required-field" for="name">ชื่อ นามสกุล</label>
         <input class="form-control" type="text" id="name" formControlName="name"
@@ -54,7 +54,7 @@
 
       <div class="d-flex justify-content-end gap-3">
         <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
-        <button class="custom-btn btn-type-1 text" [disabled]="!form.valid">ตกลง</button>
+        <button class="custom-btn btn-type-1 text" [disabled]="!form.valid" (click)="onSubmit()">ตกลง</button>
       </div>
 
     </form>
