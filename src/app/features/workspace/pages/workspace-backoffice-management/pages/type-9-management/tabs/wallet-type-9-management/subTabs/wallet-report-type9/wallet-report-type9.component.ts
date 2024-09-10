@@ -11,6 +11,7 @@ import {
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 import {
+  formatDate,
   getOptionsText,
   handleActionDetail,
 } from 'src/app/features/utils/textUtils';
@@ -24,6 +25,8 @@ export class WalletReportType9Component {
   @Input() refreshTrigger: number = 0;
   @Input() walletId: string = '';
   @Input() actions: string[] = [];
+  @Input() startDate: Date = new Date();
+  @Input() endDate: Date = new Date();
   public isLoading: boolean = false;
   public limitRow: number = 10;
   public step: number = 0;
@@ -146,6 +149,7 @@ export class WalletReportType9Component {
   onActive(event: RowActionEventModel) {}
   onChangePage(page: number) {
     this.pages = page;
+    this.onSearch();
   }
   onSearch() {
     this.isLoading = true;
@@ -185,6 +189,8 @@ export class WalletReportType9Component {
       page: this.pages,
       search: this.walletId,
       actions: this.actions,
+      startDate: formatDate(this.startDate),
+      endDate: formatDate(this.endDate),
     };
     return this.restApiService.postBackOffice(
       'customer-type-9/get-log-wallet',
