@@ -37,7 +37,7 @@ export class ConfirmCheckComponent {
         this.ngbActiveModal.close(true);
         window.location.reload();
       },
-      error: (error) => {
+      error: async (error) => {
         let errorText;
         try {
           var throwableMessage = error.body.throwableMessage;
@@ -54,10 +54,13 @@ export class ConfirmCheckComponent {
             case 'receive OBU was not OBU type':
               errorText = 'รหัสอุปกรณ์ไม่ใช่ OBU';
               break;
+            case 'OBU was not active':
+              errorText = 'OBU ไม่ได้เปิดใช้งาน';
+              break;
             default:
               errorText = error.body.throwableMessage;
           }
-          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);;
+          await this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);;
           window.location.reload();
         } catch (_) {
           this.modalDialogService.handleError(error)
