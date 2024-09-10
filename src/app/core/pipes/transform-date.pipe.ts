@@ -18,8 +18,8 @@ export class TransformDatePipe implements PipeTransform {
     dayjs.locale(locale === 'th' ? localeTh : localeEn);
     if (date) {
       if (format) {
-        // const transform = dayjs(date).format(format);
-        const transform = dayjs(date).utc(false).format(format);
+        const transform = dayjs(date).format(format);
+        // const transform = dayjs(date).utc(false).format(format); // แสดงเวลาไม่ตรงกับเวลาที่ส่งมาจาก backend
         return transform;
       }
       return dayjs(date).format();

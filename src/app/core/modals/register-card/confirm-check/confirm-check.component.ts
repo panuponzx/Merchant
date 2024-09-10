@@ -31,9 +31,9 @@ export class ConfirmCheckComponent {
   onConfirm() {
     this.modalDialogService.loading();
     this.registerTestFaremedia().subscribe({
-      next: (_) => {
+      next: async (_) => {
         this.modalDialogService.hideLoading();
-        this.modalDialogService.info("success", "#2255CE", "ลงทะเบียนบัตรทดสอบสำเร็จ");
+        await this.modalDialogService.info("success", "#2255CE", "ลงทะเบียนบัตรทดสอบสำเร็จ");
         this.ngbActiveModal.close(true);
         window.location.reload();
       },

@@ -10,7 +10,7 @@ import {
 } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
-import { getOptionsText, handleActionDetail } from 'src/app/features/utils/textUtils';
+import { formatDate, getOptionsText, handleActionDetail } from 'src/app/features/utils/textUtils';
 
 @Component({
   selector: 'faremedia-report-type9',
@@ -21,6 +21,8 @@ export class FaremediaReportType9Component {
   @Input() refreshTrigger: number = 0;
   @Input() faremediaValue: string = '';
   @Input() actions: string[] = [];
+  @Input() startDate: Date = new Date();
+  @Input() endDate: Date = new Date();
   public isLoading: boolean = false;
   public limitRow: number = 10;
   public step: number = 0;
@@ -131,6 +133,7 @@ export class FaremediaReportType9Component {
   onActive(event: RowActionEventModel) {}
   onChangePage(page: number) {
     this.pages = page;
+    this.onSearch();
   }
   handleActionDetail(action: string, row: ILogModel) {
     return handleActionDetail(action, row);
@@ -170,6 +173,8 @@ export class FaremediaReportType9Component {
       page: this.pages,
       search: this.faremediaValue,
       actions: this.actions,
+      startDate: formatDate(this.startDate),
+      endDate: formatDate(this.endDate),
     };
     return this.restApiService.postBackOffice(
       'customer-type-9/get-log-faremedia',
