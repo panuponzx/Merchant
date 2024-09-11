@@ -28,7 +28,9 @@ export interface CustomColumnModel {
     actionName: string,
     iconName: string,
     color: string,
-    size: string
+    size: string,
+    conditionDisable?: string,
+    disableColor?: string,
   },
   textWithBoolean?: {
     classCondition1?: string,
