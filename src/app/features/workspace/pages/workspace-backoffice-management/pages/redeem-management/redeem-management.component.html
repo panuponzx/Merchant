@@ -40,11 +40,318 @@
     </section>
 
     <section *ngIf="isAdd">
-        <form [formGroup]="form">
-            <h3 class="content-title mb-5">
-                กรุณาระบุรายละเอียด
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <h3 class="content-title mb-3">
+                กรุณาระบุประเภท
             </h3>
             <div class="row">
+                <div class="col-12 col-lg-6 mb-3">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="itemTypeSelect">
+                            ประเภท
+                        </label>
+                        <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="key"
+                            data-testid="itemTypeSelect" id="itemTypeSelect" placeholder="กรุณาระบุ"
+                            formControlName="itemType" [loading]="isRedeemItemTypeLoading"
+                            [items]="redeemItemTypeList"></ng-select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 mb-3" *ngIf="form.get('itemType')?.value">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="productIdSelect">
+                            Product ID
+                        </label>
+                        <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                            data-testid="productIdSelect" id="productIdSelect" placeholder="กรุณาระบุ"
+                            formControlName="materialCode" [items]="materialList"></ng-select>
+                    </div>
+                </div>
+            </div>
+            <section *ngIf="form.get('itemType')?.value">
+                <hr class="hr-custom mb-3" />
+                <h3 class="content-title mb-3">
+                    รายละเอียดเวลา
+                </h3>
+                <div class="row">
+                    <div class="col-12 col-lg-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="startDatePicker">
+                                วันที่ ที่เริ่ม
+                            </label>
+                            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
+                                formControlName="startDate" [id]="'startDatePicker'" locale="th"
+                                [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="startTimeInput">
+                                ช่วงเวลา ที่เริ่ม
+                            </label>
+                            <input class="form-control" data-testid="startTimeInput" formControlName="fromPeriod"
+                                id="startTimeInput" placeholder="กรุณาระบุ" type="text">
+                        </div>
+                        <div class="col-12 mb-3" *ngIf="form.get('itemType')?.value === 'PRODUCT'">
+                            <label class="label-input required-field" for="dayToDeliverInput">
+                                จำนวนวันที่พร้อมให้รับสินค้า
+                            </label>
+                            <input class="form-control" data-testid="dayToDeliverInput" formControlName="dayToDeliver"
+                                id="dayToDeliverInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
+                        </div>
+                        <div class="col-12 mb-3" *ngIf="form.get('itemType')?.value === 'COUPON'">
+                            <label class="label-input required-field" for="endRedeemDateInput">
+                                วันที่สิ้นสุดในการแลก/ใช้งาน
+                            </label>
+                            <!-- TODO: Change formControlName-->
+                            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
+                                formControlName="endRedeemDate" [id]="'endRedeemDateInput'" locale="th"
+                                [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="expiryDatePicker">
+                                วันที่ ที่สิ้นสุด
+                            </label>
+                            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
+                                formControlName="expiryDate" [id]="'expiryDatePicker'" locale="th"
+                                [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="expiryTimeInput">
+                                ช่วงเวลา สิ้นสุด
+                            </label>
+                            <input class="form-control" data-testid="expiryTimeInput" formControlName="toPeriod"
+                                id="expiryTimeInput" placeholder="กรุณาระบุ" type="text">
+                        </div>
+                        <div class="col-12 mb-3" *ngIf="form.get('itemType')?.value === 'PRODUCT'">
+                            <label class="label-input required-field" for="validityDatePicker">
+                                วันที่สิ้นสุดในการรับสินค้า
+                            </label>
+                            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
+                                formControlName="validityDate" [id]="'validityDatePicker'" locale="th"
+                                [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="content-title mb-3">
+                    ประเภทที่ร่วมรายการ
+                </h3>
+                <div class="row">
+                    <div class="col-12 col-lg-6 mb-3">
+                        <label class="label-input required-field" for="customerCategorySelect">
+                            ประเภทผู้ใช้
+                        </label>
+                        <ng-select class="form-control mb-2" [items]="customerCategorie" [multiple]="true"
+                            bindLabel="name" id="selectRoute" data-testid="selectRoute" placeholder="กรุณาระบุ"
+                            [closeOnSelect]="false" [searchable]="false" formControlName="customerCategory">
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <div class="ng-value">
+                                    <span>เลือก ({{items.length}})</span>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <input id="item-{{index}}" type="checkbox" [(ngModel)]="item$.selected"
+                                    [ngModelOptions]="{ standalone : true }">
+                                {{item.name}}
+                            </ng-template>
+                        </ng-select>
+                        <!-- <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="key"
+                            data-testid="customerCategorySelect" id="customerCategorySelect" placeholder="กรุณาระบุ"
+                            formControlName="customerCategory" [items]="customerCategorie"></ng-select> -->
+                    </div>
+                </div>
+                <h3 class="content-title mb-3">
+                    รายละเอียดการจำกัด
+                </h3>
+                <div class="row" *ngIf="form.get('itemType')?.value === 'PRODUCT'">
+                    <div class="col-12 col-lg-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="limitTypeSelect">
+                                การจำกัดการแลก (ต่อ ระยะเวลา)
+                            </label>
+                            <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="key"
+                                data-testid="limitTypeSelect" id="limitTypeSelect" placeholder="กรุณาระบุ"
+                                formControlName="limitType" [loading]="isRedeemItemLimitType"
+                                [items]="redeemItemLimitType" (ngModelChange)="onChangeItemLimitType($event)">
+                            </ng-select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="limitWalletInput">
+                                การจำกัดการแลก (ต่อ บัญชี)
+                            </label>
+                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                                data-testid="limitTypeSelect" id="limitTypeSelect" placeholder="กรุณาระบุ"
+                                formControlName="limitWalletType" [items]="redeemWalletLimitType"></ng-select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="limitAccount">
+                                การจำกัดการแลก (ต่อ ผู้ใช้)
+                            </label>
+                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                                data-testid="limitTypeSelect" id="limitTypeSelect" placeholder="กรุณาระบุ"
+                                formControlName="limitAccountType" [items]="redeemAccountLimitType"></ng-select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="limitItemInput">
+                                จำนวน (ต่อ ระยะเวลา)
+                            </label>
+                            <input class="form-control" data-testid="limitItemInput" formControlName="limitItem"
+                                id="limitItemInput" placeholder="กรุณาระบุ" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="limitWalletInput">
+                                จำนวน (ต่อ บัญชี)
+                            </label>
+                            <input class="form-control" data-testid="limitWalletInput" formControlName="limitWallet"
+                                id="limitWalletInput" placeholder="กรุณาระบุ" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="limitAccountInput">
+                                จำนวน (ต่อ ผู้ใช้)
+                            </label>
+                            <input class="form-control" data-testid="limitAccountInput" formControlName="limitAccount"
+                                id="limitAccountInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="row"
+                    *ngIf="form.get('itemType')?.value === 'COUPON' || form.get('itemType')?.value === 'CREDIT'">
+                    <div class="col-12 col-lg-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="limitExchangeSelect">
+                                การจำกัดการแลก
+                            </label>
+                            <!-- TODO: Change formControlName-->
+                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                                data-testid="limitExchangeSelect" id="limitExchangeSelect" placeholder="กรุณาระบุ"
+                                formControlName="limitExchange" [items]="redeemAccountLimitType"></ng-select>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="content-title mb-3">
+                    รายละเอียดคะแนน
+                </h3>
+                <div class="row">
+                    <div class="col-12 col-lg-6 mb-3">
+                        <label class="label-input required-field" for="pointUseInput">
+                            จำนวนคะแนนที่ใช้แลก
+                        </label>
+                        <input class="form-control" data-testid="pointUseInput" formControlName="pointUse"
+                            id="pointUseInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
+                    </div>
+                    <div class="col-12 col-lg-6 mb-3" *ngIf="form.get('itemType')?.value === 'CREDIT'">
+                        <label class="label-input required-field" for="amountTollReceivedInput">
+                            จำนวนค่าผ่านทางที่ได้รับ
+                        </label>
+                        <!-- TODO: Change formControlName-->
+                        <input class="form-control" data-testid="amountTollReceivedInput" formControlName="amountTollReceived"
+                            id="amountTollReceivedInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
+                    </div>
+                </div>
+                <h3 class="content-title mb-3">
+                    รายละเอียด
+                </h3>
+                <div class="row">
+                    <div class="col-12 col-lg-6 mb-3">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="productNameInput">
+                                ชื่อรายการ
+                            </label>
+                            <input class="form-control" data-testid="productNameInput" formControlName="name"
+                                id="productNameInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
+                        </div>
+                        <div class="col-12 mb-3" *ngIf="form.get('itemType')?.value === 'PRODUCT'">
+                            <label class="label-input required-field" for="stockLocationSelect">
+                                สถานที่เก็บสินค้า
+                            </label>
+                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                                data-testid="stockLocationSelect" id="stockLocationSelect" placeholder="กรุณาระบุ"
+                                formControlName="stockLocation" [items]="[]"></ng-select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="imgUrlInput">
+                                อัปโหลดรูปภาพ
+                            </label>
+                            <input class="form-control" data-testid="imgUrlInput" formControlName="imgUrl"
+                                id="imgUrlInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 mb-3" *ngIf="form.get('itemType')?.value === 'PRODUCT'">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="calVatSelect">
+                                การคิดภาษีสำหรับรายการนี้
+                            </label>
+                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                                data-testid="calVatSelect" id="calVatSelect" placeholder="กรุณาระบุ"
+                                formControlName="calVat" [items]="[]"></ng-select>
+                        </div>
+                        <!-- <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="productIdSelect">
+                                สถานที่รับสินค้า
+                            </label>
+                            <input class="form-control" data-testid="identificationInput" formControlName="totalPoint"
+                                id="identificationInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
+                        </div> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="detailInput">
+                            รายละเอียด
+                        </label>
+                        <textarea data-testid="detailInput" id="detailInput" formControlName="detail"
+                            placeholder="กรุณาระบุ" rows="4" class="form-control">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="conditionInput">
+                            เงื่อนไข
+                        </label>
+                        <textarea data-testid="conditionInput" id="conditionInput" formControlName="condition"
+                            placeholder="กรุณาระบุ" rows="4" class="form-control">
+                        </textarea>
+                    </div>
+                </div>
+
+                <h3 class="content-title mb-3">
+                    การเผยแพร่ และ ทำแบบร่าง
+                </h3>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" data-testid="draftRadio" id="draftRadio"
+                                formControlName="publishing" type="radio" [value]="false">
+                            <label class="form-check-label" for="draftRadio">
+                                บันทึกแบบร่าง
+                            </label>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" data-testid="publishRadio" id="publishRadio"
+                                formControlName="publishing" type="radio" [value]="true">
+                            <label class="form-check-label" for="publishRadio">
+                                เผยแพร่ทันที / เผยแพร่แบบอัตโนมัติเมื่อถึงเวลา
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr-custom mb-3" />
+                <div class="footer d-flex justify-content-center gap-3">
+                    <button class="custom-btn btn-fixed-size-1 btn-type-3" type="button" (click)="onBack()"
+                        data-testid="cancelButton" id="cancelButton" title="ยกเลิก">
+                        ยกเลิก
+                    </button>
+                    <button class="custom-btn btn-fixed-size-1 btn-type-1" type="submit" data-testid="submitButton"
+                        id="submitButton" title="บันทึก">
+                        บันทึก
+                    </button>
+                </div>
+            </section>
+
+
+            <!-- <div class="row">
                 <div class="col-12 col-lg-6 mb-3">
                     <div class="col-12 mb-3">
                         <label class="label-input required-field" for="attachDocumentInput">
@@ -84,8 +391,8 @@
                         </label>
                         <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
                             formControlName="startDate" [id]="'dateDatePicker'" [invalid]="submitted ? true : false"
-                            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"
-                            [minDate]="today" [maxDate]="form.get('endDate')?.value"></date-picker>
+                            locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'" [minDate]="today"
+                            [maxDate]="form.get('endDate')?.value"></date-picker>
                     </div>
                     <div class="col-12 mb-3">
                         <label class="label-input required-field" for="dateDatePicker">
@@ -124,18 +431,7 @@
                         rows="4" class="form-control">
                     </textarea>
                 </div>
-            </div>
-            <hr class="hr-custom mb-3" />
-            <div class="footer d-flex justify-content-center gap-3">
-                <button class="custom-btn btn-fixed-size-1 btn-type-3" (click)="onBack()" data-testid="cancelButton"
-                    id="cancelButton" title="ยกเลิก">
-                    ยกเลิก
-                </button>
-                <button class="custom-btn btn-fixed-size-1 btn-type-1" (click)="onSubmit()" data-testid="submitButton"
-                    id="submitButton" title="บันทึก">
-                    บันทึก
-                </button>
-            </div>
+            </div> -->
         </form>
     </section>
 </div>
