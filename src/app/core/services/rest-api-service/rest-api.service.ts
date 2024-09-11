@@ -131,5 +131,14 @@ export class RestApiService {
     const url = `${environment.apiBackOffice}/${endpoint}`;
     return this.httpClient.post<IResponseModel<Res>>(url, formData);
   }
+  openFile(url: string) {
+    const baseURL = environment.apiBackOffice + '/' + url;
+    const newWindow = window.open(baseURL, '_blank');
+    // if (newWindow) {
+    //   setTimeout(() => {
+    //     newWindow.close();
+    //   }, 2000);
+    // }
+  }
 
 }

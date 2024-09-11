@@ -81,6 +81,7 @@ export class FaremediaManagementComponent {
   }
   onChangePage(page: number) {
     this.pages = page;
+    this.loadWalletWithFaremedia();
   }
   onActive(event: RowActionEventModel) {
     console.log('[onActive] event => ', event.action);

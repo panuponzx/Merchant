@@ -35,7 +35,7 @@ export class TestCardRegistrationComponent {
     { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
     { id: 'faremediaValue', name: 'faremediaValue', label: 'หมายเลขอุปกรณ์', prop: 'faremediaValue', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'status', name: 'status', label: 'สถานะ', prop: 'faremediaStatus', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'isReserved', name: 'isReserved', label: 'สถานะการจอง', prop: 'isReserved', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red', textCondition1: 'ยืม', classCondition2: 'text-primary ', textCondition2: 'ว่าง' } },
+    { id: 'isReserved', name: 'isReserved', label: 'สถานะการจอง', prop: 'isReserved', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text-with-boolean', textWithBoolean: { classCondition1: 'text-red', textCondition1: 'ยืม', classCondition2: 'text-primary ', textCondition2: 'ว่างอยู่' } },
     { id: 'withdrawOrBorrow', name: 'withdrawOrBorrow', label: 'เบิก / ยืม', prop: 'isReserved', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'เบิก/ยืม', conditionDisable: true, mainCondition: false, mainProperty: "status" } },
     { id: 'returnObu', name: 'returnObu', label: 'คืน OBU', prop: 'isReserved', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'คืน', conditionDisable: false, mainCondition: false, mainProperty: "status", class: 'btn-success' } },
     { id: 'detail', name: 'detail', label: 'ประวัติการยืม/คืน', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'button', button: { label: 'ประวัติการยืม', class: 'btn-link' } },
@@ -51,7 +51,8 @@ export class TestCardRegistrationComponent {
     { id: 'ReturnDate', name: 'ReturnDate', label: 'วันที่ทำการคืน', prop: 'returnDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'remark', name: 'remark', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'attachmentNo', name: 'attachmentNo', label: 'หมายเลขหนังสือ', prop: 'attachmentNo', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    
+    { id: 'dowload', name: 'dowload', label: 'ไฟล์เอกสาร', prop: 'id', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'dowload', iconName: 'download', size: 'l', color: '#2255CE', conditionDisable: 'attachmentNo',disableColor:'#D3D3D3' } },
+
   ];
   public columnsSearch: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
@@ -144,6 +145,10 @@ export class TestCardRegistrationComponent {
       } else {
         this.changeStatus.splice(index, 1);
       }
+    }
+    else if (event.action === "dowload") {
+      console.log('row: ', row);
+      this.restApiService.openFile('attachment/faremedia-test-borrow-attachment/' + row.id + "/file");
     }
   }
   onChangeStatus() {
@@ -316,7 +321,7 @@ export class TestCardRegistrationComponent {
     };
     return this.restApiService.postBackOffice('faremedia/search-faremedia-test-with-wallet-id', mockupData) as Observable<ISearchTestFaremediaInfoResponseModel>;
   }
-  onBack(){
+  onBack() {
     this.router.navigate(['work-space/menu-option-super-admin']);
   }
 }
