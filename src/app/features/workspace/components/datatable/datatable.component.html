@@ -118,9 +118,12 @@
             <ng-container *ngIf="column.type === 'action'">
               <ng-container *ngIf="column.actionIcon; else textActionEl;">
                 <button [attr.data-testid]="column.id + rowIndex + 'Button'" class="custome-btn btn-icon"
+                  [disabled]="column.actionIcon.conditionDisable ? !getColumnValue(column.actionIcon.conditionDisable, row) : false"
                   [id]="column.id + rowIndex + 'Button'" type="button" [title]="column.label"
                   (click)="onAction({ index: rowIndex, type: column.type, row: row, action: column?.actionIcon?.actionName })">
-                  <icon-svg size="l" [color]="'#2255CE'" [path]="column.actionIcon.iconName | icon" />
+                  <icon-svg size="l"
+                    [color]="column.actionIcon.disableColor ? (!getColumnValue(column.actionIcon.conditionDisable??'', row)?column.actionIcon.disableColor:column.actionIcon.color) :column.actionIcon.color"
+                    [path]="column.actionIcon.iconName | icon" />
                 </button>
               </ng-container>
               <ng-template #textActionEl>
