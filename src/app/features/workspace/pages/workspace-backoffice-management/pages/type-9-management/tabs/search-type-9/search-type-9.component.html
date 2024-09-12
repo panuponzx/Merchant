@@ -36,32 +36,33 @@
                     </div>
                 </form>
             </div>
-
-            <!-- ฟอร์มสำหรับ Input และปุ่ม -->
             <div class="col-12 col-md-6">
-                <form [formGroup]="formSearch" class="d-flex align-items-end gap-3" (click)="search()">
+                <form [formGroup]="formSearch" class="d-flex align-items-end gap-3">
                     <div class="form-group">
                         <label class="label-input text-nowrap" for="search">
                             ค้นหาด้วย {{formTypeSearch.value.searchType ==="customerName"?
                             "ชื่อหน่วยงาน":formTypeSearch.value.searchType ==="wallet_name" ?"หมายเลขข้างรถ
-                            (ชื่อกระเป๋า)":formTypeSearch.value.searchType ==="faremedia_value"? "หมายเลข OBU":"หมายเลขทะเบียนรถ"}}
+                            (ชื่อกระเป๋า)":formTypeSearch.value.searchType ==="faremedia_value"? "หมายเลข
+                            OBU":"หมายเลขทะเบียนรถ"}}
                         </label>
-                        <div class="input-with-icon-wrapper">
-                            <input class="form-control input-icon-right" id="search" data-testid="search"
-                                formControlName="search"
-                                [placeholder]="'กรอก'+(formTypeSearch.value.searchType ==='customerName'?
+                        <div class="form-group flex-row d-flex gap-3">
+                            <div class="input-with-icon-wrapper">
+                                <input class="form-control input-icon-right" id="search" data-testid="search"
+                                    formControlName="search"
+                                    [placeholder]="'กรอก'+(formTypeSearch.value.searchType ==='customerName'?
                             'ชื่อหน่วยงาน':formTypeSearch.value.searchType ==='wallet_name' ?'หมายเลขข้างรถ (ชื่อกระเป๋า)':formTypeSearch.value.searchType ==='faremedia_value'?'หมายเลข OBU':'หมายเลขทะเบียนรถ')"
-                                type="text" />
-                            <icon-svg class="svg-search-icon" [color]="'#2255CE'"
-                                [path]="'assets/images/icons/search.svg'" [size]="'l'" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="button-wrapper">
+                                    type="text" />
+                                <icon-svg class="svg-search-icon" [color]="'#2255CE'"
+                                    [path]="'assets/images/icons/search.svg'" [size]="'l'" />
+                            </div>
                             <button class="custom-btn search-btn" data-testid="searchButton" id="searchButton"
-                                [disabled]="formSearch.invalid" title="ค้นหา" type="submit">
+                                [disabled]="formSearch.invalid" title="ค้นหา" (click)="search()">
                                 <icon-svg class="svg-icon" [color]="'#FFFFFF'" [size]="'20px'"
                                     [path]="'search' | icon" />
+                            </button>
+                            <button style="border: none;background: none;" *ngIf="isSearch" (click)="clearSearch()">
+                                <icon-svg class="svg-icon" [color]="'red'" [size]="'20px'"
+                                    [path]="'assets/images/icons/close.svg'" />
                             </button>
                         </div>
                     </div>

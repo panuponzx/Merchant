@@ -51,7 +51,7 @@ export class TestCardRegistrationComponent {
     { id: 'ReturnDate', name: 'ReturnDate', label: 'วันที่ทำการคืน', prop: 'returnDate', sortable: false, resizeable: true, width: 200, minWidth: 200, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'remark', name: 'remark', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'attachmentNo', name: 'attachmentNo', label: 'หมายเลขหนังสือ', prop: 'attachmentNo', sortable: false, resizeable: true, width: 130, minWidth: 130, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'dowload', name: 'dowload', label: 'ไฟล์เอกสาร', prop: 'id', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'dowload', iconName: 'download', size: 'l', color: '#2255CE', conditionDisable: 'attachmentNo',disableColor:'#D3D3D3' } },
+    { id: 'dowload', name: 'dowload', label: 'ไฟล์เอกสาร', prop: 'id', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'dowload', iconName: 'download', size: 'l', color: '#2255CE', conditionDisable: 'attachmentNo', disableColor: '#D3D3D3' } },
 
   ];
   public columnsSearch: CustomColumnModel[] = [
@@ -81,12 +81,6 @@ export class TestCardRegistrationComponent {
   ngOnInit(): void {
     this.loadTestFaremediaInfo();
 
-  }
-
-
-  onChangeNav(event: NgbNavChangeEvent) {
-    const url = 'work-space/approval-cancel-device/' + event.nextId;
-    this.router.navigate([url], { replaceUrl: true });
   }
 
   onActive(event: RowActionEventModel) {
@@ -322,6 +316,14 @@ export class TestCardRegistrationComponent {
     return this.restApiService.postBackOffice('faremedia/search-faremedia-test-with-wallet-id', mockupData) as Observable<ISearchTestFaremediaInfoResponseModel>;
   }
   onBack() {
-    this.router.navigate(['work-space/menu-option-super-admin']);
+    if (this.isSearch) {
+      this.clearSearch();
+    }
+    else if (this.isOpenDetail) {
+      this.backToMain();
+    }
+    else {
+      this.router.navigate(['work-space/menu-option-super-admin']);
+    }
   }
 }
