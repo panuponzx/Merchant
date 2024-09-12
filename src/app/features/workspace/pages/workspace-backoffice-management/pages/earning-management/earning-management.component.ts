@@ -60,11 +60,13 @@ export class EarningManagementComponent implements OnInit {
   public collectionSize1: number = 0;
 
   public isShowDescription: boolean = false;
+  public addEarningType: number = 0;
   public isEditCondition: boolean = false;
   public isBaseCampaign: boolean = false;
 
   public submitted: boolean = false;
   public form: FormGroup;
+  public roadShowForm: FormGroup;
 
   public tempSearch: string | undefined;
 
@@ -96,6 +98,11 @@ export class EarningManagementComponent implements OnInit {
       everyThaiBath: [null],
       takePoint: [null],
     });
+    this.roadShowForm = this.formBuilder.group({
+      roadShowName: new FormControl(undefined, Validators.required),
+    });
+    this.isShowDescription = true;
+    this.addEarningType = 2;
   }
 
   ngOnInit(): void {
@@ -463,7 +470,8 @@ export class EarningManagementComponent implements OnInit {
       });
   }
 
-  onAddCondition(): void {
+  onAddCondition(earningType: number): void {
+    this.addEarningType = earningType;
     this.isShowDescription = true;
     this.isEditCondition = false;
   }

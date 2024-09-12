@@ -1,8 +1,8 @@
-
 .datepicker-container .datepicker-custom:read-only {
   cursor: pointer;
   background-color: #fff;
   opacity: 1;
+
   &.invalid {
     border-color: #dc3545 !important;
   }
@@ -14,7 +14,7 @@
   background-color: #F6F6F6;
 }
 
-.datepicker-container .btn-calendar  {
+.datepicker-container .btn-calendar {
   background-color: transparent;
   padding: 0rem;
   border: none;
@@ -57,3 +57,17 @@
   padding-right: 3.75rem;
 }
 
+::ng-deep {
+  .theme-blue {
+    .bs-datepicker-head {
+      background-color: var(--color-blue-exat);
+    }
+
+    .bs-datepicker-body table td span.selected,
+    .theme-blue .bs-datepicker-body table td.selected span,
+    .theme-blue .bs-datepicker-body table td span[class*=select-]:after,
+    .theme-blue .bs-datepicker-body table td[class*=select-] span:after {
+      background-color: var(--color-blue-exat);
+    }
+  }
+}

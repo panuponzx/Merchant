@@ -181,6 +181,12 @@ export interface IDocumentTypeResponse {
   nameEN: string
 }
 
+export interface IMasterDataResponse {
+  key: string
+  name: string
+  nameEN: string
+}
+
 export interface IJuristicDocumentResponse {
   fileName: string
   docName: string
