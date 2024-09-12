@@ -2,9 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { RowActionEventModel, CustomerModel, IMasterDataResponse } from '../../../../../../core/interfaces';
+import { RowActionEventModel, IMasterDataResponse, IMaterialResponse, IProductAddItemRequest } from '../../../../../../core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
+import { catchError, debounceTime, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import { TransformDatePipe } from 'src/app/core/pipes';
 
 @Component({
   selector: 'app-redeem-management',
@@ -29,15 +31,21 @@ export class RedeemManagementComponent implements OnInit {
 
   public today: Date = new Date();
 
-  materialList = [
-    {
-      label: 'material code',
-      id: 1
-    }
-  ];
+  // materialList = [
+  //   {
+  //     label: 'material code',
+  //     id: 1
+  //   }
+  // ];
 
   redeemItemTypeList: IMasterDataResponse[] = [];
   isRedeemItemTypeLoading: boolean = false;
+
+  materialInput$ = new Subject<string>();
+  materialMinLengthSearch: number = 2;
+  materialList$: Observable<IMaterialResponse[]>;
+  materialList: IMaterialResponse[] = [];
+  isGettMaterial: boolean = false;
 
   redeemItemLimitType: IMasterDataResponse[] = [];
   isRedeemItemLimitType: boolean = false;
@@ -71,9 +79,11 @@ export class RedeemManagementComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private restApiService: RestApiService,
-    private modalDialogService: ModalDialogService
+    private modalDialogService: ModalDialogService,
+    private transformDatePipe: TransformDatePipe
   ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
+    this.materialList$ = new Observable<IMaterialResponse[]>();
     this.form = this.formBuilder.group({
       itemType: new FormControl(undefined, Validators.required),
       materialCode: new FormControl(undefined, Validators.required),
@@ -91,6 +101,7 @@ export class RedeemManagementComponent implements OnInit {
       limitWallet: new FormControl({ value: undefined, disabled: true }, Validators.required),
       limitAccount: new FormControl({ value: undefined, disabled: true }, Validators.required),
       pointUse: new FormControl(undefined, Validators.required),
+      amountTollReceived: new FormControl(undefined, Validators.required),
       // creditReceive: new FormControl(undefined, Validators.required), // itemType = CREDIT
       name: new FormControl(undefined, Validators.required),
       stockLocation: new FormControl(undefined, Validators.required),
@@ -150,13 +161,13 @@ export class RedeemManagementComponent implements OnInit {
       { controlName: 'validityDate', requiredFor: ['PRODUCT'] },
       { controlName: 'endRedeemDate', requiredFor: ['COUPON'] },
       //รายละเอียดการจำกัด
-      { controlName: 'limitType', requiredFor: ['PRODUCT'] },
-      { controlName: 'limitWalletType', requiredFor: ['PRODUCT'] },
-      { controlName: 'limitAccountType', requiredFor: ['PRODUCT'] },
-      { controlName: 'limitItem', requiredFor: ['PRODUCT'] },
-      { controlName: 'limitWallet', requiredFor: ['PRODUCT'] },
-      { controlName: 'limitAccount', requiredFor: ['PRODUCT'] },
-      { controlName: 'limitExchange', requiredFor: ['COUPON', 'CREDIT'] },
+      // { controlName: 'limitType', requiredFor: ['PRODUCT'] },
+      // { controlName: 'limitWalletType', requiredFor: ['PRODUCT'] },
+      // { controlName: 'limitAccountType', requiredFor: ['PRODUCT'] },
+      // { controlName: 'limitItem', requiredFor: ['PRODUCT'] },
+      // { controlName: 'limitWallet', requiredFor: ['PRODUCT'] },
+      // { controlName: 'limitAccount', requiredFor: ['PRODUCT'] },
+      // { controlName: 'limitExchange', requiredFor: ['COUPON', 'CREDIT'] },
       //รายละเอียดคะแนน
       { controlName: 'amountTollReceived', requiredFor: ['CREDIT'] },
       //รายละเอียด
@@ -178,6 +189,7 @@ export class RedeemManagementComponent implements OnInit {
     this.getRedeemItemType();
     this.getRedeemLimitType();
     this.getCustomerCategories();
+    this.getMaterial();
   }
 
   onChangeNav(event: NgbNavChangeEvent) {
@@ -252,10 +264,98 @@ export class RedeemManagementComponent implements OnInit {
     })
   }
 
+  getMaterial() {
+    this.materialList$ = this.materialInput$.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      tap(() => (this.isGettMaterial = true)),
+      switchMap((input: string) =>
+        this.restApiService.getBackOfficeWithModel<IMaterialResponse>(`inventory/material/${input}`).pipe(
+          map((respons) => {
+            console.log(respons.data);
+            let response: IMaterialResponse[] = [respons.data];
+            return response;
+          }),
+          catchError(() => of([])),
+          tap(() => (this.isGettMaterial = false)),
+        )
+      )
+    )
+  }
+
+  postProductAddItem() {
+    const startDate = new Date(this.form.get('startDate')?.value);
+    startDate.setHours(0, 0, 0, 0);
+    const startDateNewFormat: string = String(this.transformDatePipe.transform(startDate, 'YYYY-MM-DD HH:mm'));
+    const expiryDate = new Date(this.form.get('expiryDate')?.value);
+    expiryDate.setHours(23, 59, 0, 0);
+    const expiryDateNewFormat: string = String(this.transformDatePipe.transform(expiryDate, 'YYYY-MM-DD HH:mm'));
+    const validityDate = new Date(this.form.get('expiryDate')?.value);
+    validityDate.setHours(23, 59, 0, 0);
+    const validityDateNewFormat: string = String(this.transformDatePipe.transform(validityDate, 'YYYY-MM-DD HH:mm'));
+    const payload: IProductAddItemRequest = {
+      materialCode: this.form.get('materialCode')?.value,
+      imgUrl: this.form.get('imgUrl')?.value,
+      pointUse: this.form.get('pointUse')?.value,
+      creditReceive: this.form.get('amountTollReceived')?.value,
+      itemTypeCode: this.form.get('itemType')?.value,
+      startDate: startDateNewFormat,
+      expiryDate: expiryDateNewFormat,
+      validityDate: validityDateNewFormat,
+      isActive: this.form.get('publishing')?.value,
+      name: {
+        th: this.form.get('name')?.value,
+      },
+      itemProperties: {
+        detail: {
+          th: this.form.get('detail')?.value,
+        },
+        condition: {
+          th: this.form.get('condition')?.value,
+        },
+        price: 0,
+        customerCategoryCode: this.form.get('customerCategory')?.value,
+        calVat: this.form.get('calVat')?.value,
+        stockLocationCode: this.form.get('stockLocation')?.value,
+        dayToDeliver: this.form.get('dayToDeliver')?.value,
+        receiveWithinDays: 0,
+      },
+      limitation: {
+        perItem: {
+          limitType: this.form.get('limitType')?.value,
+          limit: this.form.get('limitItem')?.value,
+        },
+        perWallet: {
+          limit: this.form.get('limitWallet')?.value,
+        },
+        perAccount: {
+          limit: this.form.get('limitAccount')?.value,
+        }
+      }
+    }
+    this.isCustomerCategorie = true;
+    this.restApiService.postBackOfficeWithModel<IProductAddItemRequest, any>(`loyalty/product/add-item`, payload).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.customerCategorie = res.data;
+        }
+        this.isCustomerCategorie = false;
+      },
+      error: (error) => {
+        this.isCustomerCategorie = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
 
   onChangeItemLimitType(event: string) {
     console.log("[onChangeItemLimitType] event => ", event);
     if (event) this.form.get('limitItem')?.enable();
+  }
+
+  onMaterialKeyup(event: KeyboardEvent) {
+    const val = (event.target as HTMLInputElement).value.toLowerCase();
+    this.materialInput$.next(val);
   }
 
   // getStatusSelectAll(formControlName: string): boolean {
@@ -272,6 +372,7 @@ export class RedeemManagementComponent implements OnInit {
   // }
 
   onSubmit() {
+    this.postProductAddItem();
     console.log("[onSubmit] form => ", this.form.value);
     console.log("[onSubmit] findInvalidControls => ", this.findInvalidControls());
   }

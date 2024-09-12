@@ -110,3 +110,53 @@ export interface IBorrowTestFaremediaRequest {
   fileNo: string
   file: File
 }
+
+export interface IProductAddItemRequest {
+  materialCode: string
+  imgUrl: string
+  pointUse: number
+  creditReceive: number
+  itemTypeCode: string
+  startDate: string
+  expiryDate: string
+  validityDate: string
+  isActive: boolean
+  name: INameModel
+  itemProperties: IItemPropertiesModel
+  limitation: ILimitationModel
+}
+
+export interface IItemPropertiesModel {
+  detail: INameModel
+  condition: INameModel
+  price: number
+  customerCategoryCode: string[]
+  calVat: boolean
+  stockLocationCode: string
+  dayToDeliver: number
+  receiveWithinDays: number
+}
+
+export interface INameModel {
+  th: string
+  en?: string
+}
+
+export interface ILimitationModel {
+  perItem: IPerItemModel
+  perWallet: IPerWalletModel
+  perAccount: IPerAccountModel
+}
+
+export interface IPerItemModel {
+  limitType: string
+  limit: number
+}
+
+export interface IPerWalletModel {
+  limit: number
+}
+
+export interface IPerAccountModel {
+  limit: number
+}
