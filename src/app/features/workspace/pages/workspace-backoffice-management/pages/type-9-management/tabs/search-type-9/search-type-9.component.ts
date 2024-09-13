@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterCustomerType9Component } from '../../../../modals/register-customer-type-9/register-customer-type-9.component';
@@ -70,6 +70,7 @@ export class SearchType9Component {
   public plateNo: string = "";
   public isLoading: boolean = false;
   public refreshTrigger: number = 0;
+  public isSearch: boolean = false;
   public hiddenSearchMenu: boolean = false;
   formTypeSearch: FormGroup = new FormGroup({
     searchType: new FormControl({ value: "customerName", disabled: false }, [Validators.required])
@@ -89,11 +90,18 @@ export class SearchType9Component {
       if (this.formTypeSearch.value.searchType == "customerName") {
         this.customerName = this.formSearch.value.search;
         this.refreshTrigger++;
-      } 
+        this.isSearch = true;
+      }
       else {
         this.router.navigate(['/work-space/type-9-management/wallet-type-9-management/', this.formSearch.value.search], { relativeTo: this.activatedRoute, queryParams: { searchType: this.formTypeSearch.value.searchType } });
       }
     }
+  }
+  clearSearch() {
+    this.formSearch.get('search')?.setValue('');
+    this.customerName = '';
+    this.refreshTrigger++;
+    this.isSearch = false;
   }
   onChangeCiteria() {
     this.formSearch.get('search')?.setValue('');
