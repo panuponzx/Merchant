@@ -32,11 +32,11 @@
 
       </div>
       <div class="form-group">
-        <label class="label-input required-field" for="date">{{ actionType === 'borrow' ? 'วันที่ยืม/เบิก' : 'วันที่คืน'
+        <label class="label-input required-field" for="date">{{ actionType === 'borrow' ? 'วันที่เบิก / ยืม' : 'วันที่คืน'
           }}</label>
         <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="date"
           [id]="'date'" locale="th" [maxDate]="minDate"
-          [placeholder]="'กรุณากรอกวันที่'+(actionType === 'borrow' ? 'วันที่ยืม/เบิก' : 'วันที่คืน')"
+          [placeholder]="'กรุณากรอกวันที่'+(actionType === 'borrow' ? 'วันที่เบิก / ยืม' : 'วันที่คืน')"
           [placement]="'bottom'"></date-picker>
       </div>
       <div *ngIf="actionType === 'borrow'" class="form-group">
