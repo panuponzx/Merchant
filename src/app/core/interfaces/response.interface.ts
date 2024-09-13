@@ -486,3 +486,14 @@ export interface ResponseMessageModel {
 export interface IFaremediaOwnerInfoResponseModel extends ResponseMessageModel {
   data: IFaremediaOwnerInfoModel;
 }
+
+export interface IMaterialResponse {
+  materialCode: string
+  materialDescription: string
+  serialNo: string
+  plant: string
+  location: string
+  quantity: number
+  unit: string
+  exp: string
+}
