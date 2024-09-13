@@ -121,8 +121,8 @@
                     <label class="label-input" for="walletName">
                         หมายเลขข้างรถ (ชื่อกระเป๋า)
                     </label>
-                    <input class="form-control" data-testid="walletName" formControlName="walletName"
-                        id="walletName" type="text">
+                    <input class="form-control" data-testid="walletName" formControlName="walletName" id="walletName"
+                        type="text">
                 </div>
                 <!-- <div class="col-12 mb-3">
                     <button style="width: 100%" class="custom-btn btn-type-1 red"><icon-svg [color]="'#FFF'" [path]="'assets/images/icons/unlink.svg'" [size]="'m'" /> ยกเลิกการผูก eWallet</button>
@@ -136,7 +136,7 @@
             <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onSuspend()"
                 *ngIf="carInfo.faremediaStatusId == 200">อายัดชั่วคราว</button>
             <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onChangeOBU()"
-                *ngIf="carInfo.faremediaStatusId == 200">เปลี่ยนหมายเลข OBU.</button>
+                *ngIf="carInfo.faremediaStatusId == 200 && isType9">เปลี่ยนหมายเลข OBU.</button>
             <button class="custom-btn btn-type-1 outline ms-2" (click)="onActive()"
                 *ngIf="(carInfo.faremediaStatusId >= 300 && carInfo.faremediaStatusId <= 399) && carInfo.faremediaStatusId !== 304">ยกเลิกการอายัด</button>
         </div>
