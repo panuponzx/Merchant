@@ -28,6 +28,7 @@ export class IconPipe implements PipeTransform {
     { iconName: 'setting', path: 'assets/images/icons/setting.svg' },
     { iconName: 'id-card', path: 'assets/images/icons/id-card.svg' },
     { iconName: 'passport', path: 'assets/images/icons/passport.svg' },
+    { iconName: 'time', path: 'assets/images/icons/time.svg' },
   ];
 
   transform(iconName: IconModel | null | undefined | string): string | null {

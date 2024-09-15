@@ -1,4 +1,5 @@
 import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel, CustomerContact, IJuristicElementModel, IProvinceMasterData, ICarMasterData } from "./data.interface"
+import { IItemPropertiesModel, INameModel, IPerAccountModel, IPerItemModel, IPerWalletModel } from "./payload.interface"
 
 export interface IResponseModel<T> {
   data: T
@@ -496,4 +497,49 @@ export interface IMaterialResponse {
   quantity: number
   unit: string
   exp: string
+}
+
+export interface ILoyaltyProductsResponse {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: IElementLoyaltyProductsResponse[]
+}
+
+export interface IElementLoyaltyProductsResponse {
+  id: string
+  codeId: string
+  name: INameModel
+  imgBase64: any
+  imgUrl: string
+  pointUse: number
+  detail: INameModel
+  condition: INameModel
+  itemTypeCode: string
+  limitation: ILimitationResponseModel
+  startDate: any
+  expiryDate: string
+  isActive: boolean
+  qty: any
+}
+export interface ILimitationResponseModel {
+  perItem: IPerItemModel
+  perWallet: IPerWalletModel
+  perAccount: IPerAccountModel
+}
+export interface ILoyaltyProductsByIdResponse {
+  materialCode: string
+  imgUrl: string
+  pointUse: number
+  creditReceive: any
+  itemTypeCode: string
+  startDate: string
+  expiryDate: string
+  validityDate: string
+  isActive: boolean
+  name: INameModel
+  itemProperties: IItemPropertiesModel
+  limitation: ILimitationResponseModel
+  id: string
 }
