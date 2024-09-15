@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { BackNavigationServiceService } from 'src/app/core/services/back-navigation-service/back-navigation-service.service';
 
 @Component({
   selector: 'app-type-9-management',
@@ -12,19 +13,22 @@ export class Type9ManagementComponent {
 
   public approval: number = 1;
 
-  public activeTab: 'wallet-type-9-management' | 'report-type-9-management' |  string | null = 'wallet-type-9-management';
+  public activeTab: 'wallet-type-9-management' | 'report-type-9-management' | string | null = 'wallet-type-9-management';
 
   public submitted: boolean = false;
   public isHiddenFillter: boolean = false;
 
   public maxDate: Date = new Date();
-
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private ngbModal: NgbModal
+    private ngbModal: NgbModal,
+    private backNavigationService: BackNavigationServiceService
   ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
+    this.backNavigationService.setBackFunction(() => {
+      this.router.navigate(['work-space/menu-option-super-admin']);
+    });
   }
 
   onChangeNav(event: NgbNavChangeEvent) {
@@ -39,8 +43,8 @@ export class Type9ManagementComponent {
   handleHiddenFillterMenu(value: boolean) {
     this.isHiddenFillter = value;
   }
-  onBack(){
-    this.router.navigate(['work-space/menu-option-super-admin']);
+  onBack() {
+    this.backNavigationService.triggerBack();
   }
 
 }

@@ -5,6 +5,7 @@ import { CustomColumnModel, ICustomerType9Model, IResponseCustomerType9Model, Ro
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 import { Observable } from 'rxjs';
+import { BackNavigationServiceService } from 'src/app/core/services/back-navigation-service/back-navigation-service.service';
 
 @Component({
   selector: 'customer-type-9-management',
@@ -37,7 +38,8 @@ export class CustomerType9ManagementComponent {
     private activatedRoute: ActivatedRoute,
     private restApiService: RestApiService,
     private modalDialogService: ModalDialogService,
-    private activeRoute : ActivatedRoute
+    private activeRoute : ActivatedRoute,
+    private backNavigationService: BackNavigationServiceService
   ) {
     this.formSearch = new FormGroup({
       search: new FormControl({ value: undefined, disabled: false }, [Validators.required])
