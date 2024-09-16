@@ -101,7 +101,12 @@ export class TopupInformationComponent implements OnInit {
   }
 
   onChangePage(event: number) {
+    console.log("[onChangePage] event => ", event);
     this.pages = event;
+    if(this.tempSearch) {
+      this.tempSearch.page = event;
+      this.loadTopupInformation(this.tempSearch);
+    }
   }
 
   onAction(event: RowActionEventModel) {
