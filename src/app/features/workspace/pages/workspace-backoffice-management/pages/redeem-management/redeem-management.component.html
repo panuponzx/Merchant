@@ -5,8 +5,8 @@
         </div>
     </div>
     <hr class="hr-custom mb-3" />
-    <button *ngIf="isAdd" class="custom-btn btn-type-1 mb-3" data-testid="backButton" id="backButton"
-        title="กลับ" type="button" (click)="onBack()">
+    <button *ngIf="isAdd" class="custom-btn btn-type-1 mb-3" data-testid="backButton" id="backButton" title="กลับ"
+        type="button" (click)="onBack()">
         กลับ
     </button>
     <section *ngIf="!isAdd" class="navs-container">
@@ -17,9 +17,9 @@
                     <button ngbNavLink>สินค้าแลก</button>
                     <ng-template ngbNavContent>
                         <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'"
-                            [isLoading]="isLoyaltyProductsLoading" [pageSize]="limitRow" [page]="pages" [rows]="loyaltyProductsList"
-                            emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePage($event)"
-                            (onRowActionEvent)="onAction($event)">
+                            [isLoading]="isLoyaltyProductsLoading" [pageSize]="limitRow" [page]="pages"
+                            [rows]="loyaltyProductsList" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)">
                         </datatable>
                         <!-- <redeem-exchange [redeemItemType]="'PRODUCT'"></redeem-exchange> -->
                     </ng-template>
@@ -28,9 +28,9 @@
                     <button ngbNavLink>คูปอง</button>
                     <ng-template ngbNavContent>
                         <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'"
-                            [isLoading]="isLoyaltyProductsLoading" [pageSize]="limitRow" [page]="pages" [rows]="loyaltyProductsList"
-                            emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePage($event)"
-                            (onRowActionEvent)="onAction($event)">
+                            [isLoading]="isLoyaltyProductsLoading" [pageSize]="limitRow" [page]="pages"
+                            [rows]="loyaltyProductsList" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)">
                         </datatable>
                         <!-- <redeem-exchange [redeemItemType]="'coupon'"></redeem-exchange> -->
                     </ng-template>
@@ -39,9 +39,9 @@
                     <button ngbNavLink>ค่าผ่านทาง</button>
                     <ng-template ngbNavContent>
                         <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'"
-                            [isLoading]="isLoyaltyProductsLoading" [pageSize]="limitRow" [page]="pages" [rows]="loyaltyProductsList"
-                            emptyMessage="ไม่มีข้อมูล" (onChangePageEvent)="onChangePage($event)"
-                            (onRowActionEvent)="onAction($event)">
+                            [isLoading]="isLoyaltyProductsLoading" [pageSize]="limitRow" [page]="pages"
+                            [rows]="loyaltyProductsList" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)">
                         </datatable>
                     </ng-template>
                 </li>
@@ -105,8 +105,9 @@
                                 <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'"
                                     [path]="'time' | icon" />
                                 <input class="form-control input-with-icon-right-border" data-testid="startTimeInput"
-                                    formControlName="fromPeriod" id="startTimeInput" mask="Hh:m0"
-                                    placeholder="กรุณาระบุ" type="text">
+                                    formControlName="fromPeriod" id="startTimeInput" mask="00:00"
+                                    [dropSpecialCharacters]="false" placeholder="กรุณาระบุ"
+                                    type="text">
                             </div>
                         </div>
                         <div class="col-12 mb-3" *ngIf="form.get('itemType')?.value === 'PRODUCT'">
@@ -142,7 +143,8 @@
                                 <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'"
                                     [path]="'time' | icon" />
                                 <input class="form-control input-with-icon-right-border" data-testid="expiryTimeInput"
-                                    formControlName="toPeriod" id="expiryTimeInput" mask="Hh:m0" placeholder="กรุณาระบุ"
+                                    formControlName="toPeriod" id="expiryTimeInput" mask="00:00"
+                                    [dropSpecialCharacters]="false" placeholder="กรุณาระบุ"
                                     type="text">
                             </div>
                         </div>
@@ -292,7 +294,8 @@
                             </label>
                             <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="code"
                                 data-testid="stockLocationSelect" id="stockLocationSelect" placeholder="กรุณาระบุ"
-                                formControlName="stockLocation" [loading]="isStockLocation" [items]="stockLocationList"></ng-select>
+                                formControlName="stockLocation" [loading]="isStockLocation"
+                                [items]="stockLocationList"></ng-select>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="imgUrlInput">

@@ -135,7 +135,9 @@ export interface IItemPropertiesModel {
   calVat: boolean
   stockLocationCode: string
   dayToDeliver: number
-  receiveWithinDays: number
+  receiveWithinDays?: number
+  fromPeriod: string
+  toPeriod: string
 }
 
 export interface INameModel {

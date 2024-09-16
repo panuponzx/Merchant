@@ -247,7 +247,6 @@ export class RedeemManagementComponent implements OnInit {
     this.isRedeemItemTypeLoading = true;
     this.restApiService.getBackOfficeWithModel<ILoyaltyProductsByIdResponse>(`loyalty/product/${id}`).subscribe({
       next: (res) => {
-        // TODO: endDate NotFound
         if (res.errorMessage === "Success") {
           const startDate = this.transformDatePipe.transform(res.data.startDate, 'YYYY-MM-DD');
           const expiryDate = this.transformDatePipe.transform(res.data.expiryDate, 'YYYY-MM-DD');
@@ -258,10 +257,10 @@ export class RedeemManagementComponent implements OnInit {
           this.form.get('itemType')?.disable();
           this.form.get('materialCode')?.setValue(res.data.materialCode);
           if(startDate) this.form.get('startDate')?.setValue(new Date(startDate));
-          // this.form.get('fromPeriod')?.setValue(res.data.fromPeriod);
+          this.form.get('fromPeriod')?.setValue(res.data.itemProperties.fromPeriod);
           this.form.get('dayToDeliver')?.setValue(res.data.itemProperties?.dayToDeliver);
           if(expiryDate) this.form.get('expiryDate')?.setValue(new Date(expiryDate));
-          // this.form.get('toPeriod')?.setValue(res.data.toPeriod);
+          this.form.get('toPeriod')?.setValue(res.data.itemProperties.toPeriod);
           if(validityDate) this.form.get('validityDate')?.setValue(new Date(validityDate));
           this.form.get('customerCategory')?.setValue(res.data.itemProperties?.customerCategoryCode);
           this.form.get('limitType')?.setValue(res.data.limitation?.perItem?.limitType);
@@ -283,7 +282,7 @@ export class RedeemManagementComponent implements OnInit {
           this.form.get('pointUse')?.setValue(res.data.pointUse);
           this.form.get('creditReceive')?.setValue(res.data.creditReceive);
           this.form.get('name')?.setValue(res.data.name?.th);
-          this.form.get('stockLocation')?.setValue(res.data.itemProperties?.stockLocationCode); //TODO: Not Have Res
+          this.form.get('stockLocation')?.setValue(res.data.itemProperties?.stockLocationCode);
           this.form.get('imgUrl')?.setValue(res.data.imgUrl);
           this.form.get('calVat')?.setValue(res.data.itemProperties?.calVat);
           this.form.get('detail')?.setValue(res.data.itemProperties?.detail?.th);
@@ -421,7 +420,9 @@ export class RedeemManagementComponent implements OnInit {
         calVat: this.form.get('calVat')?.value,
         stockLocationCode: this.form.get('stockLocation')?.value,
         dayToDeliver: this.form.get('dayToDeliver')?.value,
-        receiveWithinDays: 0,
+        // receiveWithinDays: 0,
+        fromPeriod: this.form.get('fromPeriod')?.value,
+        toPeriod: this.form.get('toPeriod')?.value
       },
       limitation: {
         perItem: {
@@ -489,7 +490,9 @@ export class RedeemManagementComponent implements OnInit {
         calVat: this.form.get('calVat')?.value,
         stockLocationCode: this.form.get('stockLocation')?.value,
         dayToDeliver: this.form.get('dayToDeliver')?.value,
-        receiveWithinDays: 0,
+        // receiveWithinDays: 0,
+        fromPeriod: this.form.get('fromPeriod')?.value,
+        toPeriod: this.form.get('toPeriod')?.value
       },
       limitation: {
         perItem: {
