@@ -18,8 +18,6 @@ export class RedeemManagementComponent implements OnInit {
   public approval: number = 1;
 
   public activeTab: 'product' | 'coupon' | 'credit' | string | null = 'product';
-  @ViewChild('inputFile', { static: false }) private inputFileEl: | ElementRef | any;
-
 
   public isAdd: boolean = false;
   public isEdit: boolean = false;
@@ -31,9 +29,9 @@ export class RedeemManagementComponent implements OnInit {
     { id: 'no', name: 'no', label: 'อันดับ', prop: '', sortable: false, resizeable: true, width: 80, minWidth: 80, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
     // { id: 'activityName', name: 'กิจกรรม', label: 'กิจกรรม', prop: 'activityName', sortable: false, resizeable: true, width: 120, minWidth: 120, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'name', name: 'ชื่อสินค้า', label: 'ชื่อสินค้า', prop: 'name.th', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'pointAmount', name: 'ประเภท', label: 'ประเภท', prop: 'pointAmount', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'itemTypeCode', name: 'ประเภท', label: 'ประเภท', prop: 'itemTypeCode', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'pointUse', name: 'คะแนนที่ใช้แลก', label: 'คะแนนที่ใช้แลก', prop: 'pointUse', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'activityDuration', name: 'เวลาที่เริ่ม', label: 'เวลาที่เริ่ม', prop: 'activityDuration', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text', date: { format: 'D MMMM YYYY', locale: 'en' } },
+    { id: 'startDate', name: 'เวลาที่เริ่ม', label: 'เวลาที่เริ่ม', prop: 'startDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text', date: { format: 'D MMMM YYYY', locale: 'en' } },
     { id: 'expiryDate', name: 'เวลาที่สิ้นสุด', label: 'เวลาที่สิ้นสุด', prop: 'expiryDate', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'createdBy', name: 'ชื่อพนักงานที่สร้าง', label: 'ชื่อพนักงานที่สร้าง', prop: 'createdBy', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'setting', name: 'รายละเอียด', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
@@ -241,22 +239,6 @@ export class RedeemManagementComponent implements OnInit {
     }
   }
 
-  onAdd(): void {
-    this.isAdd = true;
-    this.getRedeemItemType();
-    this.getRedeemLimitType();
-    this.getCustomerCategories();
-    this.getMaterial();
-  }
-
-  fileTypeValidation(event: any) {
-    let files = event.target.files[0];
-    this.form.get('attachDocument')?.setValue(files);
-    console.log("[fileTypeValidation] files => ", files);
-    console.log("[fileTypeValidation] attachDocument => ", this.form.get('attachDocument')?.value);
-    this.inputFileEl.nativeElement.value = null;
-  }
-
   getLoyaltyProductsById(id: string) {
     this.isRedeemItemTypeLoading = true;
     this.restApiService.getBackOfficeWithModel<ILoyaltyProductsByIdResponse>(`loyalty/product/${id}`).subscribe({
@@ -266,15 +248,18 @@ export class RedeemManagementComponent implements OnInit {
           const startDate = this.transformDatePipe.transform(res.data.startDate, 'YYYY-MM-DD');
           const expiryDate = this.transformDatePipe.transform(res.data.expiryDate, 'YYYY-MM-DD');
           const validityDate = this.transformDatePipe.transform(res.data.validityDate, 'YYYY-MM-DD');
+          console.log(expiryDate);
+          
           this.form.get('itemType')?.setValue(res.data.itemTypeCode);
+          this.form.get('itemType')?.disable();
           this.form.get('materialCode')?.setValue(res.data.materialCode);
-          this.form.get('startDate')?.setValue(startDate);
+          if(startDate) this.form.get('startDate')?.setValue(new Date(startDate));
           // this.form.get('fromPeriod')?.setValue(res.data.fromPeriod);
-          // this.form.get('dayToDeliver')?.setValue(res.data.dayToDeliver);
-          this.form.get('expiryDate')?.setValue(expiryDate);
+          this.form.get('dayToDeliver')?.setValue(res.data.itemProperties?.dayToDeliver);
+          if(expiryDate) this.form.get('expiryDate')?.setValue(new Date(expiryDate));
           // this.form.get('toPeriod')?.setValue(res.data.toPeriod);
-          this.form.get('validityDate')?.setValue(validityDate);
-          // this.form.get('customerCategory')?.setValue(res.data.itemProperties?.customerCategoryCode);
+          if(validityDate) this.form.get('validityDate')?.setValue(new Date(validityDate));
+          this.form.get('customerCategory')?.setValue(res.data.itemProperties?.customerCategoryCode);
           this.form.get('limitType')?.setValue(res.data.limitation?.perItem?.limitType);
           if (res.data.limitation?.perWallet?.limit > 0) {
             this.form.get('limitWalletType')?.setValue('LIMITED');
@@ -386,7 +371,7 @@ export class RedeemManagementComponent implements OnInit {
     const expiryDate = new Date(this.form.get('expiryDate')?.value);
     expiryDate.setHours(23, 59, 0, 0);
     const expiryDateNewFormat: string = String(this.transformDatePipe.transform(expiryDate, 'YYYY-MM-DD HH:mm'));
-    const validityDate = new Date(this.form.get('expiryDate')?.value);
+    const validityDate = new Date(this.form.get('validityDate')?.value);
     validityDate.setHours(23, 59, 0, 0);
     const validityDateNewFormat: string = String(this.transformDatePipe.transform(validityDate, 'YYYY-MM-DD HH:mm'));
     const payload: IProductAddItemRequest = {
@@ -394,7 +379,7 @@ export class RedeemManagementComponent implements OnInit {
       imgUrl: this.form.get('imgUrl')?.value,
       pointUse: this.form.get('pointUse')?.value,
       creditReceive: this.form.get('amountTollReceived')?.value,
-      itemTypeCode: this.form.get('itemType')?.value,
+      itemTypeCode: this.form.get('itemType')?.getRawValue(),
       startDate: startDateNewFormat,
       expiryDate: expiryDateNewFormat,
       validityDate: validityDateNewFormat,
@@ -454,7 +439,7 @@ export class RedeemManagementComponent implements OnInit {
     const expiryDate = new Date(this.form.get('expiryDate')?.value);
     expiryDate.setHours(23, 59, 0, 0);
     const expiryDateNewFormat: string = String(this.transformDatePipe.transform(expiryDate, 'YYYY-MM-DD HH:mm'));
-    const validityDate = new Date(this.form.get('expiryDate')?.value);
+    const validityDate = new Date(this.form.get('validityDate')?.value);
     validityDate.setHours(23, 59, 0, 0);
     const validityDateNewFormat: string = String(this.transformDatePipe.transform(validityDate, 'YYYY-MM-DD HH:mm'));
     const payload: IProductAddItemRequest = {
@@ -462,7 +447,7 @@ export class RedeemManagementComponent implements OnInit {
       imgUrl: this.form.get('imgUrl')?.value,
       pointUse: this.form.get('pointUse')?.value,
       creditReceive: this.form.get('amountTollReceived')?.value,
-      itemTypeCode: this.form.get('itemType')?.value,
+      itemTypeCode: this.form.get('itemType')?.getRawValue(),
       startDate: startDateNewFormat,
       expiryDate: expiryDateNewFormat,
       validityDate: validityDateNewFormat,
@@ -576,6 +561,16 @@ export class RedeemManagementComponent implements OnInit {
     console.log("[onSubmit] findInvalidControls => ", this.findInvalidControls());
   }
 
+  onAdd(): void {
+    this.isAdd = true;
+    this.form.reset();
+    this.form.get('itemType')?.enable();
+    this.getRedeemItemType();
+    this.getRedeemLimitType();
+    this.getCustomerCategories();
+    this.getMaterial();
+  }
+
   onEdit() {
     this.postProductEditItem(this.productId);
   }
@@ -585,6 +580,7 @@ export class RedeemManagementComponent implements OnInit {
     this.isAdd = false;
     // this.tempSearch = undefined;
     this.form.reset();
+    this.form.get('itemType')?.enable();
   }
 
   public findInvalidControls() {
