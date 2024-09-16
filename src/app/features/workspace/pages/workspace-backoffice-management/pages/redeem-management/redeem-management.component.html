@@ -290,9 +290,9 @@
                             <label class="label-input" for="stockLocationSelect">
                                 สถานที่เก็บสินค้า
                             </label>
-                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                            <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="code"
                                 data-testid="stockLocationSelect" id="stockLocationSelect" placeholder="กรุณาระบุ"
-                                formControlName="stockLocation" [items]="[]"></ng-select>
+                                formControlName="stockLocation" [loading]="isStockLocation" [items]="stockLocationList"></ng-select>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="imgUrlInput">

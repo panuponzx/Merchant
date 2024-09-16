@@ -543,3 +543,27 @@ export interface ILoyaltyProductsByIdResponse {
   limitation: ILimitationResponseModel
   id: string
 }
+
+export interface IStockLocationResponse {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: IElementStockLocationResponse[]
+}
+
+export interface IElementStockLocationResponse {
+  id: number
+  code: string
+  name: string
+  nameEn: string
+  desc: string
+  descEn: string
+  logoUrl: string
+  isActive: boolean
+  sequence: number
+  createdDate: string
+  createdBy: string
+  updatedDate: any
+  updatedBy: any
+}

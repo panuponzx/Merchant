@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { RowActionEventModel, IMasterDataResponse, IMaterialResponse, IProductAddItemRequest, CustomColumnModel, IElementLoyaltyProductsResponse, ILoyaltyProductsResponse, ILimitationResponseModel, ILoyaltyProductsByIdResponse } from '../../../../../../core/interfaces';
+import { RowActionEventModel, IMasterDataResponse, IMaterialResponse, IProductAddItemRequest, CustomColumnModel, IElementLoyaltyProductsResponse, ILoyaltyProductsResponse, ILimitationResponseModel, ILoyaltyProductsByIdResponse, IStockLocationResponse, IElementStockLocationResponse } from '../../../../../../core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 import { catchError, debounceTime, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -93,6 +93,9 @@ export class RedeemManagementComponent implements OnInit {
       id: true
     }
   ];
+
+  stockLocationList: IElementStockLocationResponse[] = [];
+  isStockLocation: boolean = false;
 
   customerCategorie: IMasterDataResponse[] = [];
   isCustomerCategorie: boolean = false;
@@ -224,6 +227,7 @@ export class RedeemManagementComponent implements OnInit {
       this.getLoyaltyProductsById(row.id);
       this.getRedeemItemType();
       this.getRedeemLimitType();
+      this.getStockLocation();
       this.getCustomerCategories();
       this.getMaterial();
       // const row = event.row as IElementLoyaltyProductsResponse;
@@ -324,6 +328,24 @@ export class RedeemManagementComponent implements OnInit {
       },
       error: (error) => {
         this.isRedeemItemTypeLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  getStockLocation() {
+    this.isStockLocation = true;
+    this.restApiService.getBackOfficeWithModel<IStockLocationResponse>(`inventory/locations?limit=10&offset=0`).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.stockLocationList = res.data.elements;
+          console.log(this.stockLocationList);
+          
+        }
+        this.isStockLocation = false;
+      },
+      error: (error) => {
+        this.isStockLocation = false;
         this.modalDialogService.handleError(error);
       },
     })
@@ -567,6 +589,7 @@ export class RedeemManagementComponent implements OnInit {
     this.form.get('itemType')?.enable();
     this.getRedeemItemType();
     this.getRedeemLimitType();
+    this.getStockLocation();
     this.getCustomerCategories();
     this.getMaterial();
   }
