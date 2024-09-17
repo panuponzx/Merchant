@@ -6,8 +6,9 @@
     [isLoading]="isLoading"
     [pageSize]="limitRow"
     [page]="pages"
-    [rows]="rows1"
+    [rows]="loyaltyProductsList"
     emptyMessage="ไม่มีข้อมูล"
+    (onChangePageEvent)="onChangePage($event)"
     (onRowActionEvent)="onAction($event)">
 </datatable>
 </div>

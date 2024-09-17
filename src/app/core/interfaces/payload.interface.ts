@@ -112,6 +112,7 @@ export interface IBorrowTestFaremediaRequest {
 }
 
 export interface IProductAddItemRequest {
+  id?: string
   materialCode: string
   imgUrl: string
   pointUse: number
@@ -134,7 +135,9 @@ export interface IItemPropertiesModel {
   calVat: boolean
   stockLocationCode: string
   dayToDeliver: number
-  receiveWithinDays: number
+  receiveWithinDays?: number
+  fromPeriod: string
+  toPeriod: string
 }
 
 export interface INameModel {

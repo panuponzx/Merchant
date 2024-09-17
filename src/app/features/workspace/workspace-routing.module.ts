@@ -258,7 +258,7 @@ export const routesConfig: CustomRoutesModel = [
               is_sidebar: true,
               label: 'ระบบการแลกคะแนน',
               default_path: 'manage-redeem',
-              allowed_tabs: ['exchange', 'coupon', 'toll']
+              allowed_tabs: ['product', 'coupon', 'credit']
             },
             canActivate: [TabGuard]
           },

@@ -13,22 +13,36 @@
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
             <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
                 class="nav-tabs nav-tabs-header">
-                <li [ngbNavItem]="'exchange'">
+                <li [ngbNavItem]="'product'">
                     <button ngbNavLink>สินค้าแลก</button>
                     <ng-template ngbNavContent>
-                        <redeem-exchange></redeem-exchange>
+                        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'"
+                            [isLoading]="isLoyaltyProductsLoading" [pageSize]="limitRow" [page]="pages"
+                            [rows]="loyaltyProductsList" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)">
+                        </datatable>
+                        <!-- <redeem-exchange [redeemItemType]="'PRODUCT'"></redeem-exchange> -->
                     </ng-template>
                 </li>
                 <li [ngbNavItem]="'coupon'">
                     <button ngbNavLink>คูปอง</button>
                     <ng-template ngbNavContent>
-                        <redeem-exchange></redeem-exchange>
+                        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'"
+                            [isLoading]="isLoyaltyProductsLoading" [pageSize]="limitRow" [page]="pages"
+                            [rows]="loyaltyProductsList" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)">
+                        </datatable>
+                        <!-- <redeem-exchange [redeemItemType]="'coupon'"></redeem-exchange> -->
                     </ng-template>
                 </li>
-                <li [ngbNavItem]="'toll'">
+                <li [ngbNavItem]="'credit'">
                     <button ngbNavLink>ค่าผ่านทาง</button>
                     <ng-template ngbNavContent>
-                        <redeem-exchange></redeem-exchange>
+                        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'"
+                            [isLoading]="isLoyaltyProductsLoading" [pageSize]="limitRow" [page]="pages"
+                            [rows]="loyaltyProductsList" emptyMessage="ไม่มีข้อมูล"
+                            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)">
+                        </datatable>
                     </ng-template>
                 </li>
             </ul>
@@ -87,8 +101,14 @@
                             <label class="label-input required-field" for="startTimeInput">
                                 ช่วงเวลา ที่เริ่ม
                             </label>
-                            <input class="form-control" data-testid="startTimeInput" formControlName="fromPeriod"
-                                id="startTimeInput" mask="Hh:m0" placeholder="กรุณาระบุ" type="text">
+                            <div class="input-with-icon-wrapper">
+                                <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'"
+                                    [path]="'time' | icon" />
+                                <input class="form-control input-with-icon-right-border" data-testid="startTimeInput"
+                                    formControlName="fromPeriod" id="startTimeInput" mask="00:00"
+                                    [dropSpecialCharacters]="false" placeholder="กรุณาระบุ"
+                                    type="text">
+                            </div>
                         </div>
                         <div class="col-12 mb-3" *ngIf="form.get('itemType')?.value === 'PRODUCT'">
                             <label class="label-input required-field" for="dayToDeliverInput">
@@ -98,12 +118,11 @@
                                 id="dayToDeliverInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
                         </div>
                         <div class="col-12 mb-3" *ngIf="form.get('itemType')?.value === 'COUPON'">
-                            <label class="label-input required-field" for="endRedeemDateInput">
+                            <label class="label-input required-field" for="validityDateInput">
                                 วันที่สิ้นสุดในการแลก/ใช้งาน
                             </label>
-                            <!-- TODO: Change formControlName-->
                             <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
-                                formControlName="endRedeemDate" [id]="'endRedeemDateInput'" locale="th"
+                                formControlName="validityDate" [id]="'validityDateInput'" locale="th"
                                 [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
                         </div>
                     </div>
@@ -120,8 +139,14 @@
                             <label class="label-input required-field" for="expiryTimeInput">
                                 ช่วงเวลา สิ้นสุด
                             </label>
-                            <input class="form-control" data-testid="expiryTimeInput" formControlName="toPeriod"
-                                id="expiryTimeInput" placeholder="กรุณาระบุ" type="text">
+                            <div class="input-with-icon-wrapper">
+                                <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'"
+                                    [path]="'time' | icon" />
+                                <input class="form-control input-with-icon-right-border" data-testid="expiryTimeInput"
+                                    formControlName="toPeriod" id="expiryTimeInput" mask="00:00"
+                                    [dropSpecialCharacters]="false" placeholder="กรุณาระบุ"
+                                    type="text">
+                            </div>
                         </div>
                         <div class="col-12 mb-3" *ngIf="form.get('itemType')?.value === 'PRODUCT'">
                             <label class="label-input required-field" for="validityDatePicker">
@@ -142,8 +167,9 @@
                             ประเภทผู้ใช้
                         </label>
                         <ng-select class="form-control mb-2" [items]="customerCategorie" [multiple]="true"
-                            bindLabel="name" bindValue="key" id="selectRoute" data-testid="selectRoute" placeholder="กรุณาระบุ"
-                            [closeOnSelect]="false" [searchable]="false" formControlName="customerCategory">
+                            bindLabel="name" bindValue="key" id="selectRoute" data-testid="selectRoute"
+                            placeholder="กรุณาระบุ" [closeOnSelect]="false" [searchable]="false"
+                            formControlName="customerCategory">
                             <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
                                 <div class="ng-value">
                                     <span>เลือก ({{items.length}})</span>
@@ -181,7 +207,8 @@
                             </label>
                             <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
                                 data-testid="limitTypeSelect" id="limitTypeSelect" placeholder="กรุณาระบุ"
-                                formControlName="limitWalletType" [items]="redeemWalletLimitType"></ng-select>
+                                formControlName="limitWalletType" [items]="redeemWalletLimitType"
+                                (ngModelChange)="onChangeLimitWalletType($event)"></ng-select>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="limitAccount">
@@ -189,7 +216,8 @@
                             </label>
                             <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
                                 data-testid="limitTypeSelect" id="limitTypeSelect" placeholder="กรุณาระบุ"
-                                formControlName="limitAccountType" [items]="redeemAccountLimitType"></ng-select>
+                                formControlName="limitAccountType" [items]="redeemAccountLimitType"
+                                (ngModelChange)="onChangeLimitAccountType($event)"></ng-select>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
@@ -241,13 +269,11 @@
                             id="pointUseInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
                     </div>
                     <div class="col-12 col-lg-6 mb-3" *ngIf="form.get('itemType')?.value === 'CREDIT'">
-                        <label class="label-input required-field" for="amountTollReceivedInput">
+                        <label class="label-input required-field" for="creditReceiveInput">
                             จำนวนค่าผ่านทางที่ได้รับ
                         </label>
-                        <!-- TODO: Change formControlName-->
-                        <input class="form-control" data-testid="amountTollReceivedInput"
-                            formControlName="amountTollReceived" id="amountTollReceivedInput"
-                            placeholder="กรุณาระบุจำนวนวัน" type="text">
+                        <input class="form-control" data-testid="creditReceiveInput" formControlName="creditReceive"
+                            id="creditReceiveInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
                     </div>
                 </div>
                 <h3 class="content-title mb-3">
@@ -263,12 +289,13 @@
                                 id="productNameInput" placeholder="กรุณาระบุจำนวนวัน" type="text">
                         </div>
                         <div class="col-12 mb-3" *ngIf="form.get('itemType')?.value === 'PRODUCT'">
-                            <label class="label-input required-field" for="stockLocationSelect">
+                            <label class="label-input" for="stockLocationSelect">
                                 สถานที่เก็บสินค้า
                             </label>
-                            <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                            <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="code"
                                 data-testid="stockLocationSelect" id="stockLocationSelect" placeholder="กรุณาระบุ"
-                                formControlName="stockLocation" [items]="[]"></ng-select>
+                                formControlName="stockLocation" [loading]="isStockLocation"
+                                [items]="stockLocationList"></ng-select>
                         </div>
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="imgUrlInput">
@@ -285,7 +312,7 @@
                             </label>
                             <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
                                 data-testid="calVatSelect" id="calVatSelect" placeholder="กรุณาระบุ"
-                                formControlName="calVat" [items]="[]"></ng-select>
+                                formControlName="calVat" [items]="calVatList"></ng-select>
                         </div>
                         <!-- <div class="col-12 mb-3">
                             <label class="label-input required-field" for="productIdSelect">
@@ -344,9 +371,14 @@
                         data-testid="cancelButton" id="cancelButton" title="ยกเลิก">
                         ยกเลิก
                     </button>
-                    <button class="custom-btn btn-fixed-size-1 btn-type-1" type="submit" data-testid="submitButton"
-                        id="submitButton" title="บันทึก" [disabled]="form.invalid">
+                    <button *ngIf="isAdd && !isEdit" class="custom-btn btn-fixed-size-1 btn-type-1" type="submit"
+                        data-testid="submitButton" id="submitButton" title="บันทึก" [disabled]="form.invalid">
                         บันทึก
+                    </button>
+                    <button *ngIf="isEdit" class="custom-btn btn-fixed-size-1 btn-type-1" type="button"
+                        (click)="onEdit()" data-testid="editButton" id="editButton" title="แก้ไข"
+                        [disabled]="form.invalid">
+                        แก้ไข
                     </button>
                 </div>
             </section>
