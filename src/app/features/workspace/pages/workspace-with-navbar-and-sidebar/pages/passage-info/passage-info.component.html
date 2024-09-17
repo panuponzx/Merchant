@@ -82,7 +82,7 @@
               [limit]="limitRow" [groupExpansionDefault]="true" [count]="collectionSize" [externalPaging]="true"
               [offset]="pages - 1">
               <!-- Group Header Template -->
-              <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+              <!-- <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
                 <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
                   <div class="d-flex justify-content-between" style="width: 100%; padding-left:5px;"
                     (click)="toggleExpandGroup(group)">
@@ -93,8 +93,8 @@
                     <span>จำนวน {{ sumAmount(group.value) }} บาท</span>
                   </div>
                 </ng-template>
-              </ngx-datatable-group-header>
-              <ngx-datatable-column prop="transactionDate" [sortable]="false" [headerClass]="'text-break text-center'"
+              </ngx-datatable-group-header> -->
+              <ngx-datatable-column prop="transactionDate" [sortable]="true" [headerClass]="'text-break text-center'"
                 [cellClass]="'text-break text-center'">
                 <ng-template ngx-datatable-header-template>
                   <span>วันที่ และ เวลา</span>
@@ -106,7 +106,7 @@
                   </ng-container>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column prop="createDate" [sortable]="false" [headerClass]="'text-break text-center'"
+              <ngx-datatable-column prop="createDate" [sortable]="true" [headerClass]="'text-break text-center'"
                 [cellClass]="'text-break text-center'">
                 <ng-template ngx-datatable-header-template>
                   <span>วันที่ และ เวลา ที่ชำระเงินจริง</span>
@@ -118,26 +118,26 @@
                   </ng-container>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="สายทางเข้า" prop="entryHq" [sortable]="false"
+              <ngx-datatable-column name="สายทางเข้า" prop="entryHq" [sortable]="true"
                 [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="สายทางออก" prop="exitHq" [sortable]="false"
+              <ngx-datatable-column name="สายทางออก" prop="exitHq" [sortable]="true"
                 [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="อาคารด่านเข้า" prop="entryPlaza" [sortable]="false"
+              <ngx-datatable-column name="อาคารด่านเข้า" prop="entryPlaza" [sortable]="true"
                 [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="อาคารด่านออก" prop="exitPlaza" [sortable]="false"
+              <ngx-datatable-column name="อาคารด่านออก" prop="exitPlaza" [sortable]="true"
                 [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="OBU serial no." prop="obuPan" [sortable]="false"
+              <ngx-datatable-column name="OBU serial no." prop="obuPan" [sortable]="true"
                 [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'"></ngx-datatable-column>
-              <ngx-datatable-column name="จำนวนเงิน" prop="amount" [sortable]="false"
+              <ngx-datatable-column name="จำนวนเงิน" prop="amount" [sortable]="true"
                 [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'">
                 <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
                   <span>{{ value * -1 }}</span>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Settlement code" prop="settlementCode" [sortable]="false"
+              <ngx-datatable-column name="Settlement code" prop="settlementCode" [sortable]="true"
                 [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'">
               </ngx-datatable-column>
-              <ngx-datatable-column name="สถานะ" prop="tollStatus" [sortable]="false"
+              <ngx-datatable-column name="สถานะ" prop="tollStatus" [sortable]="true"
                 [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'">
               </ngx-datatable-column>
               <!-- <ngx-datatable-column name="สถานะ" prop="isCancelled" [sortable]="false"
@@ -153,7 +153,7 @@
                   </ng-template>
                 </ng-template>
               </ngx-datatable-column> -->
-              <ngx-datatable-column name="รายละเอียด" prop="transactionDate" [sortable]="false"
+              <ngx-datatable-column name="รายละเอียด" prop="transactionDate" [sortable]="true"
                 [headerClass]="'text-break text-center'" [cellClass]="'text-break text-center'">
                 <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
                   <button [attr.data-testid]="'description' + rowIndex + 'Button'" class="custome-btn btn-icon"
