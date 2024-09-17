@@ -112,10 +112,10 @@ export class EditCarModalComponent {
       scrollable: true,
       keyboard: false,
     });
-    // modalRef.componentInstance.carInfo = event.row;
-    // modalRef.componentInstance.customer = this.customer;
+    modalRef.componentInstance.carInfo = this.carInfo;
+    modalRef.componentInstance.customer = this.customer;
     // modalRef.componentInstance.walletIdList = this.walletList.map((x) => x.walletId);
-    // modalRef.componentInstance.walletId = walletId;
+    modalRef.componentInstance.walletId = this.walletId;
     modalRef.result.then(
       (result) => {
         if (result) {
