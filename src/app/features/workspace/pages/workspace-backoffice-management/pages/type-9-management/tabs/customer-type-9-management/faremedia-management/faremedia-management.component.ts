@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first, last, Observable } from 'rxjs';
-import { CarInfoModel, CustomColumnModel, ICustomerType9Model, IResponseWalletWithFaremediaModel, IWalletWithFaremediaModel, RowActionEventModel } from 'src/app/core/interfaces';
+import {  Observable } from 'rxjs';
+import {CustomColumnModel, IResponseWalletWithFaremediaModel, IWalletWithFaremediaModel, RowActionEventModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 import { AddCarModalComponent } from 'src/app/features/workspace/pages/workspace-with-navbar-and-sidebar/modals/add-car-modal/add-car-modal.component';
 import { AddWalletModalComponent } from 'src/app/features/workspace/pages/workspace-with-navbar-and-sidebar/modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from 'src/app/features/workspace/pages/workspace-with-navbar-and-sidebar/modals/edit-car-modal/edit-car-modal.component';
 import { EditWalletModalComponent } from '../../../../../modals/edit-wallet-modal/edit-wallet-modal.component';
-import { mode } from 'crypto-js';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BackNavigationServiceService } from 'src/app/core/services/back-navigation-service/back-navigation-service.service';
 
 @Component({
   selector: 'faremedia-management-component',
@@ -65,8 +65,12 @@ export class FaremediaManagementComponent {
     private restApiService: RestApiService,
     private modalDialogService: ModalDialogService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private backNavigationService: BackNavigationServiceService
   ) {
+    this.backNavigationService.setBackFunction(() => {
+      this.handleOnBack();
+    });
 
   }
   ngOnInit() {
