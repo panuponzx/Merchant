@@ -23,6 +23,9 @@ export class RestApiService {
       return v.toString(16);
     });
   }
+  getRequestParamChannelId(): number {
+    return this.requestParamChannelId;
+  }
 
   generateRequestParam() {
     return {

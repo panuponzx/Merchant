@@ -117,7 +117,7 @@
                         formControlName="walletId" [items]="walletIdList">
                     </ng-select>
                 </div>
-                <div class="col-12 mb-3">
+                <div class="col-12 mb-3" *ngif="isType9">
                     <label class="label-input" for="walletName">
                         หมายเลขข้างรถ (ชื่อกระเป๋า)
                     </label>

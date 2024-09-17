@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first, last, Observable } from 'rxjs';
-import { CarInfoModel, CustomColumnModel, ICustomerType9Model, IResponseWalletWithFaremediaModel, IWalletWithFaremediaModel, RowActionEventModel } from 'src/app/core/interfaces';
+import {  Observable } from 'rxjs';
+import {CustomColumnModel, IResponseWalletWithFaremediaModel, IWalletWithFaremediaModel, RowActionEventModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 import { AddCarModalComponent } from 'src/app/features/workspace/pages/workspace-with-navbar-and-sidebar/modals/add-car-modal/add-car-modal.component';
 import { AddWalletModalComponent } from 'src/app/features/workspace/pages/workspace-with-navbar-and-sidebar/modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from 'src/app/features/workspace/pages/workspace-with-navbar-and-sidebar/modals/edit-car-modal/edit-car-modal.component';
 import { EditWalletModalComponent } from '../../../../../modals/edit-wallet-modal/edit-wallet-modal.component';
-import { mode } from 'crypto-js';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackNavigationServiceService } from 'src/app/core/services/back-navigation-service/back-navigation-service.service';
 
@@ -26,7 +25,6 @@ export class FaremediaManagementComponent {
   public limitRow: number = 10;
   public step: number = 0;
   public pages: number = 1;
-
   public columns: CustomColumnModel[] = [
     { id: 'no', name: 'no', label: 'รายการ', prop: '', sortable: false, resizeable: true, width: 90, minWidth: 90, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'no' },
     { id: 'id', name: 'id', label: 'wallet no.', prop: 'walletId', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
@@ -73,10 +71,11 @@ export class FaremediaManagementComponent {
     this.backNavigationService.setBackFunction(() => {
       this.handleOnBack();
     });
+
   }
   ngOnInit() {
     this.loadWalletWithFaremedia();
-    if (this.searchType == undefined) {
+    if (this.searchType == undefined){
       this.searchType = '';
     }
   }
@@ -93,7 +92,7 @@ export class FaremediaManagementComponent {
     console.log('[onActive] event => ', event.row);
     console.log('[onActive] searchType => ', this.searchType);
     if (event.action === "select") {
-      this.router.navigate(['/work-space/type-9-management/wallet-type-9-management/', event.row.customerId], { relativeTo: this.activatedRoute, queryParams: { searchType: "" } });
+      this.router.navigate(['/work-space/type-9-management/wallet-type-9-management/', event.row.customerId], { relativeTo: this.activatedRoute,queryParams: { searchType: "" } });
       this.ngOnInit();
     }
     else if (event.action === "detailWallet") {

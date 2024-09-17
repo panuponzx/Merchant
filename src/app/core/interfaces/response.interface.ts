@@ -1,4 +1,4 @@
-import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel, CustomerContact, IJuristicElementModel, IProvinceMasterData, ICarMasterData } from "./data.interface"
+import { WalletSummaryModel, AddressModel, CustomerModel, ObuInfoModel, CarInfoModel, TransactionModel, TopupModel, ZipcodeModel, ITransferModel, IFaremediaModel, CustomerContact, IJuristicElementModel, IProvinceMasterData, ICarMasterData, IWalletModel, IBalanceModel } from "./data.interface"
 import { IItemPropertiesModel, INameModel, IPerAccountModel, IPerItemModel, IPerWalletModel } from "./payload.interface"
 
 export interface IResponseModel<T> {
@@ -566,4 +566,25 @@ export interface IElementStockLocationResponse {
   createdBy: string
   updatedDate: any
   updatedBy: any
+}
+
+export interface IWalletBalanceInterface {
+  wallet: IWalletModel
+  balance: IBalanceModel
+}
+
+export interface IWalletBalanceResponse extends ResponseMessageModel {
+  data: IWalletBalanceInterface
+}
+
+export interface ICacutalateReturnInterface {
+  walletId: number
+  totalBalanceBefore: number
+  totalBalanceAfter: number
+  totalAmount: number
+  totalBillingAmount: number
+}
+
+export interface ICacutalateReturnResponse extends ResponseMessageModel {
+  data: ICacutalateReturnInterface
 }

@@ -1,4 +1,4 @@
-import { ILogModel } from 'src/app/core/interfaces';
+import { CustomerModel, ILogModel } from 'src/app/core/interfaces';
 
 export function getOptionsText(value: string) {
   switch (value) {
@@ -355,7 +355,28 @@ export function handleActionDetail(action: string, row: ILogModel) {
 }
 
 export function formatDate(date: Date) {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const formattedDate = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
   return formattedDate.split('/').reverse().join('-');
+}
+export function formatDateTime(date: Date) {
+  const options = { 
+    year: 'numeric' as const, 
+    month: '2-digit' as const, 
+    day: '2-digit' as const, 
+    hour: '2-digit' as const, 
+    minute: '2-digit' as const 
+  };
+  const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(date);
+  const [datePart, timePart] = formattedDate.split(', ');
+
+  return datePart.split('/').reverse().join('-') + ' ' + timePart.slice(0, 5);
+}
+export function getCustomerName(customer: CustomerModel) {
+  let customerName = '';
+  if (customer.customerTypeId === 3) {
+    customerName = customer.corporateName + ' ' + customer.corporateBranch + ' ' + customer.branchId
+  } else {
+    customerName = customer.firstName + ' ' + customer.lastName
+  }
+  return customerName;
 }

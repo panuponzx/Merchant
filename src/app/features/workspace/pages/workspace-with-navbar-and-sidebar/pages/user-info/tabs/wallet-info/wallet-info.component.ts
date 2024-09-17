@@ -7,7 +7,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddWalletModalComponent } from '../../../../modals/add-wallet-modal/add-wallet-modal.component';
 import { EditCarModalComponent } from '../../../../modals/edit-car-modal/edit-car-modal.component';
 import { ModalDialogService } from '../../../../../../../../core/services/modal-dialog/modal-dialog.service';
-import { CancelObuModalComponent } from '../../../../modals/cancel-obu-modal/cancel-obu-modal.component';
 import Swal from 'sweetalert2';
 
 @Component({

@@ -10,11 +10,12 @@
             <form [formGroup]="firstForm">
                 <div class="row">
                     <div class="col-12 mb-3">
-                        <label class="label-input" for="dateInput">
+                        <label class="label-input text-nowrap required-field" for="dateInput">
                             วันที่
                         </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="dateInput" formControlName="date"
-                            data-testid="dateInput" type="text">
+                        <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
+                            formControlName="date" [id]="'dateInput'" locale="th" [maxDate]="today"
+                            [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
                     </div>
                     <div class="col-12 mb-3">
                         <label class="label-input" for="fullnameWalletOwnerInput">
@@ -27,7 +28,7 @@
                         <h3 class="mb-3">รายละเอียดผู้ดำเนินงาน</h3>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
-                                (change)="onChangeOperator($event)" [value]="true" name="isOwnerOperator"
+                                (change)="onChangeOperator()" [value]="true" name="isOwnerOperator"
                                 id="operatorOwnerRadio">
                             <label class="label-input" for="operatorOwnerRadio">
                                 ดำเนินการด้วยตนเอง
@@ -35,7 +36,7 @@
                         </div>
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
-                                (change)="onChangeOperator($event)" [value]="false" name="isOwnerOperator"
+                                (change)="onChangeOperator()" [value]="false" name="isOwnerOperator"
                                 id="operatorBehalfOwnerRadio">
                             <label class="label-input" for="operatorBehalfOwnerRadio">
                                 ดำเนินการแทนเจ้าของ
@@ -68,7 +69,8 @@
                             เบอร์ติดต่อ ผู้มาดำเนินงานแทน
                         </label>
                         <input class="form-control" placeholder="กรุณาระบุ" id="mobilePhoneOperatorInput"
-                            formControlName="mobilePhoneOperator" data-testid="mobilePhoneOperatorInput" type="text">
+                            mask="000 000 0000" placeholder="XXX XXX XXXX" formControlName="mobilePhoneOperator"
+                            data-testid="mobilePhoneOperatorInput" type="text">
                     </div>
                     <div class="col-12 mb-3">
                         <label class="label-input" for="positionPhoneOperatorInput">
@@ -95,44 +97,47 @@
                 <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">
-                        <span *ngIf="secondForm.get('obuPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('obuPayment')?.value > 0)">(มี)</span>
+                        <span *ngIf="!secondForm.get('isObu')?.value">(ไม่มี)</span>
+                        <span *ngIf="secondForm.get('isObu')?.value">(มี)</span>
                         OBU มาคืน
                     </p>
                     <p [ngClass]="secondForm.get('obuPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value }} บาท</p>
+                        {{ secondForm.get('obuPayment')?.value | currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <div class="d-flex justify-content-between">
                     <p class="payment-detail">
-                        <span *ngIf="secondForm.get('smartCardPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('smartCardPayment')?.value > 0)">(มี)</span>
+                        <span *ngIf="!secondForm.get('isSmartCard')?.value">(ไม่มี)</span>
+                        <span *ngIf="secondForm.get('isSmartCard')?.value">(มี)</span>
                         Smart Card มาคืน
                     </p>
                     <p
                         [ngClass]="secondForm.get('smartCardPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('smartCardPayment')?.value }} บาท</p>
+                        {{ secondForm.get('smartCardPayment')?.value | currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <hr class="hr-custom mb-3" />
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">รวมจำนวนเงินที่ต้องชำระ</p>
                     <p
                         [ngClass]="(secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value) > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value }} บาท</p>
+                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value |
+                        currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <h3 class="mb-3 fw-bold">รายละเอียดอุปกรณ์ที่แจ้งคืน</h3>
-                <input class="form-check-input" type="checkbox" (change)="onCheckIsObu($event)" id="isObuCheckbox"
-                    formControlName="isObu">
+
                 <div class="col-12 mb-3">
-                    <label class="label-input required-field" for="obuInput">
+                    <input class="form-check-input" type="checkbox" (change)="onCheckIsObu($event)" id="isObuCheckbox"
+                        formControlName="isObu">
+                    <label class="label-input required-field" for="obuInput" style="margin-left: 1rem;">
                         OBU Serial number
                     </label>
                     <input class="form-control" placeholder="กรุณาระบุ" id="obuInput" formControlName="obu"
                         data-testid="obuInput" type="text">
                 </div>
-                <input class="form-check-input" type="checkbox" (change)="onCheckIsSmartCard($event)"
-                    id="isSmartCardCheckbox" formControlName="isSmartCard">
+
                 <div class="col-12 mb-5">
-                    <label class="label-input required-field" for="smartCardInput">
+                    <input class="form-check-input" type="checkbox" (change)="onCheckIsSmartCard($event)"
+                        id="isSmartCardCheckbox" formControlName="isSmartCard">
+                    <label class="label-input required-field" for="smartCardInput" style="margin-left: 1rem;">
                         Smart Card Serial number
                     </label>
                     <input class="form-control" placeholder="กรุณาระบุ" id="smartCardInput" formControlName="smartCard"
@@ -145,50 +150,55 @@
                 <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">
-                        <span *ngIf="secondForm.get('obuPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('obuPayment')?.value > 0)">(มี)</span>
+                        <span *ngIf="!secondForm.get('isObu')?.value">(ไม่มี)</span>
+                        <span *ngIf="secondForm.get('isObu')?.value">(มี)</span>
                         OBU มาคืน
                     </p>
                     <p [ngClass]="secondForm.get('obuPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value }} บาท</p>
+                        {{ secondForm.get('obuPayment')?.value | currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <div class="d-flex justify-content-between">
                     <p class="payment-detail">
-                        <span *ngIf="secondForm.get('smartCardPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('smartCardPayment')?.value > 0)">(มี)</span>
+                        <span *ngIf="!secondForm.get('isSmartCard')?.value">(ไม่มี)</span>
+                        <span *ngIf="secondForm.get('isSmartCard')?.value">(มี)</span>
                         Smart Card มาคืน
                     </p>
                     <p
                         [ngClass]="secondForm.get('smartCardPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('smartCardPayment')?.value }} บาท</p>
+                        {{ secondForm.get('smartCardPayment')?.value | currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <hr class="hr-custom mb-3" />
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">รวมจำนวนเงินที่ต้องชำระ</p>
                     <p
                         [ngClass]="(secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value) > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value }} บาท</p>
+                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value |
+                        currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <h3 class="mb-3">การหักเงินในกระเป๋า</h3>
                 <div class="d-flex justify-content-between mb-3">
                     <div>
                         <p class="payment-detail mb-0">ยอดเงินคงเหลือในกระเป๋า</p>
-                        <p class="payment-detail">EWL2023062100000001</p>
+                        <p class="payment-detail">{{ walletId}}</p>
                     </div>
-                    <p class="payment-detail">{{ thirdForm.get('walletBalance')?.value }} บาท</p>
+                    <p class="payment-detail">{{ thirdForm.get('walletBalance')?.value | currency:'THB':'':'1.2-2'
+                        }} บาท</p>
                 </div>
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">หักจากกระเป๋า</p>
-                    <p class="payment-detail">{{ amountPaymentFromWallet() }} บาท</p>
+                    <p class="payment-detail">{{ thirdForm.get('cutMoneyWallet')?.value| currency:'THB':'':'1.2-2' }}
+                        บาท</p>
                 </div>
                 <div class="d-flex justify-content-between">
                     <p class="payment-detail">ยอดเงินคงเหลือในกระเป๋าหลังจากหักแล้ว</p>
-                    <p class="payment-detail">{{ thirdForm.get('walletBalanceAfterCut')?.value }} บาท</p>
+                    <p class="payment-detail">{{ thirdForm.get('walletBalanceAfterCut')?.value |
+                        currency:'THB':'':'1.2-2' }} บาท</p>
                 </div>
                 <hr class="hr-custom mb-3" />
                 <div class="d-flex justify-content-between mb-5">
                     <p class="payment-detail">รวมจำนวนเงินค่าทั้งหมดที่ต้องชำระ</p>
-                    <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value }} บาท</p>
+                    <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value |
+                        currency:'THB':'':'1.2-2' }} บาท</p>
                 </div>
             </form>
         </section>
@@ -197,43 +207,46 @@
                 <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">
-                        <span *ngIf="secondForm.get('obuPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('obuPayment')?.value > 0)">(มี)</span>
+                        <span *ngIf="!secondForm.get('isObu')?.value">(ไม่มี)</span>
+                        <span *ngIf="secondForm.get('isObu')?.value">(มี)</span>
                         OBU มาคืน
                     </p>
                     <p [ngClass]="secondForm.get('obuPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value }} บาท</p>
+                        {{ secondForm.get('obuPayment')?.value | currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <div class="d-flex justify-content-between">
                     <p class="payment-detail">
-                        <span *ngIf="secondForm.get('smartCardPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('smartCardPayment')?.value > 0)">(มี)</span>
+                        <span *ngIf="!secondForm.get('isSmartCard')?.value">(ไม่มี)</span>
+                        <span *ngIf="secondForm.get('isSmartCard')?.value">(มี)</span>
                         Smart Card มาคืน
                     </p>
                     <p
                         [ngClass]="secondForm.get('smartCardPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('smartCardPayment')?.value }} บาท</p>
+                        {{ secondForm.get('smartCardPayment')?.value | currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <hr class="hr-custom mb-3" />
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">รวมจำนวนเงินที่ต้องชำระ</p>
                     <p
                         [ngClass]="(secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value) > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value }} บาท</p>
+                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value |
+                        currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <hr class="hr-custom mb-3" />
                 <h3 class="mb-3">การหักเงินในกระเป๋า</h3>
                 <div class="d-flex justify-content-between mb-3">
                     <div>
                         <p class="payment-detail mb-0">หักจากกระเป๋า</p>
-                        <p class="payment-detail">EWL2023062100000001</p>
+                        <p class="payment-detail">{{ walletId }}</p>
                     </div>
-                    <p class="payment-detail">{{ amountPaymentFromWallet() }} บาท</p>
+                    <p class="payment-detail">{{ thirdForm.get('cutMoneyWallet')?.value | currency:'THB':'':'1.2-2' }}
+                        บาท</p>
                 </div>
                 <hr class="hr-custom mb-3" />
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">รวมจำนวนเงินค่าทั้งหมดที่ต้องชำระ</p>
-                    <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value }} บาท</p>
+                    <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value |
+                        currency:'THB':'':'1.2-2' }} บาท</p>
                 </div>
                 <div class="col-12 mb-3">
                     <h3 class="mb-3">วิธีการชำระ</h3>
@@ -254,65 +267,72 @@
                     <ng-container *ngIf="!fourthForm.get('isCash')?.value">
                         <div class="col-12 mb-3">
                             <label class="label-input required-field" for="obuInput">
-                                วันที่ที่โอน
+                                วันที่และเวลา ที่โอน
                             </label>
-                            <input class="form-control" placeholder="กรุณาระบุ" id="obuInput" formControlName="obu"
-                                data-testid="obuInput" type="text">
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="obuInput">
-                                เวลาที่โอน
-                            </label>
-                            <input class="form-control" placeholder="กรุณาระบุ" id="obuInput" formControlName="obu"
-                                data-testid="obuInput" type="text">
+                            <!-- <input class="form-control" placeholder="กรุณาระบุ" id="obuInput" formControlName="date"
+                                data-testid="obuInput" type="text"> -->
+                            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY HH:mm"
+                                formControlName="dateTime" [id]="'dateInput'" locale="th" [maxDate]="today" [timePicker]="true"
+                                [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
                         </div>
                     </ng-container>
                 </div>
             </form>
         </section>
         <section *ngSwitchCase="5">
-            <form [formGroup]="fifthForm">
+            <form [formGroup]="fifthForm" class="mb-3">
                 <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">
-                        <span *ngIf="secondForm.get('obuPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('obuPayment')?.value > 0)">(มี)</span>
+                        <span *ngIf="!secondForm.get('isObu')?.value">(ไม่มี)</span>
+                        <span *ngIf="secondForm.get('isObu')?.value">(มี)</span>
                         OBU มาคืน
                     </p>
                     <p [ngClass]="secondForm.get('obuPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value }} บาท</p>
+                        {{ secondForm.get('obuPayment')?.value| currency:'THB':'':'1.2-2' }} บาท</p>
                 </div>
                 <div class="d-flex justify-content-between">
                     <p class="payment-detail">
-                        <span *ngIf="secondForm.get('smartCardPayment')?.value > 0">(ไม่มี)</span>
-                        <span *ngIf="!(secondForm.get('smartCardPayment')?.value > 0)">(มี)</span>
+                        <span *ngIf="!secondForm.get('isSmartCard')?.value">(ไม่มี)</span>
+                        <span *ngIf="secondForm.get('isSmartCard')?.value">(มี)</span>
                         Smart Card มาคืน
                     </p>
                     <p
                         [ngClass]="secondForm.get('smartCardPayment')?.value > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('smartCardPayment')?.value }} บาท</p>
+                        {{ secondForm.get('smartCardPayment')?.value | currency:'THB':'':'1.2-2'}} บาท</p>
                 </div>
                 <hr class="hr-custom mb-3" />
                 <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">รวมจำนวนเงินที่ต้องชำระ</p>
                     <p
                         [ngClass]="(secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value) > 0 ? 'payment-detail-price' : 'payment-detail'">
-                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value }} บาท</p>
+                        {{ secondForm.get('obuPayment')?.value + secondForm.get('smartCardPayment')?.value |
+                        currency:'THB':'':'1.2-2' }}
+                        บาท</p>
                 </div>
                 <hr class="hr-custom mb-3" />
                 <h3 class="mb-3">การหักเงินในกระเป๋า</h3>
                 <div class="d-flex justify-content-between mb-3">
                     <div>
                         <p class="payment-detail mb-0">หักจากกระเป๋า</p>
-                        <p class="payment-detail">EWL2023062100000001</p>
+                        <p class="payment-detail">{{ walletId }}</p>
                     </div>
-                    <p class="payment-detail">{{ amountPaymentFromWallet() }} บาท</p>
+                    <p class="payment-detail">{{ thirdForm.get('cutMoneyWallet')?.value | currency:'THB':'':'1.2-2' }}
+                        บาท</p>
                 </div>
                 <hr class="hr-custom mb-3" />
-                <div class="d-flex justify-content-between mb-5">
+                <div class="d-flex justify-content-between mb-3">
                     <p class="payment-detail">รวมจำนวนเงินค่าทั้งหมดที่ต้องชำระ</p>
-                    <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value }} บาท</p>
+                    <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value |
+                        currency:'THB':'':'1.2-2'}}บาท</p>
                 </div>
+                <input #inputFile id="attachment" class="d-none" type="file" (change)="fileTypeValidation($event)" />
+                <button style="width: 100%;" class="custom-btn btn-type-3 " data-testid="uploadImageButton"
+                    id="uploadImageButton" title="อัพโหลด" (click)="inputFile.click()">
+                    <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
+                    แนบเอกสาร
+                </button>
+                <span>{{ fifthForm.get('attachment')?.value?.name }}</span>
             </form>
         </section>
         <section *ngSwitchCase="6">
@@ -321,17 +341,13 @@
     </div>
     <div *ngIf="step != 5" class="d-flex justify-content-end">
         <div class="right d-flex justify-content-center gap-3">
-            <button class="custom-btn btn-type-1 outline" (click)="onPreviousStep()">ยกเลิก</button>
+            <button class="custom-btn btn-type-1 outline" (click)="onPreviousStep()">{{step ===1
+                ?'ยกเลิก':'ย้อนกลับ'}}</button>
             <button class="custom-btn btn-type-1" (click)="onNextStep()"
-                [disabled]="firstForm.invalid"><span>ถัดไป</span></button>
+                [disabled]="firstForm.invalid || !firstForm.get('isAgree')?.value"><span>ถัดไป</span></button>
         </div>
     </div>
     <div *ngIf="step === 5" class="d-flex flex-column justify-content-center gap-3">
-        <button style="width: 100%;" class="custom-btn btn-type-3" data-testid="uploadImageButton"
-            id="uploadImageButton" title="อัพโหลด">
-            <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
-            แนบเอกสาร
-        </button>
-        <button class="custom-btn btn-type-1">เสร็จสิ้น</button>
+        <button class="custom-btn btn-type-1" [disabled]="fifthForm.invalid" (click)="onSubmit()">เสร็จสิ้น</button>
     </div>
 </div>

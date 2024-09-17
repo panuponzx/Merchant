@@ -465,3 +465,26 @@ export interface IJuristicContactModel {
   useEmailApplicationResult: any
   useMobileApplicationResult: any
 }
+
+export interface IBalanceModel {
+  walletId: number
+  totalBalance: number
+  totalPointBalance: number
+  creditBalance: number
+  creditLimit: number
+  createDate: string
+  updateDate: string
+}
+export interface IWalletModel {
+  id: number
+  status: number,
+  createdBy: number,
+  createDate: string,
+  walletTypeId: number,
+  customerId: string,
+  walletName: string,
+  channelId: number,
+  custAcctId: string,
+  creditLimit: number,
+  creditBalance: number
+}
