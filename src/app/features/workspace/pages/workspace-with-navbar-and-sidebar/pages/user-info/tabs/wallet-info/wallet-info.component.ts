@@ -158,7 +158,7 @@ export class WalletInfoComponent implements OnInit {
     const modalRef = this.ngbModal.open(AddWalletModalComponent, {
       centered: true,
       backdrop: 'static',
-      // size: 'xl',
+      size: 'lg',
       keyboard: false,
     });
     modalRef.componentInstance.customerId = this.customerId;

@@ -23,6 +23,13 @@
                     <input class="form-control" data-testid="walletNameInput" formControlName="walletName"
                         id="walletNameInput" type="text" maxlength="36" minlength="1">
                 </div>
+                <div class="mb-3" *ngIf="form.get('walletType')?.value === 2">
+                    <label class="label-input required-field" for="creditLimitInput">
+                        กำหนดจำนวนวงเงิน
+                    </label>
+                    <input class="form-control" data-testid="creditLimitInput" formControlName="creditLimit"
+                        id="creditLimitInput" type="number">
+                </div>
                 <div class="d-flex justify-content-end gap-3">
                     <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
                     <button class="custom-btn btn-type-1"
@@ -34,6 +41,140 @@
             </form>
         </section>
         <section *ngSwitchCase="2">
+            <form *ngIf="form" [formGroup]="obuForm" (ngSubmit)="onNext()">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <label class="label-input required-field" for="fairmediaTypeSelect">
+                            ประเภท Fare Media
+                        </label>
+                        <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="key"
+                            data-testid="fairmediaTypeSelect" id="fairmediaTypeSelect" placeholder="กรุณาระบุ"
+                            formControlName="fairmediaType" [loading]="isFairmediaTypeLoading"
+                            [items]="fairmediaTypeList" (ngModelChange)="onChangeFairmediaType($event)"></ng-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="col-12 mb-3" *ngIf="obuForm.get('fairmediaType')?.value === '1'">
+                            <label class="label-input required-field" for="obuPanInput">
+                                หมายเลข OBU
+                            </label>
+                            <input class="form-control" data-testid="obuPanInput" formControlName="obuPan"
+                                id="obuPanInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3" *ngIf="obuForm.get('fairmediaType')?.value === '2'">
+                            <label class="label-input required-field" for="smartcardNoInput">
+                                หมายเลข Smart Card
+                            </label>
+                            <input class="form-control" data-testid="smartcardNoInput" formControlName="smartcardNo"
+                                id="smartcardNoInput" type="text">
+                        </div>
+                        <div class="row" *ngIf="obuForm.get('fairmediaType')?.value === '3'">
+                            <div class="col-6 mb-3">
+                                <label class="label-input required-field" for="licensePlateInput">
+                                    ทะเบียนรถ
+                                </label>
+                                <input class="form-control" data-testid="licensePlateInput"
+                                    formControlName="licensePlate" id="licensePlateInput" type="text">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="label-input required-field" for="province">
+                                    จังหวัด
+                                </label>
+                                <ng-select class="form-control" [clearable]="false" bindLabel="provinceName"
+                                    bindValue="provinceName" data-testid="province" placeholder="กรุณาระบุ"
+                                    id="province" [loading]="isProvince" [items]="provinceList"
+                                    formControlName="province">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3" *ngIf="obuForm.get('fairmediaType')?.value === '4'">
+                            <label class="label-input required-field" for="smartcardNoInput">
+                                หมายเลข RFID
+                            </label>
+                            <input class="form-control" data-testid="smartcardNoInput" formControlName="smartcardNo"
+                                id="smartcardNoInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="fullnameCarOwnerInput">
+                                ชื่อเจ้าของรถ
+                            </label>
+                            <input class="form-control" data-testid="fullnameCarOwnerInput"
+                                formControlName="fullnameCarOwner" id="fullnameCarOwnerInput" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="row" *ngIf="obuForm.get('fairmediaType')?.value !== '3'">
+                            <div class="col-6 mb-3">
+                                <label class="label-input required-field" for="licensePlateInput">
+                                    ทะเบียนรถ
+                                </label>
+                                <input class="form-control" data-testid="licensePlateInput"
+                                    formControlName="licensePlate" id="licensePlateInput" type="text">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="label-input required-field" for="province">
+                                    จังหวัด
+                                </label>
+                                <ng-select class="form-control" [clearable]="false" bindLabel="provinceName"
+                                    bindValue="provinceName" data-testid="province" placeholder="กรุณาระบุ"
+                                    id="province" [loading]="isProvince" [items]="provinceList"
+                                    formControlName="province">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="label-input required-field" for="brandSelect">
+                                    ยี่ห้อ
+                                </label>
+                                <ng-select class="form-control" [clearable]="false" bindLabel="brand" bindValue="brand"
+                                    data-testid="brandSelect" placeholder="กรุณาระบุ" id="brandSelect"
+                                    formControlName="brand" [loading]="isBrand" [items]="brandList">
+                                </ng-select>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="label-input required-field" for="modelSelect">
+                                    รุ่น
+                                </label>
+                                <input class="form-control" placeholder="กรุณาระบุ" id="modelSelect"
+                                    formControlName="model" data-testid="modelSelect" type="text">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="label-input required-field" for="yearRegistrationSelect">
+                                    ปีจดทะเบียน
+                                </label>
+                                <input class="form-control" data-testid="yearRegistrationSelect"
+                                    formControlName="yearRegistration" id="yearRegistrationSelect" type="number"
+                                    min="1900">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="label-input required-field" for="color">
+                                    สีรถ
+                                </label>
+                                <input class="form-control" placeholder="กรุณาระบุ" id="color" formControlName="color"
+                                    data-testid="color" type="text">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end gap-3">
+                    <button class="custom-btn btn-fixed-size-1 btn-type-3" type="button" (click)="onBack()"
+                        data-testid="cancelButton" id="cancelButton" title="ยกเลิก">
+                        ย้อนกลับ
+                    </button>
+                    <button class="custom-btn btn-fixed-size-1 btn-type-1" type="submit" data-testid="submitButton"
+                        id="submitButton" title="บันทึก" [disabled]="obuForm.invalid">
+                        ถัดไป
+                    </button>
+                </div>
+            </form>
+        </section>
+        <section *ngSwitchCase="3">
             <div class="text-center py-3 mb-3">
                 <button class="custom-btn btn-type-1" (click)="onConnectVisa()">ผูกบัญชีด้วย บัตรเดบิต / เครดิต (VISA /
                     MASTER)</button>
