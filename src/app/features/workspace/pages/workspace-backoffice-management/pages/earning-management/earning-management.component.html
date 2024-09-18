@@ -1,29 +1,33 @@
 <div class="content-container container-xl p-0">
     <div class="content-container-header">
-        <div class="content-container-header-item">
-            <h1 *ngIf="!isShowDescription" class="content-title">
+        <h1 class="content-title">ระบบการให้คะแนน</h1>
+        <!-- <div class="content-container-header-item">
+            <h1 *ngIf="!isAdd" class="content-title">
                 ระบบการให้คะแนน
             </h1>
-            <h1 *ngIf="isShowDescription && !isEditCondition && addEarningType === 1" class="content-title">
+            <h1 *ngIf="isAdd && !isEditCondition && addEarningType === 1" class="content-title">
                 เพิ่มเงื่อนไขการให้คะแนนพิเศษ
             </h1>
-            <h1 *ngIf="isShowDescription && !isEditCondition && addEarningType === 2" class="content-title">
+            <h1 *ngIf="isAdd && !isEditCondition && addEarningType === 2" class="content-title">
                 เพิ่ม Road show
             </h1>
-            <h1 *ngIf="isShowDescription && isEditCondition && !isBaseCampaign" class="content-title">
+            <h1 *ngIf="isAdd && isEditCondition && !isBaseCampaign" class="content-title">
                 แก้ไขเงื่อนไขการให้คะแนนพิเศษ
             </h1>
-            <h1 *ngIf="isShowDescription && isEditCondition && isBaseCampaign" class="content-title">
+            <h1 *ngIf="isAdd && isEditCondition && isBaseCampaign" class="content-title">
                 แก้ไขเงื่อนไขการให้คะแนนพื้นฐาน
             </h1>
-        </div>
+        </div> -->
     </div>
     <hr class="hr-custom mb-3" />
-    <button *ngIf="isShowDescription" class="custom-btn btn-type-1 mb-3" data-testid="backButton" id="backButton"
-        title="กลับ" type="button" (click)="onBack()">
+    <p>isAddRoadShow: {{ isAddRoadShow }}</p>
+    <p>isEditRoadShow: {{ isEditRoadShow }}</p>
+    <p>isDescriptionRoadShow: {{ isDescriptionRoadShow }}</p>
+    <button *ngIf="isAddRoadShow || isDescriptionRoadShow" class="custom-btn btn-type-1 mb-3" data-testid="backButton"
+        id="backButton" title="กลับ" type="button" (click)="onBack()">
         กลับ
     </button>
-    <section *ngIf="!isShowDescription">
+    <!-- <section *ngIf="!isAdd">
         <div class="col-4 mb-3">
             <h2 class="content-title">
                 การให้คะแนนพื้นฐาน
@@ -60,9 +64,13 @@
                 เพิ่ม
             </button>
         </div>
-
+        <datatable [columns]="roadShowColumns" [collectionSize]="roadShowcollectionSize" [id]="'userDatatable'"
+            [isLoading]="isRoadShowLoading" [pageSize]="roadShowlimit" [page]="roadShowpages" [rows]="roadShowList"
+            emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onActionRoadShow($event)"
+            (onChangePageEvent)="onChangePageSpecial($event)">
+        </datatable>
     </section>
-    <section *ngIf="isShowDescription && addEarningType === 1">
+    <section *ngIf="isAdd && addEarningType === 1">
         <form [formGroup]="form">
             <div class="pt-4">
 
@@ -245,10 +253,6 @@
                                         <span>เลือก ({{items.length}})</span>
                                     </div>
                                 </ng-template>
-                                <!-- <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
-                                <input id="item-{{index}}" type="checkbox" [(ngModel)]="item$.selected"
-                                    [ngModelOptions]="{ standalone : true }" /> {{item.group}}
-                            </ng-template> -->
                                 <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
                                     <input id="item-{{index}}" type="checkbox" [(ngModel)]="item$.selected"
                                         [ngModelOptions]="{ standalone : true }" /> {{item.tollName}}
@@ -349,19 +353,37 @@
                 </div>
             </div>
         </form>
+    </section> -->
+    <!-- <p>{{ isDescriptionRoadShow }}</p>
+    <p>{{ isAddRoadShow }}</p> -->
+    <section *ngIf="!isAddRoadShow && !isDescriptionRoadShow">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
+            <h2 class="content-title mb-3 mb-md-0">
+                การให้คะแนนแบบ Road Show
+            </h2>
+            <button class="custom-btn btn-fixed-size-1 btn-type-1 ml-auto" data-testid="nextButton" id="nextButton"
+                title="เพิ่ม" (click)="onAddRoadShow()">
+                เพิ่ม
+            </button>
+        </div>
+        <datatable [columns]="roadShowColumns" [collectionSize]="roadShowcollectionSize" [id]="'userDatatable'"
+            [isLoading]="isRoadShowLoading" [pageSize]="roadShowLimit" [page]="roadShowPages" [rows]="roadShowList"
+            emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onActionRoadShow($event)"
+            (onChangePageEvent)="onChangePagesRoadShow($event)">
+        </datatable>
     </section>
-    <section *ngIf="isShowDescription && addEarningType === 2">
-        <form [formGroup]="form">
+    <section *ngIf="isAddRoadShow || isEditRoadShow">
+        <form [formGroup]="roadShowForm" (ngSubmit)="onSubmitRoadShow()">
             <h3 class="content-title mb-3">
                 รายละเอียด
             </h3>
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="col-12 mb-3">
-                        <label class="label-input required-field" for="roadShowNameInput">
+                        <label class="label-input required-field" for="campaignNameInput">
                             ชื่อกิจกรรม
                         </label>
-                        <input class="form-control" formControlName="roadShowName" id="roadShowNameInput" type="text"
+                        <input class="form-control" formControlName="campaignName" id="campaignNameInput" type="text"
                             placeholder="กรุณาระบุ">
                     </div>
                 </div>
@@ -370,27 +392,36 @@
                 รายละเอียดคะแนน
             </h3>
             <div class="row">
-                <div class="col-12 col-lg-6">
+                <!-- <div class="col-12 col-lg-6">
                     <div class="col-12 mb-3">
                         <label class="label-input required-field" for="roadShowNameInput">
                             ตัวแปรการคำนวนคะแนน
                         </label>
                         <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
                             data-testid="stockLocationSelect" id="stockLocationSelect" placeholder="กรุณาระบุ"
-                            formControlName="stockLocation" [items]="[]"></ng-select>
+                            formControlName="customerGroups" [items]="[]"></ng-select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
                     <div class="col-12 mb-3">
                         <label class="label-input required-field" for="roadShowNameInput">
-                            ตัวแปรการคำนวนคะแนน
+                            ตัวเลขการคำนวนคะแนน
                         </label>
-                        <input class="form-control" formControlName="roadShowName" id="roadShowNameInput" type="text"
+                        <input class="form-control" formControlName="customerGroups" id="roadShowNameInput" type="text"
                             placeholder="กรุณาระบุ">
                     </div>
                 </div>
                 <p>รายละเอียดการคำนวน: <span class="label-input">กรุณาระบุ ตัวแปรการคำนวนคะแนน และ
-                        ตัวเลขการคำนวนคะแนน</span></p>
+                        ตัวเลขการคำนวนคะแนน</span></p> -->
+                <div class="col-12 col-lg-6">
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="takePointInput">
+                            คะแนนที่ได้รับ
+                        </label>
+                        <input class="form-control" formControlName="takePoint" id="takePointInput" type="text"
+                            placeholder="กรุณาระบุ">
+                    </div>
+                </div>
             </div>
             <h3 class="content-title mb-3">
                 ประเภทที่ร่วมรายการ
@@ -398,12 +429,28 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="col-12 mb-3">
-                        <label class="label-input required-field" for="roadShowNameInput">
+                        <label class="label-input required-field" for="customerGroupsSelect">
                             ระดับผู้ใช้
                         </label>
-                        <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
-                            data-testid="stockLocationSelect" id="stockLocationSelect" placeholder="กรุณาระบุ"
-                            formControlName="stockLocation" [items]="[]"></ng-select>
+                        <ng-select class="form-control mb-2" [items]="customerGroupsList" [multiple]="true"
+                            bindLabel="name" bindValue="key" id="customerGroupsSelect"
+                            data-testid="customerGroupsSelect" placeholder="กรุณาระบุ" [closeOnSelect]="false"
+                            [searchable]="false" formControlName="customerGroups" [loading]="isCustomerGroupsLoading">
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <div class="ng-value">
+                                    <span>เลือก ({{items.length}})</span>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <input id="item-{{index}}" type="checkbox" [(ngModel)]="item$.selected"
+                                    [ngModelOptions]="{ standalone : true }">
+                                {{item.name}}
+                            </ng-template>
+                        </ng-select>
+                        <!-- <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="key"
+                            data-testid="customerGroupsSelect" id="customerGroupsSelect" placeholder="กรุณาระบุ"
+                            formControlName="customerGroups" [loading]="iscustomerGroupsLoading"
+                            [items]="customerGroupsList"></ng-select> -->
                     </div>
                 </div>
             </div>
@@ -413,36 +460,38 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="col-12 mb-3">
-                        <label class="label-input required-field" for="startDatePicker">
+                        <label class="label-input required-field" for="fromDatePicker">
                             เวลาเริ่มต้น
                         </label>
                         <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
-                            formControlName="startDate" [id]="'startDatePicker'" locale="th" [placeholder]="'กรุณาระบุ'"
+                            formControlName="fromDate" [id]="'fromDatePicker'" locale="th" [placeholder]="'กรุณาระบุ'"
                             [placement]="'bottom'"></date-picker>
                     </div>
                     <div class="col-12 mb-3">
-                        <label class="label-input required-field" for="startTimeInput">
+                        <label class="label-input required-field" for="fromPeriodInput">
                             ช่วงเวลา ที่เริ่ม
                         </label>
-                        <input class="form-control" data-testid="startTimeInput" formControlName="fromPeriod"
-                            id="startTimeInput" placeholder="กรุณาระบุ" type="text">
+                        <input class="form-control" data-testid="fromPeriodInput" formControlName="fromPeriod"
+                            id="fromPeriodInput" placeholder="กรุณาระบุ" type="text" mask="00:00"
+                            [dropSpecialCharacters]="false">
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
                     <div class="col-12 mb-3">
-                        <label class="label-input required-field" for="expiryDatePicker">
+                        <label class="label-input required-field" for="toDatePicker">
                             เวลาสิ้นสุด
                         </label>
                         <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY"
-                            formControlName="expiryDate" [id]="'expiryDatePicker'" locale="th"
-                            [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                            formControlName="toDate" [id]="'toPeriodPicker'" locale="th" [placeholder]="'กรุณาระบุ'"
+                            [placement]="'bottom'"></date-picker>
                     </div>
                     <div class="col-12 mb-3">
-                        <label class="label-input required-field" for="expiryTimeInput">
+                        <label class="label-input required-field" for="toPeriodInput">
                             ช่วงเวลา สิ้นสุด
                         </label>
-                        <input class="form-control" data-testid="expiryTimeInput" formControlName="toPeriod"
-                            id="expiryTimeInput" placeholder="กรุณาระบุ" type="text">
+                        <input class="form-control" data-testid="toPeriodInput" formControlName="toPeriod"
+                            id="toPeriodInput" placeholder="กรุณาระบุ" type="text" mask="00:00"
+                            [dropSpecialCharacters]="false">
                     </div>
                 </div>
             </div>
@@ -473,11 +522,40 @@
                     data-testid="cancelButton" id="cancelButton" title="ยกเลิก">
                     ยกเลิก
                 </button>
-                <button class="custom-btn btn-fixed-size-1 btn-type-1" type="submit" data-testid="submitButton"
-                    id="submitButton" title="บันทึก">
+                <button *ngIf="isAddRoadShow" class="custom-btn btn-fixed-size-1 btn-type-1" type="submit"
+                    data-testid="submitButton" id="submitButton" title="บันทึก">
                     บันทึก
+                </button>
+                <button *ngIf="isEditRoadShow" class="custom-btn btn-fixed-size-1 btn-type-1" type="button"
+                    (click)="onEditRoadShow()" data-testid="EditButton" id="EditButton" title="แก้ไข">
+                    แก้ไข
                 </button>
             </div>
         </form>
+    </section>
+    <section *ngIf="isDescriptionRoadShow && !isAddRoadShow && !isEditRoadShow">
+        <p>***หมายเหตุ: ผู้ใช้ในรายชื่อจะได้รับคะแนนที่ตั้งค่าไว้ในเวลาสิ้นสุดกิจกรรมที่กำหนดไว้</p>
+        <h2 class="content-title mb-3 mb-md-0">
+            ตั้งค่า Road Show
+        </h2>
+        <datatable [columns]="settingRoadShowColumns" [collectionSize]="settingRoadShowcollectionSize"
+            [id]="'settingRoadShowDatatable'" [isLoading]="isSettingRoadShowLoading" [pageSize]="settingRoadShowLimit"
+            [page]="settingRoadShowPages" [rows]="settingRoadShowList" emptyMessage="ไม่มีข้อมูล"
+            (onRowActionEvent)="onActionSettingRoadShow($event)" [footer]="false">
+        </datatable>
+        <hr class="hr-custom mt-3 mb-3" />
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
+            <h2 class="content-title mb-3 mb-md-0">
+                การให้คะแนนพิเศษ
+            </h2>
+            <button class="custom-btn btn-fixed-size-1 btn-type-1 ml-auto" data-testid="nextButton" id="nextButton"
+                title="เพิ่มผู้ได้รับคะแนน" (click)="onAddEarnByCustomerId()">
+                เพิ่ม ผู้ได้รับคะแนน
+            </button>
+        </div>
+        <datatable [columns]="bonusPointColumns" [collectionSize]="bonusPointCollectionSize"
+            [id]="'bonusPointDatatable'" [isLoading]="bonusPointLoading" [pageSize]="bonusPointLimit"
+            [page]="bonusPointPages" [rows]="bonusPointList" emptyMessage="ไม่มีข้อมูล">
+        </datatable>
     </section>
 </div>

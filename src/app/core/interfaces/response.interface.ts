@@ -588,3 +588,40 @@ export interface ICacutalateReturnInterface {
 export interface ICacutalateReturnResponse extends ResponseMessageModel {
   data: ICacutalateReturnInterface
 }
+export interface ICampaignRoadShowAllResponse {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: IElementCampaignRoadShowAllResponse[]
+}
+
+export interface IElementCampaignRoadShowAllResponse {
+  campaignName: string
+  fromDate: string
+  toDate: string
+  fromPeriod: string
+  toPeriod: string
+  publish: boolean
+  takePoint: number
+  customerGroups: string[]
+  isAllCustomerGroups: boolean
+  id: string
+  lastModifyDate: any
+  statusCode: any
+}
+
+export interface IRoadShowByIdResponse {
+  campaignName: string
+  fromDate: string
+  toDate: string
+  fromPeriod: string
+  toPeriod: string
+  publish: boolean
+  takePoint: number
+  customerGroups: string[]
+  isAllCustomerGroups: boolean
+  id: string
+  lastModifyDate: any
+  statusCode: any
+}

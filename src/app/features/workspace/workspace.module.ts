@@ -121,6 +121,7 @@ import { AddCarModalComponent } from './pages/workspace-with-navbar-and-sidebar/
 import { ChangeObuModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/change-obu-modal/change-obu-modal.component';
 import { SuspendModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/suspend-modal/suspend-modal.component';
 import { ConfirmCancelWithEmployeeIdComponent } from './pages/workspace-with-navbar-and-sidebar/modals/confirm-cancel-with-employee-id/confirm-cancel-with-employee-id.component';
+import { AddCustomerRoadshowCampaignComponent } from './pages/workspace-backoffice-management/modals/add-customer-roadshow-campaign/add-customer-roadshow-campaign.component';
 
 @NgModule({
   declarations: [
@@ -228,7 +229,8 @@ import { ConfirmCancelWithEmployeeIdComponent } from './pages/workspace-with-nav
     CustomerReportType9Component,
     WalletReportType9Component,
     FaremediaReportType9Component,
-    ConfirmCancelWithEmployeeIdComponent
+    ConfirmCancelWithEmployeeIdComponent,
+    AddCustomerRoadshowCampaignComponent
   ],
   imports: [
     CommonModule,

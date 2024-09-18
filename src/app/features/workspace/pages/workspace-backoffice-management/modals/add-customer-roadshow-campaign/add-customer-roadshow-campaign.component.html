@@ -1,0 +1,72 @@
+<div class="modal-body">
+    <div class="header-label">
+        <h2 class="text-center">กรุณาระบุข้อมูล</h2>
+        <h3 class="text-center mb-3">กรุณาระบุหมายเลขบัตรประชาชน / หนังสือเดินทาง</h3>
+    </div>
+    <div class="modal-body">
+        <div [ngSwitch]="step">
+            <section *ngSwitchCase="1">
+                <form [formGroup]="firstForm">
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label class="label-input required-field" for="citizenIdInput">
+                                หมายเลขบัตรประชาชน / หนังสือเดินทาง
+                            </label>
+                            <input class="form-control" data-testid="citizenIdInput" formControlName="citizenId"
+                                id="citizenIdInput" type="text" placeholder="กรุณาระบุ">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button class="custom-btn btn-type-1 outline" (click)="onClose()">ย้อนกลับ</button>
+                        <button class="custom-btn btn-type-1" type="submit" [disabled]="firstForm.invalid"
+                            (click)="onNext()">ถัดไป</button>
+                    </div>
+                </form>
+            </section>
+            <section *ngSwitchCase="2">
+                <form [formGroup]="secondForm">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 mb-3">
+                            <div class="col-12 mb-3">
+                                <label class="label-input required-field" for="citizenIdInput">
+                                    หมายเลขบัตรประชาชน / หนังสือเดินทาง
+                                </label>
+                                <input class="form-control" data-testid="citizenIdInput" formControlName="citizenId"
+                                    id="citizenIdInput" type="text" placeholder="กรุณาระบุ">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input required-field" for="firstNameInput">
+                                    ชื่อ
+                                </label>
+                                <input class="form-control" data-testid="firstNameInput" formControlName="firstName"
+                                    id="firstNameInput" type="text" placeholder="กรุณาระบุ">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 mb-3">
+                            <div class="col-12 mb-3">
+                                <label class="label-input text-nowrap" for="walletSelect">
+                                    กระเป๋าเงินที่ต้องการรับคะแนน
+                                </label>
+                                <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="id"
+                                    data-testid="walletSelect" formControlName="walletId" [placeholder]="'กรุณาระบุ'"
+                                    id="walletSelect" [items]="walletsList"></ng-select>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="label-input required-field" for="lastNameInput">
+                                    นามสกุล
+                                </label>
+                                <input class="form-control" data-testid="lastNameInput" formControlName="lastName"
+                                    id="lastNameInput" type="text" placeholder="กรุณาระบุ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button class="custom-btn btn-type-1 outline" (click)="onBack()">ย้อนกลับ</button>
+                        <button class="custom-btn btn-type-1" type="submit" [disabled]="secondForm.invalid"
+                            (click)="onSubmit()">ยืนยัน</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>

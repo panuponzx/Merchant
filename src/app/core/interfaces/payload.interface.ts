@@ -163,3 +163,15 @@ export interface IPerWalletModel {
 export interface IPerAccountModel {
   limit: number
 }
+
+export interface ICampaignAddRoadShowRequest {
+  campaignName: string
+  fromDate: string
+  toDate: string
+  fromPeriod: string
+  toPeriod: string
+  publish: boolean
+  takePoint: number
+  customerGroups: string[]
+  isAllCustomerGroups: boolean
+}
