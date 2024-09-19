@@ -37,6 +37,7 @@ export class AddCustomerRoadshowCampaignComponent {
       walletId: new FormControl(undefined, Validators.required),
     });
   }
+
   ngOnInit() {
     // if (this.walletName) {
     //   this.form.get('walletName')?.setValue(this.walletName);
@@ -66,17 +67,31 @@ export class AddCustomerRoadshowCampaignComponent {
     //   this.form.markAllAsTouched();
     // }
   }
-  // _editWallet() {
-  //   const payload = {
-  //     walletId: this.walletId,
-  //     walletName: this.form.get('walletName')?.value,
-  //     walletTypeId: this.walletTypeId
-  //   }
-  //   return this.restApiService.postBackOffice('wallet/edit-wallet', payload) as Observable<any>;
-  // }
+  
+  postSearchCustomerByCid() {
+    this.modalDialogService.loading();
+    const payload: any = {
+      identificationId: this.firstForm.get('citizenId')?.value,
+      limit: 10,
+      page: 1
+    }
+    this.restApiService.postBackOfficeWithModelWithRequestParam<any, any>(`customer/search-by-cid`, payload).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          // this.getLoyaltyProducts();
+        }
+        this.modalDialogService.hideLoading();
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
 
   onNext() {
     if(this.step === 1) {
+      this.postSearchCustomerByCid();
       const citizenId: string = this.firstForm.get('citizenId')?.value;
       this.secondForm.get('citizenId')?.setValue(citizenId);
     }
