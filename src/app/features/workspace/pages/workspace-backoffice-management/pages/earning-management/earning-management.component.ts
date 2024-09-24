@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CustomColumnModel, RowActionEventModel, ResponseModel, ICampaignTableModel, ICampaignModel, ICampaignTollModel, IMasterDataResponse, ICampaignAddRoadShowRequest, ICampaignRoadShowAllResponse, IElementCampaignRoadShowAllResponse, IRoadShowByIdResponse } from '../../../../../../core/interfaces';
+import { CustomColumnModel, RowActionEventModel, ResponseModel, ICampaignTableModel, ICampaignModel, ICampaignTollModel, IMasterDataResponse, ICampaignAddRoadShowRequest, ICampaignRoadShowAllResponse, IElementCampaignRoadShowAllResponse, IRoadShowByIdResponse, ITopupAndTollAddBaseActiveResponse } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
-import { first, map } from 'rxjs';
+import { first, forkJoin, map, of } from 'rxjs';
 import { TransformDatePipe } from '../../../../../../core/pipes';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddCustomerRoadshowCampaignComponent } from '../../modals/add-customer-roadshow-campaign/add-customer-roadshow-campaign.component';
@@ -16,9 +16,39 @@ import { AddCustomerRoadshowCampaignComponent } from '../../modals/add-customer-
 })
 export class EarningManagementComponent implements OnInit {
 
+  public isAddSpecial: boolean = false;
+
   public isAddRoadShow: boolean = false;
   public isEditRoadShow: boolean = false;
   public isDescriptionRoadShow: boolean = false;
+
+  public specialList: IElementCampaignRoadShowAllResponse[] = [];
+  public specialColumns: CustomColumnModel[] = [
+    { id: 'campaignName', name: 'ชื่อ Road Show', label: 'รูปแบบการให้คะแนน', prop: 'campaignName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'fromDate', name: 'เวลาเริ่มต้น', label: 'เวลาเริ่มต้น', prop: 'fromDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'toDate', name: 'เวลาสิ้นสุด', label: 'เวลาสิ้นสุด', prop: 'toDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'takePoint', name: 'จำนวนคะแนนได้รับ', label: 'จำนวนคะแนนได้รับ', prop: 'takePoint', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'customerGroups', name: 'กลุ่มลูกค้า', label: 'กลุ่มลูกค้า', prop: 'customerGroups', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'remark', name: 'หมายเหตุ', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'setting', name: 'รายละเอียด', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
+  ];
+  specialCollectionSize: number = 0;
+  isSpecialLoading: boolean = false;
+  specialLimit: number = 5;
+  specialPages: number = 1;
+
+  public baseList: ITopupAndTollAddBaseActiveResponse[] = [];
+  public baseColumns: CustomColumnModel[] = [
+    { id: 'campaignEvent', name: 'รูปแบบการให้คะแนน', label: 'รูปแบบการให้คะแนน', prop: 'campaignEvent', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'fromDate', name: 'เวลาเริ่มต้น', label: 'เวลาเริ่มต้น', prop: 'fromDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
+    { id: 'takePoint', name: 'จำนวนคะแนนได้รับ', label: 'จำนวนคะแนนได้รับ', prop: 'takePoint', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'remark', name: 'หมายเหตุ', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'setting', name: 'รายละเอียด', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'setting', iconName: 'setting', size: 'l', color: '#2255CE' } }
+  ];
+  baseCollectionSize: number = 0;
+  isBaseLoading: boolean = false;
+  baseLimit: number = 5;
+  basePages: number = 1;
 
   public roadShowList: IElementCampaignRoadShowAllResponse[] = [];
   public roadShowColumns: CustomColumnModel[] = [
@@ -61,6 +91,7 @@ export class EarningManagementComponent implements OnInit {
   bonusPointPages: number = 1;
 
   public roadShowForm: FormGroup;
+  public specialForm: FormGroup;
   public isCustomerGroupsLoading: boolean = false;
   public customerGroupsList: IMasterDataResponse[] = [];
 
@@ -84,15 +115,43 @@ export class EarningManagementComponent implements OnInit {
       toPeriod: new FormControl(undefined, Validators.required),
       publishing: new FormControl(undefined, Validators.required),
     });
+    this.specialForm = this.formBuilder.group({
+
+    });
   }
 
   ngOnInit(): void {
     this.getCampaignRoadShowAll();
+    this.getCampaignTollAndTopupBaseActive();
     // this.onAddEarnByCustomerId();
+  }
+
+  onAddBase() {
+    this.router.navigate(['work-space/manage-earning/basic/add']);
+    // this.router.navigate(['work-space/test-card-registration']);
+  }
+
+  onAddSpecial() {
+    this.router.navigate(['work-space/manage-earning/special/add']);
   }
 
   onAddRoadShow() {
     this.isAddRoadShow = true;
+  }
+
+  onActionSpecial(event: RowActionEventModel) {
+    console.log("[onActionSpecial] event => ", event);
+    // this.router.navigate(['work-space/manage-earning/special/add']);
+  }
+
+  onChangePagesSpecial(page: number) {
+    this.specialPages = page;
+  }
+
+  onActionBase(event: RowActionEventModel) {
+    console.log("[onActionBase] event => ", event);
+    const campaignEvent: string = String(event.row.campaignEvent).toLocaleLowerCase();
+    this.router.navigate([`work-space/manage-earning/basic/edit/${campaignEvent}`]);
   }
 
   onActionRoadShow(event: RowActionEventModel) {
@@ -208,9 +267,9 @@ export class EarningManagementComponent implements OnInit {
   }
 
   onBack() {
-    
+
     //InPageAddRoadShow
-    if(this.isAddRoadShow) {
+    if (this.isAddRoadShow) {
       this.isAddRoadShow = false;
     }
 
@@ -225,6 +284,48 @@ export class EarningManagementComponent implements OnInit {
       this.isDescriptionRoadShow = true;
     }
 
+  }
+
+  getCampaignTollAndTopupBaseActive() {
+    this.isBaseLoading = true;
+    forkJoin({
+      toll: this.restApiService.getBackOfficeWithModel<ITopupAndTollAddBaseActiveResponse>(`campaign/toll/base/active`),
+      topup: this.restApiService.getBackOfficeWithModel<ITopupAndTollAddBaseActiveResponse>(`campaign/topup/base/active`),
+    }).subscribe({
+      next: (res) => {
+        if (res.toll.errorMessage === "Success" && res.topup.errorMessage === "Success") {
+          let concatList: ITopupAndTollAddBaseActiveResponse[] = [];
+          if (res.toll.data) {
+            res.toll.data.campaignEvent = "TOLL";
+            concatList.push(res.toll.data);
+          }
+          if (res.topup.data) {
+            res.topup.data.campaignEvent = "TOP_UP";
+            concatList.push(res.topup.data);
+          }
+          this.baseList = concatList;
+        }
+        this.isBaseLoading = false;
+      },
+      error: (error) => {
+        this.isBaseLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+
+    // this.restApiService.getBackOfficeWithModel<ICampaignRoadShowAllResponse>(`campaign/road-show/all?limit=${this.roadShowLimit}&offset=${(this.roadShowPages * this.roadShowLimit) - this.roadShowLimit}`).subscribe({
+    //   next: (res) => {
+    //     if (res.errorMessage === "Success") {
+    //       this.roadShowList = res.data.elements;
+    //       this.roadShowcollectionSize = res.data.totalElements;
+    //     }
+    //     this.isBasicLoading = false;
+    //   },
+    //   error: (error) => {
+    //     this.isBasicLoading = false;
+    //     this.modalDialogService.handleError(error);
+    //   },
+    // })
   }
 
   getCampaignRoadShowAll() {
@@ -277,7 +378,7 @@ export class EarningManagementComponent implements OnInit {
           this.roadShowForm.get('toPeriod')?.setValue(res.data.toPeriod);
           this.roadShowForm.get('publishing')?.setValue(res.data.publish);
           this.settingRoadShowList = [res.data];
-          if(isRouter) this.isEditRoadShow = true;
+          if (isRouter) this.isEditRoadShow = true;
         }
         this.modalDialogService.hideLoading();
       },

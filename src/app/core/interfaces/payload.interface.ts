@@ -175,3 +175,30 @@ export interface ICampaignAddRoadShowRequest {
   customerGroups: string[]
   isAllCustomerGroups: boolean
 }
+
+export interface ITopupAndTollAddBaseRequest {
+  takePoint: number
+  remark?: string
+  fromDate: string
+  everyThaiBath: number
+}
+
+export interface ITopupAndTollAddRequest {
+  campaignEvent?: string
+  campaignName: string
+  fromDate: string
+  toDate: string
+  fromPeriod: string
+  toPeriod: string
+  publish: boolean
+  operation: string
+  calculateValue: number
+  customerGroups: string[]
+  isAllCustomerGroups: boolean
+  carTypes: string[]
+  isAllCarTypes: boolean
+  tollStations: string[]
+  isAllTollStation: boolean
+  daysOfWeek: string[]
+  isAllDaysOfWeek: boolean
+}

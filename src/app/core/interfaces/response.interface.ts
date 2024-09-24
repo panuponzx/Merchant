@@ -188,6 +188,13 @@ export interface IMasterDataResponse {
   nameEN: string
 }
 
+export interface IMasterDataChildrenResponse {
+  key: string
+  name: string
+  nameEN: string
+  children: IMasterDataResponse[]
+}
+
 export interface IJuristicDocumentResponse {
   fileName: string
   docName: string
@@ -624,4 +631,23 @@ export interface IRoadShowByIdResponse {
   id: string
   lastModifyDate: any
   statusCode: any
+}
+
+export interface ITopupAndTollAddBaseActiveResponse {
+  takePoint: number
+  remark: any
+  fromDate: any
+  everyThaiBath: number
+  id: string
+  statusCode: number
+  lastModifyDate: any
+  campaignEvent?: string
+}
+export interface IAllTollStationsResponse {
+  id: string
+  expresswayId: string
+  tollName: string
+  tollCode: string
+  createdDate: any
+  updatedDate: any
 }

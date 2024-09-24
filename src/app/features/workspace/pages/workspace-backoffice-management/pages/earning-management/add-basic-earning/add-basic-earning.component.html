@@ -1,0 +1,93 @@
+<div class="content-container-header">
+    <h1 class="content-title">ระบบการให้คะแนน</h1>
+</div>
+<hr class="hr-custom mb-3" />
+<button class="custom-btn btn-type-1 mb-3" data-testid="backButton" id="backButton" title="กลับ" type="button"
+    (click)="onBack()">
+    กลับ
+</button>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h3 class="content-title mb-3">
+        รายละเอียดคะแนน
+    </h3>
+    <div class="row">
+        <div class="col-sm-12 col-md-6 mb-3">
+            <label class="label-input required-field" for="campaignEventsSelect">
+                รูปแบบการให้คะแนน
+            </label>
+            <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="key"
+                data-testid="campaignEventsSelect" id="campaignEventsSelect" placeholder="กรุณาระบุ"
+                formControlName="campaignEvent" [loading]="isCampaignEventsLoading" [items]="campaignEventsList">
+            </ng-select>
+        </div>
+    </div>
+    <h3 class="content-title mb-3">
+        รายละเอียดคะแนน
+    </h3>
+    <div class="row">
+        <div class="col-sm-12 col-md-6 mb-3">
+            <div class="col-12">
+                <label class="label-input required-field" for="everyThaiBathInput">
+                    จำนวนค่าใช้จ่าย (บาท) ที่ได้รับคะแนน
+                </label>
+                <input class="form-control" data-testid="everyThaiBathInput" formControlName="everyThaiBath"
+                    id="everyThaiBathInput" placeholder="กรุณาระบุ" type="text">
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 mb-3">
+            <div class="col-12">
+                <label class="label-input required-field" for="campaignEventsSelect">
+                    จำนวน (คะแนน) ที่ได้รับ
+                </label>
+                <input class="form-control" data-testid="takePointInput" formControlName="takePoint" id="takePointInput"
+                    placeholder="กรุณาระบุ" type="text">
+            </div>
+        </div>
+        <label class="label-input">
+            ทุกจำนวนค่าใช้จ่าย - บาท ได้รับ - คะแนน
+        </label>
+    </div>
+    <h3 class="content-title mb-3">
+        ช่วงเวลาให้คะแนนพื้นฐาน
+    </h3>
+    <div class="row">
+        <div class="col-sm-12 col-md-6 mb-3">
+            <label class="label-input required-field" for="fromDatePicker">
+                จำนวน (คะแนน) ที่ได้รับ
+            </label>
+            <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="fromDate"
+                [id]="'fromDatePicker'" locale="th" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+        </div>
+        <div class="col-sm-12 col-md-6 mb-3">
+            <div class="col-12">
+                <label class="label-input" for="remarkInput">
+                    หมายเหตุ
+                </label>
+                <input class="form-control" data-testid="remarkInput" formControlName="remark" id="remarkInput"
+                    placeholder="กรุณาระบุ" type="text">
+            </div>
+        </div>
+    </div>
+    <hr class="hr-custom mt-3 mb-3" />
+    <div class="footer d-flex justify-content-center gap-3">
+        <button class="custom-btn btn-fixed-size-1 btn-type-3" type="button" (click)="onBack()"
+            data-testid="cancelButton" id="cancelButton" title="ยกเลิก">
+            ยกเลิก
+        </button>
+        <button *ngIf="!campaignEvent" class="custom-btn btn-fixed-size-1 btn-type-1" type="submit"
+            data-testid="submitButton" id="submitButton" title="บันทึก" [disabled]="form.invalid">
+            บันทึก
+        </button>
+        <button *ngIf="campaignEvent" class="custom-btn btn-fixed-size-1 btn-type-1" type="button" (click)="onEdit()"
+            data-testid="editButton" id="editButton" title="แก้ไข" [disabled]="form.invalid">
+            แก้ไข
+        </button>
+    </div>
+</form>
+<div class="content-container-header">
+    <h1 class="content-title">ประวัติการเปลี่ยนแปลง การตั้งค่าคะแนนพื้นฐาน</h1>
+</div>
+<datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'baseDatatable'" [isLoading]="isLoading"
+    [pageSize]="limit" [page]="pages" [rows]="rowList" emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onAction($event)"
+    (onChangePageEvent)="onChangePages($event)">
+</datatable>

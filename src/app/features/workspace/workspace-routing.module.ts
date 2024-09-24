@@ -39,6 +39,8 @@ import { UserInfoAllComponent } from './pages/workspace-with-navbar-and-sidebar/
 import { AddJuristicComponent } from './pages/workspace-with-navbar/pages/add-user/add-juristic/add-juristic.component';
 import { TestCardRegistrationComponent } from './pages/workspace-backoffice-management/pages/test-card-registration/test-card-registration.component';
 import { Type9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/type-9-management.component';
+import { AddBasicEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-basic-earning/add-basic-earning.component';
+import { AddSpecialEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-special-earning/add-special-earning.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -247,6 +249,36 @@ export const routesConfig: CustomRoutesModel = [
               is_sidebar: true,
               label: 'ระบบการให้คะแนน',
               default_path: 'manage-earning',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'EarningBasicManagementComponent',
+            path: 'manage-earning/basic/add',
+            component: AddBasicEarningComponent,
+            data: {
+              is_sidebar: false,
+              default_path: 'manage-earning/basic/add',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'EarningBasicManagementComponent',
+            path: 'manage-earning/basic/edit/:campaign-event',
+            component: AddBasicEarningComponent,
+            data: {
+              is_sidebar: false,
+              default_path: 'manage-earning/basic/edit/:campaign-event',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'EarningSpecialManagementComponent',
+            path: 'manage-earning/special/add',
+            component: AddSpecialEarningComponent,
+            data: {
+              is_sidebar: false,
+              default_path: 'manage-earning/special/add',
             },
             canActivate: [TabGuard]
           },
