@@ -4,7 +4,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { first, map } from 'rxjs';
-import { ICarModal, IMasterDataResponse, IProvinceModal, IResponseProvinceModal } from 'src/app/core/interfaces';
+import { IAddPostpaidWalletRequest, ICarModal, IMasterDataResponse, IProvinceModal, IResponseProvinceModal } from 'src/app/core/interfaces';
+import { TransformDatePipe } from 'src/app/core/pipes';
 
 @Component({
   selector: 'app-add-wallet-modal',
@@ -17,7 +18,23 @@ export class AddWalletModalComponent {
   public form: FormGroup;
 
   public obuForm: FormGroup;
-  public fairmediaTypeList: IMasterDataResponse[] = [];
+  public fairmediaTypeList: IMasterDataResponse[] = [
+    {
+      "key": "1",
+      "name": "OBU & SMARTCARD",
+      "nameEN": "OBU & SMARTCARD"
+    },
+    {
+      "key": "3",
+      "name": "LICENSE_PLATE",
+      "nameEN": "LICENSE_PLATE"
+    },
+    {
+      "key": "4",
+      "name": "RFID",
+      "nameEN": "RFID"
+    }
+  ];
   public isFairmediaTypeLoading: boolean = false;
   public brandList: ICarModal[] = [];
   public isBrand: boolean = false;
@@ -49,7 +66,8 @@ export class AddWalletModalComponent {
     private formBuilder: FormBuilder,
     private restApiService: RestApiService,
     private modalDialogService: ModalDialogService,
-    private ngbModal: NgbModal
+    private ngbModal: NgbModal,
+    private transformDatePipe: TransformDatePipe
   ) {
     this.form = this.formBuilder.group({
       walletType: new FormControl(1, Validators.required),
@@ -61,7 +79,7 @@ export class AddWalletModalComponent {
     // this.form.get('creditLimit')?.setValue(999);
     this.obuForm = this.formBuilder.group({
       fairmediaType: new FormControl(undefined, Validators.required),
-      fullnameCarOwner: new FormControl(undefined, Validators.required),
+      fullnameCarOwner: new FormControl(undefined),
       licensePlate: new FormControl(undefined, Validators.required),
       province: new FormControl(undefined, Validators.required),
       brand: new FormControl(undefined, Validators.required),
@@ -70,6 +88,7 @@ export class AddWalletModalComponent {
       color: new FormControl(undefined, Validators.required),
       obuPan: new FormControl(undefined),
       smartcardNo: new FormControl(undefined),
+      smartcardExpiryDate: new FormControl(undefined),
       rfidNo: new FormControl(undefined),
     });
   }
@@ -100,7 +119,8 @@ export class AddWalletModalComponent {
     console.log("[updateValidators] itemType => ", itemType);
     const controlsToUpdate = [
       { controlName: 'obuPan', requiredFor: ['1'] },
-      { controlName: 'smartcardNo', requiredFor: ['2'] },
+      { controlName: 'smartcardNo', requiredFor: ['1'] },
+      { controlName: 'smartcardExpiryDate', requiredFor: ['1'] },
       { controlName: 'rfidNo', requiredFor: ['4'] },
     ];
     controlsToUpdate.forEach(({ controlName, requiredFor }) => {
@@ -224,11 +244,74 @@ export class AddWalletModalComponent {
       })
   }
 
+  postAddPostpaidWallet() {
+    const smartcardExpiryDate = new Date(this.obuForm.get('smartcardExpiryDate')?.value);
+    smartcardExpiryDate.setHours(0, 0, 0, 0);
+    const smartcardExpiryDateNewFormat: string = String(this.transformDatePipe.transform(smartcardExpiryDate, 'YYYY-MM-DD'));
+    const payload: IAddPostpaidWalletRequest = {
+      customerId: this.customerId ? this.customerId : '',
+      walletTypeId: 6,
+      creditLimit: this.form.get('creditLimit')?.value,
+      car: {
+        brand: this.obuForm.get('brand')?.value,
+        model: this.obuForm.get('model')?.value,
+        color: this.obuForm.get('color')?.value,
+        province: this.obuForm.get('province')?.value,
+        yearRegistration: this.obuForm.get('yearRegistration')?.value,
+        licensePlate: this.obuForm.get('licensePlate')?.value,
+      },
+      ...(
+        this.obuForm.get('fairmediaType')?.value === '1' ? {
+          obu: {
+            obuPan: this.obuForm.get('obuPan')?.value,
+            smartcardNo: this.obuForm.get('smartcardNo')?.value,
+            smartcardExpiryDate: smartcardExpiryDateNewFormat,
+          },
+        } : {}
+      ),
+      ...(
+        this.obuForm.get('fairmediaType')?.value === '4' ? {
+          rfid: {
+            no: this.obuForm.get('rfidNo')?.value,
+          },
+        } : {}
+      ),
+      opt: {
+        addRfid: this.obuForm.get('fairmediaType')?.value === '4' ? true : false,
+        addObu: this.obuForm.get('fairmediaType')?.value === '1' ? true : false,
+        addSmartCard: this.obuForm.get('fairmediaType')?.value === '1' ? true : false,
+        addLicensePlate: this.obuForm.get('fairmediaType')?.value === '3' ? true : false,
+      },
+      requestParam: {
+        reqId: this.restApiService.generateUUID(),
+        channelId: 4
+      }
+    }
+    console.log("[postAddPostpaidWallet] => ", payload);
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<IAddPostpaidWalletRequest, any>(`wallet/add-postpaid-wallet`, payload).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          console.log("[onSubmit] res => ", res);
+          this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การเพิ่มกระเป๋าสำเร็จ');
+          this.ngbActiveModal.close(true);
+        } else {
+          this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', res.errorMessage);
+        }
+        this.modalDialogService.hideLoading();
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
   onNext() {
     if (this.step === 1) {
       this.loadBrand();
       this.loadProvince();
-      this.getFairmediaType();
+      // this.getFairmediaType();
     }
     this.step++;
   }
@@ -238,7 +321,7 @@ export class AddWalletModalComponent {
   }
 
   onConnectVisa() {
-
+    this.postAddPostpaidWallet();
   }
 
   onChangeWalletType(event: any) {
