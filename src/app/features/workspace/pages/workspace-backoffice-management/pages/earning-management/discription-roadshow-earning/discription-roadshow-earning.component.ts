@@ -33,8 +33,8 @@ export class DiscriptionRoadshowEarningComponent implements OnInit {
 
   bonusPointList: IElementCampaignRoadShowAllResponse[] = [];
   public bonusPointColumns: CustomColumnModel[] = [
-    { id: 'campaignName', name: 'ชื่อผู้ได้รับคะแนน', label: 'ชื่อผู้ได้รับคะแนน', prop: 'campaignName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'fromDate', name: 'วันที่ได้รับคะแนน', label: 'วันที่ได้รับคะแนน', prop: 'fromDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } }
+    { id: 'campaignName', name: 'ชื่อผู้ได้รับคะแนน', label: 'ชื่อผู้ได้รับคะแนน', prop: 'customerName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'fromDate', name: 'วันที่ได้รับคะแนน', label: 'วันที่ได้รับคะแนน', prop: 'earnDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } }
   ];
   bonusPointCollectionSize: number = 0;
   bonusPointLoading: boolean = false;
@@ -113,7 +113,7 @@ export class DiscriptionRoadshowEarningComponent implements OnInit {
       size: 'lg',
       keyboard: false
     });
-    modelRef.componentInstance.id = "event.row.walletId";
+    modelRef.componentInstance.id = this.id;
     modelRef.result.then(
       (result) => {
         if (result) {

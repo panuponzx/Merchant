@@ -285,7 +285,17 @@ export const routesConfig: CustomRoutesModel = [
             canActivate: [TabGuard]
           },
           {
-            id: 'AddSpecialEarningComponent',
+            id: 'EarningSpecialManagementComponent',
+            path: 'manage-earning/special/edit/:campaign-event/:id',
+            component: AddSpecialEarningComponent,
+            data: {
+              is_sidebar: false,
+              default_path: 'manage-earning/special/edit/:campaign-event/:id',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'AddRoadshowEarningComponent',
             path: 'manage-earning/roadshow/add',
             component: AddRoadshowEarningComponent,
             data: {
@@ -295,7 +305,7 @@ export const routesConfig: CustomRoutesModel = [
             canActivate: [TabGuard]
           },
           {
-            id: 'AddSpecialEarningComponent',
+            id: 'AddRoadshowEarningComponent',
             path: 'manage-earning/roadshow/edit/:id',
             component: AddRoadshowEarningComponent,
             data: {

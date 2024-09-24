@@ -29,13 +29,14 @@ export class EarningManagementComponent implements OnInit {
 
   public specialList: IElementCampaignRoadShowAllResponse[] = [];
   public specialColumns: CustomColumnModel[] = [
-    { id: 'campaignName', name: 'ชื่อ Road Show', label: 'รูปแบบการให้คะแนน', prop: 'campaignName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'campaignName', name: 'ชื่อกิจกรรม', label: 'ชื่อกิจกรรม', prop: 'campaignName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'campaignName', name: 'รูปแบบการให้คะแนน', label: 'รูปแบบการให้คะแนน', prop: '-', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'fromDate', name: 'เวลาเริ่มต้น', label: 'เวลาเริ่มต้น', prop: 'fromDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'toDate', name: 'เวลาสิ้นสุด', label: 'เวลาสิ้นสุด', prop: 'toDate', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'date', date: { format: 'D MMMM BBBB', locale: 'th' } },
     { id: 'takePoint', name: 'จำนวนคะแนนได้รับ', label: 'จำนวนคะแนนได้รับ', prop: 'takePoint', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'customerGroups', name: 'กลุ่มลูกค้า', label: 'กลุ่มลูกค้า', prop: 'customerGroups', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'remark', name: 'หมายเหตุ', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'setting', name: 'รายละเอียด', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
+    { id: 'setting', name: 'รายละเอียด', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'setting', iconName: 'setting', size: 'l', color: '#2255CE' } }
   ];
 
   specialCollectionSize: number = 0;
@@ -53,7 +54,7 @@ export class EarningManagementComponent implements OnInit {
     { id: 'remark', name: 'หมายเหตุ', label: 'หมายเหตุ', prop: 'remark', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'setting', name: 'รายละเอียด', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
-  roadShowcollectionSize: number = 0;
+  roadShowCollectionSize: number = 0;
   isRoadShowLoading: boolean = false;
   roadShowLimit: number = 5;
   roadShowPages: number = 1;
@@ -69,6 +70,7 @@ export class EarningManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCampaignTollAndTopupBaseActive();
+    this.getCampaignSpecialAll();
     this.getCampaignRoadShowAll();
     // this.onAddEarnByCustomerId();
   }
@@ -94,7 +96,7 @@ export class EarningManagementComponent implements OnInit {
 
   onActionSpecial(event: RowActionEventModel) {
     console.log("[onActionSpecial] event => ", event);
-    // this.router.navigate(['work-space/manage-earning/special/add']);
+    this.router.navigate([`work-space/manage-earning/special/edit/toll/${event.row.id}`]);
   }
 
   onChangePagesSpecial(page: number) {
@@ -138,13 +140,30 @@ export class EarningManagementComponent implements OnInit {
     })
   }
 
+  getCampaignSpecialAll() {
+    this.isSpecialLoading = true;
+    this.restApiService.getBackOfficeWithModel<any>(`campaign/toll/all?limit=${this.specialLimit}&offset=${(this.specialPages * this.specialLimit) - this.specialLimit}`).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.specialList = res.data.elements;
+          this.specialCollectionSize = res.data.totalElements;
+        }
+        this.isSpecialLoading = false;
+      },
+      error: (error) => {
+        this.isSpecialLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
   getCampaignRoadShowAll() {
     this.isRoadShowLoading = true;
     this.restApiService.getBackOfficeWithModel<ICampaignRoadShowAllResponse>(`campaign/road-show/all?limit=${this.roadShowLimit}&offset=${(this.roadShowPages * this.roadShowLimit) - this.roadShowLimit}`).subscribe({
       next: (res) => {
         if (res.errorMessage === "Success") {
           this.roadShowList = res.data.elements;
-          this.roadShowcollectionSize = res.data.totalElements;
+          this.roadShowCollectionSize = res.data.totalElements;
         }
         this.isRoadShowLoading = false;
       },

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IAllTollStationsResponse, IMasterDataChildrenResponse, IMasterDataResponse, ITopupAndTollAddBaseActiveResponse, ITopupAndTollAddBaseRequest, ITopupAndTollAddRequest, RowActionEventModel } from 'src/app/core/interfaces';
+import { IAllTollStationsResponse, ICampaignTollResponse, IMasterDataChildrenResponse, IMasterDataResponse, ITopupAndTollAddBaseActiveResponse, ITopupAndTollAddBaseRequest, ITopupAndTollAddRequest, RowActionEventModel } from 'src/app/core/interfaces';
 import { TransformDatePipe } from 'src/app/core/pipes';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
@@ -49,37 +49,31 @@ export class AddSpecialEarningComponent {
   ) {
     this.form = this.formBuilder.group({
       id: new FormControl(undefined),
-      campaignEvent: new FormControl(undefined, Validators.required),
-      campaignName: new FormControl(undefined, Validators.required),
-      operation: new FormControl(undefined, Validators.required),
-      calculateValue: new FormControl(undefined, Validators.required),
-
-      carTypes: new FormControl(undefined, Validators.required),
-      customerGroups: new FormControl(undefined, Validators.required),
-
-      route: new FormControl(undefined, Validators.required),
-      tollStations: new FormControl({ value: undefined, disabled: true }, Validators.required),
-      isAllTollStation: new FormControl(undefined, Validators.required),
-
-      fromDate: new FormControl(undefined, Validators.required),
-      toDate: new FormControl(undefined, Validators.required),
-      fromPeriod: new FormControl(undefined, Validators.required),
-      toPeriod: new FormControl(undefined, Validators.required),
-      daysOfWeek: new FormControl(undefined, Validators.required),
-      publishing: new FormControl(undefined, Validators.required),
-      // everyThaiBath: new FormControl(undefined, Validators.required),
-      // takePoint: new FormControl(undefined, Validators.required),
-      // fromDate: new FormControl(undefined, Validators.required),
-      // remark: new FormControl(undefined),
+      campaignEvent: new FormControl(undefined, Validators.required), //ALL
+      campaignName: new FormControl(undefined, Validators.required), //ALL
+      operation: new FormControl(undefined, Validators.required), //TOLL, UPDATE_INFO, TOP_UP, OPEN_AOI, OPEN_CCH_APP, UPDATE_INFO
+      calculateValue: new FormControl(undefined, Validators.required), //TOLL, UPDATE_INFO, TOP_UP, OPEN_AOI, OPEN_CCH_APP, UPDATE_INFO
+      takePoint: new FormControl(undefined, Validators.required), //ROAD_SHOW,
+      carTypes: new FormControl(undefined, Validators.required), //TOLL
+      isAllCarTypes: new FormControl(undefined, Validators.required), //TOLL
+      customerGroups: new FormControl(undefined, Validators.required), //ALL
+      isAllCustomerGroups: new FormControl(undefined, Validators.required), //ALL
+      route: new FormControl(undefined, Validators.required), //TOLL
+      tollStations: new FormControl({ value: undefined, disabled: true }, Validators.required), //TOLL
+      isAllTollStation: new FormControl(undefined, Validators.required), //TOLL
+      fromDate: new FormControl(undefined, Validators.required), //ALL
+      toDate: new FormControl(undefined, Validators.required), //ALL
+      fromPeriod: new FormControl(undefined, Validators.required), //ALL
+      toPeriod: new FormControl(undefined, Validators.required), //ALL
+      daysOfWeek: new FormControl(undefined, Validators.required), //TOLL
+      isAllDaysOfWeek: new FormControl(undefined, Validators.required), //TOLL
+      publishing: new FormControl(undefined, Validators.required), //ALL
     });
     this.campaignEvent = this.activatedRoute.snapshot.paramMap.get('campaign-event');
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
-    if (this.campaignEvent) {
-      this.getCampaignTollAndTopupBaseActive();
-    }
     this.getCampaignEvents();
     this.getCampaignCalOperation();
     this.getCarTypes();
@@ -88,6 +82,9 @@ export class AddSpecialEarningComponent {
     this.getTollStation();
     this.getDayOfWeek();
     // this.getCampaignAll();
+    if (this.campaignEvent && this.id) {
+      this.getCampaignSpecialById();
+    }
   }
 
   demoSetFormData(): void {
@@ -258,22 +255,44 @@ export class AddSpecialEarningComponent {
     })
   }
 
-  getCampaignTollAndTopupBaseActive() {
+  getCampaignSpecialById() {
     this.modalDialogService.loading();
     if (this.campaignEvent) {
       const campaignEvent: string = this.campaignEvent.replace("_", "");
       const campaignEventUpperCase: string = this.campaignEvent?.toUpperCase();
-      this.restApiService.getBackOfficeWithModel<ITopupAndTollAddBaseActiveResponse>(`campaign/${campaignEvent}/base/active`).subscribe({
+      this.restApiService.getBackOfficeWithModel<ICampaignTollResponse>(`campaign/${campaignEvent}/${this.id}`).subscribe({
         next: (res) => {
           if (res.errorMessage === "Success") {
-            console.log("[getCampaignTollAndTopupBaseActive] res => ", res.data);
+            console.log("[getCampaignSpecialById] res => ", res.data);
             this.form.get('id')?.setValue(res.data.id);
             this.form.get('campaignEvent')?.setValue(campaignEventUpperCase);
             this.form.get('campaignEvent')?.disable();
-            this.form.get('everyThaiBath')?.setValue(res.data.everyThaiBath);
-            this.form.get('takePoint')?.setValue(res.data.takePoint);
+            this.form.get('campaignName')?.setValue(res.data.campaignName);
+            this.form.get('operation')?.setValue(res.data.operation);
+            this.form.get('calculateValue')?.setValue(res.data.calculateValue);
+            this.form.get('carTypes')?.setValue(res.data.carTypes);
+            this.form.get('isAllCarTypes')?.setValue(res.data.isAllCarTypes);
+            this.form.get('customerGroups')?.setValue(res.data.customerGroups);
+            this.form.get('isAllCustomerGroups')?.setValue(res.data.isAllCustomerGroups);
+            const route = this.tempTollStationList.reduce<string[]>((acc, item) => {
+              const foundChildren = item.children.filter(child => res.data.tollStations.includes(child.key));
+              if (foundChildren.length > 0 && !acc.includes(item.key)) {
+                acc.push(item.key);
+              }
+              return acc;
+            }, []);
+            console.log(route);
+            
+            this.form.get('route')?.setValue(route);
+            this.form.get('tollStations')?.setValue(res.data.tollStations);
+            this.form.get('isAllTollStation')?.setValue(res.data.isAllTollStation);
             this.form.get('fromDate')?.setValue(new Date(res.data.fromDate));
-            this.form.get('remark')?.setValue(res.data.remark);
+            this.form.get('toDate')?.setValue(new Date(res.data.toDate));
+            this.form.get('fromPeriod')?.setValue(res.data.fromPeriod);
+            this.form.get('toPeriod')?.setValue(res.data.toPeriod);
+            this.form.get('daysOfWeek')?.setValue(res.data.daysOfWeek);
+            this.form.get('isAllDaysOfWeek')?.setValue(res.data.isAllDaysOfWeek);
+            this.form.get('publishing')?.setValue(res.data.publish);
           }
           this.modalDialogService.hideLoading();
         },

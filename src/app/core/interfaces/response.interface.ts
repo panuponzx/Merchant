@@ -651,3 +651,44 @@ export interface IAllTollStationsResponse {
   createdDate: any
   updatedDate: any
 }
+
+export interface ICustomerSearchByCidResponse {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: ICustomerSearchByCidElementModel[]
+}
+
+export interface ICustomerSearchByCidElementModel {
+  customerId: string
+  date: string
+  name: string
+  status: number
+  statusName: string
+  empName: string
+  isBlacklist: boolean
+  customerType: number
+}
+
+export interface ICampaignTollResponse {
+  campaignName: string
+  fromDate: string
+  toDate: string
+  fromPeriod: string
+  toPeriod: string
+  publish: boolean
+  operation: string
+  calculateValue: number
+  customerGroups: string[]
+  isAllCustomerGroups: boolean
+  carTypes: string[]
+  isAllCarTypes: boolean
+  tollStations: string[]
+  isAllTollStation: boolean
+  daysOfWeek: string[]
+  isAllDaysOfWeek: boolean
+  id: string
+  lastModifyDate: any
+  statusCode: any
+}

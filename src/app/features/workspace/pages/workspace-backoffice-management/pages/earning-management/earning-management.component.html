@@ -34,6 +34,7 @@
             emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onActionSpecial($event)"
             (onChangePageEvent)="onChangePagesSpecial($event)">
         </datatable>
+        <hr class="hr-custom mt-3 mb-3" />
     </section>
 
     <section>
@@ -46,7 +47,7 @@
                 เพิ่ม
             </button>
         </div>
-        <datatable [columns]="roadShowColumns" [collectionSize]="roadShowcollectionSize" [id]="'userDatatable'"
+        <datatable [columns]="roadShowColumns" [collectionSize]="roadShowCollectionSize" [id]="'userDatatable'"
             [isLoading]="isRoadShowLoading" [pageSize]="roadShowLimit" [page]="roadShowPages" [rows]="roadShowList"
             emptyMessage="ไม่มีข้อมูล" (onRowActionEvent)="onActionRoadShow($event)"
             (onChangePageEvent)="onChangePagesRoadShow($event)">

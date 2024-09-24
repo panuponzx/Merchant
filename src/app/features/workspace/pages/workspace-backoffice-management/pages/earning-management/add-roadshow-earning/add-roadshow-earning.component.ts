@@ -140,7 +140,7 @@ export class AddRoadshowEarningComponent implements OnInit {
       publish: this.roadShowForm.get('publishing')?.value,
       takePoint: this.roadShowForm.get('takePoint')?.value,
       customerGroups: this.roadShowForm.get('customerGroups')?.value,
-      isAllCustomerGroups: this.roadShowForm.get('isAllCustomerGroups')?.value,
+      isAllCustomerGroups: true,
     }
     this.modalDialogService.loading();
     this.restApiService.postBackOfficeWithModel<ICampaignAddRoadShowRequest, any>(`campaign/road-show/${id}/edit`, payload).subscribe({
