@@ -124,6 +124,8 @@ import { ConfirmCancelWithEmployeeIdComponent } from './pages/workspace-with-nav
 import { AddCustomerRoadshowCampaignComponent } from './pages/workspace-backoffice-management/modals/add-customer-roadshow-campaign/add-customer-roadshow-campaign.component';
 import { AddBasicEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-basic-earning/add-basic-earning.component';
 import { AddSpecialEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-special-earning/add-special-earning.component';
+import { AddRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-roadshow-earning/add-roadshow-earning.component';
+import { DiscriptionRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/discription-roadshow-earning/discription-roadshow-earning.component';
 
 @NgModule({
   declarations: [
@@ -234,7 +236,9 @@ import { AddSpecialEarningComponent } from './pages/workspace-backoffice-managem
     ConfirmCancelWithEmployeeIdComponent,
     AddCustomerRoadshowCampaignComponent,
     AddBasicEarningComponent,
-    AddSpecialEarningComponent
+    AddSpecialEarningComponent,
+    AddRoadshowEarningComponent,
+    DiscriptionRoadshowEarningComponent
   ],
   imports: [
     CommonModule,

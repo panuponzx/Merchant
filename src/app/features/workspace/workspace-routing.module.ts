@@ -41,6 +41,8 @@ import { TestCardRegistrationComponent } from './pages/workspace-backoffice-mana
 import { Type9ManagementComponent } from './pages/workspace-backoffice-management/pages/type-9-management/type-9-management.component';
 import { AddBasicEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-basic-earning/add-basic-earning.component';
 import { AddSpecialEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-special-earning/add-special-earning.component';
+import { AddRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-roadshow-earning/add-roadshow-earning.component';
+import { DiscriptionRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/discription-roadshow-earning/discription-roadshow-earning.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -279,6 +281,36 @@ export const routesConfig: CustomRoutesModel = [
             data: {
               is_sidebar: false,
               default_path: 'manage-earning/special/add',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'AddSpecialEarningComponent',
+            path: 'manage-earning/roadshow/add',
+            component: AddRoadshowEarningComponent,
+            data: {
+              is_sidebar: false,
+              default_path: 'manage-earning/roadshow/add',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'AddSpecialEarningComponent',
+            path: 'manage-earning/roadshow/edit/:id',
+            component: AddRoadshowEarningComponent,
+            data: {
+              is_sidebar: false,
+              default_path: 'manage-earning/roadshow/edit/:id',
+            },
+            canActivate: [TabGuard]
+          },
+          {
+            id: 'DiscriptionRoadshowEarningComponent',
+            path: 'manage-earning/roadshow/discription/:id',
+            component: DiscriptionRoadshowEarningComponent,
+            data: {
+              is_sidebar: false,
+              default_path: 'manage-earning/roadshow/discription/:id',
             },
             canActivate: [TabGuard]
           },
