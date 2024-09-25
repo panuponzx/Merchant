@@ -159,7 +159,7 @@ export class ApprovalManagementApprovalComponent {
   loadPendingRequest(status: PendingRequestStatus, page: number) {
     this.isLoading = true;
     this.modalDialogService.loading();
-    this.restApiService.getBackOfficeWithModel<IJuristicInquiryResponse>(`pending-request/inquiry?status=${status}&limit=${this.limitRow}&offset=${(this.pages * this.limitRow) - this.limitRow}`).subscribe({
+    this.restApiService.getBackOfficeWithModel<IJuristicInquiryResponse>(`pending-request/inquiry/customers?status=${status}&limit=${this.limitRow}&offset=${(this.pages * this.limitRow) - this.limitRow}`).subscribe({
       next: (res) => {
         if (res.errorMessage === "Success") {
           console.log("[onSubmit] res => ", res);
@@ -233,8 +233,8 @@ export class ApprovalManagementApprovalComponent {
     this.form.get('firstName')?.setValue(row.contactPerson.firstName);
     this.form.get('lastName')?.setValue(row.contactPerson.lastName);
     this.form.get('birthdate')?.setValue(new Date(String(row.contactPerson.birthDate)));
-    this.form.get('mobilePhone')?.setValue(row.contactPerson.phoneNo);
-    this.form.get('contactPhone')?.setValue(row.contact.mobile);
+    this.form.get('mobilePhone')?.setValue(row.contact.mobile);
+    this.form.get('contactPhone')?.setValue(row.contactPerson.phoneNo);
     this.form.get('email')?.setValue(row.contact.email);
     this.setDisableBranch(row.JuristicInfo.branchTypeCode!);
     // this.form.get('work_address')?.get('typeId')?.setValue(x.typeId);
