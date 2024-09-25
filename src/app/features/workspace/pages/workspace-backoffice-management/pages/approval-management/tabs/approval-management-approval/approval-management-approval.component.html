@@ -307,9 +307,9 @@
         <div class="d-flex justify-content-center">
             <p style="color:rgba(34, 85, 206, 1)" *ngIf="pendingRequest.status === 'APPROVED'">รายการนี้ถูกอนุมัติไปแล้ว
                 เมื่อวันที่
-                {{ rowDescription.createdDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</p>
+                {{ rowDescription.statusDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</p>
             <p style="color:rgba(214, 50, 38, 1);" *ngIf="pendingRequest.status === 'REJECTED'">รายการนี้ถูกปฏิเสธไปแล้ว
-                เมื่อวันที่ {{ rowDescription.createdDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</p>
+                เมื่อวันที่ {{ rowDescription.statusDate | transformDate : 'DD/MM/YYYY HH:mm:ss' : 'th' }}</p>
         </div>
         <hr class="hr-custom mb-3" />
         <div class="footer d-flex justify-content-center gap-3">
