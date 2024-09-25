@@ -43,7 +43,6 @@ export class ConfirmCancelPassageInfoComponent {
   }
 
   onCancelPassage() {
-    this.ngbActiveModal.close(true)
     const data = {
       transactionId: this.form.get('transactionId')?.value,
       amount: this.form.get('amount')?.value,
