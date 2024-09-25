@@ -113,6 +113,7 @@ export class AddRoadshowEarningComponent implements OnInit {
         if (res.errorMessage === "Success") {
           // this.isAddRoadShow = false;
           this.roadShowForm.reset();
+          this.onBack();
         }
         this.modalDialogService.hideLoading();
       },
@@ -140,7 +141,7 @@ export class AddRoadshowEarningComponent implements OnInit {
       publish: this.roadShowForm.get('publishing')?.value,
       takePoint: this.roadShowForm.get('takePoint')?.value,
       customerGroups: this.roadShowForm.get('customerGroups')?.value,
-      isAllCustomerGroups: true,
+      isAllCustomerGroups: this.roadShowForm.get('isAllCustomerGroups')?.value,
     }
     this.modalDialogService.loading();
     this.restApiService.postBackOfficeWithModel<ICampaignAddRoadShowRequest, any>(`campaign/road-show/${id}/edit`, payload).subscribe({

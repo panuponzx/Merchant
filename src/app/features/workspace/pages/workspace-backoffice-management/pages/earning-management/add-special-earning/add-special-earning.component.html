@@ -307,8 +307,8 @@
             data-testid="cancelButton" id="cancelButton" title="ยกเลิก">
             ยกเลิก
         </button>
-        <button class="custom-btn btn-fixed-size-1 btn-type-1" type="submit" data-testid="submitButton"
-            id="submitButton" title="บันทึก">
+        <button *ngIf="!this.campaignEvent && !this.id" class="custom-btn btn-fixed-size-1 btn-type-1" type="submit" data-testid="submitButton"
+            id="submitButton" title="บันทึก" [disabled]="form.invalid">
             บันทึก
         </button>
         <!-- <button class="custom-btn btn-fixed-size-1 btn-type-1" type="button"

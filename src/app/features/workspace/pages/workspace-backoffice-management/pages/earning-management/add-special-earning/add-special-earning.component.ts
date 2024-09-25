@@ -53,20 +53,20 @@ export class AddSpecialEarningComponent {
       campaignName: new FormControl(undefined, Validators.required), //ALL
       operation: new FormControl(undefined, Validators.required), //TOLL, UPDATE_INFO, TOP_UP, OPEN_AOI, OPEN_CCH_APP, UPDATE_INFO
       calculateValue: new FormControl(undefined, Validators.required), //TOLL, UPDATE_INFO, TOP_UP, OPEN_AOI, OPEN_CCH_APP, UPDATE_INFO
-      takePoint: new FormControl(undefined, Validators.required), //ROAD_SHOW,
+      takePoint: new FormControl(undefined), //ROAD_SHOW,
       carTypes: new FormControl(undefined, Validators.required), //TOLL
-      isAllCarTypes: new FormControl(undefined, Validators.required), //TOLL
+      isAllCarTypes: new FormControl(undefined), //TOLL
       customerGroups: new FormControl(undefined, Validators.required), //ALL
-      isAllCustomerGroups: new FormControl(undefined, Validators.required), //ALL
+      isAllCustomerGroups: new FormControl(undefined), //ALL
       route: new FormControl(undefined, Validators.required), //TOLL
       tollStations: new FormControl({ value: undefined, disabled: true }, Validators.required), //TOLL
-      isAllTollStation: new FormControl(undefined, Validators.required), //TOLL
+      isAllTollStation: new FormControl(undefined), //TOLL
       fromDate: new FormControl(undefined, Validators.required), //ALL
       toDate: new FormControl(undefined, Validators.required), //ALL
       fromPeriod: new FormControl(undefined, Validators.required), //ALL
       toPeriod: new FormControl(undefined, Validators.required), //ALL
       daysOfWeek: new FormControl(undefined, Validators.required), //TOLL
-      isAllDaysOfWeek: new FormControl(undefined, Validators.required), //TOLL
+      isAllDaysOfWeek: new FormControl(undefined), //TOLL
       publishing: new FormControl(undefined, Validators.required), //ALL
     });
     this.campaignEvent = this.activatedRoute.snapshot.paramMap.get('campaign-event');

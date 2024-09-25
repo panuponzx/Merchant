@@ -31,7 +31,7 @@ export class AddCustomerRoadshowCampaignComponent {
     this.firstForm = this.formBuilder.group({
       citizenId: new FormControl(undefined, Validators.required),
     });
-    this.firstForm.get('citizenId')?.setValue('1459900715114');
+    // this.firstForm.get('citizenId')?.setValue('1459900715114');
     this.secondForm = this.formBuilder.group({
       citizenId: new FormControl({ value: undefined, disabled: true }, Validators.required),
       firstName: new FormControl({ value: undefined, disabled: true }, Validators.required),
