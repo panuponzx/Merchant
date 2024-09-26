@@ -132,7 +132,7 @@
     </form>
     <div class="d-flex justify-content-between">
         <div class="left">
-            <span class="text-danger">*OBU. นี้กำลังอยู่ในขั้นตอนขอยกเลิกอุปกรณ์</span>
+            <span class="text-danger" *ngIf="isRequestCancelObu === true">*OBU. นี้กำลังอยู่ในขั้นตอนขอยกเลิกอุปกรณ์</span>
             <button class="custom-btn btn-type-1 red-outline" (click)="onDeactivate()"
                 *ngIf="isRequestCancelObu === false && carInfo.faremediaStatusId < 400">ยกเลิกอุปกรณ์</button>
             <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onSuspend()"
