@@ -159,6 +159,7 @@ export class WalletReportType9Component {
       next: (res) => {
         this.modalDialogService.hideLoading();
         res.data.elements.forEach((element, index) => {
+          element.WalletId = this.walletId;
           this.rows.push({
             log: element,
             meaning: this.handleActionDetail(element.action, element),

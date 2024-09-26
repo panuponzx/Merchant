@@ -24,61 +24,72 @@
                         <input class="form-control" placeholder="กรุณาระบุ" id="fullnameWalletOwnerInput"
                             formControlName="fullnameWalletOwner" data-testid="fullnameWalletOwnerInput" type="text">
                     </div>
-                    <div class="col-12 mb-3">
-                        <h3 class="mb-3">รายละเอียดผู้ดำเนินงาน</h3>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
-                                (change)="onChangeOperator()" [value]="true" name="isOwnerOperator"
-                                id="operatorOwnerRadio">
-                            <label class="label-input" for="operatorOwnerRadio">
-                                ดำเนินการด้วยตนเอง
-                            </label>
+                    <div class="col-12 mb-3" *ngIf="isType9 === false">
+                        <label class="label-input required-field" for="tollPlaza">
+                            อาคารด่าน
+                        </label>
+                        <ng-select class="form-control" placeholder="กรุณาเลือกอาคารด่าน" bindLabel="name"
+                            bindValue="id" formControlName="tollPlaza" id="tollPlaza" data-testid="tollPlaza"
+                            [items]="selctionTollPlaza">
+                        </ng-select>
+                    </div>
+                    <div class="row" *ngIf="isType9 === false">
+                        <div class="col-12 mb-3">
+                            <h3 class="mb-3">รายละเอียดผู้ดำเนินงาน</h3>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
+                                    (change)="onChangeOperator()" [value]="true" name="isOwnerOperator"
+                                    id="operatorOwnerRadio">
+                                <label class="label-input" for="operatorOwnerRadio">
+                                    ดำเนินการด้วยตนเอง
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
+                                    (change)="onChangeOperator()" [value]="false" name="isOwnerOperator"
+                                    id="operatorBehalfOwnerRadio">
+                                <label class="label-input" for="operatorBehalfOwnerRadio">
+                                    ดำเนินการแทนเจ้าของ
+                                </label>
+                            </div>
                         </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" formControlName="isOwnerOperator"
-                                (change)="onChangeOperator()" [value]="false" name="isOwnerOperator"
-                                id="operatorBehalfOwnerRadio">
-                            <label class="label-input" for="operatorBehalfOwnerRadio">
-                                ดำเนินการแทนเจ้าของ
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="citizenIdInput">
+                                เลขบัตรประชาชน
                             </label>
+                            <input class="form-control" placeholder="กรุณาระบุ" id="citizenIdInput"
+                                formControlName="citizenId" data-testid="citizenIdInput" type="text">
                         </div>
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="citizenIdInput">
-                            เลขบัตรประชาชน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="citizenIdInput"
-                            formControlName="citizenId" data-testid="citizenIdInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="firstNameOperatorInput">
-                            ชื่อ ผู้มาดำเนินงานแทน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="firstNameOperatorInput"
-                            formControlName="firstNameOperator" data-testid="firstNameOperatorInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="lastNameOperatorInput">
-                            นามสกุล ผู้มาดำเนินงานแทน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="lastNameOperatorInput"
-                            formControlName="lastNameOperator" data-testid="lastNameOperatorInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="mobilePhoneOperatorInput">
-                            เบอร์ติดต่อ ผู้มาดำเนินงานแทน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="mobilePhoneOperatorInput"
-                            mask="000 000 0000" placeholder="XXX XXX XXXX" formControlName="mobilePhoneOperator"
-                            data-testid="mobilePhoneOperatorInput" type="text">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label class="label-input" for="positionPhoneOperatorInput">
-                            ตำแหน่ง ผู้มาดำเนินงานแทน
-                        </label>
-                        <input class="form-control" placeholder="กรุณาระบุ" id="positionPhoneOperatorInput"
-                            formControlName="positionPhoneOperator" data-testid="positionPhoneOperatorInput"
-                            type="text">
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="firstNameOperatorInput">
+                                ชื่อ ผู้มาดำเนินงานแทน
+                            </label>
+                            <input class="form-control" placeholder="กรุณาระบุ" id="firstNameOperatorInput"
+                                formControlName="firstNameOperator" data-testid="firstNameOperatorInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="lastNameOperatorInput">
+                                นามสกุล ผู้มาดำเนินงานแทน
+                            </label>
+                            <input class="form-control" placeholder="กรุณาระบุ" id="lastNameOperatorInput"
+                                formControlName="lastNameOperator" data-testid="lastNameOperatorInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="mobilePhoneOperatorInput">
+                                เบอร์ติดต่อ ผู้มาดำเนินงานแทน
+                            </label>
+                            <input class="form-control" placeholder="กรุณาระบุ" id="mobilePhoneOperatorInput"
+                                mask="000 000 0000" placeholder="XXX XXX XXXX" formControlName="mobilePhoneOperator"
+                                data-testid="mobilePhoneOperatorInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="positionPhoneOperatorInput">
+                                ตำแหน่ง ผู้มาดำเนินงานแทน
+                            </label>
+                            <input class="form-control" placeholder="กรุณาระบุ" id="positionPhoneOperatorInput"
+                                formControlName="positionPhoneOperator" data-testid="positionPhoneOperatorInput"
+                                type="text">
+                        </div>
                     </div>
                     <div class="col-12 mb-5">
                         <div class="form-check">
@@ -272,8 +283,8 @@
                             <!-- <input class="form-control" placeholder="กรุณาระบุ" id="obuInput" formControlName="date"
                                 data-testid="obuInput" type="text"> -->
                             <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY HH:mm"
-                                formControlName="dateTime" [id]="'dateInput'" locale="th" [maxDate]="today" [timePicker]="true"
-                                [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
+                                formControlName="dateTime" [id]="'dateInput'" locale="th" [maxDate]="today"
+                                [timePicker]="true" [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
                         </div>
                     </ng-container>
                 </div>
@@ -326,13 +337,11 @@
                     <p class="payment-detail-price">{{ thirdForm.get('totalAmountPaid')?.value |
                         currency:'THB':'':'1.2-2'}}บาท</p>
                 </div>
-                <input #inputFile id="attachment" class="d-none" type="file" (change)="fileTypeValidation($event)" />
-                <button style="width: 100%;" class="custom-btn btn-type-3 " data-testid="uploadImageButton"
-                    id="uploadImageButton" title="อัพโหลด" (click)="inputFile.click()">
+                <!-- <button style="width: 100%;" class="custom-btn btn-type-3 " data-testid="uploadImageButton"
+                    id="uploadImageButton" title="อัพโหลด" (click)="receipt()">
                     <icon-svg [color]="'#2255CE'" [size]="'m'" [path]="'assets/images/icons/upload.svg'" />
-                    แนบเอกสาร
-                </button>
-                <span>{{ fifthForm.get('attachment')?.value?.name }}</span>
+                    พิมพ์ใบเสร็จชั่วคราว
+                </button> -->
             </form>
         </section>
         <section *ngSwitchCase="6">
@@ -344,10 +353,13 @@
             <button class="custom-btn btn-type-1 outline" (click)="onPreviousStep()">{{step ===1
                 ?'ยกเลิก':'ย้อนกลับ'}}</button>
             <button class="custom-btn btn-type-1" (click)="onNextStep()"
-                [disabled]="firstForm.invalid || !firstForm.get('isAgree')?.value"><span>ถัดไป</span></button>
+                [disabled]="firstForm.invalid || !firstForm.get('isAgree')?.value"
+                *ngIf="!(step ===3)"><span>ถัดไป</span></button>
+            <button class="custom-btn btn-type-1" [disabled]="fifthForm.invalid" (click)="onSubmit()"
+                *ngIf="step ===3">ยืนยันการยกเลิก</button>
         </div>
     </div>
     <div *ngIf="step === 5" class="d-flex flex-column justify-content-center gap-3">
-        <button class="custom-btn btn-type-1" [disabled]="fifthForm.invalid" (click)="onSubmit()">เสร็จสิ้น</button>
+        <button class="custom-btn btn-type-1" [disabled]="fifthForm.invalid" (click)="onClose()">เสร็จสิ้น</button>
     </div>
 </div>

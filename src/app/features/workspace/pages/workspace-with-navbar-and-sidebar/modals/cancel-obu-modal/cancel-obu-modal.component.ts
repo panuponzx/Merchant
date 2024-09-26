@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { CustomerModel, ICacutalateReturnResponse, ICarModal } from 'src/app/core/interfaces';
-import { RestApiService } from 'src/app/core/services';
+import { CustomerModel, ICacutalateReturnResponse, ICarModal, IReturnObuResponse, ITollPlazaModel, ITollPlazaResponse, ResponseMessageModel, UserModel } from 'src/app/core/interfaces';
+import { AuthenticationService, RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
-import { formatDate, formatDateTime, getCustomerName } from 'src/app/features/utils/textUtils';
+import { convertStrToJson, formatDate, formatDateTime, getCustomerName } from 'src/app/features/utils/textUtils';
 import { ConfirmCancelWithEmployeeIdComponent } from '../confirm-cancel-with-employee-id/confirm-cancel-with-employee-id.component';
 
 @Component({
@@ -24,18 +24,24 @@ export class CancelObuModalComponent {
   @Input() public customer!: CustomerModel;
   @Input() public carInfo!: ICarModal | any;
   @Input() public walletId!: number | string;
+  @Input() public isType9: boolean = false;
   public step: number = 1;
   public today: Date = new Date();
+  public user: UserModel | undefined;
+  public selctionTollPlaza: ITollPlazaModel[] = [];
   constructor(
     private formBuilder: FormBuilder,
     private ngbActiveModal: NgbActiveModal,
     private restApiService: RestApiService,
     private modalDialogService: ModalDialogService,
     private ngbModal: NgbModal,
+    private authenticationService: AuthenticationService
   ) {
+    this.authenticationService.user?.subscribe(x => this.user = x);
     this.firstForm = this.formBuilder.group({
       date: new FormControl({ value: undefined, disabled: false }, Validators.required),
       fullnameWalletOwner: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      tollPlaza: new FormControl({ value: undefined, disabled: false }, Validators.required),
       isOwnerOperator: new FormControl(true, Validators.required),
       citizenId: new FormControl({ value: undefined, disabled: true }, Validators.required),
       firstNameOperator: new FormControl({ value: undefined, disabled: true }, Validators.required),
@@ -78,6 +84,22 @@ export class CancelObuModalComponent {
     this.fourthForm.get('date')?.setValue(this.today);
     console.log("carInfo => ", this.carInfo);
     console.log("customer => ", this.customer);
+    this.modalDialogService.loading();
+    this._loadTollPlaza().subscribe({
+      next: (response) => {
+        this.modalDialogService.hideLoading();
+        this.selctionTollPlaza = response.data;
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      }
+    });
+    if (this.isType9) {
+      this.firstForm.get('isOwnerOperator')?.disable();
+      this.firstForm.get('tollPlaza')?.setValue('0000');
+    }
+
   }
   onChangeOperator() {
     console.log("[onChangeOperator] isOwnerOperator => ", this.firstForm.get('isOwnerOperator')?.value);
@@ -104,7 +126,7 @@ export class CancelObuModalComponent {
   }
   onCheckIsObu(event: any) {
     console.log("[onCheckIsObu] event => ", event.target.checked);
-    if (!event.target.checked &&  !this.carInfo.isType9) {
+    if (!event.target.checked && !this.carInfo.isType9) {
       this.secondForm.get('obuPayment')?.setValue(300);
     } else {
       this.secondForm.get('obuPayment')?.setValue(0);
@@ -175,18 +197,16 @@ export class CancelObuModalComponent {
         this.fourthForm.get('dateTime')?.setValue(new Date());
       }
     }
-    if (this.step === 3 ) {
-      if (!this.carInfo.isType9){
+    if (this.step === 3) {
+
       this.loadWalletBalance();
-      }else {
-        this.step = 5;
-      }
+
     }
     console.log("[onNextStep] step => ", this.step);
   }
 
   onClose() {
-
+    window.location.reload();
   }
 
   onNext() {
@@ -217,8 +237,8 @@ export class CancelObuModalComponent {
     };
     return this.restApiService.postBackOffice("faremedia/calculate-return-obu", data) as Observable<ICacutalateReturnResponse>;
   }
-  onSubmit() {
-    if (this.step === 5 && this.fifthForm.valid) {
+  async onSubmit() {
+    if (this.step === 3 && this.thirdForm.get('totalAmountPaid')?.value === 0) {
       const modalRef = this.ngbModal.open(ConfirmCancelWithEmployeeIdComponent, {
         centered: true,
         backdrop: 'static',
@@ -229,44 +249,76 @@ export class CancelObuModalComponent {
       modalRef.componentInstance.onSubmitted = () => {
         this.modalDialogService.loading();
         this.fetchCancelObu().subscribe({
-          next: async (_) => {
+          next: async (response) => {
             this.modalDialogService.hideLoading();
-            await this.modalDialogService.info('success', '#2255CE', 'ยกเลิก OBU สำเร็จ', 'ระบบได้ทำการยกเลิก OBU ของท่านเรียบร้อยแล้ว');
-            window.location.reload();
+            console.log("response => ", response);
+            await this.modalDialogService.info('success', '#2255CE', 'ยกเลิก OBU สำเร็จ', 'ทำการสร้างคำร้องขอยกเลิก OBU ของท่านเรียบร้อยแล้ว');
+            this.step = 5;
           },
           error: async (error) => {
             let errorText;
             this.modalDialogService.hideLoading();
-            errorText = error.body.throwableMessage? error.body.throwableMessage : error.error.message;
+            console.log("error => ", error);
+            try { 
+              errorText = error.body.throwableMessage != undefined ? error.body.throwableMessage : error.body.errorMessage;
+            } catch (e) {
+              errorText = error.error.throwableMessage != undefined ? error.body.throwableMessage : error.error.errorMessage;
+            }
+            var jsonMessage = this.convertStrToJsonErrorMsg(errorText);
+            if (jsonMessage) {
+              errorText = jsonMessage.error.data.message;
+            }
             await this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorText);
             window.location.reload();
           }
         })
       };
+    } else {
+      await this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', 'ยอดเงินคงเหลือในกระเป๋าไม่เพียงพอ\n\nกรุณาเติมเงินในกระเป๋าก่อนทำการยกเลิก OBU');
+      this.loadWalletBalance();
     }
   }
   fetchCancelObu() {
 
-    const formData = new FormData();
+    const jsonData = {
+      walletId: this.walletId?.toString() || "",
+      isObuReturn: this.secondForm.get('isObu')?.value,
+      isSmartCardReturn: this.secondForm.get('isSmartCard')?.value,
+      ObuPan: this.secondForm.get('obu')?.value?.toString() || "",
+      smartCardPan: this.secondForm.get('smartCard')?.value?.toString() || "",
+      reqId: this.restApiService.generateUUID(),
+      channelId: this.restApiService.getRequestParamChannelId(),
+      isOwnerOperator: this.firstForm.get('isOwnerOperator')?.value,
+      date: formatDate(this.firstForm.get('date')?.value) || "",
+      citizenId: this.firstForm.get('citizenId')?.value || "",
+      firstNameOperator: this.firstForm.get('firstNameOperator')?.value || "",
+      lastNameOperator: this.firstForm.get('lastNameOperator')?.value || "",
+      mobilePhoneOperator: this.firstForm.get('mobilePhoneOperator')?.value || "",
+      positionPhoneOperator: this.firstForm.get('positionPhoneOperator')?.value || "",
+      isCash: this.fourthForm.get('isCash')?.value,
+      cashTime: formatDateTime(this.fourthForm.get('dateTime')?.value) || "",
+      staffName: this.user?.username || "",
+      tollPlaza: this.firstForm.get('tollPlaza')?.value || "",
+      staffId: this.user?.username || ""
+    };
 
-    formData.append('walletId', this.walletId?.toString() || "");
-    formData.append('isObuReturn', this.secondForm.get('isObu')?.value?.toString());
-    formData.append('isSmartCardReturn', this.secondForm.get('isSmartCard')?.value?.toString());
-    formData.append('ObuPan', this.secondForm.get('obu')?.value?.toString() || "");
-    formData.append('smartCardPan', this.secondForm.get('smartCard')?.value?.toString() || "");
-    formData.append('reqId', this.restApiService.generateUUID());
-    formData.append('channelId', this.restApiService.getRequestParamChannelId().toString());
-    formData.append('isOwnerOperator', this.firstForm.get('isOwnerOperator')?.value);
-    formData.append('date', formatDate(this.firstForm.get('date')?.value) || "");
-    formData.append('citizenId', this.firstForm.get('citizenId')?.value || "");
-    formData.append('firstNameOperator', this.firstForm.get('firstNameOperator')?.value || "");
-    formData.append('lastNameOperator', this.firstForm.get('lastNameOperator')?.value || "");
-    formData.append('mobilePhoneOperator', this.firstForm.get('mobilePhoneOperator')?.value || "");
-    formData.append('positionPhoneOperator', this.firstForm.get('positionPhoneOperator')?.value || "");
-    formData.append('isCash', this.fourthForm.get('isCash')?.value);
-    formData.append('cashTime', formatDateTime(this.fourthForm.get('dateTime')?.value) || "");
-    formData.append('file', this.fifthForm.get('attachment')?.value || null);
-  
-    return this.restApiService.postBackOfficeFile("faremedia/return-obu", formData) as Observable<Blob>;
+    return this.restApiService.postBackOffice("faremedia/return-obu", jsonData) as Observable<IReturnObuResponse>;
+  }
+
+  _loadTollPlaza() {
+    return this.restApiService.getBackOffice('master-data/toll-plaza') as Observable<ITollPlazaResponse>;
+  }
+  convertStrToJsonErrorMsg(message: string) {
+    return convertStrToJson(message);
+  }
+  receipt(){
+
+  }
+
+  _loadReceipt() {
+    var payload = {
+      id: "FF2409253400000632",
+    }
+    return this.restApiService.postBackOffice("transaction-history/get-transaction", payload) as Observable<any>; 
   }
 }

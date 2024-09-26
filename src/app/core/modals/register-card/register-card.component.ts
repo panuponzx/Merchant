@@ -63,6 +63,9 @@ export class RegisterCardComponent {
             case 'Faremedia is not existed':
               errorText = 'หมายเลขอุปกรณ์ ไม่มีอยู่ในระบบ';
               break;
+            case 'Wallet is not prepaid':
+              errorText = 'ใช้ได้เฉพาะกระเป๋าเงินประเภท Prepaid';
+              break;
             default:
               errorText = error.body.throwableMessage;
               break;

@@ -127,6 +127,7 @@ import { AddSpecialEarningComponent } from './pages/workspace-backoffice-managem
 import { AddRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-roadshow-earning/add-roadshow-earning.component';
 import { DiscriptionRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/discription-roadshow-earning/discription-roadshow-earning.component';
 import { ApprovalWalletComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-wallet/approval-wallet.component';
+import { ConfirmSelectionRemarkModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/confirm-selection-remark-modal/confirm-selection-remark-modal.component';
 
 @NgModule({
   declarations: [
@@ -236,6 +237,7 @@ import { ApprovalWalletComponent } from './pages/workspace-backoffice-management
     FaremediaReportType9Component,
     ConfirmCancelWithEmployeeIdComponent,
     AddCustomerRoadshowCampaignComponent,
+    ConfirmSelectionRemarkModalComponent,
     AddBasicEarningComponent,
     AddSpecialEarningComponent,
     AddRoadshowEarningComponent,
