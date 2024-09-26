@@ -24,10 +24,17 @@
             <h2 class="content-title mb-3 mb-md-0">
                 การให้คะแนนพิเศษ
             </h2>
-            <button class="custom-btn btn-fixed-size-1 btn-type-1 ml-auto" data-testid="nextButton" id="nextButton"
-                title="เพิ่ม" (click)="onAddSpecial()">
-                เพิ่ม
-            </button>
+            <div class="d-flex gap-3">
+                <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="key"
+                    data-testid="campaignEventsSelect" id="campaignEventsSelect" placeholder="กรุณาระบุ"
+                    [(ngModel)]="campaignEventValue" [loading]="isCampaignEventsLoading" [items]="campaignEventsList"
+                    (ngModelChange)="onChangeCampaignEvent($event)">
+                </ng-select>
+                <button class="custom-btn btn-fixed-size-1 btn-type-1 ml-auto" data-testid="nextButton" id="nextButton"
+                    title="เพิ่ม" (click)="onAddSpecial()">
+                    เพิ่ม
+                </button>
+            </div>
         </div>
         <datatable [columns]="specialColumns" [collectionSize]="specialCollectionSize" [id]="'specialDatatable'"
             [isLoading]="isSpecialLoading" [pageSize]="specialLimit" [page]="specialPages" [rows]="specialList"

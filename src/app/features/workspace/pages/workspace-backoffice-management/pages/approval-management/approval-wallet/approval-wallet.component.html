@@ -1,0 +1,7 @@
+<ng-container>
+    <div class="datatable-container">
+        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
+            [pageSize]="limitRow" [page]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
+    </div>
+</ng-container>

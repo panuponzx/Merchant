@@ -10,15 +10,6 @@ import { RejectPendingRequestModalComponent } from '../../modals/reject-pending-
 import { AddressTypeEnum } from 'src/app/core/enum/address.enum';
 import prefixData from 'src/assets/data/prefix.json';
 import { PendingRequestStatus } from 'src/app/core/types/onboarding-status';
-
-export const PendingRequestEventType = {
-  addJuristic: 1,
-}
-
-export interface IPendingRequest {
-  type: number,
-  status: PendingRequestStatus,
-}
 @Component({
   selector: 'approval-management-approval',
   templateUrl: './approval-management-approval.component.html',
@@ -57,11 +48,6 @@ export class ApprovalManagementApprovalComponent {
 
   public minDate: Date = new Date();
 
-  public pendingRequest: IPendingRequest = {
-    type: 0,
-    status: 'PENDING'
-  };
-
   public branchList: any[] = [
     {
       label: 'สาขาใหญ่',
@@ -75,14 +61,10 @@ export class ApprovalManagementApprovalComponent {
 
   public prefixList: IPrefixModel[] = prefixData;
   prefixList$: Observable<IPrefixModel[]> = of([]);
-
-  @Input() set setPendingStatus(data: IPendingRequest) {
-    console.log("[setPendingStatus] event => ", data);
-    this.pendingRequest = {
-      type: data.type,
-      status: data.status,
-    };
-    this.loadPendingRequest(data.status, 1);
+  public status: PendingRequestStatus = 'APPROVED';
+  @Input() set setPendingStatus(status: PendingRequestStatus) {
+    this.status = status;
+    this.loadPendingRequest(status, 1);
   };
 
   @Output() hiddenFillterMenu: EventEmitter<boolean> = new EventEmitter<boolean>(false);
@@ -189,7 +171,7 @@ export class ApprovalManagementApprovalComponent {
   onChangePage(event: number) {
     this.pages = event;
     // console.log("[onChangePage] event => ", event);
-    this.loadPendingRequest(this.pendingRequest.status, event);
+    this.loadPendingRequest(this.status, event);
   }
 
   onChangeBranch(event: any) {
@@ -295,7 +277,7 @@ export class ApprovalManagementApprovalComponent {
         this.modalDialogService.hideLoading();
         if (res.errorMessage === "Success") {
           this.modalDialogService.info('success', '#32993C', 'ทำรายการสำเร็จ', 'การอนุมัติสำเร็จ').then((res: boolean) => {
-            if (res) this.loadPendingRequest(this.pendingRequest.status, 1);
+            if (res) this.loadPendingRequest(this.status, 1);
             this.onBack();
           })
         }
@@ -318,7 +300,7 @@ export class ApprovalManagementApprovalComponent {
     modalRef.result.then(
       (result) => {
         if (result) {
-          this.loadPendingRequest(this.pendingRequest.status, 1);
+          this.loadPendingRequest(this.status, 1);
           this.onBack();
         }
       }

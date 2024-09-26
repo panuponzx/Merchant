@@ -1,57 +1,50 @@
 <div class="content-container container-xl p-0">
-    <div class="content-container-header">
-        <div class="content-container-header-item">
-            <h1 *ngIf="!isHiddenFillter" class="content-title">การอนุมัติ</h1>
-            <h1 *ngIf="isHiddenFillter" class="content-title">รายละเอียดการอนุมัติการสร้างผู้ใช้</h1>
-        </div>
+  <div class="content-container-header">
+    <div class="content-container-header-item">
+      <h1 *ngIf="!isHiddenFillter" class="content-title">การอนุมัติ</h1>
+      <h1 *ngIf="isHiddenFillter" class="content-title">รายละเอียดการอนุมัติการสร้างผู้ใช้</h1>
     </div>
-    <hr class="hr-custom" />
-    <div class="content-container-body" [style.padding-top]="!isHiddenFillter ? '1.5rem' : '0'">
-      <div *ngIf="!isHiddenFillter" class="col-4 mb-3">
-        <label class="label-input" for="approvalSelect">
-            การอนุมัติ
-        </label>
-        <ng-select 
-            class="form-control"
-            [clearable]="false" 
-            bindLabel="label"
-            bindValue="id"
-            id="approvalSelect"
-            data-testid="approvalSelect" 
-            [(ngModel)]="approval"
-            [items]="approvalList">
-        </ng-select>
+  </div>
+  <hr class="hr-custom" />
+  <div class="content-container-body" [style.padding-top]="!isHiddenFillter ? '1.5rem' : '0'">
+    <div *ngIf="!isHiddenFillter" class="col-4 mb-3">
+      <label class="label-input" for="approvalSelect">
+        การอนุมัติ
+      </label>
+      <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id" id="approvalSelect"
+        data-testid="approvalSelect" [(ngModel)]="approvalType" [items]="approvalList" (ngModelChange)="onChangeApprovalType($event)">
+      </ng-select>
     </div>
     <div class="navs-container">
       <div class="d-flex" [style.display]="!isHiddenFillter ? 'flex' : 'none !important'">
-        <ul
-          ngbNav
-          #nav="ngbNav"
-          [(activeId)]="activeTab"
-          (navChange)="onChangeNav($event)"
-          class="nav-tabs nav-tabs-header"
-        >
+        <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onChangeNav($event)"
+          class="nav-tabs nav-tabs-header">
           <li [ngbNavItem]="'waiting-for-approval'">
             <button ngbNavLink>รอการอนุมัติ</button>
             <ng-template ngbNavContent>
-              <approval-management-approval [setPendingStatus]="{type: approval, status: 'WAITING'}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
+              <approval-management-approval *ngIf="approvalType === 'customer'" [setPendingStatus]="'WAITING'"
+                (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
+              <approval-wallet *ngIf="approvalType === 'wallet'"></approval-wallet>
             </ng-template>
           </li>
           <li [ngbNavItem]="'approval'">
             <button ngbNavLink>อนุมัติ</button>
             <ng-template ngbNavContent>
-              <approval-management-approval [setPendingStatus]="{type: approval, status: 'APPROVED'}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
+              <approval-management-approval [setPendingStatus]="'APPROVED'"
+                (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
             </ng-template>
           </li>
           <li [ngbNavItem]="'reject'">
             <button ngbNavLink>ปฏิเสธ</button>
             <ng-template ngbNavContent>
-              <approval-management-approval [setPendingStatus]="{type: approval, status: 'REJECTED'}" (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
+              <approval-management-approval [setPendingStatus]="'REJECTED'"
+                (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></approval-management-approval>
             </ng-template>
           </li>
         </ul>
       </div>
-        <div [ngbNavOutlet]="nav" class="navs-content-container" [style.padding-top]="!isHiddenFillter ? '2rem' : '0'"></div>
+      <div [ngbNavOutlet]="nav" class="navs-content-container" [style.padding-top]="!isHiddenFillter ? '2rem' : '0'">
       </div>
     </div>
+  </div>
 </div>

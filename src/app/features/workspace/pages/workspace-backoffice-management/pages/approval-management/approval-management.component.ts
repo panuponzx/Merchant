@@ -13,15 +13,15 @@ export class ApprovalManagementComponent {
   public approvalList = [
     {
       label: 'การสร้างผู้ใช้',
-      id: 1
+      id: 'customer'
     },
     {
       label: 'การสร้างกระเป๋า',
-      id: 2
+      id: 'wallet'
     }
   ];
 
-  public approval: number = 1;
+  public approvalType: string = 'customer';
 
   public activeTab: 'waiting-for-approval' | 'approval' | 'reject' | string | null;
   public pendingStatus: number = 0;
@@ -41,7 +41,15 @@ export class ApprovalManagementComponent {
     private activatedRoute: ActivatedRoute
   ) {
     this.activeTab = this.activatedRoute.snapshot.paramMap.get('tab');
+    // this.onChangeApprovalType(this.approvalType);
     this.setPendingStatus(this.activeTab);
+  }
+
+  onChangeApprovalType(event: string) {
+    console.log("[onChangeApprovalType] event => ", event);
+    this.approvalType = event;
+    const url = `work-space/approval-management/${this.activeTab}`;
+    this.router.navigate([url], { replaceUrl: true });
   }
 
   setPendingStatus(tab: string | null) {

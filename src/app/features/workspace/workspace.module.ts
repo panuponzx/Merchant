@@ -126,6 +126,7 @@ import { AddBasicEarningComponent } from './pages/workspace-backoffice-managemen
 import { AddSpecialEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-special-earning/add-special-earning.component';
 import { AddRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-roadshow-earning/add-roadshow-earning.component';
 import { DiscriptionRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/discription-roadshow-earning/discription-roadshow-earning.component';
+import { ApprovalWalletComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-wallet/approval-wallet.component';
 
 @NgModule({
   declarations: [
@@ -238,7 +239,8 @@ import { DiscriptionRoadshowEarningComponent } from './pages/workspace-backoffic
     AddBasicEarningComponent,
     AddSpecialEarningComponent,
     AddRoadshowEarningComponent,
-    DiscriptionRoadshowEarningComponent
+    DiscriptionRoadshowEarningComponent,
+    ApprovalWalletComponent,
   ],
   imports: [
     CommonModule,
@@ -269,7 +271,8 @@ import { DiscriptionRoadshowEarningComponent } from './pages/workspace-backoffic
     DeviceListComponent,
     AddressComponent,
     DatatableComponent,
-    TopupInformationComponent
+    TopupInformationComponent,
+    ApprovalWalletComponent
   ],
   providers: [provideNgxMask()]
 })

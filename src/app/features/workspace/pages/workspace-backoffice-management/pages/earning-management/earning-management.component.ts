@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CustomColumnModel, RowActionEventModel, ICampaignRoadShowAllResponse, IElementCampaignRoadShowAllResponse, ITopupAndTollAddBaseActiveResponse } from '../../../../../../core/interfaces';
+import { CustomColumnModel, RowActionEventModel, ICampaignRoadShowAllResponse, IElementCampaignRoadShowAllResponse, ITopupAndTollAddBaseActiveResponse, IMasterDataResponse } from '../../../../../../core/interfaces';
 import { RestApiService } from '../../../../../../core/services';
 import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
 import { forkJoin } from 'rxjs';
@@ -26,6 +26,10 @@ export class EarningManagementComponent implements OnInit {
   isBaseLoading: boolean = false;
   baseLimit: number = 5;
   basePages: number = 1;
+
+  public campaignEventValue: string | undefined = undefined;
+  public isCampaignEventsLoading: boolean = false;
+  public campaignEventsList: IMasterDataResponse[] = [];
 
   public specialList: IElementCampaignRoadShowAllResponse[] = [];
   public specialColumns: CustomColumnModel[] = [
@@ -72,8 +76,9 @@ export class EarningManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCampaignEvents();
     this.getCampaignTollAndTopupBaseActive();
-    this.getCampaignSpecialAll();
+    // this.getCampaignSpecialAll();
     this.getCampaignRoadShowAll();
     // this.onAddEarnByCustomerId();
   }
@@ -99,7 +104,10 @@ export class EarningManagementComponent implements OnInit {
 
   onActionSpecial(event: RowActionEventModel) {
     console.log("[onActionSpecial] event => ", event);
-    this.router.navigate([`work-space/manage-earning/special/edit/toll/${event.row.id}`]);
+    if (this.campaignEventValue) {
+      const campaignEventType: string = this.campaignEventValue.toLowerCase();
+      this.router.navigate([`work-space/manage-earning/special/edit/${campaignEventType}/${event.row.id}`]);
+    }
   }
 
   onChangePagesSpecial(page: number) {
@@ -115,6 +123,24 @@ export class EarningManagementComponent implements OnInit {
   onChangePagesRoadShow(page: number) {
     this.roadShowPages = page;
     this.getCampaignRoadShowAll();
+  }
+
+  getCampaignEvents() {
+    this.isCampaignEventsLoading = true;
+    this.restApiService.getBackOfficeWithModel<IMasterDataResponse[]>(`master-data/campaign-events`).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.campaignEventsList = res.data.filter(res => res.key != 'ROAD_SHOW');
+          this.campaignEventValue = res.data[0].key;
+          this.getCampaignSpecialAll();
+        }
+        this.isCampaignEventsLoading = false;
+      },
+      error: (error) => {
+        this.isCampaignEventsLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
   }
 
   getCampaignTollAndTopupBaseActive() {
@@ -145,9 +171,122 @@ export class EarningManagementComponent implements OnInit {
     })
   }
 
+  onChangeCampaignEvent(event: string) {
+    console.log("[onChangeCampaignEvent] event => ", event);
+    this.getCampaignSpecialAll();
+  }
+
   getCampaignSpecialAll() {
+    switch (this.campaignEventValue) {
+      case 'TOLL':
+        this.getCampaignSpecialToll();
+        break;
+      case 'SALE':
+        this.getCampaignSpecialSale();
+        break;
+      case 'TOP_UP':
+        this.getCampaignSpecialTopup();
+        break;
+      case 'OPEN_AOI':
+        this.getCampaignSpecialAoi();
+        break;
+      case 'OPEN_CCH_APP':
+        this.getCampaignSpecialCch();
+        break;
+      case 'UPDATE_INFO':
+        this.getCampaignSpecialUpdateInfo();
+        break;
+    }
+  }
+
+  getCampaignSpecialToll() {
     this.isSpecialLoading = true;
     this.restApiService.getBackOfficeWithModel<any>(`campaign/toll/all?limit=${this.specialLimit}&offset=${(this.specialPages * this.specialLimit) - this.specialLimit}`).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.specialList = res.data.elements;
+          this.specialCollectionSize = res.data.totalElements;
+        }
+        this.isSpecialLoading = false;
+      },
+      error: (error) => {
+        this.isSpecialLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  getCampaignSpecialSale() {
+    this.isSpecialLoading = true;
+    this.restApiService.getBackOfficeWithModel<any>(`campaign/sale/all?limit=${this.specialLimit}&offset=${(this.specialPages * this.specialLimit) - this.specialLimit}`).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.specialList = res.data.elements;
+          this.specialCollectionSize = res.data.totalElements;
+        }
+        this.isSpecialLoading = false;
+      },
+      error: (error) => {
+        this.isSpecialLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  getCampaignSpecialTopup() {
+    this.isSpecialLoading = true;
+    this.restApiService.getBackOfficeWithModel<any>(`campaign/topup/all?limit=${this.specialLimit}&offset=${(this.specialPages * this.specialLimit) - this.specialLimit}`).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.specialList = res.data.elements;
+          this.specialCollectionSize = res.data.totalElements;
+        }
+        this.isSpecialLoading = false;
+      },
+      error: (error) => {
+        this.isSpecialLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  getCampaignSpecialAoi() {
+    this.isSpecialLoading = true;
+    this.restApiService.getBackOfficeWithModel<any>(`campaign/opening/aoi/all?limit=${this.specialLimit}&offset=${(this.specialPages * this.specialLimit) - this.specialLimit}`).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.specialList = res.data.elements;
+          this.specialCollectionSize = res.data.totalElements;
+        }
+        this.isSpecialLoading = false;
+      },
+      error: (error) => {
+        this.isSpecialLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  getCampaignSpecialCch() {
+    this.isSpecialLoading = true;
+    this.restApiService.getBackOfficeWithModel<any>(`campaign/opening/cch/all?limit=${this.specialLimit}&offset=${(this.specialPages * this.specialLimit) - this.specialLimit}`).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.specialList = res.data.elements;
+          this.specialCollectionSize = res.data.totalElements;
+        }
+        this.isSpecialLoading = false;
+      },
+      error: (error) => {
+        this.isSpecialLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  getCampaignSpecialUpdateInfo() {
+    this.isSpecialLoading = true;
+    this.restApiService.getBackOfficeWithModel<any>(`campaign/update-info/all?limit=${this.specialLimit}&offset=${(this.specialPages * this.specialLimit) - this.specialLimit}`).subscribe({
       next: (res) => {
         if (res.errorMessage === "Success") {
           this.specialList = res.data.elements;

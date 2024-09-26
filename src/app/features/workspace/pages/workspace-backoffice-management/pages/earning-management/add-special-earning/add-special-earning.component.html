@@ -8,7 +8,7 @@
 </button>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <h3 class="content-title mb-3">
-        รายละเอียดคะแนน
+        รายละเอียด
     </h3>
     <div class="row">
         <div class="col-sm-12 col-md-6 mb-3">
@@ -22,7 +22,7 @@
                 </ng-select>
             </div>
         </div>
-        <div class="col-sm-12 col-md-6 mb-3">
+        <div class="col-sm-12 col-md-6 mb-3" *ngIf="form.get('campaignEvent')?.value">
             <div class="col-12">
                 <label class="label-input required-field" for="campaignNameInput">
                     ชื่อกิจกรรม
@@ -32,10 +32,11 @@
             </div>
         </div>
     </div>
-    <h3 class="content-title mb-3">
+    <h3 class="content-title mb-3" *ngIf="form.get('campaignEvent')?.value">
         รายละเอียดคะแนน
     </h3>
-    <div class="row">
+    <div class="row"
+        *ngIf="form.get('campaignEvent')?.value && isVisibilityForm(['TOLL', 'SALE', 'UPDATE_INFO', 'TOP_UP', 'OPEN_AOI', 'OPEN_CCH_APP'])">
         <div class="col-12 col-lg-6 mb-3">
             <div class="col-12 mb-3">
                 <label class="label-input mb-2 required-field">ตัวแปรการคำนวนคะแนน</label>
@@ -60,11 +61,11 @@
             <span class="label-input">กรุณาระบุ ตัวแปรการคำนวนคะแนน และ ตัวเลขการคำนวนคะแนน</span>
         </h3>
     </div>
-    <h3 class="content-title mb-3">
+    <h3 class="content-title mb-3" *ngIf="form.get('campaignEvent')?.value">
         ประเภทที่ร่วมรายการ
     </h3>
-    <div class="row">
-        <div class="col-12 col-lg-6 mb-3">
+    <div class="row" *ngIf="form.get('campaignEvent')?.value">
+        <div class="col-12 col-lg-6 mb-3" *ngIf="isVisibilityForm(['TOLL'])">
             <div class="col-12 mb-3">
                 <label class="label-input mb-2 required-field" for="selectisCarType">ประเภทรถ</label>
                 <ng-select class="form-control mb-2" [items]="carTypeList" [multiple]="true" bindLabel="name"
@@ -96,9 +97,9 @@
                     ประเภทผู้ใช้
                 </label>
                 <ng-select class="form-control mb-2" [items]="customerGroupList" [multiple]="true" bindLabel="name"
-                    bindValue="key" id="customerGroupsSelect" data-testid="customerGroupsSelect"
-                    placeholder="กรุณาระบุ" [closeOnSelect]="false" [searchable]="false"
-                    formControlName="customerGroups" [loading]="isCustomerGropLoading">
+                    bindValue="key" id="customerGroupsSelect" data-testid="customerGroupsSelect" placeholder="กรุณาระบุ"
+                    [closeOnSelect]="false" [searchable]="false" formControlName="customerGroups"
+                    [loading]="isCustomerGropLoading">
                     <ng-template ng-header-tmp>
                         <div style="margin: 3px 3px;">
                             <input (click)="selectAll('customerGroups')"
@@ -135,10 +136,10 @@
             </div>
         </div>
     </div>
-    <h3 class="content-title mb-3">
+    <h3 class="content-title mb-3" *ngIf="form.get('campaignEvent')?.value && isVisibilityForm(['TOLL'])">
         รายละเอียดการจำกัด
     </h3>
-    <div class="row">
+    <div class="row" *ngIf="form.get('campaignEvent')?.value && isVisibilityForm(['TOLL'])">
         <div class="col-12 col-lg-6 mb-3">
             <div class="col-12 mb-3">
                 <label class="label-input mb-2 required-field" for="routeSelect">สายทาง</label>
@@ -173,7 +174,7 @@
         <div class="col-12 col-lg-6 mb-3">
             <div class="col-12 mb-3">
                 <label class="label-input mb-2 required-field" for="tollStationsSelect">
-                    อาคารด่าน
+                    อาคารด่าน(ที่เก็บเงินได้)
                 </label>
                 <ng-select class="form-control mb-2" [items]="tollStationList" [multiple]="true" bindLabel="name"
                     bindValue="key" groupBy="children" id="tollStationsSelect" data-testid="tollStationsSelect"
@@ -210,10 +211,10 @@
             </div>
         </div>
     </div>
-    <h3 class="content-title mb-3">
+    <h3 class="content-title mb-3" *ngIf="form.get('campaignEvent')?.value">
         ตั้งเวลาแคมเปญ
     </h3>
-    <div class="row">
+    <div class="row" *ngIf="form.get('campaignEvent')?.value">
         <div class="col-12 col-lg-6 mb-3">
             <div class="col-12 mb-3">
                 <label class="label-input required-field" for="fromDatePicker">
@@ -255,7 +256,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-6 mb-3">
+        <div class="col-12 col-lg-6 mb-3" *ngIf="isVisibilityForm(['TOLL'])">
             <label class="label-input mb-2 required-field" for="daysOfWeekSelect">วันที่ร่วมแคมเปญ</label>
             <ng-select class="form-control mb-2" [items]="dayOfWeekList" [loading]="isDayOfWeekLoading"
                 [multiple]="true" bindLabel="name" bindValue="key" id="selectRoute" data-testid="daysOfWeekSelect"
@@ -280,10 +281,10 @@
             </ng-select>
         </div>
     </div>
-    <h3 class="content-title mb-3">
+    <h3 class="content-title mb-3" *ngIf="form.get('campaignEvent')?.value">
         การเผยแพร่ และ ทำแบบร่าง
     </h3>
-    <div class="row">
+    <div class="row" *ngIf="form.get('campaignEvent')?.value">
         <div class="col-12 mb-3">
             <div class="form-check mb-4">
                 <input class="form-check-input" data-testid="draftRadio" id="draftRadio" formControlName="publishing"
@@ -301,15 +302,16 @@
             </div>
         </div>
     </div>
-    <hr class="hr-custom mb-3" />
-    <div class="footer d-flex justify-content-center gap-3">
+    <hr class="hr-custom mb-3" *ngIf="form.get('campaignEvent')?.value" />
+    <div class="footer d-flex justify-content-center gap-3" *ngIf="form.get('campaignEvent')?.value">
         <button class="custom-btn btn-fixed-size-1 btn-type-3" type="button" (click)="onBack()"
             data-testid="cancelButton" id="cancelButton" title="ยกเลิก">
             ยกเลิก
         </button>
-        <button *ngIf="!this.campaignEvent && !this.id" class="custom-btn btn-fixed-size-1 btn-type-1" type="submit" data-testid="submitButton"
+        <button class="custom-btn btn-fixed-size-1 btn-type-1" type="submit" data-testid="submitButton"
             id="submitButton" title="บันทึก" [disabled]="form.invalid">
-            บันทึก
+            <span *ngIf="!this.campaignEvent && !this.id">บันทึก</span>
+            <span *ngIf="this.campaignEvent && this.id">แก้ไข</span>
         </button>
         <!-- <button class="custom-btn btn-fixed-size-1 btn-type-1" type="button"
             (click)="onEdit()" data-testid="editButton" id="editButton" title="แก้ไข"

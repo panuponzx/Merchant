@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IAllTollStationsResponse, ICampaignTollResponse, IMasterDataChildrenResponse, IMasterDataResponse, ITopupAndTollAddBaseActiveResponse, ITopupAndTollAddBaseRequest, ITopupAndTollAddRequest, RowActionEventModel } from 'src/app/core/interfaces';
+import { ICampaignTollResponse, IMasterDataChildrenResponse, IMasterDataResponse, ITollAddRequest, ITopUpAddRequest, ITopupAndTollAddBaseActiveResponse, ITopupAndTollAddBaseRequest, RowActionEventModel } from 'src/app/core/interfaces';
 import { TransformDatePipe } from 'src/app/core/pipes';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
@@ -47,76 +47,83 @@ export class AddSpecialEarningComponent {
     private activatedRoute: ActivatedRoute,
     private transformDatePipe: TransformDatePipe
   ) {
+    // TOLL
+    // SALE
+    // TOP_UP
+    // ROAD_SHOW
+    // OPEN_AOI
+    // OPEN_CCH_APP
+    // UPDATE_INFO
     this.form = this.formBuilder.group({
       id: new FormControl(undefined),
       campaignEvent: new FormControl(undefined, Validators.required), //ALL
       campaignName: new FormControl(undefined, Validators.required), //ALL
-      operation: new FormControl(undefined, Validators.required), //TOLL, UPDATE_INFO, TOP_UP, OPEN_AOI, OPEN_CCH_APP, UPDATE_INFO
-      calculateValue: new FormControl(undefined, Validators.required), //TOLL, UPDATE_INFO, TOP_UP, OPEN_AOI, OPEN_CCH_APP, UPDATE_INFO
-      takePoint: new FormControl(undefined), //ROAD_SHOW,
-      carTypes: new FormControl(undefined, Validators.required), //TOLL
-      isAllCarTypes: new FormControl(undefined), //TOLL
+      operation: new FormControl(undefined, Validators.required), //TOLL, SALE, UPDATE_INFO, TOP_UP, OPEN_AOI, OPEN_CCH_APP
+      calculateValue: new FormControl(undefined, Validators.required), //TOLL, SALE, UPDATE_INFO, TOP_UP, OPEN_AOI, OPEN_CCH_APP
+      // takePoint: new FormControl(undefined), //ROAD_SHOW,
+      carTypes: new FormControl(undefined), //TOLL
+      isAllCarTypes: new FormControl(false), //TOLL
       customerGroups: new FormControl(undefined, Validators.required), //ALL
-      isAllCustomerGroups: new FormControl(undefined), //ALL
-      route: new FormControl(undefined, Validators.required), //TOLL
+      isAllCustomerGroups: new FormControl(false), //ALL
+      route: new FormControl(undefined), //TOLL
       tollStations: new FormControl({ value: undefined, disabled: true }, Validators.required), //TOLL
-      isAllTollStation: new FormControl(undefined), //TOLL
+      isAllTollStation: new FormControl(false), //TOLL
       fromDate: new FormControl(undefined, Validators.required), //ALL
       toDate: new FormControl(undefined, Validators.required), //ALL
       fromPeriod: new FormControl(undefined, Validators.required), //ALL
       toPeriod: new FormControl(undefined, Validators.required), //ALL
       daysOfWeek: new FormControl(undefined, Validators.required), //TOLL
-      isAllDaysOfWeek: new FormControl(undefined), //TOLL
+      isAllDaysOfWeek: new FormControl(false), //TOLL
       publishing: new FormControl(undefined, Validators.required), //ALL
     });
     this.campaignEvent = this.activatedRoute.snapshot.paramMap.get('campaign-event');
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.form.get('campaignEvent')?.valueChanges.subscribe((value) => {
+      this.updateValidators(value);
+    });
   }
 
   ngOnInit(): void {
     this.getCampaignEvents();
     this.getCampaignCalOperation();
+
+
     this.getCarTypes();
     this.getCustomerCategories();
     // this.getAllTollStations();
     this.getTollStation();
     this.getDayOfWeek();
     // this.getCampaignAll();
-    if (this.campaignEvent && this.id) {
-      this.getCampaignSpecialById();
-    }
   }
 
-  demoSetFormData(): void {
-    const tollStations = [
-      "30712",
-      "20802",
-      "20801"
+  updateValidators(campaignEvent: string) {
+    console.log("[updateValidators] campaignEvent => ", campaignEvent);
+    const controlsToUpdate = [
+      //ประเภทที่ร่วมรายการ
+      { controlName: 'carTypes', requiredFor: ['TOLL'] },
+      { controlName: 'isAllCarTypes', requiredFor: ['TOLL'] },
+      //รายละเอียดการจำกัด
+      { controlName: 'route', requiredFor: ['TOLL'] },
+      { controlName: 'tollStations', requiredFor: ['TOLL'] },
+      { controlName: 'isAllTollStation', requiredFor: ['TOLL'] },
+      //ตั้งเวลาแคมเปญ
+      { controlName: 'daysOfWeek', requiredFor: ['TOLL'] },
+      { controlName: 'isAllDaysOfWeek', requiredFor: ['TOLL'] },
     ];
-
-    const keys = this.tempTollStationList.reduce<string[]>((acc, item) => {
-      const foundChildren = item.children.filter(child => tollStations.includes(child.key));
-
-      if (foundChildren.length > 0 && !acc.includes(item.key)) {
-        acc.push(item.key); // Add the parent key if any children match
+    controlsToUpdate.forEach(({ controlName, requiredFor }) => {
+      const control = this.form.get(controlName);
+      if (requiredFor.includes(campaignEvent)) {
+        control?.setValidators(Validators.required);
+      } else {
+        control?.clearValidators();
       }
+      control?.updateValueAndValidity();
+    });
+  }
 
-      return acc;
-    }, []);
-    console.log(keys);
-
-
-    // let data: IMasterDataChildrenResponse[] = [];
-    // this.tempTollStationList.forEach(item => {
-    //   const filterChildren = item.children.filter(child =>  route.includes(child.key));
-    //   if(filterChildren && filterChildren.length > 0) {
-    //     data.push(item);
-    //   }      
-    // });
-    // this.tollStationList = data;
-
-    this.form.get('route')?.setValue(keys);
-    this.form.get('tollStations')?.setValue(tollStations);
+  isVisibilityForm(campaignEventsName: string[]): boolean {
+    const campaignEvent: string = this.form.get("campaignEvent")?.value;
+    return campaignEventsName.includes(campaignEvent);
   }
 
   getCampaignEvents() {
@@ -124,7 +131,7 @@ export class AddSpecialEarningComponent {
     this.restApiService.getBackOfficeWithModel<IMasterDataResponse[]>(`master-data/campaign-events`).subscribe({
       next: (res) => {
         if (res.errorMessage === "Success") {
-          this.campaignEventsList = res.data;
+          this.campaignEventsList = res.data.filter(res => res.key != 'ROAD_SHOW');
         }
         this.isCampaignEventsLoading = false;
       },
@@ -190,7 +197,9 @@ export class AddSpecialEarningComponent {
         if (res.errorMessage === "Success") {
           this.tollStationList = res.data;
           this.tempTollStationList = res.data;
-          // this.demoSetFormData();
+          if (this.campaignEvent && this.id) {
+            this.getCampaignSpecialById();
+          }
         }
         this.isTollStation = false;
       },
@@ -274,16 +283,19 @@ export class AddSpecialEarningComponent {
             this.form.get('isAllCarTypes')?.setValue(res.data.isAllCarTypes);
             this.form.get('customerGroups')?.setValue(res.data.customerGroups);
             this.form.get('isAllCustomerGroups')?.setValue(res.data.isAllCustomerGroups);
-            const route = this.tempTollStationList.reduce<string[]>((acc, item) => {
-              const foundChildren = item.children.filter(child => res.data.tollStations.includes(child.key));
-              if (foundChildren.length > 0 && !acc.includes(item.key)) {
-                acc.push(item.key);
-              }
-              return acc;
-            }, []);
-            console.log(route);
-            
-            this.form.get('route')?.setValue(route);
+            if (res.data.tollStations && res.data.tollStations.length > 0) {
+              console.log("[getCampaignSpecialById] tempTollStationList => ", this.tempTollStationList);
+              console.log("[getCampaignSpecialById] tollStations => ", res.data.tollStations);
+              const route = this.tempTollStationList.reduce<string[]>((acc, item) => {
+                const foundChildren = item.children.filter(child => res.data.tollStations.includes(child.key));
+                if (foundChildren.length > 0 && !acc.includes(item.key)) {
+                  acc.push(item.key);
+                }
+                return acc;
+              }, []);
+              this.form.get('route')?.setValue(route);
+              this.form.get('tollStations')?.enable();
+            }
             this.form.get('tollStations')?.setValue(res.data.tollStations);
             this.form.get('isAllTollStation')?.setValue(res.data.isAllTollStation);
             this.form.get('fromDate')?.setValue(new Date(res.data.fromDate));
@@ -310,15 +322,19 @@ export class AddSpecialEarningComponent {
       case 'carTypes':
         if (this.getStatusSelectAll(formControlName)) {
           this.form.get('carTypes')?.setValue(undefined);
+          this.form.get('isAllCarTypes')?.setValue(false);
         } else {
           this.form.get('carTypes')?.setValue(this.carTypeList.map(x => x.key));
+          this.form.get('isAllCarTypes')?.setValue(true);
         }
         break;
       case 'customerGroups':
         if (this.getStatusSelectAll(formControlName)) {
           this.form.get('customerGroups')?.setValue(undefined);
+          this.form.get('isAllCustomerGroups')?.setValue(false);
         } else {
           this.form.get('customerGroups')?.setValue(this.customerGroupList.map(x => x.key));
+          this.form.get('isAllCustomerGroups')?.setValue(true);
         }
         break;
       case 'route':
@@ -331,8 +347,10 @@ export class AddSpecialEarningComponent {
       case 'daysOfWeek':
         if (this.getStatusSelectAll(formControlName)) {
           this.form.get('daysOfWeek')?.setValue(undefined);
+          this.form.get('isAllDaysOfWeek')?.setValue(false);
         } else {
           this.form.get('daysOfWeek')?.setValue(this.dayOfWeekList.map(x => x.key));
+          this.form.get('isAllDaysOfWeek')?.setValue(true);
         }
         break;
     }
@@ -397,13 +415,36 @@ export class AddSpecialEarningComponent {
 
   onSubmit() {
     console.log("[onSubmit] form => ", this.form.value);
+    switch (this.form.get('campaignEvent')?.value) {
+      case 'TOLL':
+        this.postAddToll();
+        break;
+      case 'SALE':
+        this.postAddToll();
+        break;
+      case 'TOP_UP':
+        this.postAddTopUp();
+        break;
+    }
+    // this.postAddToll(payload);
+    // if (this.form.get('campaignEvent')?.value === 'TOLL') {
+    //   console.log("[TOLL]");
+    //   this.postAddBase(payload, 'toll');
+    // } else if (this.form.get('campaignEvent')?.value === 'TOP_UP') {
+    //   console.log("[TOP_UP]");
+    //   this.postAddBase(payload, 'topup');
+    // }
+  }
+
+  postAddToll() {
+    this.modalDialogService.loading();
     const fromDate = new Date(this.form.get('fromDate')?.value);
     fromDate.setHours(0, 0, 0, 0);
     const fromDateNewFormat: string = String(this.transformDatePipe.transform(fromDate, 'YYYY-MM-DD HH:mm'));
     const toDate = new Date(this.form.get('toDate')?.value);
     toDate.setHours(0, 0, 0, 0);
     const toDateNewFormat: string = String(this.transformDatePipe.transform(fromDate, 'YYYY-MM-DD HH:mm'));
-    const payload: ITopupAndTollAddRequest = {
+    const payload: ITollAddRequest = {
       campaignEvent: this.form.get('campaignEvent')?.value,
       campaignName: this.form.get('campaignName')?.value,
       fromDate: fromDateNewFormat,
@@ -418,28 +459,52 @@ export class AddSpecialEarningComponent {
       isAllCustomerGroups: false,
 
       carTypes: this.form.get('carTypes')?.value,
-      isAllCarTypes: false,
+      isAllCarTypes: this.form.get('isAllCarTypes')?.value,
       tollStations: this.form.get('tollStations')?.value,
       // isAllTollStation: this.form.get('isAllTollStation')?.value,
       isAllTollStation: false,
       daysOfWeek: this.form.get('daysOfWeek')?.value,
       isAllDaysOfWeek: false,
     }
-    console.log("[onSubmit] payload => ", payload);
-    this.postAdd(payload);
-    // if (this.form.get('campaignEvent')?.value === 'TOLL') {
-    //   console.log("[TOLL]");
-    //   this.postAddBase(payload, 'toll');
-    // } else if (this.form.get('campaignEvent')?.value === 'TOP_UP') {
-    //   console.log("[TOP_UP]");
-    //   this.postAddBase(payload, 'topup');
-    // }
+    const url: string = this.campaignEvent && this.id ? `campaign/toll/${this.id}/edit` : `campaign/toll/add`;
+    this.restApiService.postBackOfficeWithModel<ITollAddRequest, any>(url, payload).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.form.reset();
+          this.onBack();
+        }
+        this.modalDialogService.hideLoading();
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
   }
 
-  postAdd(payload: ITopupAndTollAddRequest) {
-    console.log("[postAddBase]");
+  postAddTopUp() {
+    const fromDate = new Date(this.form.get('fromDate')?.value);
+    fromDate.setHours(0, 0, 0, 0);
+    const fromDateNewFormat: string = String(this.transformDatePipe.transform(fromDate, 'YYYY-MM-DD HH:mm'));
+    const toDate = new Date(this.form.get('toDate')?.value);
+    toDate.setHours(0, 0, 0, 0);
+    const toDateNewFormat: string = String(this.transformDatePipe.transform(fromDate, 'YYYY-MM-DD HH:mm'));
+    const payload: ITopUpAddRequest = {
+      campaignEvent: this.form.get('campaignEvent')?.value,
+      campaignName: this.form.get('campaignName')?.value,
+      fromDate: fromDateNewFormat,
+      toDate: toDateNewFormat,
+      fromPeriod: this.form.get('fromPeriod')?.value,
+      toPeriod: this.form.get('toPeriod')?.value,
+      publish: this.form.get('publishing')?.value,
+      operation: this.form.get('operation')?.value,
+      calculateValue: this.form.get('calculateValue')?.value,
+      customerGroups: this.form.get('customerGroups')?.value,
+      isAllCustomerGroups: this.form.get('isAllCustomerGroups')?.value,
+    };
     this.modalDialogService.loading();
-    this.restApiService.postBackOfficeWithModel<ITopupAndTollAddRequest, any>(`campaign/toll/add`, payload).subscribe({
+    const url: string = this.campaignEvent && this.id ? `campaign/topup/${this.id}/edit` : `campaign/topup/add`;
+    this.restApiService.postBackOfficeWithModel<ITopUpAddRequest, any>(url, payload).subscribe({
       next: (res) => {
         if (res.errorMessage === "Success") {
           this.form.reset();

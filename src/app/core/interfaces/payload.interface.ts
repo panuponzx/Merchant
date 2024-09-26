@@ -183,7 +183,7 @@ export interface ITopupAndTollAddBaseRequest {
   everyThaiBath: number
 }
 
-export interface ITopupAndTollAddRequest {
+export interface ITollAddRequest {
   campaignEvent?: string
   campaignName: string
   fromDate: string
@@ -201,6 +201,20 @@ export interface ITopupAndTollAddRequest {
   isAllTollStation: boolean
   daysOfWeek: string[]
   isAllDaysOfWeek: boolean
+}
+
+export interface ITopUpAddRequest {
+  campaignEvent?: string
+  campaignName: string
+  fromDate: string
+  toDate: string
+  fromPeriod: string
+  toPeriod: string
+  publish: boolean
+  operation: string
+  calculateValue: number
+  customerGroups: string[]
+  isAllCustomerGroups: boolean
 }
 
 export interface IAddPostpaidWalletRequest {
