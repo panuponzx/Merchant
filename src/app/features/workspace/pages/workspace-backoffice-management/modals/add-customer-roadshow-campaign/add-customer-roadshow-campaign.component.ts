@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ICustomerSearchByCidElementModel, ICustomerSearchByCidResponse, IWalletInfoModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
@@ -18,7 +19,8 @@ export class AddCustomerRoadshowCampaignComponent {
   firstForm: FormGroup;
   secondForm: FormGroup;
 
-  public walletsList: any[] = [];
+  public isWalletLoading: boolean = false;
+  public walletsList: IWalletInfoModel[] = [];
 
   constructor(
     private ngbActiveModal: NgbActiveModal,
@@ -29,11 +31,12 @@ export class AddCustomerRoadshowCampaignComponent {
     this.firstForm = this.formBuilder.group({
       citizenId: new FormControl(undefined, Validators.required),
     });
-    this.firstForm.get('citizenId')?.setValue('1459900715114');
+    // this.firstForm.get('citizenId')?.setValue('1459900715114');
     this.secondForm = this.formBuilder.group({
       citizenId: new FormControl({ value: undefined, disabled: true }, Validators.required),
-      firstName: new FormControl(undefined, Validators.required),
-      lastName: new FormControl(undefined, Validators.required),
+      firstName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      lastName: new FormControl({ value: undefined, disabled: true }, Validators.required),
+      customerId: new FormControl(undefined, Validators.required),
       walletId: new FormControl(undefined, Validators.required),
     });
   }
@@ -75,10 +78,54 @@ export class AddCustomerRoadshowCampaignComponent {
       limit: 10,
       page: 1
     }
-    this.restApiService.postBackOfficeWithModelWithRequestParam<any, any>(`customer/search-by-cid`, payload).subscribe({
+    this.restApiService.postBackOfficeWithModelWithRequestParam<any, ICustomerSearchByCidResponse>(`customer/search-by-cid`, payload).subscribe({
       next: (res) => {
         if (res.errorMessage === "Success") {
-          // this.getLoyaltyProducts();
+          const coutomer: ICustomerSearchByCidElementModel = res.data.elements[0];
+          this.secondForm.get('firstName')?.setValue(coutomer.name);
+          this.secondForm.get('lastName')?.setValue(coutomer.name);
+          this.secondForm.get('customerId')?.setValue(coutomer.customerId);
+          this.postGetWallets();
+        }
+        this.modalDialogService.hideLoading();
+      },
+      error: (error) => {
+        this.modalDialogService.hideLoading();
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  postGetWallets() {
+    this.isWalletLoading = true;
+    const payload = {
+      id: this.secondForm.get('customerId')?.value
+    }
+    this.restApiService.postBackOfficeWithModelWithRequestParam<any, IWalletInfoModel[]>(`wallet/get-wallets`, payload).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          this.walletsList = res.data.filter(res => res.typeId != 6);
+        }
+        this.isWalletLoading = false;
+      },
+      error: (error) => {
+        this.isWalletLoading = false;
+        this.modalDialogService.handleError(error);
+      },
+    })
+  }
+
+  postAddRoadShowEarn() {
+    const payload = {
+      walletId: this.secondForm.get('walletId')?.value,
+      customerId: this.secondForm.get('customerId')?.value
+    }
+    this.modalDialogService.loading();
+    this.restApiService.postBackOfficeWithModel<any, any>(`campaign/road-show/${this.id}/earn`, payload).subscribe({
+      next: (res) => {
+        if (res.errorMessage === "Success") {
+          // this.form.reset();
+          // this.onBack();
         }
         this.modalDialogService.hideLoading();
       },
@@ -91,9 +138,9 @@ export class AddCustomerRoadshowCampaignComponent {
 
   onNext() {
     if(this.step === 1) {
-      this.postSearchCustomerByCid();
       const citizenId: string = this.firstForm.get('citizenId')?.value;
       this.secondForm.get('citizenId')?.setValue(citizenId);
+      this.postSearchCustomerByCid();
     }
     this.step++;
   }

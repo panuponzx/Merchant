@@ -62,12 +62,20 @@
                             <input class="form-control" data-testid="obuPanInput" formControlName="obuPan"
                                 id="obuPanInput" type="text">
                         </div>
-                        <div class="col-12 mb-3" *ngIf="obuForm.get('fairmediaType')?.value === '2'">
+                        <div class="col-12 mb-3" *ngIf="obuForm.get('fairmediaType')?.value === '1'">
                             <label class="label-input required-field" for="smartcardNoInput">
                                 หมายเลข Smart Card
                             </label>
                             <input class="form-control" data-testid="smartcardNoInput" formControlName="smartcardNo"
                                 id="smartcardNoInput" type="text">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="label-input" for="smartcardExpiryDatePicker">
+                                วันหมดอายุ Smart Card
+                            </label>
+                            <date-picker class="datepicker-input" [clearable]="false" format="D MMMM YYYY"
+                                formControlName="smartcardExpiryDate" [id]="'smartcardExpiryDatePicker'" locale="th"
+                                [placeholder]="'วันที่ เดือน ปี'" [placement]="'bottom'"></date-picker>
                         </div>
                         <div class="row" *ngIf="obuForm.get('fairmediaType')?.value === '3'">
                             <div class="col-6 mb-3">
@@ -96,7 +104,7 @@
                                 id="smartcardNoInput" type="text">
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="label-input required-field" for="fullnameCarOwnerInput">
+                            <label class="label-input" for="fullnameCarOwnerInput">
                                 ชื่อเจ้าของรถ
                             </label>
                             <input class="form-control" data-testid="fullnameCarOwnerInput"

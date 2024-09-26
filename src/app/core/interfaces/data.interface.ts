@@ -403,6 +403,8 @@ export interface IJuristicElementModel {
   remark: any
   createdDate: string
   createdBy: string
+  statusDate: string
+  statusBy: string
   JuristicInfo: IJuristicInfoModel
   billingAddress: IJuristicBillingAddressModel
   contactPerson: IJuristicContactPersonModel

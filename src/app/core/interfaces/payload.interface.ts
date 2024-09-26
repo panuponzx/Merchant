@@ -175,3 +175,72 @@ export interface ICampaignAddRoadShowRequest {
   customerGroups: string[]
   isAllCustomerGroups: boolean
 }
+
+export interface ITopupAndTollAddBaseRequest {
+  takePoint: number
+  remark?: string
+  fromDate: string
+  everyThaiBath: number
+}
+
+export interface ITopupAndTollAddRequest {
+  campaignEvent?: string
+  campaignName: string
+  fromDate: string
+  toDate: string
+  fromPeriod: string
+  toPeriod: string
+  publish: boolean
+  operation: string
+  calculateValue: number
+  customerGroups: string[]
+  isAllCustomerGroups: boolean
+  carTypes: string[]
+  isAllCarTypes: boolean
+  tollStations: string[]
+  isAllTollStation: boolean
+  daysOfWeek: string[]
+  isAllDaysOfWeek: boolean
+}
+
+export interface IAddPostpaidWalletRequest {
+  customerId: string
+  walletTypeId: number
+  creditLimit: number
+  car: ICarModel
+  obu?: IObuModel
+  rfid?: IRfidModel
+  opt: IOptModel
+  requestParam: IRequestParamModel
+}
+
+export interface ICarModel {
+  brand: string
+  model: string
+  color: string
+  province: string
+  yearRegistration: string
+  licensePlate: string
+}
+
+export interface IObuModel {
+  obuPan: string
+  smartcardNo: string
+  smartcardExpiryDate: string
+}
+
+export interface IRfidModel {
+  no: string
+}
+
+export interface IOptModel {
+  addRfid: boolean
+  addObu: boolean
+  addSmartCard: boolean
+  addLicensePlate: boolean
+}
+
+export interface IRequestParamModel {
+  reqId: string
+  channelId: number
+}

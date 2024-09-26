@@ -1,0 +1,166 @@
+<div class="content-container-header">
+    <h1 class="content-title">เพิ่ม Road show</h1>
+</div>
+<hr class="hr-custom mb-3" />
+<button class="custom-btn btn-type-1 mb-3" data-testid="backButton" id="backButton" title="กลับ" type="button"
+    (click)="onBack()">
+    กลับ
+</button>
+<form [formGroup]="roadShowForm" (ngSubmit)="onSubmitRoadShow()">
+    <h3 class="content-title mb-3">
+        รายละเอียด
+    </h3>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="campaignNameInput">
+                    ชื่อกิจกรรม
+                </label>
+                <input class="form-control" formControlName="campaignName" id="campaignNameInput" type="text"
+                    placeholder="กรุณาระบุ">
+            </div>
+        </div>
+    </div>
+    <h3 class="content-title mb-3">
+        รายละเอียดคะแนน
+    </h3>
+    <div class="row">
+        <!-- <div class="col-12 col-lg-6">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="roadShowNameInput">
+                    ตัวแปรการคำนวนคะแนน
+                </label>
+                <ng-select class="form-control" [clearable]="false" bindLabel="label" bindValue="id"
+                    data-testid="stockLocationSelect" id="stockLocationSelect" placeholder="กรุณาระบุ"
+                    formControlName="customerGroups" [items]="[]"></ng-select>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="roadShowNameInput">
+                    ตัวเลขการคำนวนคะแนน
+                </label>
+                <input class="form-control" formControlName="customerGroups" id="roadShowNameInput" type="text"
+                    placeholder="กรุณาระบุ">
+            </div>
+        </div>
+        <p>รายละเอียดการคำนวน: <span class="label-input">กรุณาระบุ ตัวแปรการคำนวนคะแนน และ
+                ตัวเลขการคำนวนคะแนน</span></p> -->
+        <div class="col-12 col-lg-6">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="takePointInput">
+                    คะแนนที่ได้รับ
+                </label>
+                <input class="form-control" formControlName="takePoint" id="takePointInput" type="text"
+                    placeholder="กรุณาระบุ">
+            </div>
+        </div>
+    </div>
+    <h3 class="content-title mb-3">
+        ประเภทที่ร่วมรายการ
+    </h3>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="customerGroupsSelect">
+                    ระดับผู้ใช้
+                </label>
+                <ng-select class="form-control mb-2" [items]="customerGroupsList" [multiple]="true" bindLabel="name"
+                    bindValue="key" id="customerGroupsSelect" data-testid="customerGroupsSelect" placeholder="กรุณาระบุ"
+                    [closeOnSelect]="false" [searchable]="false" formControlName="customerGroups"
+                    [loading]="isCustomerGroupsLoading">
+                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <div class="ng-value">
+                            <span>เลือก ({{items.length}})</span>
+                        </div>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <input id="item-{{index}}" type="checkbox" [(ngModel)]="item$.selected"
+                            [ngModelOptions]="{ standalone : true }">
+                        {{item.name}}
+                    </ng-template>
+                </ng-select>
+                <!-- <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="key"
+                    data-testid="customerGroupsSelect" id="customerGroupsSelect" placeholder="กรุณาระบุ"
+                    formControlName="customerGroups" [loading]="iscustomerGroupsLoading"
+                    [items]="customerGroupsList"></ng-select> -->
+            </div>
+        </div>
+    </div>
+    <h3 class="content-title mb-3">
+        ตั้งเวลาแคมเปญ
+    </h3>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="fromDatePicker">
+                    เวลาเริ่มต้น
+                </label>
+                <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="fromDate"
+                    [id]="'fromDatePicker'" locale="th" [placeholder]="'กรุณาระบุ'"
+                    [placement]="'bottom'"></date-picker>
+            </div>
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="fromPeriodInput">
+                    ช่วงเวลา ที่เริ่ม
+                </label>
+                <input class="form-control" data-testid="fromPeriodInput" formControlName="fromPeriod"
+                    id="fromPeriodInput" placeholder="กรุณาระบุ" type="text" mask="00:00"
+                    [dropSpecialCharacters]="false">
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="toDatePicker">
+                    เวลาสิ้นสุด
+                </label>
+                <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="toDate"
+                    [id]="'toPeriodPicker'" locale="th" [placeholder]="'กรุณาระบุ'"
+                    [placement]="'bottom'"></date-picker>
+            </div>
+            <div class="col-12 mb-3">
+                <label class="label-input required-field" for="toPeriodInput">
+                    ช่วงเวลา สิ้นสุด
+                </label>
+                <input class="form-control" data-testid="toPeriodInput" formControlName="toPeriod" id="toPeriodInput"
+                    placeholder="กรุณาระบุ" type="text" mask="00:00" [dropSpecialCharacters]="false">
+            </div>
+        </div>
+    </div>
+    <h3 class="content-title mb-3">
+        การเผยแพร่ และ ทำแบบร่าง
+    </h3>
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="form-check mb-4">
+                <input class="form-check-input" data-testid="draftRadio" id="draftRadio" formControlName="publishing"
+                    type="radio" [value]="false">
+                <label class="form-check-label" for="draftRadio">
+                    บันทึกแบบร่าง
+                </label>
+            </div>
+            <div class="form-check mb-4">
+                <input class="form-check-input" data-testid="publishRadio" id="publishRadio"
+                    formControlName="publishing" type="radio" [value]="true">
+                <label class="form-check-label" for="publishRadio">
+                    เผยแพร่ทันที / เผยแพร่แบบอัตโนมัติเมื่อถึงเวลา
+                </label>
+            </div>
+        </div>
+    </div>
+    <hr class="hr-custom mb-3" />
+    <div class="footer d-flex justify-content-center gap-3">
+        <button class="custom-btn btn-fixed-size-1 btn-type-3" type="button" (click)="onBack()"
+            data-testid="cancelButton" id="cancelButton" title="ยกเลิก">
+            ยกเลิก
+        </button>
+        <button *ngIf="!id" class="custom-btn btn-fixed-size-1 btn-type-1" type="submit" data-testid="submitButton"
+            id="submitButton" title="บันทึก" [disabled]="roadShowForm.invalid">
+            บันทึก
+        </button>
+        <button *ngIf="id" class="custom-btn btn-fixed-size-1 btn-type-1" type="button" (click)="onEditRoadShow()"
+            data-testid="EditButton" id="EditButton" title="แก้ไข" [disabled]="roadShowForm.invalid">
+            แก้ไข
+        </button>
+    </div>
+</form>

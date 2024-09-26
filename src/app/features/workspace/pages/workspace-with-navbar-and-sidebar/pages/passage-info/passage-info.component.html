@@ -60,27 +60,11 @@
     </form>
     <ng-container *ngIf="tempSearch && !isLoadingSearch">
       <div class="datatable-container">
-        <!-- <datatable
-          [columns]="columns"
-          [collectionSize]="collectionSize"
-          [customDatatableContentClass]="'datatable-no-box-shadow datatable-border-solid'"
-          [externalPaging]="true"
-          [id]="'transactionDatatable'"
-          [isLoading]="isLoading"
-          [pageSize]="limitRow"
-          [page]="pages"
-          [rows]="rows"
-          emptyMessage="ไม่มีข้อมูล"
-          (onChangePageEvent)="onChangePage($event)"
-          (onRowActionEvent)="onAction($event)"
-        /> -->
-
         <ng-container *ngIf="rows && rows.length > 0; else emptyEl; ">
           <div class="datatable-content datatable-no-box-shadow datatable-border-solid">
             <ngx-datatable #myTable class="material expandable" [rows]="rows" [rowHeight]="'auto'"
-              [headerHeight]="$any('auto')" [groupRowsBy]="'group'" [columnMode]="columnMode.force" [scrollbarH]="true"
-              [limit]="limitRow" [groupExpansionDefault]="true" [count]="collectionSize" [externalPaging]="true"
-              [offset]="pages - 1">
+              [headerHeight]="$any('auto')" [columnMode]="columnMode.force" [scrollbarH]="true" [limit]="limitRow"
+              [count]="collectionSize" [externalPaging]="true" [offset]="pages - 1">
               <!-- Group Header Template -->
               <!-- <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
                 <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>

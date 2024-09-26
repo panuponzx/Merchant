@@ -1,0 +1,31 @@
+<div class="content-container-header">
+    <h1 class="content-title">เพิ่ม Road show</h1>
+</div>
+<hr class="hr-custom mb-3" />
+<button class="custom-btn btn-type-1 mb-3" data-testid="backButton" id="backButton" title="กลับ" type="button"
+    (click)="onBack()">
+    กลับ
+</button>
+<p class="content-title">***หมายเหตุ: ผู้ใช้ในรายชื่อจะได้รับคะแนนที่ตั้งค่าไว้ในเวลาสิ้นสุดกิจกรรมที่กำหนดไว้</p>
+<h2 class="content-title mb-3 mb-md-0">
+    ตั้งค่า Road Show
+</h2>
+<datatable [columns]="settingRoadShowColumns" [collectionSize]="settingRoadShowcollectionSize"
+    [id]="'settingRoadShowDatatable'" [isLoading]="isSettingRoadShowLoading" [pageSize]="settingRoadShowLimit"
+    [page]="settingRoadShowPages" [rows]="settingRoadShowList" emptyMessage="ไม่มีข้อมูล"
+    (onRowActionEvent)="onActionSettingRoadShow($event)" [footer]="false">
+</datatable>
+<hr class="hr-custom mt-3 mb-3" />
+<div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
+    <h2 class="content-title mb-3 mb-md-0">
+        การให้คะแนนพิเศษ
+    </h2>
+    <button class="custom-btn btn-type-1 ml-auto" data-testid="nextButton" id="nextButton"
+        title="เพิ่มผู้ได้รับคะแนน" (click)="onAddEarnByCustomerId()">
+        เพิ่ม ผู้ได้รับคะแนน
+    </button>
+</div>
+<datatable [columns]="bonusPointColumns" [collectionSize]="bonusPointCollectionSize" [id]="'bonusPointDatatable'"
+    [isLoading]="bonusPointLoading" [pageSize]="bonusPointLimit" [page]="bonusPointPages" [rows]="bonusPointList"
+    emptyMessage="ไม่มีข้อมูล">
+</datatable>

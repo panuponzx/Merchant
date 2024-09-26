@@ -188,6 +188,13 @@ export interface IMasterDataResponse {
   nameEN: string
 }
 
+export interface IMasterDataChildrenResponse {
+  key: string
+  name: string
+  nameEN: string
+  children: IMasterDataResponse[]
+}
+
 export interface IJuristicDocumentResponse {
   fileName: string
   docName: string
@@ -629,6 +636,67 @@ export interface IRoadShowByIdResponse {
   lastModifyDate: any
   statusCode: any
 }
+
+export interface ITopupAndTollAddBaseActiveResponse {
+  takePoint: number
+  remark: any
+  fromDate: any
+  everyThaiBath: number
+  id: string
+  statusCode: number
+  lastModifyDate: any
+  campaignEvent?: string
+}
+export interface IAllTollStationsResponse {
+  id: string
+  expresswayId: string
+  tollName: string
+  tollCode: string
+  createdDate: any
+  updatedDate: any
+}
+
+export interface ICustomerSearchByCidResponse {
+  page: number
+  totalElements: number
+  totalPages: number
+  pageSize: number
+  elements: ICustomerSearchByCidElementModel[]
+}
+
+export interface ICustomerSearchByCidElementModel {
+  customerId: string
+  date: string
+  name: string
+  status: number
+  statusName: string
+  empName: string
+  isBlacklist: boolean
+  customerType: number
+}
+
+export interface ICampaignTollResponse {
+  campaignName: string
+  fromDate: string
+  toDate: string
+  fromPeriod: string
+  toPeriod: string
+  publish: boolean
+  operation: string
+  calculateValue: number
+  customerGroups: string[]
+  isAllCustomerGroups: boolean
+  carTypes: string[]
+  isAllCarTypes: boolean
+  tollStations: string[]
+  isAllTollStation: boolean
+  daysOfWeek: string[]
+  isAllDaysOfWeek: boolean
+  id: string
+  lastModifyDate: any
+  statusCode: any
+}
+
 
 export interface IPendingRequest {
   id: number,
