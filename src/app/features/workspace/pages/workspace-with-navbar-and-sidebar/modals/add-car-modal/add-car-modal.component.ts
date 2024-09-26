@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { first, Observable } from 'rxjs';
-import { ICarMasterData, IFaremediasInFoResponse, IInfo4AddObuModel, IProvinceMasterData, IResponseInfo4AddObuModel } from 'src/app/core/interfaces';
+import { IAddResponseModel, ICarMasterData, IFaremediasInFoResponse, IInfo4AddObuModel, IProvinceMasterData, IResponseInfo4AddObuModel, ResponseMessageModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
+import { convertStrToJson } from 'src/app/features/utils/textUtils';
 
 @Component({
   selector: 'app-add-car-modal',
@@ -14,6 +15,8 @@ import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dia
 export class AddCarModalComponent {
   @Input() public walletId: string = '';
   @Input() public customerId: string = '';
+  @Input() public walletName: string = '';
+  @Input() public customerName: string = '';
   form: FormGroup;
   initialFormValue: any;
   public carModels: ICarMasterData[] = [];
@@ -24,6 +27,8 @@ export class AddCarModalComponent {
     private modalDialogService: ModalDialogService
   ) {
     this.form = new FormGroup({
+      customerName: new FormControl({ value: undefined, disabled: true }, [Validators.required]),
+      walletName: new FormControl({ value: undefined, disabled: true }, [Validators.required]),
       faremediaValue: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
       cardNo: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
       plateNo: new FormControl({ value: undefined, disabled: false }, [Validators.required]),
@@ -39,6 +44,8 @@ export class AddCarModalComponent {
   }
   ngOnInit() {
     this.loadInfo4AddObu();
+    this.form.get('customerName')?.setValue(this.customerName);
+    this.form.get('walletName')?.setValue(this.walletName);
   }
   loadInfo4AddObu() {
     this._loadInfo4AddObu().subscribe({
@@ -80,7 +87,7 @@ export class AddCarModalComponent {
         id: this.customerId,
       }
     };
-    return this.restApiService.postBackOffice('faremedia/add-obu', payload) as Observable<any>;
+    return this.restApiService.postBackOffice('faremedia/add-obu', payload) as Observable<IAddResponseModel>;
   }
 
 
@@ -90,13 +97,31 @@ export class AddCarModalComponent {
       this.modalDialogService.loading();
       this._addObu().subscribe({
         next: (res) => {
-          this.modalDialogService.hideLoading();
-          this.modalDialogService.info('success', '#2255CE', 'เพิ่มอุปกรณ์สำเร็จ');
-          this.ngbActiveModal.close(true);
+          console.log("res", res);
+          if (res.data.errorCode == "E0") {
+            this.modalDialogService.hideLoading();
+            this.modalDialogService.info('success', '#2255CE', 'เพิ่มอุปกรณ์สำเร็จ');
+            this.ngbActiveModal.close(true);
+          } else {
+            this.modalDialogService.hideLoading();
+            let errorText = res.data.throwableMessage ? res.data.throwableMessage : res.data.errorMessage;
+            try {
+              var jsonText = convertStrToJson(errorText);
+              if (jsonText) {
+                errorText = jsonText.error.data.message;
+              }
+            } catch (e) {
+              console.log("e", e);
+            }
+
+            this.modalDialogService.info('warning', '#2255CE', 'เพิ่มอุปกรณ์ไม่สำเร็จ', errorText);
+            this.ngbActiveModal.close(false);
+          }
         },
         error: (err) => {
           this.modalDialogService.hideLoading();
-          this.modalDialogService.handleError(err);
+          console.log(err);
+          this.modalDialogService.info('error', '#2255CE', 'เพิ่มอุปกรณ์ไม่สำเร็จ', err.error.message);
         }
       });
     }

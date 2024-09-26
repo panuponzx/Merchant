@@ -7,6 +7,24 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="row">
                 <div class="form-group">
+                    <label class="label-input required-field" for="customerName">
+                        ชื่อหน่วยงาน
+                    </label>
+                    <input class="form-control" data-testid="customerName" formControlName="customerName"
+                        id="customerName" type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="label-input required-field" for="walletName">
+                        หมายเลขข้างรถ (ชื่อกระเป๋า)
+                    </label>
+                    <input class="form-control" data-testid="walletName" formControlName="walletName" id="walletName"
+                        type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
                     <label class="label-input required-field" for="faremediaValue">
                         OBU serial no.
                     </label>

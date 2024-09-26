@@ -122,6 +122,7 @@ import { ChangeObuModalComponent } from './pages/workspace-with-navbar-and-sideb
 import { SuspendModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/suspend-modal/suspend-modal.component';
 import { ConfirmCancelWithEmployeeIdComponent } from './pages/workspace-with-navbar-and-sidebar/modals/confirm-cancel-with-employee-id/confirm-cancel-with-employee-id.component';
 import { AddCustomerRoadshowCampaignComponent } from './pages/workspace-backoffice-management/modals/add-customer-roadshow-campaign/add-customer-roadshow-campaign.component';
+import { ConfirmSelectionRemarkModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/confirm-selection-remark-modal/confirm-selection-remark-modal.component';
 
 @NgModule({
   declarations: [
@@ -230,7 +231,8 @@ import { AddCustomerRoadshowCampaignComponent } from './pages/workspace-backoffi
     WalletReportType9Component,
     FaremediaReportType9Component,
     ConfirmCancelWithEmployeeIdComponent,
-    AddCustomerRoadshowCampaignComponent
+    AddCustomerRoadshowCampaignComponent,
+    ConfirmSelectionRemarkModalComponent
   ],
   imports: [
     CommonModule,

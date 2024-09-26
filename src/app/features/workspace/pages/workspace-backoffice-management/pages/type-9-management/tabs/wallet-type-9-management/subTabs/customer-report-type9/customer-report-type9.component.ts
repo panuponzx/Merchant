@@ -181,6 +181,16 @@ export class CustomerReportType9Component {
         this.modalDialogService.hideLoading();
         res.data.elements.forEach((element, index) => {
           var createDate = new Date(element.createdDate);
+          element.CustomerId = element.CustomerId ? element.CustomerId : this.customerId;
+          element.CustomerName = element.CustomerName ? element.CustomerName : res.data.elements[0].CustomerName;
+          if (element.WalletId === '' || element.WalletId === null) {
+            try {
+              element.WalletId = res.data.elements.filter(x => x.WalletId !== '' && x.WalletId !== null)[0].WalletId;
+            }
+            catch (error) {
+              //
+            }
+          }
           this.rows.push({
             log: element,
             meaning: this.handleActionDetail(element.action, element),

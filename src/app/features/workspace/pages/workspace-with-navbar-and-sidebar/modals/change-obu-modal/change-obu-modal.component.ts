@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { IReplaceObuResponse } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
+import { convertStrToJson } from 'src/app/features/utils/textUtils';
 
 @Component({
   selector: 'app-change-obu-modal',
@@ -35,10 +36,21 @@ export class ChangeObuModalComponent {
         if (res) {
           this.modalDialogService.loading();
           this._changeObu().subscribe({
-            next: (res) => {
+            next: async (res) => {
               this.modalDialogService.hideLoading();
-              this.modalDialogService.info('success', '#2255CE', 'เปลี่ยนหมายเลขอุปกรณ์สำเร็จ');
-              this.ngbActiveModal.close(true);
+              if (res.data.error) {
+                let errorMessage = res.data.error.message;
+                var jsonMessage = this.convertStrToJson(errorMessage);
+                if (jsonMessage) {
+                  console.log("jsonMessage", jsonMessage);
+                  errorMessage = jsonMessage.error.data.message;
+                }
+                await this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', errorMessage);
+              } else {
+                // console.log(res.result);
+                this.modalDialogService.info('success', '#2255CE', 'เปลี่ยนหมายเลขอุปกรณ์สำเร็จ');
+                this.ngbActiveModal.close(true);
+              }
             },
             error: (err) => {
               this.modalDialogService.hideLoading();
@@ -64,5 +76,8 @@ export class ChangeObuModalComponent {
       }
     };
     return this.restApiService.postBackOffice("faremedia/replace-obu", payload) as Observable<IReplaceObuResponse>;
+  }
+  convertStrToJson(message: string) {
+    return convertStrToJson(message);
   }
 }

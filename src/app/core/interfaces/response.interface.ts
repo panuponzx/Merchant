@@ -395,10 +395,14 @@ export interface IFaremedia {
 export interface IFaremediasInFoResponse extends ResponseMessageModel {
   data: IFaremedia[]
 }
+
 export interface IReplaceObuResponse extends ResponseMessageModel {
-  jsonnpc: string,
-  result: {},
-  id: string,
+  data: {
+    jsonnpc: string,
+    result: any,
+    error: any,
+    id: string,
+  }
 }
 
 export interface IBasePageModel {
@@ -624,4 +628,111 @@ export interface IRoadShowByIdResponse {
   id: string
   lastModifyDate: any
   statusCode: any
+}
+
+export interface IPendingRequest {
+  id: number,
+  createBy: string,
+  createDate: string,
+  createDay: string,
+  createMonth: string,
+  createYear: string,
+  eventType: string,
+  remark: string,
+  status: number,
+  updateBy: string,
+  updateDate: string,
+  updateDay: string,
+  updateMonth: string,
+  updateYear: string,
+  reason: number,
+}
+export interface IPendingRequestCancelObu extends IPendingRequest {
+  eventValue: {
+    obuPan: string,
+    obuFine: number,
+    staffId: string,
+    walletId: string,
+    requestNo: string,
+    staffName: string,
+    smartcardPan: string,
+    phoneOperator: string,
+    smartcardFine: number,
+    isOwnerOperator: boolean,
+    lastnameOperator: string,
+    positionOperator: string,
+    citizenIdOperator: string,
+    firstnameOperator: string,
+    customerName: string,
+    customerId: string,
+  }
+}
+
+export interface IPendingRequestReturnDetailObu extends IPendingRequest {
+  pendingRequestInfo: IPendingRequestCancelObu,
+  customer: ICustomerCancelObu
+}
+export interface IPendingRequestCancelObuResponse extends ResponseMessageModel {
+  data: IPendingRequestCancelObu[]
+}
+export interface IPendingRequestDetailCancelObuResponse extends ResponseMessageModel {
+  data: IPendingRequestReturnDetailObu
+}
+
+export interface IAPendingRequestDetailCancelObuResponse extends ResponseMessageModel {
+  data: IPendingRequestCancelObu
+}
+
+export interface ICustomerCancelObu {
+  id: string;
+  customerTypeId: number;
+  firstName: string;
+  lastName: string;
+  mobilePhone: string;
+  citizenId: string;
+  corporateName: string;
+  corporateBranch: string;
+  branchId: string;
+}
+export interface ITollPlazaModel {
+  id: string,
+  name: string,
+  tollHQId: string,
+  properties: string,
+}
+
+export interface ITollPlazaResponse extends ResponseMessageModel {
+  data: ITollPlazaModel[]
+}
+
+export interface IReturnObuResponse extends ResponseMessageModel {
+  data: {
+    transaction: {
+      transactionId: string,
+    },
+    obuManagement: any,
+    pendingRequestReturnObuDTO: any,
+  }
+}
+
+export interface IReasonModel {
+  id: number,
+  name: string,
+  group: string,
+}
+
+export interface IReasonResponse extends ResponseMessageModel {
+  data: IReasonModel[]
+}
+
+export interface IAddResponseModel extends ResponseMessageModel {
+  data: IAddObuModel
+}
+
+export interface IAddObuModel {
+  customerType9: any,
+  errorMessage: string,
+  errorCode: string,
+  throwableMessage: string,
+  pagination: any,
 }
