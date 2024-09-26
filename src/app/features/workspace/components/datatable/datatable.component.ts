@@ -10,7 +10,6 @@ import { CustomColumnModel, RowActionEventModel } from '../../../../core/interfa
 export class DatatableComponent {
 
   @ViewChild(DatatablesComponent) public dataTableEl: DatatablesComponent | undefined;
-
   @Input() public id: string = 'datatable';
 
   @Input() public collectionSize: number = 0;

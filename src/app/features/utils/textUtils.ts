@@ -1,3 +1,4 @@
+
 import { CustomerModel, ILogModel } from 'src/app/core/interfaces';
 
 export function getOptionsText(value: string) {
@@ -359,12 +360,12 @@ export function formatDate(date: Date) {
   return formattedDate.split('/').reverse().join('-');
 }
 export function formatDateTime(date: Date) {
-  const options = { 
-    year: 'numeric' as const, 
-    month: '2-digit' as const, 
-    day: '2-digit' as const, 
-    hour: '2-digit' as const, 
-    minute: '2-digit' as const 
+  const options = {
+    year: 'numeric' as const,
+    month: '2-digit' as const,
+    day: '2-digit' as const,
+    hour: '2-digit' as const,
+    minute: '2-digit' as const
   };
   const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(date);
   const [datePart, timePart] = formattedDate.split(', ');
@@ -379,4 +380,22 @@ export function getCustomerName(customer: CustomerModel) {
     customerName = customer.firstName + ' ' + customer.lastName
   }
   return customerName;
+}
+
+export function convertStrToJson(message: string) {
+  const jsonString = message.match(/\[Body:\+(.+)\]/)?.[1];
+
+  if (jsonString) {
+    try {
+      const parsedJson = JSON.parse(jsonString);
+      console.log(parsedJson);
+      return parsedJson;
+    } catch (error) {
+      console.error("ไม่สามารถแปลงเป็น JSON ได้:", error);
+      return null;
+    }
+  } else {
+    console.error("ไม่พบ JSON ใน message");
+    return null;
+  }
 }

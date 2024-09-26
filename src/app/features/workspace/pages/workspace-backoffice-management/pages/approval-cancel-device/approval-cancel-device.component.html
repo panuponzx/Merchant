@@ -29,12 +29,12 @@
                         [placeholder]="'กรุณาระบุ'" [placement]="'bottom'"></date-picker>
                 </div>
                 <div class="col-12 col-md-4">
-                    <label class="label-input text-nowrap" for="walletSelect">
+                    <label class="label-input text-nowrap" for="selctionTollPlaza">
                         อาคารด่าน
                     </label>
-                    <ng-select class="form-control" [clearable]="false" bindLabel="walletName" bindValue="walletId"
-                        data-testid="walletSelect" formControlName="checkpoint" [placeholder]="'กรุณาระบุ'"
-                        id="walletSelect" [items]="[]"></ng-select>
+                    <ng-select class="form-control" [clearable]="false" bindLabel="name" bindValue="id"
+                        data-testid="checkpoint" formControlName="checkpoint" [placeholder]="'กรุณาระบุ'"
+                        id="selctionTollPlaza" [items]="selctionTollPlaza"></ng-select>
                 </div>
             </div>
             <div class="button-wrapper">
@@ -51,7 +51,7 @@
                 <li [ngbNavItem]="'waiting-for-approval'">
                     <button ngbNavLink>กำลังรอ</button>
                     <ng-template ngbNavContent>
-                        <cancel-device-waiting-for-approval (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></cancel-device-waiting-for-approval>
+                        <cancel-device-waiting-for-approval (search)="handleSearch($event)"   (hiddenFillterMenu)="handleHiddenFillterMenu($event)"></cancel-device-waiting-for-approval>
                     </ng-template>
                 </li>
                 <li [ngbNavItem]="'approval'">

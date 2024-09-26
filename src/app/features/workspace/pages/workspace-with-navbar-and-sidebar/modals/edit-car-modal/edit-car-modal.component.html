@@ -117,7 +117,7 @@
                         formControlName="walletId" [items]="walletIdList">
                     </ng-select>
                 </div>
-                <div class="col-12 mb-3" *ngif="isType9">
+                <div class="col-12 mb-3" *ngIf="isType9 === true">
                     <label class="label-input" for="walletName">
                         หมายเลขข้างรถ (ชื่อกระเป๋า)
                     </label>
@@ -132,13 +132,15 @@
     </form>
     <div class="d-flex justify-content-between">
         <div class="left">
-            <button class="custom-btn btn-type-1 red-outline" (click)="onDeactivate()">ยกเลิกอุปกรณ์</button>
+            <span class="text-danger">*OBU. นี้กำลังอยู่ในขั้นตอนขอยกเลิกอุปกรณ์</span>
+            <button class="custom-btn btn-type-1 red-outline" (click)="onDeactivate()"
+                *ngIf="isRequestCancelObu === false && carInfo.faremediaStatusId < 400">ยกเลิกอุปกรณ์</button>
             <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onSuspend()"
                 *ngIf="carInfo.faremediaStatusId == 200">อายัดชั่วคราว</button>
             <button class="custom-btn btn-type-1 red-outline ms-2" (click)="onChangeOBU()"
                 *ngIf="carInfo.faremediaStatusId == 200 && isType9">เปลี่ยนหมายเลข OBU.</button>
             <button class="custom-btn btn-type-1 outline ms-2" (click)="onActive()"
-                *ngIf="(carInfo.faremediaStatusId >= 300 && carInfo.faremediaStatusId <= 399) && carInfo.faremediaStatusId !== 304">ยกเลิกการอายัด</button>
+                *ngIf="isRequestCancelObu === false &&(carInfo.faremediaStatusId >= 300 && carInfo.faremediaStatusId <= 399) && carInfo.faremediaStatusId !== 304">ยกเลิกการอายัด</button>
         </div>
         <div class="right d-flex justify-content-center gap-3">
             <button class="custom-btn btn-type-1 outline" (click)="onClose()">ยกเลิก</button>

@@ -2,8 +2,8 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, ErrorHandler, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first, firstValueFrom, map, throwError } from 'rxjs';
-import { CarInfoModel, ICarMasterData, ICarModal, IProvinceMasterData, IProvinceModal, IResponseCarModal, IResponseProvinceModal, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
+import { first, firstValueFrom, map, Observable, throwError } from 'rxjs';
+import { CarInfoModel, IAPendingRequestDetailCancelObuResponse, ICarMasterData, ICarModal, IProvinceMasterData, IProvinceModal, IResponseCarModal, IResponseProvinceModal, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
 import { RestApiService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
 import { CustomerModel } from '../../../../../../core/interfaces';
@@ -26,6 +26,7 @@ export class EditCarModalComponent {
   @Input() public walletName: string = '';
   @Input() public isType9: boolean = false;
   public brandList: ICarModal[] = [];
+  public isRequestCancelObu: boolean = false;
   provinceList: IProvinceModal[] = [];
 
   public form: FormGroup = this.formBuilder.group({
@@ -77,6 +78,23 @@ export class EditCarModalComponent {
     if (this.isType9) {
       this.form.get('walletId')?.disable();
     }
+    console.log('form', this.form.getRawValue());
+
+    this._loadRequestReturnObu().subscribe({
+      next: (res) => {
+        console.log('res', res);
+        if (res.data.status === 0) {
+          this.isRequestCancelObu = true;
+        }else{
+          this.isRequestCancelObu = false;
+        }
+        console.log('isRequestCancelObu', this.isRequestCancelObu);
+      },
+      error: (err) => {
+        console.error("[_loadRequestReturnObu] err => ", err);
+        this.isRequestCancelObu = false;
+      }
+    });
   }
 
   // brand select dropdown
@@ -114,6 +132,7 @@ export class EditCarModalComponent {
     });
     modalRef.componentInstance.carInfo = this.carInfo;
     modalRef.componentInstance.customer = this.customer;
+    modalRef.componentInstance.isType9 = this.isType9;
     // modalRef.componentInstance.walletIdList = this.walletList.map((x) => x.walletId);
     modalRef.componentInstance.walletId = this.walletId;
     modalRef.result.then(
@@ -436,5 +455,7 @@ export class EditCarModalComponent {
   }
 
 
-
+  _loadRequestReturnObu() {
+    return this.restApiService.getBackOffice("pending-request/ewallet/get-by-obu-pan/" + this.form.get('obuPan')?.value) as Observable<IAPendingRequestDetailCancelObuResponse>;
+  }
 }

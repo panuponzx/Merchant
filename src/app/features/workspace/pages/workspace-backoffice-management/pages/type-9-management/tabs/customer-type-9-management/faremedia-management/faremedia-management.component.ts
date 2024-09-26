@@ -167,6 +167,8 @@ export class FaremediaManagementComponent {
       });
       modelRef.componentInstance.walletId = event.row.walletId;
       modelRef.componentInstance.customerId = this.customerId;
+      modelRef.componentInstance.walletName = event.row.walletName;
+      modelRef.componentInstance.customerName = this.customerName;  
       modelRef.result.then(
         (result) => {
           if (result) {
@@ -224,9 +226,11 @@ export class FaremediaManagementComponent {
         this.customerName = response.data.customerType9.name;
       },
       error: (error) => {
+        console.log('[loadWalletWithFaremedia] error => ', error);
         this.isLoading = false;
         this.modalDialogService.hideLoading();
-        this.modalDialogService.handleError(error);
+        var response = error.body;
+        this.customerName = response.customerType9.name;
       }
     });
   }

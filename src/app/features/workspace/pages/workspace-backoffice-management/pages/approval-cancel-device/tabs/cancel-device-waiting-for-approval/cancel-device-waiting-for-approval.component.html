@@ -1,307 +1,327 @@
 <ng-container *ngIf="isShowDescription">
-  <div class="mb-4">
-      <button class="custom-btn btn-type-1" data-testid="backButton" id="backButton" title="กลับ" type="button"
-          (click)="onBack()">
-          กลับ
-      </button>
-  </div>
-  <h2 class="mb-3">รายละเอียดการดำเนินการ</h2>
-<h3 class="mb-3">รายละเอียดในการยกเลิกการใช้งานอุปกรณ์ Easy pass (OBU)</h3>
-<div class="card-table-select-container mb-5">
-  <div class="row mb-3 table-select-item">
-      <div class="col-2">
-          <label class="header">เวลาที่ยื่นคำร้อง</label>
-      </div>
-      <div class="col-2">
-          <label class="header">เลขใบคำร้อง</label>
-      </div>
-      <div class="col-2">
-          <label class="header">OBU no.</label>
-      </div>
-      <div class="col-2">
-          <label class="header">Serial no.</label>
-      </div>
-      <div class="col-2">
-          <label class="header">ชื่อเจ้าของบัญชี</label>
-      </div>
-      <div class="col-2">
-          <label class="header">ชื่อพนักงานทำรายการ</label>
-      </div>
-  </div>
-  <hr class="hr-table-select mb-3" />
-  <div class="row table-select-item">
-      <div class="col-2">
-          <label>21/04/2556 19:10:32</label>
-      </div>
-      <div class="col-2">
-          <label>123456</label>
-      </div>
-      <div class="col-2">
-          <label>1234</label>
-      </div>
-      <div class="col-2">
-          <label>1234</label>
-      </div>
-      <div class="col-2">
-          <label>นายทดสอบ ทดสอบ</label>
-      </div>
-      <div class="col-2">
-          <label>นายทดสอบ ทดสอบ</label>
-      </div>
-  </div>
-</div>
-<div class="user-type-container">
-  <icon-svg [size]="'57.14px'" [color]="customer | customerType: 'color-code'"
-      [path]="(customer | customerType: 'icon') | icon" />
-  <div class="user-type-info-wrapper">
-      <h3>{{ customer?.title + ' ' + customer?.firstName + ' ' + customer?.lastName }}</h3>
-      <span class="custom-badge customer-badge" [style.color]="customer | customerType: 'color-code'">{{ customer |
-          customerType: 'name' }}</span>
-  </div>
-</div>
-<form [formGroup]="form">
-  <div class="row">
-      <div class="col-sm-12 col-md-6 mb-3">
-          <h3 class="mb-3">รายละเอียด</h3>
-          <div class="col-12 mb-3">
-              <label class="label-input required-field" for="dateInput">
-                  วันที่
-              </label>
-              <input class="form-control" data-testid="dateInput" formControlName="date" id="dateInput" type="text">
-          </div>
-          <div class="col-12 mb-3">
-              <label class="label-input required-field" for="deviceOwnerNameInput">
-                  ชื่อเจ้าของอุปกรณ​์
-              </label>
-              <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName" id="deviceOwnerNameInput" type="text">
-          </div>
-      </div>
-      <div class="col-sm-12 col-md-6 mb-3">
-          <h3 class="mb-3">รายละเอียดผู้ดำเนินงาน</h3>
-          <div class="row">
-              <div class="col-md-12 col-lg-6">
-                  <div class="form-check">
-                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                      <label class="label-input" for="exampleRadios1">
-                          ดำเนินการด้วยตนเอง
-                      </label>
+    <div class="mb-4">
+        <button class="custom-btn btn-type-1" data-testid="backButton" id="backButton" title="กลับ" type="button"
+            (click)="onBack()">
+            กลับ
+        </button>
+    </div>
+    <h2 class="mb-3">รายละเอียดการดำเนินการ</h2>
+    <h3 class="mb-3">รายละเอียดในการยกเลิกการใช้งานอุปกรณ์ Easy pass (OBU)</h3>
+    <div class="mb-5">
+        <datatable [columns]="tempColumns" [collectionSize]="tempRow.length" [id]="'userDatatable'"
+            [isLoading]="isLoading" [rows]="tempRow" emptyMessage="ไม่มีข้อมูล" [footer]="false" />
+        <!-- <div class="row mb-3 table-select-item">
+            <div class="col-2">
+                <label class="header">เวลาที่ยื่นคำร้อง</label>
+            </div>
+            <div class="col-2">
+                <label class="header">เลขใบคำร้อง</label>
+            </div>
+            <div class="col-2">
+                <label class="header">OBU no.</label>
+            </div>
+            <div class="col-2">
+                <label class="header">Serial no.</label>
+            </div>
+            <div class="col-2">
+                <label class="header">ชื่อเจ้าของบัญชี</label>
+            </div>
+            <div class="col-2">
+                <label class="header">ชื่อพนักงานทำรายการ</label>
+            </div>
+        </div>
+        <hr class="hr-table-select mb-3" />
+        <div class="row table-select-item">
+            <div class="col-2">
+                <label>{{tempRow?.createDate}}</label>
+            </div>
+            <div class="col-2">
+                <label>{{tempRow?.eventValue?.requestNo}}</label>
+            </div>
+            <div class="col-2">
+                <label>{{tempRow?.eventValue?.obuPan}}</label>
+            </div>
+            <div class="col-2">
+                <label>{{tempRow?.eventValue?.smartcardPan}}</label>
+            </div>
+            <div class="col-2">
+                <label>{{tempRow?.eventValue?.customerName}}</label>
+            </div>
+            <div class="col-2">
+                <label>{{tempRow?.createBy}}</label>
+            </div>
+        </div> -->
+    </div>
+    <div class="user-type-container">
+        <icon-svg [size]="'57.14px'" [color]="customer | customerType: 'color-code'"
+            [path]="(customer | customerType: 'icon') | icon" />
+        <div class="user-type-info-wrapper">
+            <h3>{{ customer?.title + ' ' + customer?.firstName + ' ' + customer?.lastName }}</h3>
+            <span class="custom-badge customer-badge" [style.color]="customer | customerType: 'color-code'">{{ customer
+                |
+                customerType: 'name' }}</span>
+        </div>
+    </div>
+    <form [formGroup]="form" (change)="handleChange()">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 mb-3">
+                <h3 class="mb-3">รายละเอียด</h3>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="dateInput">
+                        วันที่
+                    </label>
+                    <date-picker class="datepicker-input" [clearable]="true" format="D MMMM YYYY" formControlName="date"
+                        [id]="'CreateDate'" locale="th" [placeholder]="'กรุณาระบุ'" [isDisabled]="true"
+                        [placement]="'bottom'"></date-picker>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="deviceOwnerNameInput">
+                        ชื่อเจ้าของอุปกรณ​์
+                    </label>
+                    <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName"
+                        id="deviceOwnerNameInput" type="text">
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 mb-3">
+                <h3 class="mb-3">รายละเอียดผู้ดำเนินงาน</h3>
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="isOwnerOperator" id="isOwnerOperator1"
+                                formControlName="isOwnerOperator" value="1" checked />
+                            <label class="label-input" for="isOwnerOperator1">
+                                ดำเนินการด้วยตนเอง
+                            </label>
+                        </div>
                     </div>
-              </div>
-              <div class="col-md-12 col-lg-6">
-                  <div class="form-check">
-                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                      <label class="label-input" for="exampleRadios1">
-                          ดำเดินการแทนเจ้าของ
-                      </label>
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="isOwnerOperator" id="isOwnerOperator2"
+                                formControlName="isOwnerOperator" value="0" />
+                            <label class="label-input" for="isOwnerOperator2">
+                                ดำเนินการแทนเจ้าของ
+                            </label>
+                        </div>
                     </div>
-              </div>
-          </div>
-          <div class="col-12 mb-3">
-              <label class="label-input required-field" for="deviceOwnerNameInput">
-                  ชื่อ ผู้มาดำเนินงานแทน
-              </label>
-              <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName" id="deviceOwnerNameInput" type="text">
-          </div>
-          <div class="col-12 mb-3">
-              <label class="label-input required-field" for="deviceOwnerNameInput">
-                  นามสกุล ผู้มาดำเนินงานแทน
-              </label>
-              <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName" id="deviceOwnerNameInput" type="text">
-          </div>
-          <div class="col-12 mb-3">
-              <label class="label-input required-field" for="deviceOwnerNameInput">
-                  เบอร์ติดต่อ ผู้มาดำเนินงานแทน
-              </label>
-              <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName" id="deviceOwnerNameInput" type="text">
-          </div>
-          <div class="col-12 mb-3">
-              <label class="label-input required-field" for="deviceOwnerNameInput">
-                  ตำแหน่ง ผู้มาดำเนินงานแทน
-              </label>
-              <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName" id="deviceOwnerNameInput" type="text">
-          </div>
-      </div>
-  </div>
-  <hr class="hr-custom mb-3" />
-  <h2 class="mb-3">รายละเอียดการยกเลิกการใช้งานอุปกรณ์</h2>
-  <h3 class="mb-3">กรุณาตรวจสอบรายละเอียด</h3>
-  <div class="row">
-      <div class="col-sm-12 col-md-6 mb-3">
-          <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
-          <div class="payment-detail-container mb-3">
-              <div class="payment-detail-item">
-                  <span>(ไม่มี) OBU มาคืน</span>
-              </div>
-              <div class="payment-detail-item">
-                  <span class="red">300 บาท</span>
-              </div>
-          </div>
-          <div class="payment-detail-container mb-3">
-              <div class="payment-detail-item">
-                  <span>Smart Card มาคืน</span>
-              </div>
-              <div class="payment-detail-item">
-                  <span class="red">30 บาท</span>
-              </div>
-          </div>
-          <hr class="mb-3" />
-          <div class="payment-detail-container mb-3">
-              <div class="payment-detail-item">
-                  <span>รวมจำนวนเงินค่าปรับที่ต้องชำระ</span>
-              </div>
-              <div class="payment-detail-item">
-                  <span class="red">330 บาท</span>
-              </div>
-          </div>
-          <hr class="mb-3" />
-          <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับส่วนเกิน</h3>
-          <div class="payment-detail-container mb-3">
-              <div class="payment-detail-item">
-                  <span>หักจากกระเป๋าที่ 1</span> <br>
-                  <span>EWL2023062100000001</span>
-              </div>
-              <div class="payment-detail-item">
-                  <span>- 100 บาท</span>
-              </div>
-          </div>
-          <div class="payment-detail-container mb-3">
-              <div class="payment-detail-item">
-                  <span>หักจากกระเป๋าที่ 2</span> <br>
-                  <span>EWL2023062100000001</span>
-              </div>
-              <div class="payment-detail-item">
-                  <span>- 100 บาท</span>
-              </div>
-          </div>
-          <hr class="mb-3" />
-          <div class="payment-detail-container mb-5">
-              <div class="payment-detail-item">
-                  <span>รวมจำนวนเงินค่าทั้งหมดที่ต้องชำระ</span>
-              </div>
-              <div class="payment-detail-item">
-                  <span class="red">130 บาท</span>
-              </div>
-          </div>
-          <h3 class="mb-3">วิธีการชำระจำนวนเงิน</h3>
-          <div class="row">
-              <div class="col-md-12 col-lg-6">
-                  <div class="form-check">
-                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                      <label class="label-input" for="exampleRadios1">
-                          เงินสด
-                      </label>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="citizenIdOperator">
+                        เลขบัตรประชาชน ผู้มาดำเนินงานแทน
+                    </label>
+                    <input class="form-control" data-testid="citizenIdOperator" formControlName="citizenIdOperator"
+                        id="citizenIdOperator" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="firstnameOperator">
+                        ชื่อ ผู้มาดำเนินงานแทน
+                    </label>
+                    <input class="form-control" data-testid="firstnameOperator" formControlName="firstnameOperator"
+                        id="firstnameOperator" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="lastnameOperator">
+                        นามสกุล ผู้มาดำเนินงานแทน
+                    </label>
+                    <input class="form-control" data-testid="lastnameOperator" formControlName="lastnameOperator"
+                        id="lastnameOperator" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="phoneOperator">
+                        เบอร์ติดต่อ ผู้มาดำเนินงานแทน
+                    </label>
+                    <input class="form-control" data-testid="phoneOperator" formControlName="phoneOperator"
+                        id="phoneOperator" type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="positionOperator">
+                        ตำแหน่ง ผู้มาดำเนินงานแทน
+                    </label>
+                    <input class="form-control" data-testid="positionOperator" formControlName="positionOperator"
+                        id="positionOperator" type="text">
+                </div>
+            </div>
+        </div>
+        <hr class="hr-custom mb-3" />
+        <h2 class="mb-3">รายละเอียดการยกเลิกการใช้งานอุปกรณ์</h2>
+        <h3 class="mb-3">กรุณาตรวจสอบรายละเอียด</h3>
+        <div class="row">
+
+            <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับ</h3>
+            <div class="payment-detail-container mb-3">
+                <div class="payment-detail-item">
+                    <span>({{tempRow[0].eventValue.obuFine > 0 ? 'ไม่' : ''}}มี) OBU มาคืน</span>
+                </div>
+                <div class="payment-detail-item">
+                    <span class="red">{{tempRow[0].eventValue.obuFine |
+                        currency:'THB':'':'1.2-2'}} บาท</span>
+                </div>
+            </div>
+            <div class="payment-detail-container mb-3">
+                <div class="payment-detail-item">
+                    <span>({{tempRow[0].eventValue.smartcardFine > 0 ? 'ไม่' : ''}}มี) Smart Card มาคืน</span>
+                </div>
+                <div class="payment-detail-item">
+                    <span class="red">{{tempRow[0].eventValue.smartcardFine |
+                        currency:'THB':'':'1.2-2'}} บาท</span>
+                </div>
+            </div>
+            <hr class="mb-3" />
+            <div class="payment-detail-container mb-3">
+                <div class="payment-detail-item">
+                    <span>รวมจำนวนเงินค่าปรับที่ต้องชำระ</span>
+                </div>
+                <div class="payment-detail-item">
+                    <span class="red">{{tempRow[0].eventValue.obuFine +tempRow[0].eventValue.smartcardFine |
+                        currency:'THB':'':'1.2-2'}}
+                        บาท</span>
+                </div>
+            </div>
+            <hr class="mb-3" />
+            <h3 class="mb-3">รายละเอียดการชำระเงินค่าปรับส่วนเกิน</h3>
+            <div class="payment-detail-container mb-3">
+                <div class="payment-detail-item">
+                    <span>หักจากกระเป๋า</span> <br>
+                    <span>{{tempRow[0].eventValue.walletId}}</span>
+                </div>
+                <div class="payment-detail-item">
+                    <span>- {{tempRow[0].eventValue.obuFine +tempRow[0].eventValue.smartcardFine |
+                        currency:'THB':'':'1.2-2'}} บาท</span>
+                </div>
+            </div>
+            <hr class="mb-3" />
+            <div class="payment-detail-container mb-5">
+                <div class="payment-detail-item">
+                    <span>รวมจำนวนเงินค่าทั้งหมดที่ต้องชำระ</span>
+                </div>
+                <div class="payment-detail-item">
+                    <span class="red">0.00 บาท</span>
+                </div>
+                <!-- <h3 class="mb-3">วิธีการชำระจำนวนเงิน</h3>
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                value="option1" checked>
+                            <label class="label-input" for="exampleRadios1">
+                                เงินสด
+                            </label>
+                        </div>
                     </div>
-              </div>
-              <div class="col-md-12 col-lg-6">
-                  <div class="form-check">
-                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                      <label class="label-input" for="exampleRadios1">
-                          โอนเข้าบัญชี
-                      </label>
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                value="option1" checked>
+                            <label class="label-input" for="exampleRadios1">
+                                โอนเข้าบัญชี
+                            </label>
+                        </div>
                     </div>
-              </div>
-          </div>
-          <div class="col-12 mb-3">
-              <label class="label-input required-field" for="dateInput">
-                  วันที่ที่โอน
-              </label>
-              <input class="form-control" data-testid="dateInput" formControlName="date" id="dateInput" type="text">
-          </div>
-          <div class="col-12 mb-3">
-              <label class="label-input required-field" for="deviceOwnerNameInput">
-                  เวลาที่โอน
-              </label>
-              <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName" id="deviceOwnerNameInput" type="text">
-          </div>
-      </div>
-      <div class="col-sm-12 col-md-6 mb-3">
-          <div class="wallet-container">
-              <div class="col-sm-12 col-md-6 mb-3">
-                  <div class="form-check">
-                      <label class="label-input" for="isCurrentAddressSameIdcardCheckbox">
-                          ต้องการหักเงินในกระเป๋า eWallet ที่ 1
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="dateInput">
+                        วันที่ที่โอน
+                    </label>
+                    <input class="form-control" data-testid="dateInput" formControlName="date" id="dateInput"
+                        type="text">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="label-input required-field" for="deviceOwnerNameInput">
+                        เวลาที่โอน
+                    </label>
+                    <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName"
+                        id="deviceOwnerNameInput" type="text">
+                </div> -->
+            </div>
+            <!-- <div class="col-sm-12 col-md-6 mb-3">
+                <div class="wallet-container">
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="form-check">
+                            <label class="label-input" for="isCurrentAddressSameIdcardCheckbox">
+                                ต้องการหักเงินในกระเป๋า eWallet ที่ 1
+                            </label>
+                            <input class="form-check-input" type="checkbox" id="isCurrentAddressSameIdcardCheckbox">
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="subDistrictInput">
+                            หักจากกระเป๋าที่ 1
                         </label>
-                      <input class="form-check-input" type="checkbox" id="isCurrentAddressSameIdcardCheckbox">
+                        <ng-select class="form-control" [clearable]="false" bindLabel="subdistrict.name"
+                            id="subDistrictInput" data-testid="subDistrictInput" [items]="[]">
+                        </ng-select>
                     </div>
-              </div>
-              <div class="col-12 mb-3">
-                  <label class="label-input required-field" for="subDistrictInput">
-                      หักจากกระเป๋าที่ 1 
-                  </label>
-                  <ng-select 
-                      class="form-control"
-                      [clearable]="false" 
-                      bindLabel="subdistrict.name"
-                      id="subDistrictInput"
-                      data-testid="subDistrictInput" 
-                      [items]="[]">
-                  </ng-select>
-              </div>
-              <div class="col-12 mb-3">
-                  <label class="label-input" for="deviceOwnerNameInput">
-                      จำนวนเงินคงเหลือ กระเป๋า 1
-                  </label>
-                  <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName" id="deviceOwnerNameInput" type="text">
-              </div>
-              <div class="col-12 mb-3">
-                  <label class="label-input required-field" for="deviceOwnerNameInput">
-                      จำนวนเงินที่ต้องการหักจาก eWallet 1 
-                  </label>
-                  <input class="form-control" data-testid="deviceOwnerNameInput" id="deviceOwnerNameInput" type="text">
-              </div>
-          </div>
-          <div class="wallet-container">
-              <div class="col-sm-12 col-md-6 mb-3">
-                  <div class="form-check">
-                      <label class="label-input" for="isCurrentAddressSameIdcardCheckbox">
-                          ต้องการหักเงินในกระเป๋า eWallet ที่ 2
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="deviceOwnerNameInput">
+                            จำนวนเงินคงเหลือ กระเป๋า 1
                         </label>
-                      <input class="form-check-input" type="checkbox" id="isCurrentAddressSameIdcardCheckbox">
+                        <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName"
+                            id="deviceOwnerNameInput" type="text">
                     </div>
-              </div>
-              <div class="col-12 mb-3">
-                  <label class="label-input required-field" for="subDistrictInput">
-                      หักจากกระเป๋าที่ 2 
-                  </label>
-                  <ng-select 
-                      class="form-control"
-                      [clearable]="false" 
-                      bindLabel="subdistrict.name"
-                      id="subDistrictInput"
-                      data-testid="subDistrictInput" 
-                      [items]="[]">
-                  </ng-select>
-              </div>
-              <div class="col-12 mb-3">
-                  <label class="label-input" for="deviceOwnerNameInput">
-                      จำนวนเงินคงเหลือ กระเป๋า 2
-                  </label>
-                  <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName" id="deviceOwnerNameInput" type="text">
-              </div>
-              <div class="col-12 mb-3">
-                  <label class="label-input required-field" for="deviceOwnerNameInput">
-                      จำนวนเงินที่ต้องการหักจาก eWallet 2
-                  </label>
-                  <input class="form-control" data-testid="deviceOwnerNameInput" id="deviceOwnerNameInput" type="text">
-              </div>
-          </div>
-      </div>
-  </div>
-  <hr class="hr-custom mb-3" />
-  <div class="footer d-flex justify-content-center gap-3">
-      <button class="custom-btn btn-fixed-size-1 btn-type-3 red" data-testid="backButton" id="backButton" title="ย้อนกลับ">
-          ปฏิเสธ
-      </button>
-      <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton" title="ถัดไป">
-          อนุมัติ
-      </button>
-  </div>
-</form>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="deviceOwnerNameInput">
+                            จำนวนเงินที่ต้องการหักจาก eWallet 1
+                        </label>
+                        <input class="form-control" data-testid="deviceOwnerNameInput" id="deviceOwnerNameInput"
+                            type="text">
+                    </div>
+                </div>
+                <div class="wallet-container">
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="form-check">
+                            <label class="label-input" for="isCurrentAddressSameIdcardCheckbox">
+                                ต้องการหักเงินในกระเป๋า eWallet ที่ 2
+                            </label>
+                            <input class="form-check-input" type="checkbox" id="isCurrentAddressSameIdcardCheckbox">
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="subDistrictInput">
+                            หักจากกระเป๋าที่ 2
+                        </label>
+                        <ng-select class="form-control" [clearable]="false" bindLabel="subdistrict.name"
+                            id="subDistrictInput" data-testid="subDistrictInput" [items]="[]">
+                        </ng-select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input" for="deviceOwnerNameInput">
+                            จำนวนเงินคงเหลือ กระเป๋า 2
+                        </label>
+                        <input class="form-control" data-testid="deviceOwnerNameInput" formControlName="deviceOwnerName"
+                            id="deviceOwnerNameInput" type="text">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="label-input required-field" for="deviceOwnerNameInput">
+                            จำนวนเงินที่ต้องการหักจาก eWallet 2
+                        </label>
+                        <input class="form-control" data-testid="deviceOwnerNameInput" id="deviceOwnerNameInput"
+                            type="text">
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <hr class="hr-custom mb-3" />
+        <div class="d-flex justify-content-center gap-3 mb-3" *ngIf="tempRow[0].status !== 0">
+            <span style="color: red;">{{tempRow[0].status === 2?
+                reasonText:'อนุมัติการยกเลิกอุปกรณ์เสร็จสิ้น'}}</span>
+            <span style="color: red;" *ngIf="tempRow[0].remark !=''">{{tempRow[0].remark}}</span>
+        </div>
+        <div class="footer d-flex justify-content-center gap-3">
+            <button class="custom-btn btn-fixed-size-1 btn-type-3 red" data-testid="backButton" id="backButton"
+                title="ปฏิเสธ" [disabled]="tempRow[0].status !==0" (click)="rejectCancelObu()">
+                ปฏิเสธ
+            </button>
+            <button class="custom-btn btn-fixed-size-1 btn-type-1" data-testid="nextButton" id="nextButton"
+                title="อนุมัติ" [disabled]="tempRow[0].status !== 0" (click)="onSubmited()"
+                [disabled]="tempRow[0].status !==0">
+                อนุมัติ
+            </button>
+        </div>
+    </form>
 </ng-container>
-<ng-container *ngIf="tempRows && !isShowDescription">
-  <div class="datatable-container">
-      <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
-          [pageSize]="limitRow" [page]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
-          (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
-  </div>
+<ng-container *ngIf="!isShowDescription">
+    <div class="datatable-container">
+        <datatable [columns]="columns" [collectionSize]="collectionSize" [id]="'userDatatable'" [isLoading]="isLoading"
+            [pageSize]="limitRow" [page]="pages" [rows]="rows" emptyMessage="ไม่มีข้อมูล"
+            (onChangePageEvent)="onChangePage($event)" (onRowActionEvent)="onAction($event)" />
+    </div>
 </ng-container>
