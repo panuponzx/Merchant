@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-merchant',
@@ -23,7 +24,7 @@ export class MerchantComponent implements OnInit {
 
   banks: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router: Router) {}
 
   ngOnInit() {
     this.loadBanks();
@@ -54,7 +55,7 @@ export class MerchantComponent implements OnInit {
     }
   }
 
-  goBack() {
-    console.log('Navigating back');
+  onBackToHome() {
+    this.router.navigate(['work-space/search-merchant-customer']);
   }
 }

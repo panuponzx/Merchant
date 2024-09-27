@@ -80,16 +80,15 @@ export class SearchMerchantCustomerComponent {
     { id: 'identificationId', name: 'Identification ID', label: 'หมายเลขประจำตัวผู้เสียภาษี / หนังสือเดินทาง', prop: 'identification', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'name', name: 'Name', label: 'ชื่อผู้ใช้ / องค์กร', prop: 'name', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'mobilePhone', name: 'mobilePhone', label: 'เบอร์ติดต่อ', prop: 'mobilePhone', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
+    { id: 'description', name: 'Description', label: 'Merchant', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
   public submitted: boolean = false;
 
-  // Create form group with custom validator for searchType
+
   public form: FormGroup = new FormGroup({
     searchType: new FormControl(undefined, Validators.required),
     deviceType: new FormControl('obu'),
-    // identificationId: new FormControl(undefined, [Validators.minLength(7), Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
     identificationId: new FormControl(undefined, [Validators.minLength(7)]),
     firstName: new FormControl(undefined, [Validators.minLength(2)]),
     lastName: new FormControl(undefined, [Validators.minLength(2)]),
@@ -111,11 +110,6 @@ export class SearchMerchantCustomerComponent {
     private fb: FormBuilder,
     private modalDialogService: ModalDialogService
   ) {
-    // this.form.valueChanges.subscribe(x => {
-    //   // console.log("[valueChanges] x => ", x);
-    //   // console.log(this.form.errors);
-    //   // console.log(this.form);
-    // });
     this.form.controls['searchType'].valueChanges.subscribe(x => {
       console.log("[valueChanges] x => ", x);
       this.form.controls['deviceType'].reset();
@@ -190,9 +184,6 @@ export class SearchMerchantCustomerComponent {
       this.searchByFaremedia(payload);
     } else if (searchType === 'licensePlate') {
       console.log("[onSearch] ", this.form.get('licensePlate')?.value);
-      // if (this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
-      // if (this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
-      // this.searchByFaremedia(payload);
     }
 
   }
@@ -215,7 +206,6 @@ export class SearchMerchantCustomerComponent {
         console.error(err);
         this.isLoading = false;
         this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -235,7 +225,6 @@ export class SearchMerchantCustomerComponent {
         console.error(err);
         this.isLoading = false;
         this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -257,7 +246,6 @@ export class SearchMerchantCustomerComponent {
         console.error(err);
         this.isLoading = false;
         this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -279,7 +267,6 @@ export class SearchMerchantCustomerComponent {
         this.modalDialogService.hideLoading();
         this.isLoading = false;
         this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -294,7 +281,6 @@ export class SearchMerchantCustomerComponent {
       const row = event.row as CustomerModel;
       this.router.navigate(['work-space/merchant/' + row.id]);
       console.log(row.id);
-
     }
   }
 

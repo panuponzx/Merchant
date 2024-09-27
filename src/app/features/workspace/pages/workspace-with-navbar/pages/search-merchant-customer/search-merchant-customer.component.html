@@ -159,11 +159,6 @@
 
       <ng-container *ngIf="!tempSearch">
         <div class="button-wrapper">
-          <!-- <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton"
-            [disabled]="!form.controls['identificationIdInput'].value || isLoading" id="searchButton" title="ค้นหา" type="submit"
-            (click)="onSearch()">
-            ค้นหา
-          </button> -->
           <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton" id="searchButton" title="ค้นหา"
             [disabled]="isLoading || form.invalid || (!this.form.value.identificationId && !this.form.value.firstName && !this.form.value.lastName && !this.form.value.mobilePhone && !this.form.value.corporateName && !this.form.value.faremediaValue && !this.form.value.licensePlate)"
             id="searchButton" type="submit" (click)="onSearch()">
