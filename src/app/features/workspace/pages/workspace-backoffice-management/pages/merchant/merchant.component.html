@@ -20,6 +20,7 @@
   <div class="form-field">
     <label for="bank">ธนาคาร</label>
     <select id="bank" formControlName="bank">
+      
       <option>KTB</option>
     </select>
     <div *ngIf="form.get('bank')?.invalid && form.get('bank')?.touched" class="error-message">
