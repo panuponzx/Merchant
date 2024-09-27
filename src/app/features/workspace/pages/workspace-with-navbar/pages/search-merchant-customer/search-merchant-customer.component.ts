@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
+import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { first, map } from 'rxjs';
-import { CustomColumnModel, CustomerModel, ICustomerSearchModel, IPaginationModel, ISearchJuristicRequest, ISearcnCustomerResponse, ResponseMessageModel, ResponseModel, RowActionEventModel } from '../../../../../../core/interfaces';
-import { RestApiService } from '../../../../../../core/services';
-import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
-import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
+import { first } from 'rxjs/internal/operators/first';
+import { ISearchJuristicRequest, ISearcnCustomerResponse, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
+import { CustomerModel, ICustomerSearchModel, IPaginationModel } from 'src/app/core/interfaces/data.interface';
+import { CustomColumnModel, RowActionEventModel } from 'src/app/core/interfaces/datatable.interface';
+import { RestApiService } from 'src/app/core/services';
+import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
 @Component({
-  selector: 'app-search-user',
-  templateUrl: './search-user.component.html',
-  styleUrls: ['./search-user.component.scss'],
+  selector: 'app-search-merchant-customer',
+  templateUrl: './search-merchant-customer.component.html',
+  styleUrl: './search-merchant-customer.component.scss',
   animations: [
     trigger('fadeInOutTable', [
       transition(':enter', [
@@ -64,7 +66,8 @@ import { ModalDialogService } from '../../../../../../core/services/modal-dialog
     ])
   ]
 })
-export class SearchUserComponent implements OnInit {
+
+export class SearchMerchantCustomerComponent {
   public status: number = 1;
   public rows: ICustomerSearchModel[] = [];
   public pageSize: number = 5;
@@ -77,16 +80,15 @@ export class SearchUserComponent implements OnInit {
     { id: 'identificationId', name: 'Identification ID', label: 'หมายเลขประจำตัวผู้เสียภาษี / หนังสือเดินทาง', prop: 'identification', sortable: false, resizeable: true, width: 180, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'name', name: 'Name', label: 'ชื่อผู้ใช้ / องค์กร', prop: 'name', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'mobilePhone', name: 'mobilePhone', label: 'เบอร์ติดต่อ', prop: 'mobilePhone', sortable: false, resizeable: true, width: 170, minWidth: 170, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'description', name: 'Description', label: 'รายละเอียด', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
+    { id: 'description', name: 'Description', label: 'Merchant', prop: '', sortable: false, resizeable: true, width: 100, minWidth: 100, headerClass: 'text-break text-center', cellClass: 'text-center', type: 'action', actionIcon: { actionName: 'description', iconName: 'list', size: 'l', color: '#2255CE' } }
   ];
 
   public submitted: boolean = false;
 
-  // Create form group with custom validator for searchType
+
   public form: FormGroup = new FormGroup({
     searchType: new FormControl(undefined, Validators.required),
     deviceType: new FormControl('obu'),
-    // identificationId: new FormControl(undefined, [Validators.minLength(7), Validators.pattern(/([a-zA-Z]{2,}[0-9]{5,})$|([0-9]{13,})$/)]),
     identificationId: new FormControl(undefined, [Validators.minLength(7)]),
     firstName: new FormControl(undefined, [Validators.minLength(2)]),
     lastName: new FormControl(undefined, [Validators.minLength(2)]),
@@ -108,11 +110,6 @@ export class SearchUserComponent implements OnInit {
     private fb: FormBuilder,
     private modalDialogService: ModalDialogService
   ) {
-    // this.form.valueChanges.subscribe(x => {
-    //   // console.log("[valueChanges] x => ", x);
-    //   // console.log(this.form.errors);
-    //   // console.log(this.form);
-    // });
     this.form.controls['searchType'].valueChanges.subscribe(x => {
       console.log("[valueChanges] x => ", x);
       this.form.controls['deviceType'].reset();
@@ -187,9 +184,6 @@ export class SearchUserComponent implements OnInit {
       this.searchByFaremedia(payload);
     } else if (searchType === 'licensePlate') {
       console.log("[onSearch] ", this.form.get('licensePlate')?.value);
-      // if (this.form.value.deviceType) payload.type = this.form.value.deviceType.toUpperCase();
-      // if (this.form.value.faremediaValue) payload.value = this.form.value.faremediaValue;
-      // this.searchByFaremedia(payload);
     }
 
   }
@@ -212,7 +206,6 @@ export class SearchUserComponent implements OnInit {
         console.error(err);
         this.isLoading = false;
         this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -232,7 +225,6 @@ export class SearchUserComponent implements OnInit {
         console.error(err);
         this.isLoading = false;
         this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -254,7 +246,6 @@ export class SearchUserComponent implements OnInit {
         console.error(err);
         this.isLoading = false;
         this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -276,7 +267,6 @@ export class SearchUserComponent implements OnInit {
         this.modalDialogService.hideLoading();
         this.isLoading = false;
         this.modalDialogService.handleError(err);
-        // this.modalDialogService.info('warning', '#2255CE', 'เกิดข้อผิดพลาด', err.body?.errorMessage ? `${err.body.errorMessage}` : `${err.error.errorMessage}`);
       }
     });
   }
@@ -289,7 +279,8 @@ export class SearchUserComponent implements OnInit {
   onAction(event: RowActionEventModel) {
     if (event.action === 'description' && event.row) {
       const row = event.row as CustomerModel;
-      this.router.navigate(['work-space/user-info/general-info/' + row.id]);
+      this.router.navigate(['work-space/merchant/' + row.id]);
+      console.log(row.id);
     }
   }
 
@@ -304,4 +295,5 @@ export class SearchUserComponent implements OnInit {
   onBackToHome() {
     this.router.navigate(['work-space/menu-option']);
   }
+
 }

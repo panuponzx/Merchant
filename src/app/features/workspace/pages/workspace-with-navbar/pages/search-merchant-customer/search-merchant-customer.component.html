@@ -16,9 +16,6 @@
       {{ form.get('searchType')?.value === 'personal' ? ' - บุคคลธรรมดา' : '' }}
       {{ form.get('searchType')?.value === 'corporate' ? ' - นิติบุคคล / องค์กร' : '' }}
       {{ form.get('searchType')?.value === 'international' ? ' - ชาวต่างชาติ' : '' }}
-      {{ form.get('deviceType')?.value === 'obu' ? ' - หมายเลขอุปกรณ์' : '' }}
-      {{ form.get('deviceType')?.value === 'smartCard' ? ' - หมายเลขบัตร Smart Card' : '' }}
-      {{ form.get('searchType')?.value === 'licensePlate' ? ' - หมายเลขทะเบียนรถ' : '' }}
     </h2>
 
     <form [formGroup]="form" class="form-wrapper" (ngSubmit)="onSearch()" *ngIf="!tempSearch" [@fadeInseach]>
@@ -45,49 +42,12 @@
         </label>
       </div>
 
-      <div class="form-check mb-4" [@fadeInOutseach]>
-        <input class="form-check-input" id="deviceRadio" formControlName="searchType" type="radio" value="device">
-        <label class="form-check-label" for="deviceRadio">
-          หมายเลขอุปกรณ์ / หมายเลขบัตร Smart Card
-        </label>
-      </div>
-
-      <div class="form-check mb-4" [@fadeInOutseach]>
-        <input class="form-check-input" id="licensePlateRadio" formControlName="searchType" type="radio"
-          value="licensePlate">
-        <label class="form-check-label" for="licensePlateRadio">
-          หมายเลขทะเบียนรถ
-        </label>
-      </div>
-
-      <div class="ms-3" *ngIf="form.value.searchType === 'device' ">
-
-        <div class="form-check mb-4" [@fadeInOutseach]>
-          <input class="form-check-input" id="obuNumber" formControlName="deviceType" type="radio" value="obu">
-          <h3 class="form-check-label" for="obuNumber">
-            หมายเลขอุปกรณ์
-          </h3>
-        </div>
-
-        <div class="form-check mb-4" [@fadeInOutseach]>
-          <input class="form-check-input" id="smartCardNumber" formControlName="deviceType" type="radio"
-            value="smartCard">
-          <h3 class="form-check-label" for="smartCardNumber">
-            หมายเลขบัตร Smart Card
-          </h3>
-        </div>
-
-      </div>
-
       <div class="mb-3" *ngIf="form.value.searchType === 'licensePlate'" [@fadeInseach]>
         <label class="label-input">หมายเลขทะเบียน</label>
         <div class="input-with-icon-wrapper">
           <icon-svg class="svg-search-icon" [color]="'#2255CE'" [size]="'l'" [path]="'search' | icon" />
           <input id="licensePlate" class="form-control input-with-icon-right" type="text" placeholder="กรุณาระบุ"
             formControlName="licensePlate" minlength="2">
-        </div>
-        <div class="d-flex justify-content-end">
-          <span style="font-size: 14px; font-weight: 400;">ระบุหมายเลขทะเบียนรถ เช่น กก1234</span>
         </div>
         <div *ngIf="form.get('licensePlate')?.errors?.['required'] && form.get('licensePlate')?.touched">
           <span class="req-text">*โปรดระบุชื่อ</span>
@@ -199,11 +159,6 @@
 
       <ng-container *ngIf="!tempSearch">
         <div class="button-wrapper">
-          <!-- <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton"
-            [disabled]="!form.controls['identificationIdInput'].value || isLoading" id="searchButton" title="ค้นหา" type="submit"
-            (click)="onSearch()">
-            ค้นหา
-          </button> -->
           <button class="custom-btn btn-type-2 mb-3 mt-4" data-testid="searchButton" id="searchButton" title="ค้นหา"
             [disabled]="isLoading || form.invalid || (!this.form.value.identificationId && !this.form.value.firstName && !this.form.value.lastName && !this.form.value.mobilePhone && !this.form.value.corporateName && !this.form.value.faremediaValue && !this.form.value.licensePlate)"
             id="searchButton" type="submit" (click)="onSearch()">

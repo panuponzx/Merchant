@@ -43,6 +43,8 @@ import { AddBasicEarningComponent } from './pages/workspace-backoffice-managemen
 import { AddSpecialEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-special-earning/add-special-earning.component';
 import { AddRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/add-roadshow-earning/add-roadshow-earning.component';
 import { DiscriptionRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/discription-roadshow-earning/discription-roadshow-earning.component';
+import { SearchMerchantCustomerComponent } from './pages/workspace-with-navbar/pages/search-merchant-customer/search-merchant-customer.component';
+import { MerchantComponent } from './pages/workspace-backoffice-management/pages/merchant/merchant.component';
 
 export const routesConfig: CustomRoutesModel = [
   {
@@ -71,7 +73,17 @@ export const routesConfig: CustomRoutesModel = [
           {
             id: 'searchUserRoute',
             path: 'search-user',
-            component: SearchUserComponent
+            component: SearchUserComponent,
+          },
+          {
+            id: 'searchUserRoute',
+            path: 'search-merchant-customer',
+            component: SearchMerchantCustomerComponent,
+          },
+          {
+            id: 'merchantRoute',
+            path: 'merchant/:id',
+            component: MerchantComponent,
           },
           {
             id: 'addUserRoute',
@@ -118,7 +130,6 @@ export const routesConfig: CustomRoutesModel = [
             },
             canActivate: [TabGuard]
           },
-
         ]
       },
       {
@@ -230,6 +241,7 @@ export const routesConfig: CustomRoutesModel = [
             },
             canActivate: [TabGuard]
           },
+
           {
             id: 'accountMaintenanceFeeRoute',
             path: 'account-maintenance-fee/:tab',
