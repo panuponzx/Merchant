@@ -267,9 +267,30 @@ export class AddSpecialEarningComponent {
   getCampaignSpecialById() {
     this.modalDialogService.loading();
     if (this.campaignEvent) {
+      let campaignEventType: string = '';
+      switch (this.campaignEvent) {
+        case 'toll':
+          campaignEventType = 'toll';
+          break;
+        case 'sale':
+          campaignEventType = 'sale';
+          break;
+        case 'topup':
+          campaignEventType = 'topup';
+          break;
+        case 'open_aoi':
+          campaignEventType = 'opening/aoi';
+          break;
+        case 'open_cch_app':
+          campaignEventType = 'opening/cch';
+          break;
+        case 'update_info':
+          campaignEventType = 'update-info';
+          break;
+      }
       const campaignEvent: string = this.campaignEvent.replace("_", "");
       const campaignEventUpperCase: string = this.campaignEvent?.toUpperCase();
-      this.restApiService.getBackOfficeWithModel<ICampaignTollResponse>(`campaign/${campaignEvent}/${this.id}`).subscribe({
+      this.restApiService.getBackOfficeWithModel<ICampaignTollResponse>(`campaign/${campaignEventType}/${this.id}`).subscribe({
         next: (res) => {
           if (res.errorMessage === "Success") {
             console.log("[getCampaignSpecialById] res => ", res.data);
@@ -415,25 +436,34 @@ export class AddSpecialEarningComponent {
 
   onSubmit() {
     console.log("[onSubmit] form => ", this.form.value);
-    switch (this.form.get('campaignEvent')?.value) {
+    // TOLL
+    // SALE
+    // TOP_UP
+    // ROAD_SHOW
+    // OPEN_AOI
+    // OPEN_CCH_APP
+    // UPDATE_INFO
+    const campaignEventType: string = this.form.get('campaignEvent')?.value;
+    switch (campaignEventType) {
       case 'TOLL':
         this.postAddToll();
         break;
       case 'SALE':
-        this.postAddToll();
+        this.postAddSaleOTopupOAoiOCchOUpdateInfo('sale');
         break;
       case 'TOP_UP':
-        this.postAddTopUp();
+        this.postAddSaleOTopupOAoiOCchOUpdateInfo('topup');
+        break;
+      case 'OPEN_AOI':
+        this.postAddSaleOTopupOAoiOCchOUpdateInfo('opening/aoi');
+        break;
+      case 'OPEN_CCH_APP':
+        this.postAddSaleOTopupOAoiOCchOUpdateInfo('opening/cch');
+        break;
+      case 'UPDATE_INFO':
+        this.postAddSaleOTopupOAoiOCchOUpdateInfo('update-info');
         break;
     }
-    // this.postAddToll(payload);
-    // if (this.form.get('campaignEvent')?.value === 'TOLL') {
-    //   console.log("[TOLL]");
-    //   this.postAddBase(payload, 'toll');
-    // } else if (this.form.get('campaignEvent')?.value === 'TOP_UP') {
-    //   console.log("[TOP_UP]");
-    //   this.postAddBase(payload, 'topup');
-    // }
   }
 
   postAddToll() {
@@ -482,7 +512,7 @@ export class AddSpecialEarningComponent {
     })
   }
 
-  postAddTopUp() {
+  postAddSaleOTopupOAoiOCchOUpdateInfo(campaignEventType: string) {
     const fromDate = new Date(this.form.get('fromDate')?.value);
     fromDate.setHours(0, 0, 0, 0);
     const fromDateNewFormat: string = String(this.transformDatePipe.transform(fromDate, 'YYYY-MM-DD HH:mm'));
@@ -503,7 +533,7 @@ export class AddSpecialEarningComponent {
       isAllCustomerGroups: this.form.get('isAllCustomerGroups')?.value,
     };
     this.modalDialogService.loading();
-    const url: string = this.campaignEvent && this.id ? `campaign/topup/${this.id}/edit` : `campaign/topup/add`;
+    const url: string = this.campaignEvent && this.id ? `campaign/${campaignEventType}/${this.id}/edit` : `campaign/${campaignEventType}/add`;
     this.restApiService.postBackOfficeWithModel<ITopUpAddRequest, any>(url, payload).subscribe({
       next: (res) => {
         if (res.errorMessage === "Success") {

@@ -34,7 +34,7 @@ export class EarningManagementComponent implements OnInit {
   public specialList: IElementCampaignRoadShowAllResponse[] = [];
   public specialColumns: CustomColumnModel[] = [
     { id: 'campaignName', name: 'ชื่อกิจกรรม', label: 'ชื่อกิจกรรม', prop: 'campaignName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
-    { id: 'campaignName', name: 'รูปแบบคะแนน', label: 'รูปแบบคะแนน', prop: '-', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
+    { id: 'campaignName', name: 'รูปแบบคะแนน', label: 'รูปแบบคะแนน', prop: 'campaignEventName', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'operation', name: 'บวก / คูณ', label: 'บวก / คูณ', prop: 'operation', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'takePoint', name: 'จำนวน Point', label: 'จำนวน Point', prop: 'takePoint', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
     { id: 'customerGroups', name: 'กลุ่มลูกค้า', label: 'กลุ่มลูกค้า', prop: 'customerGroups', sortable: false, resizeable: true, width: 150, minWidth: 150, headerClass: 'text-break text-center', cellClass: 'text-break text-center', type: 'text' },
@@ -105,8 +105,9 @@ export class EarningManagementComponent implements OnInit {
   onActionSpecial(event: RowActionEventModel) {
     console.log("[onActionSpecial] event => ", event);
     if (this.campaignEventValue) {
-      const campaignEventType: string = this.campaignEventValue.toLowerCase();
-      this.router.navigate([`work-space/manage-earning/special/edit/${campaignEventType}/${event.row.id}`]);
+      // const campaignEventType: string = this.campaignEventValue.toLowerCase();
+
+      this.router.navigate([`work-space/manage-earning/special/edit/${event.row.campaignEvent.toLowerCase()}/${event.row.id}`]);
     }
   }
 
