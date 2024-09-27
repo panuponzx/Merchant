@@ -27,7 +27,7 @@ export class PassageInfoComponent implements OnInit {
   public wallets: IWalletInfoModel[] = [];
 
   public rows: any[] = [];
-  public limitRow: number = 3;
+  public limitRow: number = 10;
   public pages: number = 1;
   public collectionSize: number = 0;
 
