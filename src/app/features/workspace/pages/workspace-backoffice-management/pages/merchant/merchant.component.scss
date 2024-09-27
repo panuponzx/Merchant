@@ -1,0 +1,92 @@
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form-field {
+    margin-bottom: 15px;
+    align-items: center;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+
+
+    button {
+      position: absolute;
+      right: 9;
+      top: 78%;
+      transform: translateY(-50%);
+      padding: 5px 10px;
+      background-color: #fff;
+      border: 1px solid rgb(0, 0, 0);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+
+.file-upload {
+display: flex;
+align-items: center;
+}
+
+.file-upload label {
+cursor: pointer;
+display: flex;
+align-items: center;
+//   border: 2px dashed #007bff;
+border-radius: 5px;
+padding: 10px;
+color: #007bff;
+}
+
+.upload-icon {
+margin-right: 10px;
+font-size: 24px; /* ปรับขนาดไอคอนที่นี่ */
+}
+
+
+.error-message {
+  color: red; /* เปลี่ยนสีเป็นสีแดง */
+  font-size: 12px; /* ปรับขนาดตัวอักษรตามต้องการ */
+}
+
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+
+    button {
+    cursor: pointer;
+    padding: var(--button-padding);
+    background-color: var(--color-blue-exat);
+    color: var(--color-white);
+    border: 1px solid var(--color-blue-exat);
+    border-radius: var(--button-radius);
+
+      &:first-child {
+        background-color: white;
+        color: blue;
+      }
+
+      &:last-child {
+        background-color: blue;
+        color: white;
+      }
+    }
+  }
+}

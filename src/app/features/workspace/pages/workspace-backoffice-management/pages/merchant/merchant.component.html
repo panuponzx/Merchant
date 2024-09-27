@@ -1,0 +1,67 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h1>ลงทะเบียนกระเป๋า Merchant</h1>
+
+  <div class="form-field">
+    <label for="walletName">ชื่อกระเป๋า</label>
+    <input type="text" id="walletName" formControlName="walletName">
+    <div *ngIf="form.get('walletName')?.invalid && form.get('walletName')?.touched" class="error-message">
+      กรุณากรอกชื่อกระเป๋า
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="type">ประเภทร้านค้า</label>
+    <input type="text" id="type" formControlName="type">
+    <div *ngIf="form.get('type')?.invalid && form.get('type')?.touched" class="error-message">
+      กรุณากรอกประเภทร้านค้า
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="bank">ธนาคาร</label>
+    <select id="bank" formControlName="bank">
+      <option>KTB</option>
+    </select>
+    <div *ngIf="form.get('bank')?.invalid && form.get('bank')?.touched" class="error-message">
+      กรุณาเลือกธนาคาร
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="accountNumber">หมายเลขบัญชีธนาคาร</label>
+    <input type="text" id="accountNumber" formControlName="accountNumber">
+    <div *ngIf="form.get('accountNumber')?.invalid && form.get('accountNumber')?.touched" class="error-message">
+      กรุณากรอกหมายเลขบัญชีธนาคาร
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="password">รหัสผ่าน</label>
+    <input type="password" id="password" formControlName="password">
+    <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="error-message">
+      รหัสผ่านต้องมีความยาวอย่างน้อย 5 ตัวอักษร
+    </div>
+    <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="error-message">
+      รหัสผ่านต้องมีตัวอักษรภาษาอังกฤษและตัวเลข
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="document">แนบเอกสาร (required)</label>
+    <input type="file" id="document" formControlName="document" accept=".pdf,.jpg,.jpeg,.png" required>
+    <div *ngIf="form.get('document')?.invalid && form.get('document')?.touched" class="error-message">
+      กรุณาแนบเอกสาร
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="accountBook">แนบสมุดบัญชี (optional)</label>
+    <input type="file" id="accountBook" formControlName="accountBook" accept=".pdf,.jpg,.jpeg,.png">
+  </div>
+
+
+  <div class="button-group">
+    <button type="button" (click)="goBack()">ย้อนกลับ</button>
+    <button type="submit" [disabled]="form.invalid">ลงทะเบียน</button>
+  </div>
+</form>

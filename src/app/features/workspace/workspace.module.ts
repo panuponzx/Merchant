@@ -128,6 +128,8 @@ import { AddRoadshowEarningComponent } from './pages/workspace-backoffice-manage
 import { DiscriptionRoadshowEarningComponent } from './pages/workspace-backoffice-management/pages/earning-management/discription-roadshow-earning/discription-roadshow-earning.component';
 import { ApprovalWalletComponent } from './pages/workspace-backoffice-management/pages/approval-management/approval-wallet/approval-wallet.component';
 import { ConfirmSelectionRemarkModalComponent } from './pages/workspace-with-navbar-and-sidebar/modals/confirm-selection-remark-modal/confirm-selection-remark-modal.component';
+import { SearchMerchantCustomerComponent } from './pages/workspace-with-navbar/pages/search-merchant-customer/search-merchant-customer.component';
+import { MerchantComponent } from './pages/workspace-backoffice-management/pages/merchant/merchant.component';
 
 @NgModule({
   declarations: [
@@ -243,6 +245,8 @@ import { ConfirmSelectionRemarkModalComponent } from './pages/workspace-with-nav
     AddRoadshowEarningComponent,
     DiscriptionRoadshowEarningComponent,
     ApprovalWalletComponent,
+    SearchMerchantCustomerComponent,
+    MerchantComponent,
   ],
   imports: [
     CommonModule,

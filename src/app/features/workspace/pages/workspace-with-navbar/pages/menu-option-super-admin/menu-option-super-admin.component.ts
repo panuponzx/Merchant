@@ -23,6 +23,9 @@ export class MenuOptionSuperAdminComponent {
   searchType9() {
     // this.router.navigate(['work-space/search-user']);
   }
+  searchMerchant() {
+    this.router.navigate(['work-space/search-merchant-customer']);
+  }
   testCardManagement() {
     this.router.navigate(['work-space/test-card-registration']);
   }
@@ -36,5 +39,5 @@ export class MenuOptionSuperAdminComponent {
   onBackToHome() {
     this.router.navigate(['work-space/menu-option']);
   }
-  
+
 }

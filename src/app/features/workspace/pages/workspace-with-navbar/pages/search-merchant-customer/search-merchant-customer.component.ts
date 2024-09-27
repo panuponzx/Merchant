@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
+import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { first, map } from 'rxjs';
-import { CustomColumnModel, CustomerModel, ICustomerSearchModel, IPaginationModel, ISearchJuristicRequest, ISearcnCustomerResponse, ResponseMessageModel, ResponseModel, RowActionEventModel } from '../../../../../../core/interfaces';
-import { RestApiService } from '../../../../../../core/services';
-import { style, animate, transition, trigger, stagger, query } from '@angular/animations';
-import { ModalDialogService } from '../../../../../../core/services/modal-dialog/modal-dialog.service';
+import { first } from 'rxjs/internal/operators/first';
+import { ISearchJuristicRequest, ISearcnCustomerResponse, ResponseMessageModel, ResponseModel } from 'src/app/core/interfaces';
+import { CustomerModel, ICustomerSearchModel, IPaginationModel } from 'src/app/core/interfaces/data.interface';
+import { CustomColumnModel, RowActionEventModel } from 'src/app/core/interfaces/datatable.interface';
+import { RestApiService } from 'src/app/core/services';
+import { ModalDialogService } from 'src/app/core/services/modal-dialog/modal-dialog.service';
 
 @Component({
-  selector: 'app-search-user',
-  templateUrl: './search-user.component.html',
-  styleUrls: ['./search-user.component.scss'],
+  selector: 'app-search-merchant-customer',
+  templateUrl: './search-merchant-customer.component.html',
+  styleUrl: './search-merchant-customer.component.scss',
   animations: [
     trigger('fadeInOutTable', [
       transition(':enter', [
@@ -64,7 +66,8 @@ import { ModalDialogService } from '../../../../../../core/services/modal-dialog
     ])
   ]
 })
-export class SearchUserComponent implements OnInit {
+
+export class SearchMerchantCustomerComponent {
   public status: number = 1;
   public rows: ICustomerSearchModel[] = [];
   public pageSize: number = 5;
@@ -289,7 +292,9 @@ export class SearchUserComponent implements OnInit {
   onAction(event: RowActionEventModel) {
     if (event.action === 'description' && event.row) {
       const row = event.row as CustomerModel;
-      this.router.navigate(['work-space/user-info/general-info/' + row.id]);
+      this.router.navigate(['work-space/merchant/' + row.id]);
+      console.log(row.id);
+
     }
   }
 
@@ -304,4 +309,5 @@ export class SearchUserComponent implements OnInit {
   onBackToHome() {
     this.router.navigate(['work-space/menu-option']);
   }
+
 }
